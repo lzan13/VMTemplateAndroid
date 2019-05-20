@@ -1,0 +1,67 @@
+<resources>
+    <string name="app_name">VMIM</string>
+
+
+    <!--其他错误 x-->
+    <string name="im_error_unknown">未知错误 %1$d</string>
+    <string name="im_error_general_error">一般错误，未细分的错误一般通过此 Error Code 抛出来</string>
+    <string name="im_error_network_error">网络异常，请检查网络设置</string>
+    <string name="im_error_disconnected">连接不到服务器</string>
+
+    <!--登录错误 1xx-->
+    <string name="im_error_invalid_app_key">Appkey错误</string>
+    <string name="im_error_invalid_password">密码错误</string>
+    <string name="im_error_invalid_url">URL错误</string>
+    <string name="im_error_invalid_user_name">用户名错误</string>
+
+    <!--关于账户的错误 2xx-->
+    <string name="im_error_user_already_exits">用户已存在</string>
+    <string name="im_error_user_already_login">用户已登录</string>
+    <string name="im_error_user_authentication_failed">用户名或密码错误</string>
+    <string name="im_error_user_bind_device_token_failed">绑定设备Token失败</string>
+    <string name="im_error_user_illegal_argument">参数不合法</string>
+    <string name="im_error_user_illegal_password">无效的密码</string>
+    <string name="im_error_user_illegal_username">无效的用户名</string>
+    <string name="im_error_user_login_another_device">账户在另外一台设备登录</string>
+    <string name="im_error_user_not_found">不存在此用户</string>
+    <string name="im_error_user_not_login">用户未登录</string>
+    <string name="im_error_user_reg_failed">注册失败</string>
+    <string name="im_error_user_removed">账户被删除</string>
+    <string name="im_error_user_unbind_devicetoken_failed">解绑设备token失败</string>
+    <string name="im_error_user_updateinfo_failed">更新用户信息失败</string>
+
+    <!--关于服务器的错误 3xx-->
+    <string name="im_error_server_busy">服务器繁忙，请稍候再试</string>
+    <string name="im_error_server_not_reachable">无法链接到服务器</string>
+    <string name="im_error_server_timeout">等待服务器响应超时</string>
+    <!--303 一般连接不到服务器就会这样-->
+    <string name="im_error_server_unknown">未知的 Server 异常</string>
+
+    <!--文件错误 4xx-->
+    <string name="im_error_file_download_failed">文件下载失败</string>
+    <string name="im_error_file_invalid">文件不合法</string>
+    <string name="im_error_file_not_foun">文件不存在</string>
+    <string name="im_error_file_upload_failed">文件上传失败</string>
+
+    <!--消息错误 5xx-->
+    <string name="im_error_message_encryption_error">消息加解密错误</string>
+    <string name="im_error_message_include_illegal_content">消息内容包含非法或敏感词</string>
+    <string name="im_error_message_invalid">消息不合法</string>
+    <string name="im_error_message_send_traffic_limit">消息发送过快，触发限流</string>
+    <!--群组错误 6xx-->
+    <string name="im_error_group_already_joined">已经加入的群组</string>
+    <string name="im_error_group_invalid_id">群id不正确</string>
+    <string name="im_error_group_members_full">群成员已满</string>
+    <string name="im_error_group_not_exist">群组不存在</string>
+    <string name="im_error_group_not_joined">尚未加入此群组</string>
+    <string name="im_error_group_permission_denied">群组权限不够</string>
+
+    <!--聊天室错误 7xx-->
+    <string name="im_error_chatroom_already_joined">已经在此聊天室里</string>
+    <string name="im_error_chatroom_invalid_id">聊天室id不正确</string>
+    <string name="im_error_chatroom_members_full">聊天室成员已满</string>
+    <string name="im_error_chatroom_not_exist">聊天室不存在</string>
+    <string name="im_error_chatroom_not_joined">尚未加入此聊天室</string>
+    <string name="im_error_chatroom_permission_denied">聊天室权限不够</string>
+
+</resources>

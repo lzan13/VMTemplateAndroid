@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/vm_theme_background"
+    >
+    <!--定义顶部 TopBar-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <!--TopBar 顶部 statusBar 填充-->
+        <View
+            android:id="@+id/common_top_space"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/vm_dimen_0"
+            />
+        <com.vmloft.develop.library.tools.widget.VMTopBar
+            android:id="@+id/common_top_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/common_top_space"
+            app:vm_top_bar_icon="@drawable/im_ic_arrow_left"
+            />
+    </RelativeLayout>
+</LinearLayout>

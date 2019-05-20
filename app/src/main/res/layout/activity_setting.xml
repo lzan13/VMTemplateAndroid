@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/common_top_space"
-            app:vm_top_bar_icon="@drawable/ic_arrow_left"
+            app:vm_top_bar_icon="@drawable/im_ic_arrow_left"
             app:vm_top_bar_title="@string/setting"
             />
     </RelativeLayout>
@@ -41,7 +41,7 @@
             android:id="@+id/setting_notify"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:vm_line_right_icon="@drawable/ic_arrow_right"
+            app:vm_line_right_icon="@drawable/im_ic_arrow_right"
             app:vm_line_title="@string/notify"
             />
     </LinearLayout>
@@ -58,14 +58,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:vm_line_decoration="true"
-            app:vm_line_right_icon="@drawable/ic_arrow_right"
+            app:vm_line_right_icon="@drawable/im_ic_arrow_right"
             app:vm_line_title="@string/help"
             />
         <com.vmloft.develop.library.tools.widget.VMLineView
             android:id="@+id/setting_about"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:vm_line_right_icon="@drawable/ic_arrow_right"
+            app:vm_line_right_icon="@drawable/im_ic_arrow_right"
             app:vm_line_title="@string/setting"
             />
     </LinearLayout>
@@ -81,7 +81,7 @@
             android:id="@+id/setting_sign_out"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:vm_line_right_icon="@drawable/ic_arrow_right"
+            app:vm_line_right_icon="@drawable/im_ic_arrow_right"
             app:vm_line_title="@string/sign_out"
             />
     </LinearLayout>

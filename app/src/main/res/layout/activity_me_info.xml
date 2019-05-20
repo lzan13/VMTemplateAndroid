@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/common_top_space"
-            app:vm_top_bar_icon="@drawable/ic_arrow_left"
+            app:vm_top_bar_icon="@drawable/im_ic_arrow_left"
             app:vm_top_bar_title="@string/me_info"
             app:vm_top_bar_title_color="@color/app_title_light"
             />
@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:vm_line_decoration="true"
-            app:vm_line_right_icon="@drawable/ic_arrow_right"
+            app:vm_line_right_icon="@drawable/im_ic_arrow_right"
             app:vm_line_title="@string/me_avatar"
             />
 
@@ -53,7 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:vm_line_decoration="true"
-            app:vm_line_right_icon="@drawable/ic_arrow_right"
+            app:vm_line_right_icon="@drawable/im_ic_arrow_right"
             app:vm_line_title="@string/me_nickname"
             />
 
@@ -62,14 +62,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:vm_line_decoration="true"
-            app:vm_line_right_icon="@drawable/ic_arrow_right"
+            app:vm_line_right_icon="@drawable/im_ic_arrow_right"
             app:vm_line_title="@string/me_qr_code"
             />
         <com.vmloft.develop.library.tools.widget.VMLineView
             android:id="@+id/me_signature_line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:vm_line_right_icon="@drawable/ic_arrow_right"
+            app:vm_line_right_icon="@drawable/im_ic_arrow_right"
             app:vm_line_title="@string/me_signature"
             />
     </LinearLayout>
@@ -85,7 +85,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:vm_line_decoration="true"
-            app:vm_line_right_icon="@drawable/ic_arrow_right"
+            app:vm_line_right_icon="@drawable/im_ic_arrow_right"
             app:vm_line_title="@string/me_gender"
             />
 
@@ -93,7 +93,7 @@
             android:id="@+id/me_birthday"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:vm_line_right_icon="@drawable/ic_arrow_right"
+            app:vm_line_right_icon="@drawable/im_ic_arrow_right"
             app:vm_line_title="@string/me_birthday"
             />
     </LinearLayout>
@@ -109,7 +109,7 @@
             android:id="@+id/me_address_line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:vm_line_right_icon="@drawable/ic_arrow_right"
+            app:vm_line_right_icon="@drawable/im_ic_arrow_right"
             app:vm_line_title="@string/me_address"
             />
     </LinearLayout>

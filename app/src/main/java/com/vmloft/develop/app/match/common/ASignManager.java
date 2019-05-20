@@ -7,6 +7,8 @@ import com.avos.avoscloud.SignUpCallback;
 import com.vmloft.develop.app.match.base.ACallback;
 import com.vmloft.develop.app.match.bean.UserBean;
 import com.vmloft.develop.app.match.utils.ARXUtils;
+import com.vmloft.develop.library.im.IM;
+import com.vmloft.develop.library.im.base.IMCallback;
 import com.vmloft.develop.library.tools.utils.VMLog;
 import com.vmloft.develop.library.tools.utils.VMStr;
 import io.reactivex.Observable;
@@ -14,6 +16,7 @@ import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -75,29 +78,48 @@ public class ASignManager {
                 });
             }
         });
-        observable.compose(ARXUtils.<UserBean>threadScheduler())
-            .subscribe(new Observer<UserBean>() {
-                @Override
-                public void onSubscribe(Disposable d) {
+        observable.flatMap(new Function<UserBean, Observable<UserBean>>() {
+            @Override
+            public Observable<UserBean> apply(final UserBean bean) throws Exception {
+                return Observable.create(new ObservableOnSubscribe<UserBean>() {
+                    @Override
+                    public void subscribe(final ObservableEmitter<UserBean> emitter) throws Exception {
+                        IM.getInstance().signUp(bean.getId(), password, new IMCallback() {
+                            @Override
+                            public void onSuccess(Object o) {
+                                emitter.onNext(bean);
+                            }
 
-                }
+                            @Override
+                            public void onError(int code, String desc) {
+                                emitter.onError(new Throwable(desc));
+                            }
+                        });
+                    }
+                });
+            }
+        }).compose(ARXUtils.<UserBean>threadScheduler()).subscribe(new Observer<UserBean>() {
+            @Override
+            public void onSubscribe(Disposable d) {
 
-                @Override
-                public void onNext(UserBean user) {
-                    VMLog.d("注册成功 user:" + user);
-                    callback.onSuccess(user);
-                }
+            }
 
-                @Override
-                public void onError(Throwable e) {
-                    AExceptionManager.getInstance().disposeException(e, callback);
-                }
+            @Override
+            public void onNext(UserBean user) {
+                VMLog.d("注册成功 user:" + user);
+                callback.onSuccess(user);
+            }
 
-                @Override
-                public void onComplete() {
+            @Override
+            public void onError(Throwable e) {
+                AExceptionManager.getInstance().disposeException(e, callback);
+            }
 
-                }
-            });
+            @Override
+            public void onComplete() {
+
+            }
+        });
     }
 
     /**
@@ -108,6 +130,7 @@ public class ASignManager {
      * @param callback 回调
      */
     public void signInByEmail(final String email, final String password, final ACallback<UserBean> callback) {
+        // 创建 LeanCloud 登录
         Observable<UserBean> observable = Observable.create(new ObservableOnSubscribe<UserBean>() {
             @Override
             public void subscribe(final ObservableEmitter<UserBean> emitter) throws Exception {
@@ -123,29 +146,51 @@ public class ASignManager {
                 });
             }
         });
-        observable.compose(ARXUtils.<UserBean>threadScheduler())
-            .subscribe(new Observer<UserBean>() {
-                @Override
-                public void onSubscribe(Disposable d) {
 
-                }
 
-                @Override
-                public void onNext(UserBean user) {
-                    VMLog.d("登录成功 user:" + user);
-                    callback.onSuccess(user);
-                }
 
-                @Override
-                public void onError(Throwable e) {
-                    AExceptionManager.getInstance().disposeException(e, callback);
-                }
+        observable.flatMap(new Function<UserBean, Observable<UserBean>>() {
+            @Override
+            public Observable<UserBean> apply(final UserBean bean) throws Exception {
+                return Observable.create(new ObservableOnSubscribe<UserBean>() {
+                    @Override
+                    public void subscribe(final ObservableEmitter<UserBean> emitter) throws Exception {
+                        IM.getInstance().signIn(bean.getId(), password, new IMCallback() {
+                            @Override
+                            public void onSuccess(Object o) {
+                                emitter.onNext(bean);
+                            }
 
-                @Override
-                public void onComplete() {
+                            @Override
+                            public void onError(int code, String desc) {
+                                emitter.onError(new Throwable(desc));
+                            }
+                        });
+                    }
+                });
+            }
+        }).compose(ARXUtils.<UserBean>threadScheduler()).subscribe(new Observer<UserBean>() {
+            @Override
+            public void onSubscribe(Disposable d) {
 
-                }
-            });
+            }
+
+            @Override
+            public void onNext(UserBean user) {
+                VMLog.d("登录成功 user:" + user);
+                callback.onSuccess(user);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                AExceptionManager.getInstance().disposeException(e, callback);
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
     }
 
     /**

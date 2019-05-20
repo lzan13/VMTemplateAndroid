@@ -2,6 +2,7 @@ package com.vmloft.develop.app.match.app;
 
 import com.avos.avoscloud.AVOSCloud;
 import com.vmloft.develop.app.match.common.AConstant;
+import com.vmloft.develop.library.im.IM;
 import com.vmloft.develop.library.tools.base.VMApp;
 
 /**
@@ -18,17 +19,17 @@ public class App extends VMApp {
     }
 
     private void init() {
-        // 初始化 Mob
-        initMob();
+        // 初始化 IM
+        initIM();
         // 初始化 LeanCloud
         initLeanCloud();
     }
 
     /**
-     * 初始化 Mob
+     * 初始化 IM
      */
-    private void initMob() {
-        //MobSDK.init(context);
+    private void initIM() {
+        IM.getInstance().init(context);
     }
 
     /**

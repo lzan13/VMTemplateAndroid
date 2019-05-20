@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/im_ic_switch_close" android:state_activated="false" />
+    <item android:drawable="@drawable/im_ic_switch_open" android:state_activated="true" />
+</selector>

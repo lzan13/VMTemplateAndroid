@@ -46,6 +46,9 @@
         <!--设置界面-->
         <activity android:name=".ui.setting.SettingActivity" />
 
+
+        <!-- 设置环信应用的 AppKey -->
+        <meta-data android:name="EASEMOB_APPKEY"  android:value="lzan13#mlchat" />
     </application>
 
     <!--全面屏适配-->
