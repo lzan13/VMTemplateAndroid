@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg_dark"
+    tools:context=".ui.main.home.PairingActivity"
+    >
+    <!--匹配背景-->
+    <View
+        android:id="@+id/home_pairing_anim_view"
+        android:layout_width="@dimen/avatar_56"
+        android:layout_height="@dimen/avatar_56"
+        android:layout_centerInParent="true"
+        android:background="@drawable/common_circle_bg_shape"
+        android:backgroundTint="@color/app_accent"
+        />
+
+    <ImageView
+        android:id="@+id/home_pairing_avatar_iv"
+        android:layout_width="@dimen/avatar_56"
+        android:layout_height="@dimen/avatar_56"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ic_gift"
+        android:tint="@color/app_card_bg"
+        />
+
+    <!--定义顶部 TopBar-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <!--TopBar 顶部 statusBar 填充-->
+        <View
+            android:id="@+id/common_top_space"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/common_0"
+            />
+        <com.vmloft.develop.library.tools.widget.VMTopBar
+            android:id="@+id/common_top_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/common_top_space"
+            app:vm_top_bar_icon="@drawable/ic_arrow_left"
+            app:vm_top_bar_title="@string/pairing"
+            app:vm_top_bar_title_color="@color/app_title_light"
+            />
+    </RelativeLayout>
+</RelativeLayout>

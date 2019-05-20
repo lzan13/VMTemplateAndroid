@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--为了看出效果测试时间调大一些-->
+    <integer name="time_test">2500</integer>
+    <!--振动时间-->
+    <integer name="time_vibrate">60</integer>
+    <!--匹配动画持续时间-->
+    <integer name="time_home_pairing_anim">2000</integer>
+
+</resources>

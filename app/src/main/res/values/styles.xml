@@ -1,11 +1,25 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <!-- 基本应用程序的主题 -->
+    <style name="AppTheme" parent="VMTheme">
+        <item name="colorPrimary">@color/app_primary</item>
+        <item name="colorPrimaryDark">@color/app_primary_dark</item>
+        <item name="colorAccent">@color/app_accent</item>
+
+        <!-- 设置允许修改系统栏的背景色 比如导航栏 状态栏等-->
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <!--半透明状态栏-->
+        <item name="android:windowTranslucentStatus">true</item>
+        <!--设置导航栏半透明效果，TODO 设置导航栏半透明会导致布局下移，需注意-->
+        <item name="android:windowTranslucentNavigation">false</item>
+        <!--设置状态栏颜色-->
+        <item name="android:statusBarColor">@color/app_primary_dark</item>
     </style>
+
+    <!--启动主题-->
+    <style name="AppTheme.Splash">
+        <item name="android:windowBackground">@drawable/splash_bg_shape</item>
+    </style>
+
 
 </resources>

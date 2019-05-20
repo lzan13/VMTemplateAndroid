@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+
+    <color name="app_primary">#ffffff</color>
+    <color name="app_primary_dark">#ffffff</color>
+    <color name="app_accent">@color/vm_green</color>
+
+    <color name="app_bg">#f8f8f8</color>
+    <color name="app_bg_dark">@color/vm_gray_black</color>
+    <color name="app_card_bg">@color/vm_white</color>
+    <color name="app_status_bar">@color/app_primary</color>
+
+    <color name="app_title">@color/vm_title</color>
+    <color name="app_title_light">@color/vm_white_87</color>
+
+    <color name="app_guide_bg_0">@color/vm_green_38</color>
+    <color name="app_guide_bg_1">@color/vm_light_green_38</color>
+    <color name="app_guide_bg_2">@color/vm_teal_38</color>
+
 </resources>

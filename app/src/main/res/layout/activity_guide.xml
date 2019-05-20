@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="@color/app_bg"
+    tools:context=".ui.guide.GuideActivity">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/guide_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/app_guide_bg_0"
+        android:overScrollMode="never"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <!--指示器-->
+    <com.vmloft.develop.library.tools.widget.indicator.VMIndicatorView
+        android:id="@+id/guide_indicator_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/vm_dimen_48"
+        android:background="@color/vm_black_12"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:vm_indicator_background="@color/app_primary"
+        app:vm_indicator_mode="inside"
+        app:vm_indicator_radius="@dimen/vm_dimen_4"
+        app:vm_indicator_selected="@color/app_accent" />
+
+    <Button
+        android:id="@+id/btn_prev"
+        style="@style/VMBtn.Flat"
+        android:text="@string/btn_prev"
+        android:textColor="@color/vm_btn_text_light"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btn_next"
+        style="@style/VMBtn.Flat"
+        android:text="@string/btn_next"
+        android:textColor="@color/vm_btn_text_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/btn_finish"
+        style="@style/VMBtn.Flat"
+        android:text="@string/btn_finish"
+        android:textColor="@color/vm_btn_text_light"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:ordering="together">
+    <!--ordering 属性动画执行顺序 together-默认同时执行，sequentially-按顺序执行-->
+    <!--透明-->
+    <objectAnimator
+        android:duration="@integer/vm_time_transition_slow"
+        android:propertyName="alpha"
+        android:repeatCount="0"
+        android:repeatMode="reverse"
+        android:valueFrom="0.1"
+        android:valueTo="1"
+        android:valueType="floatType" />
+    <!--旋转-->
+    <objectAnimator
+        android:duration="@integer/vm_time_transition_slow"
+        android:propertyName="rotation"
+        android:repeatCount="0"
+        android:repeatMode="reverse"
+        android:valueFrom="0"
+        android:valueTo="360"
+        android:valueType="floatType" />
+    <!--位移-->
+    <!--<objectAnimator-->
+    <!--android:duration="2000"-->
+    <!--android:propertyName="translationX"-->
+    <!--android:repeatMode="reverse"-->
+    <!--android:valueFrom="0"-->
+    <!--android:valueTo="-200" />-->
+    <!--<objectAnimator-->
+    <!--android:duration="2000"-->
+    <!--android:propertyName="translationX"-->
+    <!--android:repeatMode="reverse"-->
+    <!--android:valueFrom="-200"-->
+    <!--android:valueTo="0" />-->
+</set>

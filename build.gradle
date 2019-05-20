@@ -4,7 +4,10 @@ buildscript {
     repositories {
         google()
         jcenter()
-        
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+        // 引入 LeanCloud 仓库
+        maven { url "http://mvn.leancloud.cn/nexus/content/repositories/releases" }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.3.2'
@@ -18,7 +21,10 @@ allprojects {
     repositories {
         google()
         jcenter()
-        
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+        // 引入 LeanCloud 仓库
+        maven { url "http://mvn.leancloud.cn/nexus/content/repositories/releases" }
     }
 }
 

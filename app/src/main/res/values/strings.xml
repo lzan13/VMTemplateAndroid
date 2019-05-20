@@ -1,3 +1,68 @@
 <resources>
     <string name="app_name">VMMatch</string>
+
+    <string name="app_text">简书著作权归作者所有，任何形式的转载都请联系作者获得授权并注明出处。</string>
+    <!--登录注册相关资源-->
+    <string name="sign_in">登录</string>
+    <string name="sign_in_welcome">嗨！欢迎回来</string>
+    <string name="sign_in_go">去登录</string>
+    <string name="sign_in_success">登录成功</string>
+    <string name="sign_up">注册</string>
+    <string name="sign_up_boot">还没有账户？</string>
+    <string name="sign_up_success">注册成功</string>
+    <string name="sign_up_go">马上注册</string>
+    <string name="sign_out">退出登录</string>
+    <string name="sign_forgot_password">忘记密码</string>
+    <string name="username">用户名</string>
+    <string name="password">密码</string>
+
+    <!--按钮相关-->
+    <string name="btn_prev">上一步</string>
+    <string name="btn_next">下一步</string>
+    <string name="btn_cancel">取消</string>
+    <string name="btn_ok">确认</string>
+    <string name="btn_finish">完成</string>
+
+    <!--我的-->
+    <string name="me_info">个人信息</string>
+    <string name="me_avatar">头像</string>
+    <string name="me_nickname">昵称</string>
+    <string name="me_signature">签名</string>
+    <string name="me_gender">性别</string>
+    <string name="me_birthday">生日</string>
+    <string name="me_qr_code">二维码</string>
+    <string name="me_address">地址</string>
+    <string name="me_like">我喜欢的</string>
+    <string name="me_collect">我收藏的</string>
+
+    <string name="friend">好友</string>
+    <string name="follows">关注</string>
+    <string name="fans">粉丝</string>
+
+    <string name="common">通用</string>
+    <string name="setting">设置</string>
+    <string name="pairing">匹配</string>
+
+    <!--设置-->
+    <string name="notify">通知提醒</string>
+    <string name="help">帮助与反馈</string>
+    <string name="about">关于</string>
+
+    <!--引导文案-->
+    <string name="guide_title_0">应用引导标题</string>
+    <string name="guide_title_1">应用引导标题</string>
+    <string name="guide_title_2">应用引导标题</string>
+    <string name="guide_intro_0">应用引导描述，写点儿什么呢，写点儿什么呢？</string>
+    <string name="guide_intro_1">应用引导描述，写点儿什么呢，写点儿什么呢？</string>
+    <string name="guide_intro_2">应用引导描述，写点儿什么呢，写点儿什么呢？</string>
+
+    <string name="user_signature_default">无个性，不签名！</string>
+
+    <!--错误相关描述-->
+    <string name="unknown">未知错误: %1$s，可将错误码反馈给我们，感谢</string>
+    <string name="account_username_already_exist">用户名已被占用</string>
+    <string name="account_email_already_exist">邮箱已被占用</string>
+    <string name="account_phone_already_exist">手机号已被占用</string>
+    <string name="account_username_password_mismatch">用户名密码不匹配</string>
+    <string name="account_user_doesnot_exist">用户不存在</string>
 </resources>

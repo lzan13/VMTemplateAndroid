@@ -1,11 +1,55 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.vmloft.develop.app.match">
 
+    <!--访问网络-->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!--读取手机状态-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!--访问相机-->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!--读写存储-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!--程序入口-->
     <application
+        android:name=".app.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" />
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
+        <!--入口 Activity-->
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:theme="@style/AppTheme.Splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!--引导界面-->
+        <activity android:name=".ui.guide.GuideActivity" />
+        <!--登录注册界面-->
+        <activity android:name=".ui.sign.SignInActivity" />
+        <activity android:name=".ui.sign.SignUpActivity" />
+        <!--个人信息-->
+        <activity android:name=".ui.main.me.MeInfoActivity" />
+        <!--匹配界面-->
+        <activity android:name=".ui.main.home.PairingActivity" />
+        <!--设置界面-->
+        <activity android:name=".ui.setting.SettingActivity" />
+
+    </application>
+
+    <!--全面屏适配-->
+    <meta-data
+        android:name="android.max_aspect"
+        android:value="2.4" />
 </manifest>
