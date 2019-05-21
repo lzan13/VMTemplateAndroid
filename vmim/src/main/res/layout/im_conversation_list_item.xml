@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/im_conversation_avatar_iv"
+        android:layout_width="@dimen/vm_dimen_48"
+        android:layout_height="@dimen/vm_dimen_48"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/im_conversation_decoration"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/vm_dimen_0_5"
+        android:background="@color/vm_decoration_gray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/im_conversation_avatar_iv" />
+
+</android.support.constraint.ConstraintLayout>

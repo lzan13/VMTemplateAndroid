@@ -1,11 +1,14 @@
 package com.vmloft.develop.library.im;
 
 import android.content.Context;
+
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
 import com.vmloft.develop.library.im.call.IMCallManager;
 import com.vmloft.develop.library.tools.utils.VMLog;
 import com.vmloft.develop.library.tools.utils.VMSystem;
+
+import java.util.List;
 
 /**
  * Create on lzan13 on 2019/05/09 10:08
@@ -15,7 +18,10 @@ import com.vmloft.develop.library.tools.utils.VMSystem;
 public class IMHelper {
 
     private Context mContext;
+    // 记录已经初始化
     private boolean isInit;
+    // 记录是否处于聊天界面
+    private boolean isChat = false;
 
     /**
      * 私有的构造方法
@@ -69,7 +75,7 @@ public class IMHelper {
 
         // 通话管理类的初始化
         IMCallManager.getInstance().init(context);
-        
+
 
         // 初始化完成
         isInit = true;
@@ -121,5 +127,21 @@ public class IMHelper {
         return options;
     }
 
+
+    /**
+     * 设置聊天状态
+     *
+     * @param chat 是否处于聊天状态
+     */
+    public void setChatStatus(boolean chat) {
+        isChat = chat;
+    }
+
+    /**
+     * 判断聊天状态，是否处于聊天中
+     */
+    public boolean isChat() {
+        return isChat;
+    }
 
 }

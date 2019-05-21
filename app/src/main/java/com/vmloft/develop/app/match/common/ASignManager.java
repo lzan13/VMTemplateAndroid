@@ -9,7 +9,7 @@ import com.vmloft.develop.app.match.bean.UserBean;
 import com.vmloft.develop.app.match.utils.ARXUtils;
 import com.vmloft.develop.library.im.IM;
 import com.vmloft.develop.library.im.base.IMCallback;
-import com.vmloft.develop.library.im.base.IMException;
+import com.vmloft.develop.library.im.common.IMException;
 import com.vmloft.develop.library.tools.utils.VMLog;
 import com.vmloft.develop.library.tools.utils.VMStr;
 
@@ -17,11 +17,8 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
-import io.reactivex.Scheduler;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
 
 import org.json.JSONException;
 import org.json.JSONObject;

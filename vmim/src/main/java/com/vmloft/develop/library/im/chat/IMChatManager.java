@@ -2,6 +2,12 @@ package com.vmloft.develop.library.im.chat;
 
 import android.content.Context;
 
+import com.hyphenate.chat.EMMessage;
+import com.vmloft.develop.library.im.base.IMCallback;
+import com.vmloft.develop.library.im.bean.IMMessage;
+
+import java.util.List;
+
 /**
  * Create by lzan13 on 2019/5/9 10:38
  *
@@ -34,13 +40,23 @@ public class IMChatManager {
     }
 
     /**
-     *
+     * 添加消息监听
      */
     public void addMessageListener() {
 
     }
 
+    /**
+     * 移除消息监听
+     */
     public void removeMessageListener() {
+
+    }
+
+    /**
+     * 发送消息
+     */
+    public void sendMessage(EMMessage message, IMCallback callback) {
 
     }
 

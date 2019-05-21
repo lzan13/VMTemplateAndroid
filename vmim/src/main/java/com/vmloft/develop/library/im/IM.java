@@ -9,6 +9,7 @@ import com.hyphenate.exceptions.HyphenateException;
 import com.vmloft.develop.library.im.base.IMCallback;
 import com.vmloft.develop.library.im.common.IMExecptionManager;
 import com.vmloft.develop.library.im.common.IMExecutor;
+import com.vmloft.develop.library.im.common.IMSPManager;
 import com.vmloft.develop.library.tools.utils.VMStr;
 
 /**
@@ -52,11 +53,12 @@ public class IM {
     /**
      * 登录 IM
      */
-    public void signIn(String id, String password, final IMCallback callback) {
+    public void signIn(final String id, String password, final IMCallback callback) {
         signOut(false);
         EMClient.getInstance().login(id, password, new EMCallBack() {
             @Override
             public void onSuccess() {
+                IMSPManager.getInstance().putCurrUserId(id);
                 if (callback != null) {
                     callback.onSuccess(null);
                 }
@@ -114,6 +116,7 @@ public class IM {
         if (!isSignIn()) {
             return;
         }
+        IMSPManager.getInstance().putCurrUserId("");
         EMClient.getInstance().logout(unbuild, new EMCallBack() {
             @Override
             public void onSuccess() {
@@ -126,7 +129,8 @@ public class IM {
             }
 
             @Override
-            public void onProgress(int progress, String status) {}
+            public void onProgress(int progress, String status) {
+            }
         });
     }
 }

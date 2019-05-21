@@ -2,6 +2,16 @@ package com.vmloft.develop.library.im.conversation;
 
 import android.content.Context;
 
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMConversation;
+import com.vmloft.develop.library.im.utils.IMConversationUtils;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Create by lzan13 on 2019/5/9 10:24
  *
@@ -30,6 +40,41 @@ public class IMConversationManager {
     }
 
     public void init(Context context) {
+        // 将会话加载到内存
+        EMClient.getInstance().chatManager().loadAllConversations();
+    }
 
+    /**
+     * 获取全部会话，并进行排序
+     */
+    public List<EMConversation> getAllConversation() {
+        Map<String, EMConversation> map = EMClient.getInstance().chatManager().getAllConversations();
+        List<EMConversation> list = new ArrayList<>();
+        list.addAll(map.values());
+        // 排序
+        Collections.sort(list, new Comparator<EMConversation>() {
+            @Override
+            public int compare(EMConversation o1, EMConversation o2) {
+                if (IMConversationUtils.getConversationLastTime(o1) > IMConversationUtils.getConversationLastTime(o2)) {
+                    return -1;
+                } else if (IMConversationUtils.getConversationLastTime(o1) < IMConversationUtils.getConversationLastTime(o2)) {
+                    return 1;
+                }
+                return 0;
+            }
+        });
+
+        // 排序之后，重新将置顶的条目设置到顶部
+        List<EMConversation> result = new ArrayList<>();
+        int count = 0;
+        for (int i = 0; i < list.size(); i++) {
+            if (IMConversationUtils.getConversationTop(list.get(i))) {
+                result.add(count, list.get(i));
+                count++;
+            } else {
+                result.add(list.get(i));
+            }
+        }
+        return result;
     }
 }

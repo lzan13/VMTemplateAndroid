@@ -3,7 +3,7 @@ package com.vmloft.develop.app.match.common;
 import com.avos.avoscloud.AVException;
 import com.vmloft.develop.app.match.R;
 import com.vmloft.develop.app.match.base.ACallback;
-import com.vmloft.develop.library.im.base.IMException;
+import com.vmloft.develop.library.im.common.IMException;
 import com.vmloft.develop.library.tools.utils.VMStr;
 
 /**
