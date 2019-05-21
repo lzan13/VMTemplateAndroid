@@ -50,15 +50,15 @@ public class IMException extends Exception {
         super.initCause(cause);
     }
 
-    public String getDescription() {
+    public String getDesc() {
         return this.desc;
     }
 
-    public void setErrorCode(int code) {
+    public void setCode(int code) {
         this.code = code;
     }
 
-    public int getErrorCode() {
+    public int getCode() {
         return code;
     }
 }

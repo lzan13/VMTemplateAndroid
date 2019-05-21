@@ -2,6 +2,8 @@ package com.vmloft.develop.library.im.connection;
 
 import android.content.Context;
 
+import com.hyphenate.chat.EMClient;
+
 /**
  * Create by lzan13 on 2019/5/9 10:58
  *
@@ -31,5 +33,12 @@ public class IMConnectionManager {
 
     public void init(Context context) {
 
+    }
+
+    /**
+     * 判断是否链接到 IM 服务器
+     */
+    public boolean isConnected() {
+        return EMClient.getInstance().isConnected();
     }
 }

@@ -27,7 +27,7 @@
     <string name="im_error_user_not_login">用户未登录</string>
     <string name="im_error_user_reg_failed">注册失败</string>
     <string name="im_error_user_removed">账户被删除</string>
-    <string name="im_error_user_unbind_devicetoken_failed">解绑设备token失败</string>
+    <string name="im_error_user_unbind_device_token_failed">解绑设备token失败</string>
     <string name="im_error_user_updateinfo_failed">更新用户信息失败</string>
 
     <!--关于服务器的错误 3xx-->

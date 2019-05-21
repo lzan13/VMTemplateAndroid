@@ -9,14 +9,20 @@ import com.vmloft.develop.app.match.bean.UserBean;
 import com.vmloft.develop.app.match.utils.ARXUtils;
 import com.vmloft.develop.library.im.IM;
 import com.vmloft.develop.library.im.base.IMCallback;
+import com.vmloft.develop.library.im.base.IMException;
 import com.vmloft.develop.library.tools.utils.VMLog;
 import com.vmloft.develop.library.tools.utils.VMStr;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -58,7 +64,7 @@ public class ASignManager {
      * @param callback 回调
      */
     public void signUpByEmail(final String email, final String password, final ACallback<UserBean> callback) {
-
+        // 注册用户体系账户
         Observable<UserBean> observable = Observable.create(new ObservableOnSubscribe<UserBean>() {
             @Override
             public void subscribe(final ObservableEmitter<UserBean> emitter) {
@@ -78,6 +84,7 @@ public class ASignManager {
                 });
             }
         });
+        // 注册 IM 账户
         observable.flatMap(new Function<UserBean, Observable<UserBean>>() {
             @Override
             public Observable<UserBean> apply(final UserBean bean) throws Exception {
@@ -92,7 +99,7 @@ public class ASignManager {
 
                             @Override
                             public void onError(int code, String desc) {
-                                emitter.onError(new Throwable(desc));
+                                emitter.onError(new IMException(code, desc));
                             }
                         });
                     }
@@ -130,7 +137,7 @@ public class ASignManager {
      * @param callback 回调
      */
     public void signInByEmail(final String email, final String password, final ACallback<UserBean> callback) {
-        // 创建 LeanCloud 登录
+        // 登录 用户体系账户
         Observable<UserBean> observable = Observable.create(new ObservableOnSubscribe<UserBean>() {
             @Override
             public void subscribe(final ObservableEmitter<UserBean> emitter) throws Exception {
@@ -146,9 +153,7 @@ public class ASignManager {
                 });
             }
         });
-
-
-
+        // 登录 IM
         observable.flatMap(new Function<UserBean, Observable<UserBean>>() {
             @Override
             public Observable<UserBean> apply(final UserBean bean) throws Exception {

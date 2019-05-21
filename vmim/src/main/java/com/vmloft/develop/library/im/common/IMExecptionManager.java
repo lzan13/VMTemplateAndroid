@@ -11,25 +11,25 @@ import com.vmloft.develop.library.tools.utils.VMStr;
  *
  * IM 相关错误统一处理类
  */
-public class IMErrorManager {
+public class IMExecptionManager {
 
     /**
      * 私有构造，初始化 ShredPreferences 文件名
      */
-    private IMErrorManager() {
+    private IMExecptionManager() {
     }
 
     /**
      * 内部类实现单例模式
      */
     private static class InnerHolder {
-        private static final IMErrorManager INSTANCE = new IMErrorManager();
+        private static final IMExecptionManager INSTANCE = new IMExecptionManager();
     }
 
     /**
      * 获取的实例
      */
-    public static final IMErrorManager getInstance() {
+    public static final IMExecptionManager getInstance() {
         return InnerHolder.INSTANCE;
     }
 
@@ -44,7 +44,7 @@ public class IMErrorManager {
         VMLog.e("错误信息: [%d] - %s", code, desc);
         String error;
         switch (code) {
-        // 网络异常 2
+        // 网络异常
         case EMError.NETWORK_ERROR:
             error = VMStr.byRes(R.string.im_error_network_error);
             break;
@@ -64,6 +64,17 @@ public class IMErrorManager {
         case EMError.USER_NOT_FOUND:
             error = VMStr.byRes(R.string.im_error_user_not_found);
             break;
+        // 用户已存在
+        case EMError.USER_ALREADY_EXIST:
+            error = VMStr.byRes(R.string.im_error_user_already_exits);
+            break;
+        // 参数不合法，一般情况是username 使用了uuid导致，不能使用uuid注册
+        case EMError.USER_ILLEGAL_ARGUMENT:
+            error = VMStr.byRes(R.string.im_error_user_illegal_argument);
+            break;
+        case EMError.USER_UNBIND_DEVICETOKEN_FAILED:
+            error = VMStr.byRes(R.string.im_error_user_unbind_device_token_failed);
+            break;
         // 无法访问到服务器 300
         case EMError.SERVER_NOT_REACHABLE:
             error = VMStr.byRes(R.string.im_error_server_not_reachable);
@@ -79,6 +90,10 @@ public class IMErrorManager {
         // 未知 Server 异常 303
         case EMError.SERVER_UNKNOWN_ERROR:
             error = VMStr.byRes(R.string.im_error_server_unknown);
+            break;
+        // 注册失败
+        case EMError.USER_REG_FAILED:
+            error = VMStr.byRes(R.string.im_error_user_reg_failed);
             break;
         default:
             error = VMStr.byRes(R.string.im_error_unknown);
