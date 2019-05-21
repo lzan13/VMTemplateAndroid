@@ -9,6 +9,7 @@ import com.vmloft.develop.library.im.base.IMBaseFragment;
  * IM 可自定义加载的聊天界面
  */
 public class IMChatFragment extends IMBaseFragment {
+
     @Override
     protected int layoutId() {
         return R.layout.im_fragment_chat;

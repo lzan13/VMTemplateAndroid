@@ -17,9 +17,7 @@ public class ASPManager {
     /**
      * 私有构造，初始化 ShredPreferences 文件名
      */
-    private ASPManager() {
-        VMSPUtil.init("vmetange.conf");
-    }
+    private ASPManager() {}
 
     /**
      * 内部类实现单例模式

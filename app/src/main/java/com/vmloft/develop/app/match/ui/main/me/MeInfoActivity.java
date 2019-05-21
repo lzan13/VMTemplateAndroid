@@ -18,6 +18,28 @@ public class MeInfoActivity extends AppActivity {
     @Override
     protected void initUI() {
         super.initUI();
+
+        startPickAvatar();
+    }
+
+    /**
+     * 开启选择头像
+     */
+    private void startPickAvatar() {
+        //VMPicker.getInstance()
+        //    .setMultiMode(isMultiMode)
+        //    .setPictureLoader(new GlideIPictureLoader())
+        //    .setCrop(isCrop)
+        //    .setCropFocusWidth(mCropFocusWidth)
+        //    .setCropFocusHeight(mCropFocusHeight)
+        //    .setCropOutWidth(mCropOutWidth)
+        //    .setCropOutHeight(mCropOutHeight)
+        //    .setCropStyle(mCropStyle)
+        //    .setSaveRectangle(isSaveRectangle)
+        //    .setSelectLimit(6)
+        //    .setShowCamera(isShowCamera)
+        //    .setSelectedPictures(mSelectPictures)
+        //    .startPicker(mActivity);
     }
 
     @Override

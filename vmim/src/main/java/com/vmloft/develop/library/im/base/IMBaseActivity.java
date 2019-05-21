@@ -2,8 +2,7 @@ package com.vmloft.develop.library.im.base;
 
 import android.view.View;
 import android.widget.RelativeLayout;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
+
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.tools.base.VMBActivity;
 import com.vmloft.develop.library.tools.utils.VMDimen;
@@ -17,8 +16,6 @@ import com.vmloft.develop.library.tools.widget.VMTopBar;
  */
 public abstract class IMBaseActivity extends VMBActivity {
 
-    protected Unbinder unbinder;
-
     // 统一的 TopBar
     protected VMTopBar mTopBar;
 
@@ -26,8 +23,6 @@ public abstract class IMBaseActivity extends VMBActivity {
     protected void initUI() {
         // 设置深色状态栏
         VMTheme.setDarkStatusBar(mActivity, true);
-
-        unbinder = ButterKnife.bind(mActivity);
 
         setupTopBar();
     }
@@ -79,11 +74,4 @@ public abstract class IMBaseActivity extends VMBActivity {
         mTopBar.setTitle(title);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (unbinder != null) {
-            unbinder.unbind();
-        }
-    }
 }

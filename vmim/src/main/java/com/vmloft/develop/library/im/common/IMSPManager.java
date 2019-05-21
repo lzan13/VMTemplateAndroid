@@ -15,9 +15,7 @@ public class IMSPManager {
     /**
      * 私有构造，初始化 ShredPreferences 文件名
      */
-    private IMSPManager() {
-        VMSPUtil.init("vmim.conf");
-    }
+    private IMSPManager() {}
 
     /**
      * 内部类实现单例模式

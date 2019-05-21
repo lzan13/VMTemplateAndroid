@@ -7,4 +7,7 @@ import com.vmloft.develop.library.tools.base.VMFragment;
  * IM Fragment 基类
  */
 public abstract class IMBaseFragment extends VMFragment {
+
+
+
 }

@@ -9,8 +9,7 @@ import android.widget.EditText;
 import com.vmloft.develop.app.match.R;
 import com.vmloft.develop.app.match.base.AppActivity;
 import com.vmloft.develop.app.match.base.ACallback;
-import com.vmloft.develop.app.match.bean.UserBean;
-import com.vmloft.develop.app.match.common.ASMSManager;
+import com.vmloft.develop.app.match.bean.AUser;
 
 import com.vmloft.develop.app.match.common.ASignManager;
 import com.vmloft.develop.app.match.router.ARouter;
@@ -40,7 +39,7 @@ public class SignInActivity extends AppActivity {
         super.onResume();
 
         // 读取最后一次登录的账户 Username
-        UserBean user = ASignManager.getInstance().getPrevUser();
+        AUser user = ASignManager.getInstance().getHistoryUser();
         if (user != null && VMStr.isEmpty(mUsername)) {
             mUsernameView.setText(user.getUsername());
         }
@@ -129,35 +128,17 @@ public class SignInActivity extends AppActivity {
      * 通过邮箱登录
      */
     private void loginByEmail() {
-        ASignManager.getInstance().signInByEmail(mUsername, mPassword, new ACallback<UserBean>() {
+        ASignManager.getInstance().signInByEmail(mUsername, mPassword, new ACallback<AUser>() {
             @Override
-            public void onSuccess(UserBean user) {
+            public void onSuccess(AUser user) {
                 // 注册成功保存下用户信息，方便回到登录页面输入信息
-                ASignManager.getInstance().setPrevUser(user);
-                ASignManager.getInstance().setCurrUser(user);
+                ASignManager.getInstance().setHistoryUser(user);
                 ARouter.goMain(mActivity);
             }
 
             @Override
             public void onError(int code, String desc) {
                 VMToast.make(mActivity, desc).error();
-            }
-        });
-    }
-
-    /**
-     * 请求验证码
-     */
-    private void getVerificationCode() {
-        ASMSManager.getInstance().getVerificationCode("86", "15617021612", new ACallback() {
-
-            @Override
-            public void onSuccess(Object object) {
-
-            }
-
-            @Override
-            public void onError(int code, String desc) {
             }
         });
     }

@@ -1,5 +1,13 @@
 package com.vmloft.develop.app.match.common;
 
+import com.vmloft.develop.app.match.base.ACallback;
+import com.vmloft.develop.app.match.bean.AMatch;
+import com.vmloft.develop.app.match.bean.AUser;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import java.util.List;
+
 /**
  * Create by lzan13 on 2019/5/9 13:47
  *
@@ -21,4 +29,16 @@ public class AUMSManager {
         return InnerHolder.INSTANCE;
     }
 
+
+    /**
+     * 获取匹配用户
+     */
+    public void getMatchUser(ACallback<List<AUser>> callback) {
+        Observable observable = Observable.create(new ObservableOnSubscribe<AMatch>() {
+            @Override
+            public void subscribe(ObservableEmitter<AMatch> emitter) throws Exception {
+
+            }
+        });
+    }
 }

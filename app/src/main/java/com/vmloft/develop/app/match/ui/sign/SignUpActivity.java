@@ -9,8 +9,7 @@ import android.widget.EditText;
 import com.vmloft.develop.app.match.R;
 import com.vmloft.develop.app.match.base.ACallback;
 import com.vmloft.develop.app.match.base.AppActivity;
-import com.vmloft.develop.app.match.bean.UserBean;
-import com.vmloft.develop.app.match.common.ASMSManager;
+import com.vmloft.develop.app.match.bean.AUser;
 import com.vmloft.develop.app.match.common.ASignManager;
 import com.vmloft.develop.library.tools.utils.VMStr;
 
@@ -116,35 +115,18 @@ public class SignUpActivity extends AppActivity {
      * 通过邮箱注册
      */
     private void registerByEmail() {
-        ASignManager.getInstance().signUpByEmail(mUsername, mPassword, new ACallback<UserBean>() {
+        ASignManager.getInstance().signUpByEmail(mUsername, mPassword, new ACallback<AUser>() {
             @Override
-            public void onSuccess(UserBean user) {
+            public void onSuccess(AUser user) {
                 VMToast.make(mActivity, R.string.sign_up_success).show();
                 // 注册成功保存下用户信息，方便回到登录页面输入信息
-                ASignManager.getInstance().setPrevUser(user);
+                ASignManager.getInstance().setHistoryUser(user);
                 onFinish();
             }
 
             @Override
             public void onError(int code, String desc) {
                 VMToast.make(mActivity, desc).error();
-            }
-        });
-    }
-
-    /**
-     * 请求验证码
-     */
-    private void getVerificationCode() {
-        ASMSManager.getInstance().getVerificationCode("86", "15617021612", new ACallback() {
-
-            @Override
-            public void onSuccess(Object object) {
-
-            }
-
-            @Override
-            public void onError(int code, String desc) {
             }
         });
     }

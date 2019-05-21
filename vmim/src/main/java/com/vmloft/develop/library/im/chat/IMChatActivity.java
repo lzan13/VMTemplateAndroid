@@ -1,5 +1,6 @@
 package com.vmloft.develop.library.im.chat;
 
+import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.base.IMBaseActivity;
 
 /**
@@ -10,7 +11,7 @@ import com.vmloft.develop.library.im.base.IMBaseActivity;
 public class IMChatActivity extends IMBaseActivity {
     @Override
     protected int layoutId() {
-        return 0;
+        return R.layout.im_activity_chat;
     }
 
     @Override

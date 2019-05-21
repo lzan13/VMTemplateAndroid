@@ -6,7 +6,7 @@ import android.content.Intent;
 
 import com.vmloft.develop.app.match.ui.guide.GuideActivity;
 import com.vmloft.develop.app.match.ui.main.MainActivity;
-import com.vmloft.develop.app.match.ui.main.home.PairingActivity;
+import com.vmloft.develop.app.match.ui.main.home.MatchActivity;
 import com.vmloft.develop.app.match.ui.main.me.MeInfoActivity;
 import com.vmloft.develop.app.match.ui.setting.SettingActivity;
 import com.vmloft.develop.app.match.ui.sign.SignInActivity;
@@ -59,7 +59,7 @@ public class ARouter extends VMRouter {
      * 去匹配
      */
     public static void goPairing(Context context) {
-        overlay(context, PairingActivity.class);
+        overlay(context, MatchActivity.class);
     }
 
     /**

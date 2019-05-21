@@ -12,7 +12,7 @@ import com.vmloft.develop.app.match.base.AppLazyFragment;
 
 import butterknife.BindView;
 
-import com.vmloft.develop.app.match.bean.UserBean;
+import com.vmloft.develop.app.match.bean.AUser;
 import com.vmloft.develop.app.match.common.ASignManager;
 import com.vmloft.develop.app.match.router.ARouter;
 import com.vmloft.develop.library.tools.utils.VMStr;
@@ -29,7 +29,7 @@ public class MeFragment extends AppLazyFragment {
     @BindView(R.id.me_name_tv) TextView mNameView;
     @BindView(R.id.me_signature_tv) TextView mSignatureView;
 
-    private UserBean mCurrUser;
+    private AUser mCurrUser;
     private String mAvatarUrl;
     private String mNickname;
     private String mSignature;
@@ -54,9 +54,11 @@ public class MeFragment extends AppLazyFragment {
 
     @Override
     protected void initData() {
-        mCurrUser = ASignManager.getInstance().getCurrUser();
+        mCurrUser = ASignManager.getInstance().getCurrentUser();
+
         mAvatarUrl = mCurrUser.getAvatarUrl();
         mNickname = mCurrUser.getNickname();
+
         if (VMStr.isEmpty(mNickname)) {
             mNickname = mCurrUser.getUsername();
         }

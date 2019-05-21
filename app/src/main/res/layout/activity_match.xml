@@ -6,11 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_bg_dark"
-    tools:context=".ui.main.home.PairingActivity"
+    tools:context=".ui.main.home.MatchActivity"
     >
     <!--匹配背景-->
     <View
-        android:id="@+id/home_pairing_anim_view"
+        android:id="@+id/match_anim_view"
         android:layout_width="@dimen/avatar_56"
         android:layout_height="@dimen/avatar_56"
         android:layout_centerInParent="true"
@@ -19,7 +19,7 @@
         />
 
     <ImageView
-        android:id="@+id/home_pairing_avatar_iv"
+        android:id="@+id/match_avatar_iv"
         android:layout_width="@dimen/avatar_56"
         android:layout_height="@dimen/avatar_56"
         android:layout_centerInParent="true"
@@ -49,4 +49,10 @@
             app:vm_top_bar_title_color="@color/app_title_light"
             />
     </RelativeLayout>
+    <!--添加匹配人员容器-->
+    <com.vmloft.develop.library.tools.widget.VMViewGroup
+        android:id="@+id/match_view_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
 </RelativeLayout>

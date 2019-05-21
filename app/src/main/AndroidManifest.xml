@@ -43,7 +43,7 @@
         <!--个人信息-->
         <activity android:name=".ui.main.me.MeInfoActivity" />
         <!--匹配界面-->
-        <activity android:name=".ui.main.home.PairingActivity" />
+        <activity android:name=".ui.main.home.MatchActivity" />
         <!--设置界面-->
         <activity android:name=".ui.setting.SettingActivity" />
 

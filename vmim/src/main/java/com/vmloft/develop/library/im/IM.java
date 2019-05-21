@@ -120,7 +120,9 @@ public class IM {
         EMClient.getInstance().logout(unbuild, new EMCallBack() {
             @Override
             public void onSuccess() {
-                callback.onSuccess(null);
+                if (callback != null) {
+                    callback.onSuccess(null);
+                }
             }
 
             @Override
