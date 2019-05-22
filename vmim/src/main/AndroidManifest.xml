@@ -2,4 +2,14 @@
     package="com.vmloft.develop.library.im">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <application>
+        <!--聊天界面-->
+        <activity
+            android:name=".chat.IMChatActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <!--通话界面-->
+        <activity
+            android:name=".call.IMCallActivity"
+            android:windowSoftInputMode="adjustNothing|stateAlwaysHidden" />
+    </application>
 </manifest>

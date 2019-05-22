@@ -48,6 +48,15 @@
             />
 
         <com.vmloft.develop.library.tools.widget.VMLineView
+            android:id="@+id/me_username_line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:vm_line_decoration="true"
+            app:vm_line_right_icon="@drawable/im_ic_arrow_right"
+            app:vm_line_title="@string/me_username"
+            />
+
+        <com.vmloft.develop.library.tools.widget.VMLineView
             android:id="@+id/me_nickname_line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -60,10 +69,12 @@
             android:id="@+id/me_qr_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:vm_line_caption_icon="@drawable/ic_qr_code"
             app:vm_line_decoration="true"
             app:vm_line_right_icon="@drawable/im_ic_arrow_right"
             app:vm_line_title="@string/me_qr_code"
             />
+
         <com.vmloft.develop.library.tools.widget.VMLineView
             android:id="@+id/me_signature_line"
             android:layout_width="match_parent"

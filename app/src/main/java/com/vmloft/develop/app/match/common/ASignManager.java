@@ -156,6 +156,9 @@ public class ASignManager {
      */
     public void signOut() {
         AVUser.logOut();
+        IM.getInstance().signOut(false);
+
+        reset();
     }
 
     /**
@@ -236,6 +239,5 @@ public class ASignManager {
     public void reset() {
         mHistoryUser = null;
         mCurrentUser = null;
-        ASPManager.getInstance().putCurrUser("");
     }
 }

@@ -26,12 +26,9 @@ import com.vmloft.develop.library.tools.widget.toast.VMToast;
  */
 public class MeFragment extends AppLazyFragment {
 
-    @BindView(R.id.me_avatar_img)
-    ImageView mAvatarView;
-    @BindView(R.id.me_name_tv)
-    TextView mNameView;
-    @BindView(R.id.me_signature_tv)
-    TextView mSignatureView;
+    @BindView(R.id.me_avatar_img) ImageView mAvatarView;
+    @BindView(R.id.me_name_tv) TextView mNameView;
+    @BindView(R.id.me_signature_tv) TextView mSignatureView;
 
     private AUser mUser;
 
@@ -52,6 +49,7 @@ public class MeFragment extends AppLazyFragment {
     public void onResume() {
         super.onResume();
         mUser = ASignManager.getInstance().getCurrentUser();
+        refreshUI();
     }
 
     @Override
@@ -65,24 +63,24 @@ public class MeFragment extends AppLazyFragment {
         refreshUI();
     }
 
-    @OnClick({R.id.me_info_layout, R.id.me_collect, R.id.me_setting})
+    @OnClick({ R.id.me_info_layout, R.id.me_collect, R.id.me_setting })
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.me_info_layout:
-                ARouter.goMeInfo(getActivity());
-                break;
-            case R.id.me_friend_layout:
-                break;
-            case R.id.me_follows_layout:
-                break;
-            case R.id.me_fans_layout:
-                break;
-            case R.id.me_collect:
-                VMToast.make(getActivity(), "暂未实现").error();
-                break;
-            case R.id.me_setting:
-                ARouter.goSetting(getActivity());
-                break;
+        case R.id.me_info_layout:
+            ARouter.goMeInfo(getActivity());
+            break;
+        case R.id.me_friend_layout:
+            break;
+        case R.id.me_follows_layout:
+            break;
+        case R.id.me_fans_layout:
+            break;
+        case R.id.me_collect:
+            VMToast.make(getActivity(), "暂未实现").error();
+            break;
+        case R.id.me_setting:
+            ARouter.goSetting(getActivity());
+            break;
         }
     }
 
@@ -107,6 +105,5 @@ public class MeFragment extends AppLazyFragment {
 
         String avatarUrl = mUser.getAvatar() != null ? mUser.getAvatar().getUrl() : null;
         ALoader.loadThumb(mContext, avatarUrl, mAvatarView);
-
     }
 }

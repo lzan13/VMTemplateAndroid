@@ -26,9 +26,14 @@
     <!--我的-->
     <string name="me_info">个人信息</string>
     <string name="me_avatar">头像</string>
+    <string name="me_username">用户名</string>
     <string name="me_nickname">昵称</string>
     <string name="me_signature">签名</string>
+    <string name="me_signature_hint">@string/user_signature_default</string>
     <string name="me_gender">性别</string>
+    <string name="me_gender_unknown">神秘</string>
+    <string name="me_gender_man">帅</string>
+    <string name="me_gender_woman">美</string>
     <string name="me_birthday">生日</string>
     <string name="me_qr_code">二维码</string>
     <string name="me_address">地址</string>

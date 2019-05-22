@@ -1,10 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
+    <RelativeLayout
+        android:id="@+id/im_chat_bottom_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        >
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/im_chat_input_rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/vm_margin_normal"
+            android:layout_marginEnd="@dimen/vm_margin_normal"
+            android:layout_marginStart="@dimen/vm_margin_normal"
+            android:background="@drawable/im_input_shape"
+            >
+            <ImageButton
+                android:id="@+id/im_chat_send_btn"
+                android:layout_width="@dimen/vm_dimen_40"
+                android:layout_height="@dimen/vm_dimen_40"
+                android:background="@drawable/im_send_shape"
+                android:src="@drawable/im_ic_send"
+                android:tint="@color/vm_white"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+
+            <ImageButton
+                android:id="@+id/im_chat_input_emotion_iv"
+                android:layout_width="@dimen/vm_dimen_40"
+                android:layout_height="@dimen/vm_dimen_40"
+                android:layout_marginEnd="@dimen/vm_margin_normal"
+                android:background="@drawable/vm_click_full_fillet_transparent"
+                android:src="@drawable/im_ic_emotion_line"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/im_chat_send_btn"
+                />
+            <EditText
+                android:id="@+id/im_chat_input_et"
+                android:layout_width="@dimen/vm_dimen_0"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="@string/im_chat_input_hint"
+                android:maxLines="3"
+                android:paddingBottom="@dimen/vm_padding_normal"
+                android:paddingStart="@dimen/vm_padding_large"
+                android:paddingTop="@dimen/vm_padding_normal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/im_chat_input_emotion_iv"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                style="@style/VMEdit"
+                />
+        </android.support.constraint.ConstraintLayout>
+
+    </RelativeLayout>
     <!--展示消息列表-->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/im_chat_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_above="@+id/im_chat_bottom_rl"
+        android:layout_alignParentTop="true"
+        />
 </RelativeLayout>

@@ -42,6 +42,8 @@
         <activity android:name=".ui.sign.SignUpActivity" />
         <!--个人信息-->
         <activity android:name=".ui.main.me.MeInfoActivity" />
+        <activity android:name=".ui.main.me.MeNicknameActivity" />
+        <activity android:name=".ui.main.me.MeSignatureActivity" />
         <!--匹配界面-->
         <activity android:name=".ui.main.home.MatchActivity" />
         <!--设置界面-->
@@ -54,7 +56,7 @@
         <!-- 设置环信应用的 AppKey -->
         <meta-data
             android:name="EASEMOB_APPKEY"
-            android:value="lzan13#mlchat" />
+            android:value="lzan13#vmmatch" />
     </application>
 
     <!--全面屏适配-->

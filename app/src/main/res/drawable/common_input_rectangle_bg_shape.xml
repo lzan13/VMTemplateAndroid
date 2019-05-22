@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?><!-- The android:opacity=”opaque” line — this is critical in preventing a flash of black as your theme transitions. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="@dimen/vm_dimen_4" />
+    <solid android:color="@color/app_card_bg" />
+    <stroke
+        android:color="@color/app_input_border"
+        android:width="@dimen/vm_dimen_0_5" />
+</shape>

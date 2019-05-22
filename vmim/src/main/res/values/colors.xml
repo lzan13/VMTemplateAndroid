@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="im_input_text">@color/vm_black_87</color>
+    <color name="im_input_bg">@color/vm_white</color>
+    <color name="im_input_border">@color/vm_gray_black_12</color>
+</resources>

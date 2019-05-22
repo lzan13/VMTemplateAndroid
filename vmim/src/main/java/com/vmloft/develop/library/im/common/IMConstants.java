@@ -8,6 +8,11 @@ package com.vmloft.develop.library.im.common;
 public class IMConstants {
 
     /**
+     * 聊天界面传参
+     */
+    public static final String IM_CHAT_KEY_ID = "im_chat_key_id";
+
+    /**
      * 定义会话与消息扩展字段 key
      * 包括会话{@link com.hyphenate.chat.EMConversation}扩展，
      * 以及消息{@link com.hyphenate.chat.EMMessage}扩展

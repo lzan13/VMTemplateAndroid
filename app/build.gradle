@@ -53,7 +53,7 @@ dependencies {
     // LeanCloud 基础包
     implementation 'cn.leancloud.android:avoscloud-sdk:v4.7.10'
 
-    // 引用自己封装的工具库
-    implementation 'com.vmloft.library:vmtools:0.6.6'
+    // 引用自己封装的工具库 vmim 已经引用，这里不在引用，如想单独使用可以按照下边的方式引入
+//    implementation 'com.vmloft.library:vmtools:0.6.8'
     implementation project(':vmim')
 }

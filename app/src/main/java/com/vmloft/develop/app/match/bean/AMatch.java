@@ -13,10 +13,14 @@ import com.avos.avoscloud.AVObject;
 public class AMatch extends AVObject {
 
     /**
-     * @return
+     * 匹配的用户信息
      */
     public void setUser(AUser user) {
         put("user", user);
+    }
+
+    public AUser getUser() {
+        return getAVUser("user", AUser.class);
     }
 
     public AMatch() {}

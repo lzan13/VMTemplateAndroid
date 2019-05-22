@@ -9,11 +9,14 @@ import com.vmloft.develop.app.match.R;
 import com.vmloft.develop.app.match.base.ACallback;
 import com.vmloft.develop.app.match.base.AppActivity;
 import com.vmloft.develop.app.match.bean.AUser;
+import com.vmloft.develop.app.match.common.ASignManager;
 import com.vmloft.develop.app.match.common.AUMSManager;
+import com.vmloft.develop.app.match.glide.ALoader;
 import com.vmloft.develop.app.match.glide.APictureLoader;
 import com.vmloft.develop.library.tools.base.VMConstant;
 import com.vmloft.develop.library.tools.picker.VMPicker;
 import com.vmloft.develop.library.tools.picker.bean.VMPictureBean;
+import com.vmloft.develop.library.tools.utils.VMStr;
 import com.vmloft.develop.library.tools.widget.VMLineView;
 import com.vmloft.develop.library.tools.widget.toast.VMToast;
 
@@ -28,20 +31,17 @@ import butterknife.OnClick;
  * 个人信息界面
  */
 public class MeInfoActivity extends AppActivity {
-    @BindView(R.id.me_avatar_line)
-    VMLineView mAvatarLine;
-    @BindView(R.id.me_nickname_line)
-    VMLineView mNicknameLine;
-    @BindView(R.id.me_qr_code)
-    VMLineView mQRCodeLine;
-    @BindView(R.id.me_signature_line)
-    VMLineView mSignatureLine;
-    @BindView(R.id.me_gender_line)
-    VMLineView mGenderLine;
-    @BindView(R.id.me_birthday)
-    VMLineView mBirthdayLine;
-    @BindView(R.id.me_address_line)
-    VMLineView mAddressLine;
+
+    @BindView(R.id.me_avatar_line) VMLineView mAvatarLine;
+    @BindView(R.id.me_nickname_line) VMLineView mNicknameLine;
+    @BindView(R.id.me_username_line) VMLineView mUsernameLine;
+    @BindView(R.id.me_qr_code) VMLineView mQRCodeLine;
+    @BindView(R.id.me_signature_line) VMLineView mSignatureLine;
+    @BindView(R.id.me_gender_line) VMLineView mGenderLine;
+    @BindView(R.id.me_birthday) VMLineView mBirthdayLine;
+    @BindView(R.id.me_address_line) VMLineView mAddressLine;
+    // 个人用户
+    private AUser mUser;
 
     @Override
     protected int layoutId() {
@@ -51,21 +51,40 @@ public class MeInfoActivity extends AppActivity {
     @Override
     protected void initUI() {
         super.initUI();
-
     }
 
     @Override
     protected void initData() {
         setTopTitle(R.string.me_info);
+
+        mUser = ASignManager.getInstance().getCurrentUser();
+
+        refreshUI();
     }
 
-    @OnClick({R.id.me_avatar_line, R.id.me_nickname_line, R.id.me_qr_code, R.id.me_signature_line,
-            R.id.me_gender_line, R.id.me_birthday, R.id.me_address_line})
+    @OnClick({
+        R.id.me_avatar_line, R.id.me_nickname_line, R.id.me_qr_code, R.id.me_signature_line, R.id.me_gender_line, R.id.me_birthday,
+        R.id.me_address_line
+    })
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.me_avatar_line:
-                startPickAvatar();
-                break;
+        case R.id.me_avatar_line:
+            startPickAvatar();
+            break;
+        case R.id.me_nickname_line:
+            startActivity(new Intent(mActivity, MeNicknameActivity.class));
+            break;
+        case R.id.me_qr_code:
+            break;
+        case R.id.me_signature_line:
+            startActivity(new Intent(mActivity, MeSignatureActivity.class));
+            break;
+        case R.id.me_gender_line:
+            break;
+        case R.id.me_birthday:
+            break;
+        case R.id.me_address_line:
+            break;
         }
     }
 
@@ -73,11 +92,7 @@ public class MeInfoActivity extends AppActivity {
      * 开启选择头像
      */
     private void startPickAvatar() {
-        VMPicker.getInstance()
-                .setMultiMode(false)
-                .setPictureLoader(new APictureLoader())
-                .setShowCamera(true)
-                .startPicker(mActivity);
+        VMPicker.getInstance().setMultiMode(false).setPictureLoader(new APictureLoader()).setShowCamera(true).startPicker(mActivity);
     }
 
     @Override
@@ -97,16 +112,43 @@ public class MeInfoActivity extends AppActivity {
      * 保存头像
      */
     public void saveAvatar(VMPictureBean bean) {
-        AUMSManager.getInstance().saveAvatar(bean, new ACallback<AUser>(){
+        AUMSManager.getInstance().saveAvatar(bean, new ACallback<AUser>() {
             @Override
             public void onSuccess(AUser user) {
-
+                VMToast.make(mActivity, "头像设置成功").done();
             }
 
             @Override
             public void onError(int code, String desc) {
-
+                VMToast.make(mActivity, "头像设置失败 %d %s", code, desc).done();
             }
         });
+    }
+
+    /**
+     * 刷新 UI
+     */
+    private void refreshUI() {
+        if (mUser == null) {
+            return;
+        }
+
+        mNicknameLine.setCaption(mUser.getNickname());
+        mUsernameLine.setCaption(mUser.getUsername());
+        if (VMStr.isEmpty(mUser.getSignature())) {
+            mSignatureLine.setCaption(VMStr.byRes(R.string.user_signature_default));
+        } else {
+            mSignatureLine.setCaption(mUser.getSignature());
+        }
+
+        if (mUser.getGender() == 0) {
+            mGenderLine.setCaption(VMStr.byRes(R.string.me_gender_unknown));
+        } else if (mUser.getGender() == 1) {
+            mGenderLine.setCaption(VMStr.byRes(R.string.me_gender_man));
+        } else if (mUser.getGender() == 2) {
+            mGenderLine.setCaption(VMStr.byRes(R.string.me_gender_woman));
+        }
+        //mBirthdayLine.setCaption();
+        mAddressLine.setCaption(mUser.getAddress());
     }
 }

@@ -1,8 +1,10 @@
 package com.vmloft.develop.app.match.ui.main.home;
 
+import android.content.Intent;
 import android.view.View;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import butterknife.BindView;
@@ -14,12 +16,17 @@ import com.vmloft.develop.app.match.bean.AMatch;
 import com.vmloft.develop.app.match.bean.AUser;
 import com.vmloft.develop.app.match.common.AMatchManager;
 import com.vmloft.develop.app.match.common.ASignManager;
+import com.vmloft.develop.app.match.glide.ALoader;
+import com.vmloft.develop.app.match.router.ARouter;
+import com.vmloft.develop.library.im.chat.IMChatActivity;
+import com.vmloft.develop.library.im.common.IMConstants;
 import com.vmloft.develop.library.tools.utils.VMDimen;
 import com.vmloft.develop.library.tools.utils.VMLog;
 import com.vmloft.develop.library.tools.widget.VMViewGroup;
 import com.vmloft.develop.library.tools.widget.toast.VMToast;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Create by lzan13 on 2019/5/15 23:13
@@ -30,13 +37,15 @@ public class MatchActivity extends AppActivity {
 
     @BindView(R.id.match_anim_view) View mAnimView;
     @BindView(R.id.match_avatar_iv) ImageView mAvatarView;
-    @BindView(R.id.match_view_group) VMViewGroup mViewGroup;
+    @BindView(R.id.match_container) FrameLayout mMatchContainer;
 
     private AUser mUser;
     private AMatch mMatch;
     private List<AMatch> mMatchList = new ArrayList<>();
     // 是否正在执行动画
     private boolean isAnim;
+    private int mScreenWidth;
+    private int mScreenHeight;
     private int avatarSize;
 
     @Override
@@ -53,7 +62,8 @@ public class MatchActivity extends AppActivity {
     @Override
     protected void initData() {
         mUser = ASignManager.getInstance().getCurrentUser();
-
+        mScreenWidth = VMDimen.getScreenSize().x;
+        mScreenHeight = VMDimen.getScreenSize().y;
         avatarSize = VMDimen.dp2px(48);
         getMatchData();
     }
@@ -88,7 +98,6 @@ public class MatchActivity extends AppActivity {
             @Override
             public void onSuccess(AMatch match) {
                 mMatch = match;
-                VMToast.make(mActivity, "提交匹配信息成功").done();
             }
 
             @Override
@@ -108,9 +117,38 @@ public class MatchActivity extends AppActivity {
         for (AMatch match : mMatchList) {
             ImageView imageView = new ImageView(mActivity);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(avatarSize, avatarSize);
-            mViewGroup.addView(imageView, lp);
+            FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(avatarSize, avatarSize);
+
+            int x = getRandomInt(mScreenWidth - avatarSize);
+            int y = getRandomInt(mScreenHeight - avatarSize);
+            imageView.setX(x);
+            imageView.setY(y);
+
+            mMatchContainer.addView(imageView, lp);
+
+            final AUser user = match.getUser();
+            String url = user.getAvatar() != null ? user.getAvatar().getUrl() : null;
+            ALoader.loadThumb(mActivity, url, imageView);
+
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mActivity, IMChatActivity.class);
+                    intent.putExtra(IMConstants.IM_CHAT_KEY_ID, user.getObjectId());
+                    ARouter.goIMChat(mActivity, intent);
+                    onFinish();
+                }
+            });
         }
+    }
+
+    /**
+     * 生成随机数 范围 [0,max)
+     */
+
+    private int getRandomInt(int max) {
+        Random random = new Random();
+        return random.nextInt(max);
     }
 
     @Override

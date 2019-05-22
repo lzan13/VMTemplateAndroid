@@ -87,21 +87,4 @@ public class ASPManager {
         return (String) VMSPUtil.get(KEY_PREV_USER, "");
     }
 
-    /**
-     * 保存当前登录账户信息
-     *
-     * @param user 当前账户信息 json 串
-     */
-    public void putCurrUser(String user) {
-        VMSPUtil.put(KEY_CURR_USER, user);
-    }
-
-    /**
-     * 获取当前登录账户信息登录
-     *
-     * @return 如果为空，说明没有登录
-     */
-    public String getCurrUser() {
-        return (String) VMSPUtil.get(KEY_CURR_USER, "");
-    }
 }

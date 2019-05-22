@@ -29,6 +29,7 @@
 
     <!--定义顶部 TopBar-->
     <RelativeLayout
+        android:id="@+id/match_top_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -50,9 +51,10 @@
             />
     </RelativeLayout>
     <!--添加匹配人员容器-->
-    <com.vmloft.develop.library.tools.widget.VMViewGroup
-        android:id="@+id/match_view_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <FrameLayout
+        android:id="@+id/match_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/match_top_rl"
         />
 </RelativeLayout>
