@@ -1,6 +1,7 @@
 package com.vmloft.develop.app.match.bean;
 
 import com.avos.avoscloud.AVClassName;
+import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVUser;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,8 +29,8 @@ public class AUser extends AVUser {
     /**
      * 用户头像
      */
-    public String getAvatarUrl() {
-        return getString("avatarUrl");
+    public AVFile getAvatar() {
+        return getAVFile("avatar");
     }
 
     /**

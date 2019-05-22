@@ -1,12 +1,16 @@
 package com.vmloft.develop.app.match.common;
 
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVFile;
+import com.avos.avoscloud.SaveCallback;
 import com.vmloft.develop.app.match.base.ACallback;
-import com.vmloft.develop.app.match.bean.AMatch;
 import com.vmloft.develop.app.match.bean.AUser;
+import com.vmloft.develop.app.match.utils.ARXUtils;
+import com.vmloft.develop.library.tools.picker.bean.VMPictureBean;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
-import java.util.List;
 
 /**
  * Create by lzan13 on 2019/5/9 13:47
@@ -31,14 +35,27 @@ public class AUMSManager {
 
 
     /**
-     * 获取匹配用户
+     * 保存账户头像
      */
-    public void getMatchUser(ACallback<List<AUser>> callback) {
-        Observable observable = Observable.create(new ObservableOnSubscribe<AMatch>() {
+    public void saveAvatar(final VMPictureBean bean, ACallback<AUser> callback) {
+        Observable<AUser> observable = Observable.create(new ObservableOnSubscribe<AUser>() {
             @Override
-            public void subscribe(ObservableEmitter<AMatch> emitter) throws Exception {
-
+            public void subscribe(final ObservableEmitter<AUser> emitter) throws Exception {
+                final AVFile file = AVFile.withAbsoluteLocalPath(bean.name, bean.path);
+                file.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(AVException e) {
+                        if (e == null) {
+                            AUser user = ASignManager.getInstance().getCurrentUser();
+                            user.put("avatar", file);
+                            emitter.onNext(user);
+                        } else {
+                            emitter.onError(e);
+                        }
+                    }
+                });
             }
         });
+        observable.compose(ARXUtils.<AUser>threadScheduler()).subscribe(new AObserver<AUser>(callback));
     }
 }
