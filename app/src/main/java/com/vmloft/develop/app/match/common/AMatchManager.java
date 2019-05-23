@@ -25,6 +25,7 @@ import java.util.List;
  */
 public class AMatchManager {
 
+    private AMatchManager(){}
     /**
      * 内部类实现单例模式
      */

@@ -6,6 +6,7 @@ import com.avos.avoscloud.AVUser;
 import com.vmloft.develop.app.match.bean.AMatch;
 import com.vmloft.develop.app.match.bean.AUser;
 import com.vmloft.develop.app.match.common.AConstant;
+import com.vmloft.develop.app.match.im.AIMManager;
 import com.vmloft.develop.library.im.IM;
 import com.vmloft.develop.library.tools.base.VMApp;
 
@@ -24,17 +25,12 @@ public class App extends VMApp {
 
     private void init() {
         // 初始化 IM
-        initIM();
+        AIMManager.getInstance().initIM(context);
+
         // 初始化 LeanCloud
         initLeanCloud();
     }
 
-    /**
-     * 初始化 IM
-     */
-    private void initIM() {
-        IM.getInstance().init(context);
-    }
 
     /**
      * 初始化 LeanCloud

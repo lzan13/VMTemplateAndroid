@@ -7,6 +7,10 @@ package com.vmloft.develop.library.im.common;
  */
 public class IMConstants {
 
+    public static final long IM_TIME_MINUTE = 60 * 1000;
+    public static final long IM_TIME_HOUR = 60 * 60 * 1000;
+    public static final long IM_TIME_DAY = 24 * 60 * 60 * 1000;
+
     /**
      * 聊天界面传参
      */

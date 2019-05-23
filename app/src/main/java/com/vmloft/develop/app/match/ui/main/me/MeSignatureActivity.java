@@ -1,26 +1,15 @@
 package com.vmloft.develop.app.match.ui.main.me;
 
-import android.content.Intent;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.EditText;
 import butterknife.BindView;
-import butterknife.OnClick;
 import com.vmloft.develop.app.match.R;
 import com.vmloft.develop.app.match.base.ACallback;
 import com.vmloft.develop.app.match.base.AppActivity;
 import com.vmloft.develop.app.match.bean.AUser;
 import com.vmloft.develop.app.match.common.ASignManager;
 import com.vmloft.develop.app.match.common.AUMSManager;
-import com.vmloft.develop.app.match.glide.APictureLoader;
-import com.vmloft.develop.library.tools.base.VMConstant;
-import com.vmloft.develop.library.tools.picker.VMPicker;
-import com.vmloft.develop.library.tools.picker.bean.VMPictureBean;
 import com.vmloft.develop.library.tools.utils.VMLog;
-import com.vmloft.develop.library.tools.utils.VMStr;
-import com.vmloft.develop.library.tools.widget.VMLineView;
-import com.vmloft.develop.library.tools.widget.toast.VMToast;
-import java.util.ArrayList;
 
 /**
  * Create by lzan13 on 2019/5/12 22:20

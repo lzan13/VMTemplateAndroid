@@ -128,7 +128,7 @@ public class MatchActivity extends AppActivity {
 
             final AUser user = match.getUser();
             String url = user.getAvatar() != null ? user.getAvatar().getUrl() : null;
-            ALoader.loadThumb(mActivity, url, imageView);
+            ALoader.loadAvatar(mActivity, url, imageView);
 
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override

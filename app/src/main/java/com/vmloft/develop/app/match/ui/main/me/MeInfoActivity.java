@@ -4,15 +4,12 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.avos.avoscloud.AVFile;
 import com.vmloft.develop.app.match.R;
 import com.vmloft.develop.app.match.base.ACallback;
 import com.vmloft.develop.app.match.base.AppActivity;
 import com.vmloft.develop.app.match.bean.AUser;
 import com.vmloft.develop.app.match.common.ASignManager;
 import com.vmloft.develop.app.match.common.AUMSManager;
-import com.vmloft.develop.app.match.glide.ALoader;
-import com.vmloft.develop.app.match.glide.APictureLoader;
 import com.vmloft.develop.library.tools.base.VMConstant;
 import com.vmloft.develop.library.tools.picker.VMPicker;
 import com.vmloft.develop.library.tools.picker.bean.VMPictureBean;
@@ -92,7 +89,7 @@ public class MeInfoActivity extends AppActivity {
      * 开启选择头像
      */
     private void startPickAvatar() {
-        VMPicker.getInstance().setMultiMode(false).setPictureLoader(new APictureLoader()).setShowCamera(true).startPicker(mActivity);
+        VMPicker.getInstance().setMultiMode(false).setShowCamera(true).startPicker(mActivity);
     }
 
     @Override

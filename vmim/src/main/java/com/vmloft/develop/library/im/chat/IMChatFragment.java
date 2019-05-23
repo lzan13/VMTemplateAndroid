@@ -1,8 +1,12 @@
 package com.vmloft.develop.library.im.chat;
 
 import android.os.Bundle;
+
+import com.vmloft.develop.library.im.IM;
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.base.IMBaseFragment;
+import com.vmloft.develop.library.im.base.IMCallback;
+import com.vmloft.develop.library.im.bean.IMContact;
 import com.vmloft.develop.library.im.common.IMConstants;
 
 /**
@@ -11,6 +15,9 @@ import com.vmloft.develop.library.im.common.IMConstants;
  * IM 可自定义加载的聊天界面
  */
 public class IMChatFragment extends IMBaseFragment {
+
+    private String mId;
+    private IMContact mContact;
 
     /**
      * Fragment 的工厂方法，方便创建并设置参数
@@ -32,6 +39,15 @@ public class IMChatFragment extends IMBaseFragment {
 
     @Override
     protected void init() {
+        mId = getArguments().getString(IMConstants.IM_CHAT_KEY_ID);
+
+        refreshUI();
+    }
+
+    /**
+     * 刷新 UI
+     */
+    private void refreshUI() {
 
     }
 }

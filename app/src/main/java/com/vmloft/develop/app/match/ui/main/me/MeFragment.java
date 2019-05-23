@@ -104,6 +104,6 @@ public class MeFragment extends AppLazyFragment {
         }
 
         String avatarUrl = mUser.getAvatar() != null ? mUser.getAvatar().getUrl() : null;
-        ALoader.loadThumb(mContext, avatarUrl, mAvatarView);
+        ALoader.loadAvatar(mContext, avatarUrl, mAvatarView);
     }
 }

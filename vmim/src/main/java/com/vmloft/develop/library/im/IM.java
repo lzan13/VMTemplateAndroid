@@ -3,14 +3,14 @@ package com.vmloft.develop.library.im;
 import android.content.Context;
 
 import com.hyphenate.EMCallBack;
-import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
 import com.vmloft.develop.library.im.base.IMCallback;
+import com.vmloft.develop.library.im.bean.IMContact;
 import com.vmloft.develop.library.im.common.IMExecptionManager;
 import com.vmloft.develop.library.im.common.IMExecutor;
 import com.vmloft.develop.library.im.common.IMSPManager;
-import com.vmloft.develop.library.tools.utils.VMStr;
+import com.vmloft.develop.library.tools.picker.VMPicker;
 
 /**
  * Create by lzan13 on 2019/5/20 22:22
@@ -18,6 +18,11 @@ import com.vmloft.develop.library.tools.utils.VMStr;
  * 库入口类
  */
 public class IM {
+
+    // IM 全局回调接口
+    private IMIGlobalListener mGlobalListener;
+    // IM 图片加载接口
+    private IMIPictureLoader mPictureLoader;
 
     private IM() {
     }
@@ -134,5 +139,51 @@ public class IM {
             public void onProgress(int progress, String status) {
             }
         });
+    }
+
+    /**
+     * 设置 IM 全局回调接口实现
+     */
+    public void setGlobalListener(IMIGlobalListener listener) {
+        mGlobalListener = listener;
+    }
+
+    public IMIGlobalListener getGlobalListener() {
+        return mGlobalListener;
+    }
+
+    /**
+     * 设置 IM 图片加载接口实现
+     */
+    public void setPictureLoader(IMIPictureLoader loader) {
+        mPictureLoader = loader;
+        VMPicker.getInstance().setPictureLoader(mPictureLoader);
+    }
+
+    public IMIPictureLoader getPictureLoader() {
+        return mPictureLoader;
+    }
+
+    /**
+     * 获取 IM 联系人信息
+     *
+     * @param id
+     */
+    public void getIMContact(String id, IMCallback<IMContact> callback) {
+        if (mGlobalListener != null) {
+            mGlobalListener.getIMContact(id, callback);
+        }
+    }
+
+    /**
+     * IM 头像点击
+     *
+     * @param context 上下文对象
+     * @param contact 点击联系人对象
+     */
+    public void onIMHeadClick(Context context, IMContact contact) {
+        if (mGlobalListener != null) {
+            mGlobalListener.onHeadClick(context, contact);
+        }
     }
 }

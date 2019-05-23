@@ -4,6 +4,7 @@ import com.avos.avoscloud.AVException;
 import com.vmloft.develop.app.match.R;
 import com.vmloft.develop.app.match.base.ACallback;
 import com.vmloft.develop.library.im.common.IMException;
+import com.vmloft.develop.library.tools.utils.VMLog;
 import com.vmloft.develop.library.tools.utils.VMStr;
 
 /**
@@ -56,14 +57,20 @@ public class AExceptionManager {
      * @param callback 自定义的回调接口
      */
     private void disposeIMException(IMException e, ACallback callback) {
+        int code;
+        String desc;
         switch (e.getCode()) {
             case AError.UNKNOWN:
-                callback.onError(AError.UNKNOWN, VMStr.byResArgs(R.string.unknown, e.getCode()));
+                code = AError.UNKNOWN;
+                desc = VMStr.byResArgs(R.string.unknown, e.getCode());
                 break;
             default:
-                callback.onError(e.getCode(), e.getDesc());
+                code = e.getCode();
+                desc = e.getDesc();
                 break;
         }
+        VMLog.e("IM 相关错误信息 [%d] - %s", code, desc);
+        callback.onError(code, desc);
     }
 
     /**
@@ -73,25 +80,35 @@ public class AExceptionManager {
      * @param callback 自定义的回调接口
      */
     private void disposeAVException(AVException e, ACallback callback) {
+        int code;
+        String desc;
         switch (e.getCode()) {
             case AVException.USERNAME_TAKEN:
-                callback.onError(AError.USER_ALREADY_EXIST, VMStr.byRes(R.string.account_username_already_exist));
+                code = AError.USER_ALREADY_EXIST;
+                desc = VMStr.byRes(R.string.account_username_already_exist);
                 break;
             case AVException.EMAIL_TAKEN:
-                callback.onError(AError.EMAIL_ALREADY_EXIST, VMStr.byRes(R.string.account_email_already_exist));
+                code = AError.EMAIL_ALREADY_EXIST;
+                desc = VMStr.byRes(R.string.account_email_already_exist);
                 break;
             case AVException.USER_MOBILE_PHONENUMBER_TAKEN:
-                callback.onError(AError.PHONE_ALREADY_EXIST, VMStr.byRes(R.string.account_phone_already_exist));
+                code = AError.PHONE_ALREADY_EXIST;
+                desc = VMStr.byRes(R.string.account_phone_already_exist);
                 break;
             case AVException.USERNAME_PASSWORD_MISMATCH:
-                callback.onError(AError.USERNAME_PASSWORD_MISMATCH, VMStr.byRes(R.string.account_username_password_mismatch));
+                code = AError.USERNAME_PASSWORD_MISMATCH;
+                desc = VMStr.byRes(R.string.account_username_password_mismatch);
                 break;
             case AVException.USER_DOESNOT_EXIST:
-                callback.onError(AError.USER_DOESNOT_EXIST, VMStr.byRes(R.string.account_user_doesnot_exist));
+                code = AError.USER_DOESNOT_EXIST;
+                desc = VMStr.byRes(R.string.account_user_doesnot_exist);
                 break;
             default:
-                callback.onError(AError.UNKNOWN, VMStr.byResArgs(R.string.unknown, e.getCode()));
+                code = AError.UNKNOWN;
+                desc = VMStr.byResArgs(R.string.unknown, e.getCode());
                 break;
         }
+        VMLog.e("LeanCloud 相关错误信息 [%d] - %s", code, desc);
+        callback.onError(code, desc);
     }
 }
