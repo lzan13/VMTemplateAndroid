@@ -20,7 +20,7 @@
             android:background="@drawable/im_input_shape"
             >
             <ImageButton
-                android:id="@+id/im_chat_send_btn"
+                android:id="@+id/im_chat_input_send_btn"
                 android:layout_width="@dimen/vm_dimen_40"
                 android:layout_height="@dimen/vm_dimen_40"
                 android:background="@drawable/im_send_shape"
@@ -32,14 +32,14 @@
                 />
 
             <ImageButton
-                android:id="@+id/im_chat_input_emotion_iv"
+                android:id="@+id/im_chat_input_emoji_btn"
                 android:layout_width="@dimen/vm_dimen_40"
                 android:layout_height="@dimen/vm_dimen_40"
                 android:layout_marginEnd="@dimen/vm_margin_normal"
                 android:background="@drawable/vm_click_full_fillet_transparent"
                 android:src="@drawable/im_ic_emotion_line"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/im_chat_send_btn"
+                app:layout_constraintEnd_toStartOf="@+id/im_chat_input_send_btn"
                 />
             <EditText
                 android:id="@+id/im_chat_input_et"
@@ -52,7 +52,7 @@
                 android:paddingStart="@dimen/vm_padding_large"
                 android:paddingTop="@dimen/vm_padding_normal"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/im_chat_input_emotion_iv"
+                app:layout_constraintEnd_toStartOf="@+id/im_chat_input_emoji_btn"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 style="@style/VMEdit"

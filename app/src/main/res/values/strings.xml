@@ -44,14 +44,17 @@
     <string name="follows">关注</string>
     <string name="fans">粉丝</string>
 
-    <string name="common">通用</string>
-    <string name="setting">设置</string>
-    <string name="pairing">匹配</string>
+    <string name="match">匹配</string>
 
     <!--设置-->
+
     <string name="notify">通知提醒</string>
+    <string name="chat">聊天</string>
+    <string name="privacy">隐私</string>
+    <string name="common">通用</string>
     <string name="help">帮助与反馈</string>
     <string name="about">关于</string>
+    <string name="setting">设置</string>
 
     <!--引导文案-->
     <string name="guide_title_0">应用引导标题</string>

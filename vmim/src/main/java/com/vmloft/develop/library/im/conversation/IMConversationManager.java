@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
+import com.hyphenate.chat.EMMessage;
 import com.vmloft.develop.library.im.utils.IMConversationUtils;
 
 import java.util.ArrayList;
@@ -45,6 +46,15 @@ public class IMConversationManager {
     }
 
     /**
+     * 根据会话 id 获取会话
+     *
+     * @param id 会话 id
+     */
+    public EMConversation getConversation(String id) {
+        return EMClient.getInstance().chatManager().getConversation(id);
+    }
+
+    /**
      * 获取全部会话，并进行排序
      */
     public List<EMConversation> getAllConversation() {
@@ -76,5 +86,12 @@ public class IMConversationManager {
             }
         }
         return result;
+    }
+
+    /**
+     * 获取当前会话的所有消息
+     */
+    public List<EMMessage> getAllMessages(String id) {
+        return getConversation(id).getAllMessages();
     }
 }

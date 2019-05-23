@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    >
+    <TextView
+        android:id="@+id/im_chat_msg_text_content_tv"
+        android:maxWidth="@dimen/vm_dimen_256"
+        android:paddingBottom="@dimen/vm_padding_normal"
+        android:paddingEnd="@dimen/vm_padding_large"
+        android:paddingStart="@dimen/vm_padding_large"
+        android:paddingTop="@dimen/vm_padding_normal"
+        tools:text="测试文本内容"
+        style="@style/VMText.Body1"
+        />
+</LinearLayout>

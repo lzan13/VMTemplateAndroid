@@ -1,8 +1,11 @@
 package com.vmloft.develop.app.match.glide;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.widget.ImageView;
 
+import com.bumptech.glide.load.MultiTransformation;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
@@ -23,11 +26,9 @@ public class ALoader {
      */
     public static void loadAvatar(Context context, String url, ImageView imageView) {
         // 使用 Glide 变换 api 实现原型头像加载
-        GlideApp.with(context)
-                .load(url)
-//                .apply(new RequestOptions().circleCrop())
-                .transform(new CircleCrop(), new BlurTransformation(context))
-                .into(imageView);
+        RequestOptions options = new RequestOptions();
+        options.circleCrop();
+        GlideApp.with(context).load(url).apply(options).into(imageView);
     }
 
     /**
@@ -38,10 +39,9 @@ public class ALoader {
      * @param imageView 目标 view
      */
     public static void loadThumb(Context context, String url, ImageView imageView) {
-        GlideApp.with(context)
-                .load(url)
-                .apply(new RequestOptions().bitmapTransform(new RoundedCorners(24)))
-                .into(imageView);
+        RequestOptions options = new RequestOptions();
+        options.transform(new MultiTransformation<Bitmap>(new CenterCrop(), new RoundedCorners(16)));
+        GlideApp.with(context).load(url).apply(options).into(imageView);
     }
 
     /**
@@ -54,5 +54,4 @@ public class ALoader {
     public static void loadFull(Context context, String url, ImageView imageView) {
         GlideApp.with(context).load(url).into(imageView);
     }
-
 }

@@ -11,10 +11,20 @@ public class IMConstants {
     public static final long IM_TIME_HOUR = 60 * 60 * 1000;
     public static final long IM_TIME_DAY = 24 * 60 * 60 * 1000;
 
-    /**
-     * 聊天界面传参
-     */
+    // 聊天界面传参
     public static final String IM_CHAT_KEY_ID = "im_chat_key_id";
+
+    // 消息类型
+    public static final int IM_CHAT_TYPE_UNKNOWN = 0;
+    public static final int IM_CHAT_TYPE_TEXT = 1;
+    public static final int IM_CHAT_TYPE_IMAGE = 2;
+    public static final int IM_CHAT_TYPE_VIDEO = 3;
+    public static final int IM_CHAT_TYPE_LOCATION = 4;
+    public static final int IM_CHAT_TYPE_VOICE = 5;
+    public static final int IM_CHAT_TYPE_FILE = 6;
+    public static final int IM_CHAT_TYPE_CALL = 10;
+    public static final int IM_CHAT_TYPE_SYSTEM = 100;
+    public static final int IM_CHAT_TYPE_RECALL = 110;
 
     /**
      * 定义会话与消息扩展字段 key
@@ -29,6 +39,8 @@ public class IMConstants {
     public static final String IM_CONVERSATION_KEY_TOP = "im_conversation_key_top";
     // 会话未读
     public static final String IM_CONVERSATION_KEY_UNREAD = "im_conversation_key_unread";
+    // 消息扩展类型
+    public static final String IM_CHAT_MSG_TYPE = "im_chat_msg_type";
 
     // at(@)
     public static final String ATTR_AT = "attr_at";
@@ -41,7 +53,6 @@ public class IMConstants {
     // 理由
     public static final String ATTR_REASON = "attr_reason";
     // 撤回
-    public static final String ATTR_RECALL = "attr_recall";
     // 状态
     public static final String ATTR_STATUS = "attr_status";
     // 类型

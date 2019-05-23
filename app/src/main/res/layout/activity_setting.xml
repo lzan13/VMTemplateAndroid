@@ -44,6 +44,38 @@
             app:vm_line_right_icon="@drawable/im_ic_arrow_right"
             app:vm_line_title="@string/notify"
             />
+        <com.vmloft.develop.library.tools.widget.VMLineView
+            android:id="@+id/setting_chat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:vm_line_decoration="true"
+            app:vm_line_right_icon="@drawable/im_ic_arrow_right"
+            app:vm_line_title="@string/chat"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/common_margin_normal"
+        android:background="@color/app_card_bg"
+        android:orientation="vertical"
+        >
+        <com.vmloft.develop.library.tools.widget.VMLineView
+            android:id="@+id/setting_privacy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:vm_line_decoration="true"
+            app:vm_line_right_icon="@drawable/im_ic_arrow_right"
+            app:vm_line_title="@string/privacy"
+            />
+        <com.vmloft.develop.library.tools.widget.VMLineView
+            android:id="@+id/setting_common"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:vm_line_right_icon="@drawable/im_ic_arrow_right"
+            app:vm_line_title="@string/common"
+            />
     </LinearLayout>
 
     <LinearLayout
@@ -66,7 +98,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:vm_line_right_icon="@drawable/im_ic_arrow_right"
-            app:vm_line_title="@string/setting"
+            app:vm_line_title="@string/about"
             />
     </LinearLayout>
     <LinearLayout

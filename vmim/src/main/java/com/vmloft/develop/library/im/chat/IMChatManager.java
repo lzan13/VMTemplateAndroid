@@ -54,10 +54,24 @@ public class IMChatManager {
     }
 
     /**
-     * 发送消息
+     * 发送文本消息
+     *
+     * @param text     文本内容
+     * @param toId     接受者
+     * @param callback 发送回调
      */
-    public void sendMessage(EMMessage message, IMCallback callback) {
-
+    public void sendText(String text, String toId, IMCallback<EMMessage> callback) {
+        EMMessage message = EMMessage.createTxtSendMessage(text, toId);
+        sendMessage(message, callback);
     }
 
+    /**
+     * 发送消息
+     *
+     * @param message  要发送的消息
+     * @param callback 发送回调
+     */
+    public void sendMessage(EMMessage message, IMCallback<EMMessage> callback) {
+        
+    }
 }

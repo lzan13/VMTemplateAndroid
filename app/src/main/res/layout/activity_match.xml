@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/common_top_space"
             app:vm_top_bar_icon="@drawable/im_ic_arrow_left"
-            app:vm_top_bar_title="@string/pairing"
+            app:vm_top_bar_title="@string/match"
             app:vm_top_bar_title_color="@color/app_title_light"
             />
     </RelativeLayout>
