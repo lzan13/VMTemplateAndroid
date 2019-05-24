@@ -20,6 +20,7 @@ public class IMChatActivity extends IMBaseActivity {
 
     private IMChatFragment mChatFragment;
     private String mId;
+    private int mChatType;
     private IMContact mContact;
 
     @Override
@@ -34,7 +35,8 @@ public class IMChatActivity extends IMBaseActivity {
 
     @Override
     protected void initData() {
-        mId = getIntent().getStringExtra(IMConstants.IM_CHAT_KEY_ID);
+        mId = getIntent().getStringExtra(IMConstants.IM_CHAT_ID);
+        mChatType = getIntent().getIntExtra(IMConstants.IM_CHAT_TYPE, IMConstants.ChatType.IM_SINGLE_CHAT);
         IM.getInstance().getIMContact(mId, new IMCallback<IMContact>() {
             @Override
             public void onSuccess(IMContact contact) {
@@ -52,7 +54,7 @@ public class IMChatActivity extends IMBaseActivity {
      * 加载聊天界面
      */
     private void initChatFragment() {
-        mChatFragment = IMChatFragment.newInstance(mId);
+        mChatFragment = IMChatFragment.newInstance(mId, mChatType);
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction ft = manager.beginTransaction();
         ft.replace(R.id.im_chat_container, mChatFragment);

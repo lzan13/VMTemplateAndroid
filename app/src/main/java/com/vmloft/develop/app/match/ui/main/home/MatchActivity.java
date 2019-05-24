@@ -6,9 +6,9 @@ import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+
 import butterknife.BindView;
-import com.avos.avoscloud.AVUser;
+
 import com.vmloft.develop.app.match.R;
 import com.vmloft.develop.app.match.base.ACallback;
 import com.vmloft.develop.app.match.base.AppActivity;
@@ -22,7 +22,6 @@ import com.vmloft.develop.library.im.chat.IMChatActivity;
 import com.vmloft.develop.library.im.common.IMConstants;
 import com.vmloft.develop.library.tools.utils.VMDimen;
 import com.vmloft.develop.library.tools.utils.VMLog;
-import com.vmloft.develop.library.tools.widget.VMViewGroup;
 import com.vmloft.develop.library.tools.widget.toast.VMToast;
 import java.util.ArrayList;
 import java.util.List;
@@ -134,7 +133,7 @@ public class MatchActivity extends AppActivity {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(mActivity, IMChatActivity.class);
-                    intent.putExtra(IMConstants.IM_CHAT_KEY_ID, user.getObjectId());
+                    intent.putExtra(IMConstants.IM_CHAT_ID, user.getObjectId());
                     ARouter.goIMChat(mActivity, intent);
                     onFinish();
                 }

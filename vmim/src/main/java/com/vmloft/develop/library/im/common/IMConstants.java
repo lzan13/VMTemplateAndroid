@@ -7,24 +7,60 @@ package com.vmloft.develop.library.im.common;
  */
 public class IMConstants {
 
+    // 时间常量
     public static final long IM_TIME_MINUTE = 60 * 1000;
     public static final long IM_TIME_HOUR = 60 * 60 * 1000;
     public static final long IM_TIME_DAY = 24 * 60 * 60 * 1000;
 
     // 聊天界面传参
-    public static final String IM_CHAT_KEY_ID = "im_chat_key_id";
+    public static final String IM_CHAT_ID = "im_chat_id";
+    public static final String IM_CHAT_TYPE = "im_chat_type";
 
-    // 消息类型
+
+    // 分页拉取限制
+    public static final int IM_CHAT_MSG_LIMIT = 20;
+
+    /**
+     * 聊天类型
+     */
+    public interface ChatType {
+        public static final int IM_SINGLE_CHAT = 0;
+        public static final int IM_GROUP_CHAT = 1;
+        public static final int IM_CHAT_ROOM = 2;
+    }
+
+    /**
+     * 普通消息类型
+     */
+    // 未知类型
     public static final int IM_CHAT_TYPE_UNKNOWN = 0;
-    public static final int IM_CHAT_TYPE_TEXT = 1;
-    public static final int IM_CHAT_TYPE_IMAGE = 2;
-    public static final int IM_CHAT_TYPE_VIDEO = 3;
-    public static final int IM_CHAT_TYPE_LOCATION = 4;
-    public static final int IM_CHAT_TYPE_VOICE = 5;
-    public static final int IM_CHAT_TYPE_FILE = 6;
-    public static final int IM_CHAT_TYPE_CALL = 10;
-    public static final int IM_CHAT_TYPE_SYSTEM = 100;
-    public static final int IM_CHAT_TYPE_RECALL = 110;
+    // 系统通知
+    public static final int IM_CHAT_TYPE_SYSTEM = 1;
+    // 撤回
+    public static final int IM_CHAT_TYPE_RECALL = 2;
+    // 文本
+    public static final int IM_CHAT_TYPE_TEXT = 9;
+    public static final int IM_CHAT_TYPE_TEXT_RECEIVE = 10;
+    public static final int IM_CHAT_TYPE_TEXT_SEND = 11;
+    public static final int IM_CHAT_TYPE_IMAGE_RECEIVE = 12;
+    public static final int IM_CHAT_TYPE_IMAGE_SEND = 13;
+    public static final int IM_CHAT_TYPE_VIDEO_RECEIVE = 14;
+    public static final int IM_CHAT_TYPE_VIDEO_SEND = 15;
+    public static final int IM_CHAT_TYPE_LOCATION_RECEIVE = 16;
+    public static final int IM_CHAT_TYPE_LOCATION_SEND = 17;
+    public static final int IM_CHAT_TYPE_VOICE_RECEIVE = 18;
+    public static final int IM_CHAT_TYPE_VOICE_SEND = 19;
+    public static final int IM_CHAT_TYPE_FILE_RECEIVE = 20;
+    public static final int IM_CHAT_TYPE_FILE_SEND = 21;
+    public static final int IM_CHAT_TYPE_CALL_RECEIVE = 22;
+    public static final int IM_CHAT_TYPE_CALL_SEND = 23;
+
+    /**
+     * CMD 类型消息 action
+     */
+    // 输入状态
+    public static final String IM_CHAT_ACTION_INPUT = "im_chat_action_input";
+
 
     /**
      * 定义会话与消息扩展字段 key

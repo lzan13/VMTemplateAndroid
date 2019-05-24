@@ -1,6 +1,7 @@
 <resources>
     <!--聊天界面-->
     <string name="im_chat_input_hint">请输入消息...</string>
+    <string name="im_chat_send_notnull">发送消息不能为空</string>
 
 
     <!--其他错误 x-->

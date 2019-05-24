@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.hyphenate.chat.EMMessage;
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.chat.IMChatAdapter;
@@ -57,7 +58,23 @@ public abstract class IMMsgItem extends RelativeLayout {
     /**
      * 加载公共部分 UI
      */
-    protected void onSetupCommonView() {
+    protected void setupCommonView(EMMessage message) {
+        // 处理时间戳
+        if (mTimeView != null) {
+
+        }
+        // 处理头像
+        if (mAvatarView != null) {
+
+        }
+        // 处理状态
+        if (mStatusView != null) {
+
+        }
+        // 处理发送结果
+        if (mErrorView != null && mSendPB != null) {
+
+        }
 
     }
 

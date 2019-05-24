@@ -13,13 +13,13 @@ import com.vmloft.develop.library.im.chat.IMChatAdapter;
 /**
  * Create by lzan13 on 2019/5/23 22:17
  *
- * 实现文本消息展示
+ * 未知类型消息展示
  */
-public class IMTextMsgItem extends IMMsgItem {
+public class IMUnknownMsgItem extends IMMsgItem {
 
     private TextView mContentView;
 
-    public IMTextMsgItem(Context context, IMChatAdapter adapter, int type) {
+    public IMUnknownMsgItem(Context context, IMChatAdapter adapter, int type) {
         super(context, adapter, type);
     }
 
