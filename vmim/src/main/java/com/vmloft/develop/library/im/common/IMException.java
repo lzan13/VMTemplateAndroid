@@ -6,6 +6,8 @@ package com.vmloft.develop.library.im.common;
  * 自定义异常类
  */
 public class IMException extends Exception {
+
+    public static final int COMMON = -1;
     /**
      * Default for non-checking.
      */

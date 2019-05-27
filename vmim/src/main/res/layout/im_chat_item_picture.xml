@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     >
     <ImageView
-        android:id="@+id/im_chat_msg_img_iv"
+        android:id="@+id/im_chat_msg_picture_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         />

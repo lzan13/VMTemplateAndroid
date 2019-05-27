@@ -4,18 +4,18 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMTextMessageBody;
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.chat.IMChatAdapter;
+import com.vmloft.develop.library.im.common.IMConstants;
 
 /**
  * Create by lzan13 on 2019/5/23 22:17
  *
- * 未知类型消息展示
+ * 实现文本消息展示
  */
-public class IMUnknownMsgItem extends IMMsgItem {
+public class IMUnknownMsgItem extends IMNotifyMsgItem {
 
     private TextView mContentView;
 
@@ -24,18 +24,18 @@ public class IMUnknownMsgItem extends IMMsgItem {
     }
 
     @Override
-    protected View onLayoutView() {
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.im_chat_item_text, null);
-        mContentView = view.findViewById(R.id.im_chat_msg_text_content_tv);
+    protected View layoutView() {
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.im_chat_item_unknown, null);
+        mContentView = view.findViewById(R.id.im_chat_msg_content_tv);
         return view;
     }
 
     @Override
     public void onBind(EMMessage message) {
+        mMessage = message;
         // 装在通用部分控件
-        setupCommonView(message);
+        setupCommonView();
 
-        EMTextMessageBody body = (EMTextMessageBody) message.getBody();
-        mContentView.setText(body.getMessage());
+        mContentView.setText(R.string.im_unknown_msg);
     }
 }

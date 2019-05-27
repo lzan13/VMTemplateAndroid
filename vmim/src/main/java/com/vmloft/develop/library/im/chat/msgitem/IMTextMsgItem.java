@@ -9,6 +9,7 @@ import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMTextMessageBody;
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.chat.IMChatAdapter;
+import com.vmloft.develop.library.im.common.IMConstants;
 
 /**
  * Create by lzan13 on 2019/5/23 22:17
@@ -24,16 +25,22 @@ public class IMTextMsgItem extends IMMsgItem {
     }
 
     @Override
-    protected View onLayoutView() {
+    protected boolean isReceive() {
+        return mType == IMConstants.IM_CHAT_TYPE_TEXT_RECEIVE;
+    }
+
+    @Override
+    protected View layoutView() {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.im_chat_item_text, null);
-        mContentView = view.findViewById(R.id.im_chat_msg_text_content_tv);
+        mContentView = view.findViewById(R.id.im_chat_msg_content_tv);
         return view;
     }
 
     @Override
     public void onBind(EMMessage message) {
+        mMessage = message;
         // 装在通用部分控件
-        setupCommonView(message);
+        setupCommonView();
 
         EMTextMessageBody body = (EMTextMessageBody) message.getBody();
         mContentView.setText(body.getMessage());

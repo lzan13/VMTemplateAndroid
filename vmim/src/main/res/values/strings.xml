@@ -3,7 +3,13 @@
     <string name="im_chat_input_hint">请输入消息...</string>
     <string name="im_chat_send_notnull">发送消息不能为空</string>
 
-
+    <string name="im_draft">草稿</string>
+    <string name="im_recall_already">消息已撤回</string>
+    <string name="im_call">通话</string>
+    <string name="im_picture">图片</string>
+    <string name="im_empty">- 空 -</string>
+    <string name="im_unknown_msg">不支持的消息类型，升级查看</string>
+    <string name="im_error_recall_limit_time">你只能撤回两分钟以内的消息</string>
     <!--其他错误 x-->
     <string name="im_error_unknown">未知错误 %1$d</string>
     <string name="im_error_general_error">一般错误，未细分的错误一般通过此 Error Code 抛出来</string>

@@ -8,14 +8,18 @@ package com.vmloft.develop.library.im.common;
 public class IMConstants {
 
     // 时间常量
-    public static final long IM_TIME_MINUTE = 60 * 1000;
-    public static final long IM_TIME_HOUR = 60 * 60 * 1000;
-    public static final long IM_TIME_DAY = 24 * 60 * 60 * 1000;
+    public static final long IM_TIME_SECOND = 1000; // 秒
+    public static final long IM_TIME_MINUTE = IM_TIME_SECOND * 60; // 分
+    public static final long IM_TIME_HOUR = IM_TIME_MINUTE * 60; // 时
+    public static final long IM_TIME_DAY = IM_TIME_HOUR * 24; // 天
+    // 消息允许撤回时间 3 分钟
+    public static final long IM_RECALL_LIMIT_TIME = IM_TIME_MINUTE * 3;
+    // 输入状态检测时间
+    public static final long TIME_INPUT_STATUS = IM_TIME_SECOND * 5;
 
     // 聊天界面传参
     public static final String IM_CHAT_ID = "im_chat_id";
     public static final String IM_CHAT_TYPE = "im_chat_type";
-
 
     // 分页拉取限制
     public static final int IM_CHAT_MSG_LIMIT = 20;
@@ -39,7 +43,6 @@ public class IMConstants {
     // 撤回
     public static final int IM_CHAT_TYPE_RECALL = 2;
     // 文本
-    public static final int IM_CHAT_TYPE_TEXT = 9;
     public static final int IM_CHAT_TYPE_TEXT_RECEIVE = 10;
     public static final int IM_CHAT_TYPE_TEXT_SEND = 11;
     public static final int IM_CHAT_TYPE_IMAGE_RECEIVE = 12;
@@ -60,7 +63,7 @@ public class IMConstants {
      */
     // 输入状态
     public static final String IM_CHAT_ACTION_INPUT = "im_chat_action_input";
-
+    public static final String IM_CHAT_ACTION_RECALL = "im_chat_action_recall";
 
     /**
      * 定义会话与消息扩展字段 key

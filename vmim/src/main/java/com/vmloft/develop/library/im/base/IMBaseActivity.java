@@ -1,11 +1,14 @@
 package com.vmloft.develop.library.im.base;
 
+import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.tools.base.VMBActivity;
 import com.vmloft.develop.library.tools.utils.VMTheme;
 import com.vmloft.develop.library.tools.widget.VMTopBar;
+import java.util.List;
 
 /**
  * Create by lzan13 on 2019/5/9 10:15
@@ -72,4 +75,21 @@ public abstract class IMBaseActivity extends VMBActivity {
         mTopBar.setTitle(title);
     }
 
+    /**
+     * 解决Fragment中的onActivityResult()方法无响应问题。
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        /**
+         * 1.使用 getSupportFragmentManager().getFragments() 获取到当前 Activity 中添加的 Fragment 集合
+         * 2.遍历 Fragment 集合，手动调用在当前 Activity 中的 Fragment 中的 onActivityResult() 方法。
+         */
+        if (getSupportFragmentManager().getFragments() != null && getSupportFragmentManager().getFragments().size() > 0) {
+            List<Fragment> fragments = getSupportFragmentManager().getFragments();
+            for (Fragment mFragment : fragments) {
+                mFragment.onActivityResult(requestCode, resultCode, data);
+            }
+        }
+    }
 }

@@ -15,6 +15,7 @@ import com.vmloft.develop.app.match.router.ARouter;
 import com.vmloft.develop.app.match.ui.main.home.HomeFragment;
 import com.vmloft.develop.app.match.ui.main.me.MeFragment;
 
+import com.vmloft.develop.library.im.conversation.IMConversationFragment;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,6 +67,7 @@ public class MainActivity extends AppActivity {
 
         mFragmentList = new ArrayList<>();
         mFragmentList.add(HomeFragment.newInstance());
+        mFragmentList.add(IMConversationFragment.newInstance());
         mFragmentList.add(MeFragment.newInstance());
 
         mAdapter = new AppFragmentPagerAdapter(getSupportFragmentManager(), mFragmentList);

@@ -5,6 +5,6 @@
     <color name="im_input_bg">@color/vm_white</color>
     <color name="im_input_border">@color/vm_gray_black_12</color>
 
-    <color name="im_msg_send_bg">#ff03CC07</color>
+    <color name="im_msg_send_bg">#4CDF4F</color>
     <color name="im_msg_receive_bg">#ffd8d8d8</color>
 </resources>

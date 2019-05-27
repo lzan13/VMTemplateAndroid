@@ -1,6 +1,7 @@
 package com.vmloft.develop.library.im.chat;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,12 +19,15 @@ import com.vmloft.develop.library.im.base.IMCallback;
 import com.vmloft.develop.library.im.common.IMConstants;
 import com.vmloft.develop.library.im.conversation.IMConversationManager;
 import com.vmloft.develop.library.tools.adapter.VMAdapter;
+import com.vmloft.develop.library.tools.base.VMConstant;
 import com.vmloft.develop.library.tools.picker.VMPicker;
+import com.vmloft.develop.library.tools.picker.bean.VMPictureBean;
 import com.vmloft.develop.library.tools.utils.VMLog;
 import com.vmloft.develop.library.tools.utils.VMStr;
 import com.vmloft.develop.library.tools.utils.VMSystem;
 import com.vmloft.develop.library.tools.widget.toast.VMToast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -208,13 +212,13 @@ public class IMChatFragment extends IMBaseFragment {
      */
     private void sendInputStatus() {
         // 当新增内容长度为1时采取判断增加的字符是否为@符号
-//                if (conversation.getType() == EMConversation.EMConversationType.Chat) {
-//                    if ((VMDate.currentMilli() - oldTime) > AConstants.TIME_INPUT_STATUS) {
-//                        oldTime = System.currentTimeMillis();
-//                        // 调用发送输入状态方法
-//                        MessageUtils.sendInputStatusMessage(chatId);
-//                    }
-//                }
+        //                if (conversation.getType() == EMConversation.EMConversationType.Chat) {
+        //                    if ((VMDate.currentMilli() - oldTime) > AConstants.TIME_INPUT_STATUS) {
+        //                        oldTime = System.currentTimeMillis();
+        //                        // 调用发送输入状态方法
+        //                        MessageUtils.sendInputStatusMessage(chatId);
+        //                    }
+        //                }
     }
 
     /**
@@ -264,7 +268,7 @@ public class IMChatFragment extends IMBaseFragment {
      * 打开相册，选择图片
      */
     private void startAlbum() {
-        VMPicker.getInstance().setMultiMode(false).setShowCamera(true).startPicker((Activity) mContext);
+        VMPicker.getInstance().setShowCamera(true).startPicker(this);
     }
 
     /**
@@ -321,4 +325,14 @@ public class IMChatFragment extends IMBaseFragment {
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == VMConstant.VM_PICK_RESULT_CODE_PICTURES) {
+            if (data != null && requestCode == VMConstant.VM_PICK_REQUEST_CODE) {
+                ArrayList<VMPictureBean> pictures = VMPicker.getInstance().getSelectedPictures();
+                sendPicture(pictures.get(0).path);
+            }
+        }
+    }
 }

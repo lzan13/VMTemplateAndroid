@@ -3,47 +3,52 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/vm_padding_normal"
+    >
+    <!--时间戳-->
     <TextView
         android:id="@+id/im_chat_msg_time_tv"
-        style="@style/VMText.Caption"
         android:layout_marginTop="@dimen/vm_margin_normal"
         android:background="@drawable/im_chat_msg_system_bg"
-        android:paddingStart="@dimen/vm_padding_normal"
-        android:paddingTop="@dimen/vm_padding_small"
+        android:paddingBottom="@dimen/vm_dimen_2"
         android:paddingEnd="@dimen/vm_padding_normal"
-        android:paddingBottom="@dimen/vm_padding_small"
+        android:paddingStart="@dimen/vm_padding_normal"
+        android:paddingTop="@dimen/vm_dimen_2"
+        android:textSize="@dimen/vm_size_8"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="2019/05/22 15:30" />
+        tools:text="2019/05/22 15:30"
+        style="@style/VMText.Caption"
+        />
 
     <!--头像-->
     <ImageView
         android:id="@+id/im_chat_msg_avatar_iv"
         android:layout_width="@dimen/vm_avatar_small"
         android:layout_height="@dimen/vm_avatar_small"
+        android:layout_marginEnd="@dimen/vm_margin_normal"
         android:layout_marginStart="@dimen/vm_margin_normal"
         android:layout_marginTop="@dimen/vm_margin_normal"
-        android:layout_marginEnd="@dimen/vm_margin_normal"
+        android:src="@drawable/im_avatar_default_01"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/im_chat_msg_time_tv"
-        tools:src="@drawable/im_avatar_default_01" />
+        app:layout_goneMarginStart="@dimen/vm_margin_normal"
+        />
 
     <!--消息容器部分-->
     <RelativeLayout
         android:id="@+id/im_chat_msg_container_rl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/im_chat_msg_avatar_iv"
-        android:layout_marginEnd="@dimen/vm_margin_normal"
-        android:layout_toStartOf="@+id/im_chat_msg_avatar_iv"
+        android:layout_marginStart="@dimen/vm_margin_normal"
         android:background="@drawable/im_chat_msg_receive_bg"
         app:layout_constraintStart_toEndOf="@+id/im_chat_msg_avatar_iv"
-        app:layout_constraintTop_toTopOf="@+id/im_chat_msg_avatar_iv" />
+        app:layout_constraintTop_toTopOf="@+id/im_chat_msg_avatar_iv"
+        />
 
     <!--消息状态-->
     <View
@@ -55,5 +60,6 @@
         android:background="@drawable/im_chat_msg_status_bg"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/im_chat_msg_container_rl"
-        app:layout_constraintStart_toEndOf="@+id/im_chat_msg_container_rl" />
+        app:layout_constraintStart_toEndOf="@+id/im_chat_msg_container_rl"
+        />
 </android.support.constraint.ConstraintLayout>
