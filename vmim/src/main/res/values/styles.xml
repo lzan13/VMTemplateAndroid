@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--透明主题-->
+    <style name="IMTheme" parent="@style/VMTheme">
+        <item name="colorPrimary">@color/vm_transparent</item>
+        <item name="colorPrimaryDark">@color/vm_transparent</item>
+        <!-- 设置允许修改系统栏的背景色 比如导航栏 状态栏等-->
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <!--半透明状态栏-->
+        <item name="android:windowTranslucentStatus">false</item>
+        <!--设置导航栏半透明效果，TODO 设置导航栏半透明会导致布局下移，需注意-->
+        <item name="android:windowTranslucentNavigation">true</item>
+        <!--设置状态栏颜色-->
+        <item name="android:statusBarColor">@color/vm_black_12</item>
+    </style>
+
+    <!--图片选择器主题-->
+    <style name="IMTheme.Chat">
+        <item name="colorPrimary">@color/vm_transparent</item>
+        <item name="colorPrimaryDark">@color/vm_transparent</item>
+        <!-- 设置允许修改系统栏的背景色 比如导航栏 状态栏等-->
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <!--半透明状态栏-->
+        <item name="android:windowTranslucentStatus">true</item>
+        <!--设置导航栏半透明效果，TODO 设置导航栏半透明会导致布局下移，需注意-->
+        <item name="android:windowTranslucentNavigation">false</item>
+    </style>
+</resources>

@@ -21,10 +21,12 @@
         <!--聊天界面-->
         <activity
             android:name=".chat.IMChatActivity"
+            android:theme="@style/IMTheme.Chat"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <!--通话界面-->
         <activity
             android:name=".call.IMCallActivity"
+            android:theme="@style/IMTheme.Chat"
             android:windowSoftInputMode="adjustNothing|stateAlwaysHidden" />
     </application>
 </manifest>

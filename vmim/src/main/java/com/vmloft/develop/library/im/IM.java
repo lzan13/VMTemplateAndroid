@@ -7,6 +7,7 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
 import com.vmloft.develop.library.im.base.IMCallback;
 import com.vmloft.develop.library.im.bean.IMContact;
+import com.vmloft.develop.library.im.common.IMChatManager;
 import com.vmloft.develop.library.im.common.IMExecptionManager;
 import com.vmloft.develop.library.im.common.IMExecutor;
 import com.vmloft.develop.library.im.common.IMSPManager;
@@ -46,6 +47,7 @@ public class IM {
      */
     public void init(Context context) {
         IMHelper.getInstance().init(context);
+        IMChatManager.getInstance().init();
     }
 
     /**

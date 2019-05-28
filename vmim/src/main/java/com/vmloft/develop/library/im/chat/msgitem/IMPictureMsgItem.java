@@ -4,16 +4,13 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import com.hyphenate.chat.EMImageMessageBody;
 import com.hyphenate.chat.EMMessage;
-import com.hyphenate.chat.EMTextMessageBody;
 import com.vmloft.develop.library.im.IM;
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.chat.IMChatAdapter;
 import com.vmloft.develop.library.im.common.IMConstants;
-import com.vmloft.develop.library.im.utils.IMMessageUtils;
+import com.vmloft.develop.library.im.utils.IMChatUtils;
 import com.vmloft.develop.library.tools.utils.VMDimen;
 import com.vmloft.develop.library.tools.utils.bitmap.VMBitmap;
 import java.io.File;
@@ -89,7 +86,7 @@ public class IMPictureMsgItem extends IMMsgItem {
         } else {
             // 发送方获取图片路径
             originalPath = body.getLocalUrl();
-            thumbnailsPath = IMMessageUtils.getThumbImagePath(originalPath);
+            thumbnailsPath = IMChatUtils.getThumbImagePath(originalPath);
         }
         // 为图片显示控件设置tag，在设置图片显示的时候，先判断下当前的tag是否是当前item的，是则显示图片
         //        imageView.setTag(thumbnailsPath);

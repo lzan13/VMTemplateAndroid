@@ -12,12 +12,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.base.IMBaseFragment;
 import com.vmloft.develop.library.im.base.IMCallback;
+import com.vmloft.develop.library.im.common.IMChatManager;
 import com.vmloft.develop.library.im.common.IMConstants;
-import com.vmloft.develop.library.im.conversation.IMConversationManager;
 import com.vmloft.develop.library.tools.adapter.VMAdapter;
 import com.vmloft.develop.library.tools.base.VMConstant;
 import com.vmloft.develop.library.tools.picker.VMPicker;
@@ -58,8 +59,9 @@ public class IMChatFragment extends IMBaseFragment {
     private IMChatAdapter mAdapter;
 
     private String mId;
-    private int mChatType = IMConstants.ChatType.IM_SINGLE_CHAT;
     private int mPageSize = IMConstants.IM_CHAT_MSG_LIMIT;
+    private int mChatType = IMConstants.ChatType.IM_SINGLE_CHAT;
+    private EMConversation mConversation;
 
     /**
      * Fragment 的工厂方法，方便创建并设置参数
@@ -80,7 +82,7 @@ public class IMChatFragment extends IMBaseFragment {
         super.onResume();
 
         // 检查是否有草稿没有发出
-        String draft = IMConversationManager.getInstance().getDraft(mId, mChatType);
+        String draft = IMChatManager.getInstance().getDraft(mConversation);
         if (!VMStr.isEmpty(draft)) {
             mInputET.setText(draft);
         }
@@ -128,18 +130,19 @@ public class IMChatFragment extends IMBaseFragment {
      * 初始化会话
      */
     private void initConversation() {
-        // 清空未读
-        IMConversationManager.getInstance().clearUnreadCount(mId, mChatType);
+        mConversation = IMChatManager.getInstance().getConversation(mId, mChatType);
 
-        int cacheCount = IMConversationManager.getInstance().getCacheMessages(mId, mChatType).size();
-        int sumCount = IMConversationManager.getInstance().getMessagesCount(mId, mChatType);
+        // 清空未读
+        IMChatManager.getInstance().clearUnreadCount(mId, mChatType);
+
+        int cacheCount = IMChatManager.getInstance().getCacheMessages(mId, mChatType).size();
+        int sumCount = IMChatManager.getInstance().getMessagesCount(mId, mChatType);
         if (cacheCount > 0 && cacheCount < sumCount && cacheCount < mPageSize) {
             // 获取已经在列表中的最上边的一条消息id
-            String msgId = IMConversationManager.getInstance().getCacheMessages(mId, mChatType).get(0).getMsgId();
+            String msgId = IMChatManager.getInstance().getCacheMessages(mId, mChatType).get(0).getMsgId();
             // 加载更多消息，填充满一页
-            IMConversationManager.getInstance().loadMoreMessages(mId, mChatType, msgId);
+            IMChatManager.getInstance().loadMoreMessages(mId, mChatType, msgId);
         }
-
     }
 
     /**
@@ -285,8 +288,11 @@ public class IMChatFragment extends IMBaseFragment {
      * @param message 要发送的消息
      */
     private void sendMessage(final EMMessage message) {
-        IMConversationManager.getInstance().getConversation(mId, mChatType).appendMessage(message);
+        IMChatManager.getInstance().getConversation(mId, mChatType).appendMessage(message);
         refreshInsert(message);
+        // 更新会话时间
+        IMChatManager.getInstance().setTime(mConversation, message.localTime());
+        // 调用发送消息方法
         IMChatManager.getInstance().sendMessage(message, new IMCallback<EMMessage>() {
             @Override
             public void onSuccess(EMMessage message) {
@@ -312,7 +318,7 @@ public class IMChatFragment extends IMBaseFragment {
         VMSystem.runInUIThread(new Runnable() {
             @Override
             public void run() {
-                int position = IMConversationManager.getInstance().getPosition(message);
+                int position = IMChatManager.getInstance().getPosition(message);
                 if (position >= 0) {
                     mAdapter.updateInsert(position);
                     mRecyclerView.scrollToPosition(mAdapter.getItemCount() - 1);
@@ -328,7 +334,7 @@ public class IMChatFragment extends IMBaseFragment {
         VMSystem.runInUIThread(new Runnable() {
             @Override
             public void run() {
-                int position = IMConversationManager.getInstance().getPosition(message);
+                int position = IMChatManager.getInstance().getPosition(message);
                 if (position >= 0) {
                     mAdapter.updateChange(position);
                     mRecyclerView.scrollToPosition(mAdapter.getItemCount() - 1);
@@ -343,7 +349,7 @@ public class IMChatFragment extends IMBaseFragment {
      * @param msgId 从这一条消息 id 开始加载
      */
     private void loadMore(String msgId) {
-        List<EMMessage> list = IMConversationManager.getInstance().loadMoreMessages(mId, mChatType, msgId);
+        List<EMMessage> list = IMChatManager.getInstance().loadMoreMessages(mId, mChatType, msgId);
         if (list.size() > 0) {
             mAdapter.updateInsert(0, list.size());
         }
@@ -370,7 +376,7 @@ public class IMChatFragment extends IMBaseFragment {
          */
         String draft = mInputET.getText().toString().trim();
         // 将输入框的内容保存为草稿
-        IMConversationManager.getInstance().setDraft(mId, mChatType, draft);
+        IMChatManager.getInstance().setDraft(mConversation, draft);
     }
 
     @Override

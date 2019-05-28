@@ -2,8 +2,8 @@ package com.vmloft.develop.library.im.bean;
 
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
-import com.vmloft.develop.library.im.utils.IMConversationUtils;
 
+import com.vmloft.develop.library.im.utils.IMChatUtils;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,43 +54,43 @@ public class IMConversation implements Serializable {
     }
 
     public String getDraft() {
-        mDraft = IMConversationUtils.getConversationDraft(mConversation);
+        mDraft = IMChatUtils.getConversationDraft(mConversation);
         return mDraft;
     }
 
     public void setDraft(String draft) {
         this.mDraft = draft;
-        IMConversationUtils.setConversationDraft(mConversation, draft);
+        IMChatUtils.setConversationDraft(mConversation, draft);
     }
 
     public boolean isTop() {
-        isTop = IMConversationUtils.getConversationTop(mConversation);
+        isTop = IMChatUtils.getConversationTop(mConversation);
         return isTop;
     }
 
     public void setTop(boolean top) {
         isTop = top;
-        IMConversationUtils.setConversationTop(mConversation, top);
+        IMChatUtils.setConversationTop(mConversation, top);
     }
 
     public boolean isUnread() {
-        isUnread = IMConversationUtils.getConversationUnread(mConversation);
+        isUnread = IMChatUtils.getConversationUnread(mConversation);
         return isUnread;
     }
 
     public void setUnread(boolean unread) {
         isUnread = unread;
-        IMConversationUtils.setConversationUnread(mConversation, unread);
+        IMChatUtils.setConversationUnread(mConversation, unread);
     }
 
     public long getLastTime() {
-        mLastTime = IMConversationUtils.getConversationLastTime(mConversation);
+        mLastTime = IMChatUtils.getConversationLastTime(mConversation);
         return mLastTime;
     }
 
     public void setLastTime(long lastTime) {
         this.mLastTime = lastTime;
-        IMConversationUtils.setConversationLastTime(mConversation, lastTime);
+        IMChatUtils.setConversationLastTime(mConversation, lastTime);
     }
 
     public IMMessage getLastMessage() {

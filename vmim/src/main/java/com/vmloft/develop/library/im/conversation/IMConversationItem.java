@@ -18,9 +18,9 @@ import com.vmloft.develop.library.im.IM;
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.base.IMCallback;
 import com.vmloft.develop.library.im.bean.IMContact;
+import com.vmloft.develop.library.im.common.IMChatManager;
 import com.vmloft.develop.library.im.common.IMConstants;
-import com.vmloft.develop.library.im.utils.IMConversationUtils;
-import com.vmloft.develop.library.im.utils.IMMessageUtils;
+import com.vmloft.develop.library.im.utils.IMChatUtils;
 import com.vmloft.develop.library.tools.utils.VMColor;
 import com.vmloft.develop.library.tools.utils.VMDate;
 import com.vmloft.develop.library.tools.utils.VMDimen;
@@ -67,7 +67,6 @@ public class IMConversationItem extends RelativeLayout {
         mContentView = findViewById(R.id.im_conversation_content_tv);
 
         mAvatarSize = VMDimen.dp2px(48);
-
     }
 
     /**
@@ -84,13 +83,11 @@ public class IMConversationItem extends RelativeLayout {
          * 这里改为通过给 EMConversation 对象添加了一个时间扩展，这样可以避免在会话没有消息时，无法显示时间的问题
          * 调用{@link IMConversationUtils#getConversationLastTime(EMConversation)}获取扩展里的时间
          */
-        long timestamp = IMConversationUtils.getConversationLastTime(conversation);
+        long timestamp = IMChatManager.getInstance().getTime(conversation);
 
         // 设置时间
         mTimeView.setText(VMDate.getRelativeTime(timestamp));
 
-        String id = conversation.conversationId();
-        int chatType = conversation.getType().ordinal();
         /**
          * 根据当前 conversation 判断会话列表项要显示的内容
          * 判断的项目有两项：
@@ -99,14 +96,14 @@ public class IMConversationItem extends RelativeLayout {
          */
         String content = "";
         String prefix = "";
-        String draft = IMConversationManager.getInstance().getDraft(id, chatType);
+        String draft = IMChatManager.getInstance().getDraft(mConversation);
         if (!VMStr.isEmpty(draft)) {
             // 表示草稿的前缀
             prefix = "[" + VMStr.byRes(R.string.im_draft) + "]";
             content = prefix + draft;
         } else if (conversation.getAllMessages().size() > 0) {
             EMMessage message = conversation.getLastMessage();
-            int type = IMMessageUtils.getMessageType(message);
+            int type = IMChatUtils.getMessageType(message);
             if (type == IMConstants.IM_CHAT_TYPE_SYSTEM) {
             } else if (type == IMConstants.IM_CHAT_TYPE_RECALL) {
                 content = "[" + VMStr.byRes(R.string.im_recall_already) + "]";
@@ -130,12 +127,12 @@ public class IMConversationItem extends RelativeLayout {
         if (!VMStr.isEmpty(draft)) {
             Spannable spannable = new SpannableString(content);
             spannable.setSpan(new ForegroundColorSpan(VMColor.byRes(R.color.vm_red_87)), 0, prefix.length(),
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             mContentView.setText(spannable);
         } else if (conversation.getAllMsgCount() > 0 && conversation.getLastMessage().status() == EMMessage.Status.FAIL) {
             Spannable spannable = new SpannableString(content);
             spannable.setSpan(new ForegroundColorSpan(VMColor.byRes(R.color.vm_red_87)), 0, prefix.length(),
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             mContentView.setText(spannable);
         } else {
             mContentView.setText(content);
@@ -144,7 +141,7 @@ public class IMConversationItem extends RelativeLayout {
         // 设置当前会话未读数
         int unreadCount = conversation.getUnreadMsgCount();
         VMLog.i("conversation unread count %d", unreadCount);
-        if (unreadCount == 0 && !IMConversationUtils.getConversationUnread(conversation)) {
+        if (unreadCount == 0 && !IMChatManager.getInstance().isUnread(conversation)) {
             mRedDotView.setVisibility(GONE);
 
             mTitleView.setTypeface(Typeface.DEFAULT);
@@ -159,7 +156,7 @@ public class IMConversationItem extends RelativeLayout {
         /**
          * 判断当前会话是否置顶
          */
-        if (IMConversationUtils.getConversationTop(conversation)) {
+        if (IMChatManager.getInstance().isTop(conversation)) {
             setSelected(true);
         } else {
             setSelected(false);

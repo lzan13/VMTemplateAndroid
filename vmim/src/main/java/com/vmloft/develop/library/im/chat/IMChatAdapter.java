@@ -10,9 +10,9 @@ import com.vmloft.develop.library.im.chat.msgitem.IMMsgItem;
 import com.vmloft.develop.library.im.chat.msgitem.IMPictureMsgItem;
 import com.vmloft.develop.library.im.chat.msgitem.IMTextMsgItem;
 import com.vmloft.develop.library.im.chat.msgitem.IMUnknownMsgItem;
+import com.vmloft.develop.library.im.common.IMChatManager;
 import com.vmloft.develop.library.im.common.IMConstants;
-import com.vmloft.develop.library.im.conversation.IMConversationManager;
-import com.vmloft.develop.library.im.utils.IMMessageUtils;
+import com.vmloft.develop.library.im.utils.IMChatUtils;
 import com.vmloft.develop.library.tools.adapter.VMAdapter;
 import com.vmloft.develop.library.tools.adapter.VMHolder;
 
@@ -32,7 +32,7 @@ public class IMChatAdapter extends VMAdapter<EMMessage, IMChatAdapter.ChatHolder
         super(context);
         mId = id;
         mChatType = chatType;
-        mDataList = IMConversationManager.getInstance().getCacheMessages(mId, mChatType);
+        mDataList = IMChatManager.getInstance().getCacheMessages(mId, mChatType);
     }
 
     @NonNull
@@ -61,7 +61,7 @@ public class IMChatAdapter extends VMAdapter<EMMessage, IMChatAdapter.ChatHolder
     @Override
     public int getItemViewType(int position) {
         EMMessage message = getItemData(position);
-        return IMMessageUtils.getMessageType(message);
+        return IMChatUtils.getMessageType(message);
     }
 
     /**
@@ -103,7 +103,7 @@ public class IMChatAdapter extends VMAdapter<EMMessage, IMChatAdapter.ChatHolder
      * 加载消息列表
      */
     private void updateData() {
-        mDataList = IMConversationManager.getInstance().getCacheMessages(mId, mChatType);
+        mDataList = IMChatManager.getInstance().getCacheMessages(mId, mChatType);
     }
 
     /**

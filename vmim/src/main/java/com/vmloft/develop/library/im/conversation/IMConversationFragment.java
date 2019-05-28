@@ -1,6 +1,5 @@
 package com.vmloft.develop.library.im.conversation;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,9 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import com.hyphenate.chat.EMConversation;
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.base.IMBaseFragment;
-import com.vmloft.develop.library.im.chat.IMChatActivity;
-import com.vmloft.develop.library.im.chat.IMChatAdapter;
-import com.vmloft.develop.library.im.common.IMConstants;
+import com.vmloft.develop.library.im.common.IMChatManager;
 import com.vmloft.develop.library.im.router.IMRouter;
 import com.vmloft.develop.library.tools.adapter.VMAdapter;
 
@@ -89,7 +86,7 @@ public class IMConversationFragment extends IMBaseFragment {
      * 刷新会话列表
      */
     private void refreshConversationList() {
-        mList = IMConversationManager.getInstance().getAllConversation();
+        mList = IMChatManager.getInstance().getAllConversation();
         mAdapter.refresh(mList);
     }
 }
