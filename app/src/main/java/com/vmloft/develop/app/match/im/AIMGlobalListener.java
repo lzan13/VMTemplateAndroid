@@ -36,6 +36,13 @@ public class AIMGlobalListener implements IMIGlobalListener {
                     callback.onSuccess(contact);
                 }
             }
+
+            @Override
+            public void onError(int code, String desc) {
+                if (callback != null) {
+                    callback.onSuccess(contact);
+                }
+            }
         });
     }
 

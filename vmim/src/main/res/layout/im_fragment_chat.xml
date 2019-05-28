@@ -20,14 +20,14 @@
             android:layout_marginEnd="@dimen/vm_margin_normal"
             android:layout_marginStart="@dimen/vm_margin_normal"
             android:animateLayoutChanges="true"
-            android:background="@drawable/im_input_shape"
+            android:background="@drawable/im_chat_input_shape"
             >
             <!--发送按钮-->
             <ImageButton
                 android:id="@+id/im_chat_input_send_btn"
                 android:layout_width="@dimen/vm_dimen_40"
                 android:layout_height="@dimen/vm_dimen_40"
-                android:background="@drawable/im_send_shape"
+                android:background="@drawable/im_chat_send_shape"
                 android:src="@drawable/im_ic_send"
                 android:tint="@color/vm_white"
                 android:visibility="gone"

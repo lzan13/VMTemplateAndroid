@@ -5,21 +5,14 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.widget.ImageView;
-import android.widget.TextView;
 import com.hyphenate.chat.EMConversation;
-import com.hyphenate.chat.EMMessage;
-import com.vmloft.develop.library.im.R;
-import com.vmloft.develop.library.im.utils.IMConversationUtils;
 import com.vmloft.develop.library.tools.adapter.VMAdapter;
 import com.vmloft.develop.library.tools.adapter.VMHolder;
 
-import com.vmloft.develop.library.tools.utils.VMDate;
 import com.vmloft.develop.library.tools.utils.VMLog;
-import com.vmloft.develop.library.tools.utils.VMStr;
+
 import java.util.List;
 
-import static com.hyphenate.chat.EMMessage.Type.TXT;
 
 /**
  * Create by lzan13 on 2019/5/21 17:33

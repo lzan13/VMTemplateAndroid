@@ -20,9 +20,11 @@ import com.vmloft.develop.app.match.glide.ALoader;
 import com.vmloft.develop.app.match.router.ARouter;
 import com.vmloft.develop.library.im.chat.IMChatActivity;
 import com.vmloft.develop.library.im.common.IMConstants;
+import com.vmloft.develop.library.im.router.IMRouter;
 import com.vmloft.develop.library.tools.utils.VMDimen;
 import com.vmloft.develop.library.tools.utils.VMLog;
 import com.vmloft.develop.library.tools.widget.toast.VMToast;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -34,9 +36,12 @@ import java.util.Random;
  */
 public class MatchActivity extends AppActivity {
 
-    @BindView(R.id.match_anim_view) View mAnimView;
-    @BindView(R.id.match_avatar_iv) ImageView mAvatarView;
-    @BindView(R.id.match_container) FrameLayout mMatchContainer;
+    @BindView(R.id.match_anim_view)
+    View mAnimView;
+    @BindView(R.id.match_avatar_iv)
+    ImageView mAvatarView;
+    @BindView(R.id.match_container)
+    FrameLayout mMatchContainer;
 
     private AUser mUser;
     private AMatch mMatch;
@@ -60,10 +65,14 @@ public class MatchActivity extends AppActivity {
 
     @Override
     protected void initData() {
+        setTopTitle(R.string.match);
+        getTopBar().setTitleCOlor(R.color.app_title_light);
+
         mUser = ASignManager.getInstance().getCurrentUser();
         mScreenWidth = VMDimen.getScreenSize().x;
         mScreenHeight = VMDimen.getScreenSize().y;
         avatarSize = VMDimen.dp2px(48);
+
         getMatchData();
     }
 
@@ -132,9 +141,7 @@ public class MatchActivity extends AppActivity {
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(mActivity, IMChatActivity.class);
-                    intent.putExtra(IMConstants.IM_CHAT_ID, user.getObjectId());
-                    ARouter.goIMChat(mActivity, intent);
+                    IMRouter.goIMChat(mActivity, user.getObjectId());
                     onFinish();
                 }
             });

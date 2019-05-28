@@ -75,6 +75,17 @@ public class IMChatFragment extends IMBaseFragment {
         return fragment;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // 检查是否有草稿没有发出
+        String draft = IMConversationManager.getInstance().getDraft(mId, mChatType);
+        if (!VMStr.isEmpty(draft)) {
+            mInputET.setText(draft);
+        }
+    }
+
     /**
      * 加载布局
      */
@@ -129,11 +140,6 @@ public class IMChatFragment extends IMBaseFragment {
             IMConversationManager.getInstance().loadMoreMessages(mId, mChatType, msgId);
         }
 
-        // 检查是否有草稿没有发出
-        String draft = IMConversationManager.getInstance().getDraft(mId, mChatType);
-        if (!VMStr.isEmpty(draft)) {
-            mInputET.setText(draft);
-        }
     }
 
     /**
@@ -243,6 +249,13 @@ public class IMChatFragment extends IMBaseFragment {
     };
 
     /**
+     * 打开相册，选择图片
+     */
+    private void startAlbum() {
+        VMPicker.getInstance().setShowCamera(true).startPicker(this);
+    }
+
+    /**
      * 发送文本消息
      */
     private void sendText() {
@@ -252,23 +265,8 @@ public class IMChatFragment extends IMBaseFragment {
             return;
         }
         mInputET.setText("");
-        IMChatManager.getInstance().sendText(text, mId, new IMCallback<EMMessage>() {
-            @Override
-            public void onSuccess(EMMessage message) {
-                refresh(message);
-            }
-
-            @Override
-            public void onError(int code, String desc) {
-            }
-        });
-    }
-
-    /**
-     * 打开相册，选择图片
-     */
-    private void startAlbum() {
-        VMPicker.getInstance().setShowCamera(true).startPicker(this);
+        EMMessage message = IMChatManager.getInstance().createTextMessage(text, mId, true);
+        sendMessage(message);
     }
 
     /**
@@ -277,36 +275,62 @@ public class IMChatFragment extends IMBaseFragment {
      * @param path 图片地址
      */
     private void sendPicture(String path) {
-        IMChatManager.getInstance().sendPicture(path, mId, new IMCallback<EMMessage>() {
+        EMMessage message = IMChatManager.getInstance().createPictureMessage(path, mId, true);
+        sendMessage(message);
+    }
+
+    /**
+     * 发送消息统一处理方法
+     *
+     * @param message 要发送的消息
+     */
+    private void sendMessage(final EMMessage message) {
+        IMConversationManager.getInstance().getConversation(mId, mChatType).appendMessage(message);
+        refreshInsert(message);
+        IMChatManager.getInstance().sendMessage(message, new IMCallback<EMMessage>() {
             @Override
             public void onSuccess(EMMessage message) {
-
+                refreshChange(message);
             }
 
             @Override
             public void onError(int code, String desc) {
-
+                refreshChange(message);
             }
 
             @Override
             public void onProgress(int progress, String desc) {
-
+                refreshChange(message);
             }
         });
     }
 
     /**
-     * 刷新
-     *
-     * @param message
+     * 刷新插入新消息
      */
-    private void refresh(final EMMessage message) {
+    private void refreshInsert(final EMMessage message) {
         VMSystem.runInUIThread(new Runnable() {
             @Override
             public void run() {
                 int position = IMConversationManager.getInstance().getPosition(message);
                 if (position >= 0) {
                     mAdapter.updateInsert(position);
+                    mRecyclerView.scrollToPosition(mAdapter.getItemCount() - 1);
+                }
+            }
+        });
+    }
+
+    /**
+     * 刷新更新消息
+     */
+    private void refreshChange(final EMMessage message) {
+        VMSystem.runInUIThread(new Runnable() {
+            @Override
+            public void run() {
+                int position = IMConversationManager.getInstance().getPosition(message);
+                if (position >= 0) {
+                    mAdapter.updateChange(position);
                     mRecyclerView.scrollToPosition(mAdapter.getItemCount() - 1);
                 }
             }
@@ -334,5 +358,23 @@ public class IMChatFragment extends IMBaseFragment {
                 sendPicture(pictures.get(0).path);
             }
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        /**
+         * 判断聊天输入框内容是否为空，不为空就保存输入框内容到{@link EMConversation}的扩展中
+         * 调用{@link ConversationExtUtils#setConversationDraft(EMConversation, String)}方法
+         */
+        String draft = mInputET.getText().toString().trim();
+        // 将输入框的内容保存为草稿
+        IMConversationManager.getInstance().setDraft(mId, mChatType, draft);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

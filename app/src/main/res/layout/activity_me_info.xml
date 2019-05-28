@@ -10,26 +10,7 @@
     >
 
     <!--定义顶部 TopBar-->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
-        <!--TopBar 顶部 statusBar 填充-->
-        <View
-            android:id="@+id/common_top_space"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/common_0"
-            />
-        <com.vmloft.develop.library.tools.widget.VMTopBar
-            android:id="@+id/common_top_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/common_top_space"
-            app:vm_top_bar_icon="@drawable/im_ic_arrow_left"
-            app:vm_top_bar_title="@string/me_info"
-            />
-    </RelativeLayout>
+    <include layout="@layout/widget_common_top_bar" />
 
     <LinearLayout
         android:layout_width="match_parent"

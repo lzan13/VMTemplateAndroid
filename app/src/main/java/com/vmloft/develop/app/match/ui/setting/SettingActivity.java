@@ -21,11 +21,12 @@ public class SettingActivity extends AppActivity {
     @Override
     protected void initUI() {
         super.initUI();
+
     }
 
     @Override
     protected void initData() {
-        setTopTitle("设置");
+        setTopTitle(R.string.setting);
     }
 
     @OnClick({ R.id.setting_sign_out })

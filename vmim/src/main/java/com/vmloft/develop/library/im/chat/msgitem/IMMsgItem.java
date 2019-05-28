@@ -17,6 +17,7 @@ import com.vmloft.develop.library.im.bean.IMContact;
 import com.vmloft.develop.library.im.chat.IMChatAdapter;
 import com.vmloft.develop.library.tools.utils.VMDate;
 import com.vmloft.develop.library.tools.utils.VMDimen;
+import com.vmloft.develop.library.tools.utils.VMSystem;
 
 /**
  * Create by lzan13 on 2019/5/23 20:08
@@ -29,6 +30,8 @@ public abstract class IMMsgItem extends RelativeLayout {
     protected IMChatAdapter mAdapter;
     protected int mType;
     protected LayoutInflater mInflater;
+
+    protected IMContact mContact;
 
     protected EMMessage mMessage;
     protected int mAvatarSize;
@@ -87,22 +90,65 @@ public abstract class IMMsgItem extends RelativeLayout {
         }
         // 处理头像
         if (mAvatarView != null) {
-            IM.getInstance().getGlobalListener().getIMContact(mMessage.conversationId(), new IMCallback<IMContact>() {
+            mAvatarView.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    IM.getInstance().onHeadClick(mContext, mContact);
+                }
+            });
+            IM.getInstance().getIMContact(mMessage.conversationId(), new IMCallback<IMContact>() {
                 @Override
                 public void onSuccess(IMContact contact) {
-                    if (mAvatarView.getTag() == null || !mAvatarView.getTag().equals(mMessage)) {
-                        IM.getInstance().getPictureLoader().loadAvatar(mContext, contact.mAvatar, mAvatarView, mAvatarSize, mAvatarSize);
-                    }
+                    loadContactInfo(contact);
                 }
             });
         }
-        // 处理状态
-        if (mStatusView != null) {
+        onUpdate(mMessage);
+    }
 
-        }
+    /**
+     * 加载联系人信息
+     */
+    private void loadContactInfo(final IMContact contact) {
+        mContact = contact;
+        VMSystem.runInUIThread(new Runnable() {
+            @Override
+            public void run() {
+                IM.getInstance().getPictureLoader().loadAvatar(mContext, contact.mAvatar, mAvatarView, mAvatarSize, mAvatarSize);
+            }
+        });
+    }
+
+    /**
+     * 更新消息，这里主要是更新发送消息的状态
+     */
+    public void onUpdate(EMMessage message) {
         // 处理发送结果
-        if (mErrorView != null && mSendPB != null) {
-
+        if (mMessage.direct() == EMMessage.Direct.SEND && mStatusView != null && mErrorView != null && mSendPB != null) {
+            mStatusView.setVisibility(GONE);
+            mErrorView.setVisibility(GONE);
+            mSendPB.setVisibility(GONE);
+            switch (mMessage.status()) {
+                case CREATE:
+                    break;
+                case INPROGRESS:
+                    mSendPB.setVisibility(VISIBLE);
+                    break;
+                case FAIL:
+                    mErrorView.setVisibility(VISIBLE);
+                    break;
+                case SUCCESS:
+                    if (mMessage.isAcked()) {
+                        mStatusView.setVisibility(VISIBLE);
+                        mStatusView.setSelected(true);
+                    } else if (mMessage.isDelivered()) {
+                        mStatusView.setSelected(false);
+                        mStatusView.setVisibility(VISIBLE);
+                    } else {
+                        mStatusView.setVisibility(GONE);
+                    }
+                    break;
+            }
         }
     }
 
@@ -129,4 +175,5 @@ public abstract class IMMsgItem extends RelativeLayout {
      * @param message 需要展示的消息对象
      */
     public abstract void onBind(EMMessage message);
+
 }

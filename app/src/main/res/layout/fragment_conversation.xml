@@ -2,19 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/vm_theme_background"
-    android:fitsSystemWindows="true"
+    android:animateLayoutChanges="true"
     android:orientation="vertical"
-    tools:context=".chat.IMChatActivity">
+    tools:background="@color/app_bg"
+    tools:context=".ui.main.chat.ConversationFragment">
 
     <!--定义顶部 TopBar-->
-    <include layout="@layout/im_widget_common_top_bar" />
+    <include layout="@layout/widget_common_top_bar" />
 
-    <!--聊天界面容器-->
+    <!--会话列表容器-->
     <RelativeLayout
-        android:id="@+id/im_chat_container"
+        android:id="@+id/conversation_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>

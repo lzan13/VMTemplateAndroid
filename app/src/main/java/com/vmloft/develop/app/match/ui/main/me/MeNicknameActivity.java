@@ -2,7 +2,9 @@ package com.vmloft.develop.app.match.ui.main.me;
 
 import android.view.View;
 import android.widget.EditText;
+
 import butterknife.BindView;
+
 import com.vmloft.develop.app.match.R;
 import com.vmloft.develop.app.match.base.ACallback;
 import com.vmloft.develop.app.match.base.AppActivity;
@@ -10,6 +12,7 @@ import com.vmloft.develop.app.match.bean.AUser;
 import com.vmloft.develop.app.match.common.ASignManager;
 import com.vmloft.develop.app.match.common.AUMSManager;
 import com.vmloft.develop.library.tools.utils.VMLog;
+import com.vmloft.develop.library.tools.utils.VMStr;
 
 /**
  * Create by lzan13 on 2019/5/12 22:20
@@ -18,7 +21,8 @@ import com.vmloft.develop.library.tools.utils.VMLog;
  */
 public class MeNicknameActivity extends AppActivity {
 
-    @BindView(R.id.me_nickname_et) EditText mNicknameET;
+    @BindView(R.id.me_nickname_et)
+    EditText mNicknameET;
     // 个人用户
     private AUser mUser;
 
@@ -30,7 +34,7 @@ public class MeNicknameActivity extends AppActivity {
     @Override
     protected void initUI() {
         super.initUI();
-        getTopBar().setEndBtnListener(new View.OnClickListener() {
+        getTopBar().setEndBtnListener(VMStr.byRes(R.id.btn_finish), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveNickname();

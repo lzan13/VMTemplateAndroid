@@ -6,8 +6,10 @@ import android.view.View;
 
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.tools.base.VMBActivity;
+import com.vmloft.develop.library.tools.utils.VMDimen;
 import com.vmloft.develop.library.tools.utils.VMTheme;
 import com.vmloft.develop.library.tools.widget.VMTopBar;
+
 import java.util.List;
 
 /**
@@ -19,6 +21,7 @@ public abstract class IMBaseActivity extends VMBActivity {
 
     // 统一的 TopBar
     protected VMTopBar mTopBar;
+    protected View mTopSpaceView;
 
     @Override
     protected void initUI() {
@@ -32,13 +35,15 @@ public abstract class IMBaseActivity extends VMBActivity {
      * 装载 TopBar
      */
     protected void setupTopBar() {
-        mTopBar = findViewById(R.id.common_top_bar);
-        if (mTopBar != null) {
-            // 设置状态栏透明主题时，布局整体会上移，所以给头部加上状态栏的 margin 值，保证头部不会被覆盖
-            //RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mTopBar.getLayoutParams();
-            //params.topMargin = VMDimen.getStatusBarHeight();
-            //mTopBar.setLayoutParams(params);
+        mTopSpaceView = findViewById(R.id.im_common_top_space);
+        mTopBar = findViewById(R.id.im_common_top_bar);
 
+        if (mTopSpaceView != null) {
+            // 设置状态栏透明主题时，布局整体会上移，所以给头部 View 设置 StatusBar 的高度
+//            mTopSpaceView.getLayoutParams().height = VMDimen.getStatusBarHeight();
+        }
+        if (mTopBar != null) {
+            mTopBar.setIcon(R.drawable.im_ic_arrow_left);
             mTopBar.setIconListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

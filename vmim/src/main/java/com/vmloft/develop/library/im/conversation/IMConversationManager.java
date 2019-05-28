@@ -114,6 +114,20 @@ public class IMConversationManager {
     public void setDraft(String id, int chatType, String draft) {
         IMConversationUtils.setConversationDraft(getConversation(id, chatType), draft);
     }
+
+    /**
+     * 获取会话时间
+     */
+    public long getTime(String id, int chatType) {
+        return IMConversationUtils.getConversationLastTime(getConversation(id, chatType));
+    }
+
+    /**
+     * 获取会话草稿
+     */
+    public void setTime(String id, int chatType, long time) {
+        IMConversationUtils.setConversationLastTime(getConversation(id, chatType), time);
+    }
     /**
      * --------------------------- 消息相关 ---------------------------
      */

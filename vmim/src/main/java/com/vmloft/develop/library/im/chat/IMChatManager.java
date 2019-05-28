@@ -5,9 +5,13 @@ import android.content.Context;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMCmdMessageBody;
+import com.hyphenate.chat.EMImageMessageBody;
 import com.hyphenate.chat.EMMessage;
+import com.hyphenate.chat.EMTextMessageBody;
 import com.vmloft.develop.library.im.base.IMCallback;
 import com.vmloft.develop.library.tools.utils.VMLog;
+
+import java.io.File;
 
 /**
  * Create by lzan13 on 2019/5/9 10:38
@@ -60,7 +64,7 @@ public class IMChatManager {
      * @param message  需要发送的消息
      * @param callback 发送结果回调接口
      */
-    private void sendMessage(final EMMessage message, final IMCallback<EMMessage> callback) {
+    public void sendMessage(final EMMessage message, final IMCallback<EMMessage> callback) {
         /**
          *  调用sdk的消息发送方法发送消息，发送消息时要尽早的设置消息监听，防止消息状态已经回调，
          *  但是自己没有注册监听，导致检测不到消息状态的变化
@@ -100,17 +104,41 @@ public class IMChatManager {
     }
 
     /**
-     * 发送文本消息
+     * 创建一条文本消息
      *
-     * @param text     消息内容
-     * @param toId     接收者
-     * @param callback 发送结果回调接口
+     * @param content 消息内容
+     * @param toId    接收者
+     * @param isSend  是否为发送消息
      */
-    public void sendText(String text, String toId, IMCallback<EMMessage> callback) {
-        // 创建一条文本消息
-        EMMessage textMessage = EMMessage.createTxtSendMessage(text, toId);
-        // 调用统一发送消息的方法，
-        sendMessage(textMessage, callback);
+    public EMMessage createTextMessage(String content, String toId, boolean isSend) {
+        EMMessage message;
+        if (isSend) {
+            message = EMMessage.createTxtSendMessage(content, toId);
+        } else {
+            message = EMMessage.createReceiveMessage(EMMessage.Type.TXT);
+            message.addBody(new EMTextMessageBody(content));
+            message.setFrom(toId);
+        }
+        return message;
+    }
+
+    /**
+     * 创建一条图片消息
+     *
+     * @param path   图片路径
+     * @param id     接收者
+     * @param isSend 是否为发送消息
+     */
+    public EMMessage createPictureMessage(String path, String id, boolean isSend) {
+        EMMessage message;
+        if (isSend) {
+            message = EMMessage.createTxtSendMessage(path, id);
+        } else {
+            message = EMMessage.createReceiveMessage(EMMessage.Type.TXT);
+            message.addBody(new EMImageMessageBody(new File(path)));
+            message.setFrom(id);
+        }
+        return message;
     }
 
     /**

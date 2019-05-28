@@ -1,13 +1,19 @@
 package com.vmloft.develop.library.im.conversation;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+
 import com.hyphenate.chat.EMConversation;
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.base.IMBaseFragment;
+import com.vmloft.develop.library.im.chat.IMChatActivity;
 import com.vmloft.develop.library.im.chat.IMChatAdapter;
+import com.vmloft.develop.library.im.common.IMConstants;
+import com.vmloft.develop.library.im.router.IMRouter;
 import com.vmloft.develop.library.tools.adapter.VMAdapter;
+
 import java.util.List;
 
 /**
@@ -36,6 +42,12 @@ public class IMConversationFragment extends IMBaseFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        refreshConversationList();
+    }
+
+    @Override
     protected int layoutId() {
         return R.layout.im_fragment_conversation;
     }
@@ -46,7 +58,6 @@ public class IMConversationFragment extends IMBaseFragment {
 
         initRecyclerView();
 
-        loadConversationList();
     }
 
     /**
@@ -63,7 +74,8 @@ public class IMConversationFragment extends IMBaseFragment {
         mAdapter.setClickListener(new VMAdapter.IClickListener() {
             @Override
             public void onItemAction(int action, Object object) {
-
+                EMConversation conversation = (EMConversation) object;
+                IMRouter.goIMChat(mContext, conversation.conversationId());
             }
 
             @Override
@@ -73,7 +85,10 @@ public class IMConversationFragment extends IMBaseFragment {
         });
     }
 
-    private void loadConversationList() {
+    /**
+     * 刷新会话列表
+     */
+    private void refreshConversationList() {
         mList = IMConversationManager.getInstance().getAllConversation();
         mAdapter.refresh(mList);
     }

@@ -148,10 +148,6 @@ public class IM {
         mGlobalListener = listener;
     }
 
-    public IMIGlobalListener getGlobalListener() {
-        return mGlobalListener;
-    }
-
     /**
      * 设置 IM 图片加载接口实现
      */
@@ -160,6 +156,9 @@ public class IM {
         VMPicker.getInstance().setPictureLoader(mPictureLoader);
     }
 
+    /**
+     * 获取图片加载器
+     */
     public IMIPictureLoader getPictureLoader() {
         return mPictureLoader;
     }
@@ -173,6 +172,16 @@ public class IM {
         if (mGlobalListener != null) {
             mGlobalListener.getIMContact(id, callback);
         }
+    }
+
+    /**
+     * 头像点击处理
+     */
+    public void onHeadClick(Context context, IMContact contact) {
+        if (mGlobalListener == null) {
+            return;
+        }
+        mGlobalListener.onHeadClick(context, contact);
     }
 
     /**
