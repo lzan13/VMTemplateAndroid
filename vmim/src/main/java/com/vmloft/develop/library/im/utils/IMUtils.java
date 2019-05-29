@@ -1,5 +1,9 @@
 package com.vmloft.develop.library.im.utils;
 
+import android.content.Context;
+import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
+import com.vmloft.develop.library.im.IM;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -11,23 +15,64 @@ import java.util.concurrent.Executors;
 public class IMUtils {
 
     /**
-     * 单任务队列
+     * 注册本地广播接收器
+     *
+     * @param context 上下文对象
+     * @param action  广播 action
      */
-    private static ExecutorService mSingleExecutor = Executors.newSingleThreadExecutor();
+    public static void registerLocalReceiver(Context context, String action) {
 
-    private static ExecutorService mMultiExecutor = Executors.newCachedThreadPool();
-
-    /**
-     * 单任务方式执行异步任务
-     */
-    public static void singleAsync(Runnable runnable) {
-        mSingleExecutor.execute(runnable);
     }
 
     /**
-     * 多任务方式异步任务
+     * 简单的发送一个本地广播
      */
-    public static void multiAsync(Runnable runnable) {
-        mMultiExecutor.execute(runnable);
+    public static void sendLocalBroadcast(String action) {
+        sendLocalBroadcast(new Intent(action));
+    }
+
+    /**
+     * 简单的发送一个本地广播
+     */
+    public static void sendLocalBroadcast(Intent intent) {
+        LocalBroadcastManager.getInstance(IM.getInstance().getIMContext()).sendBroadcast(intent);
+    }
+
+    /**
+     * IM 模块儿 Action 管理
+     */
+    public static class Action {
+
+        /**
+         * 收到 CMD 新消息
+         */
+        public static String getCMDMessageAction() {
+            return actionPrefix() + "chat.cmd.message";
+        }
+
+        /**
+         * 收到新消息
+         */
+        public static String getNewMessageAction() {
+            return actionPrefix() + "chat.new.message";
+        }
+
+        /**
+         * 收到新消息
+         */
+        public static String getUpdateMessageAction() {
+            return actionPrefix() + "chat.new.message";
+        }
+
+        /**
+         * 刷新会话
+         */
+        public static String getRefreshConversationAction() {
+            return actionPrefix() + "chat.refresh.conversation";
+        }
+
+        private static String actionPrefix() {
+            return IM.getInstance().getIMContext().getPackageName();
+        }
     }
 }

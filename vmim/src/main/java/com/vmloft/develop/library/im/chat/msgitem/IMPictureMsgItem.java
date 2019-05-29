@@ -37,7 +37,7 @@ public class IMPictureMsgItem extends IMMsgItem {
     }
 
     @Override
-    protected boolean isReceive() {
+    protected boolean isReceiveMessage() {
         return mType == IMConstants.IM_CHAT_TYPE_IMAGE_RECEIVE;
     }
 
@@ -49,7 +49,8 @@ public class IMPictureMsgItem extends IMMsgItem {
     }
 
     @Override
-    public void onBind(EMMessage message) {
+    public void onBind(int position, EMMessage message) {
+        mPosition = position;
         mMessage = message;
         // 装在通用部分控件
         setupCommonView();
@@ -117,4 +118,5 @@ public class IMPictureMsgItem extends IMMsgItem {
         }
         IM.getInstance().getPictureLoader().loadThumb(mContext, url, mPictureView, mViewWidth, mViewHeight);
     }
+
 }

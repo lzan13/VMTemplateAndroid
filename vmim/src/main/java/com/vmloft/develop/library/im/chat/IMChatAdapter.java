@@ -45,7 +45,7 @@ public class IMChatAdapter extends VMAdapter<EMMessage, IMChatAdapter.ChatHolder
     public void onBindViewHolder(@NonNull ChatHolder holder, int position) {
         super.onBindViewHolder(holder, position);
 
-        ((IMMsgItem) holder.itemView).onBind(getItemData(position));
+        ((IMMsgItem) holder.itemView).onBind(position, getItemData(position));
     }
 
     @Override
@@ -65,36 +65,46 @@ public class IMChatAdapter extends VMAdapter<EMMessage, IMChatAdapter.ChatHolder
     }
 
     /**
+     * 获取上一条消息，主要判断当前消息是否需要展示时间
+     */
+    public EMMessage getPrevMessage(int position) {
+        if (position == 0 || position >= getItemCount()) {
+            return null;
+        }
+        return getItemData(position - 1);
+    }
+
+    /**
      * 创建一个消息 Item
      */
     private IMMsgItem createMsgItem(int type) {
         IMMsgItem itemView = null;
         switch (type) {
-            case IMConstants.IM_CHAT_TYPE_SYSTEM:
-            case IMConstants.IM_CHAT_TYPE_RECALL:
-                break;
-            case IMConstants.IM_CHAT_TYPE_TEXT_RECEIVE:
-            case IMConstants.IM_CHAT_TYPE_TEXT_SEND:
-                itemView = new IMTextMsgItem(mContext, this, type);
-                break;
-            case IMConstants.IM_CHAT_TYPE_IMAGE_RECEIVE:
-            case IMConstants.IM_CHAT_TYPE_IMAGE_SEND:
-                itemView = new IMPictureMsgItem(mContext, this, type);
-                break;
-            case IMConstants.IM_CHAT_TYPE_VIDEO_RECEIVE:
-            case IMConstants.IM_CHAT_TYPE_VIDEO_SEND:
-            case IMConstants.IM_CHAT_TYPE_LOCATION_RECEIVE:
-            case IMConstants.IM_CHAT_TYPE_LOCATION_SEND:
-            case IMConstants.IM_CHAT_TYPE_VOICE_RECEIVE:
-            case IMConstants.IM_CHAT_TYPE_VOICE_SEND:
-            case IMConstants.IM_CHAT_TYPE_FILE_RECEIVE:
-            case IMConstants.IM_CHAT_TYPE_FILE_SEND:
-            case IMConstants.IM_CHAT_TYPE_CALL_RECEIVE:
-            case IMConstants.IM_CHAT_TYPE_CALL_SEND:
-            case IMConstants.IM_CHAT_TYPE_UNKNOWN: // 未知
-            default:
-                itemView = new IMUnknownMsgItem(mContext, this, IMConstants.IM_CHAT_TYPE_UNKNOWN);
-                break;
+        case IMConstants.IM_CHAT_TYPE_SYSTEM:
+        case IMConstants.IM_CHAT_TYPE_RECALL:
+            break;
+        case IMConstants.IM_CHAT_TYPE_TEXT_RECEIVE:
+        case IMConstants.IM_CHAT_TYPE_TEXT_SEND:
+            itemView = new IMTextMsgItem(mContext, this, type);
+            break;
+        case IMConstants.IM_CHAT_TYPE_IMAGE_RECEIVE:
+        case IMConstants.IM_CHAT_TYPE_IMAGE_SEND:
+            itemView = new IMPictureMsgItem(mContext, this, type);
+            break;
+        case IMConstants.IM_CHAT_TYPE_VIDEO_RECEIVE:
+        case IMConstants.IM_CHAT_TYPE_VIDEO_SEND:
+        case IMConstants.IM_CHAT_TYPE_LOCATION_RECEIVE:
+        case IMConstants.IM_CHAT_TYPE_LOCATION_SEND:
+        case IMConstants.IM_CHAT_TYPE_VOICE_RECEIVE:
+        case IMConstants.IM_CHAT_TYPE_VOICE_SEND:
+        case IMConstants.IM_CHAT_TYPE_FILE_RECEIVE:
+        case IMConstants.IM_CHAT_TYPE_FILE_SEND:
+        case IMConstants.IM_CHAT_TYPE_CALL_RECEIVE:
+        case IMConstants.IM_CHAT_TYPE_CALL_SEND:
+        case IMConstants.IM_CHAT_TYPE_UNKNOWN: // 未知
+        default:
+            itemView = new IMUnknownMsgItem(mContext, this, IMConstants.IM_CHAT_TYPE_UNKNOWN);
+            break;
         }
         return itemView;
     }

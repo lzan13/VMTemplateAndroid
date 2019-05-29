@@ -20,10 +20,10 @@ public class IMEmojiPagerAdapter extends PagerAdapter {
         updateData(dataList);
     }
 
-    public void updateData(List<IMEmojiPageView> lists) {
+    public void updateData(List<IMEmojiPageView> list) {
         mDataList.clear();
-        if (lists != null && !lists.isEmpty()) {
-            mDataList.addAll(lists);
+        if (list != null && !list.isEmpty()) {
+            mDataList.addAll(list);
         }
     }
 

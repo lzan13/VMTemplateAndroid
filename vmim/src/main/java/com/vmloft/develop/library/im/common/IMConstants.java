@@ -17,9 +17,6 @@ public class IMConstants {
     // 输入状态检测时间
     public static final long TIME_INPUT_STATUS = IM_TIME_SECOND * 5;
 
-    // 聊天界面传参
-    public static final String IM_CHAT_ID = "im_chat_id";
-    public static final String IM_CHAT_TYPE = "im_chat_type";
 
     // 分页拉取限制
     public static final int IM_CHAT_MSG_LIMIT = 20;
@@ -65,6 +62,15 @@ public class IMConstants {
     public static final String IM_CHAT_ACTION_INPUT = "im_chat_action_input";
     public static final String IM_CHAT_ACTION_RECALL = "im_chat_action_recall";
 
+    // 传递聊天 id
+    public static final String IM_CHAT_ID = "im_chat_id";
+    // 传递聊天类型
+    public static final String IM_CHAT_TYPE = "im_chat_type";
+    // 传递消息
+    public static final String IM_CHAT_MSG = "im_chat_msg";
+    // 传递消息Id
+    public static final String IM_CHAT_MSG_ID = "im_chat_msg_id";
+
     /**
      * 定义会话与消息扩展字段 key
      * 包括会话{@link com.hyphenate.chat.EMConversation}扩展，
@@ -87,8 +93,6 @@ public class IMConstants {
     public static final String ATTR_BURN = "attr_burn";
     // 群组id
     public static final String ATTR_GROUP_ID = "attr_group_id";
-    // 消息id
-    public static final String ATTR_MSG_ID = "attr_msg_id";
     // 理由
     public static final String ATTR_REASON = "attr_reason";
     // 撤回

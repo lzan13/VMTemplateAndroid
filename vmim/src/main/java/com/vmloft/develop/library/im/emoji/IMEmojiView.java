@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
 import com.vmloft.develop.library.im.R;
+import com.vmloft.develop.library.im.common.IMExecutor;
 import com.vmloft.develop.library.im.utils.IMUtils;
 
 import java.util.ArrayList;
@@ -20,7 +21,6 @@ import java.util.List;
  * 表情模块儿
  */
 public class IMEmojiView extends RelativeLayout {
-
 
     private ImageButton mAddBtn;
     private ImageButton mDelBtn;
@@ -51,7 +51,6 @@ public class IMEmojiView extends RelativeLayout {
         mViewPager = findViewById(R.id.im_emoji_view_pager);
 
         initEmojiViewPager();
-
     }
 
     /**
@@ -80,7 +79,7 @@ public class IMEmojiView extends RelativeLayout {
             }
         };
 
-        IMUtils.singleAsync(new Runnable() {
+        IMExecutor.asyncSingleTask(new Runnable() {
             @Override
             public void run() {
                 mPageViewList = bindEmojiPageView();
@@ -134,7 +133,6 @@ public class IMEmojiView extends RelativeLayout {
         }
     }
 
-
     /**
      * ----------------------- 表情对外操作接口 -----------------------
      */
@@ -161,5 +159,4 @@ public class IMEmojiView extends RelativeLayout {
          */
         void onDeleteEmoji();
     }
-
 }

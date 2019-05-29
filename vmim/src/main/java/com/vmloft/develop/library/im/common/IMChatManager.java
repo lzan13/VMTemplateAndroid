@@ -11,7 +11,9 @@ import com.hyphenate.chat.EMNormalFileMessageBody;
 import com.hyphenate.chat.EMTextMessageBody;
 import com.hyphenate.chat.EMVideoMessageBody;
 import com.hyphenate.chat.EMVoiceMessageBody;
+import com.hyphenate.exceptions.HyphenateException;
 import com.vmloft.develop.library.im.base.IMCallback;
+import com.vmloft.develop.library.im.chat.IMChatListener;
 import com.vmloft.develop.library.im.utils.IMChatUtils;
 import com.vmloft.develop.library.tools.utils.VMLog;
 
@@ -52,7 +54,7 @@ public class IMChatManager {
     public void init() {
         // 将会话加载到内存
         EMClient.getInstance().chatManager().loadAllConversations();
-        EMClient.getInstance().chatManager().addMessageListener(new IMMessageListener());
+        EMClient.getInstance().chatManager().addMessageListener(new IMChatListener());
     }
 
     /**
@@ -409,5 +411,16 @@ public class IMChatManager {
         EMClient.getInstance().chatManager().sendMessage(message);
         // 发送一条新消息时插入新消息的位置，这里直接用插入新消息前的消息总数来作为新消息的位置
         //        int position = conversation.getAllMessages().indexOf(message);
+    }
+
+    /**
+     * 发送消息已读 ACK
+     */
+    public void sendReadACK(EMMessage message) {
+        try {
+            EMClient.getInstance().chatManager().ackMessageRead(message.getFrom(), message.getMsgId());
+        } catch (HyphenateException e) {
+            e.printStackTrace();
+        }
     }
 }

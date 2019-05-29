@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class IMEmojiManager {
 
-    public static final int IM_EMOJI_COLUMN_COUNT = 8;
+    public static final int IM_EMOJI_COLUMN_COUNT = 7;
     public static final int IM_EMOJI_COLUMN_COUNT_DEFAULT = 4;
 
     private static final String IM_EMOJI_GROUP_NAME = "im_emoji_group_name";

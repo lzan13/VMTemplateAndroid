@@ -7,7 +7,7 @@
             <corners
                 android:bottomLeftRadius="@dimen/vm_dimen_24"
                 android:bottomRightRadius="@dimen/vm_dimen_24"
-                android:topLeftRadius="@dimen/vm_dimen_4"
+                android:topLeftRadius="@dimen/vm_dimen_8"
                 android:topRightRadius="@dimen/vm_dimen_24" />
             <solid android:color="@color/im_msg_receive_bg" />
         </shape>

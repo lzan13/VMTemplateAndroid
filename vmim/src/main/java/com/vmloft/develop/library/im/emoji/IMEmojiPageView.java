@@ -73,11 +73,10 @@ public class IMEmojiPageView extends RelativeLayout {
      */
     private void initRecyclerView() {
         mRecyclerView = new RecyclerView(getContext());
-
+        mRecyclerView.setOverScrollMode(OVER_SCROLL_NEVER);
         LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        if (mEmojiGroup.isEmoji) {
-            params.topMargin = VMDimen.dp2px(4);
-        }
+        params.leftMargin = VMDimen.dp2px(8);
+        params.rightMargin = VMDimen.dp2px(8);
         addView(mRecyclerView, params);
 
         mAdapter = new IMEmojiAdapter(getContext(), mEmojiGroup.getEmojiItemList());
@@ -96,7 +95,6 @@ public class IMEmojiPageView extends RelativeLayout {
                 return false;
             }
         });
-
     }
 
     /**

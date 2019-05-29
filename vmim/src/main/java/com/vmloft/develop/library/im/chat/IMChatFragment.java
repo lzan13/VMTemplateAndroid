@@ -1,15 +1,18 @@
 package com.vmloft.develop.library.im.chat;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
@@ -24,6 +27,7 @@ import com.vmloft.develop.library.im.common.IMConstants;
 import com.vmloft.develop.library.im.emoji.IMEmojiGroup;
 import com.vmloft.develop.library.im.emoji.IMEmojiItem;
 import com.vmloft.develop.library.im.emoji.IMEmojiView;
+import com.vmloft.develop.library.im.utils.IMUtils;
 import com.vmloft.develop.library.tools.adapter.VMAdapter;
 import com.vmloft.develop.library.tools.base.VMConstant;
 import com.vmloft.develop.library.tools.picker.VMPicker;
@@ -43,21 +47,26 @@ import java.util.List;
  */
 public class IMChatFragment extends IMBaseFragment {
 
-    // 输入容器
-    private View mInputContainer;
     // 输入框
     private EditText mInputET;
     // 表情按钮
     private ImageButton mEmojiBtn;
     // 发送按钮
     private ImageButton mSendBtn;
+    // 图片
     private ImageButton mPictureBtn;
+    // 相机
     private ImageButton mCameraBtn;
+    // 通话
     private ImageButton mCallBtn;
+    // 语音
+    private ImageButton mVoiceBtn;
+    // 更多
     private ImageButton mMoreBtn;
-
     // 输入扩展容器
-    private RelativeLayout mInputExtContainer;
+    private RelativeLayout mExtContainer;
+    private RelativeLayout mExtEmojiContainer;
+    private RelativeLayout mExtMoreContainer;
 
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
@@ -85,6 +94,8 @@ public class IMChatFragment extends IMBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        initReceiver();
 
         // 检查是否有草稿没有发出
         String draft = IMChatManager.getInstance().getDraft(mConversation);
@@ -114,11 +125,14 @@ public class IMChatFragment extends IMBaseFragment {
         mInputET = getView().findViewById(R.id.im_chat_input_et);
         mEmojiBtn = getView().findViewById(R.id.im_chat_input_emoji_btn);
         mSendBtn = getView().findViewById(R.id.im_chat_input_send_btn);
-        mPictureBtn = getView().findViewById(R.id.im_chat_input_picture_btn);
-        mCameraBtn = getView().findViewById(R.id.im_chat_input_camera_btn);
-        mCallBtn = getView().findViewById(R.id.im_chat_input_call_btn);
-        mMoreBtn = getView().findViewById(R.id.im_chat_input_more_btn);
-        mInputExtContainer = getView().findViewById(R.id.im_chat_input_ext_container);
+        mPictureBtn = getView().findViewById(R.id.im_chat_bottom_picture_btn);
+        mCameraBtn = getView().findViewById(R.id.im_chat_bottom_camera_btn);
+        mCallBtn = getView().findViewById(R.id.im_chat_bottom_call_btn);
+        mVoiceBtn = getView().findViewById(R.id.im_chat_bottom_voice_btn);
+        mMoreBtn = getView().findViewById(R.id.im_chat_bottom_more_btn);
+        mExtContainer = getView().findViewById(R.id.im_chat_bottom_ext_rl);
+        mExtEmojiContainer = getView().findViewById(R.id.im_chat_ext_emoji_rl);
+        mExtMoreContainer = getView().findViewById(R.id.im_chat_ext_more_rl);
 
         mEmojiBtn.setOnClickListener(viewListener);
         mSendBtn.setOnClickListener(viewListener);
@@ -129,7 +143,7 @@ public class IMChatFragment extends IMBaseFragment {
 
         initRecyclerView();
 
-        initEmoji();
+        initEmojiView();
 
         initInputWatcher();
     }
@@ -176,14 +190,15 @@ public class IMChatFragment extends IMBaseFragment {
                 return false;
             }
         });
+        scrollToBottom();
     }
 
     /**
-     * 加载表情
+     * 初始化表情
      */
-    private void initEmoji() {
+    private void initEmojiView() {
         IMEmojiView emojiView = new IMEmojiView(mContext);
-        mInputExtContainer.addView(emojiView, new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        mExtEmojiContainer.addView(emojiView);
         emojiView.stEmojiListener(new IMEmojiView.IIMEmojiListener() {
             @Override
             public void onInsertEmoji(IMEmojiGroup group, IMEmojiItem item) {
@@ -265,18 +280,33 @@ public class IMChatFragment extends IMBaseFragment {
         public void onClick(View v) {
             if (v.getId() == R.id.im_chat_recycler_view) {
             } else if (v.getId() == R.id.im_chat_input_emoji_btn) {
-
+                changeEmojiStatus();
             } else if (v.getId() == R.id.im_chat_input_send_btn) {
                 sendText();
-            } else if (v.getId() == R.id.im_chat_input_picture_btn) {
+            } else if (v.getId() == R.id.im_chat_bottom_picture_btn) {
                 startAlbum();
-            } else if (v.getId() == R.id.im_chat_input_camera_btn) {
-            } else if (v.getId() == R.id.im_chat_input_call_btn) {
-            } else if (v.getId() == R.id.im_chat_input_more_btn) {
+            } else if (v.getId() == R.id.im_chat_bottom_camera_btn) {
+            } else if (v.getId() == R.id.im_chat_bottom_call_btn) {
+            } else if (v.getId() == R.id.im_chat_bottom_more_btn) {
 
             }
         }
     };
+
+    /**
+     * 改变表情状态，打开 关闭
+     */
+    private void changeEmojiStatus() {
+        mEmojiBtn.setSelected(!mEmojiBtn.isSelected());
+        if (mEmojiBtn.isSelected()) {
+            mExtContainer.setVisibility(View.VISIBLE);
+            mExtEmojiContainer.setVisibility(View.VISIBLE);
+            mExtMoreContainer.setVisibility(View.GONE);
+        } else {
+            mExtContainer.setVisibility(View.GONE);
+            mExtEmojiContainer.setVisibility(View.GONE);
+        }
+    }
 
     /**
      * 打开相册，选择图片
@@ -348,7 +378,7 @@ public class IMChatFragment extends IMBaseFragment {
                 int position = IMChatManager.getInstance().getPosition(message);
                 if (position >= 0) {
                     mAdapter.updateInsert(position);
-                    mRecyclerView.scrollToPosition(mAdapter.getItemCount() - 1);
+                    scrollToBottom();
                 }
             }
         });
@@ -364,10 +394,16 @@ public class IMChatFragment extends IMBaseFragment {
                 int position = IMChatManager.getInstance().getPosition(message);
                 if (position >= 0) {
                     mAdapter.updateChange(position);
-                    mRecyclerView.scrollToPosition(mAdapter.getItemCount() - 1);
                 }
             }
         });
+    }
+
+    /**
+     * 滚动到底部
+     */
+    private void scrollToBottom() {
+        mRecyclerView.scrollToPosition(mAdapter.getItemCount() - 1);
     }
 
     /**
@@ -397,6 +433,8 @@ public class IMChatFragment extends IMBaseFragment {
     public void onPause() {
         super.onPause();
 
+        unregisterReceiver();
+
         /**
          * 判断聊天输入框内容是否为空，不为空就保存输入框内容到{@link EMConversation}的扩展中
          * 调用{@link ConversationExtUtils#setConversationDraft(EMConversation, String)}方法
@@ -409,5 +447,64 @@ public class IMChatFragment extends IMBaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    /**
+     * ------------------------------- 广播接收器部分 -------------------------------
+     */
+
+    /**
+     * 初始化注册广播接收器
+     */
+    private void initReceiver() {
+        LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(mContext);
+        // 新消息广播接收器
+        IntentFilter newMessageFilter = new IntentFilter(IMUtils.Action.getNewMessageAction());
+        lbm.registerReceiver(mNewMessageReceiver, newMessageFilter);
+
+        IntentFilter updateMessageFilter = new IntentFilter(IMUtils.Action.getUpdateMessageAction());
+        lbm.registerReceiver(mUpdateMessageReceiver, updateMessageFilter);
+    }
+
+    /**
+     * 取消注册广播接收器
+     */
+    private void unregisterReceiver() {
+        // 取消新消息广播接收器
+        LocalBroadcastManager.getInstance(mContext).unregisterReceiver(mNewMessageReceiver);
+        LocalBroadcastManager.getInstance(mContext).unregisterReceiver(mUpdateMessageReceiver);
+    }
+
+    private NewMessageReceiver mNewMessageReceiver = new NewMessageReceiver();
+    private UpdateMessageReceiver mUpdateMessageReceiver = new UpdateMessageReceiver();
+
+    /**
+     * 定义广播接收器
+     */
+    private class NewMessageReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //这里处理接收的信息
+            String id = intent.getStringExtra(IMConstants.IM_CHAT_ID);
+            if (!VMStr.isEmpty(id) && id.equals(mId)) {
+                EMMessage message = intent.getParcelableExtra(IMConstants.IM_CHAT_MSG);
+                refreshInsert(message);
+            }
+        }
+    }
+
+    /**
+     * 定义广播接收器
+     */
+    private class UpdateMessageReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //这里处理接收的信息
+            String id = intent.getStringExtra(IMConstants.IM_CHAT_ID);
+            if (!VMStr.isEmpty(id) && id.equals(mId)) {
+                EMMessage message = intent.getParcelableExtra(IMConstants.IM_CHAT_MSG);
+                refreshChange(message);
+            }
+        }
     }
 }

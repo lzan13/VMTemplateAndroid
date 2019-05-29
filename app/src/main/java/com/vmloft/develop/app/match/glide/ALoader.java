@@ -9,6 +9,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.vmloft.develop.library.tools.utils.VMDimen;
 
 /**
  * Create by lzan13 on 2019/5/22 13:24
@@ -39,8 +40,9 @@ public class ALoader {
      * @param imageView 目标 view
      */
     public static void loadThumb(Context context, String url, ImageView imageView) {
+        int radius = VMDimen.dp2px(8);
         RequestOptions options = new RequestOptions();
-        options.transform(new MultiTransformation<Bitmap>(new CenterCrop(), new RoundedCorners(16)));
+        options.transform(new MultiTransformation<Bitmap>(new CenterCrop(), new RoundedCorners(radius)));
         GlideApp.with(context).load(url).apply(options).into(imageView);
     }
 

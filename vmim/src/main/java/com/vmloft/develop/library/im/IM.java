@@ -26,6 +26,8 @@ public class IM {
     // IM 图片加载接口
     private IMIPictureLoader mPictureLoader;
 
+    private Context mContext;
+
     private IM() {
     }
 
@@ -47,9 +49,17 @@ public class IM {
      * 初始化
      */
     public void init(Context context) {
+        mContext = context;
         IMHelper.getInstance().init(context);
         IMChatManager.getInstance().init();
         IMEmojiManager.getInstance().init();
+    }
+
+    /**
+     * 获取上下文对象
+     */
+    public Context getIMContext() {
+        return mContext;
     }
 
     /**

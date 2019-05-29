@@ -27,7 +27,7 @@ public abstract class IMNotifyMsgItem extends IMMsgItem {
     }
 
     @Override
-    protected boolean isReceive() {
+    protected boolean isReceiveMessage() {
         return false;
     }
 }

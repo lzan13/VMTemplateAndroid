@@ -55,7 +55,7 @@ public class IMChatUtils {
         EMCmdMessageBody body = new EMCmdMessageBody(action);
         cmdMessage.addBody(body);
         // 设置消息的扩展为要撤回的 msgId
-        cmdMessage.setAttribute(IMConstants.ATTR_MSG_ID, msgId);
+        cmdMessage.setAttribute(IMConstants.IM_CHAT_MSG_ID, msgId);
         // 确认无误，开始发送撤回消息的透传
         cmdMessage.setMessageStatusCallback(new EMCallBack() {
             @Override
@@ -85,7 +85,7 @@ public class IMChatUtils {
     public static boolean receiveRecallMessage(EMMessage cmdMessage) {
         boolean result = false;
         // 从cmd扩展中获取要撤回消息的id
-        String msgId = cmdMessage.getStringAttribute(IMConstants.ATTR_MSG_ID, null);
+        String msgId = cmdMessage.getStringAttribute(IMConstants.IM_CHAT_MSG_ID, null);
         if (msgId == null) {
             VMLog.d("recall - 3 %s", msgId);
             return result;

@@ -15,6 +15,8 @@ import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.base.IMCallback;
 import com.vmloft.develop.library.im.bean.IMContact;
 import com.vmloft.develop.library.im.chat.IMChatAdapter;
+import com.vmloft.develop.library.im.common.IMChatManager;
+import com.vmloft.develop.library.im.common.IMConstants;
 import com.vmloft.develop.library.tools.utils.VMDate;
 import com.vmloft.develop.library.tools.utils.VMDimen;
 import com.vmloft.develop.library.tools.utils.VMSystem;
@@ -33,7 +35,9 @@ public abstract class IMMsgItem extends RelativeLayout {
 
     protected IMContact mContact;
 
+    protected int mPosition;
     protected EMMessage mMessage;
+    // 头像大小
     protected int mAvatarSize;
     // 显示时间
     protected TextView mTimeView;
@@ -86,7 +90,12 @@ public abstract class IMMsgItem extends RelativeLayout {
     protected void setupCommonView() {
         // 处理时间戳
         if (mTimeView != null) {
-            mTimeView.setText(VMDate.getRelativeTime(mMessage.getMsgTime()));
+            mTimeView.setVisibility(GONE);
+            EMMessage prevMessage = mAdapter.getPrevMessage(mPosition);
+            if (prevMessage == null || mMessage.localTime() - prevMessage.localTime() > IMConstants.IM_TIME_MINUTE * 2) {
+                mTimeView.setText(VMDate.getRelativeTime(mMessage.getMsgTime()));
+                mTimeView.setVisibility(VISIBLE);
+            }
         }
         // 处理头像
         if (mAvatarView != null) {
@@ -123,31 +132,47 @@ public abstract class IMMsgItem extends RelativeLayout {
      * 更新消息，这里主要是更新发送消息的状态
      */
     public void onUpdate(EMMessage message) {
+        if (!message.equals(mMessage)) {
+            return;
+        }
         // 处理发送结果
         if (mMessage.direct() == EMMessage.Direct.SEND && mStatusView != null && mErrorView != null && mSendPB != null) {
             mStatusView.setVisibility(GONE);
             mErrorView.setVisibility(GONE);
             mSendPB.setVisibility(GONE);
             switch (mMessage.status()) {
-                case CREATE:
-                    break;
-                case INPROGRESS:
-                    mSendPB.setVisibility(VISIBLE);
-                    break;
-                case FAIL:
-                    mErrorView.setVisibility(VISIBLE);
-                    break;
-                case SUCCESS:
-                    if (mMessage.isAcked()) {
-                        mStatusView.setVisibility(VISIBLE);
-                        mStatusView.setSelected(true);
-                    } else if (mMessage.isDelivered()) {
-                        mStatusView.setSelected(false);
-                        mStatusView.setVisibility(VISIBLE);
-                    } else {
-                        mStatusView.setVisibility(GONE);
-                    }
-                    break;
+            case CREATE:
+                break;
+            case INPROGRESS:
+                mSendPB.setVisibility(VISIBLE);
+                break;
+            case FAIL:
+                mErrorView.setVisibility(VISIBLE);
+                break;
+            case SUCCESS:
+                break;
+            }
+        }
+        checkACKStatus();
+    }
+
+    /**
+     * 检查消息已读 ACK 状态
+     */
+    public void checkACKStatus() {
+        if (isReceiveMessage()) {
+            // 接收方发送已读 ACK
+            IMChatManager.getInstance().sendReadACK(mMessage);
+        } else {
+            // 发送方处理已读 ACK 状态
+            if (mMessage.isAcked()) {
+                mStatusView.setVisibility(VISIBLE);
+                mStatusView.setSelected(true);
+            } else if (mMessage.isDelivered()) {
+                mStatusView.setSelected(false);
+                mStatusView.setVisibility(VISIBLE);
+            } else {
+                mStatusView.setVisibility(GONE);
             }
         }
     }
@@ -156,13 +181,13 @@ public abstract class IMMsgItem extends RelativeLayout {
      * 加载容器，这里默认根据子类的判断加载发送或者接收的消息容器，子类可以重写此方法实现加载不同的容器
      */
     protected void loadContainer() {
-        mInflater.inflate(isReceive() ? R.layout.im_chat_item_receive_container : R.layout.im_chat_item_send_container, this);
+        mInflater.inflate(isReceiveMessage() ? R.layout.im_chat_item_receive_container : R.layout.im_chat_item_send_container, this);
     }
 
     /**
      * 是否为接收的，以此来判断加载哪种容器
      */
-    protected abstract boolean isReceive();
+    protected abstract boolean isReceiveMessage();
 
     /**
      * 加载内容布局，解析对应布局文件，填充当前布局
@@ -174,6 +199,5 @@ public abstract class IMMsgItem extends RelativeLayout {
      *
      * @param message 需要展示的消息对象
      */
-    public abstract void onBind(EMMessage message);
-
+    public abstract void onBind(int position, EMMessage message);
 }

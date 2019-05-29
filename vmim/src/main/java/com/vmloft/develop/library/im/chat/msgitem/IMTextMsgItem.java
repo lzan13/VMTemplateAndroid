@@ -25,7 +25,7 @@ public class IMTextMsgItem extends IMMsgItem {
     }
 
     @Override
-    protected boolean isReceive() {
+    protected boolean isReceiveMessage() {
         return mType == IMConstants.IM_CHAT_TYPE_TEXT_RECEIVE;
     }
 
@@ -37,7 +37,8 @@ public class IMTextMsgItem extends IMMsgItem {
     }
 
     @Override
-    public void onBind(EMMessage message) {
+    public void onBind(int position, EMMessage message) {
+        mPosition = position;
         mMessage = message;
         // 装在通用部分控件
         setupCommonView();

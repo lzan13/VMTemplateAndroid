@@ -8,7 +8,7 @@
                 android:bottomLeftRadius="@dimen/vm_dimen_24"
                 android:bottomRightRadius="@dimen/vm_dimen_24"
                 android:topLeftRadius="@dimen/vm_dimen_24"
-                android:topRightRadius="@dimen/vm_dimen_4" />
+                android:topRightRadius="@dimen/vm_dimen_8" />
             <solid android:color="@color/im_msg_send_bg" />
         </shape>
     </item>

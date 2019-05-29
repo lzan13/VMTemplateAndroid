@@ -31,7 +31,8 @@ public class IMUnknownMsgItem extends IMNotifyMsgItem {
     }
 
     @Override
-    public void onBind(EMMessage message) {
+    public void onBind(int position, EMMessage message) {
+        mPosition = position;
         mMessage = message;
         // 装在通用部分控件
         setupCommonView();
