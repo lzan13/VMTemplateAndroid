@@ -9,8 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
@@ -19,6 +21,9 @@ import com.vmloft.develop.library.im.base.IMBaseFragment;
 import com.vmloft.develop.library.im.base.IMCallback;
 import com.vmloft.develop.library.im.common.IMChatManager;
 import com.vmloft.develop.library.im.common.IMConstants;
+import com.vmloft.develop.library.im.emoji.IMEmojiGroup;
+import com.vmloft.develop.library.im.emoji.IMEmojiItem;
+import com.vmloft.develop.library.im.emoji.IMEmojiView;
 import com.vmloft.develop.library.tools.adapter.VMAdapter;
 import com.vmloft.develop.library.tools.base.VMConstant;
 import com.vmloft.develop.library.tools.picker.VMPicker;
@@ -52,7 +57,7 @@ public class IMChatFragment extends IMBaseFragment {
     private ImageButton mMoreBtn;
 
     // 输入扩展容器
-    private View mInputExtContainer;
+    private RelativeLayout mInputExtContainer;
 
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
@@ -113,6 +118,7 @@ public class IMChatFragment extends IMBaseFragment {
         mCameraBtn = getView().findViewById(R.id.im_chat_input_camera_btn);
         mCallBtn = getView().findViewById(R.id.im_chat_input_call_btn);
         mMoreBtn = getView().findViewById(R.id.im_chat_input_more_btn);
+        mInputExtContainer = getView().findViewById(R.id.im_chat_input_ext_container);
 
         mEmojiBtn.setOnClickListener(viewListener);
         mSendBtn.setOnClickListener(viewListener);
@@ -122,6 +128,8 @@ public class IMChatFragment extends IMBaseFragment {
         mMoreBtn.setOnClickListener(viewListener);
 
         initRecyclerView();
+
+        initEmoji();
 
         initInputWatcher();
     }
@@ -166,6 +174,25 @@ public class IMChatFragment extends IMBaseFragment {
             @Override
             public boolean onItemLongAction(int action, Object object) {
                 return false;
+            }
+        });
+    }
+
+    /**
+     * 加载表情
+     */
+    private void initEmoji() {
+        IMEmojiView emojiView = new IMEmojiView(mContext);
+        mInputExtContainer.addView(emojiView, new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        emojiView.stEmojiListener(new IMEmojiView.IIMEmojiListener() {
+            @Override
+            public void onInsertEmoji(IMEmojiGroup group, IMEmojiItem item) {
+
+            }
+
+            @Override
+            public void onDeleteEmoji() {
+
             }
         });
     }

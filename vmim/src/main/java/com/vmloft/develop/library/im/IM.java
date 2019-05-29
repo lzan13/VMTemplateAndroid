@@ -11,6 +11,7 @@ import com.vmloft.develop.library.im.common.IMChatManager;
 import com.vmloft.develop.library.im.common.IMExecptionManager;
 import com.vmloft.develop.library.im.common.IMExecutor;
 import com.vmloft.develop.library.im.common.IMSPManager;
+import com.vmloft.develop.library.im.emoji.IMEmojiManager;
 import com.vmloft.develop.library.tools.picker.VMPicker;
 
 /**
@@ -48,6 +49,7 @@ public class IM {
     public void init(Context context) {
         IMHelper.getInstance().init(context);
         IMChatManager.getInstance().init();
+        IMEmojiManager.getInstance().init();
     }
 
     /**
