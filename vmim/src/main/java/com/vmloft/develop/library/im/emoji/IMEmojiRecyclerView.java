@@ -9,17 +9,18 @@ import android.widget.RelativeLayout;
 
 import com.vmloft.develop.library.tools.adapter.VMAdapter;
 import com.vmloft.develop.library.tools.utils.VMDimen;
+import com.vmloft.develop.library.tools.utils.VMLog;
 
 /**
  * Created by lzan13 on 2019/05/29 15:00
  *
  * 表情分组列表页面控件
  */
-public class IMEmojiPageView extends RelativeLayout {
+public class IMEmojiRecyclerView extends RelativeLayout {
 
     // 实现表情网格布局
     private RecyclerView mRecyclerView;
-    private IMEmojiAdapter mAdapter;
+    private IMEmojiRecyclerAdapter mAdapter;
 
     // 当前页面展示哪个表情包
     private IMEmojiGroup mEmojiGroup;
@@ -35,7 +36,7 @@ public class IMEmojiPageView extends RelativeLayout {
      * @param context
      * @param group
      */
-    public IMEmojiPageView(Context context, IMEmojiGroup group) {
+    public IMEmojiRecyclerView(Context context, IMEmojiGroup group) {
         this(context, group, IMEmojiManager.IM_EMOJI_COLUMN_COUNT_DEFAULT);
     }
 
@@ -46,7 +47,7 @@ public class IMEmojiPageView extends RelativeLayout {
      * @param group
      * @param count
      */
-    public IMEmojiPageView(Context context, IMEmojiGroup group, int count) {
+    public IMEmojiRecyclerView(Context context, IMEmojiGroup group, int count) {
         super(context);
         mEmojiGroup = group;
         mColumnCount = count;
@@ -72,14 +73,15 @@ public class IMEmojiPageView extends RelativeLayout {
      * 初始化表情列表，加载表情数据
      */
     private void initRecyclerView() {
+        VMLog.d("加载表情 %d", mEmojiGroup.mEmojiItemList.size());
         mRecyclerView = new RecyclerView(getContext());
         mRecyclerView.setOverScrollMode(OVER_SCROLL_NEVER);
         LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         params.leftMargin = VMDimen.dp2px(8);
         params.rightMargin = VMDimen.dp2px(8);
-        addView(mRecyclerView, params);
+        this.addView(mRecyclerView, params);
 
-        mAdapter = new IMEmojiAdapter(getContext(), mEmojiGroup.getEmojiItemList());
+        mAdapter = new IMEmojiRecyclerAdapter(getContext(), mEmojiGroup.mEmojiItemList);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), mColumnCount));
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setClickListener(new VMAdapter.IClickListener() {

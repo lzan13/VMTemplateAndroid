@@ -37,8 +37,4 @@ public class IMEmojiGroup extends IMEmojiBean {
         return mEmojiItemList.size();
     }
 
-    public List<IMEmojiItem> getEmojiItemList() {
-        return mEmojiItemList;
-    }
-
 }

@@ -39,7 +39,7 @@
         android:maxEms="10"
         android:maxLines="1"
         android:textSize="@dimen/vm_size_16"
-        app:layout_constraintBottom_toTopOf="@+id/im_conversation_content_tv"
+        app:layout_constraintBottom_toTopOf="@+id/im_conversation_content_etv"
         app:layout_constraintStart_toEndOf="@+id/im_conversation_avatar_iv"
         app:layout_constraintTop_toTopOf="@+id/im_conversation_avatar_iv"
         tools:text="小不点小不点小不点小不点" />
@@ -56,9 +56,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/im_conversation_title_tv"
         tools:text="2019年4月5日" />
-    <!--文案-->
-    <TextView
-        android:id="@+id/im_conversation_content_tv"
+    <!--内容-->
+    <com.vmloft.develop.library.im.widget.IMEmojiTextView
+        android:id="@+id/im_conversation_content_etv"
         style="@style/VMText.Body1"
         android:layout_width="@dimen/vm_dimen_0"
         android:layout_marginStart="@dimen/vm_margin_normal"

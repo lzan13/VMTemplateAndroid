@@ -18,10 +18,10 @@ import java.util.List;
  *
  * 表情适配器
  */
-public class IMEmojiAdapter extends VMAdapter<IMEmojiItem, IMEmojiAdapter.EmojiHolder> {
+public class IMEmojiRecyclerAdapter extends VMAdapter<IMEmojiItem, IMEmojiRecyclerAdapter.EmojiHolder> {
 
 
-    public IMEmojiAdapter(Context context, List<IMEmojiItem> list) {
+    public IMEmojiRecyclerAdapter(Context context, List<IMEmojiItem> list) {
         super(context, list);
     }
 
@@ -30,6 +30,7 @@ public class IMEmojiAdapter extends VMAdapter<IMEmojiItem, IMEmojiAdapter.EmojiH
     public EmojiHolder onCreateViewHolder(@NonNull ViewGroup parent, int type) {
         View view = mInflater.inflate(R.layout.im_chat_emoji_view_item, parent, false);
         return new EmojiHolder(view);
+
     }
 
     @Override

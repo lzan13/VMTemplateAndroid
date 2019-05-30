@@ -21,6 +21,7 @@ import com.vmloft.develop.library.im.bean.IMContact;
 import com.vmloft.develop.library.im.common.IMChatManager;
 import com.vmloft.develop.library.im.common.IMConstants;
 import com.vmloft.develop.library.im.utils.IMChatUtils;
+import com.vmloft.develop.library.im.widget.IMEmojiTextView;
 import com.vmloft.develop.library.tools.utils.VMColor;
 import com.vmloft.develop.library.tools.utils.VMDate;
 import com.vmloft.develop.library.tools.utils.VMDimen;
@@ -44,7 +45,7 @@ public class IMConversationItem extends RelativeLayout {
     protected TextView mRedDotView;
     protected TextView mTimeView;
     protected TextView mTitleView;
-    protected TextView mContentView;
+    protected IMEmojiTextView mContentView;
 
     protected int mAvatarSize;
 
@@ -64,7 +65,7 @@ public class IMConversationItem extends RelativeLayout {
         mRedDotView = findViewById(R.id.im_conversation_red_dot_tv);
         mTimeView = findViewById(R.id.im_conversation_time_tv);
         mTitleView = findViewById(R.id.im_conversation_title_tv);
-        mContentView = findViewById(R.id.im_conversation_content_tv);
+        mContentView = findViewById(R.id.im_conversation_content_etv);
 
         mAvatarSize = VMDimen.dp2px(48);
     }
@@ -104,12 +105,17 @@ public class IMConversationItem extends RelativeLayout {
         } else if (conversation.getAllMessages().size() > 0) {
             EMMessage message = conversation.getLastMessage();
             int type = IMChatUtils.getMessageType(message);
+            // 只有文本才需要开启 Emoji 表情识别，默认都关闭
+            mContentView.setEnableEmoji(false);
             if (type == IMConstants.IM_CHAT_TYPE_SYSTEM) {
+                // TODO 系统提醒
             } else if (type == IMConstants.IM_CHAT_TYPE_RECALL) {
                 content = "[" + VMStr.byRes(R.string.im_recall_already) + "]";
             } else if (type == IMConstants.IM_CHAT_TYPE_CALL_RECEIVE || type == IMConstants.IM_CHAT_TYPE_CALL_SEND) {
                 content = "[" + VMStr.byRes(R.string.im_call) + "]";
             } else if (type == IMConstants.IM_CHAT_TYPE_TEXT_RECEIVE || type == IMConstants.IM_CHAT_TYPE_TEXT_SEND) {
+                // 只有文本才需要开启 Emoji 表情识别
+                mContentView.setEnableEmoji(true);
                 content = ((EMTextMessageBody) message.getBody()).getMessage();
             } else if (type == IMConstants.IM_CHAT_TYPE_IMAGE_RECEIVE || type == IMConstants.IM_CHAT_TYPE_IMAGE_SEND) {
                 content = "[" + VMStr.byRes(R.string.im_picture) + "]";
@@ -127,12 +133,12 @@ public class IMConversationItem extends RelativeLayout {
         if (!VMStr.isEmpty(draft)) {
             Spannable spannable = new SpannableString(content);
             spannable.setSpan(new ForegroundColorSpan(VMColor.byRes(R.color.vm_red_87)), 0, prefix.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             mContentView.setText(spannable);
         } else if (conversation.getAllMsgCount() > 0 && conversation.getLastMessage().status() == EMMessage.Status.FAIL) {
             Spannable spannable = new SpannableString(content);
             spannable.setSpan(new ForegroundColorSpan(VMColor.byRes(R.color.vm_red_87)), 0, prefix.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             mContentView.setText(spannable);
         } else {
             mContentView.setText(content);

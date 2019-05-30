@@ -14,13 +14,13 @@ import java.util.List;
  */
 public class IMEmojiPagerAdapter extends PagerAdapter {
 
-    private List<IMEmojiPageView> mDataList = new ArrayList<>();
+    private List<IMEmojiRecyclerView> mDataList = new ArrayList<>();
 
-    public IMEmojiPagerAdapter(List<IMEmojiPageView> dataList) {
+    public IMEmojiPagerAdapter(List<IMEmojiRecyclerView> dataList) {
         updateData(dataList);
     }
 
-    public void updateData(List<IMEmojiPageView> list) {
+    public void updateData(List<IMEmojiRecyclerView> list) {
         mDataList.clear();
         if (list != null && !list.isEmpty()) {
             mDataList.addAll(list);
@@ -32,13 +32,13 @@ public class IMEmojiPagerAdapter extends PagerAdapter {
         return mDataList.size();
     }
 
-    public IMEmojiPageView getItem(int position) {
+    public IMEmojiRecyclerView getItem(int position) {
         return mDataList.get(position);
     }
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        IMEmojiPageView pageView = mDataList.get(position);
+        IMEmojiRecyclerView pageView = mDataList.get(position);
         pageView.setTag(pageView.getEmojiGroup().mGroupName);
 
         // 对需要添加的 view 做个判断，防止出现 java.lang.IllegalStateException 错误
@@ -61,7 +61,7 @@ public class IMEmojiPagerAdapter extends PagerAdapter {
         return view == object;
     }
 
-    public List<IMEmojiPageView> getDataList() {
+    public List<IMEmojiRecyclerView> getDataList() {
         return mDataList;
     }
 

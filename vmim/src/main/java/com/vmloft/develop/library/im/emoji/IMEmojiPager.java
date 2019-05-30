@@ -10,7 +10,7 @@ import android.widget.RelativeLayout;
 
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.common.IMExecutor;
-import com.vmloft.develop.library.im.utils.IMUtils;
+import com.vmloft.develop.library.tools.utils.VMLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ import java.util.List;
  *
  * 表情模块儿
  */
-public class IMEmojiView extends RelativeLayout {
+public class IMEmojiPager extends RelativeLayout {
 
     private ImageButton mAddBtn;
     private ImageButton mDelBtn;
@@ -30,10 +30,10 @@ public class IMEmojiView extends RelativeLayout {
 
     // 表情组信息
     private List<IMEmojiGroup> mEmojiGroupList;
-    private List<IMEmojiPageView> mPageViewList;
-    private IMEmojiPageView.EmojiInnerListener mInnerListener;
+    private List<IMEmojiRecyclerView> mPageViewList;
+    private IMEmojiRecyclerView.EmojiInnerListener mInnerListener;
 
-    public IMEmojiView(Context context) {
+    public IMEmojiPager(Context context) {
         super(context);
 
         init();
@@ -70,7 +70,7 @@ public class IMEmojiView extends RelativeLayout {
                 }
             }
         });
-        mInnerListener = new IMEmojiPageView.EmojiInnerListener() {
+        mInnerListener = new IMEmojiRecyclerView.EmojiInnerListener() {
             @Override
             public void onEmojiClick(IMEmojiGroup group, IMEmojiItem item) {
                 if (mEmojiListener != null) {
@@ -78,7 +78,12 @@ public class IMEmojiView extends RelativeLayout {
                 }
             }
         };
+    }
 
+    /**
+     * 加载数据
+     */
+    public void laodData() {
         IMExecutor.asyncSingleTask(new Runnable() {
             @Override
             public void run() {
@@ -96,9 +101,10 @@ public class IMEmojiView extends RelativeLayout {
     /**
      * 加载表情页
      */
-    private List<IMEmojiPageView> bindEmojiPageView() {
-        List<IMEmojiPageView> list = new ArrayList<>();
+    private List<IMEmojiRecyclerView> bindEmojiPageView() {
+        List<IMEmojiRecyclerView> list = new ArrayList<>();
         List<IMEmojiGroup> groups = IMEmojiManager.getInstance().getEmojiGroupList();
+        VMLog.d("加载表情 %d", groups.size());
         if (groups == null || groups.size() <= 0) {
             return list;
         }
@@ -109,11 +115,11 @@ public class IMEmojiView extends RelativeLayout {
                 // pageViewList.add(emptyView);
             } else {
                 boolean isEmojiGroup = group.isEmoji;
-                IMEmojiPageView pageView;
+                IMEmojiRecyclerView pageView;
                 if (isEmojiGroup) {
-                    pageView = new IMEmojiPageView(getContext(), group, IMEmojiManager.IM_EMOJI_COLUMN_COUNT);
+                    pageView = new IMEmojiRecyclerView(getContext(), group, IMEmojiManager.IM_EMOJI_COLUMN_COUNT);
                 } else {
-                    pageView = new IMEmojiPageView(getContext(), group);
+                    pageView = new IMEmojiRecyclerView(getContext(), group);
                 }
                 pageView.setEmojiInnerListener(mInnerListener);
                 list.add(pageView);

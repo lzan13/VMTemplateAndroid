@@ -11,6 +11,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
@@ -26,7 +27,8 @@ import com.vmloft.develop.library.im.common.IMChatManager;
 import com.vmloft.develop.library.im.common.IMConstants;
 import com.vmloft.develop.library.im.emoji.IMEmojiGroup;
 import com.vmloft.develop.library.im.emoji.IMEmojiItem;
-import com.vmloft.develop.library.im.emoji.IMEmojiView;
+import com.vmloft.develop.library.im.emoji.IMEmojiManager;
+import com.vmloft.develop.library.im.emoji.IMEmojiPager;
 import com.vmloft.develop.library.im.utils.IMUtils;
 import com.vmloft.develop.library.tools.adapter.VMAdapter;
 import com.vmloft.develop.library.tools.base.VMConstant;
@@ -100,7 +102,7 @@ public class IMChatFragment extends IMBaseFragment {
         // 检查是否有草稿没有发出
         String draft = IMChatManager.getInstance().getDraft(mConversation);
         if (!VMStr.isEmpty(draft)) {
-            mInputET.setText(draft);
+            mInputET.setText(IMEmojiManager.getInstance().getEmojiSpannable(draft));
         }
     }
 
@@ -197,19 +199,50 @@ public class IMChatFragment extends IMBaseFragment {
      * 初始化表情
      */
     private void initEmojiView() {
-        IMEmojiView emojiView = new IMEmojiView(mContext);
-        mExtEmojiContainer.addView(emojiView);
-        emojiView.stEmojiListener(new IMEmojiView.IIMEmojiListener() {
+        IMEmojiPager emojiPager = new IMEmojiPager(mContext);
+        mExtEmojiContainer.addView(emojiPager);
+        emojiPager.stEmojiListener(new IMEmojiPager.IIMEmojiListener() {
+            /**
+             * 添加表情
+             * @param group 表情所在组
+             * @param item  表情
+             */
             @Override
             public void onInsertEmoji(IMEmojiGroup group, IMEmojiItem item) {
-
+                if (group.isEmoji) {
+                    SpannableString spannableString = IMEmojiManager.getInstance().getEmojiSpannable(item.mEmojiResId, item.mEmojiDesc);
+                    int currentIndex = mInputET.getSelectionStart();
+                    Editable editable = mInputET.getText();
+                    editable.insert(currentIndex, spannableString);
+                } else {
+                    // 不是 Emoji 表情，直接发送消息
+                }
             }
 
+            /**
+             * 删除表情
+             */
             @Override
             public void onDeleteEmoji() {
+                int selection = mInputET.getSelectionStart();
+                String text = mInputET.getText().toString();
 
+                int start = mInputET.getSelectionStart();
+                int end = mInputET.getSelectionEnd();
+                if (start > 0) {
+                    if (end - start > 0) {
+                        mInputET.getText().delete(start, end);
+                    } else {
+                        int deleteLength = IMEmojiManager.getInstance().deleteEmoji(start, text);
+                        if (deleteLength > 0) {
+                            mInputET.getText().delete(selection - deleteLength, selection);
+                        }
+                    }
+                }
             }
         });
+        emojiPager.laodData();
+
     }
 
     /**

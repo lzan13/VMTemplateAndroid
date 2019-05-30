@@ -10,6 +10,7 @@ import com.hyphenate.chat.EMTextMessageBody;
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.chat.IMChatAdapter;
 import com.vmloft.develop.library.im.common.IMConstants;
+import com.vmloft.develop.library.im.widget.IMEmojiTextView;
 
 /**
  * Create by lzan13 on 2019/5/23 22:17
@@ -18,7 +19,7 @@ import com.vmloft.develop.library.im.common.IMConstants;
  */
 public class IMTextMsgItem extends IMMsgItem {
 
-    private TextView mContentView;
+    private IMEmojiTextView mContentView;
 
     public IMTextMsgItem(Context context, IMChatAdapter adapter, int type) {
         super(context, adapter, type);
@@ -32,7 +33,7 @@ public class IMTextMsgItem extends IMMsgItem {
     @Override
     protected View layoutView() {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.im_chat_item_text, null);
-        mContentView = view.findViewById(R.id.im_chat_msg_content_tv);
+        mContentView = view.findViewById(R.id.im_chat_msg_content_etv);
         return view;
     }
 
