@@ -10,8 +10,7 @@ import android.widget.TextView;
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.tools.adapter.VMAdapter;
 import com.vmloft.develop.library.tools.adapter.VMHolder;
-
-import java.util.List;
+import com.vmloft.develop.library.tools.utils.VMLog;
 
 /**
  * Create by lzan13 on 2019/5/29 14:16
@@ -20,15 +19,20 @@ import java.util.List;
  */
 public class IMEmojiRecyclerAdapter extends VMAdapter<IMEmojiItem, IMEmojiRecyclerAdapter.EmojiHolder> {
 
+    private IMEmojiGroup mEmojiGroup;
 
-    public IMEmojiRecyclerAdapter(Context context, List<IMEmojiItem> list) {
-        super(context, list);
+
+    public IMEmojiRecyclerAdapter(Context context, IMEmojiGroup group) {
+        super(context);
+        mEmojiGroup = group;
+        mDataList = mEmojiGroup.mEmojiItemList;
+        VMLog.d("初始化表情适配器 表情数: %d", getItemCount());
     }
 
     @NonNull
     @Override
     public EmojiHolder onCreateViewHolder(@NonNull ViewGroup parent, int type) {
-        View view = mInflater.inflate(R.layout.im_chat_emoji_view_item, parent, false);
+        View view = mInflater.inflate(R.layout.im_emoji_recycler_view_item, parent, false);
         return new EmojiHolder(view);
 
     }

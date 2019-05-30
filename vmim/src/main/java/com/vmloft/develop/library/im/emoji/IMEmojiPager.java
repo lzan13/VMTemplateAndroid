@@ -10,7 +10,6 @@ import android.widget.RelativeLayout;
 
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.common.IMExecutor;
-import com.vmloft.develop.library.tools.utils.VMLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +27,7 @@ public class IMEmojiPager extends RelativeLayout {
     private ViewPager mViewPager;
     private IMEmojiPagerAdapter mAdapter;
 
-    // 表情组信息
-    private List<IMEmojiGroup> mEmojiGroupList;
+    // 表情组列表页面集合
     private List<IMEmojiRecyclerView> mPageViewList;
     private IMEmojiRecyclerView.EmojiInnerListener mInnerListener;
 
@@ -43,7 +41,7 @@ public class IMEmojiPager extends RelativeLayout {
      * 初始化
      */
     private void init() {
-        LayoutInflater.from(getContext()).inflate(R.layout.im_chat_emoji_view, this);
+        LayoutInflater.from(getContext()).inflate(R.layout.im_emoji_pager, this);
 
         mAddBtn = findViewById(R.id.im_emoji_add_btn);
         mDelBtn = findViewById(R.id.im_emoji_delete_btn);
@@ -57,7 +55,6 @@ public class IMEmojiPager extends RelativeLayout {
      * 初始化表情 ViewPager
      */
     private void initEmojiViewPager() {
-        mEmojiGroupList = IMEmojiManager.getInstance().getEmojiGroupList();
         mPageViewList = new ArrayList<>();
         mAdapter = new IMEmojiPagerAdapter(mPageViewList);
         mViewPager.setAdapter(mAdapter);
@@ -83,7 +80,7 @@ public class IMEmojiPager extends RelativeLayout {
     /**
      * 加载数据
      */
-    public void laodData() {
+    public void loadData() {
         IMExecutor.asyncSingleTask(new Runnable() {
             @Override
             public void run() {
@@ -102,30 +99,28 @@ public class IMEmojiPager extends RelativeLayout {
      * 加载表情页
      */
     private List<IMEmojiRecyclerView> bindEmojiPageView() {
-        List<IMEmojiRecyclerView> list = new ArrayList<>();
-        List<IMEmojiGroup> groups = IMEmojiManager.getInstance().getEmojiGroupList();
-        VMLog.d("加载表情 %d", groups.size());
-        if (groups == null || groups.size() <= 0) {
-            return list;
+        List<IMEmojiRecyclerView> viewList = new ArrayList<>();
+        List<IMEmojiGroup> groupList = IMEmojiManager.getInstance().getEmojiGroupList();
+        if (groupList == null || groupList.size() <= 0) {
+            return viewList;
         }
-        for (int i = 0; i < groups.size(); i++) {
-            IMEmojiGroup group = groups.get(i);
+        for (int i = 0; i < groupList.size(); i++) {
+            IMEmojiGroup group = groupList.get(i);
             if (group.mEmojiItemList.size() <= 0) {
                 // TODO 表情数量为空时，展示空视图，同时可触发去网络下载的逻辑
                 // pageViewList.add(emptyView);
             } else {
-                boolean isEmojiGroup = group.isEmoji;
                 IMEmojiRecyclerView pageView;
-                if (isEmojiGroup) {
+                if (group.isEmoji) {
                     pageView = new IMEmojiRecyclerView(getContext(), group, IMEmojiManager.IM_EMOJI_COLUMN_COUNT);
                 } else {
                     pageView = new IMEmojiRecyclerView(getContext(), group);
                 }
                 pageView.setEmojiInnerListener(mInnerListener);
-                list.add(pageView);
+                viewList.add(pageView);
             }
         }
-        return list;
+        return viewList;
     }
 
     /**

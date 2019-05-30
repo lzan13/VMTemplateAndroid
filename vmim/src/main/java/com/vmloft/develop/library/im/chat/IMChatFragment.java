@@ -241,7 +241,7 @@ public class IMChatFragment extends IMBaseFragment {
                 }
             }
         });
-        emojiPager.laodData();
+        emojiPager.loadData();
 
     }
 

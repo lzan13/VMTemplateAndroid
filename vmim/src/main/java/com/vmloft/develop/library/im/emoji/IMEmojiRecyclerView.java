@@ -3,12 +3,12 @@ package com.vmloft.develop.library.im.emoji;
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.tools.adapter.VMAdapter;
-import com.vmloft.develop.library.tools.utils.VMDimen;
 import com.vmloft.develop.library.tools.utils.VMLog;
 
 /**
@@ -63,7 +63,12 @@ public class IMEmojiRecyclerView extends RelativeLayout {
     }
 
     private void init() {
+        LayoutInflater.from(getContext()).inflate(R.layout.im_emoji_recycler_view, this);
+        mRecyclerView = findViewById(R.id.im_emoji_recycler_view);
+
         if (mEmojiGroup.getEmojiCount() <= 0) {
+            // TODO 没有表情数据，添加空提示
+            VMLog.d("没有表情数据");
         } else {
             initRecyclerView();
         }
@@ -73,17 +78,8 @@ public class IMEmojiRecyclerView extends RelativeLayout {
      * 初始化表情列表，加载表情数据
      */
     private void initRecyclerView() {
-        VMLog.d("加载表情 %d", mEmojiGroup.mEmojiItemList.size());
-        mRecyclerView = new RecyclerView(getContext());
-        mRecyclerView.setOverScrollMode(OVER_SCROLL_NEVER);
-        LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        params.leftMargin = VMDimen.dp2px(8);
-        params.rightMargin = VMDimen.dp2px(8);
-        this.addView(mRecyclerView, params);
-
-        mAdapter = new IMEmojiRecyclerAdapter(getContext(), mEmojiGroup.mEmojiItemList);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), mColumnCount));
-        mRecyclerView.setAdapter(mAdapter);
+        mAdapter = new IMEmojiRecyclerAdapter(getContext(), mEmojiGroup);
         mAdapter.setClickListener(new VMAdapter.IClickListener() {
             @Override
             public void onItemAction(int action, Object object) {
@@ -97,6 +93,7 @@ public class IMEmojiRecyclerView extends RelativeLayout {
                 return false;
             }
         });
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     /**
