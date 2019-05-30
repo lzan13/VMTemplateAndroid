@@ -1,5 +1,6 @@
 package com.vmloft.develop.library.im.emoji;
 
+import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,46 +15,24 @@ import java.util.List;
  */
 public class IMEmojiPagerAdapter extends PagerAdapter {
 
-    private List<IMEmojiRecyclerView> mDataList = new ArrayList<>();
+    private List<IMEmojiRecyclerView> mViewList = new ArrayList<>();
 
-    public IMEmojiPagerAdapter(List<IMEmojiRecyclerView> dataList) {
-        updateData(dataList);
+    public IMEmojiPagerAdapter(List<IMEmojiRecyclerView> list) {
+        mViewList.addAll(list);
     }
 
-    public void updateData(List<IMEmojiRecyclerView> list) {
-        mDataList.clear();
-        if (list != null && !list.isEmpty()) {
-            mDataList.addAll(list);
-        }
+    /**
+     * 更新里数据集
+     */
+    public void update(List<IMEmojiRecyclerView> list) {
+        mViewList.clear();
+        mViewList.addAll(list);
+        notifyDataSetChanged();
     }
 
     @Override
     public int getCount() {
-        return mDataList.size();
-    }
-
-    public IMEmojiRecyclerView getItem(int position) {
-        return mDataList.get(position);
-    }
-
-    @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        IMEmojiRecyclerView pageView = mDataList.get(position);
-        pageView.setTag(pageView.getEmojiGroup().mGroupName);
-
-        // 对需要添加的 view 做个判断，防止出现 java.lang.IllegalStateException 错误
-        ViewGroup parent = (ViewGroup) pageView.getParent();
-        if (parent != null) {
-            parent.removeAllViews();
-        }
-
-        container.addView(pageView);
-        return mDataList.get(position);
-    }
-
-    @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
-        container.removeView(mDataList.get(position));
+        return mViewList.size();
     }
 
     @Override
@@ -61,8 +40,16 @@ public class IMEmojiPagerAdapter extends PagerAdapter {
         return view == object;
     }
 
-    public List<IMEmojiRecyclerView> getDataList() {
-        return mDataList;
+    @Override
+    public IMEmojiRecyclerView instantiateItem(ViewGroup container, int position) {
+        IMEmojiRecyclerView view = mViewList.get(position);
+        container.addView(view);
+        return view;
     }
 
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        IMEmojiRecyclerView view = (IMEmojiRecyclerView) object;
+        container.removeView(view);
+    }
 }

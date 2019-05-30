@@ -128,9 +128,7 @@ public class IMEmojiPager extends RelativeLayout {
      */
     private void refresh() {
         if (mAdapter != null) {
-
-            mAdapter.updateData(mPageViewList);
-            mAdapter.notifyDataSetChanged();
+            mAdapter.update(mPageViewList);
         }
     }
 
