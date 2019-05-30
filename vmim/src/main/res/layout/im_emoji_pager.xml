@@ -5,23 +5,23 @@
     >
 
     <ImageButton
-        android:id="@+id/im_emoji_delete_btn"
-        android:layout_width="@dimen/vm_dimen_48"
-        android:layout_height="@dimen/vm_dimen_40"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:background="@drawable/im_chat_emoji_bg"
-        android:src="@drawable/im_ic_arrow_right"
-        />
-
-    <ImageButton
         android:id="@+id/im_emoji_add_btn"
-        android:layout_width="@dimen/vm_dimen_48"
+        android:layout_width="@dimen/vm_dimen_40"
         android:layout_height="@dimen/vm_dimen_40"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:background="@drawable/im_chat_emoji_bg"
-        android:src="@drawable/im_ic_arrow_right"
+        android:src="@drawable/im_ic_add"
+        />
+
+    <ImageButton
+        android:id="@+id/im_emoji_delete_btn"
+        android:layout_width="@dimen/vm_dimen_40"
+        android:layout_height="@dimen/vm_dimen_40"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/im_chat_emoji_bg"
+        android:src="@drawable/im_ic_delete"
         />
 
     <android.support.design.widget.TabLayout

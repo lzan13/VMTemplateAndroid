@@ -10,6 +10,7 @@ import com.vmloft.develop.app.match.base.AppLazyFragment;
 import com.vmloft.develop.app.match.router.ARouter;
 import com.vmloft.develop.library.im.conversation.IMConversationFragment;
 import com.vmloft.develop.library.tools.utils.VMDimen;
+import com.vmloft.develop.library.tools.widget.VMTopBar;
 import com.vmloft.develop.library.tools.widget.toast.VMToast;
 
 import butterknife.OnClick;
@@ -24,6 +25,7 @@ public class ConversationFragment extends AppLazyFragment {
     private IMConversationFragment mConversationFragment;
 
     protected View mTopSpaceView;
+    protected VMTopBar mTopBar;
 
     /**
      * Fragment 的工厂方法，方便创建并设置参数
@@ -48,10 +50,11 @@ public class ConversationFragment extends AppLazyFragment {
         super.initView();
 
         mTopSpaceView = getView().findViewById(R.id.common_top_space);
-        if (mTopSpaceView != null) {
-            // 设置状态栏透明主题时，布局整体会上移，所以给头部 View 设置 StatusBar 的高度
-            mTopSpaceView.getLayoutParams().height = VMDimen.getStatusBarHeight();
-        }
+        mTopBar = getView().findViewById(R.id.common_top_bar);
+
+        // 设置状态栏透明主题时，布局整体会上移，所以给头部 View 设置 StatusBar 的高度
+        mTopSpaceView.getLayoutParams().height = VMDimen.getStatusBarHeight();
+        mTopBar.setTitle("聊天会话");
 
         mConversationFragment = IMConversationFragment.newInstance();
         FragmentManager manager = getChildFragmentManager();

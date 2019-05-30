@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/vm_theme_background"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".chat.IMChatActivity"
+    >
+
+    <!--定义顶部 TopBar-->
+    <include layout="@layout/im_widget_common_top_bar" />
+
+    <!--头像-->
+    <ImageView
+        android:id="@+id/im_call_avatar_iv"
+        android:layout_width="@dimen/vm_avatar_large"
+        android:layout_height="@dimen/vm_avatar_large"
+        android:layout_below="@+id/im_common_top_bar_rl"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/vm_dimen_56"
+        />
+    <TextView
+        android:id="@+id/im_call_time_tv"
+        android:layout_below="@+id/im_call_avatar_iv"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/vm_margin_normal"
+        android:shadowColor="@color/vm_black"
+        android:shadowDx="5"
+        android:shadowDy="5"
+        android:shadowRadius="4"
+        android:textColor="@color/vm_white"
+        tools:text="20:32"
+        style="@style/VMText.Body1"
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/vm_margin_large"
+        android:orientation="horizontal"
+        >
+
+        <!--接听-->
+        <ImageButton
+            android:id="@+id/im_call_answer_btn"
+            android:layout_width="@dimen/vm_dimen_56"
+            android:layout_height="@dimen/vm_dimen_56"
+            android:layout_margin="@dimen/vm_margin_large"
+            android:background="@drawable/im_call_answer_bg"
+            android:src="@drawable/im_ic_call"
+            android:tint="@color/vm_white"
+            />
+
+        <!--挂断-->
+        <ImageButton
+            android:id="@+id/im_call_end_btn"
+            android:layout_width="@dimen/vm_dimen_56"
+            android:layout_height="@dimen/vm_dimen_56"
+            android:layout_margin="@dimen/vm_margin_large"
+            android:background="@drawable/im_call_end_bg"
+            android:src="@drawable/im_ic_call_end"
+            android:tint="@color/vm_white"
+            />
+    </LinearLayout>
+
+</RelativeLayout>

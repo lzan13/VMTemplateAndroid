@@ -17,7 +17,6 @@ public class IMConstants {
     // 输入状态检测时间
     public static final long TIME_INPUT_STATUS = IM_TIME_SECOND * 5;
 
-
     // 分页拉取限制
     public static final int IM_CHAT_MSG_LIMIT = 20;
 
@@ -31,7 +30,7 @@ public class IMConstants {
     }
 
     /**
-     * 普通消息类型
+     * 消息类型
      */
     // 未知类型
     public static final int IM_CHAT_TYPE_UNKNOWN = 0;
@@ -61,15 +60,24 @@ public class IMConstants {
     // 输入状态
     public static final String IM_CHAT_ACTION_INPUT = "im_chat_action_input";
     public static final String IM_CHAT_ACTION_RECALL = "im_chat_action_recall";
+    //  通话 Action
+    public static final String IM_CHAT_ACTION_CALL = "im_chat_action_call";
+    public static final String IM_CHAT_ACTION_CALL_REJECT = "im_chat_action_call_reject";
+    public static final String IM_CHAT_ACTION_CALL_END = "im_chat_action_call_end";
 
-    // 传递聊天 id
+    // 传递聊天 Id
     public static final String IM_CHAT_ID = "im_chat_id";
     // 传递聊天类型
     public static final String IM_CHAT_TYPE = "im_chat_type";
+    // 是否是呼叫进来的
+    public static final String IM_CHAT_IS_CALL = "im_chat_is_call";
+
     // 传递消息
     public static final String IM_CHAT_MSG = "im_chat_msg";
-    // 传递消息Id
+    // 传递消息 Id
     public static final String IM_CHAT_MSG_ID = "im_chat_msg_id";
+    // 会议 Id
+    public static final String IM_CHAT_CONFERENCE_ID = "im_chat_conference_id";
 
     /**
      * 定义会话与消息扩展字段 key
