@@ -22,8 +22,9 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/vm_dimen_56"
         />
+    <!--时间-->
     <TextView
-        android:id="@+id/im_call_time_tv"
+        android:id="@+id/im_call_name_tv"
         android:layout_below="@+id/im_call_avatar_iv"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/vm_margin_normal"
@@ -33,9 +34,24 @@
         android:shadowRadius="4"
         android:textColor="@color/vm_white"
         tools:text="20:32"
+        style="@style/VMText.Title"
+        />
+    <!--时间-->
+    <TextView
+        android:id="@+id/im_call_time_tv"
+        android:layout_above="@+id/im_call_control_ll"
+        android:layout_centerHorizontal="true"
+        android:shadowColor="@color/vm_black"
+        android:shadowDx="5"
+        android:shadowDy="5"
+        android:shadowRadius="4"
+        android:textColor="@color/vm_white"
+        tools:text="20:32"
         style="@style/VMText.Body1"
         />
+    <!--控制按钮-->
     <LinearLayout
+        android:id="@+id/im_call_control_ll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

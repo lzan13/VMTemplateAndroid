@@ -33,13 +33,16 @@ public class IMChatReceiver extends BroadcastReceiver {
         if (body.action().equals(IMConstants.IM_CHAT_ACTION_CALL)) {
             if (IMCallManager.getInstance().isCalling()) {
                 // 如果正在通话中，拒绝对方通话
-                IMCallManager.getInstance().callReject(message.conversationId(), null);
+                IMCallManager.getInstance().callReject(message.conversationId());
             } else {
+                IMCallManager.getInstance().setCallStatus(IMConstants.CallStatus.IM_INCOMING_CALL);
                 // 否则跳转到通话界面
                 IMRouter.goIMCall(context, message.conversationId(), true);
             }
         } else if (body.action().equals(IMConstants.IM_CHAT_ACTION_CALL_REJECT)) {
-
+            IMCallManager.getInstance().setCallStatus(IMConstants.CallStatus.IM_REJECTED);
+        } else if (body.action().equals(IMConstants.IM_CHAT_ACTION_CALL_END)) {
+            IMCallManager.getInstance().setCallStatus(IMConstants.CallStatus.IM_END);
         }
     }
 

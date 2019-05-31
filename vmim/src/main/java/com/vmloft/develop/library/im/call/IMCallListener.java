@@ -1,11 +1,16 @@
 package com.vmloft.develop.library.im.call;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import com.hyphenate.EMConferenceListener;
+import com.hyphenate.chat.EMConferenceAttribute;
 import com.hyphenate.chat.EMConferenceManager;
 import com.hyphenate.chat.EMConferenceMember;
 import com.hyphenate.chat.EMConferenceStream;
 import com.hyphenate.chat.EMStreamStatistics;
 
+import com.vmloft.develop.library.im.common.IMConstants;
+import com.vmloft.develop.library.tools.utils.VMLog;
 import java.util.List;
 
 /**
@@ -21,7 +26,11 @@ public class IMCallListener implements EMConferenceListener {
      */
     @Override
     public void onMemberJoined(EMConferenceMember member) {
-
+        if (IMCallManager.getInstance().getCallType() == IMConstants.CallType.IM_SINGLE) {
+            IMCallManager.getInstance().setCallStatus(IMConstants.CallStatus.IM_CONNECT);
+        } else {
+            // TODO 多人通话有其他操作，
+        }
     }
 
     /**
@@ -31,7 +40,11 @@ public class IMCallListener implements EMConferenceListener {
      */
     @Override
     public void onMemberExited(EMConferenceMember member) {
-
+        if (IMCallManager.getInstance().getCallType() == IMConstants.CallType.IM_SINGLE) {
+            IMCallManager.getInstance().setCallStatus(IMConstants.CallStatus.IM_END);
+        } else {
+            // TODO 多人通话进行其他操作
+        }
     }
 
     /**
@@ -41,7 +54,7 @@ public class IMCallListener implements EMConferenceListener {
      */
     @Override
     public void onStreamAdded(EMConferenceStream stream) {
-
+        IMCallManager.getInstance().subscribeStream(stream);
     }
 
     /**
@@ -82,7 +95,7 @@ public class IMCallListener implements EMConferenceListener {
      */
     @Override
     public void onConferenceState(ConferenceState state) {
-
+        VMLog.d("call state " + state);
     }
 
     /**
@@ -134,6 +147,12 @@ public class IMCallListener implements EMConferenceListener {
      */
     @Override
     public void onRoleChanged(EMConferenceManager.EMConferenceRole role) {
+
+    }
+
+    @TargetApi(Build.VERSION_CODES.N)
+    @Override
+    public void onAttributesUpdated(EMConferenceAttribute[] attributes) {
 
     }
 }

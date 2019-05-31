@@ -5,6 +5,8 @@ import android.content.Context;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
 import com.vmloft.develop.library.im.call.IMCallManager;
+import com.vmloft.develop.library.im.common.IMChatManager;
+import com.vmloft.develop.library.im.emoji.IMEmojiManager;
 import com.vmloft.develop.library.tools.utils.VMLog;
 import com.vmloft.develop.library.tools.utils.VMSystem;
 
@@ -72,10 +74,6 @@ public class IMHelper {
 
         // 设置开启debug模式
         EMClient.getInstance().setDebugMode(true);
-
-        // 通话管理类的初始化
-        IMCallManager.getInstance().init(context);
-
 
         // 初始化完成
         isInit = true;

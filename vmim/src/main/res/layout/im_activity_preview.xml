@@ -1,0 +1,36 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/vm_gray_black"
+    tools:context=".chat.IMPreviewActivity"
+    >
+
+    <com.vmloft.develop.library.tools.widget.VMViewPager
+        android:id="@+id/im_preview_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+    <!--定义顶部 TopBar-->
+    <include layout="@layout/im_widget_common_top_bar" />
+
+    <LinearLayout
+        android:id="@+id/im_preview_bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/vm_gray_black_54"
+        android:orientation="vertical"
+        android:visibility="visible"
+        tools:visibility="visible"
+        >
+
+        <View
+            android:id="@+id/im_preview_bottom_space"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            />
+    </LinearLayout>
+</RelativeLayout>

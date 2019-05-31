@@ -28,5 +28,12 @@
             android:name=".call.IMCallActivity"
             android:theme="@style/IMTheme.Chat"
             android:windowSoftInputMode="adjustNothing|stateAlwaysHidden" />
+        <!--预览界面-->
+        <activity
+            android:name=".chat.IMPreviewActivity"
+            android:theme="@style/IMTheme.Chat"
+            android:windowSoftInputMode="adjustNothing|stateAlwaysHidden" />
+
+
     </application>
 </manifest>

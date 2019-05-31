@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.common.IMExecutor;
 
+import com.vmloft.develop.library.tools.utils.VMSystem;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,7 +86,7 @@ public class IMEmojiPager extends RelativeLayout {
             @Override
             public void run() {
                 mPageViewList = bindEmojiPageView();
-                mViewPager.post(new Runnable() {
+                VMSystem.runInUIThread(new Runnable() {
                     @Override
                     public void run() {
                         refresh();

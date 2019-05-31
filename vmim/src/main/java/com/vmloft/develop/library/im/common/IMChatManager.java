@@ -12,9 +12,11 @@ import com.hyphenate.chat.EMTextMessageBody;
 import com.hyphenate.chat.EMVideoMessageBody;
 import com.hyphenate.chat.EMVoiceMessageBody;
 import com.hyphenate.exceptions.HyphenateException;
+import com.vmloft.develop.library.im.IM;
 import com.vmloft.develop.library.im.base.IMCallback;
 import com.vmloft.develop.library.im.chat.IMChatListener;
 import com.vmloft.develop.library.im.utils.IMChatUtils;
+import com.vmloft.develop.library.tools.utils.VMDate;
 import com.vmloft.develop.library.tools.utils.VMLog;
 
 import java.io.File;
@@ -135,6 +137,19 @@ public class IMChatManager {
     public List<EMMessage> getCacheMessages(String id, int chatType) {
         EMConversation conversation = getConversation(id, chatType);
         return conversation.getAllMessages();
+    }
+
+    /**
+     * 获取缓存中的图片消息，主要用来预览图片
+     */
+    public List<EMMessage> getCachePictureMessage(String id, int chatType) {
+        List<EMMessage> result = new ArrayList<>();
+        for (EMMessage msg : getCacheMessages(id, chatType)) {
+            if (msg.getType() == EMMessage.Type.IMAGE) {
+                result.add(msg);
+            }
+        }
+        return result;
     }
 
     /**
@@ -375,6 +390,11 @@ public class IMChatManager {
      * @param callback 发送结果回调接口
      */
     public void sendMessage(final EMMessage message, final IMCallback<EMMessage> callback) {
+        if (!IM.getInstance().isSignIn()) {
+            callback.onError(IMException.NO_SIGN_IN, "未登录，无法发送消息");
+            return;
+        }
+
         /**
          *  调用sdk的消息发送方法发送消息，发送消息时要尽早的设置消息监听，防止消息状态已经回调，
          *  但是自己没有注册监听，导致检测不到消息状态的变化

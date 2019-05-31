@@ -107,17 +107,17 @@ public class IMConversationItem extends RelativeLayout {
             int type = IMChatUtils.getMessageType(message);
             // 只有文本才需要开启 Emoji 表情识别，默认都关闭
             mContentView.setEnableEmoji(false);
-            if (type == IMConstants.IM_CHAT_TYPE_SYSTEM) {
+            if (type == IMConstants.MsgType.IM_SYSTEM) {
                 // TODO 系统提醒
-            } else if (type == IMConstants.IM_CHAT_TYPE_RECALL) {
+            } else if (type == IMConstants.MsgType.IM_RECALL) {
                 content = "[" + VMStr.byRes(R.string.im_recall_already) + "]";
-            } else if (type == IMConstants.IM_CHAT_TYPE_CALL_RECEIVE || type == IMConstants.IM_CHAT_TYPE_CALL_SEND) {
+            } else if (type == IMConstants.MsgType.IM_CALL_RECEIVE || type == IMConstants.MsgType.IM_CALL_SEND) {
                 content = "[" + VMStr.byRes(R.string.im_call) + "]";
-            } else if (type == IMConstants.IM_CHAT_TYPE_TEXT_RECEIVE || type == IMConstants.IM_CHAT_TYPE_TEXT_SEND) {
+            } else if (type == IMConstants.MsgType.IM_TEXT_RECEIVE || type == IMConstants.MsgType.IM_TEXT_SEND) {
                 // 只有文本才需要开启 Emoji 表情识别
                 mContentView.setEnableEmoji(true);
                 content = ((EMTextMessageBody) message.getBody()).getMessage();
-            } else if (type == IMConstants.IM_CHAT_TYPE_IMAGE_RECEIVE || type == IMConstants.IM_CHAT_TYPE_IMAGE_SEND) {
+            } else if (type == IMConstants.MsgType.IM_IMAGE_RECEIVE || type == IMConstants.MsgType.IM_IMAGE_SEND) {
                 content = "[" + VMStr.byRes(R.string.im_picture) + "]";
             }
             // 判断这条消息状态，如果失败加上失败前缀提示

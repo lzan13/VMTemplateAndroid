@@ -1,6 +1,10 @@
 package com.vmloft.develop.library.im.call;
 
 import android.content.Intent;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.base.IMBaseActivity;
 import com.vmloft.develop.library.im.base.IMCallback;
@@ -14,6 +18,12 @@ import com.vmloft.develop.library.im.router.IMRouter;
  */
 public class IMCallActivity extends IMBaseActivity {
 
+    private ImageView mAvatarView;
+    private TextView mNameView;
+    private TextView mTimeView;
+    private ImageButton mAnswerBtn;
+    private ImageButton mEndBtn;
+
     // 对方 Id
     private String mId;
     // 是否别人呼叫来的
@@ -25,10 +35,39 @@ public class IMCallActivity extends IMBaseActivity {
     }
 
     @Override
+    protected void initUI() {
+        super.initUI();
+
+        mAvatarView = findViewById(R.id.im_call_avatar_iv);
+        mNameView = findViewById(R.id.im_call_name_tv);
+        mTimeView = findViewById(R.id.im_call_time_tv);
+        mAnswerBtn = findViewById(R.id.im_call_answer_btn);
+        mEndBtn = findViewById(R.id.im_call_end_btn);
+
+        mAnswerBtn.setOnClickListener(viewListener);
+        mEndBtn.setOnClickListener(viewListener);
+    }
+
+    @Override
     protected void initData() {
         mId = getIntent().getStringExtra(IMConstants.IM_CHAT_ID);
         isCall = getIntent().getBooleanExtra(IMConstants.IM_CHAT_IS_CALL, false);
+        // 如果不是别人呼叫进来的，就主动发起呼叫
+        if (!isCall) {
+            startCall();
+        }
     }
+
+    private View.OnClickListener viewListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (v.getId() == R.id.im_call_answer_btn) {
+                callAnswer();
+            } else if (v.getId() == R.id.im_call_end_btn) {
+                callEnd();
+            }
+        }
+    };
 
     /**
      * 开始呼叫
@@ -40,6 +79,28 @@ public class IMCallActivity extends IMBaseActivity {
                 onFinish();
             }
         });
+    }
+
+    /**
+     * 通话接听
+     */
+    private void callAnswer() {
+        IMCallManager.getInstance().callAnswer(mId, new IMCallback() {
+            @Override
+            public void onError(int code, String desc) {
+                // TODO 接听失败，退出
+            }
+        });
+        onFinish();
+    }
+
+    /**
+     * 通话结束
+     */
+    private void callEnd() {
+        IMCallManager.getInstance().callEnd(mId);
+        IMCallManager.getInstance().callReject(mId);
+        onFinish();
     }
 
     /**
@@ -57,5 +118,10 @@ public class IMCallActivity extends IMBaseActivity {
             onFinish();
             IMRouter.goIMCall(mActivity, mId, isCall);
         }
+    }
+
+    @Override
+    public void onFinish() {
+        super.onFinish();
     }
 }

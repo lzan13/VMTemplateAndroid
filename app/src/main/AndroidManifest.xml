@@ -58,7 +58,7 @@
         <!-- 设置环信应用的 AppKey -->
         <meta-data
             android:name="EASEMOB_APPKEY"
-            android:value="lzan13#vmmatch" />
+            android:value="lzan13#mlchat" />
     </application>
 
     <!--全面屏适配-->

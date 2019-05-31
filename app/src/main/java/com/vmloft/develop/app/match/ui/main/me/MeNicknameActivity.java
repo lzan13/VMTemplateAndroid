@@ -21,8 +21,7 @@ import com.vmloft.develop.library.tools.utils.VMStr;
  */
 public class MeNicknameActivity extends AppActivity {
 
-    @BindView(R.id.me_nickname_et)
-    EditText mNicknameET;
+    @BindView(R.id.me_nickname_et) EditText mNicknameET;
     // 个人用户
     private AUser mUser;
 
@@ -34,7 +33,8 @@ public class MeNicknameActivity extends AppActivity {
     @Override
     protected void initUI() {
         super.initUI();
-        getTopBar().setEndBtnListener(VMStr.byRes(R.id.btn_finish), new View.OnClickListener() {
+        getTopBar().setEndBtn(VMStr.byRes(R.string.btn_finish));
+        getTopBar().setEndBtnListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveNickname();

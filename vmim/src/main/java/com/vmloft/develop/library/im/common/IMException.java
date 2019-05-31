@@ -7,7 +7,10 @@ package com.vmloft.develop.library.im.common;
  */
 public class IMException extends Exception {
 
+    // 通用错误
     public static final int COMMON = -1;
+    // 未登录
+    public static final int NO_SIGN_IN = -2;
     /**
      * Default for non-checking.
      */

@@ -82,6 +82,13 @@ public abstract class IMMsgItem extends RelativeLayout {
         mSendPB = findViewById(R.id.im_chat_msg_send_pb);
 
         mContainerView.addView(layoutView());
+
+        mContainerView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onMessageClick();
+            }
+        });
     }
 
     /**
@@ -200,4 +207,11 @@ public abstract class IMMsgItem extends RelativeLayout {
      * @param message 需要展示的消息对象
      */
     public abstract void onBind(int position, EMMessage message);
+
+    /**
+     * 触发消息点击
+     */
+    public void onMessageClick() {
+
+    }
 }

@@ -21,8 +21,7 @@ import com.vmloft.develop.library.tools.utils.VMStr;
  */
 public class MeSignatureActivity extends AppActivity {
 
-    @BindView(R.id.me_signature_et)
-    EditText mSignatureET;
+    @BindView(R.id.me_signature_et) EditText mSignatureET;
     // 个人用户
     private AUser mUser;
 
@@ -34,7 +33,8 @@ public class MeSignatureActivity extends AppActivity {
     @Override
     protected void initUI() {
         super.initUI();
-        getTopBar().setEndBtnListener(VMStr.byRes(R.string.btn_finish), new View.OnClickListener() {
+        getTopBar().setEndBtn(VMStr.byRes(R.string.btn_finish));
+        getTopBar().setEndBtnListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveSignature();

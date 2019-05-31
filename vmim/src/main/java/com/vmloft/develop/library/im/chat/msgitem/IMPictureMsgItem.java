@@ -10,6 +10,7 @@ import com.vmloft.develop.library.im.IM;
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.chat.IMChatAdapter;
 import com.vmloft.develop.library.im.common.IMConstants;
+import com.vmloft.develop.library.im.router.IMRouter;
 import com.vmloft.develop.library.im.utils.IMChatUtils;
 import com.vmloft.develop.library.tools.utils.VMDimen;
 import com.vmloft.develop.library.tools.utils.bitmap.VMBitmap;
@@ -38,7 +39,7 @@ public class IMPictureMsgItem extends IMMsgItem {
 
     @Override
     protected boolean isReceiveMessage() {
-        return mType == IMConstants.IM_CHAT_TYPE_IMAGE_RECEIVE;
+        return mType == IMConstants.MsgType.IM_IMAGE_RECEIVE;
     }
 
     @Override
@@ -80,7 +81,7 @@ public class IMPictureMsgItem extends IMMsgItem {
         String thumbnailsPath = "";
         // 原图在本地路径
         String originalPath = "";
-        if (mType == IMConstants.IM_CHAT_TYPE_IMAGE_RECEIVE) {
+        if (mType == IMConstants.MsgType.IM_IMAGE_RECEIVE) {
             // 接收方获取缩略图的路径
             originalPath = body.getLocalUrl();
             thumbnailsPath = body.thumbnailLocalPath();
@@ -119,4 +120,8 @@ public class IMPictureMsgItem extends IMMsgItem {
         IM.getInstance().getPictureLoader().loadThumb(mContext, url, mPictureView, mViewWidth, mViewHeight);
     }
 
+    @Override
+    public void onMessageClick() {
+        IMRouter.goIMPriview(mContext, mMessage);
+    }
 }

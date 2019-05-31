@@ -20,14 +20,23 @@ import com.vmloft.develop.library.tools.utils.VMLog;
  */
 public class IMCallManager {
 
+    // 是否为会话创建者
+    private boolean isCreator = false;
+
+    // 通话类型
+    private int mCallType = IMConstants.CallType.IM_SINGLE;
+    // 通话状态
+    private int mCallStatus = IMConstants.CallStatus.IM_IDLE;
+
     // 视频状态 默认为关闭
     private boolean isOpenVideo = false;
     // 语音状态 默认为关闭
     private boolean isOpenVoice = false;
-    // 是否正在通话中
-    private boolean isCalling = false;
-    // 会话创建者
-    private boolean isCreator = false;
+
+    // 显示本地画面 View
+    private IMCallView mLocalView;
+    // 显示对方画面 View
+    private IMCallView mRemoteView;
 
     /**
      * 私有的构造方法
@@ -60,10 +69,31 @@ public class IMCallManager {
      * ----------------------------------------- 通话状态 -----------------------------------------
      */
     /**
+     * 获取通话状态
+     */
+    public int getCallType() {
+        return mCallType;
+    }
+
+    /**
+     * 获取通话状态
+     */
+    public int getCallStatus() {
+        return mCallStatus;
+    }
+
+    /**
+     * 设置通话状态
+     */
+    public void setCallStatus(int status) {
+        mCallStatus = status;
+    }
+
+    /**
      * 判断是否正在通话中
      */
     public boolean isCalling() {
-        return isCalling;
+        return mCallStatus == IMConstants.CallStatus.IM_CALL_OUT || mCallStatus == IMConstants.CallStatus.IM_INCOMING_CALL || mCallStatus == IMConstants.CallStatus.IM_CONNECT;
     }
 
     /**
@@ -116,29 +146,32 @@ public class IMCallManager {
 
     /**
      * 设置展示本地画面 View
-     *
-     * @param localView
      */
     public void setLocalView(IMCallView localView) {
+        mLocalView = localView;
         EMClient.getInstance().conferenceManager().setLocalSurfaceView(localView);
     }
 
     /**
      * 更新展示本地画面 View
-     *
-     * @param localView
      */
     public void updateLocalView(IMCallView localView) {
+        mLocalView = localView;
         EMClient.getInstance().conferenceManager().updateLocalSurfaceView(localView);
     }
 
     /**
+     * 设置对方展示画面 View
+     */
+    public void setRemoteView(IMCallView remoteView) {
+        mRemoteView = remoteView;
+    }
+
+    /**
      * 更新展示远端画面的 View
-     *
-     * @param streamId
-     * @param remoteView
      */
     public void updateRemoteView(String streamId, IMCallView remoteView) {
+        mRemoteView = remoteView;
         EMClient.getInstance().conferenceManager().updateRemoteSurfaceView(streamId, remoteView);
     }
 
@@ -150,7 +183,7 @@ public class IMCallManager {
      * 通话 呼叫
      */
     public void callSingle(final String id, final IMCallback callback) {
-        isCalling = true;
+        setCallStatus(IMConstants.CallStatus.IM_CALL_OUT);
         isCreator = true;
         EMConferenceManager.EMConferenceType type = EMConferenceManager.EMConferenceType.SmallCommunication;
         EMClient.getInstance().conferenceManager().createAndJoinConference(type, "", new EMValueCallBack<EMConference>() {
@@ -193,6 +226,7 @@ public class IMCallManager {
         EMClient.getInstance().conferenceManager().joinConference(conferenceId, "", new EMValueCallBack<EMConference>() {
             @Override
             public void onSuccess(EMConference value) {
+                setCallStatus(IMConstants.CallStatus.IM_CONNECT);
                 // 返回当前会议对象实例 value, 可进行推流等相关操作, 运行在子线程中，勿直接操作UI
                 if (callback != null) {
                     callback.onSuccess(value);
@@ -212,23 +246,22 @@ public class IMCallManager {
     /**
      * 通话 结束
      */
-    public void callEnd(String id, IMCallback<EMMessage> callback) {
+    public void callEnd(String id) {
         EMMessage msg = IMChatManager.getInstance().createActionMessage(IMConstants.IM_CHAT_ACTION_CALL_END, id);
-        IMChatManager.getInstance().sendMessage(msg, callback);
+        IMChatManager.getInstance().sendMessage(msg, null);
         // 挂断后，销毁会议，只有创建者可以销毁，接受邀请方不可以
         if (isCreator) {
             EMClient.getInstance().conferenceManager().destroyConference(null);
         }
-        isCalling = false;
+        setCallStatus(IMConstants.CallStatus.IM_END);
     }
 
     /**
      * 通话 拒绝
      */
-    public void callReject(String id, IMCallback<EMMessage> callback) {
+    public void callReject(String id) {
         EMMessage msg = IMChatManager.getInstance().createActionMessage(IMConstants.IM_CHAT_ACTION_CALL_REJECT, id);
-        IMChatManager.getInstance().sendMessage(msg, callback);
-        isCalling = false;
+        IMChatManager.getInstance().sendMessage(msg, null);
     }
 
     /**
@@ -258,11 +291,10 @@ public class IMCallManager {
     /**
      * 订阅通话流数据
      *
-     * @param stream   流数据
-     * @param callView 显示画面 View
+     * @param stream 流数据
      */
-    public void subscribeStream(EMConferenceStream stream, IMCallView callView) {
-        EMClient.getInstance().conferenceManager().subscribe(stream, callView, new EMValueCallBack<String>() {
+    public void subscribeStream(EMConferenceStream stream) {
+        EMClient.getInstance().conferenceManager().subscribe(stream, mRemoteView, new EMValueCallBack<String>() {
             @Override
             public void onSuccess(String value) {
                 VMLog.d("订阅远程流成功");

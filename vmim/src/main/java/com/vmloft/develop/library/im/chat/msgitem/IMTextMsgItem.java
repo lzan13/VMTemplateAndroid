@@ -27,7 +27,7 @@ public class IMTextMsgItem extends IMMsgItem {
 
     @Override
     protected boolean isReceiveMessage() {
-        return mType == IMConstants.IM_CHAT_TYPE_TEXT_RECEIVE;
+        return mType == IMConstants.MsgType.IM_TEXT_RECEIVE;
     }
 
     @Override

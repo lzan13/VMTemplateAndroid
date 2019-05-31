@@ -82,30 +82,30 @@ public class IMChatAdapter extends VMAdapter<EMMessage, IMChatAdapter.ChatHolder
     private IMMsgItem createMsgItem(int type) {
         IMMsgItem itemView = null;
         switch (type) {
-            case IMConstants.IM_CHAT_TYPE_SYSTEM:
-            case IMConstants.IM_CHAT_TYPE_RECALL:
+            case IMConstants.MsgType.IM_SYSTEM:
+            case IMConstants.MsgType.IM_RECALL:
                 break;
-            case IMConstants.IM_CHAT_TYPE_TEXT_RECEIVE:
-            case IMConstants.IM_CHAT_TYPE_TEXT_SEND:
+            case IMConstants.MsgType.IM_TEXT_RECEIVE:
+            case IMConstants.MsgType.IM_TEXT_SEND:
                 itemView = new IMTextMsgItem(mContext, this, type);
                 break;
-            case IMConstants.IM_CHAT_TYPE_IMAGE_RECEIVE:
-            case IMConstants.IM_CHAT_TYPE_IMAGE_SEND:
+            case IMConstants.MsgType.IM_IMAGE_RECEIVE:
+            case IMConstants.MsgType.IM_IMAGE_SEND:
                 itemView = new IMPictureMsgItem(mContext, this, type);
                 break;
-            case IMConstants.IM_CHAT_TYPE_VIDEO_RECEIVE:
-            case IMConstants.IM_CHAT_TYPE_VIDEO_SEND:
-            case IMConstants.IM_CHAT_TYPE_LOCATION_RECEIVE:
-            case IMConstants.IM_CHAT_TYPE_LOCATION_SEND:
-            case IMConstants.IM_CHAT_TYPE_VOICE_RECEIVE:
-            case IMConstants.IM_CHAT_TYPE_VOICE_SEND:
-            case IMConstants.IM_CHAT_TYPE_FILE_RECEIVE:
-            case IMConstants.IM_CHAT_TYPE_FILE_SEND:
-            case IMConstants.IM_CHAT_TYPE_CALL_RECEIVE:
-            case IMConstants.IM_CHAT_TYPE_CALL_SEND:
-            case IMConstants.IM_CHAT_TYPE_UNKNOWN: // 未知
+            case IMConstants.MsgType.IM_VIDEO_RECEIVE:
+            case IMConstants.MsgType.IM_VIDEO_SEND:
+            case IMConstants.MsgType.IM_LOCATION_RECEIVE:
+            case IMConstants.MsgType.IM_LOCATION_SEND:
+            case IMConstants.MsgType.IM_VOICE_RECEIVE:
+            case IMConstants.MsgType.IM_VOICE_SEND:
+            case IMConstants.MsgType.IM_FILE_RECEIVE:
+            case IMConstants.MsgType.IM_FILE_SEND:
+            case IMConstants.MsgType.IM_CALL_RECEIVE:
+            case IMConstants.MsgType.IM_CALL_SEND:
+            case IMConstants.MsgType.IM_UNKNOWN: // 未知
             default:
-                itemView = new IMUnknownMsgItem(mContext, this, IMConstants.IM_CHAT_TYPE_UNKNOWN);
+                itemView = new IMUnknownMsgItem(mContext, this, IMConstants.MsgType.IM_UNKNOWN);
                 break;
         }
         return itemView;
@@ -137,6 +137,7 @@ public class IMChatAdapter extends VMAdapter<EMMessage, IMChatAdapter.ChatHolder
     public void updateInsert(int position, int count) {
         updateData();
         notifyItemRangeInserted(position, count);
+        // TODO 这句已定要调用
         notifyDataSetChanged();
     }
 
@@ -180,6 +181,7 @@ public class IMChatAdapter extends VMAdapter<EMMessage, IMChatAdapter.ChatHolder
     public void updateChange(int position, int count) {
         updateData();
         notifyItemRangeChanged(position, count, 1);
+        // TODO 这句已定要调用
         notifyDataSetChanged();
     }
 

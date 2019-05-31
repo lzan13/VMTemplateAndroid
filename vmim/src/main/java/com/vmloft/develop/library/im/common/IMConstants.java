@@ -21,41 +21,73 @@ public class IMConstants {
     public static final int IM_CHAT_MSG_LIMIT = 20;
 
     /**
+     * 通话类型
+     */
+    public interface CallType {
+        // 单人通话
+        int IM_SINGLE = 0;
+        // 多人通话
+        int IM_MULTI = 1;
+    }
+
+    /**
+     * 通话状态
+     */
+    public interface CallStatus {
+        // 空闲
+        int IM_IDLE = 0;
+        // 呼入
+        int IM_INCOMING_CALL = 1;
+        // 呼出
+        int IM_CALL_OUT = 2;
+        // 接通
+        int IM_CONNECT = 3;
+        // 拒绝
+        int IM_REJECT = 4;
+        // 被拒绝
+        int IM_REJECTED = 5;
+        // 结束
+        int IM_END = 6;
+    }
+
+    /**
      * 聊天类型
      */
     public interface ChatType {
-        public static final int IM_SINGLE_CHAT = 0;
-        public static final int IM_GROUP_CHAT = 1;
-        public static final int IM_CHAT_ROOM = 2;
+        int IM_SINGLE_CHAT = 0;
+        int IM_GROUP_CHAT = 1;
+        int IM_CHAT_ROOM = 2;
     }
 
     /**
      * 消息类型
      */
-    // 未知类型
-    public static final int IM_CHAT_TYPE_UNKNOWN = 0;
-    // 系统通知
-    public static final int IM_CHAT_TYPE_SYSTEM = 1;
-    // 撤回
-    public static final int IM_CHAT_TYPE_RECALL = 2;
-    // 文本
-    public static final int IM_CHAT_TYPE_TEXT_RECEIVE = 10;
-    public static final int IM_CHAT_TYPE_TEXT_SEND = 11;
-    public static final int IM_CHAT_TYPE_IMAGE_RECEIVE = 12;
-    public static final int IM_CHAT_TYPE_IMAGE_SEND = 13;
-    public static final int IM_CHAT_TYPE_VIDEO_RECEIVE = 14;
-    public static final int IM_CHAT_TYPE_VIDEO_SEND = 15;
-    public static final int IM_CHAT_TYPE_LOCATION_RECEIVE = 16;
-    public static final int IM_CHAT_TYPE_LOCATION_SEND = 17;
-    public static final int IM_CHAT_TYPE_VOICE_RECEIVE = 18;
-    public static final int IM_CHAT_TYPE_VOICE_SEND = 19;
-    public static final int IM_CHAT_TYPE_FILE_RECEIVE = 20;
-    public static final int IM_CHAT_TYPE_FILE_SEND = 21;
-    public static final int IM_CHAT_TYPE_CALL_RECEIVE = 22;
-    public static final int IM_CHAT_TYPE_CALL_SEND = 23;
+    public interface MsgType {
+        // 未知类型
+        int IM_UNKNOWN = 0;
+        // 系统通知
+        int IM_SYSTEM = 1;
+        // 撤回
+        int IM_RECALL = 2;
+        // 文本
+        int IM_TEXT_RECEIVE = 10;
+        int IM_TEXT_SEND = 11;
+        int IM_IMAGE_RECEIVE = 12;
+        int IM_IMAGE_SEND = 13;
+        int IM_VIDEO_RECEIVE = 14;
+        int IM_VIDEO_SEND = 15;
+        int IM_LOCATION_RECEIVE = 16;
+        int IM_LOCATION_SEND = 17;
+        int IM_VOICE_RECEIVE = 18;
+        int IM_VOICE_SEND = 19;
+        int IM_FILE_RECEIVE = 20;
+        int IM_FILE_SEND = 21;
+        int IM_CALL_RECEIVE = 22;
+        int IM_CALL_SEND = 23;
+    }
 
     /**
-     * CMD 类型消息 action
+     * CMD 消息 action
      */
     // 输入状态
     public static final String IM_CHAT_ACTION_INPUT = "im_chat_action_input";

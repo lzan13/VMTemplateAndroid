@@ -98,7 +98,7 @@ public class IMChatUtils {
         }
 
         // 设置扩展为撤回消息类型，是为了区分消息的显示
-        message.setAttribute(IMConstants.IM_CHAT_ACTION_RECALL, IMConstants.IM_CHAT_TYPE_RECALL);
+        message.setAttribute(IMConstants.IM_CHAT_ACTION_RECALL, IMConstants.MsgType.IM_RECALL);
         // 更新消息
         result = EMClient.getInstance().chatManager().updateMessage(message);
         return result;
@@ -138,26 +138,26 @@ public class IMChatUtils {
         int itemType;
         if (message.getType() == EMMessage.Type.TXT) {
             // 文本类型
-            itemType = message.direct() == EMMessage.Direct.RECEIVE ? IMConstants.IM_CHAT_TYPE_TEXT_RECEIVE :
-                IMConstants.IM_CHAT_TYPE_TEXT_SEND;
+            itemType = message.direct() == EMMessage.Direct.RECEIVE ? IMConstants.MsgType.IM_TEXT_RECEIVE :
+                IMConstants.MsgType.IM_TEXT_SEND;
         } else if (message.getType() == EMMessage.Type.IMAGE) {
-            itemType = message.direct() == EMMessage.Direct.RECEIVE ? IMConstants.IM_CHAT_TYPE_IMAGE_RECEIVE :
-                IMConstants.IM_CHAT_TYPE_IMAGE_SEND;
+            itemType = message.direct() == EMMessage.Direct.RECEIVE ? IMConstants.MsgType.IM_IMAGE_RECEIVE :
+                IMConstants.MsgType.IM_IMAGE_SEND;
         } else if (message.getType() == EMMessage.Type.VIDEO) {
-            itemType = message.direct() == EMMessage.Direct.RECEIVE ? IMConstants.IM_CHAT_TYPE_VIDEO_RECEIVE :
-                IMConstants.IM_CHAT_TYPE_TEXT_SEND;
+            itemType = message.direct() == EMMessage.Direct.RECEIVE ? IMConstants.MsgType.IM_VIDEO_RECEIVE :
+                IMConstants.MsgType.IM_TEXT_SEND;
         } else if (message.getType() == EMMessage.Type.LOCATION) {
-            itemType = message.direct() == EMMessage.Direct.RECEIVE ? IMConstants.IM_CHAT_TYPE_LOCATION_RECEIVE :
-                IMConstants.IM_CHAT_TYPE_LOCATION_SEND;
+            itemType = message.direct() == EMMessage.Direct.RECEIVE ? IMConstants.MsgType.IM_LOCATION_RECEIVE :
+                IMConstants.MsgType.IM_LOCATION_SEND;
         } else if (message.getType() == EMMessage.Type.VOICE) {
-            itemType = message.direct() == EMMessage.Direct.RECEIVE ? IMConstants.IM_CHAT_TYPE_VOICE_RECEIVE :
-                IMConstants.IM_CHAT_TYPE_VOICE_SEND;
+            itemType = message.direct() == EMMessage.Direct.RECEIVE ? IMConstants.MsgType.IM_VOICE_RECEIVE :
+                IMConstants.MsgType.IM_VOICE_SEND;
         } else if (message.getType() == EMMessage.Type.FILE) {
-            itemType = message.direct() == EMMessage.Direct.RECEIVE ? IMConstants.IM_CHAT_TYPE_FILE_RECEIVE :
-                IMConstants.IM_CHAT_TYPE_FILE_SEND;
+            itemType = message.direct() == EMMessage.Direct.RECEIVE ? IMConstants.MsgType.IM_FILE_RECEIVE :
+                IMConstants.MsgType.IM_FILE_SEND;
         } else {
             // 未知类型，显示提示文本
-            itemType = IMConstants.IM_CHAT_TYPE_UNKNOWN;
+            itemType = IMConstants.MsgType.IM_UNKNOWN;
         }
         // 读取扩展消息类型，如果没有扩展那就是默认文本消息
         itemType = message.getIntAttribute(IMConstants.IM_CHAT_MSG_TYPE, itemType);

@@ -8,16 +8,21 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-//        // 简单粗暴解决多个库出现 UnsatisfiedLinkError 文件错误问题
-//        ndk {
-//            abiFilters "armeabi-v7a"
-//        }
+        // 简单粗暴解决多个库出现 UnsatisfiedLinkError 文件错误问题
+        ndk {
+            abiFilters "armeabi-v7a"
+        }
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -54,6 +59,6 @@ dependencies {
     implementation 'cn.leancloud.android:avoscloud-sdk:v4.7.10'
 
     // 引用自己封装的工具库 vmim 已经引用，这里不在引用，如想单独使用可以按照下边的方式引入
-//    implementation 'com.vmloft.library:vmtools:0.6.8'
+    //    implementation 'com.vmloft.library:vmtools:0.6.8'
     implementation project(':vmim')
 }

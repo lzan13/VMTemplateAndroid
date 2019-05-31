@@ -29,6 +29,7 @@ import com.vmloft.develop.library.im.emoji.IMEmojiGroup;
 import com.vmloft.develop.library.im.emoji.IMEmojiItem;
 import com.vmloft.develop.library.im.emoji.IMEmojiManager;
 import com.vmloft.develop.library.im.emoji.IMEmojiPager;
+import com.vmloft.develop.library.im.router.IMRouter;
 import com.vmloft.develop.library.im.utils.IMUtils;
 import com.vmloft.develop.library.tools.adapter.VMAdapter;
 import com.vmloft.develop.library.tools.base.VMConstant;
@@ -141,6 +142,7 @@ public class IMChatFragment extends IMBaseFragment {
         mPictureBtn.setOnClickListener(viewListener);
         mCameraBtn.setOnClickListener(viewListener);
         mCallBtn.setOnClickListener(viewListener);
+        mVoiceBtn.setOnClickListener(viewListener);
         mMoreBtn.setOnClickListener(viewListener);
 
         initRecyclerView();
@@ -242,7 +244,6 @@ public class IMChatFragment extends IMBaseFragment {
             }
         });
         emojiPager.loadData();
-
     }
 
     /**
@@ -292,20 +293,6 @@ public class IMChatFragment extends IMBaseFragment {
     }
 
     /**
-     * 发送输入状态消息
-     */
-    private void sendInputStatus() {
-        // 当新增内容长度为1时采取判断增加的字符是否为@符号
-        //                if (conversation.getType() == EMConversation.EMConversationType.Chat) {
-        //                    if ((VMDate.currentMilli() - oldTime) > AConstants.TIME_INPUT_STATUS) {
-        //                        oldTime = System.currentTimeMillis();
-        //                        // 调用发送输入状态方法
-        //                        MessageUtils.sendInputStatusMessage(chatId);
-        //                    }
-        //                }
-    }
-
-    /**
      * 设置界面控件点击监听
      */
     private View.OnClickListener viewListener = new View.OnClickListener() {
@@ -319,9 +306,13 @@ public class IMChatFragment extends IMBaseFragment {
             } else if (v.getId() == R.id.im_chat_bottom_picture_btn) {
                 startAlbum();
             } else if (v.getId() == R.id.im_chat_bottom_camera_btn) {
-            } else if (v.getId() == R.id.im_chat_bottom_call_btn) {
-            } else if (v.getId() == R.id.im_chat_bottom_more_btn) {
 
+            } else if (v.getId() == R.id.im_chat_bottom_call_btn) {
+                startCall();
+            } else if (v.getId() == R.id.im_chat_bottom_voice_btn) {
+                startVoice();
+            } else if (v.getId() == R.id.im_chat_bottom_more_btn) {
+                startMore();
             }
         }
     };
@@ -349,6 +340,27 @@ public class IMChatFragment extends IMBaseFragment {
     }
 
     /**
+     * 开始呼叫
+     */
+    private void startCall() {
+        IMRouter.goIMCall(mContext, mId, false);
+    }
+
+    /**
+     * 开始录音
+     */
+    private void startVoice() {
+
+    }
+
+    /**
+     * 开始呼叫
+     */
+    private void startMore() {
+
+    }
+
+    /**
      * 发送文本消息
      */
     private void sendText() {
@@ -370,6 +382,20 @@ public class IMChatFragment extends IMBaseFragment {
     private void sendPicture(String path) {
         EMMessage message = IMChatManager.getInstance().createPictureMessage(path, mId, true);
         sendMessage(message);
+    }
+
+    /**
+     * 发送输入状态消息
+     */
+    private void sendInputStatus() {
+        // 当新增内容长度为1时采取判断增加的字符是否为@符号
+        //                if (conversation.getType() == EMConversation.EMConversationType.Chat) {
+        //                    if ((VMDate.currentMilli() - oldTime) > AConstants.TIME_INPUT_STATUS) {
+        //                        oldTime = System.currentTimeMillis();
+        //                        // 调用发送输入状态方法
+        //                        MessageUtils.sendInputStatusMessage(chatId);
+        //                    }
+        //                }
     }
 
     /**

@@ -8,10 +8,10 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-//        // 简单粗暴解决多个库出现 UnsatisfiedLinkError 文件错误问题
-//        ndk {
-//            abiFilters "armeabi-v7a"
-//        }
+        // 简单粗暴解决多个库出现 UnsatisfiedLinkError 文件错误问题
+        ndk {
+            abiFilters "armeabi-v7a"
+        }
     }
 
     buildTypes {
@@ -19,6 +19,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -36,7 +41,7 @@ dependencies {
     implementation 'com.github.chrisbanes:PhotoView:2.0.0'
 
     // 环信聊天 IM 库 Easemob http://www.easemob.com
-    implementation 'com.hyphenate:hyphenate-sdk:3.5.6'
+    implementation 'com.hyphenate:hyphenate-sdk:3.6.0'
 
     // 自己封装的工具库 VMTools https://github.com/lzan13/VMLibrary
     api 'com.vmloft.library:vmtools:0.7.8'
