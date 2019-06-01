@@ -9,7 +9,6 @@ import com.hyphenate.chat.EMMessage;
 
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.base.IMBaseActivity;
-import com.vmloft.develop.library.im.common.IMChatManager;
 import com.vmloft.develop.library.im.common.IMConstants;
 import com.vmloft.develop.library.tools.utils.VMDimen;
 import com.vmloft.develop.library.tools.utils.VMNavBarUtil;
@@ -55,11 +54,7 @@ public class IMPreviewActivity extends IMBaseActivity {
         mBottomBar = findViewById(R.id.im_preview_bottom_bar);
         mSpaceView = findViewById(R.id.im_preview_bottom_space);
 
-        getTopBar().setTitleCOlor(R.color.vm_white_87);
-        if (mTopSpaceView != null) {
-            // 设置状态栏透明主题时，布局整体会上移，所以给头部 View 设置 StatusBar 的高度
-            mTopSpaceView.getLayoutParams().height = VMDimen.getStatusBarHeight();
-        }
+        getTopBar().setTitleColor(R.color.vm_white_87);
     }
 
     @Override

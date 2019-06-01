@@ -8,4 +8,8 @@
     <!--匹配动画持续时间-->
     <integer name="time_home_pairing_anim">2000</integer>
 
+    <!--文本 shadow 大小-->
+    <integer name="shadow_text">4</integer>
+    <integer name="shadow_radius">8</integer>
+
 </resources>

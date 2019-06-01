@@ -117,7 +117,7 @@
                 android:layout_width="@dimen/vm_dimen_40"
                 android:layout_height="@dimen/vm_dimen_40"
                 android:background="@drawable/vm_click_full_fillet_transparent"
-                android:src="@drawable/im_ic_voice"
+                android:src="@drawable/im_ic_mic"
                 app:layout_constraintEnd_toStartOf="@+id/im_chat_bottom_more_btn"
                 app:layout_constraintStart_toEndOf="@+id/im_chat_bottom_call_btn"
                 app:layout_constraintTop_toTopOf="parent"

@@ -13,6 +13,7 @@ import com.hyphenate.chat.EMImageMessageBody;
 import com.hyphenate.chat.EMMessage;
 
 import com.vmloft.develop.library.im.IM;
+import com.vmloft.develop.library.tools.picker.IPictureLoader;
 import com.vmloft.develop.library.tools.picker.VMPicker;
 import com.vmloft.develop.library.tools.utils.VMDimen;
 
@@ -54,14 +55,12 @@ public class IMPreviewPageAdapter extends PagerAdapter {
                 url = body.getRemoteUrl();
             }
         }
-        IM.getInstance().getPictureLoader().loadFull(mActivity, url, photoView, screenWidth, screenHeight);
+        IPictureLoader.Options options = new IPictureLoader.Options(url);
+        IM.getInstance().getPictureLoader().load(mActivity, options, photoView);
 
-        photoView.setOnPhotoTapListener(new OnPhotoTapListener() {
-            @Override
-            public void onPhotoTap(ImageView view, float x, float y) {
-                if (listener != null) {
-                    listener.onPreviewClick(view, x, y);
-                }
+        photoView.setOnPhotoTapListener((ImageView view, float x, float y) -> {
+            if (listener != null) {
+                listener.onPreviewClick(view, x, y);
             }
         });
         container.addView(photoView);

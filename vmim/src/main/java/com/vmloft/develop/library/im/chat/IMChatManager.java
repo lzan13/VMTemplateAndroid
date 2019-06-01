@@ -1,4 +1,4 @@
-package com.vmloft.develop.library.im.common;
+package com.vmloft.develop.library.im.chat;
 
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
@@ -14,15 +14,14 @@ import com.hyphenate.chat.EMVoiceMessageBody;
 import com.hyphenate.exceptions.HyphenateException;
 import com.vmloft.develop.library.im.IM;
 import com.vmloft.develop.library.im.base.IMCallback;
-import com.vmloft.develop.library.im.chat.IMChatListener;
+import com.vmloft.develop.library.im.common.IMConstants;
+import com.vmloft.develop.library.im.common.IMException;
 import com.vmloft.develop.library.im.utils.IMChatUtils;
-import com.vmloft.develop.library.tools.utils.VMDate;
 import com.vmloft.develop.library.tools.utils.VMLog;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -54,7 +53,7 @@ public class IMChatManager {
     }
 
     public void init() {
-        // 将会话加载到内存
+        // 将会话加载到内存，因为这个必须要登录之后才能加载，这里只是登录过才有效
         EMClient.getInstance().chatManager().loadAllConversations();
         EMClient.getInstance().chatManager().addMessageListener(new IMChatListener());
     }
@@ -67,16 +66,13 @@ public class IMChatManager {
         List<EMConversation> list = new ArrayList<>();
         list.addAll(map.values());
         // 排序
-        Collections.sort(list, new Comparator<EMConversation>() {
-            @Override
-            public int compare(EMConversation o1, EMConversation o2) {
-                if (IMChatUtils.getConversationLastTime(o1) > IMChatUtils.getConversationLastTime(o2)) {
-                    return -1;
-                } else if (IMChatUtils.getConversationLastTime(o1) < IMChatUtils.getConversationLastTime(o2)) {
-                    return 1;
-                }
-                return 0;
+        Collections.sort(list, (EMConversation o1, EMConversation o2) -> {
+            if (IMChatUtils.getConversationLastTime(o1) > IMChatUtils.getConversationLastTime(o2)) {
+                return -1;
+            } else if (IMChatUtils.getConversationLastTime(o1) < IMChatUtils.getConversationLastTime(o2)) {
+                return 1;
             }
+            return 0;
         });
 
         // 排序之后，重新将置顶的条目设置到顶部

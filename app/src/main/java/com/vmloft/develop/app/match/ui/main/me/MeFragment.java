@@ -92,16 +92,8 @@ public class MeFragment extends AppLazyFragment {
             return;
         }
 
-        if (VMStr.isEmpty(mUser.getNickname())) {
-            mNameView.setText(mUser.getUsername());
-        } else {
-            mNameView.setText(mUser.getNickname());
-        }
-        if (VMStr.isEmpty(mUser.getSignature())) {
-            mSignatureView.setText(VMStr.byRes(R.string.user_signature_default));
-        } else {
-            mSignatureView.setText(mUser.getSignature());
-        }
+        mNameView.setText(mUser.getNickname());
+        mSignatureView.setText(mUser.getSignature());
 
         String avatarUrl = mUser.getAvatar() != null ? mUser.getAvatar().getUrl() : null;
         ALoader.loadAvatar(mContext, avatarUrl, mAvatarView);

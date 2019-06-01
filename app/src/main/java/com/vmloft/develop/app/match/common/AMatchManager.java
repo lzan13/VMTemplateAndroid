@@ -25,7 +25,8 @@ import java.util.List;
  */
 public class AMatchManager {
 
-    private AMatchManager(){}
+    private AMatchManager() {}
+
     /**
      * 内部类实现单例模式
      */
@@ -44,22 +45,19 @@ public class AMatchManager {
      * 开启匹配
      */
     public void startMatch(final ACallback<AMatch> callback) {
-        Observable<AMatch> observable = Observable.create(new ObservableOnSubscribe<AMatch>() {
-            @Override
-            public void subscribe(final ObservableEmitter<AMatch> emitter) throws Exception {
-                final AMatch match = new AMatch();
-                match.setUser(AVUser.getCurrentUser(AUser.class));
-                match.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(AVException e) {
-                        if (e == null) {
-                            emitter.onNext(match);
-                        } else {
-                            emitter.onError(e);
-                        }
+        Observable<AMatch> observable = Observable.create((final ObservableEmitter<AMatch> emitter) -> {
+            final AMatch match = new AMatch();
+            match.setUser(AVUser.getCurrentUser(AUser.class));
+            match.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(AVException e) {
+                    if (e == null) {
+                        emitter.onNext(match);
+                    } else {
+                        emitter.onError(e);
                     }
-                });
-            }
+                }
+            });
         });
         observable.compose(ARXUtils.<AMatch>threadScheduler()).subscribe(new AObserver<AMatch>(callback));
     }
@@ -68,23 +66,20 @@ public class AMatchManager {
      * 查询匹配列表
      */
     public void getMatchList(ACallback<List<AMatch>> callback) {
-        Observable<List<AMatch>> observable = Observable.create(new ObservableOnSubscribe<List<AMatch>>() {
-            @Override
-            public void subscribe(final ObservableEmitter<List<AMatch>> emitter) throws Exception {
-                AVQuery<AMatch> query = AVObject.getQuery(AMatch.class);
-                query.orderByDescending("createdAt");
-                query.include("user");
-                query.findInBackground(new FindCallback<AMatch>() {
-                    @Override
-                    public void done(List<AMatch> list, AVException e) {
-                        if (e == null) {
-                            emitter.onNext(list);
-                        } else {
-                            emitter.onError(e);
-                        }
+        Observable<List<AMatch>> observable = Observable.create((final ObservableEmitter<List<AMatch>> emitter) -> {
+            AVQuery<AMatch> query = AVObject.getQuery(AMatch.class);
+            query.orderByDescending("createdAt");
+            query.include("user");
+            query.findInBackground(new FindCallback<AMatch>() {
+                @Override
+                public void done(List<AMatch> list, AVException e) {
+                    if (e == null) {
+                        emitter.onNext(list);
+                    } else {
+                        emitter.onError(e);
                     }
-                });
-            }
+                }
+            });
         });
         observable.compose(ARXUtils.<List<AMatch>>threadScheduler()).subscribe(new AObserver<List<AMatch>>(callback));
     }
@@ -102,5 +97,4 @@ public class AMatchManager {
             }
         });
     }
-
 }

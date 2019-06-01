@@ -12,14 +12,13 @@ import android.widget.TextView;
 import com.hyphenate.chat.EMMessage;
 import com.vmloft.develop.library.im.IM;
 import com.vmloft.develop.library.im.R;
-import com.vmloft.develop.library.im.base.IMCallback;
 import com.vmloft.develop.library.im.bean.IMContact;
 import com.vmloft.develop.library.im.chat.IMChatAdapter;
-import com.vmloft.develop.library.im.common.IMChatManager;
+import com.vmloft.develop.library.im.chat.IMChatManager;
 import com.vmloft.develop.library.im.common.IMConstants;
+import com.vmloft.develop.library.tools.picker.IPictureLoader;
 import com.vmloft.develop.library.tools.utils.VMDate;
 import com.vmloft.develop.library.tools.utils.VMDimen;
-import com.vmloft.develop.library.tools.utils.VMSystem;
 
 /**
  * Create by lzan13 on 2019/5/23 20:08
@@ -37,8 +36,6 @@ public abstract class IMMsgItem extends RelativeLayout {
 
     protected int mPosition;
     protected EMMessage mMessage;
-    // 头像大小
-    protected int mAvatarSize;
     // 显示时间
     protected TextView mTimeView;
     // 消息容器
@@ -72,8 +69,6 @@ public abstract class IMMsgItem extends RelativeLayout {
     protected void init() {
         loadContainer();
 
-        mAvatarSize = VMDimen.dp2px(48);
-
         mTimeView = findViewById(R.id.im_chat_msg_time_tv);
         mContainerView = findViewById(R.id.im_chat_msg_container_rl);
         mAvatarView = findViewById(R.id.im_chat_msg_avatar_iv);
@@ -83,18 +78,14 @@ public abstract class IMMsgItem extends RelativeLayout {
 
         mContainerView.addView(layoutView());
 
-        mContainerView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onMessageClick();
-            }
-        });
+        mContainerView.setOnClickListener((View v) -> {onMessageClick();});
     }
 
     /**
      * 加载公共部分 UI
      */
     protected void setupCommonView() {
+        mContact = IM.getInstance().getIMContact(mMessage.conversationId());
         // 处理时间戳
         if (mTimeView != null) {
             mTimeView.setVisibility(GONE);
@@ -106,18 +97,10 @@ public abstract class IMMsgItem extends RelativeLayout {
         }
         // 处理头像
         if (mAvatarView != null) {
-            mAvatarView.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    IM.getInstance().onHeadClick(mContext, mContact);
-                }
+            mAvatarView.setOnClickListener((View v) -> {
+                IM.getInstance().onHeadClick(mContext, mContact);
             });
-            IM.getInstance().getIMContact(mMessage.conversationId(), new IMCallback<IMContact>() {
-                @Override
-                public void onSuccess(IMContact contact) {
-                    loadContactInfo(contact);
-                }
-            });
+            loadContactInfo();
         }
         onUpdate(mMessage);
     }
@@ -125,14 +108,10 @@ public abstract class IMMsgItem extends RelativeLayout {
     /**
      * 加载联系人信息
      */
-    private void loadContactInfo(final IMContact contact) {
-        mContact = contact;
-        VMSystem.runInUIThread(new Runnable() {
-            @Override
-            public void run() {
-                IM.getInstance().getPictureLoader().loadAvatar(mContext, contact.mAvatar, mAvatarView, mAvatarSize, mAvatarSize);
-            }
-        });
+    private void loadContactInfo() {
+        IPictureLoader.Options options = new IPictureLoader.Options(mContact.mAvatar);
+        options.isCircle = true;
+        IM.getInstance().getPictureLoader().load(mContext, options, mAvatarView);
     }
 
     /**
@@ -143,8 +122,7 @@ public abstract class IMMsgItem extends RelativeLayout {
             return;
         }
         // 处理发送结果
-        if (mMessage.direct() == EMMessage.Direct.SEND && mStatusView != null && mErrorView != null && mSendPB != null) {
-            mStatusView.setVisibility(GONE);
+        if (mMessage.direct() == EMMessage.Direct.SEND && mErrorView != null && mSendPB != null) {
             mErrorView.setVisibility(GONE);
             mSendPB.setVisibility(GONE);
             switch (mMessage.status()) {
@@ -167,9 +145,14 @@ public abstract class IMMsgItem extends RelativeLayout {
      * 检查消息已读 ACK 状态
      */
     public void checkACKStatus() {
+        if (mStatusView != null) {
+            mStatusView.setVisibility(GONE);
+        }
         if (isReceiveMessage()) {
-            // 接收方发送已读 ACK
-            IMChatManager.getInstance().sendReadACK(mMessage);
+            if (!mMessage.isAcked()) {
+                // 接收方发送已读 ACK
+                IMChatManager.getInstance().sendReadACK(mMessage);
+            }
         } else {
             // 发送方处理已读 ACK 状态
             if (mMessage.isAcked()) {

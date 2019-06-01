@@ -8,10 +8,14 @@
     <color name="app_bg">#f8f8f8</color>
     <color name="app_bg_dark">@color/vm_gray_black</color>
     <color name="app_card_bg">@color/vm_white</color>
+    <color name="app_border_white">@color/vm_white</color>
     <color name="app_status_bar">@color/app_primary</color>
 
     <color name="app_title">@color/vm_title</color>
+    <color name="app_subtitle">@color/vm_white_54</color>
     <color name="app_title_light">@color/vm_white_87</color>
+    <color name="app_subtitle_light">@color/vm_black_54</color>
+    <color name="app_text_shadow">@color/vm_black_38</color>
 
     <color name="app_input_border">@color/vm_gray_black_12</color>
 

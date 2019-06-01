@@ -33,7 +33,6 @@
         android:layout_height="@dimen/vm_avatar_small"
         android:layout_marginEnd="@dimen/vm_margin_normal"
         android:layout_marginStart="@dimen/vm_margin_normal"
-        android:src="@drawable/im_avatar_default_01"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/im_chat_msg_time_tv"

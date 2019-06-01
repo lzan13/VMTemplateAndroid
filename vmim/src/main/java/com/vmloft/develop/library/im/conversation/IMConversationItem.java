@@ -16,12 +16,12 @@ import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMTextMessageBody;
 import com.vmloft.develop.library.im.IM;
 import com.vmloft.develop.library.im.R;
-import com.vmloft.develop.library.im.base.IMCallback;
 import com.vmloft.develop.library.im.bean.IMContact;
-import com.vmloft.develop.library.im.common.IMChatManager;
+import com.vmloft.develop.library.im.chat.IMChatManager;
 import com.vmloft.develop.library.im.common.IMConstants;
 import com.vmloft.develop.library.im.utils.IMChatUtils;
 import com.vmloft.develop.library.im.widget.IMEmojiTextView;
+import com.vmloft.develop.library.tools.picker.IPictureLoader;
 import com.vmloft.develop.library.tools.utils.VMColor;
 import com.vmloft.develop.library.tools.utils.VMDate;
 import com.vmloft.develop.library.tools.utils.VMDimen;
@@ -47,8 +47,6 @@ public class IMConversationItem extends RelativeLayout {
     protected TextView mTitleView;
     protected IMEmojiTextView mContentView;
 
-    protected int mAvatarSize;
-
     public IMConversationItem(Context context, IMConversationAdapter adapter) {
         super(context);
         mContext = context;
@@ -67,7 +65,6 @@ public class IMConversationItem extends RelativeLayout {
         mTitleView = findViewById(R.id.im_conversation_title_tv);
         mContentView = findViewById(R.id.im_conversation_content_etv);
 
-        mAvatarSize = VMDimen.dp2px(48);
     }
 
     /**
@@ -77,6 +74,7 @@ public class IMConversationItem extends RelativeLayout {
      */
     public void onBind(EMConversation conversation) {
         mConversation = conversation;
+        mContact = IM.getInstance().getIMContact(conversation.conversationId());
 
         /**
          * 设置当前会话的最后时间 获取当前会话最后时间，并转为 String 类型
@@ -133,12 +131,12 @@ public class IMConversationItem extends RelativeLayout {
         if (!VMStr.isEmpty(draft)) {
             Spannable spannable = new SpannableString(content);
             spannable.setSpan(new ForegroundColorSpan(VMColor.byRes(R.color.vm_red_87)), 0, prefix.length(),
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             mContentView.setText(spannable);
         } else if (conversation.getAllMsgCount() > 0 && conversation.getLastMessage().status() == EMMessage.Status.FAIL) {
             Spannable spannable = new SpannableString(content);
             spannable.setSpan(new ForegroundColorSpan(VMColor.byRes(R.color.vm_red_87)), 0, prefix.length(),
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             mContentView.setText(spannable);
         } else {
             mContentView.setText(content);
@@ -167,38 +165,24 @@ public class IMConversationItem extends RelativeLayout {
         } else {
             setSelected(false);
         }
-        mAvatarView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                IM.getInstance().onHeadClick(mContext, mContact);
-            }
-        });
-        IM.getInstance().getIMContact(conversation.conversationId(), new IMCallback<IMContact>() {
-            @Override
-            public void onSuccess(IMContact contact) {
-                loadContactInfo(contact);
-            }
+
+        loadContactInfo();
+        mAvatarView.setOnClickListener((View view) -> {
+            IM.getInstance().onHeadClick(mContext, mContact);
         });
     }
 
     /**
      * 加载联系人信息
      */
-    private void loadContactInfo(final IMContact contact) {
-        if (contact == null) {
-            return;
+    private void loadContactInfo() {
+        if (VMStr.isEmpty(mContact.mNickname)) {
+            mTitleView.setText(mContact.mId);
+        } else {
+            mTitleView.setText(mContact.mNickname);
         }
-        mContact = contact;
-        VMSystem.runInUIThread(new Runnable() {
-            @Override
-            public void run() {
-                if (VMStr.isEmpty(contact.mNickname)) {
-                    mTitleView.setText(contact.mUsername);
-                } else {
-                    mTitleView.setText(contact.mNickname);
-                }
-                IM.getInstance().getPictureLoader().loadAvatar(mContext, contact.mAvatar, mAvatarView, mAvatarSize, mAvatarSize);
-            }
-        });
+        IPictureLoader.Options options = new IPictureLoader.Options(mContact.mAvatar);
+        options.isCircle = true;
+        IM.getInstance().getPictureLoader().load(mContext, options, mAvatarView);
     }
 }

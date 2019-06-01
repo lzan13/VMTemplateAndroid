@@ -11,7 +11,9 @@ import com.vmloft.develop.app.match.ui.main.me.MeInfoActivity;
 import com.vmloft.develop.app.match.ui.setting.SettingActivity;
 import com.vmloft.develop.app.match.ui.sign.SignInActivity;
 import com.vmloft.develop.app.match.ui.sign.SignUpActivity;
+import com.vmloft.develop.app.match.ui.user.UserDetailActivity;
 import com.vmloft.develop.library.im.chat.IMChatActivity;
+import com.vmloft.develop.library.tools.router.VMParams;
 import com.vmloft.develop.library.tools.router.VMRouter;
 
 /**
@@ -50,10 +52,19 @@ public class ARouter extends VMRouter {
     }
 
     /**
-     * 个人信息设置
+     * 个人信息
      */
     public static void goMeInfo(Context context) {
         overlay(context, MeInfoActivity.class);
+    }
+
+    /**
+     * 用户信息
+     */
+    public static void goUserDetail(Context context, String id) {
+        VMParams params = new VMParams();
+        params.str0 = id;
+        overlay(context, UserDetailActivity.class, params);
     }
 
     /**
@@ -68,14 +79,5 @@ public class ARouter extends VMRouter {
      */
     public static void goSetting(Context context) {
         overlay(context, SettingActivity.class);
-    }
-
-    /**
-     * -------------------------- IM 相关界面 --------------------------
-     * 跳转到聊天界面
-     */
-    public static void goIMChat(Context context, Intent intent) {
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        overlay(context, intent);
     }
 }

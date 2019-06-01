@@ -12,6 +12,7 @@ import com.vmloft.develop.library.im.chat.IMChatAdapter;
 import com.vmloft.develop.library.im.common.IMConstants;
 import com.vmloft.develop.library.im.router.IMRouter;
 import com.vmloft.develop.library.im.utils.IMChatUtils;
+import com.vmloft.develop.library.tools.picker.IPictureLoader;
 import com.vmloft.develop.library.tools.utils.VMDimen;
 import com.vmloft.develop.library.tools.utils.bitmap.VMBitmap;
 import java.io.File;
@@ -33,7 +34,7 @@ public class IMPictureMsgItem extends IMMsgItem {
 
     public IMPictureMsgItem(Context context, IMChatAdapter adapter, int type) {
         super(context, adapter, type);
-        thumbnailsMax = VMDimen.getDimenPixel(R.dimen.vm_dimen_192);
+        thumbnailsMax = VMDimen.getDimenPixel(R.dimen.vm_dimen_128);
         thumbnailsMin = VMDimen.getDimenPixel(R.dimen.vm_dimen_56);
     }
 
@@ -117,7 +118,10 @@ public class IMPictureMsgItem extends IMMsgItem {
             // 原图和缩略图都不存在
             url = thumbnailsPath;
         }
-        IM.getInstance().getPictureLoader().loadThumb(mContext, url, mPictureView, mViewWidth, mViewHeight);
+        IPictureLoader.Options options = new IPictureLoader.Options(url);
+        options.isRadius = true;
+        options.radiusSize = VMDimen.dp2px(8);
+        IM.getInstance().getPictureLoader().load(mContext, options, mPictureView);
     }
 
     @Override

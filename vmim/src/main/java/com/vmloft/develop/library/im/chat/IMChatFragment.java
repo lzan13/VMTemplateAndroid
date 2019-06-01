@@ -23,7 +23,6 @@ import com.hyphenate.chat.EMMessage;
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.base.IMBaseFragment;
 import com.vmloft.develop.library.im.base.IMCallback;
-import com.vmloft.develop.library.im.common.IMChatManager;
 import com.vmloft.develop.library.im.common.IMConstants;
 import com.vmloft.develop.library.im.emoji.IMEmojiGroup;
 import com.vmloft.develop.library.im.emoji.IMEmojiItem;
@@ -40,7 +39,6 @@ import com.vmloft.develop.library.tools.utils.VMStr;
 import com.vmloft.develop.library.tools.utils.VMSystem;
 import com.vmloft.develop.library.tools.widget.toast.VMToast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -431,14 +429,11 @@ public class IMChatFragment extends IMBaseFragment {
      * 刷新插入新消息
      */
     private void refreshInsert(final EMMessage message) {
-        VMSystem.runInUIThread(new Runnable() {
-            @Override
-            public void run() {
-                int position = IMChatManager.getInstance().getPosition(message);
-                if (position >= 0) {
-                    mAdapter.updateInsert(position);
-                    scrollToBottom();
-                }
+        VMSystem.runInUIThread(() -> {
+            int position = IMChatManager.getInstance().getPosition(message);
+            if (position >= 0) {
+                mAdapter.updateInsert(position);
+                scrollToBottom();
             }
         });
     }
@@ -447,13 +442,10 @@ public class IMChatFragment extends IMBaseFragment {
      * 刷新更新消息
      */
     private void refreshChange(final EMMessage message) {
-        VMSystem.runInUIThread(new Runnable() {
-            @Override
-            public void run() {
-                int position = IMChatManager.getInstance().getPosition(message);
-                if (position >= 0) {
-                    mAdapter.updateChange(position);
-                }
+        VMSystem.runInUIThread(() -> {
+            int position = IMChatManager.getInstance().getPosition(message);
+            if (position >= 0) {
+                mAdapter.updateChange(position);
             }
         });
     }
@@ -482,7 +474,7 @@ public class IMChatFragment extends IMBaseFragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == VMConstant.VM_PICK_RESULT_CODE_PICTURES) {
             if (data != null && requestCode == VMConstant.VM_PICK_REQUEST_CODE) {
-                ArrayList<VMPictureBean> pictures = VMPicker.getInstance().getSelectedPictures();
+                List<VMPictureBean> pictures = VMPicker.getInstance().getResultData();
                 sendPicture(pictures.get(0).path);
             }
         }
@@ -547,6 +539,8 @@ public class IMChatFragment extends IMBaseFragment {
             String id = intent.getStringExtra(IMConstants.IM_CHAT_ID);
             if (!VMStr.isEmpty(id) && id.equals(mId)) {
                 EMMessage message = intent.getParcelableExtra(IMConstants.IM_CHAT_MSG);
+                // 当前会话设置消息已读
+                mConversation.markMessageAsRead(message.getMsgId());
                 refreshInsert(message);
             }
         }

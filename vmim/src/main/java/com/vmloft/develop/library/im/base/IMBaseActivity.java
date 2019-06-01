@@ -40,16 +40,11 @@ public abstract class IMBaseActivity extends VMBActivity {
 
         if (mTopSpaceView != null) {
             // 设置状态栏透明主题时，布局整体会上移，所以给头部 View 设置 StatusBar 的高度
-//            mTopSpaceView.getLayoutParams().height = VMDimen.getStatusBarHeight();
+             mTopSpaceView.getLayoutParams().height = VMDimen.getStatusBarHeight();
         }
         if (mTopBar != null) {
             mTopBar.setIcon(R.drawable.im_ic_arrow_left);
-            mTopBar.setIconListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onBackPressed();
-                }
-            });
+            mTopBar.setIconListener((View v) -> {onBackPressed();});
         }
     }
 

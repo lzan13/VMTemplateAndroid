@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/im_conversation_selector">
+    android:background="@drawable/im_conversation_selector"
+    >
     <!--头像-->
     <ImageView
         android:id="@+id/im_conversation_avatar_iv"
@@ -14,26 +15,26 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/im_avatar_default_01" />
+        />
     <!--未读数-->
     <TextView
         android:id="@+id/im_conversation_red_dot_tv"
-        style="@style/VMText.Caption"
         android:background="@drawable/im_chat_msg_red_dot_bg"
         android:gravity="center"
-        android:minWidth="@dimen/vm_dimen_16"
         android:minHeight="@dimen/vm_dimen_16"
+        android:minWidth="@dimen/vm_dimen_16"
         android:paddingLeft="@dimen/vm_dimen_4"
         android:paddingRight="@dimen/vm_dimen_4"
         android:textColor="@color/vm_white"
         android:textSize="@dimen/vm_size_8"
         app:layout_constraintEnd_toEndOf="@+id/im_conversation_avatar_iv"
         app:layout_constraintTop_toTopOf="@+id/im_conversation_avatar_iv"
-        tools:text="9" />
+        tools:text="9"
+        style="@style/VMText.Caption"
+        />
     <!--标题-->
     <TextView
         android:id="@+id/im_conversation_title_tv"
-        style="@style/VMText.Title"
         android:layout_marginStart="@dimen/vm_margin_normal"
         android:ellipsize="end"
         android:maxEms="10"
@@ -42,27 +43,29 @@
         app:layout_constraintBottom_toTopOf="@+id/im_conversation_content_etv"
         app:layout_constraintStart_toEndOf="@+id/im_conversation_avatar_iv"
         app:layout_constraintTop_toTopOf="@+id/im_conversation_avatar_iv"
-        tools:text="小不点小不点小不点小不点" />
+        tools:text="小不点小不点小不点小不点"
+        style="@style/VMText.Title"
+        />
     <!--时间-->
     <TextView
         android:id="@+id/im_conversation_time_tv"
-        style="@style/VMText.Caption"
         android:layout_width="@dimen/vm_dimen_0"
-        android:layout_marginStart="@dimen/vm_margin_normal"
         android:layout_marginEnd="@dimen/vm_margin_normal"
+        android:layout_marginStart="@dimen/vm_margin_normal"
         android:ellipsize="end"
         android:maxLines="1"
         android:textSize="@dimen/vm_size_8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/im_conversation_title_tv"
-        tools:text="2019年4月5日" />
+        tools:text="2019年4月5日"
+        style="@style/VMText.Caption"
+        />
     <!--内容-->
     <com.vmloft.develop.library.im.widget.IMEmojiTextView
         android:id="@+id/im_conversation_content_etv"
-        style="@style/VMText.Body1"
         android:layout_width="@dimen/vm_dimen_0"
-        android:layout_marginStart="@dimen/vm_margin_normal"
         android:layout_marginEnd="@dimen/vm_margin_normal"
+        android:layout_marginStart="@dimen/vm_margin_normal"
         android:ellipsize="end"
         android:maxLines="1"
         android:textSize="@dimen/vm_size_12"
@@ -70,7 +73,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/im_conversation_avatar_iv"
         app:layout_constraintTop_toBottomOf="@+id/im_conversation_title_tv"
-        tools:text="你什么时候出来啊，我等你你什么时候出来啊，我等你你什么时候出来啊，我等你" />
+        tools:text="你什么时候出来啊，我等你你什么时候出来啊，我等你你什么时候出来啊，我等你"
+        style="@style/VMText.Body1"
+        />
     <!--分割线-->
     <View
         android:id="@+id/im_conversation_decoration"
@@ -79,6 +84,7 @@
         android:background="@color/vm_decoration_gray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/im_conversation_avatar_iv" />
+        app:layout_constraintStart_toEndOf="@+id/im_conversation_avatar_iv"
+        />
 
 </android.support.constraint.ConstraintLayout>

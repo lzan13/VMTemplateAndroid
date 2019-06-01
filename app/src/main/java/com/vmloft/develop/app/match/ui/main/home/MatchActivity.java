@@ -66,7 +66,7 @@ public class MatchActivity extends AppActivity {
     @Override
     protected void initData() {
         setTopTitle(R.string.match);
-        getTopBar().setTitleCOlor(R.color.app_title_light);
+        getTopBar().setTitleColor(R.color.app_title_light);
 
         mUser = ASignManager.getInstance().getCurrentUser();
         mScreenWidth = VMDimen.getScreenSize().x;

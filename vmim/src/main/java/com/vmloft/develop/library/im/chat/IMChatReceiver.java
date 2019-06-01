@@ -1,4 +1,4 @@
-package com.vmloft.develop.library.im.common;
+package com.vmloft.develop.library.im.chat;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -6,6 +6,7 @@ import android.content.Intent;
 import com.hyphenate.chat.EMCmdMessageBody;
 import com.hyphenate.chat.EMMessage;
 import com.vmloft.develop.library.im.call.IMCallManager;
+import com.vmloft.develop.library.im.common.IMConstants;
 import com.vmloft.develop.library.im.router.IMRouter;
 import com.vmloft.develop.library.im.utils.IMUtils;
 

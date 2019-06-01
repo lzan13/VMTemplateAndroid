@@ -33,13 +33,7 @@ public class MeSignatureActivity extends AppActivity {
     @Override
     protected void initUI() {
         super.initUI();
-        getTopBar().setEndBtn(VMStr.byRes(R.string.btn_finish));
-        getTopBar().setEndBtnListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveSignature();
-            }
-        });
+        getTopBar().setEndBtnListener(VMStr.byRes(R.string.btn_finish), (View view) -> {saveSignature();});
     }
 
     @Override

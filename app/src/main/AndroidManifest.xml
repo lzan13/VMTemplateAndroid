@@ -46,6 +46,8 @@
         <activity android:name=".ui.main.me.MeInfoActivity" />
         <activity android:name=".ui.main.me.MeNicknameActivity" />
         <activity android:name=".ui.main.me.MeSignatureActivity" />
+        <!--用户信息-->
+        <activity android:name=".ui.user.UserDetailActivity" />
         <!--匹配界面-->
         <activity android:name=".ui.main.home.MatchActivity" />
         <!--设置界面-->
@@ -55,6 +57,7 @@
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
+
         <!-- 设置环信应用的 AppKey -->
         <meta-data
             android:name="EASEMOB_APPKEY"

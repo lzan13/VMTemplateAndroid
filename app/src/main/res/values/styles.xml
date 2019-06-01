@@ -21,5 +21,14 @@
         <item name="android:windowBackground">@drawable/splash_bg_shape</item>
     </style>
 
+    <!--启动主题-->
+    <style name="AppTheme.Chat">
+        <!-- 设置允许修改系统栏的背景色 比如导航栏 状态栏等-->
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <!--半透明状态栏-->
+        <item name="android:windowTranslucentStatus">true</item>
+        <!--设置导航栏半透明效果，TODO 设置导航栏半透明会导致布局下移，需注意-->
+        <item name="android:windowTranslucentNavigation">false</item>
+    </style>
 
 </resources>

@@ -10,7 +10,6 @@ import com.vmloft.develop.library.im.chat.msgitem.IMMsgItem;
 import com.vmloft.develop.library.im.chat.msgitem.IMPictureMsgItem;
 import com.vmloft.develop.library.im.chat.msgitem.IMTextMsgItem;
 import com.vmloft.develop.library.im.chat.msgitem.IMUnknownMsgItem;
-import com.vmloft.develop.library.im.common.IMChatManager;
 import com.vmloft.develop.library.im.common.IMConstants;
 import com.vmloft.develop.library.im.utils.IMChatUtils;
 import com.vmloft.develop.library.tools.adapter.VMAdapter;

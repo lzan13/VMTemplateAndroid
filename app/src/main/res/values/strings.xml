@@ -28,6 +28,7 @@
     <string name="me_avatar">头像</string>
     <string name="me_username">用户名</string>
     <string name="me_nickname">昵称</string>
+    <string name="me_nickname_default">昵称，不存在的</string>
     <string name="me_signature">签名</string>
     <string name="me_signature_hint">@string/user_signature_default</string>
     <string name="me_gender">性别</string>
@@ -45,6 +46,8 @@
     <string name="fans">粉丝</string>
 
     <string name="match">匹配</string>
+
+    <string name="private_letter">私信</string>
 
     <!--设置-->
 

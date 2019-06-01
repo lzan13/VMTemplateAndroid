@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/vm_margin_large"
-        android:background="@drawable/common_input_rectangle_bg_shape"
+        android:background="@drawable/rectangle_input_bg_shape"
         android:hint="@string/me_nickname"
         android:padding="@dimen/vm_padding_large"
         style="@style/VMEdit"

@@ -33,13 +33,7 @@ public class MeNicknameActivity extends AppActivity {
     @Override
     protected void initUI() {
         super.initUI();
-        getTopBar().setEndBtn(VMStr.byRes(R.string.btn_finish));
-        getTopBar().setEndBtnListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveNickname();
-            }
-        });
+        getTopBar().setEndBtnListener(VMStr.byRes(R.string.btn_finish), (View view) -> { saveNickname();});
     }
 
     @Override

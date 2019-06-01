@@ -47,12 +47,7 @@ public abstract class AppActivity extends VMBActivity {
         }
         if (mTopBar != null) {
             mTopBar.setIcon(R.drawable.im_ic_arrow_left);
-            mTopBar.setIconListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onBackPressed();
-                }
-            });
+            mTopBar.setIconListener((View v) -> {onBackPressed();});
         }
     }
 

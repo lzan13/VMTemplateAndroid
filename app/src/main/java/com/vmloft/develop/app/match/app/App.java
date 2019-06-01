@@ -24,11 +24,12 @@ public class App extends VMApp {
     }
 
     private void init() {
+        // 初始化 LeanCloud
+        initLeanCloud();
+
         // 初始化 IM
         AIMManager.getInstance().initIM(context);
 
-        // 初始化 LeanCloud
-        initLeanCloud();
     }
 
 

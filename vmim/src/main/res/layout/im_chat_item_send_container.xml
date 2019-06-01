@@ -37,7 +37,6 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/im_chat_msg_time_tv"
-        tools:src="@drawable/im_avatar_default_01"
         />
 
     <!--消息容器部分-->

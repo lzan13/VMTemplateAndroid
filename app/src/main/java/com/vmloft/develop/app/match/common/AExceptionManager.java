@@ -70,7 +70,9 @@ public class AExceptionManager {
                 break;
         }
         VMLog.e("IM 相关错误信息 [%d] - %s", code, desc);
-        callback.onError(code, desc);
+        if (callback != null) {
+            callback.onError(code, desc);
+        }
     }
 
     /**
@@ -109,6 +111,8 @@ public class AExceptionManager {
                 break;
         }
         VMLog.e("LeanCloud 相关错误信息 [%d] - %s", code, desc);
-        callback.onError(code, desc);
+        if (callback != null) {
+            callback.onError(code, desc);
+        }
     }
 }

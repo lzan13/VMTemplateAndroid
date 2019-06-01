@@ -26,20 +26,10 @@ public class AIMManager {
         return InnerHolder.INSTANCE;
     }
 
-
     /**
      * 初始化 IM
      */
     public void initIM(Context context) {
-        IM.getInstance().init(context);
-        initCallback();
-    }
-
-    /**
-     * 初始化 IM 回调接口
-     */
-    private void initCallback() {
-        IM.getInstance().setGlobalListener(new AIMGlobalListener());
-        IM.getInstance().setPictureLoader(new AIMPictureLoader());
+        IM.getInstance().init(context, new AIMGlobalListener(), new AIMPictureLoader());
     }
 }

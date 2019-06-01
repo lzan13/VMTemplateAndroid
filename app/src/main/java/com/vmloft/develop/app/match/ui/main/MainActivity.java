@@ -11,6 +11,7 @@ import com.vmloft.develop.app.match.base.AppFragmentPagerAdapter;
 import com.vmloft.develop.app.match.common.APermissionManager;
 import com.vmloft.develop.app.match.common.ASPManager;
 import com.vmloft.develop.app.match.common.ASignManager;
+import com.vmloft.develop.app.match.common.AUMSManager;
 import com.vmloft.develop.app.match.router.ARouter;
 import com.vmloft.develop.app.match.ui.main.chat.ConversationFragment;
 import com.vmloft.develop.app.match.ui.main.home.HomeFragment;
@@ -41,6 +42,10 @@ public class MainActivity extends AppActivity {
         if (ASPManager.getInstance().isShowGuide()) {
             ARouter.goGuide(mActivity);
             return;
+        }
+        if (ASignManager.getInstance().isSingIn()) {
+            // 已经登录，打开 App 时拉取以下联系人信息
+            AUMSManager.getInstance().loadUserList();
         }
         APermissionManager.getInstance().requestPermissions(mActivity);
     }

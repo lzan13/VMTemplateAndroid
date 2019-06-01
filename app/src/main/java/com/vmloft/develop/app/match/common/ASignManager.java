@@ -4,6 +4,7 @@ import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.LogInCallback;
 import com.avos.avoscloud.SignUpCallback;
+import com.vmloft.develop.app.match.R;
 import com.vmloft.develop.app.match.base.ACallback;
 import com.vmloft.develop.app.match.bean.AUser;
 import com.vmloft.develop.app.match.utils.ARXUtils;
@@ -60,46 +61,40 @@ public class ASignManager {
      */
     public void signUpByEmail(final String email, final String password, final ACallback<AUser> callback) {
         // 注册用户体系账户
-        Observable<AUser> observable = Observable.create(new ObservableOnSubscribe<AUser>() {
-            @Override
-            public void subscribe(final ObservableEmitter<AUser> emitter) {
-                final AUser user = new AUser();
-                user.setUsername(email);
-                user.setEmail(email);
-                user.setPassword(password);
-                user.signUpInBackground(new SignUpCallback() {
-                    @Override
-                    public void done(AVException e) {
-                        if (e == null) {
-                            emitter.onNext(user);
-                        } else {
-                            emitter.onError(e);
-                        }
+        Observable<AUser> observable = Observable.create((final ObservableEmitter<AUser> emitter) -> {
+            final AUser user = new AUser();
+            user.setUsername(email);
+            user.setEmail(email);
+            user.setPassword(password);
+            // 注册填写默认昵称和签名
+            user.setNickname(VMStr.byRes(R.string.me_nickname_default));
+            user.setSignature(VMStr.byRes(R.string.user_signature_default));
+            user.signUpInBackground(new SignUpCallback() {
+                @Override
+                public void done(AVException e) {
+                    if (e == null) {
+                        emitter.onNext(user);
+                    } else {
+                        emitter.onError(e);
                     }
-                });
-            }
+                }
+            });
         });
         // 注册 IM 账户
-        observable.flatMap(new Function<AUser, Observable<AUser>>() {
-            @Override
-            public Observable<AUser> apply(final AUser user) throws Exception {
-                return Observable.create(new ObservableOnSubscribe<AUser>() {
+        observable.flatMap((final AUser user) -> {
+            return Observable.create((final ObservableEmitter<AUser> emitter) -> {
+                IM.getInstance().signUp(user.getObjectId(), password, new IMCallback() {
                     @Override
-                    public void subscribe(final ObservableEmitter<AUser> emitter) throws Exception {
-                        IM.getInstance().signUp(user.getObjectId(), password, new IMCallback() {
-                            @Override
-                            public void onSuccess(Object o) {
-                                emitter.onNext(user);
-                            }
+                    public void onSuccess(Object o) {
+                        emitter.onNext(user);
+                    }
 
-                            @Override
-                            public void onError(int code, String desc) {
-                                emitter.onError(new IMException(code, desc));
-                            }
-                        });
+                    @Override
+                    public void onError(int code, String desc) {
+                        emitter.onError(new IMException(code, desc));
                     }
                 });
-            }
+            });
         }).compose(ARXUtils.<AUser>threadScheduler()).subscribe(new AObserver<AUser>(callback));
     }
 
@@ -112,42 +107,33 @@ public class ASignManager {
      */
     public void signInByEmail(final String email, final String password, final ACallback<AUser> callback) {
         // 登录 用户体系账户
-        Observable<AUser> observable = Observable.create(new ObservableOnSubscribe<AUser>() {
-            @Override
-            public void subscribe(final ObservableEmitter<AUser> emitter) throws Exception {
-                AVUser.logInInBackground(email, password, new LogInCallback<AUser>() {
-                    @Override
-                    public void done(AUser user, AVException e) {
-                        if (e == null) {
-                            emitter.onNext(user);
-                        } else {
-                            emitter.onError(e);
-                        }
+        Observable<AUser> observable = Observable.create((final ObservableEmitter<AUser> emitter) -> {
+            AVUser.logInInBackground(email, password, new LogInCallback<AUser>() {
+                @Override
+                public void done(AUser user, AVException e) {
+                    if (e == null) {
+                        emitter.onNext(user);
+                    } else {
+                        emitter.onError(e);
                     }
-                }, AUser.class);
-            }
+                }
+            }, AUser.class);
         });
         // 登录 IM
-        observable.flatMap(new Function<AUser, Observable<AUser>>() {
-            @Override
-            public Observable<AUser> apply(final AUser bean) throws Exception {
-                return Observable.create(new ObservableOnSubscribe<AUser>() {
+        observable.flatMap((final AUser bean) -> {
+            return Observable.create((final ObservableEmitter<AUser> emitter) -> {
+                IM.getInstance().signIn(bean.getObjectId(), password, new IMCallback() {
                     @Override
-                    public void subscribe(final ObservableEmitter<AUser> emitter) throws Exception {
-                        IM.getInstance().signIn(bean.getObjectId(), password, new IMCallback() {
-                            @Override
-                            public void onSuccess(Object o) {
-                                emitter.onNext(bean);
-                            }
+                    public void onSuccess(Object o) {
+                        emitter.onNext(bean);
+                    }
 
-                            @Override
-                            public void onError(int code, String desc) {
-                                emitter.onError(new Throwable(desc));
-                            }
-                        });
+                    @Override
+                    public void onError(int code, String desc) {
+                        emitter.onError(new Throwable(desc));
                     }
                 });
-            }
+            });
         }).compose(ARXUtils.<AUser>threadScheduler()).subscribe(new AObserver<AUser>(callback));
     }
 

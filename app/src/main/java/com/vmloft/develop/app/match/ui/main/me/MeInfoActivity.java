@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import java.util.List;
 
 /**
  * Create by lzan13 on 2019/5/12 22:20
@@ -97,7 +98,7 @@ public class MeInfoActivity extends AppActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == VMConstant.VM_PICK_RESULT_CODE_PICTURES) {
             if (data != null && requestCode == VMConstant.VM_PICK_REQUEST_CODE) {
-                ArrayList<VMPictureBean> pictures = VMPicker.getInstance().getSelectedPictures();
+                List<VMPictureBean> pictures = VMPicker.getInstance().getResultData();
                 saveAvatar(pictures.get(0));
             } else {
                 VMToast.make(mActivity, "没有数据").error();
@@ -132,11 +133,7 @@ public class MeInfoActivity extends AppActivity {
 
         mNicknameLine.setCaption(mUser.getNickname());
         mUsernameLine.setCaption(mUser.getUsername());
-        if (VMStr.isEmpty(mUser.getSignature())) {
-            mSignatureLine.setCaption(VMStr.byRes(R.string.user_signature_default));
-        } else {
-            mSignatureLine.setCaption(mUser.getSignature());
-        }
+        mSignatureLine.setCaption(mUser.getSignature());
 
         if (mUser.getGender() == 0) {
             mGenderLine.setCaption(VMStr.byRes(R.string.me_gender_unknown));

@@ -39,13 +39,8 @@ public class IMChatActivity extends IMBaseActivity {
     protected void initData() {
         mId = getIntent().getStringExtra(IMConstants.IM_CHAT_ID);
         mChatType = getIntent().getIntExtra(IMConstants.IM_CHAT_TYPE, IMConstants.ChatType.IM_SINGLE_CHAT);
-        IM.getInstance().getIMContact(mId, new IMCallback<IMContact>() {
-            @Override
-            public void onSuccess(IMContact contact) {
-                mContact = contact;
-                refreshUI();
-            }
-        });
+
+        mContact = IM.getInstance().getIMContact(mId);
 
         refreshUI();
 
@@ -67,12 +62,8 @@ public class IMChatActivity extends IMBaseActivity {
      * 刷新 UI
      */
     private void refreshUI() {
-        if (mContact == null) {
-            getTopBar().setTitle(mId);
-            return;
-        }
         if (VMStr.isEmpty(mContact.mNickname)) {
-            getTopBar().setTitle(mContact.mUsername);
+            getTopBar().setTitle(mContact.mId);
         } else {
             getTopBar().setTitle(mContact.mNickname);
         }

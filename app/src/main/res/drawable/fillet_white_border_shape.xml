@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?><!-- The android:opacity=”opaque” line — this is critical in preventing a flash of black as your theme transitions. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/vm_round_radius_large" />
+            <stroke
+                android:color="@color/vm_white_87"
+                android:width="@dimen/vm_dimen_1" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/vm_round_radius_large" />
+            <stroke
+                android:color="@color/vm_white"
+                android:width="@dimen/vm_dimen_1" />
+        </shape>
+    </item>
+</selector>

@@ -7,9 +7,11 @@ import com.hyphenate.chat.EMConferenceManager;
 import com.hyphenate.chat.EMConferenceStream;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMStreamParam;
+import com.vmloft.develop.library.im.IM;
 import com.vmloft.develop.library.im.base.IMCallback;
-import com.vmloft.develop.library.im.common.IMChatManager;
+import com.vmloft.develop.library.im.chat.IMChatManager;
 import com.vmloft.develop.library.im.common.IMConstants;
+import com.vmloft.develop.library.im.common.IMSPManager;
 import com.vmloft.develop.library.im.widget.IMCallView;
 import com.vmloft.develop.library.tools.utils.VMLog;
 
@@ -63,10 +65,28 @@ public class IMCallManager {
      */
     public void init() {
         EMClient.getInstance().conferenceManager().addConferenceListener(new IMCallListener());
+        if (IM.getInstance().isSignIn()) {
+            initInfo();
+        }
+    }
+
+    /**
+     * 初始化创建会议需要的额信息
+     */
+    public void initInfo() {
+        String token = EMClient.getInstance().getAccessToken();
+        String appkey = EMClient.getInstance().getOptions().getAppKey();
+        String username = IMSPManager.getInstance().getCurrUserId();
+        EMClient.getInstance().conferenceManager().set(token, appkey, username);
     }
 
     /**
      * ----------------------------------------- 通话状态 -----------------------------------------
+     * 5cf2530bd5de2b0070bf9832		仅通知	未开启	--	更多
+     *
+     * 5cf2533743e78c00675a7dd3		仅通知	未开启	--	更多
+     *
+     * 5cf2534843e78c00675a7eb9
      */
     /**
      * 获取通话状态

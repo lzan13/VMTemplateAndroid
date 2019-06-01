@@ -23,3 +23,5 @@
 # 环信 SDK 混淆代码
 -keep class com.hyphenate.** {*;}
 -dontwarn  com.hyphenate.**
+
+# LeanCloud 混淆代码

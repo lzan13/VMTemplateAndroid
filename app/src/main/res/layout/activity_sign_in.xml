@@ -99,13 +99,12 @@
 
             <Button
                 android:id="@+id/sign_in_btn"
-                android:layout_width="match_parent"
                 android:layout_marginBottom="@dimen/vm_margin_normal"
                 android:layout_marginTop="@dimen/vm_margin_large"
                 android:alpha="0.5"
                 android:enabled="false"
                 android:text="@string/sign_in"
-                style="@style/VMBtn.Flat.Fillet.Green"
+                style="@style/VMBtn.Fillet.Green"
                 />
 
             <Button

@@ -4,17 +4,27 @@ import android.content.Context;
 
 import com.vmloft.develop.library.im.base.IMCallback;
 import com.vmloft.develop.library.im.bean.IMContact;
+import java.util.List;
 
 /**
  * Create by lzan13 on 2019/5/23 09:47
  *
  * 定义 IM 全局回调接口
  */
-public interface IMIGlobalListener {
+public interface IIMGlobalListener {
+
     /**
-     * 获取 IM 联系人对象
+     * 同步获取 IM 联系人信息
      *
      * @param id 联系人 id
+     */
+    IMContact getIMContact(String id);
+
+    /**
+     * 异步获取 IM 联系人信息
+     *
+     * @param id       联系人 id
+     * @param callback 结果回调
      */
     void getIMContact(String id, IMCallback<IMContact> callback);
 
