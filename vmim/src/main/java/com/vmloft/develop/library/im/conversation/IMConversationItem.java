@@ -64,7 +64,6 @@ public class IMConversationItem extends RelativeLayout {
         mTimeView = findViewById(R.id.im_conversation_time_tv);
         mTitleView = findViewById(R.id.im_conversation_title_tv);
         mContentView = findViewById(R.id.im_conversation_content_etv);
-
     }
 
     /**
@@ -108,15 +107,21 @@ public class IMConversationItem extends RelativeLayout {
             if (type == IMConstants.MsgType.IM_SYSTEM) {
                 // TODO 系统提醒
             } else if (type == IMConstants.MsgType.IM_RECALL) {
+                // 撤回消息
                 content = "[" + VMStr.byRes(R.string.im_recall_already) + "]";
-            } else if (type == IMConstants.MsgType.IM_CALL_RECEIVE || type == IMConstants.MsgType.IM_CALL_SEND) {
-                content = "[" + VMStr.byRes(R.string.im_call) + "]";
+            } else if (type == IMConstants.MsgType.IM_CALL) {
+                // 通话消息
+                content = "[" + VMStr.byRes(R.string.im_call) + " - " + ((EMTextMessageBody) message.getBody()).getMessage() + "]";
             } else if (type == IMConstants.MsgType.IM_TEXT_RECEIVE || type == IMConstants.MsgType.IM_TEXT_SEND) {
                 // 只有文本才需要开启 Emoji 表情识别
                 mContentView.setEnableEmoji(true);
                 content = ((EMTextMessageBody) message.getBody()).getMessage();
             } else if (type == IMConstants.MsgType.IM_IMAGE_RECEIVE || type == IMConstants.MsgType.IM_IMAGE_SEND) {
+                // 图片消息
                 content = "[" + VMStr.byRes(R.string.im_picture) + "]";
+            } else {
+                // 未知类型消息
+                content = "[" + VMStr.byRes(R.string.im_unknown_msg) + "]";
             }
             // 判断这条消息状态，如果失败加上失败前缀提示
             if (conversation.getLastMessage().status() == EMMessage.Status.FAIL) {

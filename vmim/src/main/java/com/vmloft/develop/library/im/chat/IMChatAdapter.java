@@ -6,10 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.hyphenate.chat.EMMessage;
-import com.vmloft.develop.library.im.chat.msgitem.IMMsgItem;
-import com.vmloft.develop.library.im.chat.msgitem.IMPictureMsgItem;
+import com.vmloft.develop.library.im.chat.msgitem.IMCallItem;
+import com.vmloft.develop.library.im.chat.msgitem.IMBaseItem;
+import com.vmloft.develop.library.im.chat.msgitem.IMPictureItem;
 import com.vmloft.develop.library.im.chat.msgitem.IMTextMsgItem;
-import com.vmloft.develop.library.im.chat.msgitem.IMUnknownMsgItem;
+import com.vmloft.develop.library.im.chat.msgitem.IMUnknownItem;
 import com.vmloft.develop.library.im.common.IMConstants;
 import com.vmloft.develop.library.im.utils.IMChatUtils;
 import com.vmloft.develop.library.tools.adapter.VMAdapter;
@@ -46,14 +47,14 @@ public class IMChatAdapter extends VMAdapter<EMMessage, IMChatAdapter.ChatHolder
     public void onBindViewHolder(@NonNull ChatHolder holder, int position) {
         super.onBindViewHolder(holder, position);
 
-        ((IMMsgItem) holder.itemView).onBind(position, getItemData(position));
+        ((IMBaseItem) holder.itemView).onBind(position, getItemData(position));
     }
 
     @Override
     public void onBindViewHolder(@NonNull ChatHolder holder, int position, @NonNull List<Object> payloads) {
         super.onBindViewHolder(holder, position, payloads);
         if (payloads != null && !payloads.isEmpty()) {
-            ((IMMsgItem) holder.itemView).onUpdate(getItemData(position));
+            ((IMBaseItem) holder.itemView).onUpdate(getItemData(position));
         } else {
             onBindViewHolder(holder, position);
         }
@@ -78,9 +79,12 @@ public class IMChatAdapter extends VMAdapter<EMMessage, IMChatAdapter.ChatHolder
     /**
      * 创建一个消息 Item
      */
-    private IMMsgItem createMsgItem(int type) {
-        IMMsgItem itemView = null;
+    private IMBaseItem createMsgItem(int type) {
+        IMBaseItem itemView = null;
         switch (type) {
+            case IMConstants.MsgType.IM_CALL:
+                itemView = new IMCallItem(mContext, this, type);
+                break;
             case IMConstants.MsgType.IM_SYSTEM:
             case IMConstants.MsgType.IM_RECALL:
                 break;
@@ -90,7 +94,7 @@ public class IMChatAdapter extends VMAdapter<EMMessage, IMChatAdapter.ChatHolder
                 break;
             case IMConstants.MsgType.IM_IMAGE_RECEIVE:
             case IMConstants.MsgType.IM_IMAGE_SEND:
-                itemView = new IMPictureMsgItem(mContext, this, type);
+                itemView = new IMPictureItem(mContext, this, type);
                 break;
             case IMConstants.MsgType.IM_VIDEO_RECEIVE:
             case IMConstants.MsgType.IM_VIDEO_SEND:
@@ -100,11 +104,9 @@ public class IMChatAdapter extends VMAdapter<EMMessage, IMChatAdapter.ChatHolder
             case IMConstants.MsgType.IM_VOICE_SEND:
             case IMConstants.MsgType.IM_FILE_RECEIVE:
             case IMConstants.MsgType.IM_FILE_SEND:
-            case IMConstants.MsgType.IM_CALL_RECEIVE:
-            case IMConstants.MsgType.IM_CALL_SEND:
             case IMConstants.MsgType.IM_UNKNOWN: // 未知
             default:
-                itemView = new IMUnknownMsgItem(mContext, this, IMConstants.MsgType.IM_UNKNOWN);
+                itemView = new IMUnknownItem(mContext, this, IMConstants.MsgType.IM_UNKNOWN);
                 break;
         }
         return itemView;

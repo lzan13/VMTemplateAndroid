@@ -15,16 +15,6 @@ import java.util.concurrent.Executors;
 public class IMUtils {
 
     /**
-     * 注册本地广播接收器
-     *
-     * @param context 上下文对象
-     * @param action  广播 action
-     */
-    public static void registerLocalReceiver(Context context, String action) {
-
-    }
-
-    /**
      * 简单的发送一个本地广播
      */
     public static void sendLocalBroadcast(String action) {
@@ -69,6 +59,13 @@ public class IMUtils {
          */
         public static String getRefreshConversationAction() {
             return actionPrefix() + "chat.refresh.conversation";
+        }
+
+        /**
+         * 通话状态改变
+         */
+        public static String getCallStatusChange() {
+            return actionPrefix() + "call.status.change";
         }
 
         private static String actionPrefix() {

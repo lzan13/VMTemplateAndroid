@@ -21,37 +21,6 @@ public class IMConstants {
     public static final int IM_CHAT_MSG_LIMIT = 20;
 
     /**
-     * 通话类型
-     */
-    public interface CallType {
-        // 单人通话
-        int IM_SINGLE = 0;
-        // 多人通话
-        int IM_MULTI = 1;
-    }
-    /**
-     * 通话状态
-     */
-    public interface CallStatus {
-        // 空闲
-        int IM_IDLE = 0;
-        // 呼入
-        int IM_INCOMING_CALL = 1;
-        // 呼出
-        int IM_CALL_OUT = 2;
-        // 接通
-        int IM_CONNECT = 3;
-        // 拒绝
-        int IM_REJECT = 4;
-        // 被拒绝
-        int IM_REJECTED = 5;
-        // 结束
-        int IM_END = 6;
-        // 忙碌
-        int IM_BUSY = 7;
-    }
-
-    /**
      * 聊天类型
      */
     public interface ChatType {
@@ -70,6 +39,9 @@ public class IMConstants {
         int IM_SYSTEM = 1;
         // 撤回
         int IM_RECALL = 2;
+        // 通话消息
+        int IM_CALL = 3;
+
         // 文本
         int IM_TEXT_RECEIVE = 10;
         int IM_TEXT_SEND = 11;
@@ -83,9 +55,11 @@ public class IMConstants {
         int IM_VOICE_SEND = 19;
         int IM_FILE_RECEIVE = 20;
         int IM_FILE_SEND = 21;
-        int IM_CALL_RECEIVE = 22;
-        int IM_CALL_SEND = 23;
     }
+
+    // 消息扩展类型
+    public static final String IM_CHAT_MSG_EXT_TYPE = "im_chat_msg_ext_type";
+    public static final String IM_CHAT_MSG_EXT_TYPE_VIDEO_CALL = "im_chat_msg_type_video_call";
 
     /**
      * CMD 消息 action
@@ -93,24 +67,17 @@ public class IMConstants {
     // 输入状态
     public static final String IM_CHAT_ACTION_INPUT = "im_chat_action_input";
     public static final String IM_CHAT_ACTION_RECALL = "im_chat_action_recall";
-    //  通话 Action
-    public static final String IM_CHAT_ACTION_CALL = "im_chat_action_call";
-    public static final String IM_CHAT_ACTION_CALL_BUSY = "im_chat_action_call_busy";
-    public static final String IM_CHAT_ACTION_CALL_REJECT = "im_chat_action_call_reject";
-    public static final String IM_CHAT_ACTION_CALL_END = "im_chat_action_call_end";
 
     // 传递聊天 Id
     public static final String IM_CHAT_ID = "im_chat_id";
     // 传递聊天类型
     public static final String IM_CHAT_TYPE = "im_chat_type";
-    // 是否是呼叫进来的
-    public static final String IM_CHAT_IS_CALL = "im_chat_is_call";
     // 传递消息
     public static final String IM_CHAT_MSG = "im_chat_msg";
     // 传递消息 Id
     public static final String IM_CHAT_MSG_ID = "im_chat_msg_id";
-    // 会议 Id
-    public static final String IM_CHAT_CONFERENCE_ID = "im_chat_conference_id";
+    // 通话时间
+    public static final String IM_CHAT_CALL_TIME = "im_chat_call_time";
 
     /**
      * 定义会话与消息扩展字段 key
@@ -125,8 +92,6 @@ public class IMConstants {
     public static final String IM_CONVERSATION_KEY_TOP = "im_conversation_key_top";
     // 会话未读
     public static final String IM_CONVERSATION_KEY_UNREAD = "im_conversation_key_unread";
-    // 消息扩展类型
-    public static final String IM_CHAT_MSG_TYPE = "im_chat_msg_type";
 
     // at(@)
     public static final String ATTR_AT = "attr_at";

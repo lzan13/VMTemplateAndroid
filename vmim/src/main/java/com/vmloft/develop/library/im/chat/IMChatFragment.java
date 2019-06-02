@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 
+import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,12 +24,12 @@ import com.hyphenate.chat.EMMessage;
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.base.IMBaseFragment;
 import com.vmloft.develop.library.im.base.IMCallback;
+import com.vmloft.develop.library.im.call.IMCallManager;
 import com.vmloft.develop.library.im.common.IMConstants;
 import com.vmloft.develop.library.im.emoji.IMEmojiGroup;
 import com.vmloft.develop.library.im.emoji.IMEmojiItem;
 import com.vmloft.develop.library.im.emoji.IMEmojiManager;
 import com.vmloft.develop.library.im.emoji.IMEmojiPager;
-import com.vmloft.develop.library.im.router.IMRouter;
 import com.vmloft.develop.library.im.utils.IMUtils;
 import com.vmloft.develop.library.tools.adapter.VMAdapter;
 import com.vmloft.develop.library.tools.base.VMConstant;
@@ -93,10 +94,15 @@ public class IMChatFragment extends IMBaseFragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         initReceiver();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
 
         // 检查是否有草稿没有发出
         String draft = IMChatManager.getInstance().getDraft(mConversation);
@@ -181,17 +187,7 @@ public class IMChatFragment extends IMBaseFragment {
         mLayoutManager.setStackFromEnd(false);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
-        mAdapter.setClickListener(new VMAdapter.IClickListener() {
-            @Override
-            public void onItemAction(int action, Object object) {
 
-            }
-
-            @Override
-            public boolean onItemLongAction(int action, Object object) {
-                return false;
-            }
-        });
         scrollToBottom();
     }
 
@@ -341,7 +337,7 @@ public class IMChatFragment extends IMBaseFragment {
      * 开始呼叫
      */
     private void startCall() {
-        IMRouter.goIMCall(mContext, mId, "", false);
+        IMCallManager.getInstance().startCall(mId, IMCallManager.CallType.VOICE);
     }
 
     /**
@@ -484,8 +480,6 @@ public class IMChatFragment extends IMBaseFragment {
     public void onPause() {
         super.onPause();
 
-        unregisterReceiver();
-
         /**
          * 判断聊天输入框内容是否为空，不为空就保存输入框内容到{@link EMConversation}的扩展中
          * 调用{@link ConversationExtUtils#setConversationDraft(EMConversation, String)}方法
@@ -497,6 +491,8 @@ public class IMChatFragment extends IMBaseFragment {
 
     @Override
     public void onDestroy() {
+        unregisterReceiver();
+
         super.onDestroy();
     }
 

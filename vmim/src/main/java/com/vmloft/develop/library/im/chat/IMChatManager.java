@@ -68,7 +68,6 @@ public class IMChatManager {
 
         IMChatReceiver chatReceiver = new IMChatReceiver();
         lbm.registerReceiver(chatReceiver, filter);
-
     }
 
     /**
@@ -390,6 +389,20 @@ public class IMChatManager {
         EMCmdMessageBody body = new EMCmdMessageBody(action);
         message.addBody(body);
         return message;
+    }
+
+    /**
+     * 保存消息
+     */
+    public void saveMessage(EMMessage message) {
+        EMClient.getInstance().chatManager().saveMessage(message);
+    }
+
+    /**
+     * 删除消息
+     */
+    public void removeMessage(EMMessage message) {
+        getConversation(message.conversationId(), message.getChatType().ordinal()).removeMessage(message.getMsgId());
     }
 
     /**

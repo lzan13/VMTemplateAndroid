@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".call.multi.IMCallActivity"
+    tools:context=".call.IMCallVoiceActivity"
     >
 
     <!--封面-->
@@ -15,26 +15,26 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         />
-    <!--展示远端画面 View-->
-    <com.vmloft.develop.library.im.widget.IMCallView
-        android:id="@+id/im_call_remote_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-    <!--展示本地画面 View-->
-    <com.vmloft.develop.library.im.widget.IMCallView
-        android:id="@+id/im_call_local_view"
-        android:layout_width="@dimen/vm_dimen_96"
-        android:layout_height="@dimen/vm_dimen_128"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/im_call_remote_view"
-        />
+    <!--&lt;!&ndash;展示远端画面 View&ndash;&gt;-->
+    <!--<com.vmloft.develop.library.im.widget.IMCallView-->
+    <!--android:id="@+id/im_call_remote_view"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toTopOf="parent"-->
+    <!--/>-->
+    <!--&lt;!&ndash;展示本地画面 View&ndash;&gt;-->
+    <!--<com.vmloft.develop.library.im.widget.IMCallView-->
+    <!--android:id="@+id/im_call_local_view"-->
+    <!--android:layout_width="@dimen/vm_dimen_96"-->
+    <!--android:layout_height="@dimen/vm_dimen_128"-->
+    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toTopOf="@+id/im_call_remote_view"-->
+    <!--/>-->
 
     <!--定义顶部 TopBar-->
     <include layout="@layout/im_widget_common_top_bar" />
@@ -54,6 +54,7 @@
         android:id="@+id/im_call_name_tv"
         android:layout_marginTop="@dimen/vm_margin_normal"
         android:textColor="@color/vm_white"
+        android:textSize="@dimen/vm_size_16"
         app:layout_constraintEnd_toEndOf="@+id/im_call_avatar_iv"
         app:layout_constraintStart_toStartOf="@+id/im_call_avatar_iv"
         app:layout_constraintTop_toBottomOf="@+id/im_call_avatar_iv"
@@ -76,6 +77,7 @@
         android:id="@+id/im_call_self_name_tv"
         android:layout_marginTop="@dimen/vm_margin_normal"
         android:textColor="@color/vm_white"
+        android:textSize="@dimen/vm_size_16"
         app:layout_constraintEnd_toEndOf="@+id/im_call_self_avatar_iv"
         app:layout_constraintStart_toStartOf="@+id/im_call_self_avatar_iv"
         app:layout_constraintTop_toBottomOf="@+id/im_call_self_avatar_iv"
@@ -87,18 +89,17 @@
     <TextView
         android:id="@+id/im_call_status_tv"
         android:layout_marginBottom="@dimen/vm_margin_large"
-        android:background="@drawable/im_chat_msg_system_bg"
+        android:background="@drawable/im_chat_msg_notify_bg"
         android:paddingBottom="@dimen/vm_padding_small"
-        android:paddingEnd="@dimen/vm_padding_normal"
-        android:paddingStart="@dimen/vm_padding_normal"
+        android:paddingEnd="@dimen/vm_padding_large"
+        android:paddingStart="@dimen/vm_padding_large"
         android:paddingTop="@dimen/vm_padding_small"
         android:textColor="@color/vm_white"
-        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/im_call_time_tv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:text="正在呼叫对方"
-        style="@style/VMText.Body1"
+        style="@style/VMText.Caption"
         />
 
     <!--时间-->
@@ -106,7 +107,7 @@
         android:id="@+id/im_call_time_tv"
         android:layout_marginBottom="@dimen/vm_margin_large"
         android:textColor="@color/vm_white"
-        android:textStyle="bold"
+        android:textSize="@dimen/vm_size_16"
         app:layout_constraintBottom_toTopOf="@+id/im_call_end_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

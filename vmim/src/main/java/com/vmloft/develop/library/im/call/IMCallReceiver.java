@@ -3,20 +3,16 @@ package com.vmloft.develop.library.im.call;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import com.hyphenate.chat.EMClient;
-import com.vmloft.develop.library.im.call.multi.IMCallActivity;
-import com.vmloft.develop.library.im.router.IMRouter;
 
 /**
  * Created by lzan13 on 2016/10/18.
  *
  * 通话呼叫监听广播实现，用来监听其他账户对自己的呼叫
  */
-public class CallReceiver extends BroadcastReceiver {
+public class IMCallReceiver extends BroadcastReceiver {
 
-    public CallReceiver() {}
+    public IMCallReceiver() {}
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -33,17 +29,17 @@ public class CallReceiver extends BroadcastReceiver {
 
         // 判断下当前被呼叫的为自己的时候才启动通话界面 TODO 这个当不同 AppKey 下相同的 username 时就无效了
         if (toId.equals(EMClient.getInstance().getCurrentUser())) {
-            int type = CallManager.CallType.VOICE;
+            int type = IMCallManager.CallType.VOICE;
             // 根据通话类型跳转到语音通话或视频通话界面
             if (callType.equals("video")) {
                 // 设置当前通话类型为视频通话
-                type = CallManager.CallType.VIDEO;
+                type = IMCallManager.CallType.VIDEO;
             } else if (callType.equals("voice")) {
                 // 设置当前通话类型为语音通话
-                type = CallManager.CallType.VOICE;
+                type = IMCallManager.CallType.VOICE;
             }
             // 初始化通化管理类的一些属性
-            CallManager.getInstance().inComingCall(fromId, type);
+            IMCallManager.getInstance().inComingCall(fromId, type);
         }
     }
 }

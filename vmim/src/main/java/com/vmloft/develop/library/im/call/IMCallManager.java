@@ -1,22 +1,30 @@
 package com.vmloft.develop.library.im.call;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
 
 import com.hyphenate.chat.EMCallManager;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMConversation;
+import com.hyphenate.chat.EMMessage;
+import com.hyphenate.chat.EMTextMessageBody;
 import com.hyphenate.exceptions.EMNoActiveCallException;
 import com.hyphenate.exceptions.EMServiceNotReadyException;
 
 import com.hyphenate.exceptions.HyphenateException;
 import com.vmloft.develop.library.im.IM;
 import com.vmloft.develop.library.im.R;
+import com.vmloft.develop.library.im.chat.IMChatManager;
 import com.vmloft.develop.library.im.common.IMConstants;
 import com.vmloft.develop.library.im.router.IMRouter;
+import com.vmloft.develop.library.im.utils.IMUtils;
 import com.vmloft.develop.library.tools.utils.VMLog;
 
+import com.vmloft.develop.library.tools.utils.VMStr;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -25,7 +33,7 @@ import java.util.TimerTask;
  *
  * 实时音视频通话管理类，用来管理通话操作
  */
-public class CallManager {
+public class IMCallManager {
 
     // 音频管理器
     private AudioManager mAudioManager;
@@ -37,12 +45,21 @@ public class CallManager {
     // 表示声音已成功加载
     private boolean isLoaded = false;
 
+    // 计时器
+    private Timer mTimer;
+    // 通话时间
+    private int mCallTime = 0;
+
     // 通话状态监听
     private IMCallStateListener mCallStateListener;
 
-    // 当前通话对象 id
+    // 当前通话对象Id
     private String mCallId;
+    // 是否为呼叫进来的通话
+    private boolean isInComingCall = false;
 
+    // 通话状态提示信息
+    private String mCallStatusInfo;
     // 通话状态
     private int mCallStatus = CallStatus.DISCONNECTED;
     // 通话类型
@@ -57,30 +74,22 @@ public class CallManager {
     // 扬声器状态
     private boolean isOpenSpeaker = false;
 
-    // 是否为呼叫进来的通话
-    private boolean isInComingCall = false;
-
-    // 计时器
-    private Timer mTimer;
-    // 通话时间
-    private int mCallTime = 0;
-
     /**
      * 私有化构造函数
      */
-    private CallManager() {}
+    private IMCallManager() {}
 
     /**
      * 内部类实现单例模式
      */
     private static class InnerHolder {
-        public static CallManager INSTANCE = new CallManager();
+        public static IMCallManager INSTANCE = new IMCallManager();
     }
 
     /**
      * 获取单例类实例
      */
-    public static CallManager getInstance() {
+    public static IMCallManager getInstance() {
         return InnerHolder.INSTANCE;
     }
 
@@ -104,8 +113,10 @@ public class CallManager {
         /**
          * SDK 3.2.x 版本后通话相关设置，一定要在初始化后，开始音视频功能前设置，否则设置无效
          */
-        // 设置通话过程中对方如果离线是否发送离线推送通知，默认 false，这里需要和推送配合使用
-        EMClient.getInstance().callManager().getCallOptions().setIsSendPushIfOffline(false);
+        // 设置通话过程中对方如果离线是否发送离线推送通知，默认 false，这里需要和推送配合使用，这个就算对方不在线也会持续呼叫对方
+        EMClient.getInstance().callManager().getCallOptions().setIsSendPushIfOffline(true);
+        EMClient.getInstance().callManager().setPushProvider(new IMCallPushProvider());
+
         /**
          * 设置是否启用外部输入视频数据，默认 false，如果设置为 true，需要自己调用
          * {@link EMCallManager#inputExternalVideoData(byte[], int, int, int)}输入视频数据
@@ -131,12 +142,13 @@ public class CallManager {
         EMClient.getInstance().callManager().getCallOptions().setMaxVideoFrameRate(30);
         // 设置音视频通话采样率，一般不需要设置，除非采集声音有问题才需要手动设置
         EMClient.getInstance().callManager().getCallOptions().setAudioSampleRate(48000);
-        // 设置录制视频采用 mov 编码 TODO 后期这个而接口需要移动到 EMCallOptions 中
+        // 设置录制视频采用 mov 编码 TODO 后期这个接口需要移动到 EMCallOptions 中
         EMClient.getInstance().callManager().getVideoCallHelper().setPreferMovFormatEnable(true);
 
-        // 设置通话状态监听
-        mCallStateListener = new IMCallStateListener();
-        EMClient.getInstance().callManager().addCallStateChangeListener(mCallStateListener);
+        // 设置通话广播监听器过滤内容
+        IntentFilter callFilter = new IntentFilter(EMClient.getInstance().callManager().getIncomingCallBroadcastAction());
+        IMCallReceiver callReceiver = new IMCallReceiver();
+        IM.getInstance().getIMContext().registerReceiver(callReceiver, callFilter);
     }
 
     /**
@@ -164,9 +176,13 @@ public class CallManager {
         if (mCallStatus != CallStatus.DISCONNECTED) {
             return;
         }
+
         mCallId = id;
         mCallType = type;
         isInComingCall = false;
+
+        startCallStateListener();
+
         try {
             if (mCallType == CallType.VIDEO) {
                 EMClient.getInstance().callManager().makeVideoCall(mCallId);
@@ -179,7 +195,7 @@ public class CallManager {
             mCallStatus = CallStatus.DISCONNECTED;
         }
         if (mCallStatus == CallStatus.CONNECTING) {
-            attemptPlayCallSound();
+            attemptPlaySound();
             IMRouter.goIMCall(IM.getInstance().getIMContext());
         }
     }
@@ -195,7 +211,10 @@ public class CallManager {
         mCallType = type;
         isInComingCall = true;
         mCallStatus = CallStatus.CONNECTING;
-        attemptPlayCallSound();
+        attemptPlaySound();
+
+        startCallStateListener();
+
         IMRouter.goIMCall(IM.getInstance().getIMContext());
     }
 
@@ -203,6 +222,8 @@ public class CallManager {
      * 拒绝通话
      */
     public void rejectCall() {
+        stopCallStateListener();
+        mEndType = CallEndType.REJECT;
         try {
             // 调用 SDK 的拒绝通话方法
             EMClient.getInstance().callManager().rejectCall();
@@ -219,6 +240,7 @@ public class CallManager {
      * 结束通话
      */
     public void endCall() {
+        stopCallStateListener();
         try {
             // 调用 SDK 的结束通话方法
             EMClient.getInstance().callManager().endCall();
@@ -237,7 +259,7 @@ public class CallManager {
      */
     public boolean answerCall() {
         // 接听通话后关闭通知铃音
-        stopCallSound();
+        stopPlaySound();
         // 调用接通通话方法
         try {
             EMClient.getInstance().callManager().answerCall();
@@ -324,6 +346,11 @@ public class CallManager {
         }
     }
 
+    // 获取通话 id
+    public String getCallId() {
+        return mCallId;
+    }
+
     // 通话状态
     public void setCallType(int type) {
         mCallType = type;
@@ -331,6 +358,15 @@ public class CallManager {
 
     public int getCallType() {
         return mCallType;
+    }
+
+    // 通话状态提示信息
+    public void setCallStatusInfo(String info) {
+        mCallStatusInfo = info;
+    }
+
+    public String getCallStatusInfo() {
+        return mCallStatusInfo;
     }
 
     // 通话状态
@@ -345,11 +381,6 @@ public class CallManager {
     // 是否为呼叫进来的通话
     public boolean isInComingCall() {
         return isInComingCall;
-    }
-
-    // 判断是否正在通话中
-    public boolean isCalling() {
-        return mCallStatus == IMConstants.CallStatus.IM_CALL_OUT || mCallStatus == IMConstants.CallStatus.IM_INCOMING_CALL || mCallStatus == IMConstants.CallStatus.IM_CONNECT;
     }
 
     // 通话结束类型
@@ -398,19 +429,19 @@ public class CallManager {
      */
     private void loadSound() {
         if (isInComingCall) {
-            loadId = mSoundPool.load(IM.getInstance().getIMContext(), R.raw.sound_call_incoming, 1);
+            loadId = mSoundPool.load(IM.getInstance().getIMContext(), R.raw.im_incoming_call, 1);
         } else {
-            loadId = mSoundPool.load(IM.getInstance().getIMContext(), R.raw.sound_calling, 1);
+            loadId = mSoundPool.load(IM.getInstance().getIMContext(), R.raw.im_call_out, 1);
         }
     }
 
     /**
      * 尝试播放呼叫通话提示音
      */
-    public void attemptPlayCallSound() {
+    public void attemptPlaySound() {
         // 检查音频资源是否已经加载完毕
         if (isLoaded) {
-            playCallSound();
+            startPlaySound();
         } else {
             // 播放之前先去加载音效
             loadSound();
@@ -421,7 +452,7 @@ public class CallManager {
                     VMLog.d("SoundPool load complete! loadId: %d", loadId);
                     isLoaded = true;
                     // 首次监听到加载完毕，开始播放音频
-                    playCallSound();
+                    startPlaySound();
                 }
             });
         }
@@ -430,9 +461,9 @@ public class CallManager {
     /**
      * 播放音频
      */
-    private void playCallSound() {
+    private void startPlaySound() {
         // 打开扬声器
-        openSpeaker(true);
+        openSpeaker();
         // 设置音频管理器音频模式为铃音模式
         mAudioManager.setMode(AudioManager.MODE_RINGTONE);
         // 播放提示音，返回一个播放的音频id，等下停止播放需要用到
@@ -449,7 +480,7 @@ public class CallManager {
     /**
      * 关闭音效的播放，并释放资源
      */
-    protected void stopCallSound() {
+    protected void stopPlaySound() {
         if (mSoundPool != null) {
             // 停止播放音效
             mSoundPool.stop(streamID);
@@ -458,12 +489,31 @@ public class CallManager {
             // 释放资源
             //mSoundPool.release();
         }
-    }// --------------------------------- Sound end ---------------------------------
+    }
+
+    /**
+     * 开始通话状态监听
+     */
+    private void startCallStateListener() {
+        // 设置通话状态监听
+        mCallStateListener = new IMCallStateListener();
+        EMClient.getInstance().callManager().addCallStateChangeListener(mCallStateListener);
+    }
+
+    /**
+     * 停止通话状态监听
+     */
+    private void stopCallStateListener() {
+        if (mCallStateListener != null) {
+            EMClient.getInstance().callManager().removeCallStateChangeListener(mCallStateListener);
+        }
+    }
 
     /**
      * 开始通话计时，这里在全局管理器中开启一个定时器进行计时，可以做到最小化，以及后台时进行计时
      */
     public void startCallTime() {
+        notifyRefreshCallTime();
         if (mTimer == null) {
             mTimer = new Timer();
         }
@@ -472,9 +522,46 @@ public class CallManager {
             @Override
             public void run() {
                 mCallTime++;
+                notifyRefreshCallTime();
             }
         };
         mTimer.scheduleAtFixedRate(task, 1000, 1000);
+    }
+
+    /**
+     * 通知更新时间
+     */
+    private void notifyRefreshCallTime() {
+        Intent intent = new Intent(IMUtils.Action.getCallStatusChange());
+        intent.putExtra(IMConstants.IM_CHAT_CALL_TIME, true);
+        IMUtils.sendLocalBroadcast(intent);
+    }
+
+    /**
+     * 获取通话时间
+     */
+    public String getCallTime() {
+        int t = mCallTime;
+        int h = t / 60 / 60;
+        int m = t / 60 % 60;
+        int s = t % 60 % 60;
+        String time = "";
+        if (h > 9) {
+            time = "" + h;
+        } else {
+            time = "0" + h;
+        }
+        if (m > 9) {
+            time += ":" + m;
+        } else {
+            time += ":0" + m;
+        }
+        if (s > 9) {
+            time += ":" + s;
+        } else {
+            time += ":0" + s;
+        }
+        return time;
     }
 
     /**
@@ -493,64 +580,65 @@ public class CallManager {
      * 通话结束，保存一条记录通话的消息
      */
     public void saveCallMessage() {
-        //VMLog.d("The call ends and the call log message is saved! " + endType);
-        //EMMessage message = null;
-        //EMTextMessageBody body = null;
-        //String content = null;
-        //if (isInComingCall) {
-        //    message = EMMessage.createReceiveMessage(EMMessage.Type.TXT);
-        //    message.setFrom(mChatId);
-        //} else {
-        //    message = EMMessage.createSendMessage(EMMessage.Type.TXT);
-        //    message.setTo(mChatId);
-        //}
-        //switch (endType) {
-        //case NORMAL: // 正常结束通话
-        //    content = String.valueOf(getCallTime());
-        //    break;
-        //case CANCEL: // 取消
-        //    content = context.getString(R.string.call_cancel);
-        //    break;
-        //case CANCELLED: // 被取消
-        //    content = context.getString(R.string.call_cancel_is_incoming);
-        //    break;
-        //case BUSY: // 对方忙碌
-        //    content = context.getString(R.string.call_busy);
-        //    break;
-        //case OFFLINE: // 对方不在线
-        //    content = context.getString(R.string.call_offline);
-        //    break;
-        //case REJECT: // 拒绝的
-        //    content = context.getString(R.string.call_reject_is_incoming);
-        //    break;
-        //case REJECTED: // 被拒绝的
-        //    content = context.getString(R.string.call_reject);
-        //    break;
-        //case NORESPONSE: // 未响应
-        //    content = context.getString(R.string.call_no_response);
-        //    break;
-        //case TRANSPORT: // 建立连接失败
-        //    content = context.getString(R.string.call_connection_fail);
-        //    break;
-        //case DIFFERENT: // 通讯协议不同
-        //    content = context.getString(R.string.call_offline);
-        //    break;
-        //default:
-        //    // 默认取消
-        //    content = context.getString(R.string.call_cancel);
-        //    break;
-        //}
-        //body = new EMTextMessageBody(content);
-        //message.addBody(body);
-        //message.setStatus(EMMessage.Status.SUCCESS);
-        //if (callType == CallType.VIDEO) {
-        //    message.setAttribute("attr_call_video", true);
-        //} else {
-        //    message.setAttribute("attr_call_voice", true);
-        //}
-        //message.setUnread(false);
-        //// 调用sdk的保存消息方法
-        //EMClient.getInstance().chatManager().saveMessage(message);
+        VMLog.d("The call ends and the call log message is saved! " + mEndType);
+        EMMessage message = null;
+        EMTextMessageBody body = null;
+        String content = null;
+
+        switch (mEndType) {
+        case CallEndType.NORMAL: // 正常结束通话
+            content = VMStr.byResArgs(R.string.im_call_time, getCallTime());
+            break;
+        case CallEndType.CANCEL: // 取消
+            content = VMStr.byRes(R.string.call_cancel);
+            break;
+        case CallEndType.CANCELLED: // 被取消
+            content = VMStr.byRes(R.string.call_cancel_is_incoming);
+            break;
+        case CallEndType.BUSY: // 对方忙碌
+            content = VMStr.byRes(R.string.call_busy);
+            break;
+        case CallEndType.OFFLINE: // 对方不在线
+            content = VMStr.byRes(R.string.call_offline);
+            break;
+        case CallEndType.REJECT: // 拒绝的
+            content = VMStr.byRes(R.string.call_reject_is_incoming);
+            break;
+        case CallEndType.REJECTED: // 被拒绝的
+            content = VMStr.byRes(R.string.call_reject);
+            break;
+        case CallEndType.NORESPONSE: // 未响应
+            content = VMStr.byRes(R.string.call_no_response);
+            break;
+        case CallEndType.TRANSPORT: // 建立连接失败
+            content = VMStr.byRes(R.string.call_connection_fail);
+            break;
+        case CallEndType.DIFFERENT: // 通讯协议不同
+            content = VMStr.byRes(R.string.call_offline);
+            break;
+        default:
+            // 默认取消
+            content = VMStr.byRes(R.string.call_cancel);
+            break;
+        }
+        message = IMChatManager.getInstance().createTextMessage(content, mCallId, !isInComingCall);
+        message.setStatus(EMMessage.Status.SUCCESS);
+        message.setAttribute(IMConstants.IM_CHAT_MSG_EXT_TYPE, IMConstants.MsgType.IM_CALL);
+        message.setUnread(false);
+        message.setAttribute(IMConstants.IM_CHAT_MSG_EXT_TYPE_VIDEO_CALL, mCallType == CallType.VIDEO);
+        IMChatManager.getInstance().saveMessage(message);
+
+        // 更新会话时间
+        EMConversation conversation = IMChatManager.getInstance().getConversation(mCallId, IMConstants.ChatType.IM_SINGLE_CHAT);
+        IMChatManager.getInstance().setTime(conversation, message.localTime());
+
+        // 发送广播更新聊天界面
+        Intent intent = new Intent(IMUtils.Action.getNewMessageAction());
+        intent.putExtra(IMConstants.IM_CHAT_ID, message.conversationId());
+        intent.putExtra(IMConstants.IM_CHAT_MSG, message);
+        IMUtils.sendLocalBroadcast(intent);
+        // 会话也需要刷新
+        IMUtils.sendLocalBroadcast(IMUtils.Action.getRefreshConversationAction());
     }
 
     /**
@@ -561,10 +649,15 @@ public class CallManager {
 
         isOpenVoice = true;
         isOpenVideo = true;
-        isOpenSpeaker = true;
+        isOpenSpeaker = false;
 
         mCallStatus = CallStatus.DISCONNECTED;
+        mEndType = CallEndType.CANCEL;
 
+        // 停止播放声音
+        stopPlaySound();
+        // 停止监听
+        stopCallStateListener();
         // 停止计时
         stopCallTime();
 
@@ -595,7 +688,7 @@ public class CallManager {
      */
     public interface CallType {
         int VIDEO = 0;  // 视频通话
-        int VOICE = 0;  // 音频通话
+        int VOICE = 1;  // 音频通话
     }
 
     /**
@@ -613,38 +706,4 @@ public class CallManager {
         int TRANSPORT = 8;   // 建立连接失败
         int DIFFERENT = 9;   // 通讯协议不同
     }
-
-    ///**
-    // * 通话类型
-    // */
-    //public enum CallType {
-    //    VIDEO,  // 视频通话
-    //    VOICE   // 音频通话
-    //}
-    //
-    ///**
-    // * 通话状态枚举值
-    // */
-    //public enum CallState {
-    //    CONNECTING,     // 连接中
-    //    CONNECTED,      // 连接成功，等待接受
-    //    ACCEPTED,       // 通话中
-    //    DISCONNECTED    // 通话中断
-    //
-    //}
-    ///**
-    // * 通话结束状态类型
-    // */
-    //public enum EndType {
-    //    NORMAL,     // 正常结束通话
-    //    CANCEL,     // 取消
-    //    CANCELLED,  // 被取消
-    //    BUSY,       // 对方忙碌
-    //    OFFLINE,    // 对方不在线
-    //    REJECT,     // 拒绝的
-    //    REJECTED,   // 被拒绝的
-    //    NORESPONSE, // 未响应
-    //    TRANSPORT,  // 建立连接失败
-    //    DIFFERENT   // 通讯协议不同
-    //}
 }

@@ -8,8 +8,8 @@ import com.hyphenate.chat.EMOptions;
 import com.hyphenate.exceptions.HyphenateException;
 import com.vmloft.develop.library.im.base.IMCallback;
 import com.vmloft.develop.library.im.bean.IMContact;
-import com.vmloft.develop.library.im.call.CallManager;
-import com.vmloft.develop.library.im.call.multi.IMCallManager;
+import com.vmloft.develop.library.im.call.IMCallManager;
+import com.vmloft.develop.library.im.chat.IMChatManager;
 import com.vmloft.develop.library.im.common.IMExecptionManager;
 import com.vmloft.develop.library.im.common.IMExecutor;
 import com.vmloft.develop.library.im.common.IMSPManager;
@@ -85,9 +85,8 @@ public class IM {
         EMClient.getInstance().setDebugMode(true);
 
         // IM 内部相关管理类的初始化
+        IMChatManager.getInstance().init();
         IMCallManager.getInstance().init();
-        //IMChatManager.getInstance().init();
-        CallManager.getInstance().init();
         IMEmojiManager.getInstance().init();
 
         // 初始化完成
@@ -183,7 +182,6 @@ public class IM {
             @Override
             public void onSuccess() {
                 IMSPManager.getInstance().putCurrUserId(id);
-                IMCallManager.getInstance().initInfo();
                 // 因为这个必须要登录之后才能加载，所以这里也加载一次
                 EMClient.getInstance().chatManager().loadAllConversations();
                 if (callback != null) {

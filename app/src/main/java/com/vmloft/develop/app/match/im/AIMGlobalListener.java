@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.vmloft.develop.app.match.base.ACallback;
 import com.vmloft.develop.app.match.bean.AUser;
+import com.vmloft.develop.app.match.common.ASignManager;
 import com.vmloft.develop.app.match.common.AUMSManager;
 import com.vmloft.develop.app.match.router.ARouter;
 import com.vmloft.develop.library.im.IIMGlobalListener;
@@ -28,6 +29,9 @@ public class AIMGlobalListener implements IIMGlobalListener {
     @Override
     public IMContact getIMContact(String id) {
         AUser user = AUMSManager.getInstance().getUser(id);
+        if (id.equals(ASignManager.getInstance().getCurrentUser().getObjectId())) {
+            user = ASignManager.getInstance().getCurrentUser();
+        }
         IMContact contact = new IMContact(id);
         if (user != null) {
             contact.mUsername = user.getUsername();

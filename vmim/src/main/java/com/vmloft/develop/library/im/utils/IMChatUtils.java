@@ -160,7 +160,7 @@ public class IMChatUtils {
             itemType = IMConstants.MsgType.IM_UNKNOWN;
         }
         // 读取扩展消息类型，如果没有扩展那就是默认文本消息
-        itemType = message.getIntAttribute(IMConstants.IM_CHAT_MSG_TYPE, itemType);
+        itemType = message.getIntAttribute(IMConstants.IM_CHAT_MSG_EXT_TYPE, itemType);
         return itemType;
     }
 

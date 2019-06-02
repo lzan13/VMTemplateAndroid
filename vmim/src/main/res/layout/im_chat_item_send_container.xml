@@ -12,7 +12,7 @@
         android:id="@+id/im_chat_msg_time_tv"
         android:layout_marginBottom="@dimen/vm_margin_normal"
         android:layout_marginTop="@dimen/vm_margin_normal"
-        android:background="@drawable/im_chat_msg_system_bg"
+        android:background="@drawable/im_chat_msg_notify_bg"
         android:paddingBottom="@dimen/vm_dimen_2"
         android:paddingEnd="@dimen/vm_padding_normal"
         android:paddingStart="@dimen/vm_padding_normal"

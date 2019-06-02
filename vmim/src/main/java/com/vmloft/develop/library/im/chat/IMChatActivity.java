@@ -33,6 +33,7 @@ public class IMChatActivity extends IMBaseActivity {
     @Override
     protected void initUI() {
         super.initUI();
+        mTopSpaceView.getLayoutParams().height = 0;
     }
 
     @Override

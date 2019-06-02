@@ -22,7 +22,7 @@ import java.io.File;
  *
  * 实现文本消息展示
  */
-public class IMPictureMsgItem extends IMMsgItem {
+public class IMPictureItem extends IMNormalItem {
 
     private ImageView mPictureView;
 
@@ -32,7 +32,7 @@ public class IMPictureMsgItem extends IMMsgItem {
     private int mViewWidth;
     private int mViewHeight;
 
-    public IMPictureMsgItem(Context context, IMChatAdapter adapter, int type) {
+    public IMPictureItem(Context context, IMChatAdapter adapter, int type) {
         super(context, adapter, type);
         thumbnailsMax = VMDimen.getDimenPixel(R.dimen.vm_dimen_128);
         thumbnailsMin = VMDimen.getDimenPixel(R.dimen.vm_dimen_56);
@@ -125,7 +125,7 @@ public class IMPictureMsgItem extends IMMsgItem {
     }
 
     @Override
-    public void onMessageClick() {
-        IMRouter.goIMPriview(mContext, mMessage);
+    public void onClick() {
+        IMRouter.goIMPreview(mContext, mMessage);
     }
 }

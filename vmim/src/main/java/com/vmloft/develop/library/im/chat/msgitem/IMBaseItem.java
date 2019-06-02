@@ -18,14 +18,13 @@ import com.vmloft.develop.library.im.chat.IMChatManager;
 import com.vmloft.develop.library.im.common.IMConstants;
 import com.vmloft.develop.library.tools.picker.IPictureLoader;
 import com.vmloft.develop.library.tools.utils.VMDate;
-import com.vmloft.develop.library.tools.utils.VMDimen;
 
 /**
  * Create by lzan13 on 2019/5/23 20:08
  *
  * IM 消息基类，处理一些公共属性
  */
-public abstract class IMMsgItem extends RelativeLayout {
+public abstract class IMBaseItem extends RelativeLayout {
 
     protected Context mContext;
     protected IMChatAdapter mAdapter;
@@ -49,11 +48,12 @@ public abstract class IMMsgItem extends RelativeLayout {
     // 进度圈
     protected ProgressBar mSendPB;
 
+
     /**
      * @param context
      * @param adapter
      */
-    public IMMsgItem(Context context, IMChatAdapter adapter, int type) {
+    public IMBaseItem(Context context, IMChatAdapter adapter, int type) {
         super(context);
         mContext = context;
         mAdapter = adapter;
@@ -78,7 +78,11 @@ public abstract class IMMsgItem extends RelativeLayout {
 
         mContainerView.addView(layoutView());
 
-        mContainerView.setOnClickListener((View v) -> {onMessageClick();});
+        mContainerView.setOnClickListener((View v) -> {onClick();});
+        mContainerView.setOnLongClickListener((View v) -> {
+            onLongClick();
+            return false;
+        });
     }
 
     /**
@@ -147,25 +151,35 @@ public abstract class IMMsgItem extends RelativeLayout {
     public void checkACKStatus() {
         if (mStatusView != null) {
             mStatusView.setVisibility(GONE);
-        }
-        if (isReceiveMessage()) {
-            if (!mMessage.isAcked()) {
-                // 接收方发送已读 ACK
-                IMChatManager.getInstance().sendReadACK(mMessage);
-            }
-        } else {
-            // 发送方处理已读 ACK 状态
-            if (mMessage.isAcked()) {
-                mStatusView.setVisibility(VISIBLE);
-                mStatusView.setSelected(true);
-            } else if (mMessage.isDelivered()) {
-                mStatusView.setSelected(false);
-                mStatusView.setVisibility(VISIBLE);
+            if (isReceiveMessage()) {
+                if (!mMessage.isAcked()) {
+                    // 接收方发送已读 ACK
+                    IMChatManager.getInstance().sendReadACK(mMessage);
+                }
             } else {
-                mStatusView.setVisibility(GONE);
+                // 发送方处理已读 ACK 状态
+                if (mMessage.isAcked()) {
+                    mStatusView.setVisibility(VISIBLE);
+                    mStatusView.setSelected(true);
+                } else if (mMessage.isDelivered()) {
+                    mStatusView.setSelected(false);
+                    mStatusView.setVisibility(VISIBLE);
+                } else {
+                    mStatusView.setVisibility(GONE);
+                }
             }
         }
     }
+
+    /**
+     * 触发消息点击
+     */
+    public void onClick() {}
+
+    /**
+     * 触发消息长按事件
+     */
+    public void onLongClick() {}
 
     /**
      * 加载容器，这里默认根据子类的判断加载发送或者接收的消息容器，子类可以重写此方法实现加载不同的容器
@@ -190,11 +204,4 @@ public abstract class IMMsgItem extends RelativeLayout {
      * @param message 需要展示的消息对象
      */
     public abstract void onBind(int position, EMMessage message);
-
-    /**
-     * 触发消息点击
-     */
-    public void onMessageClick() {
-
-    }
 }
