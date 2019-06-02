@@ -4,7 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.hyphenate.chat.EMMessage;
-import com.vmloft.develop.library.im.call.IMCallActivity;
+import com.vmloft.develop.library.im.call.VoiceCallActivity;
+import com.vmloft.develop.library.im.call.multi.IMCallActivity;
 import com.vmloft.develop.library.im.chat.IMChatActivity;
 import com.vmloft.develop.library.im.chat.IMPreviewActivity;
 import com.vmloft.develop.library.im.common.IMConstants;
@@ -31,12 +32,8 @@ public class IMRouter extends VMRouter {
     /**
      * 跳转到通话界面
      */
-    public static void goIMCall(Context context, String id, boolean isCall) {
-        Intent intent = new Intent(context, IMCallActivity.class);
-        intent.putExtra(IMConstants.IM_CHAT_ID, id);
-        intent.putExtra(IMConstants.IM_CHAT_IS_CALL, isCall);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        overlay(context, intent);
+    public static void goIMCall(Context context) {
+        overlay(context, VoiceCallActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK);
     }
 
     /**

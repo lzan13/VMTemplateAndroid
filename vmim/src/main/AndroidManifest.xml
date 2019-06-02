@@ -16,6 +16,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!--唤醒锁-->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- 修改音频设置 -->
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 
     <application>
         <!--聊天界面-->
@@ -23,17 +25,23 @@
             android:name=".chat.IMChatActivity"
             android:theme="@style/IMTheme.Chat"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-        <!--通话界面-->
-        <activity
-            android:name=".call.IMCallActivity"
-            android:theme="@style/IMTheme.Chat"
-            android:windowSoftInputMode="adjustNothing|stateAlwaysHidden" />
+
         <!--预览界面-->
         <activity
             android:name=".chat.IMPreviewActivity"
             android:theme="@style/IMTheme.Chat"
             android:windowSoftInputMode="adjustNothing|stateAlwaysHidden" />
 
+        <!--通话界面-->
+        <activity
+            android:name=".call.multi.IMCallActivity"
+            android:theme="@style/IMTheme.Chat"
+            android:windowSoftInputMode="adjustNothing|stateAlwaysHidden" />
 
+        <!--通话界面-->
+        <activity
+            android:name=".call.VoiceCallActivity"
+            android:theme="@style/IMTheme.Chat"
+            android:windowSoftInputMode="adjustNothing|stateAlwaysHidden" />
     </application>
 </manifest>

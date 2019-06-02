@@ -341,7 +341,7 @@ public class IMChatFragment extends IMBaseFragment {
      * 开始呼叫
      */
     private void startCall() {
-        IMRouter.goIMCall(mContext, mId, false);
+        IMRouter.goIMCall(mContext, mId, "", false);
     }
 
     /**
@@ -503,6 +503,8 @@ public class IMChatFragment extends IMBaseFragment {
     /**
      * ------------------------------- 广播接收器部分 -------------------------------
      */
+    private NewMessageReceiver mNewMessageReceiver = new NewMessageReceiver();
+    private UpdateMessageReceiver mUpdateMessageReceiver = new UpdateMessageReceiver();
 
     /**
      * 初始化注册广播接收器
@@ -525,9 +527,6 @@ public class IMChatFragment extends IMBaseFragment {
         LocalBroadcastManager.getInstance(mContext).unregisterReceiver(mNewMessageReceiver);
         LocalBroadcastManager.getInstance(mContext).unregisterReceiver(mUpdateMessageReceiver);
     }
-
-    private NewMessageReceiver mNewMessageReceiver = new NewMessageReceiver();
-    private UpdateMessageReceiver mUpdateMessageReceiver = new UpdateMessageReceiver();
 
     /**
      * 定义广播接收器

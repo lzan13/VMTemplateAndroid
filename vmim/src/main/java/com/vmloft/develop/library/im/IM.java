@@ -8,8 +8,8 @@ import com.hyphenate.chat.EMOptions;
 import com.hyphenate.exceptions.HyphenateException;
 import com.vmloft.develop.library.im.base.IMCallback;
 import com.vmloft.develop.library.im.bean.IMContact;
-import com.vmloft.develop.library.im.call.IMCallManager;
-import com.vmloft.develop.library.im.chat.IMChatManager;
+import com.vmloft.develop.library.im.call.CallManager;
+import com.vmloft.develop.library.im.call.multi.IMCallManager;
 import com.vmloft.develop.library.im.common.IMExecptionManager;
 import com.vmloft.develop.library.im.common.IMExecutor;
 import com.vmloft.develop.library.im.common.IMSPManager;
@@ -86,7 +86,8 @@ public class IM {
 
         // IM 内部相关管理类的初始化
         IMCallManager.getInstance().init();
-        IMChatManager.getInstance().init();
+        //IMChatManager.getInstance().init();
+        CallManager.getInstance().init();
         IMEmojiManager.getInstance().init();
 
         // 初始化完成

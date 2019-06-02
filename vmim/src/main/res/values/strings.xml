@@ -10,6 +10,37 @@
     <string name="im_empty">- 空 -</string>
     <string name="im_unknown_msg">不支持的消息类型，升级查看</string>
     <string name="im_error_recall_limit_time">你只能撤回两分钟以内的消息</string>
+
+    <string name="im_call_incoming">对方申请与你进行通话</string>
+    <string name="im_call_out">正在呼叫对方</string>
+    <string name="im_call_accepted">通话已接通</string>
+    <string name="call_busy">对方正忙</string>
+    <string name="call_cancel">已取消</string>
+    <string name="call_cancel_is_incoming">对方已取消</string>
+    <string name="call_connected">正在等待对方接受呼叫申请</string>
+    <string name="call_connected_is_incoming">对方申请与你进行通话</string>
+    <string name="call_connection_fail">建立连接失败</string>
+    <string name="call_disconnected">通话已结束</string>
+    <string name="call_duration_time">通话时长</string>
+    <string name="call_no_data">没有通话数据</string>
+    <string name="call_not_answer">对方未接听</string>
+    <string name="call_no_response">对方可能在忙，建议稍后拨打</string>
+    <string name="call_offline">对方不在线</string>
+    <string name="call_network_unstable">网络状态不佳</string>
+    <string name="call_network_normal">网络状态良好</string>
+    <string name="call_reject">对方已拒绝</string>
+    <string name="call_reject_is_incoming">已拒绝</string>
+    <string name="call_local_version_smaller">本地版本过低，无法通讯</string>
+    <string name="call_opposite_version_smaller">对方版本过低，无法通讯</string>
+    <string name="call_version_different">双方通讯协议不同，无法通讯</string>
+    <string name="call_video_pause">视频传输已暂停</string>
+    <string name="call_video_resume">视频传输已恢复</string>
+    <string name="call_video_calling">视频通话进行中</string>
+    <string name="call_voice_pause">语音传输已暂停</string>
+    <string name="call_voice_resume">语音传输已恢复</string>
+    <string name="call_voice_calling">语音通话进行中</string>
+
+
     <!--其他错误 x-->
     <string name="im_error_unknown">未知错误 %1$d</string>
     <string name="im_error_general_error">一般错误，未细分的错误一般通过此 Error Code 抛出来</string>

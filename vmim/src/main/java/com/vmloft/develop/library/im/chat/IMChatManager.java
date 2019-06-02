@@ -1,5 +1,7 @@
 package com.vmloft.develop.library.im.chat;
 
+import android.content.IntentFilter;
+import android.support.v4.content.LocalBroadcastManager;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMCmdMessageBody;
@@ -17,6 +19,7 @@ import com.vmloft.develop.library.im.base.IMCallback;
 import com.vmloft.develop.library.im.common.IMConstants;
 import com.vmloft.develop.library.im.common.IMException;
 import com.vmloft.develop.library.im.utils.IMChatUtils;
+import com.vmloft.develop.library.im.utils.IMUtils;
 import com.vmloft.develop.library.tools.utils.VMLog;
 
 import java.io.File;
@@ -56,6 +59,16 @@ public class IMChatManager {
         // 将会话加载到内存，因为这个必须要登录之后才能加载，这里只是登录过才有效
         EMClient.getInstance().chatManager().loadAllConversations();
         EMClient.getInstance().chatManager().addMessageListener(new IMChatListener());
+
+        LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(IM.getInstance().getIMContext());
+
+        // 各种消息广播接收器
+        IntentFilter filter = new IntentFilter(IMUtils.Action.getNewMessageAction());
+        filter.addAction(IMUtils.Action.getCMDMessageAction());
+
+        IMChatReceiver chatReceiver = new IMChatReceiver();
+        lbm.registerReceiver(chatReceiver, filter);
+
     }
 
     /**

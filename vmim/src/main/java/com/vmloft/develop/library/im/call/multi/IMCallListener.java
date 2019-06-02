@@ -1,4 +1,4 @@
-package com.vmloft.develop.library.im.call;
+package com.vmloft.develop.library.im.call.multi;
 
 import android.annotation.TargetApi;
 import android.os.Build;

@@ -29,7 +29,6 @@ public class IMConstants {
         // 多人通话
         int IM_MULTI = 1;
     }
-
     /**
      * 通话状态
      */
@@ -48,6 +47,8 @@ public class IMConstants {
         int IM_REJECTED = 5;
         // 结束
         int IM_END = 6;
+        // 忙碌
+        int IM_BUSY = 7;
     }
 
     /**
@@ -94,6 +95,7 @@ public class IMConstants {
     public static final String IM_CHAT_ACTION_RECALL = "im_chat_action_recall";
     //  通话 Action
     public static final String IM_CHAT_ACTION_CALL = "im_chat_action_call";
+    public static final String IM_CHAT_ACTION_CALL_BUSY = "im_chat_action_call_busy";
     public static final String IM_CHAT_ACTION_CALL_REJECT = "im_chat_action_call_reject";
     public static final String IM_CHAT_ACTION_CALL_END = "im_chat_action_call_end";
 
@@ -103,7 +105,6 @@ public class IMConstants {
     public static final String IM_CHAT_TYPE = "im_chat_type";
     // 是否是呼叫进来的
     public static final String IM_CHAT_IS_CALL = "im_chat_is_call";
-
     // 传递消息
     public static final String IM_CHAT_MSG = "im_chat_msg";
     // 传递消息 Id
