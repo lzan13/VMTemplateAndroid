@@ -101,9 +101,6 @@ public abstract class IMBaseItem extends RelativeLayout {
         }
         // 处理头像
         if (mAvatarView != null) {
-            mAvatarView.setOnClickListener((View v) -> {
-                IM.getInstance().onHeadClick(mContext, mContact);
-            });
             loadContactInfo();
         }
         onUpdate(mMessage);
@@ -113,6 +110,9 @@ public abstract class IMBaseItem extends RelativeLayout {
      * 加载联系人信息
      */
     private void loadContactInfo() {
+        mAvatarView.setOnClickListener((View v) -> {
+            IM.getInstance().onHeadClick(mContext, mContact);
+        });
         IPictureLoader.Options options = new IPictureLoader.Options(mContact.mAvatar);
         options.isCircle = true;
         IM.getInstance().getPictureLoader().load(mContext, options, mAvatarView);

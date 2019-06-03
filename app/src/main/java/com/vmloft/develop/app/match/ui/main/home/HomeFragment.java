@@ -45,13 +45,13 @@ public class HomeFragment extends AppLazyFragment {
 
     }
 
-    @OnClick({ R.id.home_pairing_text, R.id.home_pairing_voice })
+    @OnClick({ R.id.home_match_text_border, R.id.home_match_voice_border})
     public void onClick(View view) {
         switch (view.getId()) {
-        case R.id.home_pairing_text:
+        case R.id.home_match_text_border:
             ARouter.goPairing(getActivity());
             break;
-        case R.id.home_pairing_voice:
+        case R.id.home_match_voice_border:
             VMToast.make(getActivity(), "搜索令你心动的声音").done();
             break;
         }

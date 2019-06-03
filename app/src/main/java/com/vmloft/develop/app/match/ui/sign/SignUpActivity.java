@@ -15,6 +15,9 @@ import com.vmloft.develop.library.tools.utils.VMStr;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import com.vmloft.develop.library.tools.utils.VMTheme;
+import com.vmloft.develop.library.tools.widget.VMEditView;
 import com.vmloft.develop.library.tools.widget.toast.VMToast;
 
 /**
@@ -25,11 +28,11 @@ import com.vmloft.develop.library.tools.widget.toast.VMToast;
 public class SignUpActivity extends AppActivity {
 
     // 输入框
-    @BindView(R.id.edit_username) EditText mUsernameView;
-    @BindView(R.id.edit_password) EditText mPasswordView;
-    @BindView(R.id.btn_sign_up) Button mSignInBtn;
+    @BindView(R.id.sign_account_et) VMEditView mAccountView;
+    @BindView(R.id.sign_password_et) VMEditView mPasswordView;
+    @BindView(R.id.sign_up_btn) Button mSignUpBtn;
 
-    private String mUsername;
+    private String mAccount;
     private String mPassword;
 
     @Override
@@ -40,10 +43,12 @@ public class SignUpActivity extends AppActivity {
     @Override
     protected void initUI() {
         super.initUI();
-        // 读取最后一次登录的账户 Username
-        //        mUsernameView.setText(mUsername);
 
-        mUsernameView.addTextChangedListener(new TextWatcher() {
+        VMTheme.changeShadow(mAccountView);
+        VMTheme.changeShadow(mPasswordView);
+
+        // 监听输入框变化
+        mAccountView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -81,13 +86,13 @@ public class SignUpActivity extends AppActivity {
     /**
      * 界面内控件的点击事件监听器
      */
-    @OnClick({ R.id.btn_sign_up, R.id.btn_sign_in_go })
+    @OnClick({ R.id.sign_up_btn, R.id.sign_go_sign_in_btn })
     void onClick(View v) {
         switch (v.getId()) {
-        case R.id.btn_sign_up:
+        case R.id.sign_up_btn:
             registerByEmail();
             break;
-        case R.id.btn_sign_in_go:
+        case R.id.sign_go_sign_in_btn:
             onFinish();
             break;
         }
@@ -98,16 +103,14 @@ public class SignUpActivity extends AppActivity {
      */
     private void verifyInputBox() {
         // 将用户名转为消息并修剪
-        mUsername = mUsernameView.getText().toString().toLowerCase().trim();
-        mPassword = mPasswordView.getText().toString().trim();
+        mAccount = mAccountView.getText();
+        mPassword = mPasswordView.getText();
 
         // 检查输入框是否为空是否为空
-        if (VMStr.isEmpty(mPassword) || VMStr.isEmpty(mUsername)) {
-            mSignInBtn.setEnabled(false);
-            mSignInBtn.setAlpha(0.6f);
+        if (VMStr.isEmpty(mPassword) || VMStr.isEmpty(mAccount)) {
+            mSignUpBtn.setEnabled(false);
         } else {
-            mSignInBtn.setEnabled(true);
-            mSignInBtn.setAlpha(1.0f);
+            mSignUpBtn.setEnabled(true);
         }
     }
 
@@ -115,7 +118,7 @@ public class SignUpActivity extends AppActivity {
      * 通过邮箱注册
      */
     private void registerByEmail() {
-        ASignManager.getInstance().signUpByEmail(mUsername, mPassword, new ACallback<AUser>() {
+        ASignManager.getInstance().signUpByEmail(mAccount, mPassword, new ACallback<AUser>() {
             @Override
             public void onSuccess(AUser user) {
                 VMToast.make(mActivity, R.string.sign_up_success).show();

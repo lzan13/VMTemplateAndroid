@@ -8,12 +8,13 @@
     <string name="sign_in_go">去登录</string>
     <string name="sign_in_success">登录成功</string>
     <string name="sign_up">注册</string>
+    <string name="sign_up_welcome">欢迎加入</string>
     <string name="sign_up_boot">还没有账户？</string>
     <string name="sign_up_success">注册成功</string>
     <string name="sign_up_go">马上注册</string>
     <string name="sign_out">退出登录</string>
     <string name="sign_forgot_password">忘记密码</string>
-    <string name="username">用户名</string>
+    <string name="account">账户</string>
     <string name="password">密码</string>
 
     <!--按钮相关-->

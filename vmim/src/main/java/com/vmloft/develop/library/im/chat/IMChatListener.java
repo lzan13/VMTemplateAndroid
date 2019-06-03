@@ -1,6 +1,7 @@
 package com.vmloft.develop.library.im.chat;
 
 import android.content.Intent;
+
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
@@ -11,6 +12,8 @@ import com.vmloft.develop.library.im.bean.IMContact;
 import com.vmloft.develop.library.im.common.IMConstants;
 import com.vmloft.develop.library.im.utils.IMUtils;
 import com.vmloft.develop.library.tools.utils.VMLog;
+import com.vmloft.develop.library.tools.utils.VMStr;
+
 import java.util.List;
 
 /**
@@ -34,15 +37,24 @@ public class IMChatListener implements EMMessageListener {
             // 更新会话时间
             EMConversation conversation = IMChatManager.getInstance().getConversation(msg.conversationId(), msg.getChatType().ordinal());
             IMChatManager.getInstance().setTime(conversation, msg.localTime());
-            IM.getInstance().getIMContact(msg.conversationId(), new IMCallback<IMContact>() {
-                @Override
-                public void onSuccess(IMContact imContact) {
-                    // 通知有新消息来了，每条消息都需要单独通知，接收方根据自己需要判断后续操作
-                    sendBroadcast(IMUtils.Action.getNewMessageAction(), msg);
-                    // 会话也需要刷新
-                    IMUtils.sendLocalBroadcast(IMUtils.Action.getRefreshConversationAction());
-                }
-            });
+            // 先获取联系人信息再通知消息刷新
+            IMContact contact = IM.getInstance().getIMContact(msg.conversationId());
+            if (VMStr.isEmpty(contact.mNickname) && VMStr.isEmpty(contact.mAvatar)) {
+                IM.getInstance().getIMContact(msg.conversationId(), new IMCallback<IMContact>() {
+                    @Override
+                    public void onSuccess(IMContact imContact) {
+                        // 通知有新消息来了，每条消息都需要单独通知，接收方根据自己需要判断后续操作
+                        sendBroadcast(IMUtils.Action.getNewMessageAction(), msg);
+                        // 会话也需要刷新
+                        IMUtils.sendLocalBroadcast(IMUtils.Action.getRefreshConversationAction());
+                    }
+                });
+            } else {
+                // 通知有新消息来了，每条消息都需要单独通知，接收方根据自己需要判断后续操作
+                sendBroadcast(IMUtils.Action.getNewMessageAction(), msg);
+                // 会话也需要刷新
+                IMUtils.sendLocalBroadcast(IMUtils.Action.getRefreshConversationAction());
+            }
         }
     }
 

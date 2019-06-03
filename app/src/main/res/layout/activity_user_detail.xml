@@ -76,7 +76,7 @@
             <TextView
                 android:id="@+id/user_detail_private_letter_tv"
                 android:layout_marginTop="@dimen/common_margin_normal"
-                android:background="@drawable/fillet_green_bg_shape"
+                android:background="@drawable/fillet_green_bg_selector"
                 android:paddingBottom="@dimen/common_padding_small"
                 android:paddingEnd="@dimen/common_padding_large"
                 android:paddingStart="@dimen/vm_dimen_32"
@@ -104,7 +104,7 @@
             <TextView
                 android:id="@+id/user_detail_follow_tv"
                 android:layout_marginStart="@dimen/common_margin_large"
-                android:background="@drawable/fillet_blue_bg_shape"
+                android:background="@drawable/fillet_blue_bg_selector"
                 android:paddingBottom="@dimen/common_padding_small"
                 android:paddingEnd="@dimen/common_padding_large"
                 android:paddingStart="@dimen/common_padding_large"

@@ -1,118 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/layout_coordinator"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_bg"
-    android:clipToPadding="true"
-    android:fitsSystemWindows="true"
-    >
+    android:padding="@dimen/vm_padding_large"
+    tools:context=".ui.sign.SignInActivity">
 
-    <RelativeLayout
-        android:id="@+id/layout_content"
+    <!--欢迎语-->
+    <TextView
+        android:id="@+id/sign_welcome_tv"
+        style="@style/VMText.Headline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/vm_dimen_16"
+        android:text="@string/sign_in_welcome"
+        android:textColor="@color/app_title"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--去注册引导按钮-->
+    <Button
+        android:id="@+id/sign_go_sign_up_btn"
+        style="@style/VMBtn.Flat"
+        android:layout_width="wrap_content"
+        android:text="@string/sign_up_go"
+        android:textColor="@color/vm_blue_87"
+        app:layout_constraintBottom_toBottomOf="@+id/sign_welcome_tv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/sign_welcome_tv" />
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="@dimen/vm_dimen_16"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        >
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="@dimen/vm_dimen_16"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <!--去注册引导按钮-->
-        <Button
-            android:id="@+id/sign_up_go_btn"
-            android:layout_width="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:text="@string/sign_up_go"
-            android:textColor="@color/vm_blue_87"
-            style="@style/VMBtn.Flat"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/vm_dimen_16"
-            android:text="@string/sign_in_welcome"
-            android:textColor="@color/app_title"
-            android:textStyle="bold"
-            style="@style/VMText.Headline"
-            />
-
-        <LinearLayout
+        <com.vmloft.develop.library.tools.widget.VMEditView
+            android:id="@+id/sign_account_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_margin="@dimen/vm_dimen_16"
-            android:gravity="center"
-            android:orientation="vertical"
-            >
+            android:layout_margin="@dimen/vm_margin_large"
+            android:background="@drawable/fillet_white_bg_selector"
+            android:elevation="@dimen/vm_elevation_high"
+            app:vm_edit_hint="@string/account"
+            app:vm_edit_mode="account" />
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/text_input_username"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/vm_dimen_16"
-                android:textColor="@color/vm_black_87"
-                android:textColorHint="@color/vm_black_38"
-                >
+        <com.vmloft.develop.library.tools.widget.VMEditView
+            android:id="@+id/sign_password_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/vm_margin_large"
+            android:background="@drawable/fillet_white_bg_selector"
+            android:elevation="@dimen/vm_elevation_high"
+            app:vm_edit_hint="@string/password"
+            app:vm_edit_mode="password" />
 
-                <EditText
-                    android:id="@+id/edit_username"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/username"
-                    android:inputType="textImeMultiLine"
-                    android:textColor="@color/vm_black_87"
-                    android:textColorHint="@color/vm_black_38"
-                    android:textSize="@dimen/vm_size_16"
-                    />
+        <Button
+            android:id="@+id/sign_in_btn"
+            style="@style/VMBtn.Fillet.Green"
+            android:layout_marginTop="@dimen/vm_margin_large"
+            android:layout_marginBottom="@dimen/vm_margin_normal"
+            android:enabled="false"
+            android:text="@string/sign_in" />
 
-                <!--<com.vmloft.develop.library.tools.widget.VMEditView-->
-                <!--android:id="@+id/edit_account"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="@dimen/vm_dimen_24"-->
-                <!--app:layout_constraintEnd_toEndOf="parent"-->
-                <!--app:layout_constraintStart_toStartOf="parent"-->
-                <!--app:layout_constraintTop_toBottomOf="@+id/sign_title"-->
-                <!--app:vm_edit_hint="@string/account" />-->
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/text_input_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/vm_black_87"
-                android:textColorHint="@color/vm_black_38"
-                >
-
-                <EditText
-                    android:id="@+id/edit_password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/password"
-                    android:inputType="textPassword|textImeMultiLine"
-                    android:textColor="@color/vm_black_87"
-                    android:textColorHint="@color/vm_black_38"
-                    android:textSize="@dimen/vm_size_16"
-                    />
-            </android.support.design.widget.TextInputLayout>
-
-            <Button
-                android:id="@+id/sign_in_btn"
-                android:layout_marginBottom="@dimen/vm_margin_normal"
-                android:layout_marginTop="@dimen/vm_margin_large"
-                android:alpha="0.5"
-                android:enabled="false"
-                android:text="@string/sign_in"
-                style="@style/VMBtn.Fillet.Green"
-                />
-
-            <Button
-                android:id="@+id/sign_forget_password_btn"
-                android:text="@string/sign_forgot_password"
-                android:textColor="@color/vm_blue_87"
-                style="@style/VMBtn.Flat"
-                />
-        </LinearLayout>
-    </RelativeLayout>
-</android.support.design.widget.CoordinatorLayout>
+        <Button
+            android:id="@+id/sign_forget_password_btn"
+            style="@style/VMBtn.Flat"
+            android:text="@string/sign_forgot_password"
+            android:textColor="@color/vm_blue_87" />
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>
