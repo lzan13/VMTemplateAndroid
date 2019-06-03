@@ -17,6 +17,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.hyphenate.chat.EMConversation;
@@ -52,7 +53,7 @@ public class IMChatFragment extends IMBaseFragment {
     // 输入框
     private EditText mInputET;
     // 表情按钮
-    private ImageButton mEmojiBtn;
+    private ImageView mEmojiBtn;
     // 发送按钮
     private ImageButton mSendBtn;
     // 图片
@@ -127,8 +128,6 @@ public class IMChatFragment extends IMBaseFragment {
         mId = getArguments().getString(IMConstants.IM_CHAT_ID);
         mChatType = getArguments().getInt(IMConstants.IM_CHAT_TYPE);
 
-        initConversation();
-
         mInputET = getView().findViewById(R.id.im_chat_input_et);
         mEmojiBtn = getView().findViewById(R.id.im_chat_input_emoji_btn);
         mSendBtn = getView().findViewById(R.id.im_chat_input_send_btn);
@@ -148,6 +147,8 @@ public class IMChatFragment extends IMBaseFragment {
         mCallBtn.setOnClickListener(viewListener);
         mVoiceBtn.setOnClickListener(viewListener);
         mMoreBtn.setOnClickListener(viewListener);
+
+        initConversation();
 
         initRecyclerView();
 

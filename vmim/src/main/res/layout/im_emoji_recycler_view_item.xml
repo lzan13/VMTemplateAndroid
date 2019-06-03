@@ -15,7 +15,7 @@
             android:id="@+id/im_emoji_item_icon_iv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/im_emoji_1" />
+            android:src="@drawable/im_emoji_01" />
 
         <TextView
             android:id="@+id/im_emoji_item_name_tv"

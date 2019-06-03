@@ -7,28 +7,23 @@ package com.vmloft.develop.library.im.emoji;
  */
 public class IMEmojiBean {
 
-    /**
-     * 是否是 emoji 表情，这个不用下载
-     */
+    // 是否是 Emoji 表情，这个不用下载
     public boolean isEmoji;
 
-    /**
-     * emoji 的资源 id
-     */
+    // 是否是大表情
+    public boolean isEmojiBig;
+
+    // Emoji 的资源 id
     public int mEmojiResId;
 
-    /**
-     * 表情描述的文本信息如:[捂脸]
-     */
+    // 表情描述的文本信息如:[捂脸]
     public String mEmojiDesc;
 
-    /**
-     * 不是 emoji 表情，图片加载地址
-     */
+    // 不是 Emoji 表情，图片加载地址
     public String mUrl = "";
 
     /**
-     * 不是 emoji 表情，动态图片加载地址
+     * 不是 Emoji 表情，动态图片加载地址
      */
     public String mGifUrl = "";
 }

@@ -1,5 +1,6 @@
 package com.vmloft.develop.library.im.call;
 
+import android.content.res.ColorStateList;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -7,6 +8,7 @@ import android.widget.TextView;
 import com.vmloft.develop.library.im.IM;
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.tools.picker.IPictureLoader;
+import com.vmloft.develop.library.tools.utils.VMColor;
 import com.vmloft.develop.library.tools.utils.VMStr;
 
 /**
@@ -139,6 +141,11 @@ public class IMCallVoiceActivity extends IMCallActivity {
     private void changeMic() {
         // 根据按钮状态决定打开还是关闭麦克风
         mMicMuteBtn.setSelected(!mMicMuteBtn.isSelected());
+        if (mMicMuteBtn.isSelected()) {
+            mMicMuteBtn.setImageTintList(ColorStateList.valueOf(VMColor.byRes(R.color.vm_black_87)));
+        } else {
+            mMicMuteBtn.setImageTintList(ColorStateList.valueOf(VMColor.byRes(R.color.vm_white_87)));
+        }
         IMCallManager.getInstance().openVoice(!mMicMuteBtn.isSelected());
     }
 
@@ -148,6 +155,11 @@ public class IMCallVoiceActivity extends IMCallActivity {
     private void changeSpeaker() {
         // 根据按钮状态决定打开还是关闭扬声器
         mSpeakerBtn.setSelected(!mSpeakerBtn.isSelected());
+        if (mSpeakerBtn.isSelected()) {
+            mSpeakerBtn.setImageTintList(ColorStateList.valueOf(VMColor.byRes(R.color.vm_black_87)));
+        } else {
+            mSpeakerBtn.setImageTintList(ColorStateList.valueOf(VMColor.byRes(R.color.vm_white_87)));
+        }
         IMCallManager.getInstance().openSpeaker(mSpeakerBtn.isSelected());
     }
 

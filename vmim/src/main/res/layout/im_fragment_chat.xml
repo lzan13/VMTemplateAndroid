@@ -41,7 +41,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 />
             <!--表情按钮-->
-            <ImageButton
+            <ImageView
                 android:id="@+id/im_chat_input_emoji_btn"
                 android:layout_width="@dimen/vm_dimen_40"
                 android:layout_height="@dimen/vm_dimen_40"

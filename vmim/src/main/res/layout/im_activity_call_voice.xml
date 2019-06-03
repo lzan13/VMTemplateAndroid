@@ -114,7 +114,7 @@
         android:layout_height="@dimen/vm_dimen_56"
         android:background="@drawable/im_call_status_selector"
         android:src="@drawable/im_ic_mic_mute"
-        android:tint="@color/vm_white"
+        android:tint="@color/vm_white_87"
         app:layout_constraintBottom_toBottomOf="@+id/im_call_end_btn"
         app:layout_constraintEnd_toStartOf="@+id/im_call_answer_btn"
         app:layout_constraintStart_toStartOf="parent" />
@@ -151,7 +151,7 @@
         android:layout_height="@dimen/vm_dimen_56"
         android:background="@drawable/im_call_status_selector"
         android:src="@drawable/im_ic_speaker"
-        android:tint="@color/vm_white"
+        android:tint="@color/vm_white_87"
         app:layout_constraintBottom_toBottomOf="@+id/im_call_end_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/im_call_end_btn" />

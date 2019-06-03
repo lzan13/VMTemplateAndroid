@@ -60,20 +60,14 @@ public class IMEmojiPager extends RelativeLayout {
         mAdapter = new IMEmojiPagerAdapter(mPageViewList);
         mViewPager.setAdapter(mAdapter);
 
-        mDelBtn.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mEmojiListener != null) {
-                    mEmojiListener.onDeleteEmoji();
-                }
+        mDelBtn.setOnClickListener((View v) -> {
+            if (mEmojiListener != null) {
+                mEmojiListener.onDeleteEmoji();
             }
         });
-        mInnerListener = new IMEmojiRecyclerView.EmojiInnerListener() {
-            @Override
-            public void onEmojiClick(IMEmojiGroup group, IMEmojiItem item) {
-                if (mEmojiListener != null) {
-                    mEmojiListener.onInsertEmoji(group, item);
-                }
+        mInnerListener = (IMEmojiGroup group, IMEmojiItem item) -> {
+            if (mEmojiListener != null) {
+                mEmojiListener.onInsertEmoji(group, item);
             }
         };
     }
@@ -82,17 +76,9 @@ public class IMEmojiPager extends RelativeLayout {
      * 加载数据
      */
     public void loadData() {
-        IMExecutor.asyncSingleTask(new Runnable() {
-            @Override
-            public void run() {
-                mPageViewList = bindEmojiPageView();
-                VMSystem.runInUIThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        refresh();
-                    }
-                });
-            }
+        IMExecutor.asyncSingleTask(() -> {
+            mPageViewList = bindEmojiPageView();
+            VMSystem.runInUIThread(() -> {refresh();});
         });
     }
 
@@ -112,10 +98,10 @@ public class IMEmojiPager extends RelativeLayout {
                 // pageViewList.add(emptyView);
             } else {
                 IMEmojiRecyclerView pageView;
-                if (group.isEmoji) {
-                    pageView = new IMEmojiRecyclerView(getContext(), group, IMEmojiManager.IM_EMOJI_COLUMN_COUNT);
-                } else {
+                if (group.isEmoji && group.isEmojiBig) {
                     pageView = new IMEmojiRecyclerView(getContext(), group);
+                } else {
+                    pageView = new IMEmojiRecyclerView(getContext(), group, IMEmojiManager.IM_EMOJI_COLUMN_COUNT);
                 }
                 pageView.setEmojiInnerListener(mInnerListener);
                 viewList.add(pageView);

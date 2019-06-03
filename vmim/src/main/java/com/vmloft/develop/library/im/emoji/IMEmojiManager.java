@@ -32,51 +32,55 @@ public class IMEmojiManager {
     public static final int IM_EMOJI_COLUMN_COUNT = 7;
     public static final int IM_EMOJI_COLUMN_COUNT_DEFAULT = 4;
 
-    private static final String IM_EMOJI_GROUP_NAME = "im_emoji_group_name";
+    private static final String IM_EMOJI_GROUP = "im_emoji_group";
+    private static final String IM_EMOJI_BIG_GROUP = "im_emoji_big_group";
     private static List<IMEmojiItem> EMOJIS = new ArrayList<>();
+    private static List<IMEmojiItem> EMOJIS_BIG = new ArrayList<>();
+
     static {
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_1, "[傻笑]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_2, "[微笑]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_3, "[呲牙]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_4, "[害羞]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_5, "[色]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_6, "[眨眼]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_7, "[得意]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_8, "[笑哭]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_9, "[亲亲]", true));
+        // 小 Emoji 表情分组
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_01, "[傻笑]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_02, "[微笑]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_03, "[笑哭]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_04, "[害羞]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_05, "[尴尬]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_06, "[眨眼]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_07, "[得意]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_08, "[鄙视]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_09, "[色]", true));
         EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_10, "[飞吻]", true));
         EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_11, "[美味]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_12, "[淘气]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_12, "[邪恶]", true));
         EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_13, "[吐舌]", true));
         EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_14, "[聪明]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_15, "[惬意]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_16, "[激动]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_17, "[书呆子]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_18, "[帅气]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_19, "[小丑]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_20, "[不想说话]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_21, "[思考]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_22, "[鄙视]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_23, "[失落]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_24, "[愤怒]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_25, "[瞪眼]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_26, "[翻白眼]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_27, "[眼花]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_28, "[生气]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_29, "[担心]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_30, "[难过]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_31, "[流泪]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_32, "[流汗]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_33, "[惊讶]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_34, "[震惊]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_35, "[邪恶]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_36, "[生病]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_37, "[气炸了]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_38, "[困了]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_39, "[流口水]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_40, "[流鼻涕]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_41, "[圆月脸]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_42, "[弯月脸]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_15, "[帅气]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_16, "[开心]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_17, "[流口水]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_18, "[惬意]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_19, "[大哭]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_20, "[震惊]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_21, "[生气]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_22, "[愤怒]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_23, "[书呆子]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_24, "[思考]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_25, "[虚]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_26, "[困了]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_27, "[睡着了]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_28, "[冻僵了]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_29, "[戴口罩]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_30, "[发烧]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_31, "[擦鼻涕]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_32, "[吐]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_33, "[瞎了]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_34, "[囧]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_35, "[翻白眼]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_36, "[失落]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_37, "[伤心]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_38, "[流汗]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_39, "[可怜]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_40, "[小丑]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_41, "[鬼脸]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_42, "[骷髅]", true));
         EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_43, "[眼睛]", true));
         EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_44, "[便便]", true));
         EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_45, "[赞]", true));
@@ -84,58 +88,58 @@ public class IMEmojiManager {
         EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_47, "[加油]", true));
         EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_48, "[拳击]", true));
         EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_49, "[挥手]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_50, "[ok]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_50, "[OK]", true));
         EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_51, "[握手]", true));
         EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_52, "[鼓掌]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_53, "[双手合十]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_54, "[摊手]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_55, "[拒绝]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_56, "[捂脸]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_57, "[孕妇]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_58, "[爱情]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_59, "[幸福的一家]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_60, "[自拍]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_61, "[鬼脸]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_62, "[庆祝]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_63, "[气球]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_64, "[火]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_65, "[闪烁]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_66, "[土豪]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_67, "[晚安]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_68, "[满分]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_69, "[奖杯]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_70, "[唱歌]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_71, "[圣诞老人]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_72, "[圣诞树]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_73, "[心]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_74, "[心碎]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_75, "[丘比特]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_76, "[礼盒]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_77, "[嘴唇]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_78, "[玫瑰]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_79, "[花朵]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_80, "[花束]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_53, "[阿门]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_54, "[摊手女]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_55, "[摊手男]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_56, "[捂脸女]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_57, "[捂脸男]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_58, "[跳舞女]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_59, "[跳舞男]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_60, "[四叶草]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_61, "[心]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_62, "[心碎]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_63, "[庆祝]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_64, "[气球]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_65, "[火]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_66, "[星星]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_67, "[太阳]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_68, "[嘴唇]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_69, "[玫瑰]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_70, "[西瓜]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_71, "[草莓]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_72, "[橙子]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_73, "[番茄]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_74, "[苹果]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_75, "[猴不看]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_76, "[猴不听]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_77, "[猴不说]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_78, "[猫笑哭]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_79, "[猫色]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_80, "[猫惊讶]", true));
         EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_81, "[狗]", true));
         EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_82, "[猫]", true));
         EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_83, "[牛]", true));
         EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_84, "[猪]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_85, "[捂脸猴]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_86, "[热带鱼]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_87, "[西瓜]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_88, "[草莓]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_89, "[橙子]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_90, "[番茄]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_91, "[苹果]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_92, "[椰子树]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_93, "[稻穗]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_94, "[向日葵]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_95, "[四叶草]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_96, "[仙人掌]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_97, "[风叶]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_98, "[枫叶]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_99, "[落叶]", true));
-        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_100, "[太阳]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_85, "[狐狸]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_86, "[鱼]", true));
+        EMOJIS.add(new IMEmojiItem(R.drawable.im_emoji_87, "[独角兽]", true));
 
+        // 大 Emoji 表情分组
+        EMOJIS_BIG.add(new IMEmojiItem(R.drawable.im_emoji_big_01, "[捂脸]", true));
+        EMOJIS_BIG.add(new IMEmojiItem(R.drawable.im_emoji_big_02, "[机智]", true));
+        EMOJIS_BIG.add(new IMEmojiItem(R.drawable.im_emoji_big_03, "[邪恶]", true));
+        EMOJIS_BIG.add(new IMEmojiItem(R.drawable.im_emoji_big_04, "[耶]", true));
+        EMOJIS_BIG.add(new IMEmojiItem(R.drawable.im_emoji_big_05, "[呆萌]", true));
+        EMOJIS_BIG.add(new IMEmojiItem(R.drawable.im_emoji_big_06, "[狗头]", true));
+        EMOJIS_BIG.add(new IMEmojiItem(R.drawable.im_emoji_big_07, "[惊吓]", true));
+        EMOJIS_BIG.add(new IMEmojiItem(R.drawable.im_emoji_big_08, "[瞪]", true));
+        EMOJIS_BIG.add(new IMEmojiItem(R.drawable.im_emoji_big_09, "[嘿哈]", true));
+        EMOJIS_BIG.add(new IMEmojiItem(R.drawable.im_emoji_big_10, "[巴掌印]", true));
+        EMOJIS_BIG.add(new IMEmojiItem(R.drawable.im_emoji_big_11, "[喝水]", true));
+        EMOJIS_BIG.add(new IMEmojiItem(R.drawable.im_emoji_big_12, "[额]", true));
     }
 
     private List<IMEmojiGroup> mEmojiGroupList = new ArrayList<>();
@@ -162,6 +166,7 @@ public class IMEmojiManager {
      */
     public void init() {
         initEmojiData();
+        initEmojiBigData();
     }
 
     /**
@@ -180,11 +185,27 @@ public class IMEmojiManager {
     private void initEmojiData() {
 
         IMEmojiGroup group = new IMEmojiGroup();
-        group.mGroupName = IM_EMOJI_GROUP_NAME;
+        group.mGroupName = IM_EMOJI_GROUP;
         group.mGroupIndex = 0;
-        group.mEmojiResId = R.drawable.im_emoji_2;
+        group.mEmojiResId = R.drawable.im_emoji_01;
         group.isEmoji = true;
         group.mEmojiItemList = EMOJIS;
+
+        mEmojiGroupList.add(group);
+    }
+
+    /**
+     * 初始化 Emoji 大表情数据
+     */
+    private void initEmojiBigData() {
+
+        IMEmojiGroup group = new IMEmojiGroup();
+        group.mGroupName = IM_EMOJI_BIG_GROUP;
+        group.mGroupIndex = 1;
+        group.mEmojiResId = R.drawable.im_emoji_big_icon;
+        group.isEmoji = true;
+        group.isEmojiBig = true;
+        group.mEmojiItemList = EMOJIS_BIG;
 
         mEmojiGroupList.add(group);
     }
@@ -244,25 +265,6 @@ public class IMEmojiManager {
     }
 
     /**
-     * 判断是否为 Emoji 表情串
-     *
-     * @param content 需要判断的字符串
-     */
-    public boolean isEmojiContent(CharSequence content) {
-        String regularStr = "\\[[^\\]]+\\]";
-        Pattern pattern = Pattern.compile(regularStr, Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(content);
-        while (matcher.find()) {
-            String key = matcher.group();
-            int resId = getResID(key);
-            if (resId != 0) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
      * 得到一个 SpannableString 对象，通过传入的字符串
      *
      * @param text 需要识别的文本
@@ -314,7 +316,6 @@ public class IMEmojiManager {
 
         return imageSpan;
     }
-
 
     /**
      * 对 SpannableString 进行正则判断，如果符合要求，则以表情图片代替
