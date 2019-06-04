@@ -20,14 +20,12 @@ import com.vmloft.develop.library.im.bean.IMContact;
 import com.vmloft.develop.library.im.chat.IMChatManager;
 import com.vmloft.develop.library.im.common.IMConstants;
 import com.vmloft.develop.library.im.utils.IMChatUtils;
-import com.vmloft.develop.library.im.widget.IMEmojiTextView;
+import com.vmloft.develop.library.im.widget.IMEmotionTextView;
 import com.vmloft.develop.library.tools.picker.IPictureLoader;
 import com.vmloft.develop.library.tools.utils.VMColor;
 import com.vmloft.develop.library.tools.utils.VMDate;
-import com.vmloft.develop.library.tools.utils.VMDimen;
 import com.vmloft.develop.library.tools.utils.VMLog;
 import com.vmloft.develop.library.tools.utils.VMStr;
-import com.vmloft.develop.library.tools.utils.VMSystem;
 
 /**
  * Create by lzan13 on 2019/5/27 21:42
@@ -45,7 +43,7 @@ public class IMConversationItem extends RelativeLayout {
     protected TextView mRedDotView;
     protected TextView mTimeView;
     protected TextView mTitleView;
-    protected IMEmojiTextView mContentView;
+    protected IMEmotionTextView mContentView;
 
     public IMConversationItem(Context context, IMConversationAdapter adapter) {
         super(context);
@@ -102,8 +100,8 @@ public class IMConversationItem extends RelativeLayout {
         } else if (conversation.getAllMessages().size() > 0) {
             EMMessage message = conversation.getLastMessage();
             int type = IMChatUtils.getMessageType(message);
-            // 只有文本才需要开启 Emoji 表情识别，默认都关闭
-            mContentView.setEnableEmoji(false);
+            // 只有文本才需要开启表情识别，默认都关闭
+            mContentView.setEnableEmotion(false);
             if (type == IMConstants.MsgType.IM_SYSTEM) {
                 // TODO 系统提醒
             } else if (type == IMConstants.MsgType.IM_RECALL) {
@@ -113,8 +111,8 @@ public class IMConversationItem extends RelativeLayout {
                 // 通话消息
                 content = "[" + VMStr.byRes(R.string.im_call) + " - " + ((EMTextMessageBody) message.getBody()).getMessage() + "]";
             } else if (type == IMConstants.MsgType.IM_TEXT_RECEIVE || type == IMConstants.MsgType.IM_TEXT_SEND) {
-                // 只有文本才需要开启 Emoji 表情识别
-                mContentView.setEnableEmoji(true);
+                // 只有文本才需要开启表情识别
+                mContentView.setEnableEmotion(true);
                 content = ((EMTextMessageBody) message.getBody()).getMessage();
             } else if (type == IMConstants.MsgType.IM_IMAGE_RECEIVE || type == IMConstants.MsgType.IM_IMAGE_SEND) {
                 // 图片消息

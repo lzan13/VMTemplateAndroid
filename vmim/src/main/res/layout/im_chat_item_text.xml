@@ -4,7 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     >
-    <com.vmloft.develop.library.im.widget.IMEmojiTextView
+    <com.vmloft.develop.library.im.widget.IMEmotionTextView
         android:id="@+id/im_chat_msg_content_etv"
         android:maxWidth="@dimen/vm_dimen_256"
         android:paddingBottom="@dimen/vm_padding_normal"

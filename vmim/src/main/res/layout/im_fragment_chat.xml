@@ -4,6 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
+    <com.vmloft.develop.library.im.utils.IMKeyboardLayout
+        android:id="@+id/im_chat_keyboard_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <RelativeLayout
         android:id="@+id/im_chat_bottom_rl"
@@ -42,11 +46,11 @@
                 />
             <!--表情按钮-->
             <ImageView
-                android:id="@+id/im_chat_input_emoji_btn"
+                android:id="@+id/im_chat_input_emotion_btn"
                 android:layout_width="@dimen/vm_dimen_40"
                 android:layout_height="@dimen/vm_dimen_40"
                 android:background="@drawable/vm_click_full_fillet_transparent"
-                android:src="@drawable/im_emoji_selector"
+                android:src="@drawable/im_emotion_selector"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/im_chat_input_send_btn"
                 />
@@ -64,7 +68,7 @@
                 android:paddingTop="@dimen/vm_padding_normal"
                 android:textSize="@dimen/vm_size_14"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/im_chat_input_emoji_btn"
+                app:layout_constraintEnd_toStartOf="@+id/im_chat_input_emotion_btn"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 />
@@ -152,7 +156,7 @@
             >
             <!--表情容器-->
             <RelativeLayout
-                android:id="@+id/im_chat_ext_emoji_rl"
+                android:id="@+id/im_chat_ext_emotion_rl"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 />

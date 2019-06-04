@@ -1,6 +1,5 @@
-package com.vmloft.develop.library.im.emoji;
+package com.vmloft.develop.library.im.emotion;
 
-import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,18 +12,18 @@ import java.util.List;
  *
  * 表情组页面适配器
  */
-public class IMEmojiPagerAdapter extends PagerAdapter {
+public class IMEmotionPagerAdapter extends PagerAdapter {
 
-    private List<IMEmojiRecyclerView> mViewList = new ArrayList<>();
+    private List<IMEmotionRecyclerView> mViewList = new ArrayList<>();
 
-    public IMEmojiPagerAdapter(List<IMEmojiRecyclerView> list) {
+    public IMEmotionPagerAdapter(List<IMEmotionRecyclerView> list) {
         mViewList.addAll(list);
     }
 
     /**
      * 更新里数据集
      */
-    public void update(List<IMEmojiRecyclerView> list) {
+    public void update(List<IMEmotionRecyclerView> list) {
         mViewList.clear();
         mViewList.addAll(list);
         notifyDataSetChanged();
@@ -41,15 +40,15 @@ public class IMEmojiPagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public IMEmojiRecyclerView instantiateItem(ViewGroup container, int position) {
-        IMEmojiRecyclerView view = mViewList.get(position);
+    public IMEmotionRecyclerView instantiateItem(ViewGroup container, int position) {
+        IMEmotionRecyclerView view = mViewList.get(position);
         container.addView(view);
         return view;
     }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        IMEmojiRecyclerView view = (IMEmojiRecyclerView) object;
+        IMEmotionRecyclerView view = (IMEmotionRecyclerView) object;
         container.removeView(view);
     }
 }

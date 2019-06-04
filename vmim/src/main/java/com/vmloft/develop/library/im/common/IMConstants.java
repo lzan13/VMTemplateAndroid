@@ -35,7 +35,7 @@ public class IMConstants {
     public interface MsgType {
         // 未知类型
         int IM_UNKNOWN = 0;
-        // 系统通知
+        // 系统消息
         int IM_SYSTEM = 1;
         // 撤回
         int IM_RECALL = 2;
@@ -55,6 +55,21 @@ public class IMConstants {
         int IM_VOICE_SEND = 19;
         int IM_FILE_RECEIVE = 20;
         int IM_FILE_SEND = 21;
+    }
+
+    /**
+     * 消息扩展类型
+     */
+    public interface MsgExtType {
+        // 通话
+        int IM_CALL = 0x10;
+        int IM_CALL_RECEIVE = 0x11;
+        int IM_CALL_SEND = 0x12;
+
+        // 大表情
+        int IM_BIG_EMOTION = 0x20;
+        int IM_BIG_EMOTION_RECEIVE = 0x21;
+        int IM_BIG_EMOTION_SEND = 0x22;
     }
 
     // 消息扩展类型

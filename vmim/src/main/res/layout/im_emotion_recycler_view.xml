@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/im_emoji_recycler_view"
+        android:id="@+id/im_emotion_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="@dimen/vm_margin_large"

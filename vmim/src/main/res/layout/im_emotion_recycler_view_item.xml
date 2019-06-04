@@ -7,18 +7,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/im_chat_emoji_bg"
+        android:background="@drawable/im_chat_emotion_selector"
         android:gravity="center"
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/im_emoji_item_icon_iv"
+            android:id="@+id/im_emotion_item_icon_iv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/im_emoji_01" />
+            android:src="@drawable/im_emotion_01" />
 
         <TextView
-            android:id="@+id/im_emoji_item_name_tv"
+            android:id="@+id/im_emotion_item_name_tv"
             style="@style/VMText.Caption"
             android:textColor="@color/vm_gray_black_54"
             tools:text="笑笑" />

@@ -1,11 +1,11 @@
-package com.vmloft.develop.library.im.emoji;
+package com.vmloft.develop.library.im.emotion;
 
 /**
  * Create by lzan13 on 2019/5/29 11:41
  *
  * 表情选项实体类
  */
-public class IMEmojiItem extends IMEmojiBean {
+public class IMEmotionItem extends IMEmotionBean {
 
     /**
      * 表情对应本地文件名
@@ -23,12 +23,12 @@ public class IMEmojiItem extends IMEmojiBean {
     public String mGroupName;
 
 
-    public IMEmojiItem() {
+    public IMEmotionItem() {
     }
 
-    public IMEmojiItem(int resId, String desc, boolean emoji) {
-        mEmojiResId = resId;
-        mEmojiDesc = desc;
-        isEmoji = emoji;
+    public IMEmotionItem(int resId, String desc, boolean inner) {
+        mResId = resId;
+        mDesc = desc;
+        isInnerEmotion = inner;
     }
 }

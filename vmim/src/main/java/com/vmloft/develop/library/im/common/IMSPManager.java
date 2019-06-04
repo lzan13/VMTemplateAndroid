@@ -1,5 +1,6 @@
 package com.vmloft.develop.library.im.common;
 
+import com.vmloft.develop.library.tools.utils.VMDimen;
 import com.vmloft.develop.library.tools.utils.VMSPUtil;
 import com.vmloft.develop.library.tools.utils.VMSystem;
 
@@ -11,11 +12,13 @@ import com.vmloft.develop.library.tools.utils.VMSystem;
 public class IMSPManager {
 
     private final String KEY_CURR_USER_ID = "key_curr_user_id";
+    private final String KEY_KEYBOARD_HEIGHT = "key_keyboard_height";
 
     /**
      * 私有构造，初始化 ShredPreferences 文件名
      */
-    private IMSPManager() {}
+    private IMSPManager() {
+    }
 
     /**
      * 内部类实现单例模式
@@ -47,5 +50,20 @@ public class IMSPManager {
      */
     public String getCurrUserId() {
         return (String) VMSPUtil.get(KEY_CURR_USER_ID, "");
+    }
+
+
+    /**
+     * 保存键盘高度
+     */
+    public void putKeyboardHeight(int height) {
+        VMSPUtil.put(KEY_KEYBOARD_HEIGHT, height);
+    }
+
+    /**
+     * 获取键盘高度
+     */
+    public int getKeyboardHeight() {
+        return (int) VMSPUtil.get(KEY_KEYBOARD_HEIGHT, VMDimen.dp2px(256));
     }
 }

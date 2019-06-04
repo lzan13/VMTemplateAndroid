@@ -1,4 +1,4 @@
-package com.vmloft.develop.library.im.emoji;
+package com.vmloft.develop.library.im.emotion;
 
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
@@ -16,14 +16,14 @@ import com.vmloft.develop.library.tools.utils.VMLog;
  *
  * 表情分组列表页面控件
  */
-public class IMEmojiRecyclerView extends RelativeLayout {
+public class IMEmotionRecyclerView extends RelativeLayout {
 
     // 实现表情网格布局
     private RecyclerView mRecyclerView;
-    private IMEmojiRecyclerAdapter mAdapter;
+    private IMEmotionRecyclerAdapter mAdapter;
 
     // 当前页面展示哪个表情包
-    private IMEmojiGroup mEmojiGroup;
+    private IMEmotionGroup mEmotionGroup;
 
     // 动态添加到布局中的空视图
     private View emptyView;
@@ -36,8 +36,8 @@ public class IMEmojiRecyclerView extends RelativeLayout {
      * @param context
      * @param group
      */
-    public IMEmojiRecyclerView(Context context, IMEmojiGroup group) {
-        this(context, group, IMEmojiManager.IM_EMOJI_COLUMN_COUNT_DEFAULT);
+    public IMEmotionRecyclerView(Context context, IMEmotionGroup group) {
+        this(context, group, IMEmotionManager.IM_EMOTION_COLUMN_COUNT_DEFAULT);
     }
 
     /**
@@ -47,9 +47,9 @@ public class IMEmojiRecyclerView extends RelativeLayout {
      * @param group
      * @param count
      */
-    public IMEmojiRecyclerView(Context context, IMEmojiGroup group, int count) {
+    public IMEmotionRecyclerView(Context context, IMEmotionGroup group, int count) {
         super(context);
-        mEmojiGroup = group;
+        mEmotionGroup = group;
         mColumnCount = count;
 
         init();
@@ -58,15 +58,15 @@ public class IMEmojiRecyclerView extends RelativeLayout {
     /**
      * 获取当前页面加载的表情组
      */
-    public IMEmojiGroup getEmojiGroup() {
-        return mEmojiGroup;
+    public IMEmotionGroup getEmotionGroup() {
+        return mEmotionGroup;
     }
 
     private void init() {
-        LayoutInflater.from(getContext()).inflate(R.layout.im_emoji_recycler_view, this);
-        mRecyclerView = findViewById(R.id.im_emoji_recycler_view);
+        LayoutInflater.from(getContext()).inflate(R.layout.im_emotion_recycler_view, this);
+        mRecyclerView = findViewById(R.id.im_emotion_recycler_view);
 
-        if (mEmojiGroup.getEmojiCount() <= 0) {
+        if (mEmotionGroup.getEmotionCount() <= 0) {
             // TODO 没有表情数据，添加空提示
             VMLog.d("没有表情数据");
         } else {
@@ -79,12 +79,12 @@ public class IMEmojiRecyclerView extends RelativeLayout {
      */
     private void initRecyclerView() {
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), mColumnCount));
-        mAdapter = new IMEmojiRecyclerAdapter(getContext(), mEmojiGroup);
+        mAdapter = new IMEmotionRecyclerAdapter(getContext(), mEmotionGroup);
         mAdapter.setClickListener(new VMAdapter.IClickListener() {
             @Override
             public void onItemAction(int action, Object object) {
                 if (mInnerListener != null) {
-                    mInnerListener.onEmojiClick(mEmojiGroup, (IMEmojiItem) object);
+                    mInnerListener.onEmotionClick(mEmotionGroup, (IMEmotionItem) object);
                 }
             }
 
@@ -99,16 +99,16 @@ public class IMEmojiRecyclerView extends RelativeLayout {
     /**
      * ----------------------- 表情内部点击接口 -----------------------
      */
-    private EmojiInnerListener mInnerListener;
+    private IEmotionListener mInnerListener;
 
-    public void setEmojiInnerListener(EmojiInnerListener listener) {
+    public void setEmotionListener(IEmotionListener listener) {
         mInnerListener = listener;
     }
 
     /**
      * 表情点击回调接口
      */
-    public interface EmojiInnerListener {
-        void onEmojiClick(IMEmojiGroup group, IMEmojiItem item);
+    public interface IEmotionListener {
+        void onEmotionClick(IMEmotionGroup group, IMEmotionItem item);
     }
 }

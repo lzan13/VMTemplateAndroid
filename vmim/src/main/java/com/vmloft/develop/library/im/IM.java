@@ -13,7 +13,7 @@ import com.vmloft.develop.library.im.chat.IMChatManager;
 import com.vmloft.develop.library.im.common.IMExecptionManager;
 import com.vmloft.develop.library.im.common.IMExecutor;
 import com.vmloft.develop.library.im.common.IMSPManager;
-import com.vmloft.develop.library.im.emoji.IMEmojiManager;
+import com.vmloft.develop.library.im.emotion.IMEmotionManager;
 import com.vmloft.develop.library.tools.picker.VMPicker;
 import com.vmloft.develop.library.tools.utils.VMSystem;
 
@@ -87,7 +87,7 @@ public class IM {
         // IM 内部相关管理类的初始化
         IMChatManager.getInstance().init();
         IMCallManager.getInstance().init();
-        IMEmojiManager.getInstance().init();
+        IMEmotionManager.getInstance().init();
 
         // 初始化完成
         isInit = true;

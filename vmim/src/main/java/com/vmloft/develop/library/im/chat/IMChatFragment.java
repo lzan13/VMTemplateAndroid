@@ -15,6 +15,9 @@ import android.text.Editable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -27,12 +30,13 @@ import com.vmloft.develop.library.im.base.IMBaseFragment;
 import com.vmloft.develop.library.im.base.IMCallback;
 import com.vmloft.develop.library.im.call.IMCallManager;
 import com.vmloft.develop.library.im.common.IMConstants;
-import com.vmloft.develop.library.im.emoji.IMEmojiGroup;
-import com.vmloft.develop.library.im.emoji.IMEmojiItem;
-import com.vmloft.develop.library.im.emoji.IMEmojiManager;
-import com.vmloft.develop.library.im.emoji.IMEmojiPager;
+import com.vmloft.develop.library.im.common.IMSPManager;
+import com.vmloft.develop.library.im.emotion.IMEmotionGroup;
+import com.vmloft.develop.library.im.emotion.IMEmotionItem;
+import com.vmloft.develop.library.im.emotion.IMEmotionManager;
+import com.vmloft.develop.library.im.emotion.IMEmotionPager;
+import com.vmloft.develop.library.im.utils.IMKeyboardLayout;
 import com.vmloft.develop.library.im.utils.IMUtils;
-import com.vmloft.develop.library.tools.adapter.VMAdapter;
 import com.vmloft.develop.library.tools.base.VMConstant;
 import com.vmloft.develop.library.tools.picker.VMPicker;
 import com.vmloft.develop.library.tools.picker.bean.VMPictureBean;
@@ -50,10 +54,12 @@ import java.util.List;
  */
 public class IMChatFragment extends IMBaseFragment {
 
+    // 键盘监听布局
+    private IMKeyboardLayout mKeyboardLayout;
     // 输入框
     private EditText mInputET;
     // 表情按钮
-    private ImageView mEmojiBtn;
+    private ImageView mEmotionBtn;
     // 发送按钮
     private ImageButton mSendBtn;
     // 图片
@@ -66,15 +72,20 @@ public class IMChatFragment extends IMBaseFragment {
     private ImageButton mVoiceBtn;
     // 更多
     private ImageButton mMoreBtn;
-    // 输入扩展容器
+    // 扩展容器
     private RelativeLayout mExtContainer;
-    private RelativeLayout mExtEmojiContainer;
+    private RelativeLayout mExtEmotionContainer;
     private RelativeLayout mExtMoreContainer;
 
+    // 键盘高度
+    private int mKeyboardHeight;
+
+    // 列表布局
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private IMChatAdapter mAdapter;
 
+    // 会话相关
     private String mId;
     private int mPageSize = IMConstants.IM_CHAT_MSG_LIMIT;
     private int mChatType = IMConstants.ChatType.IM_SINGLE_CHAT;
@@ -108,7 +119,7 @@ public class IMChatFragment extends IMBaseFragment {
         // 检查是否有草稿没有发出
         String draft = IMChatManager.getInstance().getDraft(mConversation);
         if (!VMStr.isEmpty(draft)) {
-            mInputET.setText(IMEmojiManager.getInstance().getEmojiSpannable(draft));
+            mInputET.setText(IMEmotionManager.getInstance().getEmotionSpannable(draft));
         }
     }
 
@@ -127,9 +138,11 @@ public class IMChatFragment extends IMBaseFragment {
     protected void init() {
         mId = getArguments().getString(IMConstants.IM_CHAT_ID);
         mChatType = getArguments().getInt(IMConstants.IM_CHAT_TYPE);
+        mKeyboardHeight = IMSPManager.getInstance().getKeyboardHeight();
 
+        mKeyboardLayout = getView().findViewById(R.id.im_chat_keyboard_layout);
         mInputET = getView().findViewById(R.id.im_chat_input_et);
-        mEmojiBtn = getView().findViewById(R.id.im_chat_input_emoji_btn);
+        mEmotionBtn = getView().findViewById(R.id.im_chat_input_emotion_btn);
         mSendBtn = getView().findViewById(R.id.im_chat_input_send_btn);
         mPictureBtn = getView().findViewById(R.id.im_chat_bottom_picture_btn);
         mCameraBtn = getView().findViewById(R.id.im_chat_bottom_camera_btn);
@@ -137,10 +150,10 @@ public class IMChatFragment extends IMBaseFragment {
         mVoiceBtn = getView().findViewById(R.id.im_chat_bottom_voice_btn);
         mMoreBtn = getView().findViewById(R.id.im_chat_bottom_more_btn);
         mExtContainer = getView().findViewById(R.id.im_chat_bottom_ext_rl);
-        mExtEmojiContainer = getView().findViewById(R.id.im_chat_ext_emoji_rl);
+        mExtEmotionContainer = getView().findViewById(R.id.im_chat_ext_emotion_rl);
         mExtMoreContainer = getView().findViewById(R.id.im_chat_ext_more_rl);
 
-        mEmojiBtn.setOnClickListener(viewListener);
+        mEmotionBtn.setOnClickListener(viewListener);
         mSendBtn.setOnClickListener(viewListener);
         mPictureBtn.setOnClickListener(viewListener);
         mCameraBtn.setOnClickListener(viewListener);
@@ -150,9 +163,11 @@ public class IMChatFragment extends IMBaseFragment {
 
         initConversation();
 
+        initKeyboardListener();
+
         initRecyclerView();
 
-        initEmojiView();
+        initEmotionView();
 
         initInputWatcher();
     }
@@ -177,6 +192,45 @@ public class IMChatFragment extends IMBaseFragment {
     }
 
     /**
+     * 初始化键盘监听
+     */
+    private void initKeyboardListener() {
+        setupExtContainerParams();
+
+        mInputET.setOnClickListener((View v) -> {
+            mKeyboardLayout.postDelayed(() -> {
+                // 输入法弹出之后，重新调整
+                mEmotionBtn.setSelected(false);
+                mExtContainer.setVisibility(View.GONE);
+                // 设置是否调整布局大小
+                mKeyboardLayout.setResizeLayout(getActivity(), true);
+            }, 220); // 延迟一段时间，等待输入法完全弹出
+        });
+        mKeyboardLayout.setKeyboardListener((boolean active, int height) -> {
+            if (active) {
+                // 输入法激活
+                if (mKeyboardHeight != height) {
+                    mKeyboardHeight = height;
+                    setupExtContainerParams();
+                }
+                mEmotionBtn.setSelected(false);
+                changeEmotion();
+            } else {
+                // 输入法关闭，TODO 这里不需要主动操作什么
+            }
+        });
+    }
+
+    /**
+     * 设置扩展容器参数
+     */
+    private void setupExtContainerParams() {
+        ViewGroup.LayoutParams layoutParams = mExtContainer.getLayoutParams();
+        layoutParams.height = mKeyboardHeight;
+        mExtContainer.setLayoutParams(layoutParams);
+    }
+
+    /**
      * 初始化消息列表
      */
     private void initRecyclerView() {
@@ -195,24 +249,29 @@ public class IMChatFragment extends IMBaseFragment {
     /**
      * 初始化表情
      */
-    private void initEmojiView() {
-        IMEmojiPager emojiPager = new IMEmojiPager(mContext);
-        mExtEmojiContainer.addView(emojiPager);
-        emojiPager.stEmojiListener(new IMEmojiPager.IIMEmojiListener() {
+    private void initEmotionView() {
+        IMEmotionPager emotionPager = new IMEmotionPager(mContext);
+        mExtEmotionContainer.addView(emotionPager);
+        emotionPager.stEmotionListener(new IMEmotionPager.IIMEmotionListener() {
             /**
              * 添加表情
              * @param group 表情所在组
              * @param item  表情
              */
             @Override
-            public void onInsertEmoji(IMEmojiGroup group, IMEmojiItem item) {
-                if (group.isEmoji) {
-                    SpannableString spannableString = IMEmojiManager.getInstance().getEmojiSpannable(item.mEmojiResId, item.mEmojiDesc);
-                    int currentIndex = mInputET.getSelectionStart();
-                    Editable editable = mInputET.getText();
-                    editable.insert(currentIndex, spannableString);
+            public void onInsertEmotion(IMEmotionGroup group, IMEmotionItem item) {
+                if (group.isInnerEmotion) {
+                    if (group.isBigEmotion) {
+                        // TODO 内部大需要特殊处理
+
+                    } else {
+                        SpannableString spannableString = IMEmotionManager.getInstance().getEmotionSpannable(item.mResId, item.mDesc);
+                        int currentIndex = mInputET.getSelectionStart();
+                        Editable editable = mInputET.getText();
+                        editable.insert(currentIndex, spannableString);
+                    }
                 } else {
-                    // 不是 Emoji 表情，直接发送消息
+                    // TODO 不是内部表情，直接发送消息
                 }
             }
 
@@ -220,7 +279,7 @@ public class IMChatFragment extends IMBaseFragment {
              * 删除表情
              */
             @Override
-            public void onDeleteEmoji() {
+            public void onDeleteEmotion() {
                 int selection = mInputET.getSelectionStart();
                 String text = mInputET.getText().toString();
 
@@ -230,7 +289,7 @@ public class IMChatFragment extends IMBaseFragment {
                     if (end - start > 0) {
                         mInputET.getText().delete(start, end);
                     } else {
-                        int deleteLength = IMEmojiManager.getInstance().deleteEmoji(start, text);
+                        int deleteLength = IMEmotionManager.getInstance().deleteEmotion(start, text);
                         if (deleteLength > 0) {
                             mInputET.getText().delete(selection - deleteLength, selection);
                         }
@@ -238,7 +297,7 @@ public class IMChatFragment extends IMBaseFragment {
                 }
             }
         });
-        emojiPager.loadData();
+        emotionPager.loadData();
     }
 
     /**
@@ -248,36 +307,24 @@ public class IMChatFragment extends IMBaseFragment {
         mInputET.addTextChangedListener(new TextWatcher() {
             /**
              * 输入框内容改变之前
-             * params s         输入框内容改变前的内容
-             * params start     输入框内容开始变化的索引位置，从0开始计数
-             * params count     输入框内容将要减少的变化的字符数 大于0 表示删除字符
-             * params after     输入框内容将要增加的文本的长度，大于0 表示增加字符
              */
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                VMLog.d("beforeTextChanged s-%s, start-%d, count-%d, after-%d", s, start, count, after);
             }
 
             /**
              * 输入框内容改变
-             * params s         输入框内容改变后的内容
-             * params start     输入框内容开始变化的索引位置，从0开始计数
-             * params before    输入框内容减少的文本的长度
-             * params count     输入框内容改变的字符数量
              */
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                VMLog.d("onTextChanged s-%s, start-%d, before-%d, count-%d", s, start, before, count);
                 sendInputStatus();
             }
 
             /**
              * 输入框内容改变之后
-             * params s 输入框最终的内容
              */
             @Override
             public void afterTextChanged(Editable s) {
-                VMLog.d("afterTextChanged s-" + s);
                 if (s.toString().equals("")) {
                     mSendBtn.setVisibility(View.GONE);
                 } else {
@@ -290,40 +337,58 @@ public class IMChatFragment extends IMBaseFragment {
     /**
      * 设置界面控件点击监听
      */
-    private View.OnClickListener viewListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (v.getId() == R.id.im_chat_recycler_view) {
-            } else if (v.getId() == R.id.im_chat_input_emoji_btn) {
-                changeEmojiStatus();
-            } else if (v.getId() == R.id.im_chat_input_send_btn) {
-                sendText();
-            } else if (v.getId() == R.id.im_chat_bottom_picture_btn) {
-                startAlbum();
-            } else if (v.getId() == R.id.im_chat_bottom_camera_btn) {
+    private View.OnClickListener viewListener = (View v) -> {
+        if (v.getId() == R.id.im_chat_recycler_view) {
+        } else if (v.getId() == R.id.im_chat_input_emotion_btn) {
+            mEmotionBtn.setSelected(!mEmotionBtn.isSelected());
+            changeEmotion();
+        } else if (v.getId() == R.id.im_chat_input_send_btn) {
+            sendText();
+        } else if (v.getId() == R.id.im_chat_bottom_picture_btn) {
+            startAlbum();
+        } else if (v.getId() == R.id.im_chat_bottom_camera_btn) {
 
-            } else if (v.getId() == R.id.im_chat_bottom_call_btn) {
-                startCall();
-            } else if (v.getId() == R.id.im_chat_bottom_voice_btn) {
-                startVoice();
-            } else if (v.getId() == R.id.im_chat_bottom_more_btn) {
-                startMore();
-            }
+        } else if (v.getId() == R.id.im_chat_bottom_call_btn) {
+            startCall();
+        } else if (v.getId() == R.id.im_chat_bottom_voice_btn) {
+            startVoice();
+        } else if (v.getId() == R.id.im_chat_bottom_more_btn) {
+            startMore();
         }
     };
 
     /**
      * 改变表情状态，打开 关闭
      */
-    private void changeEmojiStatus() {
-        mEmojiBtn.setSelected(!mEmojiBtn.isSelected());
-        if (mEmojiBtn.isSelected()) {
-            mExtContainer.setVisibility(View.VISIBLE);
-            mExtEmojiContainer.setVisibility(View.VISIBLE);
-            mExtMoreContainer.setVisibility(View.GONE);
+    private void changeEmotion() {
+        if (mKeyboardLayout.isActive()) {
+            // 输入法打开状态下
+            if (mEmotionBtn.isSelected()) {
+                // 打开表情
+                mKeyboardLayout.setResizeLayout(getActivity(), false);
+                mKeyboardLayout.hideKeyboard(getActivity());
+
+                mExtContainer.setVisibility(View.VISIBLE);
+                mExtEmotionContainer.setVisibility(View.VISIBLE);
+                mExtMoreContainer.setVisibility(View.GONE);
+            } else {
+                mExtContainer.setVisibility(View.GONE);
+
+                mKeyboardLayout.setResizeLayout(getActivity(), true);
+            }
         } else {
-            mExtContainer.setVisibility(View.GONE);
-            mExtEmojiContainer.setVisibility(View.GONE);
+            // 输入法关闭状态下
+            if (mEmotionBtn.isSelected()) {
+                // 设置为不会调整大小，以便输入弹起时布局不会改变。若不设置此属性，输入法弹起时布局会闪一下
+                mKeyboardLayout.setResizeLayout(getActivity(), false);
+
+                mExtContainer.setVisibility(View.VISIBLE);
+                mExtEmotionContainer.setVisibility(View.VISIBLE);
+                mExtMoreContainer.setVisibility(View.GONE);
+            } else {
+                mKeyboardLayout.setResizeLayout(getActivity(), true);
+                mExtContainer.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -349,7 +414,7 @@ public class IMChatFragment extends IMBaseFragment {
     }
 
     /**
-     * 开始呼叫
+     * 打开扩展
      */
     private void startMore() {
 
@@ -496,6 +561,7 @@ public class IMChatFragment extends IMBaseFragment {
 
         super.onDestroy();
     }
+
 
     /**
      * ------------------------------- 广播接收器部分 -------------------------------

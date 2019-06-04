@@ -9,7 +9,7 @@ import com.hyphenate.chat.EMTextMessageBody;
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.chat.IMChatAdapter;
 import com.vmloft.develop.library.im.common.IMConstants;
-import com.vmloft.develop.library.im.widget.IMEmojiTextView;
+import com.vmloft.develop.library.im.widget.IMEmotionTextView;
 import com.vmloft.develop.library.tools.utils.VMStr;
 import com.vmloft.develop.library.tools.widget.VMFloatMenu;
 
@@ -20,7 +20,7 @@ import com.vmloft.develop.library.tools.widget.VMFloatMenu;
  */
 public class IMTextMsgItem extends IMNormalItem {
 
-    private IMEmojiTextView mContentView;
+    private IMEmotionTextView mContentView;
 
     public IMTextMsgItem(Context context, IMChatAdapter adapter, int type) {
         super(context, adapter, type);

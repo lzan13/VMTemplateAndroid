@@ -8,27 +8,27 @@ import android.text.SpannableString;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 
-import com.vmloft.develop.library.im.emoji.IMEmojiManager;
+import com.vmloft.develop.library.im.emotion.IMEmotionManager;
 
 /**
  * Create by lzan13 2019/05/30 09:39
  *
- * 可以处理 Emoji 表情的 TextView
+ * 可以处理表情的 TextView
  */
-public class IMEmojiTextView extends AppCompatTextView {
+public class IMEmotionTextView extends AppCompatTextView {
 
-    private boolean isEnableEmoji = true;
+    private boolean isEnableEmotion = true;
 
 
-    public IMEmojiTextView(Context context) {
+    public IMEmotionTextView(Context context) {
         this(context, null);
     }
 
-    public IMEmojiTextView(Context context, @Nullable AttributeSet attrs) {
+    public IMEmotionTextView(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public IMEmojiTextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public IMEmotionTextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -37,30 +37,30 @@ public class IMEmojiTextView extends AppCompatTextView {
      */
     @Override
     public void setText(CharSequence text, BufferType type) {
-        Spannable spannable = handleEmoji(text);
+        Spannable spannable = handleEmotion(text);
         super.setText(spannable, type);
     }
 
     /**
-     * 设置是否启用 TextView 识别 Emoji 表情功能
+     * 设置是否启用 TextView 识别表情功能
      */
-    public void setEnableEmoji(boolean enable) {
-        isEnableEmoji = enable;
+    public void setEnableEmotion(boolean enable) {
+        isEnableEmotion = enable;
     }
 
     /**
-     * 处理 Emoji
+     * 处理表情
      *
      * @param text 需要处理的文本内容
      */
-    protected Spannable handleEmoji(CharSequence text) {
+    protected Spannable handleEmotion(CharSequence text) {
         if (TextUtils.isEmpty(text)) {
             return new SpannableString("");
         }
-        if (!isEnableEmoji) {
+        if (!isEnableEmotion) {
             return new SpannableString(text);
         }
-        return IMEmojiManager.getInstance().getEmojiSpannable(text);
+        return IMEmotionManager.getInstance().getEmotionSpannable(text);
     }
 
 }

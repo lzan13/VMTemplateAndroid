@@ -1,4 +1,4 @@
-package com.vmloft.develop.library.im.emoji;
+package com.vmloft.develop.library.im.emotion;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import java.util.List;
  *
  * 表情分组实体类
  */
-public class IMEmojiGroup extends IMEmojiBean {
+public class IMEmotionGroup extends IMEmotionBean {
 
     /**
      * 表情分组索引
@@ -28,13 +28,13 @@ public class IMEmojiGroup extends IMEmojiBean {
     /**
      * 表情集合
      */
-    public List<IMEmojiItem> mEmojiItemList = new ArrayList<>();
+    public List<IMEmotionItem> mEmotionItemList = new ArrayList<>();
 
     /**
      * 获取表情数量
      */
-    public int getEmojiCount() {
-        return mEmojiItemList.size();
+    public int getEmotionCount() {
+        return mEmotionItemList.size();
     }
 
 }
