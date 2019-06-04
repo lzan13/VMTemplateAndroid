@@ -7,28 +7,28 @@ package com.vmloft.develop.library.im.emotion;
  */
 public class IMEmotionItem extends IMEmotionBean {
 
-    /**
-     * 表情对应本地文件名
-     */
-    public String mFileName;
+    // 表情对应文本
+    public String mDesc;
 
-    /**
-     * 动态表情对应本地文件名
-     */
+    // 表情对应本地文件名
+    public String mFileName;
+    // 动态表情对应本地文件名
     public String mFileGifName;
 
     /**
-     * 表情包名
+     * 无参构造
      */
-    public String mGroupName;
+    public IMEmotionItem() {}
 
-
-    public IMEmotionItem() {
-    }
-
-    public IMEmotionItem(int resId, String desc, boolean inner) {
+    /**
+     * 内部表情专用构造
+     *
+     * @param resId 资源 Id
+     * @param desc  表情描述
+     */
+    public IMEmotionItem(int resId, String desc) {
         mResId = resId;
         mDesc = desc;
-        isInnerEmotion = inner;
+        isInnerEmotion = true;
     }
 }

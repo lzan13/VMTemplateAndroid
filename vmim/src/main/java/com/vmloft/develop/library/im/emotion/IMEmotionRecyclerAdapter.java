@@ -21,7 +21,6 @@ public class IMEmotionRecyclerAdapter extends VMAdapter<IMEmotionItem, IMEmotion
 
     private IMEmotionGroup mEmotionGroup;
 
-
     public IMEmotionRecyclerAdapter(Context context, IMEmotionGroup group) {
         super(context);
         mEmotionGroup = group;
@@ -34,7 +33,6 @@ public class IMEmotionRecyclerAdapter extends VMAdapter<IMEmotionItem, IMEmotion
     public EmotionHolder onCreateViewHolder(@NonNull ViewGroup parent, int type) {
         View view = mInflater.inflate(R.layout.im_emotion_recycler_view_item, parent, false);
         return new EmotionHolder(view);
-
     }
 
     @Override
@@ -46,11 +44,11 @@ public class IMEmotionRecyclerAdapter extends VMAdapter<IMEmotionItem, IMEmotion
             holder.mIconView.setImageResource(item.mResId);
             if (mEmotionGroup.isBigEmotion) {
                 holder.mNameView.setVisibility(View.VISIBLE);
-                holder.mNameView.setText(item.mDesc);
+                holder.mNameView.setText(item.mDesc.replaceAll("[\\[\\]]", ""));
             }
         } else {
             holder.mNameView.setVisibility(View.VISIBLE);
-            holder.mNameView.setText(item.mDesc);
+            holder.mNameView.setText(item.mDesc.replaceAll("[\\[\\]]", ""));
             // TODO 从服务器下载的表情加载
         }
     }

@@ -43,6 +43,7 @@ public class IMCallVoiceActivity extends IMCallActivity {
     @Override
     protected void initUI() {
         super.initUI();
+        getTopBar().setTitleColor(R.color.vm_white);
 
         mCoverView = findViewById(R.id.im_call_cover_iv);
         mAvatarView = findViewById(R.id.im_call_avatar_iv);

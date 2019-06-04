@@ -79,7 +79,6 @@ public class IMKeyboardLayout extends RelativeLayout {
         }
     }
 
-
     /**
      * 判断键盘是否激活
      */
@@ -94,7 +93,6 @@ public class IMKeyboardLayout extends RelativeLayout {
         return mHeight;
     }
 
-
     /**
      * ------------------------------- 键盘部分 -------------------------------
      * 显示键盘
@@ -105,25 +103,25 @@ public class IMKeyboardLayout extends RelativeLayout {
         }
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
         // 切换软键盘的显示与隐藏
-        // imm.toggleSoftInputFromWindow(mInputET.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN, InputMethodManager.HIDE_NOT_ALWAYS);
+        // imm.toggleSoftInputFromWindow(mInputET.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN, InputMethodManager
+        // .HIDE_NOT_ALWAYS);
         // 显示软键盘
         imm.showSoftInput(view, InputMethodManager.RESULT_UNCHANGED_SHOWN);
-
-
     }
 
     /**
      * 隐藏键盘
      */
-    public void hideKeyboard(Activity activity) {
+    public void hideKeyboard(Activity activity, View view) {
         if (activity == null) {
             return;
         }
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
         // 切换软键盘的显示与隐藏
-        // imm.toggleSoftInputFromWindow(mInputET.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN, InputMethodManager.HIDE_NOT_ALWAYS);
+        // imm.toggleSoftInputFromWindow(mInputET.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN, InputMethodManager
+        // .HIDE_NOT_ALWAYS);
         // 隐藏软键盘
-        imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     /**

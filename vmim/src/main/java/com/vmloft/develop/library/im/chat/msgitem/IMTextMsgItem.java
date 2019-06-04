@@ -40,10 +40,7 @@ public class IMTextMsgItem extends IMNormalItem {
 
     @Override
     public void onBind(int position, EMMessage message) {
-        mPosition = position;
-        mMessage = message;
-        // 装在通用部分控件
-        setupCommonView();
+        super.onBind(position, message);
 
         EMTextMessageBody body = (EMTextMessageBody) message.getBody();
         mContentView.setText(body.getMessage());

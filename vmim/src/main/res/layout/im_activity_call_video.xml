@@ -15,6 +15,26 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         />
+    <!--&lt;!&ndash;展示远端画面 View&ndash;&gt;-->
+    <!--<com.vmloft.develop.library.im.widget.IMCallView-->
+    <!--android:id="@+id/im_call_remote_view"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toTopOf="parent"-->
+    <!--/>-->
+    <!--&lt;!&ndash;展示本地画面 View&ndash;&gt;-->
+    <!--<com.vmloft.develop.library.im.widget.IMCallView-->
+    <!--android:id="@+id/im_call_local_view"-->
+    <!--android:layout_width="@dimen/vm_dimen_96"-->
+    <!--android:layout_height="@dimen/vm_dimen_128"-->
+    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toTopOf="@+id/im_call_remote_view"-->
+    <!--/>-->
 
     <!--定义顶部 TopBar-->
     <include layout="@layout/im_widget_common_top_bar" />
@@ -130,7 +150,7 @@
         android:background="@drawable/im_call_end_bg"
         android:src="@drawable/im_ic_call_end"
         android:tint="@color/vm_white"
-        app:layout_constraintBottom_toTopOf="@+id/im_call_bottom_ext"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/im_call_speaker_btn"
         app:layout_constraintStart_toEndOf="@+id/im_call_answer_btn"
         />
@@ -148,32 +168,12 @@
         app:layout_constraintStart_toEndOf="@+id/im_call_end_btn"
         />
 
-    <View
-        android:id="@+id/im_call_bottom_ext"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/vm_dimen_72"
-        android:background="@drawable/im_call_layout_shape"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        />
-    <ImageView
-        android:id="@+id/im_call_ext_emotion_iv"
-        android:layout_width="@dimen/vm_dimen_56"
-        android:layout_height="@dimen/vm_dimen_56"
-        android:src="@drawable/im_emotion_big_01"
-        app:layout_constraintBottom_toBottomOf="@+id/im_call_bottom_ext"
-        app:layout_constraintEnd_toEndOf="@+id/im_call_bottom_ext"
-        app:layout_constraintStart_toStartOf="@+id/im_call_bottom_ext"
-        app:layout_constraintTop_toTopOf="@+id/im_call_bottom_ext"
-        />
-
     <RelativeLayout
         android:id="@+id/im_call_ext_container_rl"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/vm_dimen_320"
-        android:background="@drawable/im_call_layout_shape"
-        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:maxHeight="@dimen/vm_dimen_320"
+        android:minHeight="@dimen/vm_dimen_320"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -52,10 +52,7 @@ public class IMPictureItem extends IMNormalItem {
 
     @Override
     public void onBind(int position, EMMessage message) {
-        mPosition = position;
-        mMessage = message;
-        // 装在通用部分控件
-        setupCommonView();
+        super.onBind(position, message);
 
         EMImageMessageBody body = (EMImageMessageBody) message.getBody();
         // 取出图片原始宽高，这是在发送图片时发送方直接根据图片获得设置到body中的

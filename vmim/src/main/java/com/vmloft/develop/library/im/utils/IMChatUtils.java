@@ -51,7 +51,7 @@ public class IMChatUtils {
         // 设置消息接收者
         cmdMessage.setTo(message.getTo());
         // 创建CMD 消息的消息体 并设置 action 为 recall
-        String action = IMConstants.IM_CHAT_ACTION_RECALL;
+        String action = IMConstants.IM_MSG_ACTION_RECALL;
         EMCmdMessageBody body = new EMCmdMessageBody(action);
         cmdMessage.addBody(body);
         // 设置消息的扩展为要撤回的 msgId
@@ -98,7 +98,7 @@ public class IMChatUtils {
         }
 
         // 设置扩展为撤回消息类型，是为了区分消息的显示
-        message.setAttribute(IMConstants.IM_CHAT_ACTION_RECALL, IMConstants.MsgType.IM_RECALL);
+        message.setAttribute(IMConstants.IM_MSG_ACTION_RECALL, IMConstants.MsgType.IM_RECALL);
         // 更新消息
         result = EMClient.getInstance().chatManager().updateMessage(message);
         return result;
@@ -113,7 +113,7 @@ public class IMChatUtils {
         EMMessage cmdMessage = EMMessage.createSendMessage(EMMessage.Type.CMD);
         cmdMessage.setTo(to);
         // 创建CMD 消息的消息体 并设置 action 为输入状态
-        EMCmdMessageBody body = new EMCmdMessageBody(IMConstants.IM_CHAT_ACTION_INPUT);
+        EMCmdMessageBody body = new EMCmdMessageBody(IMConstants.IM_MSG_ACTION_INPUT);
         cmdMessage.addBody(body);
         // 确认无误，开始表示发送输入状态的透传
         EMClient.getInstance().chatManager().sendMessage(cmdMessage);
@@ -135,32 +135,44 @@ public class IMChatUtils {
      * 获取消息类型
      */
     public static int getMessageType(EMMessage message) {
+        int extType = message.getIntAttribute(IMConstants.IM_MSG_EXT_TYPE, IMConstants.MsgType.IM_UNKNOWN);
         int itemType;
-        if (message.getType() == EMMessage.Type.TXT) {
-            // 文本类型
+        if (extType == IMConstants.MsgExtType.IM_CALL) {
+            // 通话
+            itemType = message.direct() == EMMessage.Direct.RECEIVE ? IMConstants.MsgExtType.IM_CALL_RECEIVE :
+                IMConstants.MsgExtType.IM_CALL_SEND;
+        } else if (extType == IMConstants.MsgExtType.IM_BIG_EMOTION) {
+            // 大表情
+            itemType = message.direct() == EMMessage.Direct.RECEIVE ? IMConstants.MsgExtType.IM_BIG_EMOTION_RECEIVE :
+                IMConstants.MsgExtType.IM_BIG_EMOTION_SEND;
+        } else if (message.getType() == EMMessage.Type.TXT) {
+            // 文本
             itemType = message.direct() == EMMessage.Direct.RECEIVE ? IMConstants.MsgType.IM_TEXT_RECEIVE :
                 IMConstants.MsgType.IM_TEXT_SEND;
         } else if (message.getType() == EMMessage.Type.IMAGE) {
+            // 图片
             itemType = message.direct() == EMMessage.Direct.RECEIVE ? IMConstants.MsgType.IM_IMAGE_RECEIVE :
                 IMConstants.MsgType.IM_IMAGE_SEND;
         } else if (message.getType() == EMMessage.Type.VIDEO) {
+            // 视频
             itemType = message.direct() == EMMessage.Direct.RECEIVE ? IMConstants.MsgType.IM_VIDEO_RECEIVE :
                 IMConstants.MsgType.IM_TEXT_SEND;
         } else if (message.getType() == EMMessage.Type.LOCATION) {
+            // 位置
             itemType = message.direct() == EMMessage.Direct.RECEIVE ? IMConstants.MsgType.IM_LOCATION_RECEIVE :
                 IMConstants.MsgType.IM_LOCATION_SEND;
         } else if (message.getType() == EMMessage.Type.VOICE) {
+            // 语音
             itemType = message.direct() == EMMessage.Direct.RECEIVE ? IMConstants.MsgType.IM_VOICE_RECEIVE :
                 IMConstants.MsgType.IM_VOICE_SEND;
         } else if (message.getType() == EMMessage.Type.FILE) {
+            // 文件
             itemType = message.direct() == EMMessage.Direct.RECEIVE ? IMConstants.MsgType.IM_FILE_RECEIVE :
                 IMConstants.MsgType.IM_FILE_SEND;
         } else {
-            // 未知类型，显示提示文本
+            // 未知，显示提示文本
             itemType = IMConstants.MsgType.IM_UNKNOWN;
         }
-        // 读取扩展消息类型，如果没有扩展那就是默认文本消息
-        itemType = message.getIntAttribute(IMConstants.IM_CHAT_MSG_EXT_TYPE, itemType);
         return itemType;
     }
 
@@ -343,5 +355,5 @@ public class IMChatUtils {
             e.printStackTrace();
         }
         return VMDate.currentMilli();
-    }
+    }// ---------------------------------------- 会话扩展结束 ----------------------------------------
 }

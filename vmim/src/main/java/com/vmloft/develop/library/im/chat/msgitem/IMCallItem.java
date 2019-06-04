@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMTextMessageBody;
 import com.vmloft.develop.library.im.R;
@@ -16,9 +17,10 @@ import com.vmloft.develop.library.im.common.IMConstants;
  *
  * 实现文本消息展示
  */
-public class IMCallItem extends IMNotifyItem {
+public class IMCallItem extends IMNormalItem {
 
     private ImageView mIconView;
+    protected TextView mContentView;
 
     public IMCallItem(Context context, IMChatAdapter adapter, int type) {
         super(context, adapter, type);
@@ -26,7 +28,7 @@ public class IMCallItem extends IMNotifyItem {
 
     @Override
     protected View layoutView() {
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.im_chat_item_notify_call, null);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.im_chat_item_call, null);
         mIconView = view.findViewById(R.id.im_chat_msg_call_icon_iv);
         mContentView = view.findViewById(R.id.im_chat_msg_content_tv);
         return view;
@@ -37,7 +39,7 @@ public class IMCallItem extends IMNotifyItem {
         super.onBind(position, message);
 
         EMTextMessageBody body = (EMTextMessageBody) message.getBody();
-        boolean isVideo = message.getBooleanAttribute(IMConstants.IM_CHAT_MSG_EXT_TYPE_VIDEO_CALL, false);
+        boolean isVideo = message.getBooleanAttribute(IMConstants.IM_MSG_EXT_VIDEO_CALL, false);
         if (isVideo) {
             mIconView.setImageResource(R.drawable.im_ic_video);
         } else {
@@ -48,8 +50,21 @@ public class IMCallItem extends IMNotifyItem {
 
     @Override
     public void onClick() {
-        boolean isVideo = mMessage.getBooleanAttribute(IMConstants.IM_CHAT_MSG_EXT_TYPE_VIDEO_CALL, false);
-        int type = isVideo ? IMCallManager.CallType.VIDEO : IMCallManager.CallType.VOICE;
-        IMCallManager.getInstance().startCall(mMessage.conversationId(), type);
+        // 只有当前是断开连接状态才能发起通话
+        if (IMCallManager.getInstance().getCallStatus() == IMCallManager.CallStatus.DISCONNECTED) {
+            boolean isVideo = mMessage.getBooleanAttribute(IMConstants.IM_MSG_EXT_VIDEO_CALL, false);
+            int type = isVideo ? IMCallManager.CallType.VIDEO : IMCallManager.CallType.VOICE;
+            IMCallManager.getInstance().startCall(mMessage.conversationId(), type);
+        } else {
+            // TODO 恢复之前的通话
+        }
+    }
+
+    /**
+     * 是否为接收的，以此来判断加载哪种容器
+     */
+    @Override
+    protected boolean isReceiveMessage() {
+        return mType == IMConstants.MsgExtType.IM_CALL_RECEIVE;
     }
 }

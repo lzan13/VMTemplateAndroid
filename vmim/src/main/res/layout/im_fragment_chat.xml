@@ -7,7 +7,8 @@
     <com.vmloft.develop.library.im.utils.IMKeyboardLayout
         android:id="@+id/im_chat_keyboard_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        />
 
     <RelativeLayout
         android:id="@+id/im_chat_bottom_rl"
@@ -50,6 +51,7 @@
                 android:layout_width="@dimen/vm_dimen_40"
                 android:layout_height="@dimen/vm_dimen_40"
                 android:background="@drawable/vm_click_full_fillet_transparent"
+                android:padding="@dimen/vm_padding_small"
                 android:src="@drawable/im_emotion_selector"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/im_chat_input_send_btn"
@@ -143,7 +145,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/vm_dimen_0_5"
-            android:layout_below="@+id/im_chat_bottom_btn_cl"
+            android:layout_alignBottom="@+id/im_chat_bottom_btn_cl"
             android:background="@color/vm_decoration_gray"
             />
         <!--扩展部分-->

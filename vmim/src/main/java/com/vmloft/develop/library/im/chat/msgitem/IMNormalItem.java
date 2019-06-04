@@ -3,6 +3,7 @@ package com.vmloft.develop.library.im.chat.msgitem;
 import android.content.Context;
 import android.view.MotionEvent;
 import android.view.View;
+import com.hyphenate.chat.EMMessage;
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.chat.IMChatAdapter;
 import com.vmloft.develop.library.tools.utils.VMStr;
@@ -47,6 +48,13 @@ public abstract class IMNormalItem extends IMBaseItem {
         });
     }
 
+    @Override
+    public void onBind(int position, EMMessage message) {
+        mPosition = position;
+        mMessage = message;
+        // 加载通用部分控件
+        setupCommonView();
+    }
     /**
      * 触发消息长按事件
      */

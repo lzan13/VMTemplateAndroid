@@ -10,20 +10,8 @@ import java.util.List;
  */
 public class IMEmotionGroup extends IMEmotionBean {
 
-    /**
-     * 表情分组索引
-     */
-    public int mGroupIndex;
-
-    /**
-     * 表情包的名称
-     */
-    public String mGroupName;
-
-    /**
-     * 表情包的下载地址
-     */
-    public String mGroupUrl;
+    // 表情组名字
+    public String mName;
 
     /**
      * 表情集合
@@ -36,5 +24,4 @@ public class IMEmotionGroup extends IMEmotionBean {
     public int getEmotionCount() {
         return mEmotionItemList.size();
     }
-
 }

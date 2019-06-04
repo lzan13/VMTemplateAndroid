@@ -94,24 +94,39 @@ public class IMConversationItem extends RelativeLayout {
         String prefix = "";
         String draft = IMChatManager.getInstance().getDraft(mConversation);
         if (!VMStr.isEmpty(draft)) {
-            // 表示草稿的前缀
+            // 表示草稿的前缀，TODO 草稿也要识别表情
+            mContentView.setEnableEmotion(true);
             prefix = "[" + VMStr.byRes(R.string.im_draft) + "]";
             content = prefix + draft;
         } else if (conversation.getAllMessages().size() > 0) {
             EMMessage message = conversation.getLastMessage();
             int type = IMChatUtils.getMessageType(message);
-            // 只有文本才需要开启表情识别，默认都关闭
+            // TODO 只有文本才需要开启表情识别，默认都关闭
             mContentView.setEnableEmotion(false);
+            /**
+             * 通知类消息
+             */
             if (type == IMConstants.MsgType.IM_SYSTEM) {
                 // TODO 系统提醒
             } else if (type == IMConstants.MsgType.IM_RECALL) {
                 // 撤回消息
                 content = "[" + VMStr.byRes(R.string.im_recall_already) + "]";
-            } else if (type == IMConstants.MsgType.IM_CALL) {
+            }
+            /**
+             * 扩展类消息
+             */
+            else if (type == IMConstants.MsgExtType.IM_CALL_RECEIVE || type == IMConstants.MsgExtType.IM_CALL_SEND) {
                 // 通话消息
                 content = "[" + VMStr.byRes(R.string.im_call) + " - " + ((EMTextMessageBody) message.getBody()).getMessage() + "]";
-            } else if (type == IMConstants.MsgType.IM_TEXT_RECEIVE || type == IMConstants.MsgType.IM_TEXT_SEND) {
-                // 只有文本才需要开启表情识别
+            } else if (type == IMConstants.MsgExtType.IM_BIG_EMOTION_RECEIVE || type == IMConstants.MsgExtType.IM_BIG_EMOTION_SEND) {
+                // 大表情
+                content = ((EMTextMessageBody) message.getBody()).getMessage();
+            }
+            /**
+             * 普通类消息
+             */
+            else if (type == IMConstants.MsgType.IM_TEXT_RECEIVE || type == IMConstants.MsgType.IM_TEXT_SEND) {
+                // TODO 只有文本才需要开启表情识别
                 mContentView.setEnableEmotion(true);
                 content = ((EMTextMessageBody) message.getBody()).getMessage();
             } else if (type == IMConstants.MsgType.IM_IMAGE_RECEIVE || type == IMConstants.MsgType.IM_IMAGE_SEND) {

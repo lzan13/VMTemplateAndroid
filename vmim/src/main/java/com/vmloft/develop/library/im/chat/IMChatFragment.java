@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,8 +17,6 @@ import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -40,7 +39,6 @@ import com.vmloft.develop.library.im.utils.IMUtils;
 import com.vmloft.develop.library.tools.base.VMConstant;
 import com.vmloft.develop.library.tools.picker.VMPicker;
 import com.vmloft.develop.library.tools.picker.bean.VMPictureBean;
-import com.vmloft.develop.library.tools.utils.VMLog;
 import com.vmloft.develop.library.tools.utils.VMStr;
 import com.vmloft.develop.library.tools.utils.VMSystem;
 import com.vmloft.develop.library.tools.widget.toast.VMToast;
@@ -242,6 +240,18 @@ public class IMChatFragment extends IMBaseFragment {
         mLayoutManager.setStackFromEnd(false);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                mKeyboardLayout.hideKeyboard(getActivity(), mInputET);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
 
         scrollToBottom();
     }
@@ -263,7 +273,7 @@ public class IMChatFragment extends IMBaseFragment {
                 if (group.isInnerEmotion) {
                     if (group.isBigEmotion) {
                         // TODO 内部大需要特殊处理
-
+                        sendBigEmotion(group, item);
                     } else {
                         SpannableString spannableString = IMEmotionManager.getInstance().getEmotionSpannable(item.mResId, item.mDesc);
                         int currentIndex = mInputET.getSelectionStart();
@@ -272,6 +282,7 @@ public class IMChatFragment extends IMBaseFragment {
                     }
                 } else {
                     // TODO 不是内部表情，直接发送消息
+                    sendBigEmotion(group, item);
                 }
             }
 
@@ -366,7 +377,7 @@ public class IMChatFragment extends IMBaseFragment {
             if (mEmotionBtn.isSelected()) {
                 // 打开表情
                 mKeyboardLayout.setResizeLayout(getActivity(), false);
-                mKeyboardLayout.hideKeyboard(getActivity());
+                mKeyboardLayout.hideKeyboard(getActivity(), mInputET);
 
                 mExtContainer.setVisibility(View.VISIBLE);
                 mExtEmotionContainer.setVisibility(View.VISIBLE);
@@ -441,6 +452,27 @@ public class IMChatFragment extends IMBaseFragment {
      */
     private void sendPicture(String path) {
         EMMessage message = IMChatManager.getInstance().createPictureMessage(path, mId, true);
+        sendMessage(message);
+    }
+
+    /**
+     * 发送大表情
+     *
+     * @param group 表情分组
+     * @param item  表情
+     */
+    private void sendBigEmotion(IMEmotionGroup group, IMEmotionItem item) {
+        EMMessage message = IMChatManager.getInstance().createTextMessage(item.mDesc, mId, true);
+        message.setAttribute(IMConstants.IM_MSG_EXT_TYPE, IMConstants.MsgExtType.IM_BIG_EMOTION);
+        message.setAttribute(IMConstants.IM_MSG_EXT_INNER_EMOTION, group.isInnerEmotion);
+
+        message.setAttribute(IMConstants.IM_MSG_EXT_EMOTION_GROUP, group.mName);
+        message.setAttribute(IMConstants.IM_MSG_EXT_EMOTION_DESC, item.mDesc);
+        if (!group.isInnerEmotion) {
+            // TODO 下载的大表情，这两个主要是为了在本地没有文件时展示
+            message.setAttribute(IMConstants.IM_MSG_EXT_EMOTION_URL, item.mUrl);
+            message.setAttribute(IMConstants.IM_MSG_EXT_EMOTION_GIF_URL, item.mGifUrl);
+        }
         sendMessage(message);
     }
 
@@ -561,7 +593,6 @@ public class IMChatFragment extends IMBaseFragment {
 
         super.onDestroy();
     }
-
 
     /**
      * ------------------------------- 广播接收器部分 -------------------------------

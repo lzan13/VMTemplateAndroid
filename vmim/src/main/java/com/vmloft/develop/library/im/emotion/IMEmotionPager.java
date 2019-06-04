@@ -24,7 +24,7 @@ import java.util.List;
 public class IMEmotionPager extends RelativeLayout {
 
     private ImageButton mAddBtn;
-    private ImageButton mDelBtn;
+    private ImageButton mDeleteBtn;
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private IMEmotionPagerAdapter mAdapter;
@@ -46,7 +46,7 @@ public class IMEmotionPager extends RelativeLayout {
         LayoutInflater.from(getContext()).inflate(R.layout.im_emotion_pager, this);
 
         mAddBtn = findViewById(R.id.im_emotion_add_btn);
-        mDelBtn = findViewById(R.id.im_emotion_delete_btn);
+        mDeleteBtn = findViewById(R.id.im_emotion_delete_btn);
         mTabLayout = findViewById(R.id.im_emotion_tab_layout);
         mViewPager = findViewById(R.id.im_emotion_view_pager);
 
@@ -61,7 +61,7 @@ public class IMEmotionPager extends RelativeLayout {
         mAdapter = new IMEmotionPagerAdapter(mPageViewList);
         mViewPager.setAdapter(mAdapter);
 
-        mDelBtn.setOnClickListener((View v) -> {
+        mDeleteBtn.setOnClickListener((View v) -> {
             if (mEmotionListener != null) {
                 mEmotionListener.onDeleteEmotion();
             }

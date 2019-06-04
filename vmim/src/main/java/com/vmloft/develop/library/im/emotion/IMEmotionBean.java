@@ -16,12 +16,8 @@ public class IMEmotionBean {
     // 表情的资源 Id，只有内部自带的表情才有此值
     public int mResId;
 
-    // 表情描述的文本信息如:[捂脸]
-    public String mDesc;
-
     // 不是内部表情，图片加载地址
     public String mUrl = "";
-
     // 不是内部表情，动态图片加载地址
     public String mGifUrl = "";
 }

@@ -623,9 +623,9 @@ public class IMCallManager {
         }
         message = IMChatManager.getInstance().createTextMessage(content, mCallId, !isInComingCall);
         message.setStatus(EMMessage.Status.SUCCESS);
-        message.setAttribute(IMConstants.IM_CHAT_MSG_EXT_TYPE, IMConstants.MsgType.IM_CALL);
+        message.setAttribute(IMConstants.IM_MSG_EXT_TYPE, IMConstants.MsgExtType.IM_CALL);
         message.setUnread(false);
-        message.setAttribute(IMConstants.IM_CHAT_MSG_EXT_TYPE_VIDEO_CALL, mCallType == CallType.VIDEO);
+        message.setAttribute(IMConstants.IM_MSG_EXT_VIDEO_CALL, mCallType == CallType.VIDEO);
         IMChatManager.getInstance().saveMessage(message);
 
         // 更新会话时间

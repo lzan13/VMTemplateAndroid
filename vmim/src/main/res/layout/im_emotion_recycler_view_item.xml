@@ -2,26 +2,30 @@
 <com.vmloft.develop.library.tools.widget.VMSquareLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="@dimen/vm_padding_small"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/im_chat_emotion_selector"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
 
         <ImageView
             android:id="@+id/im_emotion_item_icon_iv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/im_emotion_01" />
+            android:src="@drawable/im_emotion_01"
+            />
 
         <TextView
             android:id="@+id/im_emotion_item_name_tv"
-            style="@style/VMText.Caption"
             android:textColor="@color/vm_gray_black_54"
-            tools:text="笑笑" />
+            tools:text="笑笑"
+            style="@style/VMText.Caption"
+            />
     </LinearLayout>
-
 </com.vmloft.develop.library.tools.widget.VMSquareLayout>

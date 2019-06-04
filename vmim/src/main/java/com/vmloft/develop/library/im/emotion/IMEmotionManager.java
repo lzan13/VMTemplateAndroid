@@ -32,118 +32,120 @@ public class IMEmotionManager {
     public static final int IM_EMOTION_COLUMN_COUNT = 7;
     public static final int IM_EMOTION_COLUMN_COUNT_DEFAULT = 4;
 
+    // 内部表情分组名
     private static final String IM_EMOTION_GROUP = "im_emotion_group";
     private static final String IM_EMOTION_BIG_GROUP = "im_emotion_big_group";
-    private static List<IMEmotionItem> INNER_EMOTION_LIST = new ArrayList<>();
+
+    private static List<IMEmotionItem> EMOTION_LIST = new ArrayList<>();
     private static List<IMEmotionItem> BIG_EMOTION_LIST = new ArrayList<>();
 
     static {
         // 内部小表情分组
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_01, "[傻笑]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_02, "[微笑]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_03, "[笑哭]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_04, "[害羞]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_05, "[尴尬]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_06, "[眨眼]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_07, "[得意]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_08, "[鄙视]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_09, "[色]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_10, "[飞吻]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_11, "[美味]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_12, "[邪恶]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_13, "[吐舌]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_14, "[聪明]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_15, "[帅气]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_16, "[开心]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_17, "[流口水]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_18, "[惬意]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_19, "[大哭]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_20, "[震惊]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_21, "[生气]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_22, "[愤怒]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_23, "[书呆子]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_24, "[思考]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_25, "[虚]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_26, "[困了]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_27, "[睡着了]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_28, "[冻僵了]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_29, "[戴口罩]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_30, "[发烧]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_31, "[擦鼻涕]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_32, "[吐]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_33, "[瞎了]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_34, "[囧]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_35, "[翻白眼]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_36, "[失落]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_37, "[伤心]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_38, "[流汗]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_39, "[可怜]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_40, "[小丑]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_41, "[鬼脸]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_42, "[骷髅]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_43, "[眼睛]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_44, "[便便]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_45, "[赞]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_46, "[胜利]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_47, "[加油]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_48, "[拳击]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_49, "[挥手]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_50, "[OK]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_51, "[握手]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_52, "[鼓掌]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_53, "[阿门]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_54, "[摊手女]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_55, "[摊手男]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_56, "[捂脸女]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_57, "[捂脸男]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_58, "[跳舞女]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_59, "[跳舞男]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_60, "[四叶草]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_61, "[心]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_62, "[心碎]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_63, "[庆祝]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_64, "[气球]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_65, "[火]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_66, "[星星]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_67, "[太阳]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_68, "[嘴唇]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_69, "[玫瑰]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_70, "[西瓜]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_71, "[草莓]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_72, "[橙子]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_73, "[番茄]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_74, "[苹果]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_75, "[猴不看]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_76, "[猴不听]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_77, "[猴不说]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_78, "[猫笑哭]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_79, "[猫色]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_80, "[猫惊讶]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_81, "[狗]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_82, "[猫]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_83, "[牛]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_84, "[猪]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_85, "[狐狸]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_86, "[鱼]", true));
-        INNER_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_87, "[独角兽]", true));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_01, "[傻笑]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_02, "[微笑]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_03, "[笑哭]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_04, "[害羞]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_05, "[尴尬]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_06, "[眨眼]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_07, "[得意]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_08, "[鄙视]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_09, "[色]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_10, "[飞吻]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_11, "[美味]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_12, "[邪恶]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_13, "[吐舌]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_14, "[聪明]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_15, "[帅气]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_16, "[开心]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_17, "[流口水]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_18, "[惬意]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_19, "[大哭]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_20, "[震惊]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_21, "[生气]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_22, "[愤怒]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_23, "[书呆子]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_24, "[思考]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_25, "[虚]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_26, "[困了]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_27, "[睡着了]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_28, "[冻僵了]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_29, "[戴口罩]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_30, "[发烧]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_31, "[擦鼻涕]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_32, "[吐]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_33, "[瞎了]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_34, "[囧]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_35, "[翻白眼]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_36, "[失落]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_37, "[伤心]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_38, "[流汗]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_39, "[可怜]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_40, "[小丑]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_41, "[鬼脸]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_42, "[骷髅]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_43, "[眼睛]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_44, "[便便]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_45, "[赞]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_46, "[胜利]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_47, "[加油]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_48, "[拳击]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_49, "[挥手]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_50, "[OK]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_51, "[握手]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_52, "[鼓掌]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_53, "[阿门]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_54, "[摊手女]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_55, "[摊手男]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_56, "[捂脸女]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_57, "[捂脸男]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_58, "[跳舞女]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_59, "[跳舞男]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_60, "[四叶草]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_61, "[心]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_62, "[心碎]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_63, "[庆祝]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_64, "[气球]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_65, "[火]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_66, "[星星]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_67, "[太阳]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_68, "[嘴唇]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_69, "[玫瑰]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_70, "[西瓜]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_71, "[草莓]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_72, "[橙子]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_73, "[番茄]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_74, "[苹果]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_75, "[猴不看]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_76, "[猴不听]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_77, "[猴不说]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_78, "[猫笑哭]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_79, "[猫色]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_80, "[猫惊讶]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_81, "[狗]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_82, "[猫]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_83, "[牛]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_84, "[猪]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_85, "[狐狸]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_86, "[鱼]"));
+        EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_87, "[独角兽]"));
 
         // 内部大表情分组
-        BIG_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_big_01, "[黑人问号]", true));
-        BIG_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_big_02, "[好的]", true));
-        BIG_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_big_03, "[尴尬]", true));
-        BIG_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_big_04, "[沧桑]", true));
-        BIG_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_big_05, "[惊呆]", true));
-        BIG_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_big_06, "[好棒]", true));
-        BIG_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_big_07, "[无语]", true));
-        BIG_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_big_08, "[社会]", true));
-        BIG_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_big_09, "[吃瓜]", true));
-        BIG_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_big_10, "[羞羞]", true));
-        BIG_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_big_11, "[摸头]", true));
-        BIG_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_big_12, "[加油]", true));
-        BIG_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_big_13, "[旺财]", true));
-        BIG_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_big_14, "[猫哈子]", true));
-        BIG_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_big_15, "[萨摩]", true));
-        BIG_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_big_16, "[二哈]", true));
+        BIG_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_big_01, "[黑人问号]"));
+        BIG_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_big_02, "[好的]"));
+        BIG_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_big_03, "[尴尬]"));
+        BIG_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_big_04, "[沧桑]"));
+        BIG_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_big_05, "[惊呆]"));
+        BIG_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_big_06, "[好棒]"));
+        BIG_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_big_07, "[无语]"));
+        BIG_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_big_08, "[社会]"));
+        BIG_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_big_09, "[吃瓜]"));
+        BIG_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_big_10, "[羞羞]"));
+        BIG_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_big_11, "[摸头]"));
+        BIG_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_big_12, "[加油]"));
+        BIG_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_big_13, "[旺财]"));
+        BIG_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_big_14, "[猫哈子]"));
+        BIG_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_big_15, "[萨摩]"));
+        BIG_EMOTION_LIST.add(new IMEmotionItem(R.drawable.im_emotion_big_16, "[二哈]"));
     }
 
     private List<IMEmotionGroup> mEmotionGroupList = new ArrayList<>();
@@ -189,11 +191,10 @@ public class IMEmotionManager {
     private void initInnerEmotionData() {
 
         IMEmotionGroup group = new IMEmotionGroup();
-        group.mGroupName = IM_EMOTION_GROUP;
-        group.mGroupIndex = 0;
+        group.mName = IM_EMOTION_GROUP;
         group.mResId = R.drawable.im_emotion_01;
         group.isInnerEmotion = true;
-        group.mEmotionItemList = INNER_EMOTION_LIST;
+        group.mEmotionItemList = EMOTION_LIST;
 
         mEmotionGroupList.add(group);
     }
@@ -204,8 +205,7 @@ public class IMEmotionManager {
     private void initBigEmotionData() {
 
         IMEmotionGroup group = new IMEmotionGroup();
-        group.mGroupName = IM_EMOTION_BIG_GROUP;
-        group.mGroupIndex = 1;
+        group.mName = IM_EMOTION_BIG_GROUP;
         group.mResId = R.drawable.im_emotion_big_icon;
         group.isInnerEmotion = true;
         group.isBigEmotion = true;
@@ -217,8 +217,8 @@ public class IMEmotionManager {
     /**
      * 获取表情 Spannable 用来添加到输入框
      *
-     * @param resId 表情资源 id
-     * @param emotionStr  表情字符串
+     * @param resId      表情资源 id
+     * @param emotionStr 表情字符串
      * @return
      */
     public SpannableString getEmotionSpannable(int resId, String emotionStr) {
@@ -260,8 +260,8 @@ public class IMEmotionManager {
         int end = position;
         String deleteString = text.substring(start, end);
 
-        boolean isEmotionString = getResID(deleteString) != 0;
-        if (isEmotionString) {
+        IMEmotionItem item = getEmotionItem(IM_EMOTION_GROUP, deleteString);
+        if (item != null) {
             return deleteString.length();
         } else {
             return 0;
@@ -289,16 +289,21 @@ public class IMEmotionManager {
     /**
      * 根据表情描述文本映射到资源ID
      *
-     * @param desc 表情描述文本
+     * @param groupName 表情所属分组名
+     * @param desc      表情描述文本
      * @return 表情资源 Id
      */
-    private int getResID(String desc) {
-        for (int i = 0; i < INNER_EMOTION_LIST.size(); i++) {
-            if (INNER_EMOTION_LIST.get(i).mDesc.equals(desc)) {
-                return INNER_EMOTION_LIST.get(i).mResId;
+    public IMEmotionItem getEmotionItem(String groupName, String desc) {
+        for (IMEmotionGroup group : mEmotionGroupList) {
+            if (group.mName.equals(groupName)) {
+                for (IMEmotionItem item : group.mEmotionItemList) {
+                    if (item.mDesc.equals(desc)) {
+                        return item;
+                    }
+                }
             }
         }
-        return 0;
+        return null;
     }
 
     /**
@@ -337,14 +342,14 @@ public class IMEmotionManager {
                 continue;
             }
 
-            int resId = getResID(key);
+            IMEmotionItem item = getEmotionItem(IM_EMOTION_GROUP, key);
             // 通过上面匹配得到的字符串来生成图片资源id
-            if (resId != 0) {
+            if (item != null) {
                 // 计算该图片名字的长度，也就是要替换的字符串的长度
                 int end = matcher.start() + key.length();
 
                 // 将该图片替换字符串中规定的位置中
-                spannable.setSpan(createEmotionSpannable(resId), matcher.start(), end, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+                spannable.setSpan(createEmotionSpannable(item.mResId), matcher.start(), end, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
 
                 // 如果整个字符串还未验证完，则继续。。
                 if (end < spannable.length()) {

@@ -15,6 +15,7 @@
         android:id="@+id/im_chat_msg_call_icon_iv"
         android:layout_width="@dimen/vm_dimen_16"
         android:layout_height="@dimen/vm_dimen_16"
+        android:tint="@color/vm_gray_black_54"
         tools:src="@drawable/im_ic_call"
         />
     <TextView

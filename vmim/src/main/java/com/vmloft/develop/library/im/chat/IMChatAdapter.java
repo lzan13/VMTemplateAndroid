@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.hyphenate.chat.EMMessage;
 import com.vmloft.develop.library.im.chat.msgitem.IMCallItem;
 import com.vmloft.develop.library.im.chat.msgitem.IMBaseItem;
+import com.vmloft.develop.library.im.chat.msgitem.IMEmotionMsgItem;
 import com.vmloft.develop.library.im.chat.msgitem.IMPictureItem;
 import com.vmloft.develop.library.im.chat.msgitem.IMTextMsgItem;
 import com.vmloft.develop.library.im.chat.msgitem.IMUnknownItem;
@@ -82,32 +83,40 @@ public class IMChatAdapter extends VMAdapter<EMMessage, IMChatAdapter.ChatHolder
     private IMBaseItem createMsgItem(int type) {
         IMBaseItem itemView = null;
         switch (type) {
-            case IMConstants.MsgType.IM_CALL:
-                itemView = new IMCallItem(mContext, this, type);
-                break;
-            case IMConstants.MsgType.IM_SYSTEM:
-            case IMConstants.MsgType.IM_RECALL:
-                break;
-            case IMConstants.MsgType.IM_TEXT_RECEIVE:
-            case IMConstants.MsgType.IM_TEXT_SEND:
-                itemView = new IMTextMsgItem(mContext, this, type);
-                break;
-            case IMConstants.MsgType.IM_IMAGE_RECEIVE:
-            case IMConstants.MsgType.IM_IMAGE_SEND:
-                itemView = new IMPictureItem(mContext, this, type);
-                break;
-            case IMConstants.MsgType.IM_VIDEO_RECEIVE:
-            case IMConstants.MsgType.IM_VIDEO_SEND:
-            case IMConstants.MsgType.IM_LOCATION_RECEIVE:
-            case IMConstants.MsgType.IM_LOCATION_SEND:
-            case IMConstants.MsgType.IM_VOICE_RECEIVE:
-            case IMConstants.MsgType.IM_VOICE_SEND:
-            case IMConstants.MsgType.IM_FILE_RECEIVE:
-            case IMConstants.MsgType.IM_FILE_SEND:
-            case IMConstants.MsgType.IM_UNKNOWN: // 未知
-            default:
-                itemView = new IMUnknownItem(mContext, this, IMConstants.MsgType.IM_UNKNOWN);
-                break;
+        // 通知类消息
+        case IMConstants.MsgType.IM_SYSTEM:
+        case IMConstants.MsgType.IM_RECALL:
+            break;
+        // 扩展类消息
+        case IMConstants.MsgExtType.IM_CALL_RECEIVE:
+        case IMConstants.MsgExtType.IM_CALL_SEND:
+            itemView = new IMCallItem(mContext, this, type);
+            break;
+        case IMConstants.MsgExtType.IM_BIG_EMOTION_RECEIVE:
+        case IMConstants.MsgExtType.IM_BIG_EMOTION_SEND:
+            itemView = new IMEmotionMsgItem(mContext, this, type);
+            break;
+        // 普通消息
+        case IMConstants.MsgType.IM_TEXT_RECEIVE:
+        case IMConstants.MsgType.IM_TEXT_SEND:
+            itemView = new IMTextMsgItem(mContext, this, type);
+            break;
+        case IMConstants.MsgType.IM_IMAGE_RECEIVE:
+        case IMConstants.MsgType.IM_IMAGE_SEND:
+            itemView = new IMPictureItem(mContext, this, type);
+            break;
+        case IMConstants.MsgType.IM_VIDEO_RECEIVE:
+        case IMConstants.MsgType.IM_VIDEO_SEND:
+        case IMConstants.MsgType.IM_LOCATION_RECEIVE:
+        case IMConstants.MsgType.IM_LOCATION_SEND:
+        case IMConstants.MsgType.IM_VOICE_RECEIVE:
+        case IMConstants.MsgType.IM_VOICE_SEND:
+        case IMConstants.MsgType.IM_FILE_RECEIVE:
+        case IMConstants.MsgType.IM_FILE_SEND:
+        case IMConstants.MsgType.IM_UNKNOWN: // 未知
+        default:
+            itemView = new IMUnknownItem(mContext, this, IMConstants.MsgType.IM_UNKNOWN);
+            break;
         }
         return itemView;
     }

@@ -34,54 +34,63 @@ public class IMConstants {
      */
     public interface MsgType {
         // 未知类型
-        int IM_UNKNOWN = 0;
+        int IM_UNKNOWN = 0x00;
         // 系统消息
-        int IM_SYSTEM = 1;
+        int IM_SYSTEM = 0x01;
         // 撤回
-        int IM_RECALL = 2;
-        // 通话消息
-        int IM_CALL = 3;
+        int IM_RECALL = 0x02;
 
         // 文本
-        int IM_TEXT_RECEIVE = 10;
-        int IM_TEXT_SEND = 11;
-        int IM_IMAGE_RECEIVE = 12;
-        int IM_IMAGE_SEND = 13;
-        int IM_VIDEO_RECEIVE = 14;
-        int IM_VIDEO_SEND = 15;
-        int IM_LOCATION_RECEIVE = 16;
-        int IM_LOCATION_SEND = 17;
-        int IM_VOICE_RECEIVE = 18;
-        int IM_VOICE_SEND = 19;
-        int IM_FILE_RECEIVE = 20;
-        int IM_FILE_SEND = 21;
+        int IM_TEXT_RECEIVE = 0x10;
+        int IM_TEXT_SEND = 0x11;
+        // 图片
+        int IM_IMAGE_RECEIVE = 0x20;
+        int IM_IMAGE_SEND = 0x21;
+        // 视频
+        int IM_VIDEO_RECEIVE = 0x30;
+        int IM_VIDEO_SEND = 0x31;
+        // 定位
+        int IM_LOCATION_RECEIVE = 0x40;
+        int IM_LOCATION_SEND = 0x41;
+        // 语音
+        int IM_VOICE_RECEIVE = 0x50;
+        int IM_VOICE_SEND = 0x51;
+        // 文件
+        int IM_FILE_RECEIVE = 0x60;
+        int IM_FILE_SEND = 0x61;
     }
+
+    // 消息扩展类型
+    public static final String IM_MSG_EXT_TYPE = "im_chat_msg_ext_type";
+    public static final String IM_MSG_EXT_VIDEO_CALL = "im_chat_msg_video_call";
+    public static final String IM_MSG_EXT_INNER_EMOTION = "im_msg_ext_inner_emotion";
+    public static final String IM_MSG_EXT_EMOTION_GROUP = "im_msg_ext_emotion_group";
+    public static final String IM_MSG_EXT_EMOTION_DESC = "im_msg_ext_emotion_desc";
+    public static final String IM_MSG_EXT_EMOTION_URL = "im_msg_ext_emotion_url";
+    public static final String IM_MSG_EXT_EMOTION_GIF_URL = "im_msg_ext_emotion_gif_url";
 
     /**
      * 消息扩展类型
      */
     public interface MsgExtType {
         // 通话
-        int IM_CALL = 0x10;
-        int IM_CALL_RECEIVE = 0x11;
-        int IM_CALL_SEND = 0x12;
+        int IM_CALL = 0x100;
+        int IM_CALL_RECEIVE = 0x101;
+        int IM_CALL_SEND = 0x102;
 
         // 大表情
-        int IM_BIG_EMOTION = 0x20;
-        int IM_BIG_EMOTION_RECEIVE = 0x21;
-        int IM_BIG_EMOTION_SEND = 0x22;
+        int IM_BIG_EMOTION = 0x110;
+        int IM_BIG_EMOTION_RECEIVE = 0x111;
+        int IM_BIG_EMOTION_SEND = 0x112;
     }
-
-    // 消息扩展类型
-    public static final String IM_CHAT_MSG_EXT_TYPE = "im_chat_msg_ext_type";
-    public static final String IM_CHAT_MSG_EXT_TYPE_VIDEO_CALL = "im_chat_msg_type_video_call";
 
     /**
      * CMD 消息 action
      */
     // 输入状态
-    public static final String IM_CHAT_ACTION_INPUT = "im_chat_action_input";
-    public static final String IM_CHAT_ACTION_RECALL = "im_chat_action_recall";
+    public static final String IM_MSG_ACTION_INPUT = "im_chat_action_input";
+    // 撤回
+    public static final String IM_MSG_ACTION_RECALL = "im_chat_action_recall";
 
     // 传递聊天 Id
     public static final String IM_CHAT_ID = "im_chat_id";
