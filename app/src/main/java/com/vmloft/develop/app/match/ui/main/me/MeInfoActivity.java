@@ -86,6 +86,12 @@ public class MeInfoActivity extends AppActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshUI();
+    }
+
     /**
      * 开启选择头像
      */

@@ -257,7 +257,12 @@ public class IMCallVoiceActivity extends IMCallActivity {
         }
         mEmotionView.setImageResource(item.mResId);
 
-        IMAnimator.createAnimator().play(mEmotionView, IMAnimator.ROTATION, null, 1, 1000, 0f, 360f);
+        IMAnimator.createAnimator()
+            .play(IMAnimator.createOptions(mEmotionView, IMAnimator.ALPHA, 0.0f, 1.0f))
+            .with(IMAnimator.createOptions(mEmotionView, IMAnimator.ROTATION, -30.0f, 0.0f, 30.0f, 0.f))
+            .with(IMAnimator.createOptions(mEmotionView, IMAnimator.SCALEX, 0.0f, 1.5f, 1.0f))
+            .with(IMAnimator.createOptions(mEmotionView, IMAnimator.SCALEY, 0.0f, 1.5f, 1.0f))
+            .start(500);
     }
 
     /**

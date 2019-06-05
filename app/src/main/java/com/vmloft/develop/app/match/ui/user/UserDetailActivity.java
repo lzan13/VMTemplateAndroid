@@ -1,5 +1,6 @@
 package com.vmloft.develop.app.match.ui.user;
 
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.BindView;
@@ -9,6 +10,7 @@ import com.vmloft.develop.app.match.bean.AUser;
 import com.vmloft.develop.app.match.common.AUMSManager;
 import com.vmloft.develop.app.match.glide.ALoader;
 import com.vmloft.develop.app.match.router.ARouter;
+import com.vmloft.develop.library.im.router.IMRouter;
 import com.vmloft.develop.library.tools.router.VMParams;
 
 /**
@@ -22,6 +24,8 @@ public class UserDetailActivity extends AppActivity {
     @BindView(R.id.user_detail_avatar_iv) ImageView mAvatarView;
     @BindView(R.id.user_detail_name_tv) TextView mNameView;
     @BindView(R.id.user_detail_signature_tv) TextView mSignatureView;
+    @BindView(R.id.user_detail_private_letter_tv) TextView mPrivateLetterView;
+    @BindView(R.id.user_detail_follow_tv) TextView mFollowView;
 
     private String mId;
     private AUser mUser;
@@ -35,6 +39,8 @@ public class UserDetailActivity extends AppActivity {
     protected void initUI() {
         super.initUI();
         getTopBar().setTitleColor(R.color.app_title_light);
+        mPrivateLetterView.setOnClickListener(viewListener);
+        mFollowView.setOnClickListener(viewListener);
     }
 
     @Override
@@ -60,4 +66,12 @@ public class UserDetailActivity extends AppActivity {
         mNameView.setText(mUser.getNickname());
         mSignatureView.setText(mUser.getSignature());
     }
+
+    private View.OnClickListener viewListener = (View v) -> {
+        if (v.getId() == R.id.user_detail_private_letter_tv) {
+            IMRouter.goIMChat(mActivity, mId);
+        } else if (v.getId() == R.id.user_detail_follow_tv) {
+            // TODO 关注对方，如果已关注，取消关注
+        }
+    };
 }

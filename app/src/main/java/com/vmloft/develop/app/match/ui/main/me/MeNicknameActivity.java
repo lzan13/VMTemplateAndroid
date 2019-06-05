@@ -40,6 +40,7 @@ public class MeNicknameActivity extends AppActivity {
     protected void initData() {
         setTopTitle(R.string.me_info);
         mUser = ASignManager.getInstance().getCurrentUser();
+        mNicknameET.setText(mUser.getNickname());
     }
 
     /**

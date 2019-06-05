@@ -19,6 +19,13 @@ import java.util.List;
  */
 public class IMAnimator {
 
+    // 重复模式
+    public static final int RESTART = 1;
+    public static final int REVERSE = 2;
+    // 无限重复
+    public static final int INFINITE = -1;
+
+    // 动画类型
     public static final String ALPHA = "Alpha";
     public static final String TRANSX = "TranslationX";
     public static final String TRANSY = "TranslationY";
@@ -28,6 +35,11 @@ public class IMAnimator {
     public static final String ROTATIONX = "RotationX";
     public static final String ROTATIONY = "RotationY";
 
+    // 默认执行时间
+    public static final long mDuration = 1000;
+    // 创建默认的插值器 LinearInterpolator 前后减速，中间加速
+    public static final TimeInterpolator mInterpolator = new LinearInterpolator();
+
     /**
      * 创建动画管理者
      */
@@ -36,18 +48,10 @@ public class IMAnimator {
     }
 
     /**
-     * 创建动画管理者，这里会指定一个插值器
-     */
-    public static AnimatorSetWrap createAnimator(TimeInterpolator interpolator) {
-        return new AnimatorSetWrap(interpolator);
-    }
-
-    /**
      * 属性动画组合包装类，对应的是 AnimatorSet 类
      *
-     * 它对应的主要有这四个方法，play(开启)，before(之前)，with(同步)，after(之后)
+     * 它对应的主要有这四个方法，play(开始)，before(在 XXX 之前)，with(与 XXX 同步)，after(在 XXX 之后)
      * 这四个方法里面全都是填入往后儿们的 Animator 类，但是先后执行顺序不一样，
-     * 分别对应着开启，最后，同步，最开始执行
      * 我们注意到他是先执行的 after，然后是 play 和 with 同时执行，最后执行的 before
      * 所以大家记住这个顺序，无论怎么写，都是这个执行顺序。
      */
@@ -56,40 +60,22 @@ public class IMAnimator {
         private AnimatorSet mAnimatorSet;
         // 联合动画的动画构造器
         private AnimatorSet.Builder mAnimatorBuilder;
-        // 动画默认插值器
-        private TimeInterpolator mInterpolator;
-
-        // 默认执行时间
-        private int mDuration = 1000;
-        // 默认循环次数
-        private int mRepeat = 0;
 
         // 判断 play 方法只允许执行一次的布尔值
         boolean isPlaying = false;
-        // 是否已经初始化then动画
-        boolean mHasInitThenAnim = false;
+        // 是否已经准备好动画
+        boolean isReady = false;
 
         // 顺序播放或者同时播放时存储动画的列表容器
         List<Animator> mAnimatorList;
 
         /**
-         * 私有构造，创建默认的插值器 LinearInterpolator 前后减速，中间加速
-         */
-        private AnimatorSetWrap() {
-            this(new LinearInterpolator());
-        }
-
-        /**
-         * 构造方法
-         * 主要是负责
+         * 私有构造，主要是负责
          * 1.初始化默认的插值器 mInterpolator
          * 2.初始化联合动画Set mAnimatorSet
          * 3.初始化顺序或同时播放动画容器 mAnimatorList
-         *
-         * @param interpolator
          */
-        private AnimatorSetWrap(TimeInterpolator interpolator) {
-            mInterpolator = interpolator;
+        private AnimatorSetWrap() {
             mAnimatorSet = new AnimatorSet();
             mAnimatorList = new ArrayList<>(16);
         }
@@ -97,21 +83,11 @@ public class IMAnimator {
         /**
          * 播放多个动画时方法，在其内部生成一个 Animator 并将该 Animator 加入到动画集合中等待播放
          *
-         * @param target       动画执行的目标
-         * @param anim         动画类型
-         * @param interpolator 动画插值器
-         * @param duration     动画时长
-         * @param repeat       动画重复次数
-         * @param values       动画执行值
-         * @return
+         * @param options 动画参数
          */
-        public AnimatorSetWrap then(Object target, String anim, @Nullable TimeInterpolator interpolator, int duration, int repeat, float... values) {
-            if (target == null) {
-                throw new RuntimeException("执行动画的目标不能为空");
-            }
-            isPlaying = true;
-            ObjectAnimator thenAnimator = animator(target, anim, interpolator, duration, repeat, values);
-            mAnimatorList.add(thenAnimator);
+        public AnimatorSetWrap then(Options options) {
+            ObjectAnimator animator = animator(options);
+            mAnimatorList.add(animator);
             return this;
         }
 
@@ -119,125 +95,48 @@ public class IMAnimator {
          * 播放单个动画方法，整个动画过程只能调用一次，并且一旦执行 play 方法将会清空动画集合
          *
          * @param options 动画参数
-         * @return
          */
         public AnimatorSetWrap play(Options options) {
             if (isPlaying) {
                 throw new RuntimeException("AnimatorSetWrap.play()方法只能调用一次");
             }
-            if (options.target == null) {
-                throw new RuntimeException("执行动画的目标不能为空");
-            }
-            isPlaying = true;
-            ObjectAnimator playAnimator = animator(options);
-
+            ObjectAnimator animator = animator(options);
             mAnimatorList.clear();
-            mAnimatorBuilder = mAnimatorSet.play(playAnimator);
+            mAnimatorBuilder = mAnimatorSet.play(animator);
             return this;
         }
 
         /**
-         * 播放单个动画方法，整个动画过程只能调用一次，并且一旦执行 play 方法将会清空动画集合
+         * 封装 AnimatorSet 的 before 方法
          *
-         * @param target       动画执行的目标
-         * @param anim         动画类型
-         * @param interpolator 动画插值器
-         * @param duration     动画时长
-         * @param repeat       动画重复次数
-         * @param values       动画执行值
-         * @return
+         * @param options 动画参数
          */
-        public AnimatorSetWrap play(Object target, String anim, @Nullable TimeInterpolator interpolator, int duration, int repeat, float... values) {
-            if (isPlaying) {
-                throw new RuntimeException("AnimatorSetWrap.play()方法只能调用一次");
-            }
-            if (target == null) {
-                throw new RuntimeException("执行动画的目标不能为空");
-            }
-            isPlaying = true;
-            ObjectAnimator playAnimator = animator(target, anim, interpolator, duration, repeat, values);
-
-            mAnimatorList.clear();
-            mAnimatorBuilder = mAnimatorSet.play(playAnimator);
+        public AnimatorSetWrap before(Options options) {
+            ObjectAnimator animator = animator(options);
+            mAnimatorBuilder = mAnimatorBuilder.before(animator);
             return this;
         }
 
         /**
-         * AnimatorSet的Before方法
+         * 封装 AnimatorSet 的 with 方法
          *
-         * @param target       动画执行的目标
-         * @param anim         动画类型
-         * @param interpolator 动画插值器
-         * @param duration     动画时长
-         * @param repeat       动画重复次数
-         * @param values       动画执行值
-         * @return
+         * @param options 动画参数
          */
-        public AnimatorSetWrap before(Object target, String anim, @Nullable TimeInterpolator interpolator, int duration, int repeat, float... values) {
-            if (target == null) {
-                throw new RuntimeException("执行动画的目标不能为空");
-            }
-            ObjectAnimator beforeAnimator = animator(target, anim, interpolator, duration, repeat, values);
-            mAnimatorBuilder = mAnimatorBuilder.before(beforeAnimator);
+        public AnimatorSetWrap with(Options options) {
+            ObjectAnimator animator = animator(options);
+            mAnimatorBuilder = mAnimatorBuilder.with(animator);
             return this;
         }
 
         /**
-         * 统一生成一个动画对象
+         * 封装 AnimatorSet 的 after 方法
          *
-         * @param target 动画执行的目标
-         * @param anim   动画类型
-         * @param values 动画执行值
-         * @return
+         * @param options 动画参数
          */
-        private ObjectAnimator animator(Object target, String anim, float... values) {
-            return animator(target, anim, mInterpolator, mDuration, mRepeat, values);
-        }
-
-        /**
-         * 统一生成一个动画对象
-         *
-         * @param target   动画执行的目标
-         * @param anim     动画类型
-         * @param duration 动画时长
-         * @param values   动画执行值
-         * @return
-         */
-        private ObjectAnimator animator(Object target, String anim, int duration, float... values) {
-            return animator(target, anim, mInterpolator, duration, mRepeat, values);
-        }
-
-        /**
-         * 统一生成一个动画对象
-         *
-         * @param target   动画执行的目标
-         * @param anim     动画类型
-         * @param duration 动画时长
-         * @param repeat   动画重复次数
-         * @param values   动画执行值
-         * @return
-         */
-        private ObjectAnimator animator(Object target, String anim, int duration, int repeat, float... values) {
-            return animator(target, anim, mInterpolator, duration, repeat, values);
-        }
-
-        /**
-         * 统一生成一个动画对象
-         *
-         * @param target       动画执行的目标
-         * @param anim         动画类型
-         * @param interpolator 动画插值器
-         * @param duration     动画时长
-         * @param repeat       动画重复次数
-         * @param values       动画执行值
-         * @return
-         */
-        private ObjectAnimator animator(Object target, String anim, @Nullable TimeInterpolator interpolator, int duration, int repeat, float... values) {
-            ObjectAnimator beforeAnimator = ObjectAnimator.ofFloat(target, anim, values);
-            beforeAnimator.setInterpolator(interpolator == null ? mInterpolator : interpolator);
-            beforeAnimator.setRepeatCount(repeat);
-            beforeAnimator.setDuration(duration < 0 ? mDuration : duration);
-            return beforeAnimator;
+        public AnimatorSetWrap after(Options options) {
+            ObjectAnimator animator = animator(options);
+            mAnimatorBuilder = mAnimatorBuilder.after(animator);
+            return this;
         }
 
         /**
@@ -247,115 +146,53 @@ public class IMAnimator {
          * @return
          */
         private ObjectAnimator animator(Options options) {
-            ObjectAnimator beforeAnimator = ObjectAnimator.ofFloat(options.target, options.anim, options.values);
-            beforeAnimator.setInterpolator(options.interpolator);
-            beforeAnimator.setDuration(options.duration);
-            beforeAnimator.setRepeatCount(options.repeat);
-            return beforeAnimator;
-        }
-
-        public AnimatorSetWrap before(Animator animator) {
-            mAnimatorBuilder = mAnimatorBuilder.before(animator);
-            return this;
-        }
-
-        public AnimatorSetWrap before(AnimatorSetWrap animator) {
-            mAnimatorBuilder = mAnimatorBuilder.before(animator.getAnimatorSet());
-            return this;
-        }
-
-
-        public AnimatorSetWrap with(View view, String animName, @Nullable TimeInterpolator interpolator, @Size(min = 0, max = Integer.MAX_VALUE) int repeatCount, @Size(min = 0, max = Integer.MAX_VALUE) int duration, float... values) {
-            if (view == null) {
-                throw new RuntimeException("view 不能为空");
+            if (options.target == null) {
+                throw new RuntimeException("执行动画的目标不能为空");
             }
-            ObjectAnimator withAnimator = animator(view, animName, interpolator, repeatCount, duration, values);
-
-            mAnimatorBuilder = mAnimatorBuilder.with(withAnimator);
-            return this;
+            isPlaying = true;
+            ObjectAnimator animator = ObjectAnimator.ofFloat(options.target, options.anim, options.values);
+            animator.setInterpolator(options.interpolator);
+            animator.setDuration(options.duration);
+            animator.setRepeatCount(options.repeat);
+            animator.setRepeatMode(options.repeatMode);
+            animator.setStartDelay(options.delay);
+            return animator;
         }
 
-        public AnimatorSetWrap with(Animator animator) {
-            mAnimatorBuilder = mAnimatorBuilder.with(animator);
-            return this;
-        }
-
-        public AnimatorSetWrap with(AnimatorSetWrap animator) {
-            mAnimatorBuilder = mAnimatorBuilder.with(animator.getAnimatorSet());
-            return this;
-        }
-
-
-        public AnimatorSetWrap after(View view, String animName, @Nullable TimeInterpolator interpolator, @Size(min = 0, max = Integer.MAX_VALUE) int repeatCount, @Size(min = 0, max = Integer.MAX_VALUE) int duration, float... values) {
-            if (view == null) {
-                throw new RuntimeException("view 不能为空");
-            }
-            ObjectAnimator afterAnimator = animator(view, animName, interpolator, repeatCount, duration, values);
-
-            mAnimatorBuilder = mAnimatorBuilder.after(afterAnimator);
-            return this;
-        }
-
-        public AnimatorSetWrap after(Animator animator) {
-            mAnimatorBuilder = mAnimatorBuilder.after(animator);
-            return this;
-        }
-
-        public AnimatorSetWrap after(AnimatorSetWrap animator) {
-            mAnimatorBuilder = mAnimatorBuilder.after(animator.getAnimatorSet());
-            return this;
-        }
-
-
+        /**
+         * 设置动画队列开始的延迟
+         *
+         * @param delay 延迟时间 毫秒值
+         */
         public AnimatorSetWrap after(long delay) {
             mAnimatorBuilder.after(delay);
             return this;
         }
 
         /**
-         * 直接执行动画，该动画操作主要用作执行AnimatorSet的组合动画
-         * 如果mAnimatorList不为0 则执行逐一播放动画
+         * 开始执行动画，该动画操作主要用作执行 AnimatorSet 的组合动画，如果动画列表不为空，则执行逐一播放动画
          */
-        public void playAnim() {
-            if (mAnimatorList.size() > 0) {
-                readyThen(true);
-            }
+        public void start() {
+            readyAnim(false);
             mAnimatorSet.start();
         }
 
         /**
-         * 在一定时长内运行完该组合动画
-         * 如果mAnimatorList不为0 则执行逐一播放动画
+         * 指定动画时长播放动画，如果动画列表不为空，则执行逐一播放动画
          *
          * @param duration 动画时长
          */
-        public void playAnim(long duration) {
-            if (mAnimatorList.size() > 0) {
-                readyThen(true);
-            }
+        public void start(long duration) {
+            readyAnim(false);
             mAnimatorSet.setDuration(duration);
             mAnimatorSet.start();
         }
 
         /**
-         * 延迟一定时长播放动画
-         * 如果mAnimatorList不为0 则执行逐一播放动画
-         *
-         * @param delay 延迟时长
+         * 开始执行动画，同时指定是否按照顺序执行
          */
-        public void playAnimDelay(long delay) {
-            if (mAnimatorList.size() > 0) {
-                readyThen(true);
-            }
-            mAnimatorSet.setStartDelay(delay);
-            mAnimatorSet.start();
-        }
-
-        /**
-         * 直接执行动画，该动画操作主要用作执行AnimatorSet的组合动画
-         */
-        public void playAnim(boolean isSequentially) {
-            readyThen(isSequentially);
+        public void start(boolean together) {
+            readyAnim(together);
             mAnimatorSet.start();
         }
 
@@ -364,9 +201,20 @@ public class IMAnimator {
          *
          * @param duration 动画时长
          */
-        public void playAnim(boolean isSequentially, long duration) {
-            readyThen(isSequentially);
+        public void start(boolean together, long duration) {
+            readyAnim(together);
             mAnimatorSet.setDuration(duration);
+            mAnimatorSet.start();
+        }
+
+        /**
+         * 延迟一定时长播放动画，如果动画列表不为空，则执行逐一播放动画
+         *
+         * @param delay 延迟时长
+         */
+        public void startDelay(long delay) {
+            readyAnim(false);
+            mAnimatorSet.setStartDelay(delay);
             mAnimatorSet.start();
         }
 
@@ -375,32 +223,29 @@ public class IMAnimator {
          *
          * @param delay 延迟时长
          */
-        public void playAnimDelay(boolean isSequentially, long delay) {
-            readyThen(isSequentially);
+        public void startDelay(boolean together, long delay) {
+            readyAnim(together);
             mAnimatorSet.setStartDelay(delay);
             mAnimatorSet.start();
         }
 
         /**
-         * 顺序播放动画
+         * 准备动画，主要是初始化动画播放方式
          *
-         * @param isSequentially 是逐一播放还是同时播放
+         * @param together 是否同时播放
          */
-        private void readyThen(boolean isSequentially) {
-            // 只在第一次启动时初始化
-            if (mHasInitThenAnim) {
+        private void readyAnim(boolean together) {
+            if (isReady || mAnimatorList.size() <= 0) {
                 return;
             }
-            mHasInitThenAnim = true;
-            if (mAnimatorList.size() > 0) {
-                AnimatorSet set = new AnimatorSet();
-                if (isSequentially) {
-                    set.playSequentially(mAnimatorList);
-                } else {
-                    set.playTogether(mAnimatorList);
-                }
-                mAnimatorBuilder.before(set);
+            isReady = true;
+            AnimatorSet set = new AnimatorSet();
+            if (together) {
+                set.playTogether(mAnimatorList);
+            } else {
+                set.playSequentially(mAnimatorList);
             }
+            mAnimatorBuilder.before(set);
         }
 
         /**
@@ -413,112 +258,129 @@ public class IMAnimator {
 
         /**
          * 获取AnimatorSet的实例
-         *
-         * @return
          */
         private AnimatorSet getAnimatorSet() {
             return mAnimatorSet;
         }
 
         /**
-         * 为 AnimatorSet 设置监听
-         *
-         * @param listener
-         * @return
+         * 添加动画监听
          */
-        public AnimatorSetWrap setAnimatorSetListener(Animator.AnimatorListener listener) {
+        public AnimatorSetWrap addListener(Animator.AnimatorListener listener) {
             mAnimatorSet.addListener(listener);
             return this;
         }
 
         /**
-         * 取消AnimatorSet的监听
-         *
-         * @param listener
+         * 移除动画监听
          */
-        public void removeSetListner(Animator.AnimatorListener listener) {
+        public void removeListner(Animator.AnimatorListener listener) {
             mAnimatorSet.removeListener(listener);
         }
 
         /**
          * 取消全部AnimatorSet的监听
          */
-        public void removeAllLSetisteners() {
+        public void removeAllListeners() {
             mAnimatorSet.removeAllListeners();
         }
 
         /**
          * 判断一个View是否在当前的屏幕中可见（肉眼真实可见）
          *
-         * @param mView
          * @return 返回true则可见
          */
-        public static boolean isVisibleOnScreen(View mView) {
-            if (mView == null) {
+        public static boolean isVisibleOnScreen(View view) {
+            if (view == null) {
                 return false;
             }
-            return mView.getWindowVisibility() == View.VISIBLE && mView.getVisibility() == View.VISIBLE && mView.isShown();
+            return view.getWindowVisibility() == View.VISIBLE && view.getVisibility() == View.VISIBLE && view.isShown();
         }
+    }
+
+    /**
+     * 创建动画属性，
+     */
+    public static Options createOptions(Object target, String anim, float... values) {
+        return createOptions(target, anim, mDuration, values);
+    }
+
+    /**
+     * 创建动画属性，
+     */
+    public static Options createOptions(Object target, String anim, long duration, float... values) {
+        return createOptions(target, anim, duration, 0, values);
+    }
+
+    /**
+     * 创建动画属性，
+     */
+    public static Options createOptions(Object target, String anim, long duration, int repeat, float... values) {
+        Options options = new Options();
+        options.setTarget(target);
+        options.setAnim(anim);
+        options.setInterpolator(mInterpolator);
+        options.setDuration(duration);
+        options.setRepeat(repeat);
+        options.setRepeatMode(RESTART);
+        options.setDelay(0);
+        options.setValues(values);
+        return options;
     }
 
     /**
      * 动画执行参数
      */
-    class Options {
-        private Object target;
-        private String anim;
-        private TimeInterpolator interpolator;
-        private int duration;
-        private int repeat;
-        private float[] values;
+    public static class Options {
 
-        public Options() {
-        }
-
-        public Object getTarget() {
-            return target;
-        }
+        // 动画执行的目标
+        public Object target;
+        // 动画类型
+        public String anim;
+        // 动画插值器
+        public TimeInterpolator interpolator;
+        // 动画时长
+        public long duration;
+        // 动画重复次数
+        public int repeat;
+        // 重复模式
+        public int repeatMode;
+        // 动画开始延迟
+        public int delay;
+        // 动画执行值
+        public float[] values;
 
         public void setTarget(Object target) {
             this.target = target;
-        }
-
-        public String getAnim() {
-            return anim;
         }
 
         public void setAnim(String anim) {
             this.anim = anim;
         }
 
-        public TimeInterpolator getInterpolator() {
-            return interpolator;
-        }
-
         public void setInterpolator(TimeInterpolator interpolator) {
             this.interpolator = interpolator;
         }
 
-        public int getDuration() {
-            return duration;
-        }
-
-        public void setDuration(int duration) {
+        public void setDuration(long duration) {
             this.duration = duration;
-        }
-
-        public int getRepeat() {
-            return repeat;
         }
 
         public void setRepeat(int repeat) {
             this.repeat = repeat;
         }
 
-        public float[] getValues() {
-            return values;
+        public void setRepeatMode(int mode) {
+            this.repeatMode = mode;
         }
 
+        public void setDelay(int delay) {
+            this.delay = delay;
+        }
+
+        /**
+         * 设置不确定参数
+         */
         public void setValues(float... values) {
             this.values = values;
         }

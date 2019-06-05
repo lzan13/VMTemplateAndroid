@@ -12,7 +12,6 @@ import com.vmloft.develop.app.match.ui.setting.SettingActivity;
 import com.vmloft.develop.app.match.ui.sign.SignInActivity;
 import com.vmloft.develop.app.match.ui.sign.SignUpActivity;
 import com.vmloft.develop.app.match.ui.user.UserDetailActivity;
-import com.vmloft.develop.library.im.chat.IMChatActivity;
 import com.vmloft.develop.library.tools.router.VMParams;
 import com.vmloft.develop.library.tools.router.VMRouter;
 

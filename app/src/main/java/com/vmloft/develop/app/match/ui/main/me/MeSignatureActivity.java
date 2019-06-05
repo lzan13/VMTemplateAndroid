@@ -40,6 +40,7 @@ public class MeSignatureActivity extends AppActivity {
     protected void initData() {
         setTopTitle(R.string.me_info);
         mUser = ASignManager.getInstance().getCurrentUser();
+        mSignatureET.setText(mUser.getSignature());
     }
 
     /**
