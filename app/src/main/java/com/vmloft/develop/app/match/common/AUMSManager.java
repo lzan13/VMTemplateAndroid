@@ -117,8 +117,12 @@ public class AUMSManager {
         query.findInBackground(new FindCallback<AUser>() {
             @Override
             public void done(List<AUser> list, AVException e) {
-                for (AUser user : list) {
-                    mUserMap.put(user.getObjectId(), user);
+                if (e == null) {
+                    for (AUser user : list) {
+                        mUserMap.put(user.getObjectId(), user);
+                    }
+                } else {
+                    AExceptionManager.getInstance().disposeException(e, null);
                 }
             }
         });

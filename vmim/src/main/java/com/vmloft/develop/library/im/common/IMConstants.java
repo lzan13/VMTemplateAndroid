@@ -88,9 +88,11 @@ public class IMConstants {
      * CMD 消息 action
      */
     // 输入状态
-    public static final String IM_MSG_ACTION_INPUT = "im_chat_action_input";
+    public static final String IM_MSG_ACTION_INPUT = "im_msg_action_input";
     // 撤回
-    public static final String IM_MSG_ACTION_RECALL = "im_chat_action_recall";
+    public static final String IM_MSG_ACTION_RECALL = "im_msg_action_recall";
+    // 通话表情
+    public static final String IM_MSG_ACTION_EMOTION = "im_msg_action_emotion";
 
     // 传递聊天 Id
     public static final String IM_CHAT_ID = "im_chat_id";
