@@ -1,7 +1,9 @@
 package com.vmloft.develop.library.im.chat.msgitem;
 
 import android.content.Context;
+
 import com.hyphenate.chat.EMMessage;
+
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.chat.IMChatAdapter;
 

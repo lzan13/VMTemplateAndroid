@@ -4,22 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
     android:paddingBottom="@dimen/vm_padding_normal"
     >
 
     <!--时间戳-->
     <TextView
-        android:id="@+id/im_chat_msg_time_tv"
+        android:id="@+id/im_msg_time_tv"
         android:layout_marginBottom="@dimen/vm_margin_normal"
         android:layout_marginTop="@dimen/vm_margin_normal"
-        android:background="@drawable/im_chat_msg_notify_bg"
+        android:background="@drawable/im_msg_notify_container_shape"
         android:paddingBottom="@dimen/vm_dimen_2"
         android:paddingEnd="@dimen/vm_padding_normal"
         android:paddingStart="@dimen/vm_padding_normal"
         android:paddingTop="@dimen/vm_dimen_2"
         android:textSize="@dimen/vm_size_8"
         android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/im_chat_msg_container_rl"
+        app:layout_constraintBottom_toTopOf="@+id/im_msg_container_rl"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -29,14 +30,14 @@
 
     <!--消息容器部分-->
     <RelativeLayout
-        android:id="@+id/im_chat_msg_container_rl"
+        android:id="@+id/im_msg_container_rl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/im_chat_msg_notify_bg"
+        android:background="@drawable/im_msg_notify_container_shape"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/im_chat_msg_time_tv"
+        app:layout_constraintTop_toBottomOf="@+id/im_msg_time_tv"
         />
 
 </android.support.constraint.ConstraintLayout>

@@ -2,7 +2,7 @@
 <TextView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/im_chat_msg_content_tv"
+    android:id="@+id/im_msg_content_tv"
     android:paddingBottom="@dimen/vm_padding_normal"
     android:paddingEnd="@dimen/vm_padding_large"
     android:paddingStart="@dimen/vm_padding_large"

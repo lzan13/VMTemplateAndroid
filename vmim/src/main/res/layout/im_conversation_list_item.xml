@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/im_conversation_root_cl"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/im_conversation_selector"
@@ -19,7 +20,7 @@
     <!--未读数-->
     <TextView
         android:id="@+id/im_conversation_red_dot_tv"
-        android:background="@drawable/im_chat_msg_red_dot_bg"
+        android:background="@drawable/im_msg_red_dot_shape"
         android:gravity="center"
         android:minHeight="@dimen/vm_dimen_16"
         android:minWidth="@dimen/vm_dimen_16"

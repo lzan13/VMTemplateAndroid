@@ -1,18 +1,16 @@
 package com.vmloft.develop.library.im.utils;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 import com.vmloft.develop.library.im.IM;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import com.vmloft.develop.library.tools.utils.VMUtils;
 
 /**
  * Create by lzan13 on 2019/5/28 22:19
  *
  * IM 工具类
  */
-public class IMUtils {
+public class IMUtils extends VMUtils {
 
     /**
      * 简单的发送一个本地广播

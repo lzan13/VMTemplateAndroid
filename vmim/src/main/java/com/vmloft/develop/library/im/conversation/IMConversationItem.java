@@ -6,6 +6,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -19,6 +20,7 @@ import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.bean.IMContact;
 import com.vmloft.develop.library.im.chat.IMChatManager;
 import com.vmloft.develop.library.im.common.IMConstants;
+import com.vmloft.develop.library.im.router.IMRouter;
 import com.vmloft.develop.library.im.utils.IMChatUtils;
 import com.vmloft.develop.library.im.widget.IMEmotionTextView;
 import com.vmloft.develop.library.tools.picker.IPictureLoader;
@@ -26,6 +28,10 @@ import com.vmloft.develop.library.tools.utils.VMColor;
 import com.vmloft.develop.library.tools.utils.VMDate;
 import com.vmloft.develop.library.tools.utils.VMLog;
 import com.vmloft.develop.library.tools.utils.VMStr;
+import com.vmloft.develop.library.tools.widget.VMFloatMenu;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Create by lzan13 on 2019/5/27 21:42
@@ -34,16 +40,30 @@ import com.vmloft.develop.library.tools.utils.VMStr;
  */
 public class IMConversationItem extends RelativeLayout {
 
+    protected static final int ID_READ = 0;
+    protected static final int ID_UNREAD = 1;
+    protected static final int ID_TOP = 2;
+    protected static final int ID_UNTOP = 3;
+    protected static final int ID_REMOVE = 4;
+    protected static final int ID_CLEAR = 5;
+
     protected Context mContext;
     protected IMConversationAdapter mAdapter;
     protected EMConversation mConversation;
     protected IMContact mContact;
 
+    protected View mRootView;
     protected ImageView mAvatarView;
     protected TextView mRedDotView;
     protected TextView mTimeView;
     protected TextView mTitleView;
     protected IMEmotionTextView mContentView;
+
+    // 长按坐标
+    protected int touchX;
+    protected int touchY;
+    protected VMFloatMenu mFloatMenu;
+    protected List<VMFloatMenu.ItemBean> mFloatMenuList = new ArrayList<>();
 
     public IMConversationItem(Context context, IMConversationAdapter adapter) {
         super(context);
@@ -57,11 +77,25 @@ public class IMConversationItem extends RelativeLayout {
         LayoutInflater.from(mContext).inflate(R.layout.im_conversation_list_item, this);
         setClickable(true);
 
+        mRootView = findViewById(R.id.im_conversation_root_cl);
         mAvatarView = findViewById(R.id.im_conversation_avatar_iv);
         mRedDotView = findViewById(R.id.im_conversation_red_dot_tv);
         mTimeView = findViewById(R.id.im_conversation_time_tv);
         mTitleView = findViewById(R.id.im_conversation_title_tv);
         mContentView = findViewById(R.id.im_conversation_content_etv);
+
+        mRootView.setOnTouchListener((View v, MotionEvent event) -> {
+            touchX = (int) event.getRawX();
+            touchY = (int) event.getRawY();
+            return false;
+        });
+        mRootView.setOnClickListener((View v) -> {
+            IMRouter.goIMChat(mContext, mConversation.conversationId());
+        });
+        mRootView.setOnLongClickListener((View v) -> {
+            itemLongClick();
+            return true;
+        });
     }
 
     /**
@@ -132,6 +166,8 @@ public class IMConversationItem extends RelativeLayout {
             } else if (type == IMConstants.MsgType.IM_IMAGE_RECEIVE || type == IMConstants.MsgType.IM_IMAGE_SEND) {
                 // 图片消息
                 content = "[" + VMStr.byRes(R.string.im_picture) + "]";
+            } else if (type == IMConstants.MsgType.IM_VOICE_RECEIVE || type == IMConstants.MsgType.IM_VOICE_SEND) {
+                content = "[" + VMStr.byRes(R.string.im_voice) + "]";
             } else {
                 // 未知类型消息
                 content = "[" + VMStr.byRes(R.string.im_unknown_msg) + "]";
@@ -170,7 +206,7 @@ public class IMConversationItem extends RelativeLayout {
             mContentView.setTextColor(VMColor.byRes(R.color.vm_black_54));
         } else {
             mRedDotView.setVisibility(VISIBLE);
-            mRedDotView.setText(String.valueOf(conversation.getUnreadMsgCount()));
+            mRedDotView.setText(String.valueOf(unreadCount == 0 ? 1 : unreadCount));
 
             mTitleView.setTypeface(Typeface.DEFAULT_BOLD);
             mContentView.setTextColor(VMColor.byRes(R.color.vm_black_87));
@@ -202,5 +238,83 @@ public class IMConversationItem extends RelativeLayout {
         IPictureLoader.Options options = new IPictureLoader.Options(mContact.mAvatar);
         options.isCircle = true;
         IM.getInstance().getPictureLoader().load(mContext, options, mAvatarView);
+    }
+
+    /**
+     * 加载悬浮菜单
+     */
+    public void loadFloatMenu() {
+        mFloatMenuList.clear();
+        // 未读操作
+        if (mConversation.getUnreadMsgCount() == 0 && !IMChatManager.getInstance().isUnread(mConversation)) {
+            mFloatMenuList.add(new VMFloatMenu.ItemBean(ID_UNREAD, VMStr.byRes(R.string.im_conversation_unread)));
+        } else {
+            mFloatMenuList.add(new VMFloatMenu.ItemBean(ID_READ, VMStr.byRes(R.string.im_conversation_read)));
+        }
+        // 置顶操作
+        if (IMChatManager.getInstance().isTop(mConversation)) {
+            mFloatMenuList.add(new VMFloatMenu.ItemBean(ID_UNTOP, VMStr.byRes(R.string.im_conversation_untop)));
+        } else {
+            mFloatMenuList.add(new VMFloatMenu.ItemBean(ID_TOP, VMStr.byRes(R.string.im_conversation_top)));
+        }
+
+        mFloatMenuList.add(new VMFloatMenu.ItemBean(ID_REMOVE, VMStr.byRes(R.string.im_conversation_remove)));
+        mFloatMenuList.add(new VMFloatMenu.ItemBean(ID_CLEAR, VMStr.byRes(R.string.im_conversation_clear)));
+    }
+
+    /**
+     * 触发长按事件
+     */
+    public void itemLongClick() {
+        if (mFloatMenu == null) {
+            mFloatMenu = new VMFloatMenu(getContext());
+        }
+
+        loadFloatMenu();
+
+        // 排序
+        Collections.sort(mFloatMenuList, (VMFloatMenu.ItemBean bean1, VMFloatMenu.ItemBean bean2) -> {
+            if (bean1.itemId > bean2.itemId) {
+                return 1;
+            } else if (bean1.itemId < bean2.itemId) {
+                return -1;
+            }
+            return 0;
+        });
+
+        mFloatMenu.clearAllItem();
+        mFloatMenu.addItemList(mFloatMenuList);
+        mFloatMenu.setItemClickListener((int id) -> {
+            if (id == ID_READ) {
+                IMChatManager.getInstance().setUnread(mConversation, false);
+            } else if (id == ID_UNREAD) {
+                IMChatManager.getInstance().setUnread(mConversation, true);
+            } else if (id == ID_TOP) {
+                IMChatManager.getInstance().setTop(mConversation, true);
+            } else if (id == ID_UNTOP) {
+                IMChatManager.getInstance().setTop(mConversation, false);
+            } else if (id == ID_REMOVE) {
+                removeConversation();
+            } else if (id == ID_CLEAR) {
+                clearConversation();
+            }
+            List<EMConversation> list = IMChatManager.getInstance().getAllConversation();
+            mAdapter.refresh(list);
+        });
+        mFloatMenu.showAtLocation(mRootView, touchX, touchY);
+    }
+
+    /**
+     * 移除会话，这里不会清空聊天记录
+     */
+    private void removeConversation() {
+        IMChatManager.getInstance().removeConversation(mConversation.conversationId());
+    }
+
+    /**
+     * 清空会话，这里清空聊天记录
+     */
+    private void clearConversation() {
+        IMChatManager.getInstance().clearConversation(mConversation.conversationId(), true);
     }
 }

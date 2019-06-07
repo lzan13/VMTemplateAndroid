@@ -123,6 +123,51 @@ public class IMChatManager {
     }
 
     /**
+     * 删除会话
+     *
+     * @param id 会话 id
+     */
+    public void removeConversation(String id) {
+        removeConversation(id, false);
+    }
+
+    /**
+     * 删除会话
+     *
+     * @param id  会话 id
+     * @param msg 是否一起删除消息
+     */
+    public void removeConversation(String id, boolean msg) {
+        EMClient.getInstance().chatManager().deleteConversation(id, msg);
+    }
+
+    /**
+     * 清空会话，这里会删除内存和数据库的数据
+     *
+     * @param id 会话 id
+     */
+    public void clearConversation(String id) {
+        clearConversation(id, false);
+    }
+
+    /**
+     * 清空会话，这里会删除内存和数据库的数据
+     *
+     * @param id 会话 id
+     * @param db 是否删除数据库数据
+     */
+    public void clearConversation(String id, boolean db) {
+        EMConversation conversation = getConversation(id);
+        if (conversation != null) {
+            if (db) {
+                conversation.clearAllMessages();
+            } else {
+                conversation.clear();
+            }
+        }
+    }
+
+    /**
      * 清空未读数
      */
     public void clearUnreadCount(String id, int chatType) {
@@ -172,7 +217,7 @@ public class IMChatManager {
     }
 
     /**
-     * 获取指定消息
+     * 获取指定消息，此操作不会将消息加入到内存列表
      *
      * @param id    会话 id
      * @param msgId 消息 id
@@ -184,6 +229,21 @@ public class IMChatManager {
             return null;
         }
         return conversation.getMessage(msgId, false);
+    }
+
+    /**
+     * 获取最后一条消息，这回将这条消息加入到内存
+     *
+     * @param id       会话 id
+     * @param chatType 会话类型
+     * @return
+     */
+    public EMMessage getLastMessage(String id, int chatType) {
+        EMConversation conversation = getConversation(id, chatType);
+        if (conversation == null) {
+            return null;
+        }
+        return conversation.getLastMessage();
     }
 
     /**
@@ -240,14 +300,14 @@ public class IMChatManager {
      * 获取置顶状态
      */
     public boolean isTop(EMConversation conversation) {
-        return IMChatUtils.getConversationUnread(conversation);
+        return IMChatUtils.getConversationTop(conversation);
     }
 
     /**
      * 设置置顶
      */
     public void setTop(EMConversation conversation, boolean top) {
-        IMChatUtils.setConversationUnread(conversation, top);
+        IMChatUtils.setConversationTop(conversation, top);
     }
 
     /**

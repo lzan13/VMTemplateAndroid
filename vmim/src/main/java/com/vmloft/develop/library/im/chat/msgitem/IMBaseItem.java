@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hyphenate.chat.EMMessage;
+
 import com.vmloft.develop.library.im.IM;
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.bean.IMContact;
@@ -69,12 +70,12 @@ public abstract class IMBaseItem extends RelativeLayout {
     protected void init() {
         loadContainer();
 
-        mTimeView = findViewById(R.id.im_chat_msg_time_tv);
-        mContainerView = findViewById(R.id.im_chat_msg_container_rl);
-        mAvatarView = findViewById(R.id.im_chat_msg_avatar_iv);
-        mStatusView = findViewById(R.id.im_chat_msg_status_view);
-        mErrorView = findViewById(R.id.im_chat_msg_error_iv);
-        mSendPB = findViewById(R.id.im_chat_msg_send_pb);
+        mTimeView = findViewById(R.id.im_msg_time_tv);
+        mContainerView = findViewById(R.id.im_msg_container_rl);
+        mAvatarView = findViewById(R.id.im_msg_avatar_iv);
+        mStatusView = findViewById(R.id.im_msg_status_view);
+        mErrorView = findViewById(R.id.im_msg_error_iv);
+        mSendPB = findViewById(R.id.im_msg_send_pb);
 
         mContainerView.addView(layoutView());
 
@@ -185,7 +186,7 @@ public abstract class IMBaseItem extends RelativeLayout {
      * 加载容器，这里默认根据子类的判断加载发送或者接收的消息容器，子类可以重写此方法实现加载不同的容器
      */
     protected void loadContainer() {
-        mInflater.inflate(isReceiveMessage() ? R.layout.im_chat_item_receive_container : R.layout.im_chat_item_send_container, this);
+        mInflater.inflate(isReceiveMessage() ? R.layout.im_msg_item_receive_container : R.layout.im_msg_item_send_container, this);
     }
 
     /**

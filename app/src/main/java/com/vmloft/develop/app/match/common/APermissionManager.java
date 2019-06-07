@@ -5,7 +5,6 @@ import android.content.Context;
 
 import com.vmloft.develop.library.tools.permission.VMPermission;
 import com.vmloft.develop.library.tools.permission.VMPermissionBean;
-import com.vmloft.develop.library.tools.permission.VMPermissionCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +83,7 @@ public class APermissionManager {
     private void requestPermission(Context context, VMPermissionBean bean) {
         VMPermission.getInstance(context)
             .setPermission(bean)
-            .requestPermission(new VMPermissionCallback() {
+            .requestPermission(new VMPermission.PCallback() {
                 @Override
                 public void onReject() {}
 
@@ -104,7 +103,7 @@ public class APermissionManager {
         VMPermission.getInstance(context)
             .setEnableDialog(true)
             .setPermissionList(list)
-            .requestPermission(new VMPermissionCallback() {
+            .requestPermission(new VMPermission.PCallback() {
                 @Override
                 public void onReject() {}
 

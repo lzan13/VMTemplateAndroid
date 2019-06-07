@@ -60,15 +60,6 @@ public class IMConstants {
         int IM_FILE_SEND = 0x61;
     }
 
-    // 消息扩展类型
-    public static final String IM_MSG_EXT_TYPE = "im_chat_msg_ext_type";
-    public static final String IM_MSG_EXT_VIDEO_CALL = "im_chat_msg_video_call";
-    public static final String IM_MSG_EXT_INNER_EMOTION = "im_msg_ext_inner_emotion";
-    public static final String IM_MSG_EXT_EMOTION_GROUP = "im_msg_ext_emotion_group";
-    public static final String IM_MSG_EXT_EMOTION_DESC = "im_msg_ext_emotion_desc";
-    public static final String IM_MSG_EXT_EMOTION_URL = "im_msg_ext_emotion_url";
-    public static final String IM_MSG_EXT_EMOTION_GIF_URL = "im_msg_ext_emotion_gif_url";
-
     /**
      * 消息扩展类型
      */
@@ -91,8 +82,29 @@ public class IMConstants {
     public static final String IM_MSG_ACTION_INPUT = "im_msg_action_input";
     // 撤回
     public static final String IM_MSG_ACTION_RECALL = "im_msg_action_recall";
+    // 骰子
+    public static final String IM_MSG_ACTION_DICE = "im_msg_action_dice";
+    // 石头剪刀布
+    public static final String IM_MSG_ACTION_SJB = "im_msg_action_sjb";
     // 通话表情
     public static final String IM_MSG_ACTION_EMOTION = "im_msg_action_emotion";
+
+    /**
+     * 消息扩展
+     */
+    // 扩展类型
+    public static final String IM_MSG_EXT_TYPE = "im_chat_msg_ext_type";
+    // 是否非视频通话
+    public static final String IM_MSG_EXT_VIDEO_CALL = "im_chat_msg_video_call";
+    // 骰子扩展
+    public static final String IM_MSG_EXT_DICE_INDEX = "im_msg_ext_dice_index";
+    // 石头剪刀布扩展
+    public static final String IM_MSG_EXT_SJB_INDEX = "im_msg_ext_sjb_index";
+    // 大表情扩展信息
+    public static final String IM_MSG_EXT_EMOTION_GROUP = "im_msg_ext_emotion_group";
+    public static final String IM_MSG_EXT_EMOTION_DESC = "im_msg_ext_emotion_desc";
+    public static final String IM_MSG_EXT_EMOTION_URL = "im_msg_ext_emotion_url";
+    public static final String IM_MSG_EXT_EMOTION_GIF_URL = "im_msg_ext_emotion_gif_url";
 
     // 传递聊天 Id
     public static final String IM_CHAT_ID = "im_chat_id";

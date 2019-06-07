@@ -11,20 +11,17 @@ import com.vmloft.develop.app.match.base.ACallback;
 import com.vmloft.develop.app.match.base.AppActivity;
 import com.vmloft.develop.app.match.bean.AMatch;
 import com.vmloft.develop.app.match.bean.AUser;
-import com.vmloft.develop.app.match.common.AConstant;
 import com.vmloft.develop.app.match.common.AMatchManager;
 import com.vmloft.develop.app.match.common.ASignManager;
 import com.vmloft.develop.app.match.glide.ALoader;
 import com.vmloft.develop.app.match.utils.AUtils;
-import com.vmloft.develop.library.im.common.IMConstants;
 import com.vmloft.develop.library.im.router.IMRouter;
-import com.vmloft.develop.library.im.utils.IMAnimator;
+import com.vmloft.develop.library.tools.animator.VMAnimator;
 import com.vmloft.develop.library.tools.utils.VMDimen;
 import com.vmloft.develop.library.tools.widget.toast.VMToast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Create by lzan13 on 2019/5/15 23:13
@@ -45,7 +42,7 @@ public class MatchActivity extends AppActivity {
 
     private int avatarSize;
 
-    private IMAnimator.AnimatorSetWrap mAnimatorWrap;
+    private VMAnimator.AnimatorSetWrap mAnimatorWrap;
 
     @Override
     protected int layoutId() {
@@ -120,10 +117,10 @@ public class MatchActivity extends AppActivity {
             }
         });
 
-        mAnimatorWrap = IMAnimator.createAnimator()
-            .play(IMAnimator.createOptions(mAnimView, IMAnimator.SCALEX, 1500, IMAnimator.INFINITE, 0f, 20f))
-            .with(IMAnimator.createOptions(mAnimView, IMAnimator.SCALEY, 1500, IMAnimator.INFINITE, 0f, 20f))
-            .with(IMAnimator.createOptions(mAnimView, IMAnimator.ALPHA, 1500, IMAnimator.INFINITE, 1.0f, 0.0f));
+        mAnimatorWrap = VMAnimator.createAnimator()
+            .play(VMAnimator.createOptions(mAnimView, VMAnimator.SCALEX, 1500, VMAnimator.INFINITE, 0f, 20f))
+            .with(VMAnimator.createOptions(mAnimView, VMAnimator.SCALEY, 1500, VMAnimator.INFINITE, 0f, 20f))
+            .with(VMAnimator.createOptions(mAnimView, VMAnimator.ALPHA, 1500, VMAnimator.INFINITE, 1.0f, 0.0f));
         mAnimatorWrap.startDelay(200);
     }
 
@@ -153,7 +150,7 @@ public class MatchActivity extends AppActivity {
             });
             // 动画出现
             long delay = AUtils.random(5) * 500;
-            IMAnimator.createAnimator().play(IMAnimator.createOptions(imageView, IMAnimator.ALPHA, 0.0f, 1.0f)).startDelay(delay);
+            VMAnimator.createAnimator().play(VMAnimator.createOptions(imageView, VMAnimator.ALPHA, 0.0f, 1.0f)).startDelay(delay);
         }
     }
 

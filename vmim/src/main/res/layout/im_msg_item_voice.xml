@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    >
+    <ImageView
+        android:id="@+id/im_msg_voice_play_iv"
+        android:layout_width="@dimen/vm_dimen_32"
+        android:layout_height="@dimen/vm_dimen_32"
+        android:padding="@dimen/vm_padding_normal"
+        android:src="@drawable/im_ic_play"
+        />
+
+    <com.gauravk.audiovisualizer.visualizer.WaveVisualizer
+        android:id="@+id/im_msg_voice_visualizer"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/vm_dimen_20"
+        android:layout_marginEnd="@dimen/vm_margin_normal"
+        android:layout_toEndOf="@+id/im_msg_voice_play_iv"
+        app:avColor="@color/vm_white"
+        app:avDensity="0.36"
+        app:avSpeed="normal"
+        app:avType="outline"
+        app:avWidth="@dimen/vm_dimen_1"
+        />
+
+    <TextView
+        android:id="@+id/im_msg_content_tv"
+        android:layout_alignEnd="@+id/im_msg_voice_visualizer"
+        android:paddingEnd="@dimen/vm_padding_small"
+        android:textSize="@dimen/vm_size_10"
+        tools:text="1'20''"
+        style="@style/VMText.Caption"
+        />
+</RelativeLayout>

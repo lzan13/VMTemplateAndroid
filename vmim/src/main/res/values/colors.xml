@@ -9,8 +9,8 @@
     <color name="im_input_bg">@color/vm_white</color>
     <color name="im_input_border">@color/vm_gray_black_12</color>
 
-    <color name="im_msg_send_bg">#4CDF4F</color>
-    <color name="im_msg_receive_bg">#ffd8d8d8</color>
+    <color name="im_msg_send_bg">@color/vm_green_87</color>
+    <color name="im_msg_receive_bg">@color/vm_gray_white_87</color>
 
     <color name="im_conversation_bg">@color/vm_white_87</color>
     <color name="im_conversation_top_bg">#fff8f8f8</color>

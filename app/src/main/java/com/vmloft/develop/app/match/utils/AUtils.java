@@ -3,6 +3,7 @@ package com.vmloft.develop.app.match.utils;
 import android.app.Activity;
 import android.view.View;
 
+import com.vmloft.develop.library.im.utils.IMUtils;
 import com.vmloft.develop.library.tools.utils.VMTheme;
 import java.util.Random;
 
@@ -11,7 +12,7 @@ import java.util.Random;
  *
  * 项目工具类
  */
-public class AUtils {
+public class AUtils extends IMUtils {
 
     /**
      * 设置状态栏为黑色图标和文字
@@ -20,24 +21,4 @@ public class AUtils {
         VMTheme.setDarkStatusBar(activity, isDark);
     }
 
-    /**
-     * 生成 0-x 范围内的随机数
-     *
-     * @param end 最大值
-     */
-    public static int random(int end) {
-        Random random = new Random();
-        return random.nextInt(end);
-    }
-
-    /**
-     * 生成制定范围内的随机数
-     *
-     * @param start 最小值
-     * @param end   最大值
-     */
-    public static int random(int start, int end) {
-        Random random = new Random();
-        return random.nextInt(end) - start;
-    }
 }

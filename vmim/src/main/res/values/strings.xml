@@ -6,13 +6,22 @@
     <string name="im_draft">草稿</string>
     <string name="im_recall_already">消息已撤回</string>
     <string name="im_picture">图片</string>
+    <string name="im_voice">语音</string>
     <string name="im_empty">- 空 -</string>
-    <string name="im_unknown_msg">不支持的消息类型，升级 App 查看</string>
+    <string name="im_unknown_msg">不支持的消息类型，升级应用查看</string>
     <string name="im_error_recall_limit_time">你只能撤回两分钟以内的消息</string>
 
     <string name="im_msg_copy">复制</string>
+    <string name="im_msg_copy_success">已复制到剪切板</string>
     <string name="im_msg_forward">转发</string>
-    <string name="im_msg_delete">删除</string>
+    <string name="im_msg_remove">删除</string>
+
+    <string name="im_conversation_read">标为已读</string>
+    <string name="im_conversation_unread">标为未读</string>
+    <string name="im_conversation_top">置顶聊天</string>
+    <string name="im_conversation_untop">取消置顶</string>
+    <string name="im_conversation_remove">移除该聊天</string>
+    <string name="im_conversation_clear">清空聊天消息</string>
 
     <string name="im_call">通话</string>
     <string name="im_call_push">我在呼叫你，不接听吗？</string>

@@ -31,14 +31,14 @@
             android:layout_marginStart="@dimen/vm_margin_normal"
             android:layout_marginTop="@dimen/vm_margin_normal"
             android:animateLayoutChanges="true"
-            android:background="@drawable/im_chat_input_shape"
+            android:background="@drawable/im_msg_input_shape"
             >
             <!--发送按钮-->
             <ImageButton
                 android:id="@+id/im_chat_input_send_btn"
                 android:layout_width="@dimen/vm_dimen_40"
                 android:layout_height="@dimen/vm_dimen_40"
-                android:background="@drawable/im_chat_send_shape"
+                android:background="@drawable/im_send_selector"
                 android:src="@drawable/im_ic_send"
                 android:tint="@color/vm_white"
                 android:visibility="gone"
@@ -52,7 +52,7 @@
                 android:layout_height="@dimen/vm_dimen_40"
                 android:background="@drawable/vm_click_full_fillet_transparent"
                 android:padding="@dimen/vm_padding_small"
-                android:src="@drawable/im_emotion_selector"
+                android:src="@drawable/im_ic_emotion_selector"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/im_chat_input_send_btn"
                 />
@@ -102,6 +102,7 @@
                 android:layout_height="@dimen/vm_dimen_40"
                 android:background="@drawable/vm_click_full_fillet_transparent"
                 android:src="@drawable/im_ic_camera"
+                android:visibility="gone"
                 app:layout_constraintEnd_toStartOf="@+id/im_chat_bottom_call_btn"
                 app:layout_constraintStart_toEndOf="@+id/im_chat_bottom_picture_btn"
                 app:layout_constraintTop_toTopOf="parent"
@@ -113,17 +114,17 @@
                 android:layout_height="@dimen/vm_dimen_40"
                 android:background="@drawable/vm_click_full_fillet_transparent"
                 android:src="@drawable/im_ic_call"
-                app:layout_constraintEnd_toStartOf="@+id/im_chat_bottom_voice_btn"
+                app:layout_constraintEnd_toStartOf="@+id/im_chat_bottom_record_btn"
                 app:layout_constraintStart_toEndOf="@+id/im_chat_bottom_camera_btn"
                 app:layout_constraintTop_toTopOf="parent"
                 />
             <!--语音-->
             <ImageButton
-                android:id="@+id/im_chat_bottom_voice_btn"
+                android:id="@+id/im_chat_bottom_record_btn"
                 android:layout_width="@dimen/vm_dimen_40"
                 android:layout_height="@dimen/vm_dimen_40"
                 android:background="@drawable/vm_click_full_fillet_transparent"
-                android:src="@drawable/im_ic_mic"
+                android:src="@drawable/im_ic_mic_selector"
                 app:layout_constraintEnd_toStartOf="@+id/im_chat_bottom_more_btn"
                 app:layout_constraintStart_toEndOf="@+id/im_chat_bottom_call_btn"
                 app:layout_constraintTop_toTopOf="parent"
@@ -136,8 +137,9 @@
                 android:layout_marginEnd="@dimen/vm_margin_large"
                 android:background="@drawable/vm_click_full_fillet_transparent"
                 android:src="@drawable/im_ic_add"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/im_chat_bottom_voice_btn"
+                app:layout_constraintStart_toEndOf="@+id/im_chat_bottom_record_btn"
                 app:layout_constraintTop_toTopOf="parent"
                 />
         </android.support.constraint.ConstraintLayout>
@@ -162,6 +164,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 />
+            <!--录音容器-->
+            <RelativeLayout
+                android:id="@+id/im_chat_ext_record_rl"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+                <com.vmloft.develop.library.tools.widget.record.VMRecordView
+                    android:id="@+id/im_chat_ext_record_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    />
+            </RelativeLayout>
             <!--更多容器-->
             <RelativeLayout
                 android:id="@+id/im_chat_ext_more_rl"
@@ -170,13 +184,22 @@
                 />
         </RelativeLayout>
     </RelativeLayout>
-    <!--展示消息列表-->
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/im_chat_recycler_view"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/im_chat_swipe"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/im_chat_bottom_rl"
         android:layout_alignParentTop="true"
-        android:overScrollMode="never"
-        />
+        >
+
+        <!--展示消息列表-->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/im_chat_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:overScrollMode="never"
+            />
+    </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>

@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.hyphenate.chat.EMMessage;
+
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.chat.IMChatAdapter;
 
@@ -24,7 +25,7 @@ public abstract class IMNotifyItem extends IMBaseItem {
 
     @Override
     protected void loadContainer() {
-        mInflater.inflate(R.layout.im_chat_item_notify_container, this);
+        mInflater.inflate(R.layout.im_msg_item_notify_container, this);
     }
 
     @Override
@@ -34,8 +35,8 @@ public abstract class IMNotifyItem extends IMBaseItem {
 
     @Override
     protected View layoutView() {
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.im_chat_item_notify_common, null);
-        mContentView = view.findViewById(R.id.im_chat_msg_content_tv);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.im_msg_item_notify_common, null);
+        mContentView = view.findViewById(R.id.im_msg_content_tv);
         return view;
     }
 

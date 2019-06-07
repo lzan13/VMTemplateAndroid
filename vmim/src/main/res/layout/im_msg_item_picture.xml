@@ -5,9 +5,8 @@
     android:layout_height="wrap_content"
     >
     <ImageView
-        android:id="@+id/im_chat_msg_emotion_iv"
-        android:layout_width="@dimen/vm_dimen_96"
-        android:layout_height="@dimen/vm_dimen_96"
-        tools:src="@drawable/im_emotion_big_01"
+        android:id="@+id/im_msg_picture_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         />
 </LinearLayout>

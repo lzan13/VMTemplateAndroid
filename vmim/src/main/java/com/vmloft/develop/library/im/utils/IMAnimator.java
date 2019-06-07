@@ -50,9 +50,9 @@ public class IMAnimator {
     /**
      * 属性动画组合包装类，对应的是 AnimatorSet 类
      *
-     * 它对应的主要有这四个方法，play(开始)，before(在 XXX 之前)，with(与 XXX 同步)，after(在 XXX 之后)
+     * 它对应的主要有这四个方法，start(开始)，before(在 XXX 之前)，with(与 XXX 同步)，after(在 XXX 之后)
      * 这四个方法里面全都是填入往后儿们的 Animator 类，但是先后执行顺序不一样，
-     * 我们注意到他是先执行的 after，然后是 play 和 with 同时执行，最后执行的 before
+     * 我们注意到他是先执行的 after，然后是 start 和 with 同时执行，最后执行的 before
      * 所以大家记住这个顺序，无论怎么写，都是这个执行顺序。
      */
     public static class AnimatorSetWrap {
@@ -61,7 +61,7 @@ public class IMAnimator {
         // 联合动画的动画构造器
         private AnimatorSet.Builder mAnimatorBuilder;
 
-        // 判断 play 方法只允许执行一次的布尔值
+        // 判断 start 方法只允许执行一次的布尔值
         boolean isPlaying = false;
         // 是否已经准备好动画
         boolean isReady = false;
@@ -92,13 +92,13 @@ public class IMAnimator {
         }
 
         /**
-         * 播放单个动画方法，整个动画过程只能调用一次，并且一旦执行 play 方法将会清空动画集合
+         * 播放单个动画方法，整个动画过程只能调用一次，并且一旦执行 start 方法将会清空动画集合
          *
          * @param options 动画参数
          */
         public AnimatorSetWrap play(Options options) {
             if (isPlaying) {
-                throw new RuntimeException("AnimatorSetWrap.play()方法只能调用一次");
+                throw new RuntimeException("AnimatorSetWrap.start()方法只能调用一次");
             }
             ObjectAnimator animator = animator(options);
             mAnimatorList.clear();

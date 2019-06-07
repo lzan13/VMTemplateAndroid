@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/im_ic_emotion_fill" android:state_selected="true" />
-    <item android:drawable="@drawable/im_ic_emotion_line" />
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/vm_dimen_8" />
+            <solid android:color="@color/vm_black_12" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/vm_dimen_8" />
+            <solid android:color="@color/vm_transparent" />
+        </shape>
+    </item>
 </selector>

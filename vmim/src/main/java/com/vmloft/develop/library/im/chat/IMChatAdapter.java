@@ -12,6 +12,7 @@ import com.vmloft.develop.library.im.chat.msgitem.IMEmotionMsgItem;
 import com.vmloft.develop.library.im.chat.msgitem.IMPictureItem;
 import com.vmloft.develop.library.im.chat.msgitem.IMTextMsgItem;
 import com.vmloft.develop.library.im.chat.msgitem.IMUnknownItem;
+import com.vmloft.develop.library.im.chat.msgitem.IMVoiceMsgItem;
 import com.vmloft.develop.library.im.common.IMConstants;
 import com.vmloft.develop.library.im.utils.IMChatUtils;
 import com.vmloft.develop.library.tools.adapter.VMAdapter;
@@ -81,7 +82,8 @@ public class IMChatAdapter extends VMAdapter<EMMessage, IMChatAdapter.ChatHolder
      * 创建一个消息 Item
      */
     private IMBaseItem createMsgItem(int type) {
-        IMBaseItem itemView = null;
+        IMBaseItem itemView = new IMUnknownItem(mContext, this, IMConstants.MsgType.IM_UNKNOWN);
+        ;
         switch (type) {
         // 通知类消息
         case IMConstants.MsgType.IM_SYSTEM:
@@ -107,12 +109,17 @@ public class IMChatAdapter extends VMAdapter<EMMessage, IMChatAdapter.ChatHolder
             break;
         case IMConstants.MsgType.IM_VIDEO_RECEIVE:
         case IMConstants.MsgType.IM_VIDEO_SEND:
+            break;
         case IMConstants.MsgType.IM_LOCATION_RECEIVE:
         case IMConstants.MsgType.IM_LOCATION_SEND:
+            break;
         case IMConstants.MsgType.IM_VOICE_RECEIVE:
         case IMConstants.MsgType.IM_VOICE_SEND:
+            itemView = new IMVoiceMsgItem(mContext, this, type);
+            break;
         case IMConstants.MsgType.IM_FILE_RECEIVE:
         case IMConstants.MsgType.IM_FILE_SEND:
+            break;
         case IMConstants.MsgType.IM_UNKNOWN: // 未知
         default:
             itemView = new IMUnknownItem(mContext, this, IMConstants.MsgType.IM_UNKNOWN);
@@ -127,6 +134,14 @@ public class IMChatAdapter extends VMAdapter<EMMessage, IMChatAdapter.ChatHolder
     private void updateData() {
         mDataList.clear();
         mDataList.addAll(IMChatManager.getInstance().getCacheMessages(mId, mChatType));
+    }
+
+    /**
+     * 更新
+     */
+    public void update() {
+        updateData();
+        notifyDataSetChanged();
     }
 
     /**

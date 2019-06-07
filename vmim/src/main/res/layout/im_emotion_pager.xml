@@ -10,7 +10,7 @@
         android:layout_height="@dimen/vm_dimen_40"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:background="@drawable/im_chat_emotion_selector"
+        android:background="@drawable/im_emotion_selector"
         android:src="@drawable/im_ic_add"
         />
 
@@ -20,7 +20,7 @@
         android:layout_height="@dimen/vm_dimen_40"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:background="@drawable/im_chat_emotion_selector"
+        android:background="@drawable/im_emotion_selector"
         android:src="@drawable/im_ic_delete"
         />
 

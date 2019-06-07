@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -17,6 +18,7 @@ import com.vmloft.develop.library.im.router.IMRouter;
 import com.vmloft.develop.library.im.utils.IMUtils;
 import com.vmloft.develop.library.tools.adapter.VMAdapter;
 
+import com.vmloft.develop.library.tools.utils.VMColor;
 import java.util.List;
 
 /**
@@ -26,6 +28,7 @@ import java.util.List;
  */
 public class IMConversationFragment extends IMBaseFragment {
 
+    private SwipeRefreshLayout mRefreshLayout;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private IMConversationAdapter mAdapter;
@@ -62,7 +65,18 @@ public class IMConversationFragment extends IMBaseFragment {
     protected void init() {
         mRecyclerView = getView().findViewById(R.id.im_conversation_recycler_view);
 
+        initRefreshLayout();
+
         initRecyclerView();
+    }
+
+    private void initRefreshLayout() {
+        mRefreshLayout = getView().findViewById(R.id.im_conversation_swipe);
+        mRefreshLayout.setColorSchemeColors(VMColor.byRes(R.color.im_accent));
+        mRefreshLayout.setOnRefreshListener(() -> {
+            refreshConversation();
+            mRefreshLayout.setRefreshing(false);
+        });
     }
 
     /**
@@ -76,18 +90,6 @@ public class IMConversationFragment extends IMBaseFragment {
         mLayoutManager.setStackFromEnd(false);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
-        mAdapter.setClickListener(new VMAdapter.IClickListener() {
-            @Override
-            public void onItemAction(int action, Object object) {
-                EMConversation conversation = (EMConversation) object;
-                IMRouter.goIMChat(mContext, conversation.conversationId());
-            }
-
-            @Override
-            public boolean onItemLongAction(int action, Object object) {
-                return false;
-            }
-        });
     }
 
     /**
@@ -104,6 +106,7 @@ public class IMConversationFragment extends IMBaseFragment {
 
         unregisterReceiver();
     }
+
     /**
      * ------------------------------- 广播接收器部分 -------------------------------
      */

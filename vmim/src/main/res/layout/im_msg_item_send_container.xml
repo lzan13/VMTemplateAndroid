@@ -4,22 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
     android:paddingBottom="@dimen/vm_padding_normal"
     >
 
     <!--时间戳-->
     <TextView
-        android:id="@+id/im_chat_msg_time_tv"
+        android:id="@+id/im_msg_time_tv"
         android:layout_marginBottom="@dimen/vm_margin_normal"
         android:layout_marginTop="@dimen/vm_margin_normal"
-        android:background="@drawable/im_chat_msg_notify_bg"
+        android:background="@drawable/im_msg_notify_container_shape"
         android:paddingBottom="@dimen/vm_dimen_2"
         android:paddingEnd="@dimen/vm_padding_normal"
         android:paddingStart="@dimen/vm_padding_normal"
         android:paddingTop="@dimen/vm_dimen_2"
         android:textSize="@dimen/vm_size_8"
         android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/im_chat_msg_container_rl"
+        app:layout_constraintBottom_toTopOf="@+id/im_msg_container_rl"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -29,57 +30,57 @@
 
     <!--头像-->
     <ImageView
-        android:id="@+id/im_chat_msg_avatar_iv"
+        android:id="@+id/im_msg_avatar_iv"
         android:layout_width="@dimen/vm_avatar_small"
         android:layout_height="@dimen/vm_avatar_small"
         android:layout_marginEnd="@dimen/vm_margin_normal"
         android:layout_marginStart="@dimen/vm_margin_normal"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/im_chat_msg_time_tv"
+        app:layout_constraintTop_toBottomOf="@+id/im_msg_time_tv"
         />
 
     <!--消息容器部分-->
     <RelativeLayout
-        android:id="@+id/im_chat_msg_container_rl"
+        android:id="@+id/im_msg_container_rl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/vm_margin_normal"
-        android:background="@drawable/im_chat_msg_send_bg"
+        android:background="@drawable/im_msg_send_container_shape"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/im_chat_msg_avatar_iv"
-        app:layout_constraintTop_toBottomOf="@+id/im_chat_msg_time_tv"
+        app:layout_constraintEnd_toStartOf="@+id/im_msg_avatar_iv"
+        app:layout_constraintTop_toBottomOf="@+id/im_msg_time_tv"
         />
 
     <!--消息状态-->
     <View
-        android:id="@+id/im_chat_msg_status_view"
+        android:id="@+id/im_msg_status_view"
         android:layout_width="@dimen/vm_dimen_4"
         android:layout_height="@dimen/vm_dimen_4"
-        android:background="@drawable/im_chat_msg_status_bg"
+        android:background="@drawable/im_msg_status_bg"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/im_chat_msg_container_rl"
-        app:layout_constraintEnd_toStartOf="@+id/im_chat_msg_container_rl"
+        app:layout_constraintBottom_toBottomOf="@+id/im_msg_container_rl"
+        app:layout_constraintEnd_toStartOf="@+id/im_msg_container_rl"
         />
 
     <!--消息发送进度圈-->
     <ProgressBar
-        android:id="@+id/im_chat_msg_send_pb"
+        android:id="@+id/im_msg_send_pb"
         android:layout_width="@dimen/vm_dimen_16"
         android:layout_height="@dimen/vm_dimen_16"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/im_chat_msg_container_rl"
-        app:layout_constraintEnd_toStartOf="@+id/im_chat_msg_container_rl"
+        app:layout_constraintBottom_toBottomOf="@+id/im_msg_container_rl"
+        app:layout_constraintEnd_toStartOf="@+id/im_msg_container_rl"
         />
 
     <!--重发按钮-->
     <ImageView
-        android:id="@+id/im_chat_msg_error_iv"
+        android:id="@+id/im_msg_error_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/im_ic_error"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/im_chat_msg_container_rl"
-        app:layout_constraintEnd_toStartOf="@+id/im_chat_msg_container_rl"
+        app:layout_constraintBottom_toBottomOf="@+id/im_msg_container_rl"
+        app:layout_constraintEnd_toStartOf="@+id/im_msg_container_rl"
         />
 </android.support.constraint.ConstraintLayout>

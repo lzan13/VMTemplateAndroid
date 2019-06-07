@@ -6,6 +6,7 @@ import android.view.View;
 import com.hyphenate.chat.EMMessage;
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.chat.IMChatAdapter;
+import com.vmloft.develop.library.im.chat.IMChatManager;
 import com.vmloft.develop.library.tools.utils.VMStr;
 import com.vmloft.develop.library.tools.widget.VMFloatMenu;
 
@@ -22,7 +23,7 @@ public abstract class IMNormalItem extends IMBaseItem {
 
     protected static final int ID_COPY = 0;
     protected static final int ID_FORWARD = 1;
-    protected static final int ID_DELETE = 2;
+    protected static final int ID_REMOVE = 2;
 
     protected VMFloatMenu mFloatMenu;
     protected List<VMFloatMenu.ItemBean> mFloatMenuList = new ArrayList<>();
@@ -55,6 +56,7 @@ public abstract class IMNormalItem extends IMBaseItem {
         // 加载通用部分控件
         setupCommonView();
     }
+
     /**
      * 触发消息长按事件
      */
@@ -79,9 +81,9 @@ public abstract class IMNormalItem extends IMBaseItem {
         mFloatMenu.addItemList(mFloatMenuList);
         mFloatMenu.setItemClickListener((int id) -> {
             if (id == ID_FORWARD) {
-
-            } else if (id == ID_DELETE) {
-
+                forwardMessage();
+            } else if (id == ID_REMOVE) {
+                removeMessage();
             } else {
                 onFloatClick(id);
             }
@@ -90,13 +92,28 @@ public abstract class IMNormalItem extends IMBaseItem {
     }
 
     /**
-     * 加载悬浮才难
+     * 加载悬浮菜单
      */
     public void loadFloatMenu() {
         mFloatMenuList.clear();
 
-        mFloatMenuList.add(new VMFloatMenu.ItemBean(ID_FORWARD, VMStr.byRes(R.string.im_msg_forward)));
-        mFloatMenuList.add(new VMFloatMenu.ItemBean(ID_DELETE, VMStr.byRes(R.string.im_msg_delete)));
+        //mFloatMenuList.add(new VMFloatMenu.ItemBean(ID_FORWARD, VMStr.byRes(R.string.im_msg_forward)));
+        mFloatMenuList.add(new VMFloatMenu.ItemBean(ID_REMOVE, VMStr.byRes(R.string.im_msg_remove)));
+    }
+
+    /**
+     * 转发消息
+     */
+    private void forwardMessage() {
+    }
+
+    /**
+     * 删除消息
+     */
+    private void removeMessage() {
+        int position = IMChatManager.getInstance().getPosition(mMessage);
+        IMChatManager.getInstance().removeMessage(mMessage);
+        mAdapter.updateRemove(position);
     }
 
     /**

@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/im_chat_emotion_selector"
+        android:background="@drawable/im_emotion_selector"
         android:gravity="center"
         android:orientation="vertical"
         >

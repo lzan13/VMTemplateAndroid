@@ -4,8 +4,10 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+
 import com.hyphenate.chat.EMImageMessageBody;
 import com.hyphenate.chat.EMMessage;
+
 import com.vmloft.develop.library.im.IM;
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.chat.IMChatAdapter;
@@ -15,6 +17,7 @@ import com.vmloft.develop.library.im.utils.IMChatUtils;
 import com.vmloft.develop.library.tools.picker.IPictureLoader;
 import com.vmloft.develop.library.tools.utils.VMDimen;
 import com.vmloft.develop.library.tools.utils.bitmap.VMBitmap;
+
 import java.io.File;
 
 /**
@@ -45,8 +48,8 @@ public class IMPictureItem extends IMNormalItem {
 
     @Override
     protected View layoutView() {
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.im_chat_item_picture, null);
-        mPictureView = view.findViewById(R.id.im_chat_msg_picture_iv);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.im_msg_item_picture, null);
+        mPictureView = view.findViewById(R.id.im_msg_picture_iv);
         return view;
     }
 
