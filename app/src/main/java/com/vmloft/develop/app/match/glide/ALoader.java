@@ -9,6 +9,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.vmloft.develop.app.match.R;
+import com.vmloft.develop.app.match.common.ASPManager;
 import com.vmloft.develop.library.tools.picker.IPictureLoader;
 import com.vmloft.develop.library.tools.utils.VMDimen;
 
@@ -29,7 +30,11 @@ public class ALoader {
     public static void load(Context context, IPictureLoader.Options options, ImageView imageView) {
         RequestOptions requestOptions = new RequestOptions();
         if (options.isCircle) {
-            requestOptions.circleCrop();
+            if (ASPManager.getInstance().getCirclerAvatar()) {
+                requestOptions.circleCrop();
+            } else {
+                requestOptions.transform(new MultiTransformation<>(new CenterCrop(), new RoundedCorners(VMDimen.dp2px(8))));
+            }
         } else if (options.isRadius) {
             requestOptions.transform(new MultiTransformation<>(new CenterCrop(), new RoundedCorners(options.radiusSize)));
         }

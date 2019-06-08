@@ -18,7 +18,7 @@
         android:paddingEnd="@dimen/vm_padding_normal"
         android:paddingStart="@dimen/vm_padding_normal"
         android:paddingTop="@dimen/vm_dimen_2"
-        android:textSize="@dimen/vm_size_8"
+        android:textSize="@dimen/vm_size_10"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/im_msg_container_rl"
         app:layout_constraintEnd_toEndOf="parent"

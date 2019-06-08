@@ -55,7 +55,10 @@
     <string name="notify">通知提醒</string>
     <string name="chat">聊天</string>
     <string name="privacy">隐私</string>
-    <string name="common">通用</string>
+    <string name="general">通用</string>
+    <string name="circle_avatar">圆形头像</string>
+    <string name="circle_avatar_desc">是否显示圆形头像，默认为圆角样式</string>
+
     <string name="help">帮助与反馈</string>
     <string name="about">关于</string>
     <string name="setting">设置</string>

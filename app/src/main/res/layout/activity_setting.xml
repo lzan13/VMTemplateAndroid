@@ -52,11 +52,11 @@
             app:vm_line_title="@string/privacy"
             />
         <com.vmloft.develop.library.tools.widget.VMLineView
-            android:id="@+id/setting_common"
+            android:id="@+id/setting_general"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:vm_line_right_icon="@drawable/im_ic_arrow_right"
-            app:vm_line_title="@string/common"
+            app:vm_line_title="@string/general"
             />
     </LinearLayout>
 

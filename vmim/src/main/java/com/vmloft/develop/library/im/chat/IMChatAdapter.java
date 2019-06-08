@@ -137,14 +137,6 @@ public class IMChatAdapter extends VMAdapter<EMMessage, IMChatAdapter.ChatHolder
     }
 
     /**
-     * 更新
-     */
-    public void update() {
-        updateData();
-        notifyDataSetChanged();
-    }
-
-    /**
      * 更新插入
      *
      * @param position 插入位置
@@ -163,7 +155,7 @@ public class IMChatAdapter extends VMAdapter<EMMessage, IMChatAdapter.ChatHolder
         updateData();
         notifyItemRangeInserted(position, count);
         // TODO 这句已定要调用
-        notifyDataSetChanged();
+        //notifyDataSetChanged();
     }
 
     /**
@@ -185,7 +177,7 @@ public class IMChatAdapter extends VMAdapter<EMMessage, IMChatAdapter.ChatHolder
         updateData();
         notifyItemRangeRemoved(position, count);
         // TODO 这句已定要调用
-        notifyDataSetChanged();
+        //notifyDataSetChanged();
     }
 
     /**
@@ -207,7 +199,7 @@ public class IMChatAdapter extends VMAdapter<EMMessage, IMChatAdapter.ChatHolder
         updateData();
         notifyItemRangeChanged(position, count, 1);
         // TODO 这句已定要调用
-        notifyDataSetChanged();
+        //notifyDataSetChanged();
     }
 
     /**

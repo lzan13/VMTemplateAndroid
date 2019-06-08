@@ -41,6 +41,7 @@ import com.vmloft.develop.library.tools.base.VMConstant;
 import com.vmloft.develop.library.tools.picker.VMPicker;
 import com.vmloft.develop.library.tools.picker.bean.VMPictureBean;
 import com.vmloft.develop.library.tools.utils.VMColor;
+import com.vmloft.develop.library.tools.utils.VMDimen;
 import com.vmloft.develop.library.tools.utils.VMStr;
 import com.vmloft.develop.library.tools.utils.VMSystem;
 import com.vmloft.develop.library.tools.widget.record.VMRecordView;
@@ -637,7 +638,8 @@ public class IMChatFragment extends IMBaseFragment {
         EMMessage message = mConversation.getAllMessages().get(0);
         List<EMMessage> list = IMChatManager.getInstance().loadMoreMessages(mId, mChatType, message.getMsgId());
         if (list.size() > 0) {
-            mAdapter.update();
+            mAdapter.updateInsert(0, list.size());
+            mRecyclerView.smoothScrollBy(0, -VMDimen.dp2px(50));
         } else {
         }
     }

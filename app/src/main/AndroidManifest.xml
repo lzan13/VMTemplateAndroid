@@ -52,6 +52,7 @@
         <activity android:name=".ui.main.home.MatchActivity" />
         <!--设置界面-->
         <activity android:name=".ui.setting.SettingActivity" />
+        <activity android:name=".ui.setting.GeneralSettingActivity" />
 
         <!--兼容 9.0-->
         <uses-library
