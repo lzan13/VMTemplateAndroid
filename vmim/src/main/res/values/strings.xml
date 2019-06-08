@@ -11,6 +11,9 @@
     <string name="im_unknown_msg">不支持的消息类型，升级应用查看</string>
     <string name="im_error_recall_limit_time">你只能撤回两分钟以内的消息</string>
 
+    <string name="im_notify_channel_chat">聊天消息通知</string>
+    <string name="im_notify_channel_chat_title">收到新消息</string>
+
     <string name="im_msg_copy">复制</string>
     <string name="im_msg_copy_success">已复制到剪切板</string>
     <string name="im_msg_forward">转发</string>

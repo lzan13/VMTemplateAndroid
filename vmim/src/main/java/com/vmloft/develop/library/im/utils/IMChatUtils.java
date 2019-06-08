@@ -6,6 +6,7 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMCmdMessageBody;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
+import com.hyphenate.chat.EMTextMessageBody;
 import com.hyphenate.util.PathUtil;
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.common.IMConstants;
@@ -174,6 +175,48 @@ public class IMChatUtils {
             itemType = IMConstants.MsgType.IM_UNKNOWN;
         }
         return itemType;
+    }
+
+    /**
+     * 获取消息摘要信息
+     */
+    public static String getSummary(EMMessage message) {
+        String content = VMStr.byRes(R.string.im_unknown_msg);
+        int type = getMessageType(message);
+        /**
+         * 通知类消息
+         */
+        if (type == IMConstants.MsgType.IM_SYSTEM) {
+            // TODO 系统提醒
+        } else if (type == IMConstants.MsgType.IM_RECALL) {
+            // 撤回消息
+            content = "[" + VMStr.byRes(R.string.im_recall_already) + "]";
+        }
+        /**
+         * 扩展类消息
+         */
+        else if (type == IMConstants.MsgExtType.IM_CALL_RECEIVE || type == IMConstants.MsgExtType.IM_CALL_SEND) {
+            // 通话消息
+            content = "[" + VMStr.byRes(R.string.im_call) + " - " + ((EMTextMessageBody) message.getBody()).getMessage() + "]";
+        } else if (type == IMConstants.MsgExtType.IM_BIG_EMOTION_RECEIVE || type == IMConstants.MsgExtType.IM_BIG_EMOTION_SEND) {
+            // 大表情
+            content = ((EMTextMessageBody) message.getBody()).getMessage();
+        }
+        /**
+         * 普通类消息
+         */
+        else if (type == IMConstants.MsgType.IM_TEXT_RECEIVE || type == IMConstants.MsgType.IM_TEXT_SEND) {
+            content = ((EMTextMessageBody) message.getBody()).getMessage();
+        } else if (type == IMConstants.MsgType.IM_IMAGE_RECEIVE || type == IMConstants.MsgType.IM_IMAGE_SEND) {
+            // 图片消息
+            content = "[" + VMStr.byRes(R.string.im_picture) + "]";
+        } else if (type == IMConstants.MsgType.IM_VOICE_RECEIVE || type == IMConstants.MsgType.IM_VOICE_SEND) {
+            content = "[" + VMStr.byRes(R.string.im_voice) + "]";
+        } else {
+            // 未知类型消息
+            content = "[" + VMStr.byRes(R.string.im_unknown_msg) + "]";
+        }
+        return content;
     }
 
     /**

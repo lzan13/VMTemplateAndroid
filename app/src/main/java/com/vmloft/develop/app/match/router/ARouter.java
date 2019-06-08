@@ -9,6 +9,7 @@ import com.vmloft.develop.app.match.ui.main.MainActivity;
 import com.vmloft.develop.app.match.ui.main.home.MatchActivity;
 import com.vmloft.develop.app.match.ui.main.me.MeInfoActivity;
 import com.vmloft.develop.app.match.ui.setting.GeneralSettingActivity;
+import com.vmloft.develop.app.match.ui.setting.NotifySettingActivity;
 import com.vmloft.develop.app.match.ui.setting.SettingActivity;
 import com.vmloft.develop.app.match.ui.sign.SignInActivity;
 import com.vmloft.develop.app.match.ui.sign.SignUpActivity;
@@ -80,10 +81,18 @@ public class ARouter extends VMRouter {
     public static void goSetting(Context context) {
         overlay(context, SettingActivity.class);
     }
+
     /**
      * 通用设置界面
      */
     public static void goGeneralSetting(Context context) {
         overlay(context, GeneralSettingActivity.class);
+    }
+
+    /**
+     * 通知设置界面
+     */
+    public static void goNotifySetting(Context context) {
+        overlay(context, NotifySettingActivity.class);
     }
 }

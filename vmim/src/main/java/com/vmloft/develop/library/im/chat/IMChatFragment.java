@@ -25,6 +25,7 @@ import android.widget.RelativeLayout;
 
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
+import com.vmloft.develop.library.im.IM;
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.base.IMBaseFragment;
 import com.vmloft.develop.library.im.base.IMCallback;
@@ -121,7 +122,7 @@ public class IMChatFragment extends IMBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-
+        IM.getInstance().setCurrChatId(mId);
         // 检查是否有草稿没有发出
         String draft = IMChatManager.getInstance().getDraft(mConversation);
         if (!VMStr.isEmpty(draft)) {
@@ -661,7 +662,7 @@ public class IMChatFragment extends IMBaseFragment {
     @Override
     public void onPause() {
         super.onPause();
-
+        IM.getInstance().setCurrChatId(null);
         /**
          * 判断聊天输入框内容是否为空，不为空就保存输入框内容到{@link EMConversation}的扩展中
          * 调用{@link ConversationExtUtils#setConversationDraft(EMConversation, String)}方法
@@ -701,6 +702,7 @@ public class IMChatFragment extends IMBaseFragment {
         LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(mContext);
         // 新消息广播接收器
         IntentFilter newMessageFilter = new IntentFilter(IMUtils.Action.getNewMessageAction());
+        newMessageFilter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
         lbm.registerReceiver(mNewMessageReceiver, newMessageFilter);
 
         IntentFilter updateMessageFilter = new IntentFilter(IMUtils.Action.getUpdateMessageAction());

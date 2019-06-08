@@ -14,7 +14,9 @@ import com.vmloft.develop.library.im.common.IMExecptionManager;
 import com.vmloft.develop.library.im.common.IMExecutor;
 import com.vmloft.develop.library.im.common.IMSPManager;
 import com.vmloft.develop.library.im.emotion.IMEmotionManager;
+import com.vmloft.develop.library.im.notify.IMNotifier;
 import com.vmloft.develop.library.tools.picker.VMPicker;
+import com.vmloft.develop.library.tools.utils.VMStr;
 import com.vmloft.develop.library.tools.utils.VMSystem;
 
 /**
@@ -32,8 +34,8 @@ public class IM {
     private Context mContext;
     // 记录已经初始化
     private boolean isInit;
-    // 记录是否处于聊天界面
-    private boolean isChat = false;
+    // 当前聊天对象 Id
+    private String mCurrChatId;
 
     private IM() {
     }
@@ -88,6 +90,7 @@ public class IM {
         IMChatManager.getInstance().init();
         IMCallManager.getInstance().init();
         IMEmotionManager.getInstance().init();
+        IMNotifier.getInstance().init(context);
 
         // 初始化完成
         isInit = true;
@@ -103,19 +106,20 @@ public class IM {
     }
 
     /**
-     * 设置聊天状态
-     *
-     * @param chat 是否处于聊天状态
+     * 设置当前聊天对象 Id
      */
-    public void setChatStatus(boolean chat) {
-        isChat = chat;
+    public void setCurrChatId(String chatId) {
+        mCurrChatId = chatId;
     }
 
     /**
      * 判断聊天状态，是否处于聊天中
      */
-    public boolean isChat() {
-        return isChat;
+    public boolean isCurrChat(String chatId) {
+        if (VMStr.isEmpty(mCurrChatId) || !mCurrChatId.equals(chatId)) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -300,5 +304,49 @@ public class IM {
         options.allowChatroomOwnerLeave(true);
 
         return options;
+    }
+
+    /**
+     * ---------------------------------------------------------------------
+     * 判断是否打开通知
+     */
+    public boolean isNotify() {
+        return IMSPManager.getInstance().getNotify();
+    }
+
+    /**
+     * 设置开启通知
+     */
+    public void setNotify(boolean open) {
+        IMSPManager.getInstance().putNotify(open);
+    }
+
+    /**
+     * 判断是否打开通知
+     */
+    public boolean isNotifyDetail() {
+        return IMSPManager.getInstance().getNotifyDetail();
+    }
+
+    /**
+     * 设置开启通知
+     */
+    public void setNotifyDetail(boolean open) {
+        IMSPManager.getInstance().putNotifyDetail(open);
+    }
+
+    /**
+     * ---------------------------------------------------------------------
+     * 判断是否开启圆形头像
+     */
+    public boolean isCircleAvatar() {
+        return IMSPManager.getInstance().getCircleAvatar();
+    }
+
+    /**
+     * 设置开启圆形头像
+     */
+    public void setCircleAvatar(boolean open) {
+        IMSPManager.getInstance().putCircleAvatar(open);
     }
 }

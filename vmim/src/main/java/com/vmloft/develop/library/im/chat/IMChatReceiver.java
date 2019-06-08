@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import com.hyphenate.chat.EMCmdMessageBody;
 import com.hyphenate.chat.EMMessage;
+import com.vmloft.develop.library.im.IM;
 import com.vmloft.develop.library.im.common.IMConstants;
+import com.vmloft.develop.library.im.notify.IMNotifier;
 import com.vmloft.develop.library.im.utils.IMUtils;
 
 /**
@@ -29,13 +31,17 @@ public class IMChatReceiver extends BroadcastReceiver {
      */
     private void cmdAction(Context context, EMMessage message) {
         EMCmdMessageBody body = (EMCmdMessageBody) message.getBody();
-
     }
 
     /**
      * 收到新消息
      */
     private void newMessageAction(Context context, EMMessage message) {
+        String chatId = message.conversationId();
+        if (IM.getInstance().isCurrChat(chatId)) {
 
+        } else {
+            IMNotifier.getInstance().notifyMessage(message);
+        }
     }
 }

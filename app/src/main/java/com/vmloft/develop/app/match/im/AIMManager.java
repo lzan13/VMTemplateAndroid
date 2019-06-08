@@ -32,4 +32,48 @@ public class AIMManager {
     public void initIM(Context context) {
         IM.getInstance().init(context, new AIMGlobalListener(), new AIMPictureLoader());
     }
+
+    /**
+     * ---------------------------------------------------------------------
+     * 设置开启通知
+     */
+    public void setNotify(boolean open) {
+        IM.getInstance().setNotify(open);
+    }
+
+    /**
+     * 判断是否开启通知
+     */
+    public boolean isNotify() {
+        return IM.getInstance().isNotify();
+    }
+
+    /**
+     * 设置开启通知
+     */
+    public void setNotifyDetail(boolean open) {
+        IM.getInstance().setNotifyDetail(open);
+    }
+
+    /**
+     * 判断是否开启通知
+     */
+    public boolean isNotifyDetail() {
+        return IM.getInstance().isNotifyDetail();
+    }
+
+    /**
+     * ---------------------------------------------------------------------
+     * 判断是否开启圆形头像
+     */
+    public boolean isCircleAvatar() {
+        return IM.getInstance().isCircleAvatar();
+    }
+
+    /**
+     * 设置开启圆形头像
+     */
+    public void setCircleAvatar(boolean open) {
+        IM.getInstance().setCircleAvatar(open);
+    }
 }

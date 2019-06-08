@@ -49,7 +49,7 @@ public class IMUtils extends VMUtils {
          * 收到新消息
          */
         public static String getUpdateMessageAction() {
-            return actionPrefix() + "chat.new.message";
+            return actionPrefix() + "chat.update.message";
         }
 
         /**

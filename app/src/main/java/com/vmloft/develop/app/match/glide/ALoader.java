@@ -30,11 +30,7 @@ public class ALoader {
     public static void load(Context context, IPictureLoader.Options options, ImageView imageView) {
         RequestOptions requestOptions = new RequestOptions();
         if (options.isCircle) {
-            if (ASPManager.getInstance().getCirclerAvatar()) {
-                requestOptions.circleCrop();
-            } else {
-                requestOptions.transform(new MultiTransformation<>(new CenterCrop(), new RoundedCorners(VMDimen.dp2px(8))));
-            }
+            requestOptions.circleCrop();
         } else if (options.isRadius) {
             requestOptions.transform(new MultiTransformation<>(new CenterCrop(), new RoundedCorners(options.radiusSize)));
         }

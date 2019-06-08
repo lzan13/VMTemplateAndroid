@@ -19,6 +19,7 @@ import com.vmloft.develop.library.im.chat.IMChatManager;
 import com.vmloft.develop.library.im.common.IMConstants;
 import com.vmloft.develop.library.tools.picker.IPictureLoader;
 import com.vmloft.develop.library.tools.utils.VMDate;
+import com.vmloft.develop.library.tools.utils.VMDimen;
 
 /**
  * Create by lzan13 on 2019/5/23 20:08
@@ -48,7 +49,6 @@ public abstract class IMBaseItem extends RelativeLayout {
     protected ImageView mErrorView;
     // 进度圈
     protected ProgressBar mSendPB;
-
 
     /**
      * @param context
@@ -115,7 +115,12 @@ public abstract class IMBaseItem extends RelativeLayout {
             IM.getInstance().onHeadClick(mContext, mContact);
         });
         IPictureLoader.Options options = new IPictureLoader.Options(mContact.mAvatar);
-        options.isCircle = true;
+        if (IM.getInstance().isCircleAvatar()) {
+            options.isCircle = true;
+        } else {
+            options.isRadius = true;
+            options.radiusSize = VMDimen.dp2px(4);
+        }
         IM.getInstance().getPictureLoader().load(mContext, options, mAvatarView);
     }
 

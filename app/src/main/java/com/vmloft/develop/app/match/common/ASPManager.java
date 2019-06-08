@@ -13,7 +13,6 @@ public class ASPManager {
     private final String KEY_RUN_VERSION = "key_run_version";
     private final String KEY_PREV_USER = "key_prev_user";
     private final String KEY_CURR_USER = "key_curr_user";
-    private final String KEY_CIRCLE_AVATAR = "key_circle_avatar";
 
     /**
      * 私有构造，初始化 ShredPreferences 文件名
@@ -88,17 +87,4 @@ public class ASPManager {
         return (String) VMSPUtil.get(KEY_PREV_USER, "");
     }
 
-    /**
-     * 设置是否启用圆形头像
-     */
-    public void putCirclerAvatar(boolean circle) {
-        VMSPUtil.put(KEY_CIRCLE_AVATAR, circle);
-    }
-
-    /**
-     * 设置是否启用圆形头像
-     */
-    public boolean getCirclerAvatar() {
-        return (boolean) VMSPUtil.get(KEY_CIRCLE_AVATAR, false);
-    }
 }

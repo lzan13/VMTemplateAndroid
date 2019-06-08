@@ -53,6 +53,7 @@
         <!--设置界面-->
         <activity android:name=".ui.setting.SettingActivity" />
         <activity android:name=".ui.setting.GeneralSettingActivity" />
+        <activity android:name=".ui.setting.NotifySettingActivity" />
 
         <!--兼容 9.0-->
         <uses-library

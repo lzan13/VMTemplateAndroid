@@ -26,6 +26,7 @@ import com.vmloft.develop.library.im.widget.IMEmotionTextView;
 import com.vmloft.develop.library.tools.picker.IPictureLoader;
 import com.vmloft.develop.library.tools.utils.VMColor;
 import com.vmloft.develop.library.tools.utils.VMDate;
+import com.vmloft.develop.library.tools.utils.VMDimen;
 import com.vmloft.develop.library.tools.utils.VMLog;
 import com.vmloft.develop.library.tools.utils.VMStr;
 import com.vmloft.develop.library.tools.widget.VMFloatMenu;
@@ -135,42 +136,13 @@ public class IMConversationItem extends RelativeLayout {
         } else if (conversation.getAllMessages().size() > 0) {
             EMMessage message = conversation.getLastMessage();
             int type = IMChatUtils.getMessageType(message);
-            // TODO 只有文本才需要开启表情识别，默认都关闭
+
+            content = IMChatUtils.getSummary(message);
+
+            // 只有文本才需要开启表情识别，默认都关闭
             mContentView.setEnableEmotion(false);
-            /**
-             * 通知类消息
-             */
-            if (type == IMConstants.MsgType.IM_SYSTEM) {
-                // TODO 系统提醒
-            } else if (type == IMConstants.MsgType.IM_RECALL) {
-                // 撤回消息
-                content = "[" + VMStr.byRes(R.string.im_recall_already) + "]";
-            }
-            /**
-             * 扩展类消息
-             */
-            else if (type == IMConstants.MsgExtType.IM_CALL_RECEIVE || type == IMConstants.MsgExtType.IM_CALL_SEND) {
-                // 通话消息
-                content = "[" + VMStr.byRes(R.string.im_call) + " - " + ((EMTextMessageBody) message.getBody()).getMessage() + "]";
-            } else if (type == IMConstants.MsgExtType.IM_BIG_EMOTION_RECEIVE || type == IMConstants.MsgExtType.IM_BIG_EMOTION_SEND) {
-                // 大表情
-                content = ((EMTextMessageBody) message.getBody()).getMessage();
-            }
-            /**
-             * 普通类消息
-             */
-            else if (type == IMConstants.MsgType.IM_TEXT_RECEIVE || type == IMConstants.MsgType.IM_TEXT_SEND) {
-                // TODO 只有文本才需要开启表情识别
+            if (type == IMConstants.MsgType.IM_TEXT_RECEIVE || type == IMConstants.MsgType.IM_TEXT_SEND) {
                 mContentView.setEnableEmotion(true);
-                content = ((EMTextMessageBody) message.getBody()).getMessage();
-            } else if (type == IMConstants.MsgType.IM_IMAGE_RECEIVE || type == IMConstants.MsgType.IM_IMAGE_SEND) {
-                // 图片消息
-                content = "[" + VMStr.byRes(R.string.im_picture) + "]";
-            } else if (type == IMConstants.MsgType.IM_VOICE_RECEIVE || type == IMConstants.MsgType.IM_VOICE_SEND) {
-                content = "[" + VMStr.byRes(R.string.im_voice) + "]";
-            } else {
-                // 未知类型消息
-                content = "[" + VMStr.byRes(R.string.im_unknown_msg) + "]";
             }
             // 判断这条消息状态，如果失败加上失败前缀提示
             if (conversation.getLastMessage().status() == EMMessage.Status.FAIL) {
@@ -236,7 +208,12 @@ public class IMConversationItem extends RelativeLayout {
             mTitleView.setText(mContact.mNickname);
         }
         IPictureLoader.Options options = new IPictureLoader.Options(mContact.mAvatar);
-        options.isCircle = true;
+        if (IM.getInstance().isCircleAvatar()) {
+            options.isCircle = true;
+        } else {
+            options.isRadius = true;
+            options.radiusSize = VMDimen.dp2px(4);
+        }
         IM.getInstance().getPictureLoader().load(mContext, options, mAvatarView);
     }
 

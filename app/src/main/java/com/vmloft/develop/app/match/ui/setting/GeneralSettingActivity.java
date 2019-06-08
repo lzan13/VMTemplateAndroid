@@ -7,6 +7,7 @@ import com.vmloft.develop.app.match.R;
 import com.vmloft.develop.app.match.base.AppActivity;
 import com.vmloft.develop.app.match.common.ASPManager;
 import com.vmloft.develop.app.match.common.ASignManager;
+import com.vmloft.develop.app.match.im.AIMManager;
 import com.vmloft.develop.library.tools.widget.VMLineView;
 
 /**
@@ -30,7 +31,7 @@ public class GeneralSettingActivity extends AppActivity {
     @Override
     protected void initData() {
         setTopTitle(R.string.setting);
-        mAvatarLine.setActivated(ASPManager.getInstance().getCirclerAvatar());
+        mAvatarLine.setActivated(AIMManager.getInstance().isCircleAvatar());
     }
 
     @OnClick({ R.id.general_setting_avatar })
@@ -38,7 +39,7 @@ public class GeneralSettingActivity extends AppActivity {
         switch (view.getId()) {
         case R.id.general_setting_avatar:
             mAvatarLine.setActivated(!mAvatarLine.isActivated());
-            ASPManager.getInstance().putCirclerAvatar(mAvatarLine.isActivated());
+            AIMManager.getInstance().setCircleAvatar(mAvatarLine.isActivated());
             break;
         }
     }
