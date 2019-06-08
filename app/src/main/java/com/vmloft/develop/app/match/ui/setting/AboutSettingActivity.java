@@ -5,22 +5,20 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import com.vmloft.develop.app.match.R;
 import com.vmloft.develop.app.match.base.AppActivity;
-import com.vmloft.develop.app.match.common.ASPManager;
-import com.vmloft.develop.app.match.common.ASignManager;
 import com.vmloft.develop.app.match.im.AIMManager;
 import com.vmloft.develop.library.tools.widget.VMLineView;
+import com.vmloft.develop.library.tools.widget.toast.VMToast;
 
 /**
  * Create by lzan13 on 2019/05/14
  *
- * 设置界面
+ * 设置关于界面
  */
-public class GeneralSettingActivity extends AppActivity {
-    @BindView(R.id.general_setting_avatar) VMLineView mAvatarLine;
+public class AboutSettingActivity extends AppActivity {
 
     @Override
     protected int layoutId() {
-        return R.layout.activity_setting_general;
+        return R.layout.activity_setting_about;
     }
 
     @Override
@@ -31,17 +29,14 @@ public class GeneralSettingActivity extends AppActivity {
     @Override
     protected void initData() {
         setTopTitle(R.string.setting);
-        mAvatarLine.setActivated(AIMManager.getInstance().isCircleAvatar());
     }
 
-    @OnClick({ R.id.general_setting_avatar })
+    @OnClick({ R.id.about_setting_check_new })
     public void onClick(View view) {
         switch (view.getId()) {
-        case R.id.general_setting_avatar:
-            mAvatarLine.setActivated(!mAvatarLine.isActivated());
-            AIMManager.getInstance().setCircleAvatar(mAvatarLine.isActivated());
+        case R.id.about_setting_check_new:
+            VMToast.make(mActivity, "已是最新版本").done();
             break;
         }
     }
-
 }

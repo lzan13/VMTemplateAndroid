@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/app_bg"
     android:orientation="vertical"
-    tools:context=".ui.setting.SettingActivity"
+    tools:context=".ui.setting.AboutSettingActivity"
     >
 
     <!--定义顶部 TopBar-->
@@ -20,13 +20,12 @@
         android:orientation="vertical"
         >
         <com.vmloft.develop.library.tools.widget.VMLineView
-            android:id="@+id/general_setting_avatar"
+            android:id="@+id/about_setting_check_new"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:vm_line_description="@string/circle_avatar_desc"
-            app:vm_line_right_icon="@drawable/im_ic_switch_selector"
-            app:vm_line_title="@string/circle_avatar"
+            app:vm_line_caption="V1.0.0"
+            app:vm_line_right_icon="@drawable/im_ic_arrow_right"
+            app:vm_line_title="@string/about_check_new"
             />
-
     </LinearLayout>
 </LinearLayout>

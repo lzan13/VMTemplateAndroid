@@ -16,6 +16,8 @@
 
     <string name="im_msg_copy">复制</string>
     <string name="im_msg_copy_success">已复制到剪切板</string>
+    <string name="im_msg_voice_erduo">使用听筒播放</string>
+    <string name="im_msg_voice_speaker">使用扬声器播放</string>
     <string name="im_msg_forward">转发</string>
     <string name="im_msg_remove">删除</string>
 

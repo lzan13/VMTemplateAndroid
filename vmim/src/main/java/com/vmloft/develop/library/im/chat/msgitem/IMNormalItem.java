@@ -22,8 +22,9 @@ import java.util.List;
 public abstract class IMNormalItem extends IMBaseItem {
 
     protected static final int ID_COPY = 0;
-    protected static final int ID_FORWARD = 1;
-    protected static final int ID_REMOVE = 2;
+    protected static final int ID_VOICE = 1;
+    protected static final int ID_FORWARD = 3;
+    protected static final int ID_REMOVE = 10;
 
     protected VMFloatMenu mFloatMenu;
     protected List<VMFloatMenu.ItemBean> mFloatMenuList = new ArrayList<>();
@@ -102,7 +103,7 @@ public abstract class IMNormalItem extends IMBaseItem {
     }
 
     /**
-     * 转发消息
+     * TODO 转发消息
      */
     private void forwardMessage() {
     }

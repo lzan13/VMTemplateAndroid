@@ -1,5 +1,9 @@
 package com.vmloft.develop.app.match.ui.setting;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
+import android.provider.Settings;
 import android.view.View;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -35,7 +39,7 @@ public class NotifySettingActivity extends AppActivity {
         mNotifyDetailLine.setActivated(AIMManager.getInstance().isNotifyDetail());
     }
 
-    @OnClick({ R.id.notify_setting, R.id.notify_setting_detail })
+    @OnClick({ R.id.notify_setting, R.id.notify_setting_detail, R.id.notify_setting_system })
     public void onClick(View view) {
         switch (view.getId()) {
         case R.id.notify_setting:
@@ -46,6 +50,35 @@ public class NotifySettingActivity extends AppActivity {
             mNotifyDetailLine.setActivated(!mNotifyDetailLine.isActivated());
             AIMManager.getInstance().setNotifyDetail(mNotifyDetailLine.isActivated());
             break;
+        case R.id.notify_setting_system:
+            openSystemNotify();
+            break;
         }
+    }
+
+    /**
+     * 打开系统设置通知界面
+     */
+    private void openSystemNotify() {
+        String packageName = mActivity.getPackageName();
+        int uid = mActivity.getApplicationInfo().uid;
+        Intent intent = new Intent();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            intent.setAction(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
+            intent.putExtra(Settings.EXTRA_APP_PACKAGE, packageName);
+            intent.putExtra(Settings.EXTRA_CHANNEL_ID, uid);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
+            intent.putExtra("app_package", packageName);
+            intent.putExtra("app_uid", uid);
+        } else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            intent.addCategory(Intent.CATEGORY_DEFAULT);
+            intent.setData(Uri.parse("package:" + packageName));
+        } else {
+            intent.setAction(Settings.ACTION_SETTINGS);
+        }
+        startActivity(intent);
     }
 }

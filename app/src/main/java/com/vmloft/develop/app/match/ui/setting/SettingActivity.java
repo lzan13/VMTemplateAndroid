@@ -29,14 +29,17 @@ public class SettingActivity extends AppActivity {
         setTopTitle(R.string.setting);
     }
 
-    @OnClick({ R.id.setting_notify, R.id.setting_general, R.id.setting_sign_out })
+    @OnClick({ R.id.setting_notify, R.id.setting_chat, R.id.setting_about, R.id.setting_sign_out })
     public void onClick(View view) {
         switch (view.getId()) {
         case R.id.setting_notify:
             ARouter.goNotifySetting(mActivity);
             break;
-        case R.id.setting_general:
-            ARouter.goGeneralSetting(mActivity);
+        case R.id.setting_chat:
+            ARouter.goChatSetting(mActivity);
+            break;
+        case R.id.setting_about:
+            ARouter.goAboutSetting(mActivity);
             break;
         case R.id.setting_sign_out:
             signOut();

@@ -14,6 +14,7 @@ import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMTextMessageBody;
 import com.hyphenate.chat.EMVoiceMessageBody;
 
+import com.vmloft.develop.library.im.IM;
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.chat.IMChatAdapter;
 import com.vmloft.develop.library.im.chat.IMVoiceManager;
@@ -88,12 +89,23 @@ public class IMVoiceMsgItem extends IMNormalItem {
     @Override
     public void loadFloatMenu() {
         super.loadFloatMenu();
-        //mFloatMenuList.add(new VMFloatMenu.ItemBean(ID_COPY, VMStr.byRes(R.string.im_msg_copy)));
+        if (IM.getInstance().isSpeakerVoice()) {
+            mFloatMenuList.add(new VMFloatMenu.ItemBean(ID_VOICE, VMStr.byRes(R.string.im_msg_voice_erduo)));
+        } else {
+            mFloatMenuList.add(new VMFloatMenu.ItemBean(ID_VOICE, VMStr.byRes(R.string.im_msg_voice_speaker)));
+        }
     }
 
     @Override
     protected void onFloatClick(int id) {
-
+        if (id == ID_VOICE) {
+            if (IM.getInstance().isSpeakerVoice()) {
+                IM.getInstance().setSpeakerVoice(false);
+            } else {
+                IM.getInstance().setSpeakerVoice(true);
+            }
+            IMVoiceManager.getInstance().onPlayMessage(mMessage, this);
+        }
     }
 
     /**
@@ -107,11 +119,16 @@ public class IMVoiceMsgItem extends IMNormalItem {
      * 检查语音播放状态
      */
     public void checkVoiceStatus() {
+        if (IM.getInstance().isSpeakerVoice()) {
+            mStatusIcon.setImageResource(R.drawable.im_ic_speaker);
+        } else {
+            mStatusIcon.setImageResource(R.drawable.im_ic_erduo);
+        }
         if (IMVoiceManager.getInstance().isPlaying(mMessage)) {
-            mStatusIcon.setImageResource(R.drawable.im_ic_pause);
+            //mStatusIcon.setImageResource(R.drawable.im_ic_pause);
             mVisualizerView.setVisibility(VISIBLE);
         } else {
-            mStatusIcon.setImageResource(R.drawable.im_ic_play);
+            //mStatusIcon.setImageResource(R.drawable.im_ic_play);
             mVisualizerView.setVisibility(INVISIBLE);
         }
     }

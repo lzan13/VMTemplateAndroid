@@ -19,6 +19,8 @@ public class IMSPManager {
     // 聊天开关
     // 圆形头像
     private final String IM_CIRCLE_AVATAR = "im_circle_avatar";
+    // 麦克风播放语音
+    private final String IM_SPEAKER_VOICE = "im_speaker_voice";
 
     /**
      * 私有构造，初始化 ShredPreferences 文件名
@@ -81,10 +83,24 @@ public class IMSPManager {
     }
 
     /**
-     * 设置是否启用圆形头像
+     * 是否启用圆形头像
      */
     public boolean getCircleAvatar() {
         return (boolean) VMSPUtil.get(IM_CIRCLE_AVATAR, false);
+    }
+
+    /**
+     * 设置是否扬声器播放语音
+     */
+    public void putSpeakerVoice(boolean speaker) {
+        VMSPUtil.put(IM_SPEAKER_VOICE, speaker);
+    }
+
+    /**
+     * 是否扬声器播放语音
+     */
+    public boolean getSpeakerVoice() {
+        return (boolean) VMSPUtil.get(IM_SPEAKER_VOICE, false);
     }
 
     /**

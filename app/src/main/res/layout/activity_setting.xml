@@ -23,6 +23,7 @@
             android:id="@+id/setting_notify"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:vm_line_decoration="true"
             app:vm_line_right_icon="@drawable/im_ic_arrow_right"
             app:vm_line_title="@string/notify"
             />
@@ -30,7 +31,6 @@
             android:id="@+id/setting_chat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:vm_line_decoration="true"
             app:vm_line_right_icon="@drawable/im_ic_arrow_right"
             app:vm_line_title="@string/chat"
             />

@@ -76,4 +76,18 @@ public class AIMManager {
     public void setCircleAvatar(boolean open) {
         IM.getInstance().setCircleAvatar(open);
     }
+
+    /**
+     * 判断是否扬声器播放语音
+     */
+    public boolean isSpeakerVoice() {
+        return IM.getInstance().isSpeakerVoice();
+    }
+
+    /**
+     * 设置是否扬声器播放语音
+     */
+    public void setSpeakerVoice(boolean speaker) {
+        IM.getInstance().setSpeakerVoice(speaker);
+    }
 }

@@ -1,11 +1,14 @@
 package com.vmloft.develop.library.im.chat;
 
+import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMVoiceMessageBody;
 
+import com.vmloft.develop.library.im.IM;
 import com.vmloft.develop.library.im.chat.msgitem.IMVoiceMsgItem;
 
 import com.vmloft.develop.library.tools.utils.VMStr;
@@ -22,6 +25,9 @@ public class IMVoiceManager {
     private final int IDLE = 0; // 空闲
     private final int PAUSE = 1; // 暂停
     private final int PLAYING = 2; // 播放中
+
+    // 音频管理器
+    private AudioManager mAudioManager;
 
     // 媒体播放器
     private MediaPlayer mMediaPlayer;
@@ -41,7 +47,9 @@ public class IMVoiceManager {
     /**
      * 私有构造方法
      */
-    private IMVoiceManager() {}
+    private IMVoiceManager() {
+        mAudioManager = (AudioManager) IM.getInstance().getIMContext().getSystemService(Context.AUDIO_SERVICE);
+    }
 
     /**
      * 内部类实现单例模式
@@ -65,6 +73,8 @@ public class IMVoiceManager {
     public void onPlayMessage(EMMessage message, IMVoiceMsgItem item) {
         // 检查语音消息的 ACK
         checkVoiceACK(message);
+        // 播放前先检查语音播放模式
+        checkVoiceMode();
 
         if (mCurrItem != null) {
             mOldItem = mCurrItem;
@@ -172,7 +182,7 @@ public class IMVoiceManager {
     /**
      * 停止播放，并释放资源
      */
-    private void stop() {
+    public void stop() {
         // 释放 MediaPlayer
         if (mMediaPlayer != null) {
             // 停止播放
@@ -223,5 +233,48 @@ public class IMVoiceManager {
             return true;
         }
         return false;
+    }
+
+    /**
+     * 检查语音播放模式
+     */
+    public void checkVoiceMode() {
+        if (IM.getInstance().isSpeakerVoice()) {
+            openSpeaker();
+        } else {
+            closeSpeaker();
+        }
+    }
+
+    /**
+     * 打开扬声器
+     * 主要是通过扬声器的开关以及设置音频播放模式来实现
+     * 1、MODE_NORMAL：是正常模式，一般用于外放音频
+     * 2、MODE_IN_CALL：
+     * 3、MODE_IN_COMMUNICATION：这个和 CALL 都表示通讯模式，不过 CALL 在华为上不好使，故使用 COMMUNICATION
+     * 4、MODE_RINGTONE：铃声模式
+     */
+    public void openSpeaker() {
+        // 检查是否已经开启扬声器
+        if (!mAudioManager.isSpeakerphoneOn()) {
+            // 打开扬声器
+            mAudioManager.setSpeakerphoneOn(true);
+        }
+        // 开启了扬声器之后，因为这里是播放语音，声音的模式就设置为正常模式
+        mAudioManager.setMode(AudioManager.MODE_NORMAL);
+    }
+
+    /**
+     * 关闭扬声器，即开启听筒播放模式
+     * 更多内容看{@link #openSpeaker()}
+     */
+    public void closeSpeaker() {
+        // 检查是否已经开启扬声器
+        if (mAudioManager.isSpeakerphoneOn()) {
+            // 关闭扬声器
+            mAudioManager.setSpeakerphoneOn(false);
+        }
+        // 设置声音模式为正常模式
+        mAudioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
     }
 }

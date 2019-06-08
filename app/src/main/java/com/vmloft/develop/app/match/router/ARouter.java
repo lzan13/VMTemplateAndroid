@@ -8,7 +8,8 @@ import com.vmloft.develop.app.match.ui.guide.GuideActivity;
 import com.vmloft.develop.app.match.ui.main.MainActivity;
 import com.vmloft.develop.app.match.ui.main.home.MatchActivity;
 import com.vmloft.develop.app.match.ui.main.me.MeInfoActivity;
-import com.vmloft.develop.app.match.ui.setting.GeneralSettingActivity;
+import com.vmloft.develop.app.match.ui.setting.AboutSettingActivity;
+import com.vmloft.develop.app.match.ui.setting.ChatSettingActivity;
 import com.vmloft.develop.app.match.ui.setting.NotifySettingActivity;
 import com.vmloft.develop.app.match.ui.setting.SettingActivity;
 import com.vmloft.develop.app.match.ui.sign.SignInActivity;
@@ -83,16 +84,24 @@ public class ARouter extends VMRouter {
     }
 
     /**
-     * 通用设置界面
-     */
-    public static void goGeneralSetting(Context context) {
-        overlay(context, GeneralSettingActivity.class);
-    }
-
-    /**
-     * 通知设置界面
+     * 设置通知界面
      */
     public static void goNotifySetting(Context context) {
         overlay(context, NotifySettingActivity.class);
     }
+
+    /**
+     * 设置关于界面
+     */
+    public static void goChatSetting(Context context) {
+        overlay(context, ChatSettingActivity.class);
+    }
+
+    /**
+     * 设置关于界面
+     */
+    public static void goAboutSetting(Context context) {
+        overlay(context, AboutSettingActivity.class);
+    }
+
 }

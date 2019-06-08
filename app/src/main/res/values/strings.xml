@@ -51,22 +51,29 @@
     <string name="private_letter">私信</string>
 
     <!--设置-->
+    <string name="setting">设置</string>
     <string name="notify">通知提醒</string>
+    <string name="notify_system">系统通知提醒</string>
+    <string name="notify_system_desc">前往系统设置中修改通知设置</string>
     <string name="notify_desc">关闭后，收到新消息将不会有声音与震动提示</string>
     <string name="notify_detail">通知显示消息详情</string>
     <string name="notify_detail_desc">如果关闭，收到新消息后将不显示消息详情和消息摘要</string>
 
 
     <string name="chat">聊天</string>
+    <string name="circle_avatar">圆形头像</string>
+    <string name="circle_avatar_desc">是否显示圆形头像，默认为圆角样式</string>
+    <string name="chat_speaker_voice">扬声器播放语音</string>
+    <string name="chat_background">聊天背景</string>
+
+
     <string name="privacy">隐私</string>
 
     <string name="general">通用</string>
-    <string name="circle_avatar">圆形头像</string>
-    <string name="circle_avatar_desc">是否显示圆形头像，默认为圆角样式</string>
 
     <string name="help">帮助与反馈</string>
     <string name="about">关于</string>
-    <string name="setting">设置</string>
+    <string name="about_check_new">检查更新</string>
 
     <!--引导文案-->
     <string name="guide_title_0">应用引导标题</string>

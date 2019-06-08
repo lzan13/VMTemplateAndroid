@@ -663,6 +663,7 @@ public class IMChatFragment extends IMBaseFragment {
     public void onPause() {
         super.onPause();
         IM.getInstance().setCurrChatId(null);
+        IMVoiceManager.getInstance().stop();
         /**
          * 判断聊天输入框内容是否为空，不为空就保存输入框内容到{@link EMConversation}的扩展中
          * 调用{@link ConversationExtUtils#setConversationDraft(EMConversation, String)}方法

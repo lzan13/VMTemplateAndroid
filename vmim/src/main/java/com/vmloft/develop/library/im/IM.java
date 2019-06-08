@@ -349,4 +349,18 @@ public class IM {
     public void setCircleAvatar(boolean open) {
         IMSPManager.getInstance().putCircleAvatar(open);
     }
+
+    /**
+     * 判断是否扬声器播放语音
+     */
+    public boolean isSpeakerVoice() {
+        return IMSPManager.getInstance().getSpeakerVoice();
+    }
+
+    /**
+     * 设置是否扬声器播放语音
+     */
+    public void setSpeakerVoice(boolean speaker) {
+        IMSPManager.getInstance().putSpeakerVoice(speaker);
+    }
 }
