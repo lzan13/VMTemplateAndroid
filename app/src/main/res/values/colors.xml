@@ -11,6 +11,9 @@
     <color name="app_border_white">@color/vm_white</color>
     <color name="app_status_bar">@color/app_primary</color>
 
+    <color name="app_tab">#ff757575</color>
+    <color name="app_tab_select">@color/app_accent</color>
+
     <color name="app_title">@color/vm_title</color>
     <color name="app_subtitle">@color/vm_white_54</color>
     <color name="app_title_light">@color/vm_white_87</color>

@@ -5,6 +5,10 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import com.vmloft.develop.app.match.base.AppActivity;
 import com.vmloft.develop.app.match.R;
 import com.vmloft.develop.app.match.base.AppFragmentPagerAdapter;
@@ -21,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import java.util.Map;
 
 /**
  * Create by lzan13 on 2019/04/08
@@ -34,6 +39,9 @@ public class MainActivity extends AppActivity {
 
     private AppFragmentPagerAdapter mAdapter;
     private List<Fragment> mFragmentList;
+    private List<View> mCustomTab = new ArrayList<>();
+    private int[] mCustomTabIcons = { R.drawable.ic_explore_selector, R.drawable.ic_chat_selector, R.drawable.ic_mine_selector };
+    private int[] mCustomTabNames = { R.string.match, R.string.chat, R.string.mine };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,11 +87,44 @@ public class MainActivity extends AppActivity {
         mViewPager.setOffscreenPageLimit(3);
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
+        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                mCustomTab.get(tab.getPosition()).setSelected(true);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                mCustomTab.get(tab.getPosition()).setSelected(false);
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+        for (int i = 0; i < mTabLayout.getTabCount(); i++) {
+            TabLayout.Tab tab = mTabLayout.getTabAt(i);
+            if (tab != null) {
+                tab.setCustomView(createTab(i));
+            }
+        }
     }
 
     @Override
     protected void initData() {
 
+    }
+
+    public View createTab(int position) {
+        View view = LayoutInflater.from(mActivity).inflate(R.layout.widget_custom_tab_item, null);
+        ImageView iconView = view.findViewById(R.id.custom_tab_item_icon_iv);
+        TextView nameView = view.findViewById(R.id.custom_tab_item_name_tv);
+        iconView.setImageResource(mCustomTabIcons[position]);
+        nameView.setText(mCustomTabNames[position]);
+        nameView.setVisibility(View.VISIBLE);
+        mCustomTab.add(iconView);
+        return view;
     }
 
     /**

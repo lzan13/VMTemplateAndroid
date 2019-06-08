@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    >
+    <ImageView
+        android:id="@+id/custom_tab_item_icon_iv"
+        android:layout_width="@dimen/vm_dimen_32"
+        android:layout_height="@dimen/vm_dimen_32"
+        app:layout_constraintBottom_toTopOf="@+id/custom_tab_item_name_tv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_mine"
+        />
+    <TextView
+        android:id="@+id/custom_tab_item_name_tv"
+        android:textColor="@color/custom_tab_item"
+        android:textSize="@dimen/vm_size_10"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/custom_tab_item_icon_iv"
+        tools:text="@string/mine"
+        style="@style/VMText.Caption"
+        />
+
+</android.support.constraint.ConstraintLayout>
