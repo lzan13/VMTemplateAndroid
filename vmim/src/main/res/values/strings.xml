@@ -3,6 +3,9 @@
     <string name="im_chat_input_hint">请输入消息...</string>
     <string name="im_chat_send_notnull">发送消息不能为空</string>
 
+    <string name="im_cancel">取消</string>
+    <string name="im_ok">确认</string>
+
     <string name="im_draft">草稿</string>
     <string name="im_recall_already">消息已撤回</string>
     <string name="im_picture">图片</string>
@@ -12,6 +15,7 @@
     <string name="im_error_recall_limit_time">你只能撤回两分钟以内的消息</string>
 
     <string name="im_notify_channel_chat">聊天消息通知</string>
+    <string name="im_notify_channel_call">通话通知消息</string>
     <string name="im_notify_channel_chat_title">收到新消息</string>
 
     <string name="im_msg_copy">复制</string>
@@ -20,6 +24,10 @@
     <string name="im_msg_voice_speaker">使用扬声器播放</string>
     <string name="im_msg_forward">转发</string>
     <string name="im_msg_remove">删除</string>
+
+    <string name="im_remove_hint_title">确定要删除？</string>
+    <string name="im_clear_hint_title">确定要清空会话？</string>
+    <string name="im_hint_content">此操作不可撤销，请谨慎操作</string>
 
     <string name="im_conversation_read">标为已读</string>
     <string name="im_conversation_unread">标为未读</string>
@@ -36,6 +44,7 @@
     <string name="im_call_out_wait">正在等待对方接受呼叫申请</string>
     <string name="im_call_accepted">通话已接通</string>
     <string name="im_call_disconnected">通话已结束</string>
+    <string name="im_call_duration_time">通话时长</string>
     <string name="im_call_no_data">没有通话数据</string>
     <string name="im_call_network_unstable">网络状态不佳</string>
     <string name="im_call_video_pause">视频传输已暂停</string>
@@ -50,7 +59,6 @@
     <string name="call_cancel">已取消</string>
     <string name="call_cancel_is_incoming">对方已取消</string>
     <string name="call_connection_fail">建立连接失败</string>
-    <string name="call_duration_time">通话时长</string>
     <string name="call_not_answer">对方未接听</string>
     <string name="call_no_response">对方可能在忙，建议稍后拨打</string>
     <string name="call_offline">对方不在线</string>

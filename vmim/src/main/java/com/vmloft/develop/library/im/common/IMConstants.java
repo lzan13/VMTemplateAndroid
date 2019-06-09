@@ -94,7 +94,9 @@ public class IMConstants {
      */
     // 扩展类型
     public static final String IM_MSG_EXT_TYPE = "im_chat_msg_ext_type";
-    // 是否非视频通话
+    // 是否发送通知栏提醒
+    public static final String IM_MSG_EXT_NOTIFY = "im_chat_msg_ext_notify";
+    // 是否为视频通话
     public static final String IM_MSG_EXT_VIDEO_CALL = "im_chat_msg_video_call";
     // 骰子扩展
     public static final String IM_MSG_EXT_DICE_INDEX = "im_msg_ext_dice_index";

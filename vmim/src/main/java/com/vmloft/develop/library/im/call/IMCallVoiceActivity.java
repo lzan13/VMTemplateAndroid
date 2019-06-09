@@ -76,14 +76,9 @@ public class IMCallVoiceActivity extends IMCallActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        initReceiver();
-    }
-
-    @Override
     protected void initUI() {
         super.initUI();
+        getTopBar().setIcon(R.drawable.im_ic_mini);
         getTopBar().setTitleColor(R.color.vm_white);
 
         mRootView = findViewById(R.id.im_call_root_cl);
@@ -396,12 +391,6 @@ public class IMCallVoiceActivity extends IMCallActivity {
         mTimeView.setText(IMCallManager.getInstance().getCallTime());
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unregisterReceiver();
-    }
-
     /**
      * ------------------------------- 广播接收器部分 -------------------------------
      */
@@ -410,7 +399,9 @@ public class IMCallVoiceActivity extends IMCallActivity {
     /**
      * 初始化注册广播接收器
      */
-    private void initReceiver() {
+    @Override
+    protected void initReceiver() {
+        super.initReceiver();
         LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(mActivity);
         // 新消息广播接收器
         IntentFilter filter = new IntentFilter(IMUtils.Action.getCMDMessageAction());
@@ -420,7 +411,9 @@ public class IMCallVoiceActivity extends IMCallActivity {
     /**
      * 取消注册广播接收器
      */
-    private void unregisterReceiver() {
+    @Override
+    protected void unregisterReceiver() {
+        super.unregisterReceiver();
         // 取消新消息广播接收器
         LocalBroadcastManager.getInstance(mActivity).unregisterReceiver(mReceiver);
     }

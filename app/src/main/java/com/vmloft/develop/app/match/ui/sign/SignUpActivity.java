@@ -86,14 +86,11 @@ public class SignUpActivity extends AppActivity {
     /**
      * 界面内控件的点击事件监听器
      */
-    @OnClick({ R.id.sign_up_btn, R.id.sign_go_sign_in_btn })
+    @OnClick({ R.id.sign_up_btn })
     void onClick(View v) {
         switch (v.getId()) {
         case R.id.sign_up_btn:
             registerByEmail();
-            break;
-        case R.id.sign_go_sign_in_btn:
-            onFinish();
             break;
         }
     }

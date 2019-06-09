@@ -4,7 +4,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.WindowManager;
 import com.vmloft.develop.library.im.R;
@@ -37,6 +40,9 @@ public abstract class IMCallActivity extends IMBaseActivity {
     protected void onResume() {
         super.onResume();
         initReceiver();
+        if (IMCallManager.getInstance().getCallStatus() != IMCallManager.CallStatus.DISCONNECTED) {
+            IMCallManager.getInstance().fillCall();
+        }
     }
 
     @Override
@@ -67,7 +73,44 @@ public abstract class IMCallActivity extends IMBaseActivity {
 
     @Override
     public void onBackPressed() {
-        VMToast.make(mActivity, R.string.im_calling_no_back).error();
+        miniCall();
+    }
+
+    /**
+     * 监听通话界面是否隐藏
+     */
+    @Override
+    protected void onUserLeaveHint() {
+        miniCall();
+    }
+
+    /**
+     * 最小化通话界面
+     */
+    private void miniCall() {
+        //权限判断
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (!Settings.canDrawOverlays(getApplicationContext())) {
+                //启动 Activity 让用户授权
+                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
+                startActivityForResult(intent, 10);
+                return;
+            }
+        }
+        IMCallManager.getInstance().miniCall();
+        onFinish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 10) {
+            if (Build.VERSION.SDK_INT >= 23) {
+                if (!Settings.canDrawOverlays(mActivity)) {
+                    IMCallManager.getInstance().miniCall();
+                    onFinish();
+                }
+            }
+        }
     }
 
     /**
@@ -88,7 +131,7 @@ public abstract class IMCallActivity extends IMBaseActivity {
     /**
      * 初始化注册广播接收器
      */
-    private void initReceiver() {
+    protected void initReceiver() {
         // 注册广播接收器
         LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(mActivity);
         IntentFilter filter = new IntentFilter(IMUtils.Action.getCallStatusChange());
@@ -98,7 +141,7 @@ public abstract class IMCallActivity extends IMBaseActivity {
     /**
      * 取消注册广播接收器
      */
-    private void unregisterReceiver() {
+    protected void unregisterReceiver() {
         // 取消新消息广播接收器
         LocalBroadcastManager.getInstance(mActivity).unregisterReceiver(mReceiver);
     }

@@ -41,7 +41,11 @@ public class IMChatReceiver extends BroadcastReceiver {
         if (IM.getInstance().isCurrChat(chatId)) {
 
         } else {
-            IMNotifier.getInstance().notifyMessage(message);
+            // 只有需要发送通知的消息才发送通知栏提醒
+            boolean notify = message.getBooleanAttribute(IMConstants.IM_MSG_EXT_NOTIFY, false);
+            if (notify) {
+                IMNotifier.getInstance().notifyMessage(message);
+            }
         }
     }
 }

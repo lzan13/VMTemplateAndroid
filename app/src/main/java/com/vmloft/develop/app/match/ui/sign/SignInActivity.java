@@ -13,6 +13,7 @@ import com.vmloft.develop.app.match.bean.AUser;
 import com.vmloft.develop.app.match.common.ASignManager;
 import com.vmloft.develop.app.match.common.AUMSManager;
 import com.vmloft.develop.app.match.router.ARouter;
+import com.vmloft.develop.library.tools.utils.VMReg;
 import com.vmloft.develop.library.tools.utils.VMStr;
 
 import butterknife.BindView;
@@ -56,6 +57,7 @@ public class SignInActivity extends AppActivity {
     @Override
     protected void initUI() {
         super.initUI();
+        getTopBar().setIcon(R.drawable.ic_close);
         VMTheme.changeShadow(mAccountView);
         VMTheme.changeShadow(mPasswordView);
         // 监听输入框变化
@@ -132,6 +134,9 @@ public class SignInActivity extends AppActivity {
      * 通过邮箱登录
      */
     private void loginByEmail() {
+        if (!VMReg.isEmail(mAccount)) {
+            VMToast.make(mActivity, VMStr.byRes(R.string.sign_in)).error();
+        }
         ASignManager.getInstance().signInByEmail(mAccount, mPassword, new ACallback<AUser>() {
             @Override
             public void onSuccess(AUser user) {

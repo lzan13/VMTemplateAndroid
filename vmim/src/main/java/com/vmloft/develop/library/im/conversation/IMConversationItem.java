@@ -1,6 +1,7 @@
 package com.vmloft.develop.library.im.conversation;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -22,6 +23,7 @@ import com.vmloft.develop.library.im.chat.IMChatManager;
 import com.vmloft.develop.library.im.common.IMConstants;
 import com.vmloft.develop.library.im.router.IMRouter;
 import com.vmloft.develop.library.im.utils.IMChatUtils;
+import com.vmloft.develop.library.im.utils.IMDialog;
 import com.vmloft.develop.library.im.widget.IMEmotionTextView;
 import com.vmloft.develop.library.tools.picker.IPictureLoader;
 import com.vmloft.develop.library.tools.utils.VMColor;
@@ -285,13 +287,25 @@ public class IMConversationItem extends RelativeLayout {
      * 移除会话，这里不会清空聊天记录
      */
     private void removeConversation() {
-        IMChatManager.getInstance().removeConversation(mConversation.conversationId());
+        String title = VMStr.byRes(R.string.im_remove_hint_title);
+        String content = VMStr.byRes(R.string.im_hint_content);
+        String cancel = VMStr.byRes(R.string.im_cancel);
+        String ok = VMStr.byRes(R.string.im_ok);
+        IMDialog.showAlertDialog(mContext, title, content, cancel, ok, (DialogInterface dialog, int which) -> {
+            IMChatManager.getInstance().removeConversation(mConversation.conversationId());
+        });
     }
 
     /**
      * 清空会话，这里清空聊天记录
      */
     private void clearConversation() {
-        IMChatManager.getInstance().clearConversation(mConversation.conversationId(), true);
+        String title = VMStr.byRes(R.string.im_clear_hint_title);
+        String content = VMStr.byRes(R.string.im_hint_content);
+        String cancel = VMStr.byRes(R.string.im_cancel);
+        String ok = VMStr.byRes(R.string.im_ok);
+        IMDialog.showAlertDialog(mContext, title, content, cancel, ok, (DialogInterface dialog, int which) -> {
+            IMChatManager.getInstance().clearConversation(mConversation.conversationId(), true);
+        });
     }
 }

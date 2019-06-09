@@ -8,6 +8,7 @@ import com.vmloft.develop.app.match.R;
 import com.vmloft.develop.app.match.base.AppLazyFragment;
 
 import com.vmloft.develop.app.match.router.ARouter;
+import com.vmloft.develop.library.tools.router.VMParams;
 import com.vmloft.develop.library.tools.widget.toast.VMToast;
 
 /**
@@ -45,14 +46,17 @@ public class HomeFragment extends AppLazyFragment {
 
     }
 
-    @OnClick({ R.id.home_match_text_border, R.id.home_match_voice_border})
+    @OnClick({ R.id.home_match_text_border, R.id.home_match_voice_border })
     public void onClick(View view) {
+        VMParams params = new VMParams();
         switch (view.getId()) {
         case R.id.home_match_text_border:
-            ARouter.goPairing(getActivity());
+            params.arg0 = MatchActivity.MATCH_TYPE_TEXT;
+            ARouter.goMatch(getActivity(), params);
             break;
         case R.id.home_match_voice_border:
-            VMToast.make(getActivity(), "搜索令你心动的声音").done();
+            params.arg0 = MatchActivity.MATCH_TYPE_CALL;
+            ARouter.goMatch(getActivity(), params);
             break;
         }
     }

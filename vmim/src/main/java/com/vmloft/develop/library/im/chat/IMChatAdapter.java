@@ -47,7 +47,7 @@ public class IMChatAdapter extends VMAdapter<EMMessage, IMChatAdapter.ChatHolder
 
     @Override
     public void onBindViewHolder(@NonNull ChatHolder holder, int position) {
-        super.onBindViewHolder(holder, position);
+        //super.onBindViewHolder(holder, position);
 
         ((IMBaseItem) holder.itemView).onBind(position, getItemData(position));
     }

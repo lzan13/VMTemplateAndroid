@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">VMMatch</string>
 
-    <string name="app_text">简书著作权归作者所有，任何形式的转载都请联系作者获得授权并注明出处。</string>
+    <string name="app_text">测试文本</string>
     <!--登录注册相关资源-->
     <string name="sign_in">登录</string>
     <string name="sign_in_welcome">嗨！欢迎回来</string>
@@ -13,9 +13,12 @@
     <string name="sign_up_success">注册成功</string>
     <string name="sign_up_go">马上注册</string>
     <string name="sign_out">退出登录</string>
+    <string name="sign_out_hint_title">确认退出登录？</string>
+    <string name="sign_out_hint_content">退出登录后将无法实时收到消息</string>
     <string name="sign_forgot_password">忘记密码</string>
     <string name="account">账户</string>
     <string name="password">密码</string>
+    <string name="account_is_email">账户必须是邮箱</string>
 
     <!--按钮相关-->
     <string name="btn_prev">上一步</string>

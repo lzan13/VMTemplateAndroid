@@ -72,8 +72,8 @@ public class ARouter extends VMRouter {
     /**
      * 去匹配
      */
-    public static void goPairing(Context context) {
-        overlay(context, MatchActivity.class);
+    public static void goMatch(Context context, VMParams params) {
+        overlay(context, MatchActivity.class, params);
     }
 
     /**
@@ -103,5 +103,4 @@ public class ARouter extends VMRouter {
     public static void goAboutSetting(Context context) {
         overlay(context, AboutSettingActivity.class);
     }
-
 }

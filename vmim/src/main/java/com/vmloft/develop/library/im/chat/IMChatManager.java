@@ -327,6 +327,8 @@ public class IMChatManager {
         EMMessage message;
         if (isSend) {
             message = EMMessage.createTxtSendMessage(content, toId);
+            // 默认所有消息都发送通知提醒，特殊情况特殊处理
+            message.setAttribute(IMConstants.IM_MSG_EXT_NOTIFY, true);
         } else {
             message = EMMessage.createReceiveMessage(EMMessage.Type.TXT);
             message.addBody(new EMTextMessageBody(content));
@@ -346,6 +348,8 @@ public class IMChatManager {
         EMMessage message;
         if (isSend) {
             message = EMMessage.createImageSendMessage(path, true, id);
+            // 默认所有消息都发送通知提醒，特殊情况特殊处理
+            message.setAttribute(IMConstants.IM_MSG_EXT_NOTIFY, true);
         } else {
             message = EMMessage.createReceiveMessage(EMMessage.Type.IMAGE);
             message.addBody(new EMImageMessageBody(new File(path)));
@@ -367,6 +371,8 @@ public class IMChatManager {
         EMMessage message;
         if (isSend) {
             message = EMMessage.createLocationSendMessage(latitude, longitude, address, id);
+            // 默认所有消息都发送通知提醒，特殊情况特殊处理
+            message.setAttribute(IMConstants.IM_MSG_EXT_NOTIFY, true);
         } else {
             message = EMMessage.createReceiveMessage(EMMessage.Type.LOCATION);
             message.addBody(new EMLocationMessageBody(address, latitude, longitude));
@@ -388,6 +394,8 @@ public class IMChatManager {
         EMMessage message;
         if (isSend) {
             message = EMMessage.createVideoSendMessage(path, thumbPath, time, id);
+            // 默认所有消息都发送通知提醒，特殊情况特殊处理
+            message.setAttribute(IMConstants.IM_MSG_EXT_NOTIFY, true);
         } else {
             message = EMMessage.createReceiveMessage(EMMessage.Type.LOCATION);
             message.addBody(new EMVideoMessageBody(path, thumbPath, time, 0l));
@@ -408,6 +416,8 @@ public class IMChatManager {
         EMMessage message;
         if (isSend) {
             message = EMMessage.createVoiceSendMessage(path, time, id);
+            // 默认所有消息都发送通知提醒，特殊情况特殊处理
+            message.setAttribute(IMConstants.IM_MSG_EXT_NOTIFY, true);
         } else {
             message = EMMessage.createReceiveMessage(EMMessage.Type.LOCATION);
             message.addBody(new EMVoiceMessageBody(new File(path), time));
@@ -427,6 +437,8 @@ public class IMChatManager {
         EMMessage message;
         if (isSend) {
             message = EMMessage.createFileSendMessage(path, id);
+            // 默认所有消息都发送通知提醒，特殊情况特殊处理
+            message.setAttribute(IMConstants.IM_MSG_EXT_NOTIFY, true);
         } else {
             message = EMMessage.createReceiveMessage(EMMessage.Type.LOCATION);
             message.addBody(new EMNormalFileMessageBody(new File(path)));

@@ -5,7 +5,7 @@
     android:id="@+id/im_conversation_root_cl"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/im_conversation_selector"
+    android:background="@drawable/im_common_selector"
     >
     <!--头像-->
     <ImageView

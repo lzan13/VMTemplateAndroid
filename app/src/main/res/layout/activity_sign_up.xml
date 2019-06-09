@@ -5,32 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_bg"
-    android:padding="@dimen/vm_padding_large"
-    tools:context=".ui.sign.SignUpActivity">
+    tools:context=".ui.sign.SignUpActivity"
+    >
+    <include layout="@layout/widget_common_top_bar" />
 
     <!--欢迎语-->
     <TextView
         android:id="@+id/sign_welcome_tv"
-        style="@style/VMText.Headline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/vm_dimen_16"
+        android:layout_margin="@dimen/vm_dimen_24"
         android:text="@string/sign_up_welcome"
         android:textColor="@color/app_title"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!--去注册引导按钮-->
-    <Button
-        android:id="@+id/sign_go_sign_in_btn"
-        style="@style/VMBtn.Flat"
-        android:layout_width="wrap_content"
-        android:text="@string/sign_in_go"
-        android:textColor="@color/vm_blue_87"
-        app:layout_constraintBottom_toBottomOf="@+id/sign_welcome_tv"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/sign_welcome_tv" />
+        app:layout_constraintTop_toBottomOf="@+id/common_top_bar_rl"
+        style="@style/VMText.Headline"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,7 +33,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        >
 
         <com.vmloft.develop.library.tools.widget.VMEditView
             android:id="@+id/sign_account_et"
@@ -52,7 +44,8 @@
             android:background="@drawable/fillet_white_bg_selector"
             android:elevation="@dimen/vm_elevation_high"
             app:vm_edit_hint="@string/account"
-            app:vm_edit_mode="account" />
+            app:vm_edit_mode="account"
+            />
 
         <com.vmloft.develop.library.tools.widget.VMEditView
             android:id="@+id/sign_password_et"
@@ -62,15 +55,17 @@
             android:background="@drawable/fillet_white_bg_selector"
             android:elevation="@dimen/vm_elevation_high"
             app:vm_edit_hint="@string/password"
-            app:vm_edit_mode="password" />
+            app:vm_edit_mode="password"
+            />
 
         <Button
             android:id="@+id/sign_up_btn"
-            style="@style/VMBtn.Fillet.Green"
-            android:layout_marginTop="@dimen/vm_margin_large"
             android:layout_marginBottom="@dimen/vm_margin_normal"
+            android:layout_marginTop="@dimen/vm_margin_large"
             android:enabled="false"
-            android:text="@string/sign_up" />
+            android:text="@string/sign_up"
+            style="@style/VMBtn.Fillet.Green"
+            />
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

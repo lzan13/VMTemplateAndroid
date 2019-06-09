@@ -14,14 +14,19 @@ import com.vmloft.develop.app.match.bean.AUser;
 import com.vmloft.develop.app.match.common.AMatchManager;
 import com.vmloft.develop.app.match.common.ASignManager;
 import com.vmloft.develop.app.match.glide.ALoader;
+import com.vmloft.develop.app.match.router.ARouter;
 import com.vmloft.develop.app.match.utils.AUtils;
+import com.vmloft.develop.library.im.call.IMCallManager;
 import com.vmloft.develop.library.im.router.IMRouter;
 import com.vmloft.develop.library.tools.animator.VMAnimator;
+import com.vmloft.develop.library.tools.router.VMParams;
 import com.vmloft.develop.library.tools.utils.VMDimen;
 import com.vmloft.develop.library.tools.widget.toast.VMToast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Create by lzan13 on 2019/5/15 23:13
@@ -30,19 +35,26 @@ import java.util.List;
  */
 public class MatchActivity extends AppActivity {
 
+    // 匹配类型
+    public static final int MATCH_TYPE_TEXT = 0;
+    public static final int MATCH_TYPE_CALL = 1;
+
     @BindView(R.id.match_anim_view) View mAnimView;
+    @BindView(R.id.match_anim_view_2) View mAnimView2;
     @BindView(R.id.match_avatar_iv) ImageView mAvatarView;
     @BindView(R.id.match_container) FrameLayout mMatchContainer;
 
     // 自己
     private AUser mUser;
     private AMatch mMatch;
-    // 正在匹配的人
-    private List<AMatch> mMatchList = new ArrayList<>();
+    // 正在匹配的人，使用 Map 是为了过滤掉重复的信息
+    private Map<String, AMatch> mMatchMap = new HashMap<>();
 
     private int avatarSize;
+    private int mMatchType = MATCH_TYPE_TEXT;
 
     private VMAnimator.AnimatorSetWrap mAnimatorWrap;
+    private VMAnimator.AnimatorSetWrap mAnimatorWrap2;
 
     @Override
     protected int layoutId() {
@@ -52,7 +64,6 @@ public class MatchActivity extends AppActivity {
     @Override
     protected void initUI() {
         super.initUI();
-        startMatch();
     }
 
     @Override
@@ -60,12 +71,21 @@ public class MatchActivity extends AppActivity {
         setTopTitle(R.string.match);
         getTopBar().setTitleColor(R.color.app_title_light);
 
+        VMParams params = ARouter.getParams(mActivity);
+        mMatchType = params.arg0;
+
         mUser = ASignManager.getInstance().getCurrentUser();
         avatarSize = VMDimen.dp2px(48);
 
         setupUserInfo();
 
         loadMatchData();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startMatch();
     }
 
     /**
@@ -85,10 +105,15 @@ public class MatchActivity extends AppActivity {
             public void onSuccess(List<AMatch> list) {
                 for (AMatch match : list) {
                     // 过滤掉自己的匹配信息
-                    if (match.getUser().getObjectId().equals(mUser.getObjectId())) {
+                    String userId = match.getUser().getObjectId();
+                    if (userId.equals(mUser.getObjectId())) {
                         continue;
                     }
-                    mMatchList.add(match);
+                    mMatchMap.put(match.getObjectId(), match);
+                    // 只显示最近已定数量参与匹配的人
+                    if (mMatchMap.size() >= 5) {
+                        break;
+                    }
                 }
                 setupMatchList();
             }
@@ -118,17 +143,23 @@ public class MatchActivity extends AppActivity {
         });
 
         mAnimatorWrap = VMAnimator.createAnimator()
-            .play(VMAnimator.createOptions(mAnimView, VMAnimator.SCALEX, 1500, VMAnimator.INFINITE, 0f, 20f))
-            .with(VMAnimator.createOptions(mAnimView, VMAnimator.SCALEY, 1500, VMAnimator.INFINITE, 0f, 20f))
-            .with(VMAnimator.createOptions(mAnimView, VMAnimator.ALPHA, 1500, VMAnimator.INFINITE, 1.0f, 0.0f));
-        mAnimatorWrap.startDelay(200);
+            .play(VMAnimator.createOptions(mAnimView, VMAnimator.SCALEX, 1200, VMAnimator.INFINITE, 0f, 20f))
+            .with(VMAnimator.createOptions(mAnimView, VMAnimator.SCALEY, 1200, VMAnimator.INFINITE, 0f, 20f))
+            .with(VMAnimator.createOptions(mAnimView, VMAnimator.ALPHA, 1200, VMAnimator.INFINITE, 1.0f, 0.0f));
+        mAnimatorWrap.startDelay(100);
+
+        mAnimatorWrap2 = VMAnimator.createAnimator()
+            .play(VMAnimator.createOptions(mAnimView2, VMAnimator.SCALEX, 1200, VMAnimator.INFINITE, 0f, 20f))
+            .with(VMAnimator.createOptions(mAnimView2, VMAnimator.SCALEY, 1200, VMAnimator.INFINITE, 0f, 20f))
+            .with(VMAnimator.createOptions(mAnimView2, VMAnimator.ALPHA, 1200, VMAnimator.INFINITE, 1.0f, 0.0f));
+        mAnimatorWrap2.startDelay(700);
     }
 
     /**
      * 加载匹配数据
      */
     private void setupMatchList() {
-        for (AMatch match : mMatchList) {
+        for (AMatch match : mMatchMap.values()) {
             ImageView imageView = new ImageView(mActivity);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(avatarSize, avatarSize);
@@ -145,9 +176,14 @@ public class MatchActivity extends AppActivity {
             ALoader.loadAvatar(mActivity, url, imageView);
 
             imageView.setOnClickListener((View v) -> {
-                IMRouter.goIMChat(mActivity, user.getObjectId());
+                if (mMatchType == MATCH_TYPE_TEXT) {
+                    IMRouter.goIMChat(mActivity, user.getObjectId());
+                } else {
+                    IMCallManager.getInstance().startCall(user.getObjectId(), IMCallManager.CallType.VOICE);
+                }
                 onFinish();
             });
+
             // 动画出现
             long delay = AUtils.random(5) * 500;
             VMAnimator.createAnimator().play(VMAnimator.createOptions(imageView, VMAnimator.ALPHA, 0.0f, 1.0f)).startDelay(delay);
@@ -155,12 +191,21 @@ public class MatchActivity extends AppActivity {
     }
 
     @Override
-    protected void onDestroy() {
+    protected void onPause() {
+        super.onPause();
+
         if (mMatch != null) {
             AMatchManager.getInstance().stopMatch(mMatch);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
         if (mAnimatorWrap != null) {
             mAnimatorWrap.cancel();
+        }
+        if (mAnimatorWrap2 != null) {
+            mAnimatorWrap2.cancel();
         }
         super.onDestroy();
     }

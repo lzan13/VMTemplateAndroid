@@ -12,6 +12,8 @@ import com.hyphenate.chat.EMMessage;
 import com.vmloft.develop.library.im.IM;
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.bean.IMContact;
+import com.vmloft.develop.library.im.call.IMCallManager;
+import com.vmloft.develop.library.im.call.IMCallVoiceActivity;
 import com.vmloft.develop.library.im.chat.IMChatActivity;
 import com.vmloft.develop.library.im.common.IMConstants;
 import com.vmloft.develop.library.im.common.IMSPManager;
@@ -27,8 +29,10 @@ public class IMNotifier {
 
     // 通知栏提醒通道 Id
     private static final String IM_CHAT = "im_chat";
+    private static final String IM_CALL = "im_call";
     // 通知栏提醒通知 Id
     private static final int IM_MSG_NOTIFY_ID = 100;
+    private static final int IM_CALL_NOTIFY_ID = 101;
 
     private Context mContext;
 
@@ -36,6 +40,7 @@ public class IMNotifier {
 
     private NotificationManager mManager;
     private Notification.Builder mChatBuilder;
+    private Notification.Builder mCallBuilder;
 
     /**
      * 私有的构造方法
@@ -62,29 +67,32 @@ public class IMNotifier {
         // 针对 8.0 以上设备创建通知通道
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createNotifyChannel(IM_CHAT, VMStr.byRes(R.string.im_notify_channel_chat), NotificationManager.IMPORTANCE_HIGH);
+            createNotifyChannel(IM_CALL, VMStr.byRes(R.string.im_notify_channel_call), NotificationManager.IMPORTANCE_HIGH);
             mChatBuilder = new Notification.Builder(mContext, IM_CHAT);
+            mCallBuilder = new Notification.Builder(mContext, IM_CALL);
         } else {
             mChatBuilder = new Notification.Builder(mContext);
+            mCallBuilder = new Notification.Builder(mContext);
         }
-        // 设置通知小ICON
-        mChatBuilder.setSmallIcon(R.drawable.im_ic_chat_notify);
-        // 设置该通知优先级
-        mChatBuilder.setPriority(Notification.PRIORITY_HIGH);
-        // 设置这个标志当用户单击面板就可以让通知将自动取消
-        mChatBuilder.setAutoCancel(true);
         /**
+         * 设置通知小ICON
+         * 设置这个标志当用户单击面板就可以让通知将自动取消
+         * 设置该通知优先级
          * 设置默认提醒，默认的有声音，振动，三色灯提醒
          * Notification.DEFAULT_VIBRATE //添加默认震动提醒  需要 VIBRATE permission
          * Notification.DEFAULT_SOUND   // 添加默认声音提醒
          * Notification.DEFAULT_LIGHTS  // 添加默认三色灯提醒
          * Notification.DEFAULT_ALL     // 添加默认以上3种全部提醒
          */
-        // 向通知添加声音、闪灯和振动效果的最简单、最一致的方式是使用当前的用户默认设置，使用defaults属性，可以组合
+        mChatBuilder.setSmallIcon(R.drawable.im_ic_chat_notify);
+        mChatBuilder.setPriority(Notification.PRIORITY_HIGH);
+        mChatBuilder.setAutoCancel(true);
         mChatBuilder.setDefaults(Notification.DEFAULT_ALL);
-        // 也可以设置自定义的振动提醒
-        // mBuilder.setVibrate(new long[]{0, 180, 100, 300});
-        // 设置自定义的三色灯提醒（有可能有的设备不支持）
-        // mBuilder.setLights(0xffcc33, 500, 300);
+
+        mCallBuilder.setSmallIcon(R.drawable.im_ic_call);
+        mCallBuilder.setPriority(Notification.PRIORITY_HIGH);
+        mCallBuilder.setAutoCancel(true);
+        mCallBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
     }
 
     /**
@@ -99,6 +107,8 @@ public class IMNotifier {
         NotificationChannel channel = new NotificationChannel(channelId, channelName, importance);
         // 设置显示角标
         channel.setShowBadge(true);
+        channel.enableVibration(true);
+        channel.enableLights(true);
         NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.createNotificationChannel(channel);
     }
@@ -132,6 +142,37 @@ public class IMNotifier {
         mChatBuilder.setContentIntent(pIntent);
 
         mManager.notify(IM_MSG_NOTIFY_ID, mChatBuilder.build());
+    }
+
+    /**
+     * 发送通知栏提醒，告知用户通话继续进行中
+     */
+    public void notifyCall() {
+        mCallBuilder.setContentText("通话进行中，点击恢复");
+
+        mCallBuilder.setContentTitle(VMStr.byRes(R.string.app_name));
+        Intent intent = new Intent();
+        if (IMCallManager.getInstance().getCallType() == IMCallManager.CallType.VIDEO) {
+            //intent.setClass(mContext, VideoCallActivity.class);
+        } else {
+            intent.setClass(mContext, IMCallVoiceActivity.class);
+        }
+        PendingIntent pIntent = PendingIntent.getActivity(mContext, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        mCallBuilder.setContentIntent(pIntent);
+        mCallBuilder.setOngoing(true);
+
+        mCallBuilder.setWhen(System.currentTimeMillis());
+
+        mManager.notify(IM_CALL_NOTIFY_ID, mCallBuilder.build());
+    }
+
+    /**
+     * 取消通话状态通知栏提醒
+     */
+    public void notifyCallCancel() {
+        if (mManager != null) {
+            mManager.cancel(IM_CALL_NOTIFY_ID);
+        }
     }
 
     /**

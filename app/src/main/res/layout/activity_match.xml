@@ -7,9 +7,18 @@
     android:background="@color/app_bg_dark"
     tools:context=".ui.main.home.MatchActivity"
     >
-    <!--匹配背景-->
+    <!--匹配背景1-->
     <View
         android:id="@+id/match_anim_view"
+        android:layout_width="@dimen/avatar_56"
+        android:layout_height="@dimen/avatar_56"
+        android:layout_centerInParent="true"
+        android:background="@drawable/circle_white_bg_shape"
+        android:backgroundTint="@color/app_accent"
+        />
+    <!--匹配背景2-->
+    <View
+        android:id="@+id/match_anim_view_2"
         android:layout_width="@dimen/avatar_56"
         android:layout_height="@dimen/avatar_56"
         android:layout_centerInParent="true"

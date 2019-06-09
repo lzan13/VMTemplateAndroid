@@ -109,7 +109,7 @@ public class AUMSManager {
      */
     public void loadUserList() {
         AVQuery<AUser> query = AVUser.getQuery(AUser.class);
-        query.selectKeys(Arrays.asList("nickname", "avatar"));
+        query.selectKeys(Arrays.asList("nickname", "avatar", "signature"));
         //  设置缓存策略，因为是预加载，所以这里会先从最快的缓存加载一下，然后去网络更新一下
         query.setCachePolicy(AVQuery.CachePolicy.CACHE_THEN_NETWORK);
         // 设置缓存时间

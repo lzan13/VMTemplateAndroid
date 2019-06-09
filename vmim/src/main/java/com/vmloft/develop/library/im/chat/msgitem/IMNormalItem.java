@@ -1,12 +1,14 @@
 package com.vmloft.develop.library.im.chat.msgitem;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.MotionEvent;
 import android.view.View;
 import com.hyphenate.chat.EMMessage;
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.chat.IMChatAdapter;
 import com.vmloft.develop.library.im.chat.IMChatManager;
+import com.vmloft.develop.library.im.utils.IMDialog;
 import com.vmloft.develop.library.tools.utils.VMStr;
 import com.vmloft.develop.library.tools.widget.VMFloatMenu;
 
@@ -112,9 +114,14 @@ public abstract class IMNormalItem extends IMBaseItem {
      * 删除消息
      */
     private void removeMessage() {
-        int position = IMChatManager.getInstance().getPosition(mMessage);
-        IMChatManager.getInstance().removeMessage(mMessage);
-        mAdapter.updateRemove(position);
+        String title = VMStr.byRes(R.string.im_remove_hint_title);
+        String content = VMStr.byRes(R.string.im_hint_content);
+        String cancel = VMStr.byRes(R.string.im_cancel);
+        String ok = VMStr.byRes(R.string.im_ok);
+        IMDialog.showAlertDialog(mContext, title, content, cancel, ok, (DialogInterface dialog, int which) -> {
+            IMChatManager.getInstance().removeMessage(mMessage);
+            mAdapter.updateRemove(mPosition);
+        });
     }
 
     /**

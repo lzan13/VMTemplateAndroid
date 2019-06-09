@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.vmloft.develop.library.im.R;
@@ -25,9 +26,13 @@ public class IMEmotionPager extends RelativeLayout {
 
     private ImageButton mAddBtn;
     private ImageButton mDeleteBtn;
-    private TabLayout mTabLayout;
-    private ViewPager mViewPager;
+
+    private String[] mTitles = {"小","大"};
+    private IMEmotionTab mTab;
+    private List<View> mCustomTabs = new ArrayList<>();
+
     private IMEmotionPagerAdapter mAdapter;
+    private ViewPager mViewPager;
 
     // 表情组列表页面集合
     private List<IMEmotionRecyclerView> mPageViewList;
@@ -47,7 +52,8 @@ public class IMEmotionPager extends RelativeLayout {
 
         mAddBtn = findViewById(R.id.im_emotion_add_btn);
         mDeleteBtn = findViewById(R.id.im_emotion_delete_btn);
-        mTabLayout = findViewById(R.id.im_emotion_tab_layout);
+        mTab = findViewById(R.id.im_emotion_tab);
+        //mTabLayout = findViewById(R.id.im_emotion_tab_layout);
         mViewPager = findViewById(R.id.im_emotion_view_pager);
 
         initEmotionViewPager();
@@ -80,9 +86,9 @@ public class IMEmotionPager extends RelativeLayout {
         IMExecutor.asyncSingleTask(() -> {
             mPageViewList = loadEmotionPageView();
             // TODO 这种方式在一些低端设备上回加载不出数据
-//            mViewPager.post(() post-> {
-//                refresh();
-//            });
+            //            mViewPager.post(() post-> {
+            //                refresh();
+            //            });
             // TODO 所以使用这种方式去加载
             VMSystem.runInUIThread(() -> {
                 refresh();
@@ -109,7 +115,7 @@ public class IMEmotionPager extends RelativeLayout {
                 if (group.isInnerEmotion) {
                     if (group.isBigEmotion) {
                         pageView = new IMEmotionRecyclerView(getContext(), group);
-                    }else{
+                    } else {
                         pageView = new IMEmotionRecyclerView(getContext(), group, IMEmotionManager.IM_EMOTION_COLUMN_COUNT);
                     }
                 } else {
@@ -128,7 +134,20 @@ public class IMEmotionPager extends RelativeLayout {
     private void refresh() {
         if (mAdapter != null) {
             mAdapter.update(mPageViewList);
+            setupTabLayout();
         }
+    }
+
+    /**
+     * 装载 TabLayout
+     */
+    private void setupTabLayout() {
+        List<Integer> resList = new ArrayList<>();
+        for (int i = 0; i < mPageViewList.size(); i++) {
+            resList.add(mPageViewList.get(i).getEmotionGroup().mResId);
+        }
+        mTab.setViewPager(mViewPager);
+        mTab.setResList(resList);
     }
 
     /**

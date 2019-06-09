@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".emotion.IMEmotionPager"
     >
 
     <ImageButton
@@ -12,6 +15,7 @@
         android:layout_alignParentStart="true"
         android:background="@drawable/im_emotion_selector"
         android:src="@drawable/im_ic_add"
+        android:visibility="gone"
         />
 
     <ImageButton
@@ -23,20 +27,20 @@
         android:background="@drawable/im_emotion_selector"
         android:src="@drawable/im_ic_delete"
         />
-
-    <android.support.design.widget.TabLayout
-        android:id="@+id/im_emotion_tab_layout"
+    <com.vmloft.develop.library.im.emotion.IMEmotionTab
+        android:id="@+id/im_emotion_tab"
         android:layout_width="match_parent"
         android:layout_height="@dimen/vm_dimen_40"
         android:layout_alignParentBottom="true"
         android:layout_toEndOf="@+id/im_emotion_add_btn"
         android:layout_toStartOf="@+id/im_emotion_delete_btn"
+        android:background="@color/vm_white_87"
         />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/im_emotion_view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/im_emotion_tab_layout"
+        android:layout_above="@+id/im_emotion_tab"
         />
 </RelativeLayout>

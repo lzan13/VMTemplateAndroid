@@ -7,6 +7,7 @@ import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
 
+import android.support.v4.content.LocalBroadcastManager;
 import com.hyphenate.chat.EMCallManager;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
@@ -20,6 +21,7 @@ import com.vmloft.develop.library.im.IM;
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.chat.IMChatManager;
 import com.vmloft.develop.library.im.common.IMConstants;
+import com.vmloft.develop.library.im.notify.IMNotifier;
 import com.vmloft.develop.library.im.router.IMRouter;
 import com.vmloft.develop.library.im.utils.IMUtils;
 import com.vmloft.develop.library.tools.utils.VMLog;
@@ -39,6 +41,10 @@ public class IMCallManager {
     private AudioManager mAudioManager;
     // 音频池
     private SoundPool mSoundPool;
+
+    private IMCallStatusReceiver mCallStatusReceiver;
+    private IMCallReceiver mCallReceiver;
+
     // 声音资源 id
     private int streamID;
     private int loadId;
@@ -147,8 +153,8 @@ public class IMCallManager {
 
         // 设置通话广播监听器过滤内容
         IntentFilter callFilter = new IntentFilter(EMClient.getInstance().callManager().getIncomingCallBroadcastAction());
-        IMCallReceiver callReceiver = new IMCallReceiver();
-        IM.getInstance().getIMContext().registerReceiver(callReceiver, callFilter);
+        mCallReceiver = new IMCallReceiver();
+        IM.getInstance().getIMContext().registerReceiver(mCallReceiver, callFilter);
     }
 
     /**
@@ -198,6 +204,12 @@ public class IMCallManager {
             attemptPlaySound();
             IMRouter.goIMCall(IM.getInstance().getIMContext());
         }
+
+        // 设置通话状态监听广播
+        IntentFilter callStatusFilter = new IntentFilter(IMUtils.Action.getCallStatusChange());
+        LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(IM.getInstance().getIMContext());
+        mCallStatusReceiver = new IMCallStatusReceiver();
+        lbm.registerReceiver(mCallStatusReceiver, callStatusFilter);
     }
 
     /**
@@ -623,8 +635,11 @@ public class IMCallManager {
         }
         message = IMChatManager.getInstance().createTextMessage(content, mCallId, !isInComingCall);
         message.setStatus(EMMessage.Status.SUCCESS);
+        message.setAttribute(IMConstants.IM_MSG_EXT_NOTIFY, false);
         message.setAttribute(IMConstants.IM_MSG_EXT_TYPE, IMConstants.MsgExtType.IM_CALL);
         message.setUnread(false);
+        message.setAcked(true);
+        message.setDeliverAcked(true);
         message.setAttribute(IMConstants.IM_MSG_EXT_VIDEO_CALL, mCallType == CallType.VIDEO);
         IMChatManager.getInstance().saveMessage(message);
 
@@ -639,6 +654,25 @@ public class IMCallManager {
         IMUtils.sendLocalBroadcast(intent);
         // 会话也需要刷新
         IMUtils.sendLocalBroadcast(IMUtils.Action.getRefreshConversationAction());
+    }
+
+    /**
+     * ---------------------------------------- 最小化通话界面相关操作 ----------------------------------------
+     */
+    /**
+     * 最小化通话
+     */
+    public void miniCall() {
+        IMNotifier.getInstance().notifyCall();
+        IMCallFloatWindow.getInstance().addFloatWindow();
+    }
+
+    /**
+     * 恢复通话
+     */
+    public void fillCall() {
+        IMNotifier.getInstance().notifyCallCancel();
+        IMCallFloatWindow.getInstance().removeFloatWindow();
     }
 
     /**
@@ -671,6 +705,10 @@ public class IMCallManager {
             mAudioManager.setSpeakerphoneOn(true);
             mAudioManager.setMode(AudioManager.MODE_NORMAL);
         }
+
+        IMNotifier.getInstance().notifyCallCancel();
+        IMCallFloatWindow.getInstance().removeFloatWindow();
+        LocalBroadcastManager.getInstance(IM.getInstance().getIMContext()).unregisterReceiver(mCallStatusReceiver);
     }
 
     /**

@@ -20,6 +20,7 @@ public class IMCallPushProvider implements EMCallManager.EMCallPushProvider {
     public void onRemoteOffline(String id) {
         EMMessage message = IMChatManager.getInstance().createTextMessage(VMStr.byRes(R.string.im_call_push), id, true);
         boolean isVideoCall = IMCallManager.getInstance().getCallType() == IMCallManager.CallType.VIDEO;
+        message.setAttribute(IMConstants.IM_MSG_EXT_NOTIFY, false);
         message.setAttribute(IMConstants.IM_MSG_EXT_TYPE, IMConstants.MsgExtType.IM_CALL);
         message.setAttribute(IMConstants.IM_MSG_EXT_VIDEO_CALL, isVideoCall);
 

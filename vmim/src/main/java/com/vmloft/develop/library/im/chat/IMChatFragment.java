@@ -16,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -213,17 +214,18 @@ public class IMChatFragment extends IMBaseFragment {
             mRefreshLayout.setRefreshing(false);
         });
         mRecyclerView = getView().findViewById(R.id.im_chat_recycler_view);
+        mRecyclerView.setOnTouchListener((View v, MotionEvent event) -> {
+            mKeyboardLayout.hideKeyboard(getActivity(), mInputET);
+            mEmotionBtn.setSelected(false);
+            mRecordBtn.setSelected(false);
+            changeEmotion();
+            changeRecord();
+            return false;
+        });
         mAdapter = new IMChatAdapter(mContext, mId, mChatType);
         mLayoutManager = new LinearLayoutManager(mContext);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                mKeyboardLayout.hideKeyboard(getActivity(), mInputET);
-            }
-        });
 
         scrollToBottom();
     }
