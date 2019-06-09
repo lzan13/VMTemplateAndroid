@@ -1,5 +1,6 @@
 package com.vmloft.develop.app.match.ui.sign;
 
+import android.app.Dialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -11,6 +12,7 @@ import com.vmloft.develop.app.match.base.ACallback;
 import com.vmloft.develop.app.match.base.AppActivity;
 import com.vmloft.develop.app.match.bean.AUser;
 import com.vmloft.develop.app.match.common.ASignManager;
+import com.vmloft.develop.library.tools.utils.VMReg;
 import com.vmloft.develop.library.tools.utils.VMStr;
 
 import butterknife.BindView;
@@ -34,6 +36,8 @@ public class SignUpActivity extends AppActivity {
 
     private String mAccount;
     private String mPassword;
+
+    private Dialog mDialog;
 
     @Override
     protected int layoutId() {
@@ -115,9 +119,17 @@ public class SignUpActivity extends AppActivity {
      * 通过邮箱注册
      */
     private void registerByEmail() {
+        if (!VMReg.isEmail(mAccount)) {
+            VMToast.make(mActivity, VMStr.byRes(R.string.account_is_email)).error();
+            return;
+        }
+        showDialog();
         ASignManager.getInstance().signUpByEmail(mAccount, mPassword, new ACallback<AUser>() {
             @Override
             public void onSuccess(AUser user) {
+                if (mDialog != null) {
+                    mDialog.dismiss();
+                }
                 VMToast.make(mActivity, R.string.sign_up_success).show();
                 // 注册成功保存下用户信息，方便回到登录页面输入信息
                 ASignManager.getInstance().setHistoryUser(user);
@@ -126,8 +138,28 @@ public class SignUpActivity extends AppActivity {
 
             @Override
             public void onError(int code, String desc) {
+                if (mDialog != null) {
+                    mDialog.dismiss();
+                }
                 VMToast.make(mActivity, desc).error();
             }
         });
+    }
+
+    /**
+     * 显示对话框
+     */
+    private void showDialog() {
+        mDialog = new Dialog(mActivity);
+        mDialog.setContentView(R.layout.widget_custom_progress_dialog);
+        mDialog.show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (mDialog != null) {
+            mDialog.dismiss();
+        }
+        super.onDestroy();
     }
 }

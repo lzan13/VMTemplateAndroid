@@ -20,6 +20,8 @@
     <string name="password">密码</string>
     <string name="account_is_email">账户必须是邮箱</string>
 
+    <string name="progress_wait">请稍等...</string>
+
     <!--按钮相关-->
     <string name="btn_prev">上一步</string>
     <string name="btn_next">下一步</string>

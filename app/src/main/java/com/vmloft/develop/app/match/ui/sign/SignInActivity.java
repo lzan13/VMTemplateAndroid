@@ -1,5 +1,6 @@
 package com.vmloft.develop.app.match.ui.sign;
 
+import android.app.Dialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -37,6 +38,8 @@ public class SignInActivity extends AppActivity {
 
     private String mAccount;
     private String mPassword;
+
+    private Dialog mDialog;
 
     @Override
     protected void onResume() {
@@ -135,11 +138,16 @@ public class SignInActivity extends AppActivity {
      */
     private void loginByEmail() {
         if (!VMReg.isEmail(mAccount)) {
-            VMToast.make(mActivity, VMStr.byRes(R.string.sign_in)).error();
+            VMToast.make(mActivity, VMStr.byRes(R.string.account_is_email)).error();
+            return;
         }
+        showDialog();
         ASignManager.getInstance().signInByEmail(mAccount, mPassword, new ACallback<AUser>() {
             @Override
             public void onSuccess(AUser user) {
+                if (mDialog != null) {
+                    mDialog.dismiss();
+                }
                 // 注册成功保存下用户信息，方便回到登录页面输入信息
                 ASignManager.getInstance().setHistoryUser(user);
                 // 登录成功拉取以下联系人信息
@@ -149,8 +157,28 @@ public class SignInActivity extends AppActivity {
 
             @Override
             public void onError(int code, String desc) {
+                if (mDialog != null) {
+                    mDialog.dismiss();
+                }
                 VMToast.make(mActivity, desc).error();
             }
         });
+    }
+
+    /**
+     * 显示对话框
+     */
+    private void showDialog() {
+        mDialog = new Dialog(mActivity);
+        mDialog.setContentView(R.layout.widget_custom_progress_dialog);
+        mDialog.show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (mDialog != null) {
+            mDialog.dismiss();
+        }
+        super.onDestroy();
     }
 }

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/common_padding_large"
+    >
+    <ProgressBar
+        android:layout_width="@dimen/vm_dimen_48"
+        android:layout_height="@dimen/vm_dimen_48"
+        android:layout_margin="@dimen/common_margin_large"
+        tools:src="@drawable/ic_mine"
+        />
+    <TextView
+        android:layout_marginStart="@dimen/common_margin_large"
+        android:layout_marginEnd="@dimen/common_margin_large"
+        android:text="@string/progress_wait"
+        android:textColor="@color/custom_tab_item"
+        android:visibility="visible"
+        style="@style/VMText.Body1"
+        />
+
+</LinearLayout>
