@@ -479,7 +479,7 @@ public class IMCallManager {
         // 设置音频管理器音频模式为铃音模式
         mAudioManager.setMode(AudioManager.MODE_RINGTONE);
         // 播放提示音，返回一个播放的音频id，等下停止播放需要用到
-        if (mSoundPool != null) {
+        if (mSoundPool != null && mCallStatus != CallStatus.DISCONNECTED) {
             streamID = mSoundPool.play(loadId, // 播放资源id；就是加载到SoundPool里的音频资源顺序
                 0.5f,   // 左声道音量
                 0.5f,   // 右声道音量

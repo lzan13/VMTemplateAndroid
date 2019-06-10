@@ -15,15 +15,16 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/status_bar_height" />
+            android:layout_height="@dimen/status_bar_height"
+            android:background="@color/app_status_bar" />
+
         <!--我的标签头部个人信息部分-->
         <android.support.constraint.ConstraintLayout
             android:id="@+id/me_info_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/common_margin_large"
-            android:background="@drawable/common_card_bg_shape"
-            android:elevation="@dimen/vm_elevation_normal"
+            android:background="@color/app_card_bg"
+            android:foreground="@drawable/vm_click_full_transparent"
             android:padding="@dimen/common_padding_large">
 
             <ImageView
@@ -66,6 +67,7 @@
             android:id="@+id/me_info_relation_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/app_card_bg"
             android:orientation="horizontal">
             <!--好友-->
             <LinearLayout

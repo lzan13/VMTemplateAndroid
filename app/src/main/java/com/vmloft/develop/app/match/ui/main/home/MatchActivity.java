@@ -14,11 +14,13 @@ import com.vmloft.develop.app.match.bean.AUser;
 import com.vmloft.develop.app.match.common.AMatchManager;
 import com.vmloft.develop.app.match.common.ASignManager;
 import com.vmloft.develop.app.match.glide.ALoader;
+import com.vmloft.develop.app.match.im.AIMManager;
 import com.vmloft.develop.app.match.router.ARouter;
 import com.vmloft.develop.app.match.utils.AUtils;
 import com.vmloft.develop.library.im.call.IMCallManager;
 import com.vmloft.develop.library.im.router.IMRouter;
 import com.vmloft.develop.library.tools.animator.VMAnimator;
+import com.vmloft.develop.library.tools.picker.IPictureLoader;
 import com.vmloft.develop.library.tools.router.VMParams;
 import com.vmloft.develop.library.tools.utils.VMDimen;
 import com.vmloft.develop.library.tools.widget.toast.VMToast;
@@ -93,7 +95,15 @@ public class MatchActivity extends AppActivity {
      */
     private void setupUserInfo() {
         String url = mUser.getAvatar() != null ? mUser.getAvatar().getUrl() : null;
-        ALoader.loadAvatar(mActivity, url, mAvatarView);
+        // 加载头像
+        IPictureLoader.Options options = new IPictureLoader.Options(url);
+        if (AIMManager.getInstance().isCircleAvatar()) {
+            options.isCircle = true;
+        } else {
+            options.isRadius = true;
+            options.radiusSize = VMDimen.dp2px(4);
+        }
+        ALoader.load(mActivity, options, mAvatarView);
     }
 
     /**
@@ -173,7 +183,15 @@ public class MatchActivity extends AppActivity {
 
             final AUser user = match.getUser();
             String url = user.getAvatar() != null ? user.getAvatar().getUrl() : null;
-            ALoader.loadAvatar(mActivity, url, imageView);
+            // 加载头像
+            IPictureLoader.Options options = new IPictureLoader.Options(url);
+            if (AIMManager.getInstance().isCircleAvatar()) {
+                options.isCircle = true;
+            } else {
+                options.isRadius = true;
+                options.radiusSize = VMDimen.dp2px(4);
+            }
+            ALoader.load(mActivity, options, imageView);
 
             imageView.setOnClickListener((View v) -> {
                 if (mMatchType == MATCH_TYPE_TEXT) {

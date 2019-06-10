@@ -1,66 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_content"
+    android:id="@+id/home_swipe_refresh_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.main.home.HomeFragment">
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop" />
+    android:layout_height="match_parent">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context=".ui.main.home.HomeFragment">
 
-        <!--心动语音-->
-        <View
-            android:id="@+id/home_match_voice_border"
-            android:layout_width="@dimen/vm_dimen_256"
-            android:layout_height="@dimen/avatar_56"
-            android:layout_marginBottom="@dimen/vm_dimen_36"
-            android:background="@drawable/fillet_green_border_selector"
-            android:clickable="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
+        <!--匹配背景-->
         <ImageView
-            android:id="@+id/home_match_voice_icon"
-            android:layout_width="@dimen/avatar_32"
-            android:layout_height="@dimen/avatar_32"
-            android:layout_marginStart="@dimen/vm_dimen_12"
-            android:background="@drawable/circle_white_bg_shape"
-            android:padding="@dimen/common_padding_small"
-            android:src="@drawable/im_ic_call"
-            android:tint="@color/app_accent"
-            app:layout_constraintBottom_toBottomOf="@+id/home_match_voice_border"
-            app:layout_constraintStart_toStartOf="@+id/home_match_voice_border"
-            app:layout_constraintTop_toTopOf="@+id/home_match_voice_border" />
+            android:id="@+id/home_match_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/home_match_voice_title"
-            style="@style/VMText.Subhead"
-            android:layout_marginStart="8dp"
-            android:text="心动语音"
-            android:textSize="@dimen/vm_size_14"
-            app:layout_constraintBottom_toBottomOf="@+id/home_match_voice_icon"
-            app:layout_constraintStart_toEndOf="@+id/home_match_voice_icon"
-            app:layout_constraintTop_toTopOf="@+id/home_match_voice_icon" />
-
-        <TextView
-            android:id="@+id/home_match_voice_info"
-            style="@style/VMText.Caption"
-            android:layout_marginStart="8dp"
-            android:text="5次机会"
-            android:textColor="@color/app_accent"
-            android:textSize="@dimen/vm_size_10"
-            app:layout_constraintBottom_toBottomOf="@+id/home_match_voice_title"
-            app:layout_constraintStart_toEndOf="@+id/home_match_voice_title"
-            app:layout_constraintTop_toTopOf="@+id/home_match_voice_title" />
+        <!--添加匹配人员容器-->
+        <FrameLayout
+            android:id="@+id/home_match_container"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/common_0"
+            android:layout_margin="@dimen/vm_margin_large"
+            app:layout_constraintBottom_toTopOf="@+id/home_match_text_border"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!--文字传情-->
         <View
@@ -107,5 +78,51 @@
             app:layout_constraintBottom_toBottomOf="@+id/home_match_text_title"
             app:layout_constraintStart_toEndOf="@+id/home_match_text_title"
             app:layout_constraintTop_toTopOf="@+id/home_match_text_title" />
+
+        <!--心动语音-->
+        <View
+            android:id="@+id/home_match_voice_border"
+            android:layout_width="@dimen/vm_dimen_256"
+            android:layout_height="@dimen/avatar_56"
+            android:layout_marginBottom="@dimen/vm_dimen_36"
+            android:background="@drawable/fillet_green_border_selector"
+            android:clickable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/home_match_voice_icon"
+            android:layout_width="@dimen/avatar_32"
+            android:layout_height="@dimen/avatar_32"
+            android:layout_marginStart="@dimen/vm_dimen_12"
+            android:background="@drawable/circle_white_bg_shape"
+            android:padding="@dimen/common_padding_small"
+            android:src="@drawable/im_ic_call"
+            android:tint="@color/app_accent"
+            app:layout_constraintBottom_toBottomOf="@+id/home_match_voice_border"
+            app:layout_constraintStart_toStartOf="@+id/home_match_voice_border"
+            app:layout_constraintTop_toTopOf="@+id/home_match_voice_border" />
+
+        <TextView
+            android:id="@+id/home_match_voice_title"
+            style="@style/VMText.Subhead"
+            android:layout_marginStart="8dp"
+            android:text="心动语音"
+            android:textSize="@dimen/vm_size_14"
+            app:layout_constraintBottom_toBottomOf="@+id/home_match_voice_icon"
+            app:layout_constraintStart_toEndOf="@+id/home_match_voice_icon"
+            app:layout_constraintTop_toTopOf="@+id/home_match_voice_icon" />
+
+        <TextView
+            android:id="@+id/home_match_voice_info"
+            style="@style/VMText.Caption"
+            android:layout_marginStart="8dp"
+            android:text="5次机会"
+            android:textColor="@color/app_accent"
+            android:textSize="@dimen/vm_size_10"
+            app:layout_constraintBottom_toBottomOf="@+id/home_match_voice_title"
+            app:layout_constraintStart_toEndOf="@+id/home_match_voice_title"
+            app:layout_constraintTop_toTopOf="@+id/home_match_voice_title" />
     </android.support.constraint.ConstraintLayout>
-</android.support.design.widget.CoordinatorLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

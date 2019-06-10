@@ -3,15 +3,20 @@ package com.vmloft.develop.app.match.ui.user;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import butterknife.BindView;
+
 import com.vmloft.develop.app.match.R;
 import com.vmloft.develop.app.match.base.AppActivity;
 import com.vmloft.develop.app.match.bean.AUser;
 import com.vmloft.develop.app.match.common.AUMSManager;
 import com.vmloft.develop.app.match.glide.ALoader;
+import com.vmloft.develop.app.match.im.AIMManager;
 import com.vmloft.develop.app.match.router.ARouter;
 import com.vmloft.develop.library.im.router.IMRouter;
+import com.vmloft.develop.library.tools.picker.IPictureLoader;
 import com.vmloft.develop.library.tools.router.VMParams;
+import com.vmloft.develop.library.tools.utils.VMDimen;
 
 /**
  * Create by lzan13 on 2019/6/1 12:44
@@ -20,12 +25,18 @@ import com.vmloft.develop.library.tools.router.VMParams;
  */
 public class UserDetailActivity extends AppActivity {
 
-    @BindView(R.id.user_detail_cover_iv) ImageView mCoverView;
-    @BindView(R.id.user_detail_avatar_iv) ImageView mAvatarView;
-    @BindView(R.id.user_detail_name_tv) TextView mNameView;
-    @BindView(R.id.user_detail_signature_tv) TextView mSignatureView;
-    @BindView(R.id.user_detail_private_letter_tv) TextView mPrivateLetterView;
-    @BindView(R.id.user_detail_follow_tv) TextView mFollowView;
+    @BindView(R.id.user_detail_cover_iv)
+    ImageView mCoverView;
+    @BindView(R.id.user_detail_avatar_iv)
+    ImageView mAvatarView;
+    @BindView(R.id.user_detail_name_tv)
+    TextView mNameView;
+    @BindView(R.id.user_detail_signature_tv)
+    TextView mSignatureView;
+    @BindView(R.id.user_detail_private_letter_tv)
+    TextView mPrivateLetterView;
+    @BindView(R.id.user_detail_follow_tv)
+    TextView mFollowView;
 
     private String mId;
     private AUser mUser;
@@ -56,12 +67,21 @@ public class UserDetailActivity extends AppActivity {
      * 加载用户信息
      */
     private void loadUserInfo() {
-        String url = "";
-        if (mUser.getAvatar() != null) {
-            url = mUser.getAvatar().getUrl();
+        String url = mUser.getAvatar() != null ? mUser.getAvatar().getUrl() : null;
+        // 加载头像
+        IPictureLoader.Options options = new IPictureLoader.Options(url);
+        if (AIMManager.getInstance().isCircleAvatar()) {
+            options.isCircle = true;
+        } else {
+            options.isRadius = true;
+            options.radiusSize = VMDimen.dp2px(4);
         }
-        ALoader.loadBlur(mActivity, url, mCoverView);
-        ALoader.loadAvatar(mActivity, url, mAvatarView);
+        ALoader.load(mActivity, options, mAvatarView);
+        // 加载背景
+        options = new IPictureLoader.Options(url);
+        options.isBlur = true;
+        ALoader.load(mActivity, options, mCoverView);
+
 
         mNameView.setText(mUser.getNickname());
         mSignatureView.setText(mUser.getSignature());

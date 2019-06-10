@@ -25,7 +25,7 @@
                 android:id="@+id/user_detail_cover_iv"
                 android:layout_width="@dimen/common_0"
                 android:layout_height="@dimen/common_0"
-                android:src="@drawable/img_default_square"
+                android:src="@drawable/img_default_blur"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

@@ -15,7 +15,10 @@ import butterknife.BindView;
 import com.vmloft.develop.app.match.bean.AUser;
 import com.vmloft.develop.app.match.common.ASignManager;
 import com.vmloft.develop.app.match.glide.ALoader;
+import com.vmloft.develop.app.match.im.AIMManager;
 import com.vmloft.develop.app.match.router.ARouter;
+import com.vmloft.develop.library.tools.picker.IPictureLoader;
+import com.vmloft.develop.library.tools.utils.VMDimen;
 import com.vmloft.develop.library.tools.utils.VMStr;
 import com.vmloft.develop.library.tools.utils.VMTheme;
 import com.vmloft.develop.library.tools.widget.toast.VMToast;
@@ -97,7 +100,15 @@ public class MeFragment extends AppLazyFragment {
         mNameView.setText(mUser.getNickname());
         mSignatureView.setText(mUser.getSignature());
 
-        String avatarUrl = mUser.getAvatar() != null ? mUser.getAvatar().getUrl() : null;
-        ALoader.loadAvatar(mContext, avatarUrl, mAvatarView);
+        String url = mUser.getAvatar() != null ? mUser.getAvatar().getUrl() : null;
+        // 加载头像
+        IPictureLoader.Options options = new IPictureLoader.Options(url);
+        if (AIMManager.getInstance().isCircleAvatar()) {
+            options.isCircle = true;
+        } else {
+            options.isRadius = true;
+            options.radiusSize = VMDimen.dp2px(4);
+        }
+        ALoader.load(mContext, options, mAvatarView);
     }
 }
