@@ -45,7 +45,7 @@ dependencies {
     implementation 'com.gauravk.audiovisualizer:audiovisualizer:0.9.2'
 
     // 环信聊天 IM 库 Easemob http://www.easemob.com
-    implementation 'com.hyphenate:hyphenate-sdk:3.6.0'
+    api 'com.hyphenate:hyphenate-sdk:3.6.0'
 
     // 自己封装的工具库 VMTools https://github.com/lzan13/VMLibrary
     api 'com.vmloft.library:vmtools:0.8.5'

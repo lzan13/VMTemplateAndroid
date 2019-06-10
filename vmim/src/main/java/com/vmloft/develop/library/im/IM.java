@@ -4,12 +4,16 @@ import android.content.Context;
 
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMOptions;
 import com.hyphenate.exceptions.HyphenateException;
 import com.vmloft.develop.library.im.base.IMCallback;
 import com.vmloft.develop.library.im.bean.IMContact;
+import com.vmloft.develop.library.im.bean.IMMessage;
 import com.vmloft.develop.library.im.call.IMCallManager;
+import com.vmloft.develop.library.im.chat.IMChatAdapter;
 import com.vmloft.develop.library.im.chat.IMChatManager;
+import com.vmloft.develop.library.im.chat.msgitem.IMBaseItem;
 import com.vmloft.develop.library.im.common.IMExecptionManager;
 import com.vmloft.develop.library.im.common.IMExecutor;
 import com.vmloft.develop.library.im.common.IMSPManager;
@@ -130,6 +134,13 @@ public class IM {
     }
 
     /**
+     * 获取全局回调
+     */
+    public IIMGlobalListener getGlobalListener() {
+        return mGlobalListener;
+    }
+
+    /**
      * 同步获取 IM 自己的信息
      */
     public IMContact getIMSelfContact() {
@@ -168,6 +179,26 @@ public class IM {
         if (mGlobalListener != null) {
             mGlobalListener.onHeadClick(context, contact);
         }
+    }
+
+    /**
+     * 获取外部扩展消息类型
+     */
+    public int getMsgType(EMMessage message) {
+        if (mGlobalListener != null) {
+            return mGlobalListener.onMsgType(message);
+        }
+        return 0;
+    }
+
+    /**
+     * 获取外部扩展消息类型
+     */
+    public IMBaseItem getMsgItem(Context context, IMChatAdapter adapter, int type) {
+        if (mGlobalListener != null) {
+            return mGlobalListener.onMsgItem(context, adapter, type);
+        }
+        return null;
     }
 
     /**

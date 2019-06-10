@@ -26,6 +26,7 @@
                 android:layout_width="@dimen/common_0"
                 android:layout_height="@dimen/common_0"
                 android:src="@drawable/img_default_blur"
+                android:tint="@color/vm_black_12"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

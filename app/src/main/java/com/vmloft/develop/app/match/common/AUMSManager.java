@@ -2,7 +2,6 @@ package com.vmloft.develop.app.match.common;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
-import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.FindCallback;
@@ -11,7 +10,6 @@ import com.avos.avoscloud.SaveCallback;
 import com.vmloft.develop.app.match.base.ACallback;
 import com.vmloft.develop.app.match.bean.AUser;
 import com.vmloft.develop.app.match.utils.ARXUtils;
-import com.vmloft.develop.library.im.common.IMConstants;
 import com.vmloft.develop.library.tools.picker.bean.VMPictureBean;
 
 import java.util.Arrays;
@@ -21,8 +19,6 @@ import java.util.Map;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.functions.Function;
 
 /**
  * Create by lzan13 on 2019/5/9 13:47
@@ -113,7 +109,7 @@ public class AUMSManager {
         //  设置缓存策略，因为是预加载，所以这里会先从最快的缓存加载一下，然后去网络更新一下
         query.setCachePolicy(AVQuery.CachePolicy.CACHE_THEN_NETWORK);
         // 设置缓存时间
-        query.setMaxCacheAge(AConstant.TIME_WEEK);
+        query.setMaxCacheAge(AConstants.TIME_WEEK);
         query.findInBackground(new FindCallback<AUser>() {
             @Override
             public void done(List<AUser> list, AVException e) {
@@ -150,7 +146,7 @@ public class AUMSManager {
             //  设置缓存策略
             query.setCachePolicy(AVQuery.CachePolicy.CACHE_ELSE_NETWORK);
             // 设置缓存时间
-            query.setMaxCacheAge(AConstant.TIME_WEEK);
+            query.setMaxCacheAge(AConstants.TIME_WEEK);
             query.getInBackground(id, new GetCallback<AUser>() {
                 @Override
                 public void done(AUser user, AVException e) {

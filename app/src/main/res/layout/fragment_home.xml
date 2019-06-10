@@ -4,12 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home_swipe_refresh_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.main.home.HomeFragment">
+        tools:context=".ui.main.home.HomeFragment"
+        >
 
         <!--匹配背景-->
         <ImageView
@@ -17,10 +19,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
+            android:tint="@color/vm_black_12"
             app:layout_constraintBottom_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
         <!--添加匹配人员容器-->
         <FrameLayout
@@ -31,7 +35,8 @@
             app:layout_constraintBottom_toTopOf="@+id/home_match_text_border"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
         <!--文字传情-->
         <View
@@ -43,7 +48,8 @@
             android:clickable="true"
             app:layout_constraintBottom_toTopOf="@+id/home_match_voice_border"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            />
 
         <ImageView
             android:id="@+id/home_match_text_icon"
@@ -56,28 +62,32 @@
             android:tint="@color/app_accent"
             app:layout_constraintBottom_toBottomOf="@+id/home_match_text_border"
             app:layout_constraintStart_toStartOf="@+id/home_match_text_border"
-            app:layout_constraintTop_toTopOf="@+id/home_match_text_border" />
+            app:layout_constraintTop_toTopOf="@+id/home_match_text_border"
+            />
 
         <TextView
             android:id="@+id/home_match_text_title"
-            style="@style/VMText.Subhead"
             android:layout_marginStart="8dp"
             android:text="文字传情"
+            android:textColor="@color/app_title_light"
             android:textSize="@dimen/vm_size_14"
             app:layout_constraintBottom_toBottomOf="@+id/home_match_text_icon"
             app:layout_constraintStart_toEndOf="@+id/home_match_text_icon"
-            app:layout_constraintTop_toTopOf="@+id/home_match_text_icon" />
+            app:layout_constraintTop_toTopOf="@+id/home_match_text_icon"
+            style="@style/VMText.Body.Shadow"
+            />
 
         <TextView
             android:id="@+id/home_match_text_info"
-            style="@style/VMText.Caption"
             android:layout_marginStart="8dp"
             android:text="1822人在玩"
             android:textColor="@color/app_accent"
             android:textSize="@dimen/vm_size_10"
             app:layout_constraintBottom_toBottomOf="@+id/home_match_text_title"
             app:layout_constraintStart_toEndOf="@+id/home_match_text_title"
-            app:layout_constraintTop_toTopOf="@+id/home_match_text_title" />
+            app:layout_constraintTop_toTopOf="@+id/home_match_text_title"
+            style="@style/VMText.Caption"
+            />
 
         <!--心动语音-->
         <View
@@ -89,7 +99,8 @@
             android:clickable="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            />
 
         <ImageView
             android:id="@+id/home_match_voice_icon"
@@ -102,27 +113,31 @@
             android:tint="@color/app_accent"
             app:layout_constraintBottom_toBottomOf="@+id/home_match_voice_border"
             app:layout_constraintStart_toStartOf="@+id/home_match_voice_border"
-            app:layout_constraintTop_toTopOf="@+id/home_match_voice_border" />
+            app:layout_constraintTop_toTopOf="@+id/home_match_voice_border"
+            />
 
         <TextView
             android:id="@+id/home_match_voice_title"
-            style="@style/VMText.Subhead"
             android:layout_marginStart="8dp"
             android:text="心动语音"
+            android:textColor="@color/app_title_light"
             android:textSize="@dimen/vm_size_14"
             app:layout_constraintBottom_toBottomOf="@+id/home_match_voice_icon"
             app:layout_constraintStart_toEndOf="@+id/home_match_voice_icon"
-            app:layout_constraintTop_toTopOf="@+id/home_match_voice_icon" />
+            app:layout_constraintTop_toTopOf="@+id/home_match_voice_icon"
+            style="@style/VMText.Body.Shadow"
+            />
 
         <TextView
             android:id="@+id/home_match_voice_info"
-            style="@style/VMText.Caption"
             android:layout_marginStart="8dp"
             android:text="5次机会"
             android:textColor="@color/app_accent"
             android:textSize="@dimen/vm_size_10"
             app:layout_constraintBottom_toBottomOf="@+id/home_match_voice_title"
             app:layout_constraintStart_toEndOf="@+id/home_match_voice_title"
-            app:layout_constraintTop_toTopOf="@+id/home_match_voice_title" />
+            app:layout_constraintTop_toTopOf="@+id/home_match_voice_title"
+            style="@style/VMText.Caption"
+            />
     </android.support.constraint.ConstraintLayout>
 </android.support.v4.widget.SwipeRefreshLayout>

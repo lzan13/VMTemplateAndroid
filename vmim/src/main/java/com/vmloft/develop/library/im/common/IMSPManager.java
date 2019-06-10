@@ -86,7 +86,7 @@ public class IMSPManager {
      * 是否启用圆形头像
      */
     public boolean getCircleAvatar() {
-        return (boolean) VMSPUtil.get(IM_CIRCLE_AVATAR, false);
+        return (boolean) VMSPUtil.get(IM_CIRCLE_AVATAR, true);
     }
 
     /**

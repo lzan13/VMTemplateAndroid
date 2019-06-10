@@ -67,6 +67,7 @@
 
 
     <string name="chat">聊天</string>
+    <string name="chat_settings">聊天设置</string>
     <string name="circle_avatar">圆形头像</string>
     <string name="circle_avatar_desc">是否显示圆形头像，默认为圆角样式</string>
     <string name="chat_speaker_voice">扬声器播放语音</string>

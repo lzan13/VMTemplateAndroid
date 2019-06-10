@@ -1,5 +1,6 @@
 package com.vmloft.develop.library.im.utils;
 
+import android.content.Context;
 import android.text.TextUtils;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
@@ -8,7 +9,16 @@ import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMTextMessageBody;
 import com.hyphenate.util.PathUtil;
+import com.vmloft.develop.library.im.IM;
 import com.vmloft.develop.library.im.R;
+import com.vmloft.develop.library.im.chat.IMChatAdapter;
+import com.vmloft.develop.library.im.chat.msgitem.IMBaseItem;
+import com.vmloft.develop.library.im.chat.msgitem.IMCallItem;
+import com.vmloft.develop.library.im.chat.msgitem.IMEmotionMsgItem;
+import com.vmloft.develop.library.im.chat.msgitem.IMPictureItem;
+import com.vmloft.develop.library.im.chat.msgitem.IMTextItem;
+import com.vmloft.develop.library.im.chat.msgitem.IMUnknownItem;
+import com.vmloft.develop.library.im.chat.msgitem.IMVoiceMsgItem;
 import com.vmloft.develop.library.im.common.IMConstants;
 import com.vmloft.develop.library.im.common.IMException;
 import com.vmloft.develop.library.tools.utils.VMCrypto;
@@ -136,7 +146,12 @@ public class IMChatUtils {
      * 获取消息类型
      */
     public static int getMessageType(EMMessage message) {
-        int extType = message.getIntAttribute(IMConstants.IM_MSG_EXT_TYPE, IMConstants.MsgType.IM_UNKNOWN);
+        int extType = IM.getInstance().getMsgType(message);
+
+        if (extType > 0) {
+            return extType;
+        }
+
         int itemType;
         if (extType == IMConstants.MsgExtType.IM_CALL) {
             // 通话
@@ -175,6 +190,60 @@ public class IMChatUtils {
             itemType = IMConstants.MsgType.IM_UNKNOWN;
         }
         return itemType;
+    }
+
+    /**
+     * 创建一个消息 Item
+     */
+    public static IMBaseItem createMsgItem(Context context, IMChatAdapter adapter, int type) {
+        IMBaseItem itemView = IM.getInstance().getMsgItem(context, adapter, type);
+
+        if (itemView != null) {
+            return itemView;
+        }
+
+        switch (type) {
+        // 通知类消息
+        case IMConstants.MsgType.IM_SYSTEM:
+        case IMConstants.MsgType.IM_RECALL:
+            break;
+        // 扩展类消息
+        case IMConstants.MsgExtType.IM_CALL_RECEIVE:
+        case IMConstants.MsgExtType.IM_CALL_SEND:
+            itemView = new IMCallItem(context, adapter, type);
+            break;
+        case IMConstants.MsgExtType.IM_BIG_EMOTION_RECEIVE:
+        case IMConstants.MsgExtType.IM_BIG_EMOTION_SEND:
+            itemView = new IMEmotionMsgItem(context, adapter, type);
+            break;
+        // 普通消息
+        case IMConstants.MsgType.IM_TEXT_RECEIVE:
+        case IMConstants.MsgType.IM_TEXT_SEND:
+            itemView = new IMTextItem(context, adapter, type);
+            break;
+        case IMConstants.MsgType.IM_IMAGE_RECEIVE:
+        case IMConstants.MsgType.IM_IMAGE_SEND:
+            itemView = new IMPictureItem(context, adapter, type);
+            break;
+        case IMConstants.MsgType.IM_VIDEO_RECEIVE:
+        case IMConstants.MsgType.IM_VIDEO_SEND:
+            break;
+        case IMConstants.MsgType.IM_LOCATION_RECEIVE:
+        case IMConstants.MsgType.IM_LOCATION_SEND:
+            break;
+        case IMConstants.MsgType.IM_VOICE_RECEIVE:
+        case IMConstants.MsgType.IM_VOICE_SEND:
+            itemView = new IMVoiceMsgItem(context, adapter, type);
+            break;
+        case IMConstants.MsgType.IM_FILE_RECEIVE:
+        case IMConstants.MsgType.IM_FILE_SEND:
+            break;
+        case IMConstants.MsgType.IM_UNKNOWN: // 未知
+        default:
+            itemView = new IMUnknownItem(context, adapter, IMConstants.MsgType.IM_UNKNOWN);
+            break;
+        }
+        return itemView;
     }
 
     /**
@@ -398,5 +467,36 @@ public class IMChatUtils {
             e.printStackTrace();
         }
         return VMDate.currentMilli();
-    }// ---------------------------------------- 会话扩展结束 ----------------------------------------
+    }
+
+    /**
+     * 设置会话扩展
+     */
+    public static void setConversationExt(EMConversation conversation, String key, Object value) {
+        try {
+            JSONObject extObject = getExtObject(conversation);
+            extObject.put(key, value);
+            // 将扩展信息保存到 Conversation 对象的扩展中去
+            conversation.setExtField(extObject.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 获取会话扩展
+     *
+     * @param conversation 需要获取的会话对象
+     */
+    public static Object getConversationExt(EMConversation conversation, String key) {
+        try {
+            JSONObject extObject = getExtObject(conversation);
+            // 根据扩展的key获取扩展的值
+            return extObject.opt(key);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    // ---------------------------------------- 会话扩展结束 ----------------------------------------
 }

@@ -1,9 +1,6 @@
 package com.vmloft.develop.library.im.chat.msgitem;
 
 import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.TextView;
 
 import com.hyphenate.chat.EMMessage;
 
@@ -14,21 +11,19 @@ import com.vmloft.develop.library.im.common.IMConstants;
 import com.vmloft.develop.library.tools.utils.VMDate;
 
 /**
- * Create by lzan13 on 2019/5/23 22:17
+ * Create by lzan13 on 2019/6/10 20:49
  *
- * 无方向类型通知类消息基类
+ * 卡片类消息基类
  */
-public abstract class IMNotifyItem extends IMBaseItem {
+public abstract class IMCardItem extends IMBaseItem {
 
-    protected TextView mContentView;
-
-    public IMNotifyItem(Context context, IMChatAdapter adapter, int type) {
+    public IMCardItem(Context context, IMChatAdapter adapter, int type) {
         super(context, adapter, type);
     }
 
     @Override
     protected void loadContainer() {
-        mInflater.inflate(R.layout.im_msg_item_container_notify, this);
+        mInflater.inflate(R.layout.im_msg_item_container_card, this);
     }
 
     @Override
@@ -54,10 +49,4 @@ public abstract class IMNotifyItem extends IMBaseItem {
         onUpdate(mMessage);
     }
 
-    @Override
-    protected View layoutView() {
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.im_msg_item_notify_common, null);
-        mContentView = view.findViewById(R.id.im_msg_content_tv);
-        return view;
-    }
 }

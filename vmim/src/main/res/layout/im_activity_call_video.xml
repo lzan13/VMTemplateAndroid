@@ -89,7 +89,7 @@
     <TextView
         android:id="@+id/im_call_status_tv"
         android:layout_marginBottom="@dimen/vm_margin_large"
-        android:background="@drawable/im_msg_notify_container_shape"
+        android:background="@drawable/im_msg_container_notify_shape"
         android:paddingBottom="@dimen/vm_padding_small"
         android:paddingEnd="@dimen/vm_padding_large"
         android:paddingStart="@dimen/vm_padding_large"

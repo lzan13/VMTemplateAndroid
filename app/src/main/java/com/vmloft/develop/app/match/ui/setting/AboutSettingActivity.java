@@ -28,7 +28,7 @@ public class AboutSettingActivity extends AppActivity {
 
     @Override
     protected void initData() {
-        setTopTitle(R.string.setting);
+        setTopTitle(R.string.about);
     }
 
     @OnClick({ R.id.about_setting_check_new })

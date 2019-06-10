@@ -35,20 +35,13 @@ public abstract class IMBaseItem extends RelativeLayout {
 
     protected IMContact mContact;
 
+    // 消息在内存中的位置
     protected int mPosition;
     protected EMMessage mMessage;
     // 显示时间
     protected TextView mTimeView;
     // 消息容器
     protected ViewGroup mContainerView;
-    // 头像
-    protected ImageView mAvatarView;
-    // 消息状态
-    protected View mStatusView;
-    // 失败图标
-    protected ImageView mErrorView;
-    // 进度圈
-    protected ProgressBar mSendPB;
 
     /**
      * @param context
@@ -72,10 +65,6 @@ public abstract class IMBaseItem extends RelativeLayout {
 
         mTimeView = findViewById(R.id.im_msg_time_tv);
         mContainerView = findViewById(R.id.im_msg_container_rl);
-        mAvatarView = findViewById(R.id.im_msg_avatar_iv);
-        mStatusView = findViewById(R.id.im_msg_status_view);
-        mErrorView = findViewById(R.id.im_msg_error_iv);
-        mSendPB = findViewById(R.id.im_msg_send_pb);
 
         mContainerView.addView(layoutView());
 
@@ -87,117 +76,19 @@ public abstract class IMBaseItem extends RelativeLayout {
     }
 
     /**
-     * 加载公共部分 UI
+     * 加载容器
      */
-    protected void setupCommonView() {
-        mContact = IM.getInstance().getIMContact(mMessage.conversationId());
-        // 处理时间戳
-        if (mTimeView != null) {
-            mTimeView.setVisibility(GONE);
-            EMMessage prevMessage = mAdapter.getPrevMessage(mPosition);
-            if (prevMessage == null || mMessage.localTime() - prevMessage.localTime() > IMConstants.IM_TIME_MINUTE * 2) {
-                mTimeView.setText(VMDate.getRelativeTime(mMessage.getMsgTime()));
-                mTimeView.setVisibility(VISIBLE);
-            }
-        }
-        // 处理头像
-        if (mAvatarView != null) {
-            loadContactInfo();
-        }
-        onUpdate(mMessage);
-    }
-
-    /**
-     * 加载联系人信息
-     */
-    private void loadContactInfo() {
-        mAvatarView.setOnClickListener((View v) -> {
-            IM.getInstance().onHeadClick(mContext, mContact);
-        });
-        IPictureLoader.Options options = new IPictureLoader.Options(mContact.mAvatar);
-        if (IM.getInstance().isCircleAvatar()) {
-            options.isCircle = true;
-        } else {
-            options.isRadius = true;
-            options.radiusSize = VMDimen.dp2px(4);
-        }
-        IM.getInstance().getPictureLoader().load(mContext, options, mAvatarView);
-    }
-
-    /**
-     * 更新消息，这里主要是更新发送消息的状态
-     */
-    public void onUpdate(EMMessage message) {
-        if (!message.equals(mMessage)) {
-            return;
-        }
-        // 处理发送结果
-        if (mMessage.direct() == EMMessage.Direct.SEND && mErrorView != null && mSendPB != null) {
-            mErrorView.setVisibility(GONE);
-            mSendPB.setVisibility(GONE);
-            switch (mMessage.status()) {
-            case CREATE:
-                break;
-            case INPROGRESS:
-                mSendPB.setVisibility(VISIBLE);
-                break;
-            case FAIL:
-                mErrorView.setVisibility(VISIBLE);
-                break;
-            case SUCCESS:
-                break;
-            }
-        }
-        checkACKStatus();
-    }
-
-    /**
-     * 检查消息已读 ACK 状态
-     */
-    public void checkACKStatus() {
-        if (mStatusView != null) {
-            mStatusView.setVisibility(GONE);
-            if (isReceiveMessage()) {
-                if (!mMessage.isAcked()) {
-                    // 接收方发送已读 ACK
-                    IMChatManager.getInstance().sendReadACK(mMessage);
-                }
-            } else {
-                // 发送方处理已读 ACK 状态
-                if (mMessage.isAcked()) {
-                    mStatusView.setVisibility(VISIBLE);
-                    mStatusView.setSelected(true);
-                } else if (mMessage.isDelivered()) {
-                    mStatusView.setSelected(false);
-                    mStatusView.setVisibility(VISIBLE);
-                } else {
-                    mStatusView.setVisibility(GONE);
-                }
-            }
-        }
-    }
-
-    /**
-     * 触发消息点击
-     */
-    public void onClick() {}
-
-    /**
-     * 触发消息长按事件
-     */
-    public void onLongClick() {}
-
-    /**
-     * 加载容器，这里默认根据子类的判断加载发送或者接收的消息容器，子类可以重写此方法实现加载不同的容器
-     */
-    protected void loadContainer() {
-        mInflater.inflate(isReceiveMessage() ? R.layout.im_msg_item_receive_container : R.layout.im_msg_item_send_container, this);
-    }
+    protected abstract void loadContainer();
 
     /**
      * 是否为接收的，以此来判断加载哪种容器
      */
     protected abstract boolean isReceiveMessage();
+
+    /**
+     * 加载公共部分 UI
+     */
+    protected abstract void setupCommonView();
 
     /**
      * 加载内容布局，解析对应布局文件，填充当前布局
@@ -209,5 +100,25 @@ public abstract class IMBaseItem extends RelativeLayout {
      *
      * @param message 需要展示的消息对象
      */
-    public abstract void onBind(int position, EMMessage message);
+    public void onBind(int position, EMMessage message) {
+        mPosition = position;
+        mMessage = message;
+        // 装在通用部分控件
+        setupCommonView();
+    }
+
+    /**
+     * 更新消息，这里主要是更新发送消息的状态
+     */
+    public void onUpdate(EMMessage message) {}
+
+    /**
+     * 触发消息点击
+     */
+    public void onClick() {}
+
+    /**
+     * 触发消息长按事件
+     */
+    public void onLongClick() {}
 }

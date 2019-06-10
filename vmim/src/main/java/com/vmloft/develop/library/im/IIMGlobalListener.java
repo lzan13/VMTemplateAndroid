@@ -2,9 +2,12 @@ package com.vmloft.develop.library.im;
 
 import android.content.Context;
 
+import com.hyphenate.chat.EMMessage;
+
 import com.vmloft.develop.library.im.base.IMCallback;
 import com.vmloft.develop.library.im.bean.IMContact;
-import java.util.List;
+import com.vmloft.develop.library.im.chat.IMChatAdapter;
+import com.vmloft.develop.library.im.chat.msgitem.IMBaseItem;
 
 /**
  * Create by lzan13 on 2019/5/23 09:47
@@ -35,4 +38,20 @@ public interface IIMGlobalListener {
      * @param contact 点击的头像
      */
     void onHeadClick(Context context, IMContact contact);
+
+    /**
+     * 获取消息类型
+     *
+     * @param message 消息对象
+     */
+    int onMsgType(EMMessage message);
+
+    /**
+     * 生成消息展示控件
+     *
+     * @param context 上下文对象
+     * @param adapter 消息适配器
+     * @param type    消息类型
+     */
+    IMBaseItem onMsgItem(Context context, IMChatAdapter adapter, int type);
 }

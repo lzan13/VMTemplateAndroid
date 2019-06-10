@@ -34,7 +34,7 @@ public class NotifySettingActivity extends AppActivity {
 
     @Override
     protected void initData() {
-        setTopTitle(R.string.setting);
+        setTopTitle(R.string.notify);
         mNotifyLine.setActivated(AIMManager.getInstance().isNotify());
         mNotifyDetailLine.setActivated(AIMManager.getInstance().isNotifyDetail());
     }

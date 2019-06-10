@@ -5,9 +5,8 @@ import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVUser;
 import com.vmloft.develop.app.match.bean.AMatch;
 import com.vmloft.develop.app.match.bean.AUser;
-import com.vmloft.develop.app.match.common.AConstant;
+import com.vmloft.develop.app.match.common.AConstants;
 import com.vmloft.develop.app.match.im.AIMManager;
-import com.vmloft.develop.library.im.IM;
 import com.vmloft.develop.library.tools.base.VMApp;
 
 /**
@@ -40,6 +39,6 @@ public class App extends VMApp {
         AVObject.registerSubclass(AMatch.class);
         AVUser.registerSubclass(AUser.class);
         AVUser.alwaysUseSubUserClass(AUser.class);
-        AVOSCloud.initialize(context, AConstant.APP_LC_ID, AConstant.APP_LC_KEY);
+        AVOSCloud.initialize(context, AConstants.APP_LC_ID, AConstants.APP_LC_KEY);
     }
 }

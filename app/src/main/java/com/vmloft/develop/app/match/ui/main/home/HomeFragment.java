@@ -9,26 +9,28 @@ import android.widget.ImageView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import com.hyphenate.chat.EMMessage;
 import com.vmloft.develop.app.match.R;
 import com.vmloft.develop.app.match.base.ACallback;
 import com.vmloft.develop.app.match.base.AppLazyFragment;
 
 import com.vmloft.develop.app.match.bean.AMatch;
 import com.vmloft.develop.app.match.bean.AUser;
+import com.vmloft.develop.app.match.common.AConstants;
 import com.vmloft.develop.app.match.common.AMatchManager;
 import com.vmloft.develop.app.match.common.ASignManager;
 import com.vmloft.develop.app.match.glide.ALoader;
 import com.vmloft.develop.app.match.im.AIMManager;
 import com.vmloft.develop.app.match.router.ARouter;
 import com.vmloft.develop.app.match.utils.AUtils;
-import com.vmloft.develop.library.im.call.IMCallManager;
+import com.vmloft.develop.library.im.chat.IMChatManager;
+import com.vmloft.develop.library.im.common.IMConstants;
 import com.vmloft.develop.library.im.router.IMRouter;
 import com.vmloft.develop.library.tools.animator.VMAnimator;
 import com.vmloft.develop.library.tools.picker.IPictureLoader;
 import com.vmloft.develop.library.tools.router.VMParams;
 import com.vmloft.develop.library.tools.utils.VMColor;
 import com.vmloft.develop.library.tools.utils.VMDimen;
-import com.vmloft.develop.library.tools.widget.toast.VMToast;
 
 import java.util.HashMap;
 import java.util.List;
@@ -41,12 +43,9 @@ import java.util.Map;
  */
 public class HomeFragment extends AppLazyFragment {
 
-    @BindView(R.id.home_swipe_refresh_layout)
-    SwipeRefreshLayout mRefreshLayout;
-    @BindView(R.id.home_match_container)
-    FrameLayout mMatchContainer;
-    @BindView(R.id.home_match_cover)
-    ImageView mMatchCoverView;
+    @BindView(R.id.home_swipe_refresh_layout) SwipeRefreshLayout mRefreshLayout;
+    @BindView(R.id.home_match_container) FrameLayout mMatchContainer;
+    @BindView(R.id.home_match_cover) ImageView mMatchCoverView;
 
     // 自己
     private AUser mUser;
@@ -98,18 +97,18 @@ public class HomeFragment extends AppLazyFragment {
         loadMatchData();
     }
 
-    @OnClick({R.id.home_match_text_border, R.id.home_match_voice_border})
+    @OnClick({ R.id.home_match_text_border, R.id.home_match_voice_border })
     public void onClick(View view) {
         VMParams params = new VMParams();
         switch (view.getId()) {
-            case R.id.home_match_text_border:
-                params.arg0 = MatchActivity.MATCH_TYPE_TEXT;
-                ARouter.goMatch(getActivity(), params);
-                break;
-            case R.id.home_match_voice_border:
-                params.arg0 = MatchActivity.MATCH_TYPE_CALL;
-                ARouter.goMatch(getActivity(), params);
-                break;
+        case R.id.home_match_text_border:
+            params.arg0 = MatchActivity.MATCH_TYPE_TEXT;
+            ARouter.goMatch(getActivity(), params);
+            break;
+        case R.id.home_match_voice_border:
+            params.arg0 = MatchActivity.MATCH_TYPE_CALL;
+            ARouter.goMatch(getActivity(), params);
+            break;
         }
     }
 
@@ -171,7 +170,7 @@ public class HomeFragment extends AppLazyFragment {
             ALoader.load(mContext, options, imageView);
 
             imageView.setOnClickListener((View v) -> {
-                IMRouter.goIMChat(mContext, user.getObjectId());
+                startMatch(user);
             });
 
             // 动画出现
@@ -181,5 +180,24 @@ public class HomeFragment extends AppLazyFragment {
             animOptions.setRepeatMode(VMAnimator.REVERSE);
             VMAnimator.createAnimator().play(animOptions).startDelay(delay);
         }
+    }
+
+    /**
+     * 开始匹配
+     */
+    private void startMatch(AUser user) {
+        String id = user.getObjectId();
+        // 判断是否匹配过
+        boolean isMatch = (boolean) IMChatManager.getInstance()
+            .getConversationExt(id, IMConstants.ChatType.IM_SINGLE_CHAT, AConstants.MsgExtType.MSG_EXT_MATCH, false);
+        if (!isMatch) {
+            // 发送匹配扩展消息
+            EMMessage message = IMChatManager.getInstance().createTextMessage("[匹配信息]", id, true);
+            message.setAttribute(AConstants.MsgExtType.MSG_EXT_TYPE, AConstants.MsgExtType.IM_MATCH);
+            IMChatManager.getInstance().sendMessage(message, null);
+            IMChatManager.getInstance()
+                .setConversationExt(id, IMConstants.ChatType.IM_SINGLE_CHAT, AConstants.MsgExtType.MSG_EXT_MATCH, true);
+        }
+        IMRouter.goIMChat(mContext, user.getObjectId());
     }
 }

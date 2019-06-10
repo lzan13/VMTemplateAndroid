@@ -6,17 +6,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_bg"
-    tools:context=".ui.main.me.MeFragment">
+    tools:context=".ui.main.me.MeFragment"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
 
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/status_bar_height"
-            android:background="@color/app_status_bar" />
+            android:background="@color/app_status_bar"
+            />
 
         <!--我的标签头部个人信息部分-->
         <android.support.constraint.ConstraintLayout
@@ -25,7 +28,8 @@
             android:layout_height="wrap_content"
             android:background="@color/app_card_bg"
             android:foreground="@drawable/vm_click_full_transparent"
-            android:padding="@dimen/common_padding_large">
+            android:padding="@dimen/common_padding_large"
+            >
 
             <ImageView
                 android:id="@+id/me_avatar_img"
@@ -39,7 +43,6 @@
 
             <TextView
                 android:id="@+id/me_name_tv"
-                style="@style/VMText.Title"
                 android:layout_width="@dimen/common_0"
                 android:layout_marginEnd="@dimen/common_margin_normal"
                 android:maxLines="1"
@@ -47,11 +50,12 @@
                 app:layout_constraintEnd_toStartOf="@+id/me_avatar_img"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/me_avatar_img"
-                tools:text="@string/app_name" />
+                tools:text="@string/app_name"
+                style="@style/VMText.Title"
+                />
 
             <TextView
                 android:id="@+id/me_signature_tv"
-                style="@style/VMText.Caption"
                 android:layout_width="@dimen/common_0"
                 android:layout_marginEnd="@dimen/common_margin_normal"
                 android:ellipsize="end"
@@ -60,7 +64,9 @@
                 app:layout_constraintEnd_toStartOf="@+id/me_avatar_img"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/me_name_tv"
-                tools:text="@string/app_name" />
+                tools:text="@string/app_name"
+                style="@style/VMText.Caption"
+                />
         </android.support.constraint.ConstraintLayout>
         <!--关系部分-->
         <LinearLayout
@@ -68,7 +74,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/app_card_bg"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            >
             <!--好友-->
             <LinearLayout
                 android:id="@+id/me_friend_layout"
@@ -79,18 +86,21 @@
                 android:clickable="true"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="@dimen/common_margin_normal">
+                android:padding="@dimen/common_margin_normal"
+                >
 
                 <TextView
-                    style="@style/VMText.Title"
                     android:text="0"
                     android:textStyle="bold"
-                    tools:text="4" />
+                    tools:text="4"
+                    style="@style/VMText.Title"
+                    />
 
                 <TextView
-                    style="@style/VMText.Body1"
                     android:layout_marginTop="@dimen/common_margin_small"
-                    android:text="@string/friend" />
+                    android:text="@string/friend"
+                    style="@style/VMText.Body1"
+                    />
             </LinearLayout>
 
             <!--跟随-->
@@ -103,18 +113,21 @@
                 android:clickable="true"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="@dimen/common_margin_normal">
+                android:padding="@dimen/common_margin_normal"
+                >
 
                 <TextView
-                    style="@style/VMText.Title"
                     android:text="0"
                     android:textStyle="bold"
-                    tools:text="4" />
+                    tools:text="4"
+                    style="@style/VMText.Title"
+                    />
 
                 <TextView
-                    style="@style/VMText.Body1"
                     android:layout_marginTop="@dimen/common_margin_small"
-                    android:text="@string/follows" />
+                    android:text="@string/follows"
+                    style="@style/VMText.Body1"
+                    />
             </LinearLayout>
             <!--粉丝-->
             <LinearLayout
@@ -126,51 +139,54 @@
                 android:clickable="true"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="@dimen/common_margin_normal">
+                android:padding="@dimen/common_margin_normal"
+                >
 
                 <TextView
-                    style="@style/VMText.Title"
                     android:text="0"
                     android:textStyle="bold"
-                    tools:text="4" />
+                    tools:text="4"
+                    style="@style/VMText.Title"
+                    />
 
                 <TextView
-                    style="@style/VMText.Body1"
                     android:layout_marginTop="@dimen/common_margin_small"
-                    android:text="@string/fans" />
+                    android:text="@string/fans"
+                    style="@style/VMText.Body1"
+                    />
             </LinearLayout>
         </LinearLayout>
+
         <!--选项-->
-        <LinearLayout
+        <com.vmloft.develop.library.tools.widget.VMLineView
+            android:id="@+id/me_like"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/common_margin_normal"
+            android:layout_marginTop="@dimen/common_margin_large"
             android:background="@color/app_card_bg"
-            android:orientation="vertical">
+            app:vm_line_decoration="true"
+            app:vm_line_icon="@drawable/ic_like_fill"
+            app:vm_line_title="@string/me_like"
+            />
 
-            <com.vmloft.develop.library.tools.widget.VMLineView
-                android:id="@+id/me_like"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:vm_line_decoration="true"
-                app:vm_line_icon="@drawable/ic_like_fill"
-                app:vm_line_title="@string/me_like" />
+        <com.vmloft.develop.library.tools.widget.VMLineView
+            android:id="@+id/me_collect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/app_card_bg"
+            app:vm_line_icon="@drawable/ic_collect"
+            app:vm_line_title="@string/me_collect"
+            />
 
-            <com.vmloft.develop.library.tools.widget.VMLineView
-                android:id="@+id/me_collect"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:vm_line_decoration="true"
-                app:vm_line_icon="@drawable/ic_collect"
-                app:vm_line_title="@string/me_collect" />
-
-            <com.vmloft.develop.library.tools.widget.VMLineView
-                android:id="@+id/me_setting"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:vm_line_icon="@drawable/ic_settings"
-                app:vm_line_title="@string/setting" />
-        </LinearLayout>
+        <com.vmloft.develop.library.tools.widget.VMLineView
+            android:id="@+id/me_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_margin_large"
+            android:background="@color/app_card_bg"
+            app:vm_line_icon="@drawable/ic_settings"
+            app:vm_line_title="@string/setting"
+            />
 
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

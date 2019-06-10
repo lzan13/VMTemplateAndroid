@@ -1,18 +1,20 @@
 package com.vmloft.develop.app.match.im;
 
-import android.app.Activity;
 import android.content.Context;
 
+import com.hyphenate.chat.EMMessage;
 import com.vmloft.develop.app.match.base.ACallback;
 import com.vmloft.develop.app.match.bean.AUser;
+import com.vmloft.develop.app.match.common.AConstants;
 import com.vmloft.develop.app.match.common.ASignManager;
 import com.vmloft.develop.app.match.common.AUMSManager;
 import com.vmloft.develop.app.match.router.ARouter;
 import com.vmloft.develop.library.im.IIMGlobalListener;
 import com.vmloft.develop.library.im.base.IMCallback;
 import com.vmloft.develop.library.im.bean.IMContact;
-import com.vmloft.develop.library.tools.widget.toast.VMToast;
-import java.util.List;
+import com.vmloft.develop.library.im.chat.IMChatAdapter;
+import com.vmloft.develop.library.im.chat.msgitem.IMBaseItem;
+import com.vmloft.develop.library.im.common.IMConstants;
 
 /**
  * Create by lzan13 on 2019/5/23 09:57
@@ -80,5 +82,22 @@ public class AIMGlobalListener implements IIMGlobalListener {
     @Override
     public void onHeadClick(Context context, IMContact contact) {
         ARouter.goUserDetail(context, contact.mId);
+    }
+
+    @Override
+    public IMBaseItem onMsgItem(Context context, IMChatAdapter adapter, int type) {
+        if (type == AConstants.MsgExtType.IM_MATCH) {
+            return new AIMMatchItem(context, adapter, type);
+        }
+        return null;
+    }
+
+    @Override
+    public int onMsgType(EMMessage message) {
+        int extType = message.getIntAttribute(AConstants.MsgExtType.MSG_EXT_TYPE, IMConstants.MsgType.IM_UNKNOWN);
+        if (extType == AConstants.MsgExtType.IM_MATCH) {
+            return extType;
+        }
+        return extType;
     }
 }

@@ -81,7 +81,7 @@ public class MeFragment extends AppLazyFragment {
         case R.id.me_fans_layout:
             break;
         case R.id.me_collect:
-            VMToast.make(getActivity(), "暂未实现").error();
+            VMToast.make(getActivity(), "还没有收藏呢").error();
             break;
         case R.id.me_setting:
             ARouter.goSetting(getActivity());

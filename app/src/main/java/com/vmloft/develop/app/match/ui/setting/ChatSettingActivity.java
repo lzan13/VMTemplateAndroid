@@ -29,7 +29,7 @@ public class ChatSettingActivity extends AppActivity {
 
     @Override
     protected void initData() {
-        setTopTitle(R.string.setting);
+        setTopTitle(R.string.chat_settings);
         mAvatarLine.setActivated(AIMManager.getInstance().isCircleAvatar());
         mVoiceLine.setActivated(AIMManager.getInstance().isSpeakerVoice());
     }

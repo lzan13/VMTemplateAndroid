@@ -22,11 +22,11 @@ import com.vmloft.develop.library.tools.widget.VMFloatMenu;
  *
  * 实现文本消息展示
  */
-public class IMTextMsgItem extends IMNormalItem {
+public class IMTextItem extends IMNormalItem {
 
     private IMEmotionTextView mContentView;
 
-    public IMTextMsgItem(Context context, IMChatAdapter adapter, int type) {
+    public IMTextItem(Context context, IMChatAdapter adapter, int type) {
         super(context, adapter, type);
     }
 

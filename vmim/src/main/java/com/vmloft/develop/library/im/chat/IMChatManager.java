@@ -311,6 +311,23 @@ public class IMChatManager {
     }
 
     /**
+     * 设置会话扩展
+     */
+    public void setConversationExt(String id, int chatType, String key, Object value) {
+        EMConversation conversation = getConversation(id, chatType);
+        IMChatUtils.setConversationExt(conversation, key, value);
+    }
+
+    /**
+     * 设置会话扩展
+     */
+    public Object getConversationExt(String id, int chatType, String key, Object value) {
+        EMConversation conversation = getConversation(id, chatType);
+        Object result = IMChatUtils.getConversationExt(conversation, key);
+        return result == null ? value : result;
+    }
+
+    /**
      * ------------------------------------------ 消息相关 ------------------------------------------
      * 创建消息，默认支持以下类型
      * TXT, IMAGE, VIDEO, LOCATION, VOICE, FILE, CMD
