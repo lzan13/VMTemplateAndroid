@@ -17,6 +17,7 @@ import com.vmloft.develop.app.match.common.ASignManager;
 import com.vmloft.develop.app.match.glide.ALoader;
 import com.vmloft.develop.app.match.router.ARouter;
 import com.vmloft.develop.library.tools.utils.VMStr;
+import com.vmloft.develop.library.tools.utils.VMTheme;
 import com.vmloft.develop.library.tools.widget.toast.VMToast;
 
 /**
@@ -26,6 +27,7 @@ import com.vmloft.develop.library.tools.widget.toast.VMToast;
  */
 public class MeFragment extends AppLazyFragment {
 
+    @BindView(R.id.me_info_layout) View mInfoContainer;
     @BindView(R.id.me_avatar_img) ImageView mAvatarView;
     @BindView(R.id.me_name_tv) TextView mNameView;
     @BindView(R.id.me_signature_tv) TextView mSignatureView;
@@ -59,7 +61,7 @@ public class MeFragment extends AppLazyFragment {
 
     @Override
     protected void initData() {
-
+        VMTheme.changeShadow(mInfoContainer);
         refreshUI();
     }
 

@@ -174,7 +174,6 @@
                     android:id="@+id/im_chat_ext_record_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:vm_cancel_color="@color/vm_red_87"
                     />
             </RelativeLayout>
             <!--更多容器-->

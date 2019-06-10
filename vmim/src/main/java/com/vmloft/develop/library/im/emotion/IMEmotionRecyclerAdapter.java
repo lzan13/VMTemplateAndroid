@@ -11,6 +11,7 @@ import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.tools.adapter.VMAdapter;
 import com.vmloft.develop.library.tools.adapter.VMHolder;
 import com.vmloft.develop.library.tools.utils.VMLog;
+import com.vmloft.develop.library.tools.widget.VMSquareLayout;
 
 /**
  * Create by lzan13 on 2019/5/29 14:16

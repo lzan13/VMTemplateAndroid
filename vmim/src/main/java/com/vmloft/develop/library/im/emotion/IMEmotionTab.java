@@ -74,7 +74,8 @@ public class IMEmotionTab extends HorizontalScrollView implements ViewPager.OnPa
             ImageView imgView = new ImageView(getContext());
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(mTabSize, mTabSize);
             imgView.setLayoutParams(lp);
-            imgView.setPadding(mTabSize / 4, mTabSize / 4, mTabSize / 4, mTabSize / 4);
+            int padding = mTabSize / 5;
+            imgView.setPadding(padding, padding, padding, padding);
             imgView.setImageResource(mResList.get(i));
             imgView.setBackgroundResource(R.drawable.im_common_selector);
             final int position = i;

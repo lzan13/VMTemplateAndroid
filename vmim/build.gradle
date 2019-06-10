@@ -48,5 +48,5 @@ dependencies {
     implementation 'com.hyphenate:hyphenate-sdk:3.6.0'
 
     // 自己封装的工具库 VMTools https://github.com/lzan13/VMLibrary
-    api 'com.vmloft.library:vmtools:0.8.3'
+    api 'com.vmloft.library:vmtools:0.8.5'
 }

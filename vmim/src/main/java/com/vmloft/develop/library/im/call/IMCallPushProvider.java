@@ -18,27 +18,27 @@ import org.json.JSONObject;
 public class IMCallPushProvider implements EMCallManager.EMCallPushProvider {
     @Override
     public void onRemoteOffline(String id) {
-        EMMessage message = IMChatManager.getInstance().createTextMessage(VMStr.byRes(R.string.im_call_push), id, true);
-        boolean isVideoCall = IMCallManager.getInstance().getCallType() == IMCallManager.CallType.VIDEO;
-        message.setAttribute(IMConstants.IM_MSG_EXT_NOTIFY, false);
-        message.setAttribute(IMConstants.IM_MSG_EXT_TYPE, IMConstants.MsgExtType.IM_CALL);
-        message.setAttribute(IMConstants.IM_MSG_EXT_VIDEO_CALL, isVideoCall);
-
-        // 设置强制推送
-        message.setAttribute("em_force_notification", "true");
-        // 设置自定义推送提示
-        JSONObject extObj = new JSONObject();
-        try {
-            extObj.put("em_push_title", VMStr.byRes(R.string.im_call_push));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        message.setAttribute("em_apns_ext", extObj);
-        IMChatManager.getInstance().sendMessage(message, new IMCallback<EMMessage>() {
-            @Override
-            public void onSuccess(EMMessage message) {
-                IMChatManager.getInstance().removeMessage(message);
-            }
-        });
+//        EMMessage message = IMChatManager.getInstance().createTextMessage(VMStr.byRes(R.string.im_call_push), id, true);
+//        boolean isVideoCall = IMCallManager.getInstance().getCallType() == IMCallManager.CallType.VIDEO;
+//        message.setAttribute(IMConstants.IM_MSG_EXT_NOTIFY, false);
+//        message.setAttribute(IMConstants.IM_MSG_EXT_TYPE, IMConstants.MsgExtType.IM_CALL);
+//        message.setAttribute(IMConstants.IM_MSG_EXT_VIDEO_CALL, isVideoCall);
+//
+//        // 设置强制推送
+//        message.setAttribute("em_force_notification", "true");
+//        // 设置自定义推送提示
+//        JSONObject extObj = new JSONObject();
+//        try {
+//            extObj.put("em_push_title", VMStr.byRes(R.string.im_call_push));
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        message.setAttribute("em_apns_ext", extObj);
+//        IMChatManager.getInstance().sendMessage(message, new IMCallback<EMMessage>() {
+//            @Override
+//            public void onSuccess(EMMessage message) {
+//                IMChatManager.getInstance().removeMessage(message);
+//            }
+//        });
     }
 }

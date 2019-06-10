@@ -143,16 +143,16 @@ public class MatchActivity extends AppActivity {
         });
 
         mAnimatorWrap = VMAnimator.createAnimator()
-            .play(VMAnimator.createOptions(mAnimView, VMAnimator.SCALEX, 1200, VMAnimator.INFINITE, 0f, 20f))
-            .with(VMAnimator.createOptions(mAnimView, VMAnimator.SCALEY, 1200, VMAnimator.INFINITE, 0f, 20f))
-            .with(VMAnimator.createOptions(mAnimView, VMAnimator.ALPHA, 1200, VMAnimator.INFINITE, 1.0f, 0.0f));
+            .play(VMAnimator.createOptions(mAnimView, VMAnimator.SCALEX, 2000, VMAnimator.INFINITE, 0f, 20f))
+            .with(VMAnimator.createOptions(mAnimView, VMAnimator.SCALEY, 2000, VMAnimator.INFINITE, 0f, 20f))
+            .with(VMAnimator.createOptions(mAnimView, VMAnimator.ALPHA, 2000, VMAnimator.INFINITE, 1.0f, 0.0f));
         mAnimatorWrap.startDelay(100);
 
         mAnimatorWrap2 = VMAnimator.createAnimator()
-            .play(VMAnimator.createOptions(mAnimView2, VMAnimator.SCALEX, 1200, VMAnimator.INFINITE, 0f, 20f))
-            .with(VMAnimator.createOptions(mAnimView2, VMAnimator.SCALEY, 1200, VMAnimator.INFINITE, 0f, 20f))
-            .with(VMAnimator.createOptions(mAnimView2, VMAnimator.ALPHA, 1200, VMAnimator.INFINITE, 1.0f, 0.0f));
-        mAnimatorWrap2.startDelay(700);
+            .play(VMAnimator.createOptions(mAnimView2, VMAnimator.SCALEX, 2000, VMAnimator.INFINITE, 0f, 20f))
+            .with(VMAnimator.createOptions(mAnimView2, VMAnimator.SCALEY, 2000, VMAnimator.INFINITE, 0f, 20f))
+            .with(VMAnimator.createOptions(mAnimView2, VMAnimator.ALPHA, 2000, VMAnimator.INFINITE, 1.0f, 0.0f));
+        mAnimatorWrap2.startDelay(1100);
     }
 
     /**
