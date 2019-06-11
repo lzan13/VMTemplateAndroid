@@ -3,12 +3,12 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android"
     android:opacity="opaque">
     <!-- 背景颜色 -->
-    <item android:drawable="@color/app_bg"/>
+    <item android:drawable="@color/app_bg" />
 
     <item>
         <!-- splash screen 展示的图片 居中 不缩放 -->
         <bitmap
             android:gravity="center"
-            android:src="@drawable/img_splash"/>
+            android:src="@mipmap/icon" />
     </item>
 </layer-list>

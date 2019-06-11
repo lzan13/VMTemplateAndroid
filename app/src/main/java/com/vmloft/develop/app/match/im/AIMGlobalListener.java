@@ -3,6 +3,7 @@ package com.vmloft.develop.app.match.im;
 import android.content.Context;
 
 import com.hyphenate.chat.EMMessage;
+import com.hyphenate.chat.EMTextMessageBody;
 import com.vmloft.develop.app.match.base.ACallback;
 import com.vmloft.develop.app.match.bean.AUser;
 import com.vmloft.develop.app.match.common.AConstants;
@@ -84,20 +85,45 @@ public class AIMGlobalListener implements IIMGlobalListener {
         ARouter.goUserDetail(context, contact.mId);
     }
 
+    /**
+     * 获取消息类型，供 IM 调用
+     *
+     * @param message 消息对象
+     */
     @Override
-    public IMBaseItem onMsgItem(Context context, IMChatAdapter adapter, int type) {
-        if (type == AConstants.MsgExtType.IM_MATCH) {
-            return new AIMMatchItem(context, adapter, type);
+    public int onMsgType(EMMessage message) {
+        int extType = message.getIntAttribute(AConstants.MsgExt.MSG_EXT_TYPE, IMConstants.MsgType.IM_UNKNOWN);
+        if (extType == AConstants.MsgExt.MSG_MATCH) {
+            return extType;
+        }
+        return extType;
+    }
+
+    /**
+     * 获取消息摘要，供 IM 调用
+     *
+     * @param message 消息对象
+     */
+    @Override
+    public String onMsgSummary(EMMessage message) {
+        if (onMsgType(message) == AConstants.MsgExt.MSG_MATCH) {
+            return ((EMTextMessageBody) message.getBody()).getMessage();
         }
         return null;
     }
 
+    /**
+     * 生成消息展示控件，供 IM 调用
+     *
+     * @param context 上下文对象
+     * @param adapter 消息适配器
+     * @param type    消息类型
+     */
     @Override
-    public int onMsgType(EMMessage message) {
-        int extType = message.getIntAttribute(AConstants.MsgExtType.MSG_EXT_TYPE, IMConstants.MsgType.IM_UNKNOWN);
-        if (extType == AConstants.MsgExtType.IM_MATCH) {
-            return extType;
+    public IMBaseItem onMsgItem(Context context, IMChatAdapter adapter, int type) {
+        if (type == AConstants.MsgExt.MSG_MATCH) {
+            return new AIMMatchItem(context, adapter, type);
         }
-        return extType;
+        return null;
     }
 }

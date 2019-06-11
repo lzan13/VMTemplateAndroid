@@ -265,22 +265,38 @@ public class IMConversationItem extends RelativeLayout {
         mFloatMenu.addItemList(mFloatMenuList);
         mFloatMenu.setItemClickListener((int id) -> {
             if (id == ID_READ) {
-                IMChatManager.getInstance().setUnread(mConversation, false);
+                setConversationUnread(false);
             } else if (id == ID_UNREAD) {
-                IMChatManager.getInstance().setUnread(mConversation, true);
+                setConversationUnread(true);
             } else if (id == ID_TOP) {
-                IMChatManager.getInstance().setTop(mConversation, true);
+                setConversationTop(true);
             } else if (id == ID_UNTOP) {
-                IMChatManager.getInstance().setTop(mConversation, false);
+                setConversationTop(false);
             } else if (id == ID_REMOVE) {
                 removeConversation();
             } else if (id == ID_CLEAR) {
                 clearConversation();
             }
-            List<EMConversation> list = IMChatManager.getInstance().getAllConversation();
-            mAdapter.refresh(list);
         });
         mFloatMenu.showAtLocation(mRootView, touchX, touchY);
+    }
+
+    /**
+     * 设置未读
+     */
+    private void setConversationUnread(boolean unread) {
+        IMChatManager.getInstance().setUnread(mConversation, unread);
+        List<EMConversation> list = IMChatManager.getInstance().getAllConversation();
+        mAdapter.refresh(list);
+    }
+
+    /**
+     * 设置置顶
+     */
+    private void setConversationTop(boolean top) {
+        IMChatManager.getInstance().setTop(mConversation, top);
+        List<EMConversation> list = IMChatManager.getInstance().getAllConversation();
+        mAdapter.refresh(list);
     }
 
     /**
@@ -293,6 +309,9 @@ public class IMConversationItem extends RelativeLayout {
         String ok = VMStr.byRes(R.string.im_ok);
         IMDialog.showAlertDialog(mContext, title, content, cancel, ok, (DialogInterface dialog, int which) -> {
             IMChatManager.getInstance().removeConversation(mConversation.conversationId());
+            mAdapter.notifyDataSetChanged();
+            List<EMConversation> list = IMChatManager.getInstance().getAllConversation();
+            mAdapter.refresh(list);
         });
     }
 
@@ -306,6 +325,8 @@ public class IMConversationItem extends RelativeLayout {
         String ok = VMStr.byRes(R.string.im_ok);
         IMDialog.showAlertDialog(mContext, title, content, cancel, ok, (DialogInterface dialog, int which) -> {
             IMChatManager.getInstance().clearConversation(mConversation.conversationId(), true);
+            List<EMConversation> list = IMChatManager.getInstance().getAllConversation();
+            mAdapter.refresh(list);
         });
     }
 }

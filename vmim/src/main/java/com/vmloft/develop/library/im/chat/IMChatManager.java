@@ -485,6 +485,8 @@ public class IMChatManager {
      */
     public void saveMessage(EMMessage message) {
         EMClient.getInstance().chatManager().saveMessage(message);
+        // 保存会话时间
+        setTime(getConversation(message.conversationId(), message.getChatType().ordinal()), message.localTime());
     }
 
     /**
@@ -505,6 +507,7 @@ public class IMChatManager {
             callback.onError(IMException.NO_SIGN_IN, "未登录，无法发送消息");
             return;
         }
+        setTime(getConversation(message.conversationId(), message.getChatType().ordinal()), message.localTime());
 
         /**
          *  调用sdk的消息发送方法发送消息，发送消息时要尽早的设置消息监听，防止消息状态已经回调，

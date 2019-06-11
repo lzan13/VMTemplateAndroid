@@ -250,7 +250,10 @@ public class IMChatUtils {
      * 获取消息摘要信息
      */
     public static String getSummary(EMMessage message) {
-        String content = VMStr.byRes(R.string.im_unknown_msg);
+        String content = IM.getInstance().getMsgSummary(message);
+        if (!VMStr.isEmpty(content)) {
+            return content;
+        }
         int type = getMessageType(message);
         /**
          * 通知类消息

@@ -86,7 +86,6 @@ public abstract class IMNormalItem extends IMBaseItem {
      */
     @Override
     protected void setupCommonView() {
-        mContact = IM.getInstance().getIMContact(mMessage.conversationId());
         // 处理时间戳
         if (mTimeView != null) {
             mTimeView.setVisibility(GONE);

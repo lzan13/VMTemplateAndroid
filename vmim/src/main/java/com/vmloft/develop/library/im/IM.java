@@ -17,6 +17,7 @@ import com.vmloft.develop.library.im.chat.msgitem.IMBaseItem;
 import com.vmloft.develop.library.im.common.IMExecptionManager;
 import com.vmloft.develop.library.im.common.IMExecutor;
 import com.vmloft.develop.library.im.common.IMSPManager;
+import com.vmloft.develop.library.im.connection.IMConnectionManager;
 import com.vmloft.develop.library.im.emotion.IMEmotionManager;
 import com.vmloft.develop.library.im.notify.IMNotifier;
 import com.vmloft.develop.library.tools.picker.VMPicker;
@@ -91,6 +92,7 @@ public class IM {
         EMClient.getInstance().setDebugMode(true);
 
         // IM 内部相关管理类的初始化
+        IMConnectionManager.getInstance().init();
         IMChatManager.getInstance().init();
         IMCallManager.getInstance().init();
         IMEmotionManager.getInstance().init();
@@ -189,6 +191,16 @@ public class IM {
             return mGlobalListener.onMsgType(message);
         }
         return 0;
+    }
+
+    /**
+     * 获取外部扩展消息类型
+     */
+    public String getMsgSummary(EMMessage message) {
+        if (mGlobalListener != null) {
+            return mGlobalListener.onMsgSummary(message);
+        }
+        return null;
     }
 
     /**

@@ -47,6 +47,13 @@ public interface IIMGlobalListener {
     int onMsgType(EMMessage message);
 
     /**
+     * 获取消息摘要
+     *
+     * @param message 消息对象
+     */
+    String onMsgSummary(EMMessage message);
+
+    /**
      * 生成消息展示控件
      *
      * @param context 上下文对象

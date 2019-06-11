@@ -4,8 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -15,11 +13,6 @@ import com.vmloft.develop.library.im.IM;
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.bean.IMContact;
 import com.vmloft.develop.library.im.chat.IMChatAdapter;
-import com.vmloft.develop.library.im.chat.IMChatManager;
-import com.vmloft.develop.library.im.common.IMConstants;
-import com.vmloft.develop.library.tools.picker.IPictureLoader;
-import com.vmloft.develop.library.tools.utils.VMDate;
-import com.vmloft.develop.library.tools.utils.VMDimen;
 
 /**
  * Create by lzan13 on 2019/5/23 20:08
@@ -103,6 +96,7 @@ public abstract class IMBaseItem extends RelativeLayout {
     public void onBind(int position, EMMessage message) {
         mPosition = position;
         mMessage = message;
+        mContact = IM.getInstance().getIMContact(mMessage.conversationId());
         // 装在通用部分控件
         setupCommonView();
     }

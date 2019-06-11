@@ -187,16 +187,17 @@ public class HomeFragment extends AppLazyFragment {
      */
     private void startMatch(AUser user) {
         String id = user.getObjectId();
+        int chatType = IMConstants.ChatType.IM_SINGLE_CHAT;
+        int msgCount = IMChatManager.getInstance().getMessagesCount(id, chatType);
         // 判断是否匹配过
-        boolean isMatch = (boolean) IMChatManager.getInstance()
-            .getConversationExt(id, IMConstants.ChatType.IM_SINGLE_CHAT, AConstants.MsgExtType.MSG_EXT_MATCH, false);
-        if (!isMatch) {
+        boolean isMatch = (boolean) IMChatManager.getInstance().getConversationExt(id, chatType, AConstants.CHAT_EXT_MATCH, false);
+        if (msgCount == 0 && !isMatch) {
             // 发送匹配扩展消息
             EMMessage message = IMChatManager.getInstance().createTextMessage("[匹配信息]", id, true);
-            message.setAttribute(AConstants.MsgExtType.MSG_EXT_TYPE, AConstants.MsgExtType.IM_MATCH);
+            message.setAttribute(AConstants.MsgExt.MSG_EXT_TYPE, AConstants.MsgExt.MSG_MATCH);
+            message.setAttribute(AConstants.MsgExt.MSG_EXT_MATCH_FATE, AUtils.random(90, 100));
             IMChatManager.getInstance().sendMessage(message, null);
-            IMChatManager.getInstance()
-                .setConversationExt(id, IMConstants.ChatType.IM_SINGLE_CHAT, AConstants.MsgExtType.MSG_EXT_MATCH, true);
+            IMChatManager.getInstance().setConversationExt(id, chatType, AConstants.CHAT_EXT_MATCH, true);
         }
         IMRouter.goIMChat(mContext, user.getObjectId());
     }

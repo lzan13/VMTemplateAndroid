@@ -52,6 +52,7 @@
     <string name="fans">粉丝</string>
 
     <string name="match">匹配</string>
+    <string name="match_detail">匹配详情</string>
     <string name="mine">我的</string>
 
     <string name="private_letter">私信</string>
@@ -81,14 +82,15 @@
     <string name="help">帮助与反馈</string>
     <string name="about">关于</string>
     <string name="about_check_new">检查更新</string>
+    <string name="about_thanks">引导图：小丑的微笑灬 https://www.zcool.com.cn/work/ZMzIyMTY3NTI=.html</string>
 
     <!--引导文案-->
-    <string name="guide_title_0">应用引导标题</string>
-    <string name="guide_title_1">应用引导标题</string>
-    <string name="guide_title_2">应用引导标题</string>
-    <string name="guide_intro_0">应用引导描述，写点儿什么呢，写点儿什么呢？</string>
-    <string name="guide_intro_1">应用引导描述，写点儿什么呢，写点儿什么呢？</string>
-    <string name="guide_intro_2">应用引导描述，写点儿什么呢，写点儿什么呢？</string>
+    <string name="guide_title_0">各种消息</string>
+    <string name="guide_title_1">外出时间</string>
+    <string name="guide_title_2">休息时间</string>
+    <string name="guide_intro_0">语音，文字，图片，各种消息随心收发</string>
+    <string name="guide_intro_1">外出时间保证直达，不漏过任何消息</string>
+    <string name="guide_intro_2">休息时间，嗨起来吧 ^_^</string>
 
     <string name="user_signature_default">无个性，不签名！</string>
 

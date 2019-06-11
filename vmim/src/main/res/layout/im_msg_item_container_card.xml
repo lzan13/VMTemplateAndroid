@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:descendantFocusability="blocksDescendants"
-    android:paddingBottom="@dimen/vm_padding_normal"
     >
 
     <!--时间戳-->
@@ -33,8 +32,9 @@
         android:id="@+id/im_msg_container_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/vm_margin_normal"
-        android:layout_marginStart="@dimen/vm_margin_normal"
+        android:layout_marginBottom="@dimen/vm_margin_large"
+        android:layout_marginEnd="@dimen/vm_margin_large"
+        android:layout_marginStart="@dimen/vm_margin_large"
         android:background="@drawable/im_msg_container_card_shape"
         android:elevation="@dimen/vm_elevation_normal"
         android:padding="@dimen/vm_padding_large"

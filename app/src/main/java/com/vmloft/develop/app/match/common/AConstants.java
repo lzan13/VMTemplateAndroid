@@ -17,15 +17,19 @@ public class AConstants {
     public static String APP_LC_ID = "j1AGx1iU48PGjyv1RcuQr0OX-gzGzoHsz";
     public static String APP_LC_KEY = "jwYileaj7c4FCU7L1SuAzUWR";
 
+    // 聊天扩展
+    public static String CHAT_EXT_MATCH = "chat_ext_match";
+
     /**
      * 消息扩展类型
      */
-    public interface MsgExtType {
-        String MSG_EXT_TYPE = "msg_ext_type";
+    public interface MsgExt {
+        String MSG_EXT_MATCH_FATE = "msg_ext_match_fate";
 
-        String MSG_EXT_MATCH = "msg_ext_match";
-        // 匹配信息
-        int IM_MATCH = 0x1000;
+        // 消息类型
+        String MSG_EXT_TYPE = "msg_ext_type";
+        // 匹配消息
+        int MSG_MATCH = 0x1000;
     }
 }
 

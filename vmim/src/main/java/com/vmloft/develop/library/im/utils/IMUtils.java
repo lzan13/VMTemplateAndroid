@@ -32,17 +32,17 @@ public class IMUtils extends VMUtils {
     public static class Action {
 
         /**
-         * 收到 CMD 新消息
-         */
-        public static String getCMDMessageAction() {
-            return actionPrefix() + "chat.cmd.message";
-        }
-
-        /**
          * 收到新消息
          */
         public static String getNewMessageAction() {
             return actionPrefix() + "chat.new.message";
+        }
+
+        /**
+         * 收到 CMD 新消息
+         */
+        public static String getCMDMessageAction() {
+            return actionPrefix() + "chat.cmd.message";
         }
 
         /**
@@ -62,10 +62,20 @@ public class IMUtils extends VMUtils {
         /**
          * 通话状态改变
          */
-        public static String getCallStatusChange() {
+        public static String getCallStatusChangeAction() {
             return actionPrefix() + "call.status.change";
         }
 
+        /**
+         * 连接状态改变
+         */
+        public static String getConnectionChangeAction() {
+            return actionPrefix() + "connection.status.change";
+        }
+
+        /**
+         * 广播 action 前缀，其实就是 App 包名
+         */
         private static String actionPrefix() {
             return IM.getInstance().getIMContext().getPackageName();
         }

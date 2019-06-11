@@ -18,6 +18,9 @@
     <string name="im_notify_channel_call">通话通知消息</string>
     <string name="im_notify_channel_chat_title">收到新消息</string>
 
+    <string name="im_connection_error_hint">链接不到聊天服务器，请检查网络</string>
+
+    <!--消息操作-->
     <string name="im_msg_copy">复制</string>
     <string name="im_msg_copy_success">已复制到剪切板</string>
     <string name="im_msg_voice_erduo">使用听筒播放</string>
@@ -29,6 +32,7 @@
     <string name="im_clear_hint_title">确定要清空会话？</string>
     <string name="im_hint_content">此操作不可撤销，请谨慎操作</string>
 
+    <!--会话相关-->
     <string name="im_conversation_read">标为已读</string>
     <string name="im_conversation_unread">标为未读</string>
     <string name="im_conversation_top">置顶聊天</string>
@@ -36,6 +40,8 @@
     <string name="im_conversation_remove">移除该聊天</string>
     <string name="im_conversation_clear">清空聊天消息</string>
 
+
+    <!--通话相关-->
     <string name="im_call">通话</string>
     <string name="im_call_push">我在呼叫你，不接听吗？</string>
     <string name="im_call_time">通话时长 %s</string>

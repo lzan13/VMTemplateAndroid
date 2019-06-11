@@ -7,57 +7,60 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     tools:background="@color/app_bg"
-    tools:context=".ui.guide.GuideFragment">
+    tools:context=".ui.guide.GuideFragment"
+    >
 
     <LinearLayout
-        android:id="@+id/guide_img_layout"
+        android:id="@+id/guide_card_ll"
         android:layout_width="@dimen/vm_dimen_256"
-        android:layout_height="@dimen/vm_dimen_320"
+        android:layout_height="@dimen/vm_dimen_256"
+        android:layout_marginBottom="@dimen/vm_dimen_24"
         android:background="@drawable/common_card_bg_shape"
         android:elevation="@dimen/vm_dimen_16"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/guide_body"
+        app:layout_constraintBottom_toTopOf="@+id/guide_title_tv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        />
 
     <ImageView
-        android:id="@+id/guide_img"
+        android:id="@+id/guide_cover_iv"
         android:layout_width="@dimen/vm_dimen_192"
         android:layout_height="@dimen/vm_dimen_192"
-        android:layout_marginTop="@dimen/vm_dimen_32"
         android:elevation="@dimen/vm_dimen_16"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toTopOf="@+id/guide_title"
-        app:layout_constraintEnd_toEndOf="@+id/guide_img_layout"
-        app:layout_constraintStart_toStartOf="@+id/guide_img_layout"
-        app:layout_constraintTop_toTopOf="@+id/guide_img_layout"
-        tools:src="@drawable/img_guide_0" />
+        app:layout_constraintBottom_toBottomOf="@+id/guide_card_ll"
+        app:layout_constraintEnd_toEndOf="@+id/guide_card_ll"
+        app:layout_constraintStart_toStartOf="@+id/guide_card_ll"
+        app:layout_constraintTop_toTopOf="@+id/guide_card_ll"
+        tools:src="@drawable/img_guide_1"
+        />
 
     <TextView
-        android:id="@+id/guide_title"
-        style="@style/VMText.Title"
-        android:layout_margin="@dimen/vm_dimen_32"
-        android:elevation="@dimen/vm_dimen_16"
+        android:id="@+id/guide_title_tv"
+        android:layout_marginTop="@dimen/vm_dimen_24"
         android:textStyle="bold"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@+id/guide_img_layout"
-        app:layout_constraintEnd_toEndOf="@+id/guide_img_layout"
-        app:layout_constraintStart_toStartOf="@+id/guide_img_layout"
-        app:layout_constraintTop_toBottomOf="@+id/guide_img"
+        app:layout_constraintBottom_toTopOf="@+id/guide_body_tv"
+        app:layout_constraintEnd_toEndOf="@+id/guide_card_ll"
+        app:layout_constraintStart_toStartOf="@+id/guide_card_ll"
+        app:layout_constraintTop_toBottomOf="@+id/guide_card_ll"
         tools:text="@string/guide_title_0"
-        tools:visibility="visible" />
+        tools:visibility="visible"
+        style="@style/VMText.Title"
+        />
 
     <TextView
-        android:id="@+id/guide_body"
-        style="@style/VMText.Body1"
-        android:padding="@dimen/vm_dimen_24"
-        android:textStyle="bold"
-        android:visibility="gone"
+        android:id="@+id/guide_body_tv"
+        android:padding="@dimen/common_padding_large"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guide_img_layout"
+        app:layout_constraintTop_toBottomOf="@+id/guide_title_tv"
         tools:text="@string/guide_intro_0"
-        tools:visibility="visible" />
+        tools:visibility="visible"
+        style="@style/VMText.Body1"
+        />
 </android.support.constraint.ConstraintLayout>

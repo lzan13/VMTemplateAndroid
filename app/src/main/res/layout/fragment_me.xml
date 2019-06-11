@@ -35,7 +35,6 @@
                 android:id="@+id/me_avatar_img"
                 android:layout_width="@dimen/avatar_72"
                 android:layout_height="@dimen/avatar_72"
-                android:src="@drawable/img_splash"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
 

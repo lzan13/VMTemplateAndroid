@@ -10,12 +10,10 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.WindowManager;
-import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.base.IMBaseActivity;
 import com.vmloft.develop.library.im.bean.IMContact;
 import com.vmloft.develop.library.im.common.IMConstants;
 import com.vmloft.develop.library.im.utils.IMUtils;
-import com.vmloft.develop.library.tools.widget.toast.VMToast;
 
 /**
  * Created by lzan13 on 2016/8/8.
@@ -134,7 +132,7 @@ public abstract class IMCallActivity extends IMBaseActivity {
     protected void initReceiver() {
         // 注册广播接收器
         LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(mActivity);
-        IntentFilter filter = new IntentFilter(IMUtils.Action.getCallStatusChange());
+        IntentFilter filter = new IntentFilter(IMUtils.Action.getCallStatusChangeAction());
         lbm.registerReceiver(mReceiver, filter);
     }
 

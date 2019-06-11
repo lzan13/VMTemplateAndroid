@@ -34,7 +34,6 @@ public class GuideActivity extends AppActivity {
     @BindView(R.id.btn_finish) Button finishBtn;
 
     private int mCurrentIndex;
-    private int mBGColors[];
     private List<Fragment> mFragmentList;
     private GuideAdapter mAdapter;
 
@@ -46,20 +45,14 @@ public class GuideActivity extends AppActivity {
     @Override
     protected void initUI() {
         super.initUI();
-
     }
 
     @Override
     protected void initData() {
-        mBGColors = new int[] {
-            VMColor.byRes(R.color.app_guide_bg_0), VMColor.byRes(R.color.app_guide_bg_1),
-            VMColor.byRes(R.color.app_guide_bg_2)
-        };
-
         mFragmentList = new ArrayList<>();
-        mFragmentList.add(GuideFragment.newInstance(R.drawable.img_guide_0, R.string.guide_title_0, R.string.guide_intro_0));
-        mFragmentList.add(GuideFragment.newInstance(R.drawable.img_guide_1, R.string.guide_title_1, R.string.guide_intro_1));
-        mFragmentList.add(GuideFragment.newInstance(R.drawable.img_guide_2, R.string.guide_title_2, R.string.guide_intro_2));
+        mFragmentList.add(GuideFragment.newInstance(R.drawable.img_guide_1, R.string.guide_title_0, R.string.guide_intro_0));
+        mFragmentList.add(GuideFragment.newInstance(R.drawable.img_guide_2, R.string.guide_title_1, R.string.guide_intro_1));
+        mFragmentList.add(GuideFragment.newInstance(R.drawable.img_guide_3, R.string.guide_title_2, R.string.guide_intro_2));
 
         mAdapter = new GuideAdapter(getSupportFragmentManager(), mFragmentList);
         mViewPager.setOffscreenPageLimit(mFragmentList.size() - 1);
@@ -72,15 +65,11 @@ public class GuideActivity extends AppActivity {
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                int colorUpdate = (Integer) new ArgbEvaluator().evaluate(positionOffset, mBGColors[position], mBGColors[position == 2 ? position : position + 1]);
-                mViewPager.setBackgroundColor(colorUpdate);
-            }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
             @Override
             public void onPageSelected(int position) {
                 mCurrentIndex = position;
-                mViewPager.setBackgroundColor(mBGColors[position]);
                 prevBtn.setVisibility(position == 0 ? View.GONE : View.VISIBLE);
                 nextBtn.setVisibility(position == mFragmentList.size() - 1 ? View.GONE : View.VISIBLE);
                 finishBtn.setVisibility(position == mFragmentList.size() - 1 ? View.VISIBLE : View.GONE);

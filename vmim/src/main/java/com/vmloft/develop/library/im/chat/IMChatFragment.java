@@ -644,6 +644,7 @@ public class IMChatFragment extends IMBaseFragment {
             mAdapter.updateInsert(0, list.size());
             mRecyclerView.smoothScrollBy(0, -VMDimen.dp2px(50));
         } else {
+
         }
     }
 

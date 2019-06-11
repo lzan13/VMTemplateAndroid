@@ -109,6 +109,6 @@ public class IMCallStateListener implements EMCallStateChangeListener {
             break;
         }
         // 发送广播通知通话状态改变
-        IMUtils.sendLocalBroadcast(IMUtils.Action.getCallStatusChange());
+        IMUtils.sendLocalBroadcast(IMUtils.Action.getCallStatusChangeAction());
     }
 }

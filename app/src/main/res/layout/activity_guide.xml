@@ -7,15 +7,16 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:background="@color/app_bg"
-    tools:context=".ui.guide.GuideActivity">
+    tools:context=".ui.guide.GuideActivity"
+    >
 
     <android.support.v4.view.ViewPager
         android:id="@+id/guide_view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/app_guide_bg_0"
         android:overScrollMode="never"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        />
 
     <!--指示器-->
     <com.vmloft.develop.library.tools.widget.indicator.VMIndicatorView
@@ -27,32 +28,36 @@
         app:vm_indicator_background="@color/app_primary"
         app:vm_indicator_mode="inside"
         app:vm_indicator_radius="@dimen/vm_dimen_4"
-        app:vm_indicator_selected="@color/app_accent" />
+        app:vm_indicator_selected="@color/app_accent"
+        />
 
     <Button
         android:id="@+id/btn_prev"
-        style="@style/VMBtn.Flat"
         android:text="@string/btn_prev"
         android:textColor="@color/vm_btn_text_light"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        style="@style/VMBtn.Flat"
+        />
 
     <Button
         android:id="@+id/btn_next"
-        style="@style/VMBtn.Flat"
         android:text="@string/btn_next"
         android:textColor="@color/vm_btn_text_light"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/VMBtn.Flat"
+        />
 
     <Button
         android:id="@+id/btn_finish"
-        style="@style/VMBtn.Flat"
         android:text="@string/btn_finish"
         android:textColor="@color/vm_btn_text_light"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/VMBtn.Flat"
+        />
 
 </android.support.constraint.ConstraintLayout>

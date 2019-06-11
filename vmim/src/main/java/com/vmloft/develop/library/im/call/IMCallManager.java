@@ -206,7 +206,7 @@ public class IMCallManager {
         }
 
         // 设置通话状态监听广播
-        IntentFilter callStatusFilter = new IntentFilter(IMUtils.Action.getCallStatusChange());
+        IntentFilter callStatusFilter = new IntentFilter(IMUtils.Action.getCallStatusChangeAction());
         LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(IM.getInstance().getIMContext());
         mCallStatusReceiver = new IMCallStatusReceiver();
         lbm.registerReceiver(mCallStatusReceiver, callStatusFilter);
@@ -544,7 +544,7 @@ public class IMCallManager {
      * 通知更新时间
      */
     private void notifyRefreshCallTime() {
-        Intent intent = new Intent(IMUtils.Action.getCallStatusChange());
+        Intent intent = new Intent(IMUtils.Action.getCallStatusChangeAction());
         intent.putExtra(IMConstants.IM_CHAT_CALL_TIME, true);
         IMUtils.sendLocalBroadcast(intent);
     }

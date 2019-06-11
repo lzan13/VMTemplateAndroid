@@ -4,11 +4,11 @@ import android.content.Context;
 
 import com.hyphenate.chat.EMMessage;
 
-import com.vmloft.develop.library.im.IM;
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.chat.IMChatAdapter;
 import com.vmloft.develop.library.im.common.IMConstants;
 import com.vmloft.develop.library.tools.utils.VMDate;
+import com.vmloft.develop.library.tools.utils.VMTheme;
 
 /**
  * Create by lzan13 on 2019/6/10 20:49
@@ -36,7 +36,6 @@ public abstract class IMCardItem extends IMBaseItem {
      */
     @Override
     protected void setupCommonView() {
-        mContact = IM.getInstance().getIMContact(mMessage.conversationId());
         // 处理时间戳
         if (mTimeView != null) {
             mTimeView.setVisibility(GONE);
@@ -49,4 +48,11 @@ public abstract class IMCardItem extends IMBaseItem {
         onUpdate(mMessage);
     }
 
+    @Override
+    public void onBind(int position, EMMessage message) {
+        super.onBind(position, message);
+
+        VMTheme.changeShadow(mContainerView);
+
+    }
 }
