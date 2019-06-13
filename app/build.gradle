@@ -52,7 +52,7 @@ dependencies {
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
-    // 一个比较强大的图片浏览控件
+    // 一个比较强大的图片浏览控件 https://github.com/chrisbanes/PhotoView
     implementation 'com.github.chrisbanes:PhotoView:2.0.0'
 
     // LeanCloud 基础包

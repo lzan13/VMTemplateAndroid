@@ -151,7 +151,7 @@ public class IMChatUtils {
         if (extType > 0) {
             return extType;
         }
-
+        extType = message.getIntAttribute(IMConstants.IM_MSG_EXT_TYPE, IMConstants.MsgType.IM_UNKNOWN);
         int itemType;
         if (extType == IMConstants.MsgExtType.IM_CALL) {
             // 通话
