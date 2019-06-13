@@ -3,6 +3,7 @@ package com.vmloft.develop.app.match.common;
 import android.Manifest;
 import android.content.Context;
 
+import com.vmloft.develop.app.match.R;
 import com.vmloft.develop.library.tools.permission.VMPermission;
 import com.vmloft.develop.library.tools.permission.VMPermissionBean;
 
@@ -97,11 +98,11 @@ public class APermissionManager {
      */
     public void requestPermissions(Context context) {
         List<VMPermissionBean> list = new ArrayList<>();
-        list.add(new VMPermissionBean(Manifest.permission.CAMERA, "访问相机", "拍摄照片需要访问相机，请允许我们获取访问相机权限，否则你将无法使用应用"));
-        list.add(new VMPermissionBean(Manifest.permission.RECORD_AUDIO, "录音", "发送语音消息需要录音，请允许我们获取录音权限，否则你将无法发送语音消息"));
-        list.add(new VMPermissionBean(Manifest.permission.WRITE_EXTERNAL_STORAGE, "读写手机存储", "发送和保存图片需要读写手机存储，请允许我们访问读写手机存储权限，否则你将无法使用应用"));
+        list.add(new VMPermissionBean(Manifest.permission.CAMERA, R.drawable.im_ic_camera,"访问相机", "拍摄照片需要访问相机，请允许我们获取访问相机权限，否则你将无法使用应用"));
+        list.add(new VMPermissionBean(Manifest.permission.RECORD_AUDIO, R.drawable.im_ic_mic,"录音", "发送语音消息需要录音，请允许我们获取录音权限，否则你将无法发送语音消息"));
+        list.add(new VMPermissionBean(Manifest.permission.WRITE_EXTERNAL_STORAGE, R.drawable.ic_file, "读写手机存储", "发送和保存图片需要读写手机存储，请允许我们访问读写手机存储权限，否则你将无法使用应用"));
         VMPermission.getInstance(context)
-            .setEnableDialog(true)
+            .setEnableDialog(false)
             .setPermissionList(list)
             .requestPermission(new VMPermission.PCallback() {
                 @Override
