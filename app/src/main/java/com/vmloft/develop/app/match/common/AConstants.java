@@ -13,7 +13,9 @@ public class AConstants {
     public static final long TIME_DAY = 24 * TIME_HOUR;
     public static final long TIME_WEEK = 7 * TIME_DAY;
 
-    // LeanCloud id 和 key
+    // Bugly App Id
+    public static String APP_BUGLY_ID = "af01f1ab30";
+    // LeanCloud Id 和 key
     public static String APP_LC_ID = "j1AGx1iU48PGjyv1RcuQr0OX-gzGzoHsz";
     public static String APP_LC_KEY = "jwYileaj7c4FCU7L1SuAzUWR";
 

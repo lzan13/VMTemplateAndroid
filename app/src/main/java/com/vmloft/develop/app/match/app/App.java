@@ -3,6 +3,7 @@ package com.vmloft.develop.app.match.app;
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVUser;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.vmloft.develop.app.match.bean.AMatch;
 import com.vmloft.develop.app.match.bean.AUser;
 import com.vmloft.develop.app.match.common.AConstants;
@@ -23,14 +24,14 @@ public class App extends VMApp {
     }
 
     private void init() {
+        initBugly();
+
         // 初始化 LeanCloud
         initLeanCloud();
 
         // 初始化 IM
         AIMManager.getInstance().initIM(context);
-
     }
-
 
     /**
      * 初始化 LeanCloud
@@ -40,5 +41,12 @@ public class App extends VMApp {
         AVUser.registerSubclass(AUser.class);
         AVUser.alwaysUseSubUserClass(AUser.class);
         AVOSCloud.initialize(context, AConstants.APP_LC_ID, AConstants.APP_LC_KEY);
+    }
+
+    /**
+     * 初始化 Bugly 日志上报
+     */
+    private void initBugly() {
+        CrashReport.initCrashReport(context, AConstants.APP_BUGLY_ID, false);
     }
 }

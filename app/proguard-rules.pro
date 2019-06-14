@@ -29,3 +29,7 @@
   **[] $VALUES;
   public *;
 }
+
+# Bugly 混淆配置
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}
