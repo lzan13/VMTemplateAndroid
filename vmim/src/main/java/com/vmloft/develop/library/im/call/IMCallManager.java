@@ -17,6 +17,7 @@ import com.hyphenate.exceptions.EMNoActiveCallException;
 import com.hyphenate.exceptions.EMServiceNotReadyException;
 
 import com.hyphenate.exceptions.HyphenateException;
+import com.superrtc.sdk.VideoView;
 import com.vmloft.develop.library.im.IM;
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.chat.IMChatManager;
@@ -24,6 +25,7 @@ import com.vmloft.develop.library.im.common.IMConstants;
 import com.vmloft.develop.library.im.notify.IMNotifier;
 import com.vmloft.develop.library.im.router.IMRouter;
 import com.vmloft.develop.library.im.utils.IMUtils;
+import com.vmloft.develop.library.im.widget.IMCallView;
 import com.vmloft.develop.library.tools.utils.VMLog;
 
 import com.vmloft.develop.library.tools.utils.VMStr;
@@ -140,7 +142,7 @@ public class IMCallManager {
          * >720p: 900k ~ 2.5Mbps
          * >1080p: 2M  ~ 5Mbps
          */
-        EMClient.getInstance().callManager().getCallOptions().setMaxVideoKbps(800);
+        EMClient.getInstance().callManager().getCallOptions().setMaxVideoKbps(5000);
         EMClient.getInstance().callManager().getCallOptions().setMinVideoKbps(150);
         // 设置视频通话分辨率 默认是(640, 480)
         EMClient.getInstance().callManager().getCallOptions().setVideoResolution(640, 480);
@@ -202,7 +204,11 @@ public class IMCallManager {
         }
         if (mCallStatus == CallStatus.CONNECTING) {
             attemptPlaySound();
-            IMRouter.goIMCall(IM.getInstance().getIMContext());
+            if (mCallType == CallType.VIDEO) {
+                IMRouter.goIMCallVideo(IM.getInstance().getIMContext());
+            } else {
+                IMRouter.goIMCallVoice(IM.getInstance().getIMContext());
+            }
         }
 
         // 设置通话状态监听广播
@@ -227,7 +233,11 @@ public class IMCallManager {
 
         startCallStateListener();
 
-        IMRouter.goIMCall(IM.getInstance().getIMContext());
+        if (mCallType == CallType.VIDEO) {
+            IMRouter.goIMCallVideo(IM.getInstance().getIMContext());
+        } else {
+            IMRouter.goIMCallVoice(IM.getInstance().getIMContext());
+        }
     }
 
     /**
@@ -280,6 +290,19 @@ public class IMCallManager {
             e.printStackTrace();
             return false;
         }
+    }
+
+    /**
+     * 设置视频通话显示控件
+     *
+     * @param local  显示本地画面控件
+     * @param remote 显示对方画面控件
+     */
+    public void setCallView(IMCallView local, IMCallView remote) {
+        // 设置本地和远端画面的显示方式，是填充，还是居中
+        local.setScaleMode(VideoView.EMCallViewScaleMode.EMCallViewScaleModeAspectFill);
+        remote.setScaleMode(VideoView.EMCallViewScaleMode.EMCallViewScaleModeAspectFill);
+        EMClient.getInstance().callManager().setSurfaceView(local, remote);
     }
 
     /**

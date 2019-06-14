@@ -33,4 +33,14 @@ public class IMDialog {
             .create();
         alertDialog.show();
     }
+
+    /**
+     * 显示提醒对话框
+     *
+     * @param items 对话框列表内容
+     */
+    public static void showAlertDialog(Context context, String[] items, DialogInterface.OnClickListener listener) {
+        AlertDialog alertDialog = new AlertDialog.Builder(context).setItems(items, listener).create();
+        alertDialog.show();
+    }
 }

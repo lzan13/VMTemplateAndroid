@@ -13,6 +13,7 @@ import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.call.IMCallManager;
 import com.vmloft.develop.library.im.chat.IMChatAdapter;
 import com.vmloft.develop.library.im.common.IMConstants;
+import com.vmloft.develop.library.im.router.IMRouter;
 
 /**
  * Create by lzan13 on 2019/5/23 22:17
@@ -58,7 +59,12 @@ public class IMCallItem extends IMNormalItem {
             int type = isVideo ? IMCallManager.CallType.VIDEO : IMCallManager.CallType.VOICE;
             IMCallManager.getInstance().startCall(mMessage.conversationId(), type);
         } else {
-            // TODO 恢复之前的通话
+            // 恢复之前的通话
+            if (IMCallManager.getInstance().getCallType() == IMCallManager.CallType.VIDEO) {
+                IMRouter.goIMCallVideo(mContext);
+            }else{
+                IMRouter.goIMCallVoice(mContext);
+            }
         }
     }
 

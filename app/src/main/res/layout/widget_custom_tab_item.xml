@@ -20,7 +20,7 @@
     <TextView
         android:id="@+id/custom_tab_item_name_tv"
         android:textColor="@color/custom_tab_item"
-        android:textSize="@dimen/vm_size_10"
+        android:textSize="@dimen/vm_size_12"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

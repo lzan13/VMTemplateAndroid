@@ -36,9 +36,14 @@
             android:theme="@style/IMTheme.Chat"
             android:windowSoftInputMode="adjustNothing|stateAlwaysHidden" />
 
-        <!--通话界面-->
+        <!--视频通话界面-->
         <activity
             android:name=".call.IMCallVoiceActivity"
+            android:theme="@style/IMTheme.Chat"
+            android:windowSoftInputMode="adjustNothing|stateAlwaysHidden" />
+        <!--视频通话界面-->
+        <activity
+            android:name=".call.IMCallVideoActivity"
             android:theme="@style/IMTheme.Chat"
             android:windowSoftInputMode="adjustNothing|stateAlwaysHidden" />
     </application>

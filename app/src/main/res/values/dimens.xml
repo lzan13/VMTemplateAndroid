@@ -24,7 +24,7 @@
     <dimen name="avatar_32">@dimen/vm_dimen_32</dimen>
     <dimen name="avatar_24">@dimen/vm_dimen_24</dimen>
 
-    <dimen name="main_tab_height">@dimen/vm_dimen_48</dimen>
+    <dimen name="main_tab_height">@dimen/vm_dimen_56</dimen>
 
     <!--登录注册 title-->
     <dimen name="sign_title_size">@dimen/vm_size_headline</dimen>

@@ -3,6 +3,7 @@ package com.vmloft.develop.library.im.chat;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -37,6 +38,7 @@ import com.vmloft.develop.library.im.emotion.IMEmotionGroup;
 import com.vmloft.develop.library.im.emotion.IMEmotionItem;
 import com.vmloft.develop.library.im.emotion.IMEmotionManager;
 import com.vmloft.develop.library.im.emotion.IMEmotionPager;
+import com.vmloft.develop.library.im.utils.IMDialog;
 import com.vmloft.develop.library.im.utils.IMKeyboardLayout;
 import com.vmloft.develop.library.im.utils.IMUtils;
 import com.vmloft.develop.library.tools.base.VMConstant;
@@ -452,7 +454,16 @@ public class IMChatFragment extends IMBaseFragment {
      * 开始呼叫
      */
     private void startCall() {
-        IMCallManager.getInstance().startCall(mId, IMCallManager.CallType.VOICE);
+        String[] menus = {
+            VMStr.byRes(R.string.im_call_video), VMStr.byRes(R.string.im_call_voice)
+        };
+        IMDialog.showAlertDialog(mContext, menus, (DialogInterface dialog, int which) -> {
+            if (which == 0) {
+                IMCallManager.getInstance().startCall(mId, IMCallManager.CallType.VIDEO);
+            } else {
+                IMCallManager.getInstance().startCall(mId, IMCallManager.CallType.VOICE);
+            }
+        });
     }
 
     /**

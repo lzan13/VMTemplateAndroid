@@ -13,6 +13,7 @@ import com.vmloft.develop.library.im.IM;
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.bean.IMContact;
 import com.vmloft.develop.library.im.call.IMCallManager;
+import com.vmloft.develop.library.im.call.IMCallVideoActivity;
 import com.vmloft.develop.library.im.call.IMCallVoiceActivity;
 import com.vmloft.develop.library.im.chat.IMChatActivity;
 import com.vmloft.develop.library.im.common.IMConstants;
@@ -153,7 +154,7 @@ public class IMNotifier {
         mCallBuilder.setContentTitle(VMStr.byRes(R.string.app_name));
         Intent intent = new Intent();
         if (IMCallManager.getInstance().getCallType() == IMCallManager.CallType.VIDEO) {
-            //intent.setClass(mContext, VideoCallActivity.class);
+            intent.setClass(mContext, IMCallVideoActivity.class);
         } else {
             intent.setClass(mContext, IMCallVoiceActivity.class);
         }

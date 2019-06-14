@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.hyphenate.chat.EMMessage;
+import com.vmloft.develop.library.im.call.IMCallVideoActivity;
 import com.vmloft.develop.library.im.call.IMCallVoiceActivity;
 import com.vmloft.develop.library.im.chat.IMChatActivity;
 import com.vmloft.develop.library.im.chat.IMPreviewActivity;
@@ -29,10 +30,17 @@ public class IMRouter extends VMRouter {
     }
 
     /**
-     * 跳转到通话界面
+     * 跳转到语音通话界面
      */
-    public static void goIMCall(Context context) {
+    public static void goIMCallVoice(Context context) {
         overlay(context, IMCallVoiceActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK);
+    }
+
+    /**
+     * 跳转到视频通话界面
+     */
+    public static void goIMCallVideo(Context context) {
+        overlay(context, IMCallVideoActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK);
     }
 
     /**
