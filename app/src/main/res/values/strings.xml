@@ -101,4 +101,9 @@
     <string name="account_phone_already_exist">手机号已被占用</string>
     <string name="account_username_password_mismatch">用户名密码不匹配</string>
     <string name="account_user_doesnot_exist">用户不存在</string>
+
+    <string name="err_server">服务器错误: %1$s，可将错误码反馈给我们</string>
+    <string name="err_network_unusable">网络不可用，请检查网络</string>
+    <string name="err_network_timeout">请求超时，请稍后再试</string>
+
 </resources>

@@ -9,6 +9,7 @@ import android.widget.Button;
 import com.vmloft.develop.app.match.R;
 import com.vmloft.develop.app.match.base.AppActivity;
 import com.vmloft.develop.app.match.base.ACallback;
+import com.vmloft.develop.app.match.bean.AAccount;
 import com.vmloft.develop.app.match.bean.AUser;
 
 import com.vmloft.develop.app.match.common.ASignManager;
@@ -46,9 +47,9 @@ public class SignInActivity extends AppActivity {
         super.onResume();
 
         // 读取最后一次登录的账户 Username
-        AUser user = ASignManager.getInstance().getHistoryUser();
-        if (user != null && VMStr.isEmpty(mAccount)) {
-            mAccountView.setText(user.getUsername());
+        AAccount account = ASignManager.getInstance().getHistoryAccount();
+        if (account != null && VMStr.isEmpty(mAccount)) {
+            mAccountView.setText(account.getUsername());
         }
     }
 
@@ -142,14 +143,14 @@ public class SignInActivity extends AppActivity {
             return;
         }
         showDialog();
-        ASignManager.getInstance().signInByEmail(mAccount, mPassword, new ACallback<AUser>() {
+        ASignManager.getInstance().signInByEmail(mAccount, mPassword, new ACallback<AAccount>() {
             @Override
-            public void onSuccess(AUser user) {
+            public void onSuccess(AAccount account) {
                 if (mDialog != null) {
                     mDialog.dismiss();
                 }
                 // 注册成功保存下用户信息，方便回到登录页面输入信息
-                ASignManager.getInstance().setHistoryUser(user);
+                ASignManager.getInstance().setHistoryAccount(account);
                 // 登录成功拉取以下联系人信息
                 AUMSManager.getInstance().loadUserList();
                 ARouter.goMain(mActivity);

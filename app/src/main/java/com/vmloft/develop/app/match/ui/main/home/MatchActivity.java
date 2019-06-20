@@ -9,6 +9,7 @@ import butterknife.BindView;
 import com.vmloft.develop.app.match.R;
 import com.vmloft.develop.app.match.base.ACallback;
 import com.vmloft.develop.app.match.base.AppActivity;
+import com.vmloft.develop.app.match.bean.AAccount;
 import com.vmloft.develop.app.match.bean.AMatch;
 import com.vmloft.develop.app.match.bean.AUser;
 import com.vmloft.develop.app.match.common.AMatchManager;
@@ -25,7 +26,6 @@ import com.vmloft.develop.library.tools.router.VMParams;
 import com.vmloft.develop.library.tools.utils.VMDimen;
 import com.vmloft.develop.library.tools.widget.toast.VMToast;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +47,7 @@ public class MatchActivity extends AppActivity {
     @BindView(R.id.match_container) FrameLayout mMatchContainer;
 
     // 自己
-    private AUser mUser;
+    private AAccount mAccount;
     private AMatch mMatch;
     // 正在匹配的人，使用 Map 是为了过滤掉重复的信息
     private Map<String, AMatch> mMatchMap = new HashMap<>();
@@ -76,7 +76,7 @@ public class MatchActivity extends AppActivity {
         VMParams params = ARouter.getParams(mActivity);
         mMatchType = params.arg0;
 
-        mUser = ASignManager.getInstance().getCurrentUser();
+        mAccount = ASignManager.getInstance().getCurrentAccount();
         avatarSize = VMDimen.dp2px(48);
 
         setupUserInfo();
@@ -94,7 +94,7 @@ public class MatchActivity extends AppActivity {
      * 装载用户信息
      */
     private void setupUserInfo() {
-        String url = mUser.getAvatar() != null ? mUser.getAvatar().getUrl() : null;
+        String url = mAccount.getAvatar();
         // 加载头像
         IPictureLoader.Options options = new IPictureLoader.Options(url);
         if (AIMManager.getInstance().isCircleAvatar()) {
@@ -116,7 +116,7 @@ public class MatchActivity extends AppActivity {
                 for (AMatch match : list) {
                     // 过滤掉自己的匹配信息
                     String userId = match.getUser().getObjectId();
-                    if (userId.equals(mUser.getObjectId())) {
+                    if (userId.equals(mAccount.getId())) {
                         continue;
                     }
                     mMatchMap.put(match.getObjectId(), match);

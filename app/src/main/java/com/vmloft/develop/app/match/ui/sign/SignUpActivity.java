@@ -5,12 +5,11 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 
 import com.vmloft.develop.app.match.R;
 import com.vmloft.develop.app.match.base.ACallback;
 import com.vmloft.develop.app.match.base.AppActivity;
-import com.vmloft.develop.app.match.bean.AUser;
+import com.vmloft.develop.app.match.bean.AAccount;
 import com.vmloft.develop.app.match.common.ASignManager;
 import com.vmloft.develop.library.tools.utils.VMReg;
 import com.vmloft.develop.library.tools.utils.VMStr;
@@ -124,15 +123,15 @@ public class SignUpActivity extends AppActivity {
             return;
         }
         showDialog();
-        ASignManager.getInstance().signUpByEmail(mAccount, mPassword, new ACallback<AUser>() {
+        ASignManager.getInstance().signUpByEmail(mAccount, mPassword, new ACallback<AAccount>() {
             @Override
-            public void onSuccess(AUser user) {
+            public void onSuccess(AAccount account) {
                 if (mDialog != null) {
                     mDialog.dismiss();
                 }
                 VMToast.make(mActivity, R.string.sign_up_success).show();
                 // 注册成功保存下用户信息，方便回到登录页面输入信息
-                ASignManager.getInstance().setHistoryUser(user);
+                ASignManager.getInstance().setHistoryAccount(account);
                 onFinish();
             }
 

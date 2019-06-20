@@ -8,6 +8,7 @@ import butterknife.BindView;
 
 import com.vmloft.develop.app.match.R;
 import com.vmloft.develop.app.match.base.AppActivity;
+import com.vmloft.develop.app.match.bean.AAccount;
 import com.vmloft.develop.app.match.bean.AUser;
 import com.vmloft.develop.app.match.common.AUMSManager;
 import com.vmloft.develop.app.match.glide.ALoader;
@@ -39,7 +40,7 @@ public class UserDetailActivity extends AppActivity {
     TextView mFollowView;
 
     private String mId;
-    private AUser mUser;
+    private AAccount mAccount;
 
     @Override
     protected int layoutId() {
@@ -58,7 +59,7 @@ public class UserDetailActivity extends AppActivity {
     protected void initData() {
         VMParams params = ARouter.getParams(mActivity);
         mId = params.str0;
-        mUser = AUMSManager.getInstance().getUser(mId);
+        mAccount = AUMSManager.getInstance().getAccount(mId);
 
         loadUserInfo();
     }
@@ -67,7 +68,7 @@ public class UserDetailActivity extends AppActivity {
      * 加载用户信息
      */
     private void loadUserInfo() {
-        String url = mUser.getAvatar() != null ? mUser.getAvatar().getUrl() : null;
+        String url = mAccount.getAvatar();
         // 加载头像
         IPictureLoader.Options options = new IPictureLoader.Options(url);
         if (AIMManager.getInstance().isCircleAvatar()) {
@@ -83,8 +84,8 @@ public class UserDetailActivity extends AppActivity {
         ALoader.load(mActivity, options, mCoverView);
 
 
-        mNameView.setText(mUser.getNickname());
-        mSignatureView.setText(mUser.getSignature());
+        mNameView.setText(mAccount.getNickname());
+        mSignatureView.setText(mAccount.getSignature());
     }
 
     private View.OnClickListener viewListener = (View v) -> {

@@ -1,12 +1,10 @@
 package com.vmloft.develop.app.match.common;
 
-import com.avos.avoscloud.AVException;
-import com.avos.avoscloud.AVUser;
-import com.avos.avoscloud.LogInCallback;
-import com.avos.avoscloud.SignUpCallback;
-import com.vmloft.develop.app.match.R;
 import com.vmloft.develop.app.match.base.ACallback;
-import com.vmloft.develop.app.match.bean.AUser;
+import com.vmloft.develop.app.match.bean.AAccount;
+import com.vmloft.develop.app.match.bean.AResult;
+import com.vmloft.develop.app.match.request.APIRequest;
+import com.vmloft.develop.app.match.request.APIService;
 import com.vmloft.develop.app.match.utils.ARXUtils;
 import com.vmloft.develop.library.im.IM;
 import com.vmloft.develop.library.im.base.IMCallback;
@@ -15,8 +13,6 @@ import com.vmloft.develop.library.tools.utils.VMStr;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.functions.Function;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,8 +25,8 @@ import org.json.JSONObject;
 public class ASignManager {
 
     // 当前登录账户
-    private AUser mCurrentUser;
-    private AUser mHistoryUser;
+    private AAccount mCurrentAccount;
+    private AAccount mHistoryAccount;
 
     /**
      * 私有构造，初始化 ShredPreferences 文件名
@@ -59,34 +55,21 @@ public class ASignManager {
      * @param password 用户密码
      * @param callback 回调
      */
-    public void signUpByEmail(final String email, final String password, final ACallback<AUser> callback) {
+    public void signUpByEmail(String email, String password, final ACallback<AAccount> callback) {
         // 注册用户体系账户
-        Observable<AUser> observable = Observable.create((final ObservableEmitter<AUser> emitter) -> {
-            final AUser user = new AUser();
-            user.setUsername(email);
-            user.setEmail(email);
-            user.setPassword(password);
-            // 注册填写默认昵称和签名
-            user.setNickname(VMStr.byRes(R.string.me_nickname_default));
-            user.setSignature(VMStr.byRes(R.string.user_signature_default));
-            user.signUpInBackground(new SignUpCallback() {
-                @Override
-                public void done(AVException e) {
-                    if (e == null) {
-                        emitter.onNext(user);
-                    } else {
-                        emitter.onError(e);
-                    }
-                }
-            });
-        });
-        // 注册 IM 账户
-        observable.flatMap((final AUser user) -> {
-            return Observable.create((final ObservableEmitter<AUser> emitter) -> {
-                IM.getInstance().signUp(user.getObjectId(), password, new IMCallback() {
+        Observable<AResult<AAccount>> observable = APIRequest.getInstance().createApi(APIService.class).createAccount(email, password);
+        observable.doOnNext((AResult<AAccount> result) -> {
+            if (result.getCode() != 0) {
+                throw new AException(result.getCode(), result.getMessage());
+            }
+        }).flatMap((AResult<AAccount> result) -> {
+            // 注册 IM 账户
+            AAccount account = result.getData();
+            return Observable.create((final ObservableEmitter<AAccount> emitter) -> {
+                IM.getInstance().signUp(account.getId(), password, new IMCallback() {
                     @Override
                     public void onSuccess(Object o) {
-                        emitter.onNext(user);
+                        emitter.onNext(account);
                     }
 
                     @Override
@@ -95,7 +78,62 @@ public class ASignManager {
                     }
                 });
             });
-        }).compose(ARXUtils.<AUser>threadScheduler()).subscribe(new AObserver<AUser>(callback));
+        }).compose(ARXUtils.<AAccount>threadScheduler()).subscribe(new AObserver<AAccount>(callback));
+//
+//        observable.compose(ARXUtils.<AResult<AAccount>>threadScheduler())
+//                .doOnNext(new Consumer<AResult<AAccount>>() {
+//                    @Override
+//                    public void accept(AResult<AAccount> result) throws Exception {
+//
+//                    }
+//                })
+//                .subscribe(new AResultObserver<AAccount>() {
+//                    @Override
+//                    public void doOnNext(AAccount account) {
+//                        callback.onSuccess(account);
+//                    }
+//
+//                    @Override
+//                    public void doOnError(Throwable e) {
+//                        AExceptionManager.getInstance().disposeException(e, callback);
+//                    }
+//                });
+//        // 注册用户体系账户
+//        Observable<AUser> observable = Observable.create((final ObservableEmitter<AUser> emitter) -> {
+//            final AUser user = new AUser();
+//            user.setUsername(email);
+//            user.setEmail(email);
+//            user.setPassword(password);
+//            // 注册填写默认昵称和签名
+//            user.setNickname(VMStr.byRes(R.string.me_nickname_default));
+//            user.setSignature(VMStr.byRes(R.string.user_signature_default));
+//            user.signUpInBackground(new SignUpCallback() {
+//                @Override
+//                public void done(AVException e) {
+//                    if (e == null) {
+//                        emitter.onNext(user);
+//                    } else {
+//                        emitter.onError(e);
+//                    }
+//                }
+//            });
+//        });
+//        // 注册 IM 账户
+//        observable.flatMap((final AUser user) -> {
+//            return Observable.create((final ObservableEmitter<AUser> emitter) -> {
+//                IM.getInstance().signUp(user.getObjectId(), password, new IMCallback() {
+//                    @Override
+//                    public void onSuccess(Object o) {
+//                        emitter.onNext(user);
+//                    }
+//
+//                    @Override
+//                    public void onError(int code, String desc) {
+//                        emitter.onError(new IMException(code, desc));
+//                    }
+//                });
+//            });
+//        }).compose(ARXUtils.<AUser>threadScheduler()).subscribe(new AResultObserver<AAccount>(callback));
     }
 
     /**
@@ -105,43 +143,69 @@ public class ASignManager {
      * @param password 用户密码
      * @param callback 回调
      */
-    public void signInByEmail(final String email, final String password, final ACallback<AUser> callback) {
+    public void signInByEmail(final String email, final String password, final ACallback<AAccount> callback) {
         // 登录 用户体系账户
-        Observable<AUser> observable = Observable.create((final ObservableEmitter<AUser> emitter) -> {
-            AVUser.logInInBackground(email, password, new LogInCallback<AUser>() {
-                @Override
-                public void done(AUser user, AVException e) {
-                    if (e == null) {
-                        emitter.onNext(user);
-                    } else {
-                        emitter.onError(e);
-                    }
-                }
-            }, AUser.class);
-        });
-        // 登录 IM
-        observable.flatMap((final AUser bean) -> {
-            return Observable.create((final ObservableEmitter<AUser> emitter) -> {
-                IM.getInstance().signIn(bean.getObjectId(), password, new IMCallback() {
+        Observable<AResult<AAccount>> observable = APIRequest.getInstance().createApi(APIService.class).loginAccount(email, password);
+        observable.doOnNext((AResult<AAccount> result) -> {
+            if (result.getCode() != 0) {
+                throw new AException(result.getCode(), result.getMessage());
+            }
+        }).flatMap((AResult<AAccount> result) -> {
+            // 登录 IM
+            AAccount account = result.getData();
+            return Observable.create((final ObservableEmitter<AAccount> emitter) -> {
+                IM.getInstance().signIn(account.getId(), password, new IMCallback() {
                     @Override
                     public void onSuccess(Object o) {
-                        emitter.onNext(bean);
+                        setCurrentAccount(account);
+                        emitter.onNext(account);
                     }
 
                     @Override
                     public void onError(int code, String desc) {
-                        emitter.onError(new Throwable(desc));
+                        emitter.onError(new AException(code, desc));
                     }
                 });
             });
-        }).compose(ARXUtils.<AUser>threadScheduler()).subscribe(new AObserver<AUser>(callback));
+        }).compose(ARXUtils.<AAccount>threadScheduler()).subscribe(new AObserver<AAccount>(callback));
+
+//
+//        // 登录 用户体系账户
+//        Observable<AUser> observable = Observable.create((final ObservableEmitter<AUser> emitter) -> {
+//            AVUser.logInInBackground(email, password, new LogInCallback<AUser>() {
+//                @Override
+//                public void done(AUser user, AVException e) {
+//                    if (e == null) {
+//                        emitter.onNext(user);
+//                    } else {
+//                        emitter.onError(e);
+//                    }
+//                }
+//            }, AUser.class);
+//        });
+//        // 登录 IM
+//        observable.flatMap((final AUser bean) -> {
+//            return Observable.create((final ObservableEmitter<AUser> emitter) -> {
+//                IM.getInstance().signIn(bean.getObjectId(), password, new IMCallback() {
+//                    @Override
+//                    public void onSuccess(Object o) {
+//                        emitter.onNext(bean);
+//                    }
+//
+//                    @Override
+//                    public void onError(int code, String desc) {
+//                        emitter.onError(new Throwable(desc));
+//                    }
+//                });
+//            });
+//        }).compose(ARXUtils.<AUser>threadScheduler()).subscribe(new AObserver<AUser>(callback));
     }
 
     /**
      * 退出登录
      */
     public void signOut() {
-        AVUser.logOut();
+        setCurrentAccount(null);
         IM.getInstance().signOut(false);
 
         reset();
@@ -151,68 +215,92 @@ public class ASignManager {
      * 判断是否登录
      */
     public boolean isSingIn() {
-        if (getCurrentUser() == null) {
+        if (getCurrentAccount() == null) {
             return false;
         }
         return true;
     }
 
-    public AUser getCurrentUser() {
-        if (mCurrentUser == null) {
-            mCurrentUser = AVUser.getCurrentUser(AUser.class);
+    public AAccount getCurrentAccount() {
+        if (mCurrentAccount == null) {
+            mCurrentAccount = parseAccount(ASPManager.getInstance().getCurrUser());
         }
-        return mCurrentUser;
-    }
-
-    /**
-     * 获取上次登录的账户信息
-     */
-    public AUser getHistoryUser() {
-        if (mHistoryUser == null) {
-            mHistoryUser = parseUser(ASPManager.getInstance().getPrevUser());
-        }
-        return mHistoryUser;
+        return mCurrentAccount;
     }
 
     /**
      * 记录上次登录的账户，下次登录可以查询
      */
-    public void setHistoryUser(AUser user) {
-        mHistoryUser = user;
-        ASPManager.getInstance().putPrevUser(convertUser(user));
+    public void setCurrentAccount(AAccount account) {
+        mCurrentAccount = account;
+        ASPManager.getInstance().putCurrUser(convertAccount(account));
+    }
+
+    /**
+     * 获取上次登录的账户信息
+     */
+    public AAccount getHistoryAccount() {
+        if (mHistoryAccount == null) {
+            mHistoryAccount = parseAccount(ASPManager.getInstance().getPrevUser());
+        }
+        return mHistoryAccount;
+    }
+
+    /**
+     * 记录上次登录的账户，下次登录可以查询
+     */
+    public void setHistoryAccount(AAccount account) {
+        mHistoryAccount = account;
+        ASPManager.getInstance().putPrevUser(convertAccount(account));
     }
 
     /**
      * 通过 json 文件解析用户信息，这个主要是保存的登录用户信息
      *
-     * @param userStr 用户信息 json 串
+     * @param str 用户信息 json 串
      */
-    public AUser parseUser(String userStr) {
-        if (VMStr.isEmpty(userStr)) {
+    private AAccount parseAccount(String str) {
+        if (VMStr.isEmpty(str)) {
             return null;
         }
-        AUser user = new AUser();
+        AAccount account = new AAccount();
         try {
-            JSONObject object = new JSONObject(userStr);
-            user.setUsername(object.optString("username"));
-            user.setEmail(object.optString("email"));
+            JSONObject object = new JSONObject(str);
+            account.setUsername(object.optString("username"));
+            account.setEmail(object.optString("email"));
+            account.setPhone(object.optString("phone"));
+            account.setToken(object.optString("token"));
+            account.setAvatar(object.optString("avatar"));
+            account.setCover(object.optString("cover"));
+            account.setGender(object.optInt("gender"));
+            account.setNickname(object.optString("nickname"));
+            account.setSignature(object.optString("signature"));
+            account.setAddress(object.optString("address"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return user;
+        return account;
     }
 
     /**
      * 用户信息转为 json 串
      */
-    public String convertUser(AUser user) {
-        if (user == null) {
+    public String convertAccount(AAccount account) {
+        if (account == null) {
             return "";
         }
         JSONObject object = new JSONObject();
         try {
-            object.put("username", user.getUsername());
-            object.put("email", user.getEmail());
+            object.put("username", account.getUsername());
+            object.put("email", account.getEmail());
+            object.put("phone", account.getPhone());
+            object.put("token", account.getToken());
+            object.put("avatar", account.getAvatar());
+            object.put("cover", account.getCover());
+            object.put("gender", account.getGender());
+            object.put("nickname", account.getNickname());
+            object.put("signature", account.getSignature());
+            object.put("address", account.getAddress());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -223,7 +311,7 @@ public class ASignManager {
      * 重置
      */
     public void reset() {
-        mHistoryUser = null;
-        mCurrentUser = null;
+        mHistoryAccount = null;
+        mCurrentAccount = null;
     }
 }

@@ -17,7 +17,8 @@ public class ASPManager {
     /**
      * 私有构造，初始化 ShredPreferences 文件名
      */
-    private ASPManager() {}
+    private ASPManager() {
+    }
 
     /**
      * 内部类实现单例模式
@@ -70,21 +71,29 @@ public class ASPManager {
     }
 
     /**
-     * 保存上一个登录的用户
+     * 上一个账户登录记录
      *
-     * @param user 上一个登录的用户信息
-     */
-    public void putPrevUser(String user) {
-        VMSPUtil.put(KEY_PREV_USER, user);
-    }
-
-    /**
-     * 获取上一个登录的用户
-     *
-     * @return 如果为空，说明没有登录
+     * @return 如果为空，说明没有登录记录
      */
     public String getPrevUser() {
         return (String) VMSPUtil.get(KEY_PREV_USER, "");
     }
+
+    public void putPrevUser(String account) {
+        VMSPUtil.put(KEY_PREV_USER, account);
+    }
+
+    /**
+     * 当前账户登录记录
+     *
+     * @return 如果为空，说明没有登录记录
+     */
+    public String getCurrUser() {
+        return (String) VMSPUtil.get(KEY_CURR_USER, "");
+    }
+    public void putCurrUser(String account) {
+        VMSPUtil.put(KEY_CURR_USER, account);
+    }
+
 
 }

@@ -1,6 +1,5 @@
 package com.vmloft.develop.app.match.common;
 
-import com.vmloft.develop.app.match.base.ACallback;
 import com.vmloft.develop.app.match.bean.AResult;
 
 import io.reactivex.Observer;
@@ -11,13 +10,7 @@ import io.reactivex.disposables.Disposable;
  *
  * 简单封装 Observer 主要是为了错误的统一处理
  */
-public class AObserver<T> implements Observer<T> {
-
-    private ACallback<T> mCallback;
-
-    public AObserver(ACallback<T> callback) {
-        mCallback = callback;
-    }
+public abstract class AResultObserver<T> implements Observer<AResult<T>> {
 
     @Override
     public void onSubscribe(Disposable d) {
@@ -25,19 +18,24 @@ public class AObserver<T> implements Observer<T> {
     }
 
     @Override
-    public void onNext(T t) {
-        if (mCallback != null) {
-            mCallback.onSuccess(t);
+    public void onNext(AResult<T> result) {
+        if (result.getCode() == 0) {
+            doOnNext(result.getData());
+        }else{
+            doOnError(new AException(result.getCode(), result.getMessage()));
         }
     }
 
     @Override
     public void onError(Throwable e) {
-        AExceptionManager.getInstance().disposeException(e, mCallback);
+        doOnError(e);
     }
 
     @Override
     public void onComplete() {
 
     }
+
+    public abstract void doOnNext(T t);
+    public abstract void doOnError(Throwable e);
 }

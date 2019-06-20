@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.hyphenate.chat.EMMessage;
 
 import com.vmloft.develop.app.match.R;
+import com.vmloft.develop.app.match.bean.AAccount;
 import com.vmloft.develop.app.match.bean.AUser;
 import com.vmloft.develop.app.match.common.AConstants;
 import com.vmloft.develop.app.match.common.ASignManager;
@@ -30,11 +31,11 @@ public class AIMMatchItem extends IMCardItem {
     private ImageView mAvatarSelfView;
     private TextView mFateView;
 
-    private AUser mUser;
+    private AAccount mAccount;
 
     public AIMMatchItem(Context context, IMChatAdapter adapter, int type) {
         super(context, adapter, type);
-        mUser = ASignManager.getInstance().getCurrentUser();
+        mAccount = ASignManager.getInstance().getCurrentAccount();
     }
 
     @Override
@@ -82,7 +83,7 @@ public class AIMMatchItem extends IMCardItem {
         ALoader.load(mContext, options, mAvatarView);
 
         // 自己头像
-        String url = mUser.getAvatar() != null ? mUser.getAvatar().getUrl() : null;
+        String url = mAccount.getAvatar();
         options = new IPictureLoader.Options(url);
         if (AIMManager.getInstance().isCircleAvatar()) {
             options.isCircle = true;

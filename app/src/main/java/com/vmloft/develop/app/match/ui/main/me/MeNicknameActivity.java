@@ -8,6 +8,7 @@ import butterknife.BindView;
 import com.vmloft.develop.app.match.R;
 import com.vmloft.develop.app.match.base.ACallback;
 import com.vmloft.develop.app.match.base.AppActivity;
+import com.vmloft.develop.app.match.bean.AAccount;
 import com.vmloft.develop.app.match.bean.AUser;
 import com.vmloft.develop.app.match.common.ASignManager;
 import com.vmloft.develop.app.match.common.AUMSManager;
@@ -23,7 +24,7 @@ public class MeNicknameActivity extends AppActivity {
 
     @BindView(R.id.me_nickname_et) EditText mNicknameET;
     // 个人用户
-    private AUser mUser;
+    private AAccount mAccount;
 
     @Override
     protected int layoutId() {
@@ -39,8 +40,8 @@ public class MeNicknameActivity extends AppActivity {
     @Override
     protected void initData() {
         setTopTitle(R.string.me_info);
-        mUser = ASignManager.getInstance().getCurrentUser();
-        mNicknameET.setText(mUser.getNickname());
+        mAccount = ASignManager.getInstance().getCurrentAccount();
+        mNicknameET.setText(mAccount.getNickname());
     }
 
     /**
@@ -48,10 +49,10 @@ public class MeNicknameActivity extends AppActivity {
      */
     public void saveNickname() {
         String nickname = mNicknameET.getText().toString().trim();
-        mUser.setNickname(nickname);
-        AUMSManager.getInstance().saveUserInfo(mUser, new ACallback<AUser>() {
+        mAccount.setNickname(nickname);
+        AUMSManager.getInstance().updateAccountDetail(mAccount, new ACallback<AAccount>() {
             @Override
-            public void onSuccess(AUser user) {
+            public void onSuccess(AAccount account) {
                 VMLog.d("用户信息保存成功");
                 onFinish();
             }

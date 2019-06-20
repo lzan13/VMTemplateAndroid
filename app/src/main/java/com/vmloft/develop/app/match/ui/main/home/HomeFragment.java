@@ -14,6 +14,7 @@ import com.vmloft.develop.app.match.R;
 import com.vmloft.develop.app.match.base.ACallback;
 import com.vmloft.develop.app.match.base.AppLazyFragment;
 
+import com.vmloft.develop.app.match.bean.AAccount;
 import com.vmloft.develop.app.match.bean.AMatch;
 import com.vmloft.develop.app.match.bean.AUser;
 import com.vmloft.develop.app.match.common.AConstants;
@@ -48,7 +49,7 @@ public class HomeFragment extends AppLazyFragment {
     @BindView(R.id.home_match_cover) ImageView mMatchCoverView;
 
     // 自己
-    private AUser mUser;
+    private AAccount mAccount;
     private int avatarSize;
 
     // 正在匹配的人，使用 Map 是为了过滤掉重复的信息
@@ -85,10 +86,10 @@ public class HomeFragment extends AppLazyFragment {
     @Override
     protected void initData() {
 
-        mUser = ASignManager.getInstance().getCurrentUser();
+        mAccount = ASignManager.getInstance().getCurrentAccount();
         avatarSize = VMDimen.dp2px(48);
 
-        String url = mUser.getAvatar() != null ? mUser.getAvatar().getUrl() : null;
+        String url = mAccount.getAvatar();
         // 加载背景
         IPictureLoader.Options options = new IPictureLoader.Options(url);
         options.isBlur = true;
@@ -122,7 +123,7 @@ public class HomeFragment extends AppLazyFragment {
                 for (AMatch match : list) {
                     // 过滤掉自己的匹配信息
                     String userId = match.getUser().getObjectId();
-                    if (userId.equals(mUser.getObjectId())) {
+                    if (userId.equals(mAccount.getId())) {
                         continue;
                     }
                     mMatchMap.put(match.getObjectId(), match);

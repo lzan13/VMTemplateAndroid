@@ -5,6 +5,7 @@ import android.content.Context;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMTextMessageBody;
 import com.vmloft.develop.app.match.base.ACallback;
+import com.vmloft.develop.app.match.bean.AAccount;
 import com.vmloft.develop.app.match.bean.AUser;
 import com.vmloft.develop.app.match.common.AConstants;
 import com.vmloft.develop.app.match.common.ASignManager;
@@ -31,15 +32,17 @@ public class AIMGlobalListener implements IIMGlobalListener {
      */
     @Override
     public IMContact getIMContact(String id) {
-        AUser user = AUMSManager.getInstance().getUser(id);
-        if (id.equals(ASignManager.getInstance().getCurrentUser().getObjectId())) {
-            user = ASignManager.getInstance().getCurrentUser();
+        AAccount account;
+        if (id.equals(ASignManager.getInstance().getCurrentAccount().getId())) {
+            account = ASignManager.getInstance().getCurrentAccount();
+        } else {
+            account = AUMSManager.getInstance().getAccount(id);
         }
         IMContact contact = new IMContact(id);
-        if (user != null) {
-            contact.mUsername = user.getUsername();
-            contact.mNickname = user.getNickname();
-            contact.mAvatar = user.getAvatar() != null ? user.getAvatar().getUrl() : null;
+        if (account != null) {
+            contact.mUsername = account.getUsername();
+            contact.mNickname = account.getNickname();
+            contact.mAvatar = account.getAvatar();
         }
         return contact;
     }
@@ -52,13 +55,13 @@ public class AIMGlobalListener implements IIMGlobalListener {
     @Override
     public void getIMContact(final String id, final IMCallback<IMContact> callback) {
         IMContact contact = new IMContact(id);
-        AUMSManager.getInstance().getUser(id, new ACallback<AUser>() {
+        AUMSManager.getInstance().getAccount(id, new ACallback<AAccount>() {
             @Override
-            public void onSuccess(AUser user) {
-                if (user != null) {
-                    contact.mUsername = user.getUsername();
-                    contact.mNickname = user.getNickname();
-                    contact.mAvatar = user.getAvatar() != null ? user.getAvatar().getUrl() : null;
+            public void onSuccess(AAccount account) {
+                if (account != null) {
+                    contact.mUsername = account.getUsername();
+                    contact.mNickname = account.getNickname();
+                    contact.mAvatar = account.getAvatar();
                 }
                 if (callback != null) {
                     callback.onSuccess(contact);

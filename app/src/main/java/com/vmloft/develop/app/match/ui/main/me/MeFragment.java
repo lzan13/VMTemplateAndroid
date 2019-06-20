@@ -12,6 +12,7 @@ import com.vmloft.develop.app.match.base.AppLazyFragment;
 
 import butterknife.BindView;
 
+import com.vmloft.develop.app.match.bean.AAccount;
 import com.vmloft.develop.app.match.bean.AUser;
 import com.vmloft.develop.app.match.common.ASignManager;
 import com.vmloft.develop.app.match.glide.ALoader;
@@ -19,7 +20,6 @@ import com.vmloft.develop.app.match.im.AIMManager;
 import com.vmloft.develop.app.match.router.ARouter;
 import com.vmloft.develop.library.tools.picker.IPictureLoader;
 import com.vmloft.develop.library.tools.utils.VMDimen;
-import com.vmloft.develop.library.tools.utils.VMStr;
 import com.vmloft.develop.library.tools.utils.VMTheme;
 import com.vmloft.develop.library.tools.widget.toast.VMToast;
 
@@ -35,7 +35,7 @@ public class MeFragment extends AppLazyFragment {
     @BindView(R.id.me_name_tv) TextView mNameView;
     @BindView(R.id.me_signature_tv) TextView mSignatureView;
 
-    private AUser mUser;
+    private AAccount mAccount;
 
     /**
      * Fragment 的工厂方法，方便创建并设置参数
@@ -53,7 +53,7 @@ public class MeFragment extends AppLazyFragment {
     @Override
     public void onResume() {
         super.onResume();
-        mUser = ASignManager.getInstance().getCurrentUser();
+        mAccount = ASignManager.getInstance().getCurrentAccount();
         refreshUI();
     }
 
@@ -93,14 +93,14 @@ public class MeFragment extends AppLazyFragment {
      * 刷新 UI
      */
     private void refreshUI() {
-        if (mUser == null) {
+        if (mAccount == null) {
             return;
         }
 
-        mNameView.setText(mUser.getNickname());
-        mSignatureView.setText(mUser.getSignature());
+        mNameView.setText(mAccount.getNickname());
+        mSignatureView.setText(mAccount.getSignature());
 
-        String url = mUser.getAvatar() != null ? mUser.getAvatar().getUrl() : null;
+        String url = mAccount.getAvatar();
         // 加载头像
         IPictureLoader.Options options = new IPictureLoader.Options(url);
         if (AIMManager.getInstance().isCircleAvatar()) {
