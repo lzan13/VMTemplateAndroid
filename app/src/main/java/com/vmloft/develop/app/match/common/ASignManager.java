@@ -79,61 +79,6 @@ public class ASignManager {
                 });
             });
         }).compose(ARXUtils.<AAccount>threadScheduler()).subscribe(new AObserver<AAccount>(callback));
-//
-//        observable.compose(ARXUtils.<AResult<AAccount>>threadScheduler())
-//                .doOnNext(new Consumer<AResult<AAccount>>() {
-//                    @Override
-//                    public void accept(AResult<AAccount> result) throws Exception {
-//
-//                    }
-//                })
-//                .subscribe(new AResultObserver<AAccount>() {
-//                    @Override
-//                    public void doOnNext(AAccount account) {
-//                        callback.onSuccess(account);
-//                    }
-//
-//                    @Override
-//                    public void doOnError(Throwable e) {
-//                        AExceptionManager.getInstance().disposeException(e, callback);
-//                    }
-//                });
-//        // 注册用户体系账户
-//        Observable<AUser> observable = Observable.create((final ObservableEmitter<AUser> emitter) -> {
-//            final AUser user = new AUser();
-//            user.setUsername(email);
-//            user.setEmail(email);
-//            user.setPassword(password);
-//            // 注册填写默认昵称和签名
-//            user.setNickname(VMStr.byRes(R.string.me_nickname_default));
-//            user.setSignature(VMStr.byRes(R.string.user_signature_default));
-//            user.signUpInBackground(new SignUpCallback() {
-//                @Override
-//                public void done(AVException e) {
-//                    if (e == null) {
-//                        emitter.onNext(user);
-//                    } else {
-//                        emitter.onError(e);
-//                    }
-//                }
-//            });
-//        });
-//        // 注册 IM 账户
-//        observable.flatMap((final AUser user) -> {
-//            return Observable.create((final ObservableEmitter<AUser> emitter) -> {
-//                IM.getInstance().signUp(user.getObjectId(), password, new IMCallback() {
-//                    @Override
-//                    public void onSuccess(Object o) {
-//                        emitter.onNext(user);
-//                    }
-//
-//                    @Override
-//                    public void onError(int code, String desc) {
-//                        emitter.onError(new IMException(code, desc));
-//                    }
-//                });
-//            });
-//        }).compose(ARXUtils.<AUser>threadScheduler()).subscribe(new AResultObserver<AAccount>(callback));
     }
 
     /**
@@ -168,37 +113,6 @@ public class ASignManager {
                 });
             });
         }).compose(ARXUtils.<AAccount>threadScheduler()).subscribe(new AObserver<AAccount>(callback));
-
-//
-//        // 登录 用户体系账户
-//        Observable<AUser> observable = Observable.create((final ObservableEmitter<AUser> emitter) -> {
-//            AVUser.logInInBackground(email, password, new LogInCallback<AUser>() {
-//                @Override
-//                public void done(AUser user, AVException e) {
-//                    if (e == null) {
-//                        emitter.onNext(user);
-//                    } else {
-//                        emitter.onError(e);
-//                    }
-//                }
-//            }, AUser.class);
-//        });
-//        // 登录 IM
-//        observable.flatMap((final AUser bean) -> {
-//            return Observable.create((final ObservableEmitter<AUser> emitter) -> {
-//                IM.getInstance().signIn(bean.getObjectId(), password, new IMCallback() {
-//                    @Override
-//                    public void onSuccess(Object o) {
-//                        emitter.onNext(bean);
-//                    }
-//
-//                    @Override
-//                    public void onError(int code, String desc) {
-//                        emitter.onError(new Throwable(desc));
-//                    }
-//                });
-//            });
-//        }).compose(ARXUtils.<AUser>threadScheduler()).subscribe(new AObserver<AUser>(callback));
     }
 
     /**

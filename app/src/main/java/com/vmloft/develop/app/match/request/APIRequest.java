@@ -124,7 +124,7 @@ public class APIRequest {
             }
             // 通过拦截器添加 token
             AAccount account = ASignManager.getInstance().getCurrentAccount();
-            if (account !=null ||!TextUtils.isEmpty(account.getToken())) {
+            if (account != null && !TextUtils.isEmpty(account.getToken())) {
                 request = request.newBuilder().addHeader("Authorization", "Bearer " + account.getToken()).build();
             }
             return chain.proceed(request);

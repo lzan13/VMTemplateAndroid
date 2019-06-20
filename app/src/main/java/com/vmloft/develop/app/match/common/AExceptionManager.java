@@ -137,10 +137,9 @@ public class AExceptionManager {
             default:
                 break;
         }
-        VMLog.e(desc);
         //        VMToast.make(msg).showError();
         callback.onError(code, desc);
-        VMLog.e("IM 相关错误信息 [%d] - %s", code, desc);
+        VMLog.e("错误信息 [%d] - %s", code, desc);
         if (callback != null) {
             callback.onError(code, desc);
         }

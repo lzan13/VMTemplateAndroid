@@ -56,7 +56,7 @@ public class AUMSManager {
         File file = new File(bean.path);
         RequestBody body = RequestBody.create(MediaType.parse("application/otcet-stream"), file);
 //        PhotoRequestBody photoRequestBody = new PhotoRequestBody(body, new UploadProgress());
-        MultipartBody.Part part = MultipartBody.Part.createFormData("photo", file.getName(), body);
+        MultipartBody.Part part = MultipartBody.Part.createFormData("avatar", file.getName(), body);
         Observable<AResult<AAccount>> observable = APIRequest.getInstance().createApi(APIService.class).updateAccountAvatar(part);
         observable.compose(ARXUtils.threadScheduler()).subscribe(new AResultObserver<AAccount>() {
             @Override
