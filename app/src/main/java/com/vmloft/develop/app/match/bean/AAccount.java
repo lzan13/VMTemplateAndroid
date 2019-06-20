@@ -7,8 +7,7 @@ import com.google.gson.annotations.SerializedName;
  * 账户实体类
  */
 public class AAccount {
-    @SerializedName("_id")
-    private String id;
+    @SerializedName("_id") private String id;
     private String username;
     private String email;
     private String phone;
@@ -24,10 +23,8 @@ public class AAccount {
     private boolean activated;
     private boolean deleted;
     private boolean admin;
-    @SerializedName("create_at")
-    private String createAt;
-    @SerializedName("update_at")
-    private String updateAt;
+    @SerializedName("create_at") private String createAt;
+    @SerializedName("update_at") private String updateAt;
 
     public AAccount() {
     }
@@ -36,7 +33,6 @@ public class AAccount {
         this.email = account;
         this.password = password;
     }
-
 
     public String getId() {
         return id;
@@ -203,5 +199,4 @@ public class AAccount {
         builder.append("\n\tadmin:" + admin);
         return builder.toString();
     }
-
 }

@@ -16,10 +16,10 @@ import com.vmloft.develop.app.match.base.AppLazyFragment;
 
 import com.vmloft.develop.app.match.bean.AAccount;
 import com.vmloft.develop.app.match.bean.AMatch;
-import com.vmloft.develop.app.match.bean.AUser;
 import com.vmloft.develop.app.match.common.AConstants;
 import com.vmloft.develop.app.match.common.AMatchManager;
 import com.vmloft.develop.app.match.common.ASignManager;
+import com.vmloft.develop.app.match.common.AUMSManager;
 import com.vmloft.develop.app.match.glide.ALoader;
 import com.vmloft.develop.app.match.im.AIMManager;
 import com.vmloft.develop.app.match.router.ARouter;
@@ -89,9 +89,8 @@ public class HomeFragment extends AppLazyFragment {
         mAccount = ASignManager.getInstance().getCurrentAccount();
         avatarSize = VMDimen.dp2px(48);
 
-        String url = mAccount.getAvatar();
         // 加载背景
-        IPictureLoader.Options options = new IPictureLoader.Options(url);
+        IPictureLoader.Options options = new IPictureLoader.Options(ALoader.wrapUrl(mAccount.getAvatar()));
         options.isBlur = true;
         ALoader.load(mContext, options, mMatchCoverView);
 
@@ -122,11 +121,11 @@ public class HomeFragment extends AppLazyFragment {
             public void onSuccess(List<AMatch> list) {
                 for (AMatch match : list) {
                     // 过滤掉自己的匹配信息
-                    String userId = match.getUser().getObjectId();
-                    if (userId.equals(mAccount.getId())) {
+                    String accountId = match.getAccountId();
+                    if (accountId.equals(mAccount.getId())) {
                         continue;
                     }
-                    mMatchMap.put(match.getObjectId(), match);
+                    mMatchMap.put(match.getId(), match);
                     // 只显示最近已定数量参与匹配的人
                     if (mMatchMap.size() >= 5) {
                         break;
@@ -158,10 +157,9 @@ public class HomeFragment extends AppLazyFragment {
             imageView.setAlpha(0.0f);
             mMatchContainer.addView(imageView, lp);
 
-            final AUser user = match.getUser();
-            String url = user.getAvatar() != null ? user.getAvatar().getUrl() : null;
+            AAccount account = AUMSManager.getInstance().getAccount(match.getAccountId());
             // 加载头像
-            IPictureLoader.Options options = new IPictureLoader.Options(url);
+            IPictureLoader.Options options = new IPictureLoader.Options(ALoader.wrapUrl(account.getAvatar()));
             if (AIMManager.getInstance().isCircleAvatar()) {
                 options.isCircle = true;
             } else {
@@ -171,7 +169,7 @@ public class HomeFragment extends AppLazyFragment {
             ALoader.load(mContext, options, imageView);
 
             imageView.setOnClickListener((View v) -> {
-                startMatch(user);
+                startMatch(account);
             });
 
             // 动画出现
@@ -186,8 +184,8 @@ public class HomeFragment extends AppLazyFragment {
     /**
      * 开始匹配
      */
-    private void startMatch(AUser user) {
-        String id = user.getObjectId();
+    private void startMatch(AAccount account) {
+        String id = account.getId();
         int chatType = IMConstants.ChatType.IM_SINGLE_CHAT;
         int msgCount = IMChatManager.getInstance().getMessagesCount(id, chatType);
         // 判断是否匹配过
@@ -200,6 +198,6 @@ public class HomeFragment extends AppLazyFragment {
             IMChatManager.getInstance().sendMessage(message, null);
             IMChatManager.getInstance().setConversationExt(id, chatType, AConstants.CHAT_EXT_MATCH, true);
         }
-        IMRouter.goIMChat(mContext, user.getObjectId());
+        IMRouter.goIMChat(mContext, id);
     }
 }

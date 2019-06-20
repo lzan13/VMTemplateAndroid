@@ -6,11 +6,11 @@ import android.view.View;
 
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.hyphenate.chat.EMMessage;
 
 import com.vmloft.develop.app.match.R;
 import com.vmloft.develop.app.match.bean.AAccount;
-import com.vmloft.develop.app.match.bean.AUser;
 import com.vmloft.develop.app.match.common.AConstants;
 import com.vmloft.develop.app.match.common.ASignManager;
 import com.vmloft.develop.app.match.glide.ALoader;
@@ -73,7 +73,7 @@ public class AIMMatchItem extends IMCardItem {
         mAvatarView.setOnClickListener((View v) -> {
             ARouter.goUserDetail(mContext, mContact.mId);
         });
-        IPictureLoader.Options options = new IPictureLoader.Options(mContact.mAvatar);
+        IPictureLoader.Options options = new IPictureLoader.Options(ALoader.wrapUrl(mContact.mAvatar));
         if (AIMManager.getInstance().isCircleAvatar()) {
             options.isCircle = true;
         } else {
@@ -83,8 +83,7 @@ public class AIMMatchItem extends IMCardItem {
         ALoader.load(mContext, options, mAvatarView);
 
         // 自己头像
-        String url = mAccount.getAvatar();
-        options = new IPictureLoader.Options(url);
+        options = new IPictureLoader.Options(ALoader.wrapUrl(mAccount.getAvatar()));
         if (AIMManager.getInstance().isCircleAvatar()) {
             options.isCircle = true;
         } else {

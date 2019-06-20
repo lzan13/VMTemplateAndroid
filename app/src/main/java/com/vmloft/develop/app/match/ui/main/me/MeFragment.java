@@ -13,13 +13,14 @@ import com.vmloft.develop.app.match.base.AppLazyFragment;
 import butterknife.BindView;
 
 import com.vmloft.develop.app.match.bean.AAccount;
-import com.vmloft.develop.app.match.bean.AUser;
+import com.vmloft.develop.app.match.common.AConstants;
 import com.vmloft.develop.app.match.common.ASignManager;
 import com.vmloft.develop.app.match.glide.ALoader;
 import com.vmloft.develop.app.match.im.AIMManager;
 import com.vmloft.develop.app.match.router.ARouter;
 import com.vmloft.develop.library.tools.picker.IPictureLoader;
 import com.vmloft.develop.library.tools.utils.VMDimen;
+import com.vmloft.develop.library.tools.utils.VMStr;
 import com.vmloft.develop.library.tools.utils.VMTheme;
 import com.vmloft.develop.library.tools.widget.toast.VMToast;
 
@@ -96,13 +97,20 @@ public class MeFragment extends AppLazyFragment {
         if (mAccount == null) {
             return;
         }
+        if (VMStr.isEmpty(mAccount.getNickname())) {
+            mNameView.setText(mAccount.getUsername());
+        } else {
+            mNameView.setText(mAccount.getNickname());
+        }
 
-        mNameView.setText(mAccount.getNickname());
-        mSignatureView.setText(mAccount.getSignature());
+        if (VMStr.isEmpty(mAccount.getSignature())) {
+            mSignatureView.setText(VMStr.byRes(R.string.me_signature_default));
+        } else {
+            mSignatureView.setText(mAccount.getSignature());
+        }
 
-        String url = mAccount.getAvatar();
         // 加载头像
-        IPictureLoader.Options options = new IPictureLoader.Options(url);
+        IPictureLoader.Options options = new IPictureLoader.Options(ALoader.wrapUrl(mAccount.getAvatar()));
         if (AIMManager.getInstance().isCircleAvatar()) {
             options.isCircle = true;
         } else {

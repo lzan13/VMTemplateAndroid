@@ -10,8 +10,6 @@ import com.vmloft.develop.app.match.R;
 import com.vmloft.develop.app.match.base.AppActivity;
 import com.vmloft.develop.app.match.base.ACallback;
 import com.vmloft.develop.app.match.bean.AAccount;
-import com.vmloft.develop.app.match.bean.AUser;
-
 import com.vmloft.develop.app.match.common.ASignManager;
 import com.vmloft.develop.app.match.common.AUMSManager;
 import com.vmloft.develop.app.match.router.ARouter;
@@ -152,7 +150,7 @@ public class SignInActivity extends AppActivity {
                 // 注册成功保存下用户信息，方便回到登录页面输入信息
                 ASignManager.getInstance().setHistoryAccount(account);
                 // 登录成功拉取以下联系人信息
-                AUMSManager.getInstance().loadUserList();
+                AUMSManager.getInstance().loadAccountList();
                 ARouter.goMain(mActivity);
             }
 

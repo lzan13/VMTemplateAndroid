@@ -1,8 +1,11 @@
 package com.vmloft.develop.app.match.request;
 
+import com.vmloft.develop.app.match.bean.AMatch;
 import io.reactivex.Observable;
 
+import java.util.List;
 import okhttp3.MultipartBody;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -14,6 +17,7 @@ import retrofit2.http.Path;
 
 import com.vmloft.develop.app.match.bean.AAccount;
 import com.vmloft.develop.app.match.bean.AResult;
+import retrofit2.http.Query;
 
 /**
  * Created by lzan13 on 2017/11/24.
@@ -21,9 +25,8 @@ import com.vmloft.develop.app.match.bean.AResult;
  */
 public interface APIService {
 
-
     /**
-     * --------------------------------- AAccount Api ---------------------------------
+     * --------------------------------- 账户接口 ---------------------------------
      */
     /**
      * 注册账户
@@ -44,7 +47,8 @@ public interface APIService {
      */
     @FormUrlEncoded
     @PUT("accounts/detail")
-    Observable<AResult<AAccount>> updateAccountDetail(@Field("gender") int gender, @Field("nickname") String nickname, @Field("signature") String signature, @Field("address") String address);
+    Observable<AResult<AAccount>> updateAccountDetail(@Field("gender") int gender, @Field("nickname") String nickname,
+        @Field("signature") String signature, @Field("address") String address);
 
     /**
      * 更新账户密码
@@ -66,6 +70,31 @@ public interface APIService {
     @GET("accounts/detail/{id}")
     Observable<AResult<AAccount>> getAccount(@Path("id") String id);
 
+    /**
+     * 获取账户信息
+     */
+    @GET("accounts/all")
+    Observable<AResult<List<AAccount>>> getAccountAll(@Query("page") int page, @Query("limit") int limit);
 
+    /**
+     * --------------------------------- 匹配接口 ---------------------------------
+     */
+    /**
+     * 提交匹配
+     */
+    @POST("matchs/create")
+    Observable<AResult<AMatch>> createMatch();
+
+    /**
+     * 移除匹配信息
+     */
+    @DELETE("matchs/remove/{id}")
+    Observable<AResult<AMatch>> removeMatch(@Path("id") String id);
+
+    /**
+     * 获取匹配信息
+     */
+    @GET("matchs/all")
+    Observable<AResult<List<AMatch>>> getMatchAll(@Query("page") int page, @Query("limit") int limit);
 }
 

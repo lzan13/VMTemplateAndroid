@@ -4,12 +4,13 @@ import android.content.Context;
 
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMTextMessageBody;
+
 import com.vmloft.develop.app.match.base.ACallback;
 import com.vmloft.develop.app.match.bean.AAccount;
-import com.vmloft.develop.app.match.bean.AUser;
 import com.vmloft.develop.app.match.common.AConstants;
 import com.vmloft.develop.app.match.common.ASignManager;
 import com.vmloft.develop.app.match.common.AUMSManager;
+import com.vmloft.develop.app.match.glide.ALoader;
 import com.vmloft.develop.app.match.router.ARouter;
 import com.vmloft.develop.library.im.IIMGlobalListener;
 import com.vmloft.develop.library.im.base.IMCallback;
@@ -42,7 +43,7 @@ public class AIMGlobalListener implements IIMGlobalListener {
         if (account != null) {
             contact.mUsername = account.getUsername();
             contact.mNickname = account.getNickname();
-            contact.mAvatar = account.getAvatar();
+            contact.mAvatar = ALoader.wrapUrl(account.getAvatar());
         }
         return contact;
     }
@@ -61,7 +62,7 @@ public class AIMGlobalListener implements IIMGlobalListener {
                 if (account != null) {
                     contact.mUsername = account.getUsername();
                     contact.mNickname = account.getNickname();
-                    contact.mAvatar = account.getAvatar();
+                    contact.mAvatar = ALoader.wrapUrl(account.getAvatar());
                 }
                 if (callback != null) {
                     callback.onSuccess(contact);

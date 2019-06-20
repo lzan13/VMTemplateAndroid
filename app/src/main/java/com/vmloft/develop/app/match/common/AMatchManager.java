@@ -1,20 +1,13 @@
 package com.vmloft.develop.app.match.common;
 
-import com.avos.avoscloud.AVCloudQueryResult;
-import com.avos.avoscloud.AVException;
-import com.avos.avoscloud.AVObject;
-import com.avos.avoscloud.AVQuery;
-import com.avos.avoscloud.AVUser;
-import com.avos.avoscloud.CloudQueryCallback;
-import com.avos.avoscloud.FindCallback;
-import com.avos.avoscloud.SaveCallback;
 import com.vmloft.develop.app.match.base.ACallback;
 import com.vmloft.develop.app.match.bean.AMatch;
-import com.vmloft.develop.app.match.bean.AUser;
+import com.vmloft.develop.app.match.bean.AResult;
+import com.vmloft.develop.app.match.request.APIRequest;
+import com.vmloft.develop.app.match.request.APIService;
 import com.vmloft.develop.app.match.utils.ARXUtils;
-import com.vmloft.develop.library.tools.utils.VMStr;
+
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
 
 import java.util.List;
 
@@ -45,55 +38,65 @@ public class AMatchManager {
      * 开启匹配
      */
     public void startMatch(final ACallback<AMatch> callback) {
-        Observable<AMatch> observable = Observable.create((final ObservableEmitter<AMatch> emitter) -> {
-            final AMatch match = new AMatch();
-            match.setUser(AVUser.getCurrentUser(AUser.class));
-            match.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(AVException e) {
-                    if (e == null) {
-                        emitter.onNext(match);
-                    } else {
-                        emitter.onError(e);
-                    }
+        // 获取匹配信息
+        Observable<AResult<AMatch>> observable = APIRequest.getInstance().createApi(APIService.class).createMatch();
+        observable.compose(ARXUtils.threadScheduler()).subscribe(new AResultObserver<AMatch>() {
+            @Override
+            public void doOnNext(AMatch match) {
+                if (callback != null) {
+                    callback.onSuccess(match);
                 }
-            });
+            }
+
+            @Override
+            public void doOnError(Throwable e) {
+                AExceptionManager.getInstance().disposeException(e, callback);
+            }
         });
-        observable.compose(ARXUtils.<AMatch>threadScheduler()).subscribe(new AObserver<AMatch>(callback));
     }
 
     /**
      * 查询匹配列表
      */
     public void getMatchList(ACallback<List<AMatch>> callback) {
-        Observable<List<AMatch>> observable = Observable.create((final ObservableEmitter<List<AMatch>> emitter) -> {
-            AVQuery<AMatch> query = AVObject.getQuery(AMatch.class);
-            query.orderByDescending("createdAt");
-            query.include("user");
-            query.findInBackground(new FindCallback<AMatch>() {
-                @Override
-                public void done(List<AMatch> list, AVException e) {
-                    if (e == null) {
-                        emitter.onNext(list);
-                    } else {
-                        emitter.onError(e);
-                    }
+        getMatchList(1, 20, callback);
+    }
+
+    public void getMatchList(int page, int limit, ACallback<List<AMatch>> callback) {
+        // 获取匹配信息
+        Observable<AResult<List<AMatch>>> observable = APIRequest.getInstance().createApi(APIService.class).getMatchAll(page, limit);
+        observable.compose(ARXUtils.threadScheduler()).subscribe(new AResultObserver<List<AMatch>>() {
+            @Override
+            public void doOnNext(List<AMatch> list) {
+                if (callback != null) {
+                    callback.onSuccess(list);
                 }
-            });
+            }
+
+            @Override
+            public void doOnError(Throwable e) {
+                AExceptionManager.getInstance().disposeException(e, callback);
+            }
         });
-        observable.compose(ARXUtils.<List<AMatch>>threadScheduler()).subscribe(new AObserver<List<AMatch>>(callback));
     }
 
     /**
      * 关闭匹配
      */
     public void stopMatch(AMatch match) {
-        // 执行 CQL 语句实现删除一个对象
-        String sql = VMStr.byArgs("delete from AMatch where objectId='%s'", match.getObjectId());
-        AVQuery.doCloudQueryInBackground(sql, new CloudQueryCallback<AVCloudQueryResult>() {
+        // 删除匹配信息
+        Observable<AResult<AMatch>> observable = APIRequest.getInstance().createApi(APIService.class).removeMatch(match.getId());
+        observable.compose(ARXUtils.threadScheduler()).subscribe(new AResultObserver<AMatch>() {
             @Override
-            public void done(AVCloudQueryResult avCloudQueryResult, AVException e) {
-                // 如果 e 为空，说明操作成功
+            public void doOnNext(AMatch match) {
+                //if (callback != null) {
+                //    callback.onSuccess(list);
+                //}
+            }
+
+            @Override
+            public void doOnError(Throwable e) {
+                //AExceptionManager.getInstance().disposeException(e, callback);
             }
         });
     }

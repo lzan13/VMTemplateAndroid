@@ -9,7 +9,6 @@ import com.vmloft.develop.app.match.R;
 import com.vmloft.develop.app.match.base.ACallback;
 import com.vmloft.develop.app.match.base.AppActivity;
 import com.vmloft.develop.app.match.bean.AAccount;
-import com.vmloft.develop.app.match.bean.AUser;
 import com.vmloft.develop.app.match.common.ASignManager;
 import com.vmloft.develop.app.match.common.AUMSManager;
 import com.vmloft.develop.library.tools.utils.VMLog;
@@ -53,7 +52,7 @@ public class MeNicknameActivity extends AppActivity {
         AUMSManager.getInstance().updateAccountDetail(mAccount, new ACallback<AAccount>() {
             @Override
             public void onSuccess(AAccount account) {
-                VMLog.d("用户信息保存成功");
+                ASignManager.getInstance().setCurrentAccount(account);
                 onFinish();
             }
 

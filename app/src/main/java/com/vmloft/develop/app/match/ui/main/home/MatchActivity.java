@@ -11,9 +11,9 @@ import com.vmloft.develop.app.match.base.ACallback;
 import com.vmloft.develop.app.match.base.AppActivity;
 import com.vmloft.develop.app.match.bean.AAccount;
 import com.vmloft.develop.app.match.bean.AMatch;
-import com.vmloft.develop.app.match.bean.AUser;
 import com.vmloft.develop.app.match.common.AMatchManager;
 import com.vmloft.develop.app.match.common.ASignManager;
+import com.vmloft.develop.app.match.common.AUMSManager;
 import com.vmloft.develop.app.match.glide.ALoader;
 import com.vmloft.develop.app.match.im.AIMManager;
 import com.vmloft.develop.app.match.router.ARouter;
@@ -94,9 +94,8 @@ public class MatchActivity extends AppActivity {
      * 装载用户信息
      */
     private void setupUserInfo() {
-        String url = mAccount.getAvatar();
         // 加载头像
-        IPictureLoader.Options options = new IPictureLoader.Options(url);
+        IPictureLoader.Options options = new IPictureLoader.Options(ALoader.wrapUrl(mAccount.getAvatar()));
         if (AIMManager.getInstance().isCircleAvatar()) {
             options.isCircle = true;
         } else {
@@ -115,11 +114,11 @@ public class MatchActivity extends AppActivity {
             public void onSuccess(List<AMatch> list) {
                 for (AMatch match : list) {
                     // 过滤掉自己的匹配信息
-                    String userId = match.getUser().getObjectId();
-                    if (userId.equals(mAccount.getId())) {
+                    String accountId = match.getAccountId();
+                    if (accountId.equals(mAccount.getId())) {
                         continue;
                     }
-                    mMatchMap.put(match.getObjectId(), match);
+                    mMatchMap.put(match.getId(), match);
                     // 只显示最近已定数量参与匹配的人
                     if (mMatchMap.size() >= 5) {
                         break;
@@ -181,10 +180,9 @@ public class MatchActivity extends AppActivity {
             imageView.setAlpha(0.0f);
             mMatchContainer.addView(imageView, lp);
 
-            final AUser user = match.getUser();
-            String url = user.getAvatar() != null ? user.getAvatar().getUrl() : null;
+            final AAccount account = AUMSManager.getInstance().getAccount(match.getAccountId());
             // 加载头像
-            IPictureLoader.Options options = new IPictureLoader.Options(url);
+            IPictureLoader.Options options = new IPictureLoader.Options(ALoader.wrapUrl(account.getAvatar()));
             if (AIMManager.getInstance().isCircleAvatar()) {
                 options.isCircle = true;
             } else {
@@ -195,9 +193,9 @@ public class MatchActivity extends AppActivity {
 
             imageView.setOnClickListener((View v) -> {
                 if (mMatchType == MATCH_TYPE_TEXT) {
-                    IMRouter.goIMChat(mActivity, user.getObjectId());
+                    IMRouter.goIMChat(mActivity, account.getId());
                 } else {
-                    IMCallManager.getInstance().startCall(user.getObjectId(), IMCallManager.CallType.VOICE);
+                    IMCallManager.getInstance().startCall(account.getId(), IMCallManager.CallType.VOICE);
                 }
                 onFinish();
             });
@@ -213,7 +211,7 @@ public class MatchActivity extends AppActivity {
         super.onPause();
 
         if (mMatch != null) {
-            AMatchManager.getInstance().stopMatch(mMatch);
+            //AMatchManager.getInstance().stopMatch(mMatch);
         }
     }
 

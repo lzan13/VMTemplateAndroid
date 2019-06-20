@@ -9,7 +9,6 @@ import butterknife.BindView;
 import com.vmloft.develop.app.match.R;
 import com.vmloft.develop.app.match.base.AppActivity;
 import com.vmloft.develop.app.match.bean.AAccount;
-import com.vmloft.develop.app.match.bean.AUser;
 import com.vmloft.develop.app.match.common.AUMSManager;
 import com.vmloft.develop.app.match.glide.ALoader;
 import com.vmloft.develop.app.match.im.AIMManager;
@@ -26,18 +25,12 @@ import com.vmloft.develop.library.tools.utils.VMDimen;
  */
 public class UserDetailActivity extends AppActivity {
 
-    @BindView(R.id.user_detail_cover_iv)
-    ImageView mCoverView;
-    @BindView(R.id.user_detail_avatar_iv)
-    ImageView mAvatarView;
-    @BindView(R.id.user_detail_name_tv)
-    TextView mNameView;
-    @BindView(R.id.user_detail_signature_tv)
-    TextView mSignatureView;
-    @BindView(R.id.user_detail_private_letter_tv)
-    TextView mPrivateLetterView;
-    @BindView(R.id.user_detail_follow_tv)
-    TextView mFollowView;
+    @BindView(R.id.user_detail_cover_iv) ImageView mCoverView;
+    @BindView(R.id.user_detail_avatar_iv) ImageView mAvatarView;
+    @BindView(R.id.user_detail_name_tv) TextView mNameView;
+    @BindView(R.id.user_detail_signature_tv) TextView mSignatureView;
+    @BindView(R.id.user_detail_private_letter_tv) TextView mPrivateLetterView;
+    @BindView(R.id.user_detail_follow_tv) TextView mFollowView;
 
     private String mId;
     private AAccount mAccount;
@@ -68,9 +61,8 @@ public class UserDetailActivity extends AppActivity {
      * 加载用户信息
      */
     private void loadUserInfo() {
-        String url = mAccount.getAvatar();
         // 加载头像
-        IPictureLoader.Options options = new IPictureLoader.Options(url);
+        IPictureLoader.Options options = new IPictureLoader.Options(ALoader.wrapUrl(mAccount.getAvatar()));
         if (AIMManager.getInstance().isCircleAvatar()) {
             options.isCircle = true;
         } else {
@@ -79,10 +71,9 @@ public class UserDetailActivity extends AppActivity {
         }
         ALoader.load(mActivity, options, mAvatarView);
         // 加载背景
-        options = new IPictureLoader.Options(url);
+        options = new IPictureLoader.Options(ALoader.wrapUrl(mAccount.getAvatar()));
         options.isBlur = true;
         ALoader.load(mActivity, options, mCoverView);
-
 
         mNameView.setText(mAccount.getNickname());
         mSignatureView.setText(mAccount.getSignature());

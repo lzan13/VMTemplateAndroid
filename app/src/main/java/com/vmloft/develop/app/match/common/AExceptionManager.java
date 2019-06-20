@@ -1,6 +1,5 @@
 package com.vmloft.develop.app.match.common;
 
-import com.avos.avoscloud.AVException;
 import com.vmloft.develop.app.match.R;
 import com.vmloft.develop.app.match.app.App;
 import com.vmloft.develop.app.match.base.ACallback;
@@ -48,9 +47,7 @@ public class AExceptionManager {
      * @param callback 自定义的回调接口  *
      */
     public void disposeException(Throwable e, ACallback callback) {
-        if (e instanceof AVException) {
-            disposeAVException((AVException) e, callback);
-        }else if(e instanceof AException){
+        if(e instanceof AException){
             disposeAException((AException) e, callback);
         } else if (e instanceof IMException) {
             disposeIMException((IMException) e, callback);
@@ -75,7 +72,7 @@ public class AExceptionManager {
             code = httpException.code();
             if (code == 500 || code == 404) {
                 code = AException.SERVER;
-                msg = VMStr.byRes(R.string.err_server);
+                msg = VMStr.byResArgs(R.string.err_server, code);
             }
         } else if (e instanceof ConnectException) {
             code = AException.SYS_NETWORK;
@@ -165,47 +162,6 @@ public class AExceptionManager {
                 break;
         }
         VMLog.e("IM 相关错误信息 [%d] - %s", code, desc);
-        if (callback != null) {
-            callback.onError(code, desc);
-        }
-    }
-
-    /**
-     * 处理 LeanCloud 异常情况
-     *
-     * @param e        异常情况
-     * @param callback 自定义的回调接口
-     */
-    private void disposeAVException(AVException e, ACallback callback) {
-        int code;
-        String desc;
-        switch (e.getCode()) {
-            case AVException.USERNAME_TAKEN:
-                code = AException.USER_ALREADY_EXIST;
-                desc = VMStr.byRes(R.string.account_username_already_exist);
-                break;
-            case AVException.EMAIL_TAKEN:
-                code = AException.EMAIL_ALREADY_EXIST;
-                desc = VMStr.byRes(R.string.account_email_already_exist);
-                break;
-            case AVException.USER_MOBILE_PHONENUMBER_TAKEN:
-                code = AException.PHONE_ALREADY_EXIST;
-                desc = VMStr.byRes(R.string.account_phone_already_exist);
-                break;
-            case AVException.USERNAME_PASSWORD_MISMATCH:
-                code = AException.USERNAME_PASSWORD_MISMATCH;
-                desc = VMStr.byRes(R.string.account_username_password_mismatch);
-                break;
-            case AVException.USER_DOESNOT_EXIST:
-                code = AException.USER_DOESNOT_EXIST;
-                desc = VMStr.byRes(R.string.account_user_doesnot_exist);
-                break;
-            default:
-                code = AException.UNKNOWN;
-                desc = VMStr.byResArgs(R.string.unknown, e.getCode());
-                break;
-        }
-        VMLog.e("LeanCloud 相关错误信息 [%d] - %s", code, desc);
         if (callback != null) {
             callback.onError(code, desc);
         }

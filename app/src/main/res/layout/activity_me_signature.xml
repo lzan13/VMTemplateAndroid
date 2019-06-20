@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/vm_margin_large"
         android:background="@drawable/rectangle_input_bg_shape"
-        android:hint="@string/me_signature_hint"
+        android:hint="@string/me_signature_default"
         android:lines="3"
         android:textSize="@dimen/vm_size_body"
         style="@style/VMEdit.MultiLine"

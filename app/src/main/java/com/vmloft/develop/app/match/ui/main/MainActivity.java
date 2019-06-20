@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import java.util.Map;
 
 /**
  * Create by lzan13 on 2019/04/08
@@ -53,7 +52,7 @@ public class MainActivity extends AppActivity {
         }
         if (ASignManager.getInstance().isSingIn()) {
             // 已经登录，打开 App 时拉取以下联系人信息
-            AUMSManager.getInstance().loadUserList();
+            AUMSManager.getInstance().loadAccountList();
         }
         APermissionManager.getInstance().requestPermissions(mActivity);
     }

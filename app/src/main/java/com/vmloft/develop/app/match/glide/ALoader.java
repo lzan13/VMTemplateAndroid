@@ -12,6 +12,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.vmloft.develop.app.match.R;
 import com.vmloft.develop.app.match.app.App;
+import com.vmloft.develop.app.match.common.AConstants;
 import com.vmloft.develop.app.match.common.ASPManager;
 import com.vmloft.develop.library.tools.picker.IPictureLoader;
 import com.vmloft.develop.library.tools.utils.VMDimen;
@@ -68,5 +69,12 @@ public class ALoader {
         }
 
         return GlideApp.with(context).load(resId).apply(requestOptions);
+    }
+
+    /**
+     * 拼装图片路径
+     */
+    public static String wrapUrl(String name) {
+        return AConstants.BETA_UPLOAD_URL + name;
     }
 }

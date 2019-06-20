@@ -12,10 +12,9 @@ public class AResult<T> {
     // 请求结果描述
     private String message;
     // 请求符合条件的总条数
-    @SerializedName("total_count")
-    private int totalCount;
+    @SerializedName("total_count") private int totalCount;
     // 当前返回的条数
-    private int resultCount;
+    @SerializedName("result_count") private int resultCount;
     // 请求数据，泛型，根据传入的类型进行解析
     private T data;
 

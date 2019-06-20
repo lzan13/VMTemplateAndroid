@@ -13,9 +13,19 @@
     <!--定义顶部 TopBar-->
     <include layout="@layout/widget_common_top_bar" />
 
+    <com.vmloft.develop.library.tools.widget.VMLineView
+        android:id="@+id/setting_me_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/app_card_bg"
+        app:vm_line_right_icon="@drawable/im_ic_arrow_right"
+        app:vm_line_title="@string/me_info"
+        />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/common_margin_normal"
         android:background="@color/app_card_bg"
         android:orientation="vertical"
         >

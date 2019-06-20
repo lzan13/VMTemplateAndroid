@@ -8,7 +8,6 @@ import com.vmloft.develop.app.match.R;
 import com.vmloft.develop.app.match.base.ACallback;
 import com.vmloft.develop.app.match.base.AppActivity;
 import com.vmloft.develop.app.match.bean.AAccount;
-import com.vmloft.develop.app.match.bean.AUser;
 import com.vmloft.develop.app.match.common.ASignManager;
 import com.vmloft.develop.app.match.common.AUMSManager;
 import com.vmloft.develop.library.tools.base.VMConstant;
@@ -55,8 +54,6 @@ public class MeInfoActivity extends AppActivity {
         setTopTitle(R.string.me_info);
 
         mAccount = ASignManager.getInstance().getCurrentAccount();
-
-        refreshUI();
     }
 
     @OnClick({
@@ -119,6 +116,7 @@ public class MeInfoActivity extends AppActivity {
             @Override
             public void onSuccess(AAccount account) {
                 VMToast.make(mActivity, "头像设置成功").done();
+                ASignManager.getInstance().setCurrentAccount(account);
             }
 
             @Override
@@ -136,9 +134,18 @@ public class MeInfoActivity extends AppActivity {
             return;
         }
 
-        mNicknameLine.setCaption(mAccount.getNickname());
         mUsernameLine.setCaption(mAccount.getUsername());
-        mSignatureLine.setCaption(mAccount.getSignature());
+        if (VMStr.isEmpty(mAccount.getNickname())) {
+            mNicknameLine.setCaption(mAccount.getUsername());
+        } else {
+            mNicknameLine.setCaption(mAccount.getNickname());
+        }
+
+        if (VMStr.isEmpty(mAccount.getSignature())) {
+            mSignatureLine.setCaption(VMStr.byRes(R.string.me_signature_default));
+        } else {
+            mSignatureLine.setCaption(mAccount.getSignature());
+        }
 
         if (mAccount.getGender() == 0) {
             mGenderLine.setCaption(VMStr.byRes(R.string.me_gender_unknown));

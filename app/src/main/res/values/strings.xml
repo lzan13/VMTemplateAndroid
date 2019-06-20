@@ -36,7 +36,7 @@
     <string name="me_nickname">昵称</string>
     <string name="me_nickname_default">昵称，不存在的</string>
     <string name="me_signature">签名</string>
-    <string name="me_signature_hint">@string/user_signature_default</string>
+    <string name="me_signature_default">无个性，不签名！</string>
     <string name="me_gender">性别</string>
     <string name="me_gender_unknown">神秘</string>
     <string name="me_gender_man">帅</string>
@@ -91,8 +91,6 @@
     <string name="guide_intro_0">语音，文字，图片，各种消息随心收发</string>
     <string name="guide_intro_1">外出时间保证直达，不漏过任何消息</string>
     <string name="guide_intro_2">休息时间，嗨起来吧 ^_^</string>
-
-    <string name="user_signature_default">无个性，不签名！</string>
 
     <!--错误相关描述-->
     <string name="unknown">未知错误: %1$s，可将错误码反馈给我们，感谢</string>
