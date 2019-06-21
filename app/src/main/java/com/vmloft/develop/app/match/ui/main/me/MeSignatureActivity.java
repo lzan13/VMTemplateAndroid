@@ -11,6 +11,7 @@ import com.vmloft.develop.app.match.base.AppActivity;
 import com.vmloft.develop.app.match.bean.AAccount;
 import com.vmloft.develop.app.match.common.ASignManager;
 import com.vmloft.develop.app.match.common.AUMSManager;
+import com.vmloft.develop.library.im.chat.IMChatManager;
 import com.vmloft.develop.library.tools.utils.VMLog;
 import com.vmloft.develop.library.tools.utils.VMStr;
 
@@ -53,6 +54,8 @@ public class MeSignatureActivity extends AppActivity {
             @Override
             public void onSuccess(AAccount account) {
                 ASignManager.getInstance().setCurrentAccount(account);
+                // 发送消息通知其他人更新了信息
+                IMChatManager.getInstance().sendContactInfoChange();
                 onFinish();
             }
 

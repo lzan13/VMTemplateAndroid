@@ -85,7 +85,9 @@ public class AExceptionManager {
             msg = VMStr.byRes(R.string.unknown) + e.getMessage();
         }
         VMLog.e(msg);
-        callback.onError(code, msg);
+        if (callback != null) {
+            callback.onError(code, msg);
+        }
     }
 
     /**

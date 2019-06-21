@@ -126,7 +126,11 @@ public class IMNotifier {
         String summary = IMChatUtils.getSummary(message);
         if (IM.getInstance().isNotifyDetail()) {
             IMContact contact = IM.getInstance().getIMContact(message.conversationId());
-            mChatBuilder.setContentTitle(contact.mNickname);
+            if (VMStr.isEmpty(contact.mNickname)) {
+                mChatBuilder.setContentTitle(contact.mUsername);
+            }else{
+                mChatBuilder.setContentTitle(contact.mNickname);
+            }
             mChatBuilder.setContentText(summary);
         } else {
             mChatBuilder.setContentTitle(VMStr.byRes(R.string.im_notify_channel_chat_title));

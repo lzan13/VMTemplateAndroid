@@ -64,7 +64,7 @@ public class IMChatActivity extends IMBaseActivity {
      */
     private void refreshUI() {
         if (VMStr.isEmpty(mContact.mNickname)) {
-            getTopBar().setTitle(mContact.mId);
+            getTopBar().setTitle(mContact.mUsername);
         } else {
             getTopBar().setTitle(mContact.mNickname);
         }

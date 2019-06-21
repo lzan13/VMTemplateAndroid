@@ -19,14 +19,20 @@ public interface IIMGlobalListener {
     /**
      * 同步获取 IM 联系人信息
      *
-     * @param id 联系人 id
+     * @param id 联系人 Id
      */
     IMContact getIMContact(String id);
 
     /**
+     * 更新联系人信息
+     * @param id 联系人 Id
+     */
+    void updateIMContact(String id);
+
+    /**
      * 异步获取 IM 联系人信息
      *
-     * @param id       联系人 id
+     * @param id       联系人 Id
      * @param callback 结果回调
      */
     void getIMContact(String id, IMCallback<IMContact> callback);

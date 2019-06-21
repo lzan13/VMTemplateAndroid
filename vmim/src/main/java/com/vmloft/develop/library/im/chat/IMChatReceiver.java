@@ -31,6 +31,9 @@ public class IMChatReceiver extends BroadcastReceiver {
      */
     private void cmdAction(Context context, EMMessage message) {
         EMCmdMessageBody body = (EMCmdMessageBody) message.getBody();
+        if (body.action().equals(IMConstants.IM_MSG_ACTION_CONTACT_CHANGE)) {
+            IM.getInstance().getIMContact(message.conversationId(),null);
+        }
     }
 
     /**

@@ -33,8 +33,8 @@ public class AIMGlobalListener implements IIMGlobalListener {
      */
     @Override
     public IMContact getIMContact(String id) {
-        AAccount account;
-        if (id.equals(ASignManager.getInstance().getCurrentAccount().getId())) {
+        AAccount account = ASignManager.getInstance().getCurrentAccount();
+        if (account != null && id.equals(account.getId())) {
             account = ASignManager.getInstance().getCurrentAccount();
         } else {
             account = AUMSManager.getInstance().getAccount(id);
@@ -46,6 +46,11 @@ public class AIMGlobalListener implements IIMGlobalListener {
             contact.mAvatar = ALoader.wrapUrl(account.getAvatar());
         }
         return contact;
+    }
+
+    @Override
+    public void updateIMContact(String id) {
+        AUMSManager.getInstance().getAccount(id, null);
     }
 
     /**

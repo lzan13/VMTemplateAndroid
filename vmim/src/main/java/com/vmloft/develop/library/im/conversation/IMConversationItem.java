@@ -205,7 +205,7 @@ public class IMConversationItem extends RelativeLayout {
      */
     private void loadContactInfo() {
         if (VMStr.isEmpty(mContact.mNickname)) {
-            mTitleView.setText(mContact.mId);
+            mTitleView.setText(mContact.mUsername);
         } else {
             mTitleView.setText(mContact.mNickname);
         }

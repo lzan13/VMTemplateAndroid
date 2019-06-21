@@ -56,15 +56,14 @@ public class ConversationFragment extends AppLazyFragment {
         mTopSpaceView.getLayoutParams().height = VMDimen.getStatusBarHeight();
         mTopBar.setTitle("聊天会话");
 
+    }
+
+    @Override
+    protected void initData() {
         mConversationFragment = IMConversationFragment.newInstance();
         FragmentManager manager = getChildFragmentManager();
         FragmentTransaction ft = manager.beginTransaction();
         ft.replace(R.id.conversation_container, mConversationFragment);
         ft.commit();
-    }
-
-    @Override
-    protected void initData() {
-
     }
 }

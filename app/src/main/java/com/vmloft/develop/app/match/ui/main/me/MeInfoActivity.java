@@ -10,6 +10,7 @@ import com.vmloft.develop.app.match.base.AppActivity;
 import com.vmloft.develop.app.match.bean.AAccount;
 import com.vmloft.develop.app.match.common.ASignManager;
 import com.vmloft.develop.app.match.common.AUMSManager;
+import com.vmloft.develop.library.im.chat.IMChatManager;
 import com.vmloft.develop.library.tools.base.VMConstant;
 import com.vmloft.develop.library.tools.picker.VMPicker;
 import com.vmloft.develop.library.tools.picker.bean.VMPictureBean;
@@ -117,6 +118,8 @@ public class MeInfoActivity extends AppActivity {
             public void onSuccess(AAccount account) {
                 VMToast.make(mActivity, "头像设置成功").done();
                 ASignManager.getInstance().setCurrentAccount(account);
+                // 发送消息通知其他人更新了信息
+                IMChatManager.getInstance().sendContactInfoChange();
             }
 
             @Override

@@ -73,7 +73,7 @@ public class AIMMatchItem extends IMCardItem {
         mAvatarView.setOnClickListener((View v) -> {
             ARouter.goUserDetail(mContext, mContact.mId);
         });
-        IPictureLoader.Options options = new IPictureLoader.Options(ALoader.wrapUrl(mContact.mAvatar));
+        IPictureLoader.Options options = new IPictureLoader.Options(mContact.mAvatar);
         if (AIMManager.getInstance().isCircleAvatar()) {
             options.isCircle = true;
         } else {

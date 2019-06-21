@@ -88,6 +88,8 @@ public class IMConstants {
     public static final String IM_MSG_ACTION_SJB = "im_msg_action_sjb";
     // 通话表情
     public static final String IM_MSG_ACTION_EMOTION = "im_msg_action_emotion";
+    // 联系人信息改变
+    public static final String IM_MSG_ACTION_CONTACT_CHANGE = "im_msg_action_contact_change";
 
     /**
      * 消息扩展
