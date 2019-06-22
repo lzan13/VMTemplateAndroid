@@ -237,12 +237,15 @@ public class IMCallVoiceActivity extends IMCallActivity {
         options = new IPictureLoader.Options(mContact.mAvatar);
         options.isCircle = true;
         IM.getInstance().getPictureLoader().load(mActivity, options, mAvatarView);
-        mNameView.setText(mContact.mNickname);
-
+        if (VMStr.isEmpty(mContact.mNickname)) {
+            mNameView.setText(mContact.mUsername);
+        } else {
+            mNameView.setText(mContact.mNickname);
+        }
         options = new IPictureLoader.Options(mSelfContact.mAvatar);
         options.isCircle = true;
         IM.getInstance().getPictureLoader().load(mActivity, options, mSelfAvatarView);
-        mSelfNameView.setText(mSelfContact.mNickname);
+        mSelfNameView.setText("我");
     }
 
     /**

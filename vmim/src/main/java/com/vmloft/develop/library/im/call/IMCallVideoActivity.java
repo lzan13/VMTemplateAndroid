@@ -285,7 +285,11 @@ public class IMCallVideoActivity extends IMCallActivity {
         options = new IPictureLoader.Options(mContact.mAvatar);
         options.isCircle = true;
         IM.getInstance().getPictureLoader().load(mActivity, options, mAvatarView);
-        mNameView.setText(mContact.mNickname);
+        if (VMStr.isEmpty(mContact.mNickname)) {
+            mNameView.setText(mContact.mUsername);
+        } else {
+            mNameView.setText(mContact.mNickname);
+        }
     }
 
     /**

@@ -120,7 +120,7 @@ public class MatchActivity extends AppActivity {
                     }
                     mMatchMap.put(match.getId(), match);
                     // 只显示最近已定数量参与匹配的人
-                    if (mMatchMap.size() >= 5) {
+                    if (mMatchMap.size() >= 20) {
                         break;
                     }
                 }

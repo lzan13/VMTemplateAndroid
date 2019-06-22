@@ -180,6 +180,7 @@ public class ASignManager {
         AAccount account = new AAccount();
         try {
             JSONObject object = new JSONObject(str);
+            account.setId(object.optString("id"));
             account.setUsername(object.optString("username"));
             account.setEmail(object.optString("email"));
             account.setPhone(object.optString("phone"));
@@ -205,6 +206,7 @@ public class ASignManager {
         }
         JSONObject object = new JSONObject();
         try {
+            object.put("id", account.getId());
             object.put("username", account.getUsername());
             object.put("email", account.getEmail());
             object.put("phone", account.getPhone());
