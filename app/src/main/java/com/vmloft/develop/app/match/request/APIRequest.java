@@ -2,6 +2,7 @@ package com.vmloft.develop.app.match.request;
 
 import android.text.TextUtils;
 
+import com.vmloft.develop.app.match.BuildConfig;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -17,9 +18,8 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import com.vmloft.develop.app.match.bean.AAccount;
+import com.vmloft.develop.app.match.request.bean.AAccount;
 import com.vmloft.develop.app.match.common.AConstants;
-import com.vmloft.develop.app.match.common.ASPManager;
 import com.vmloft.develop.app.match.common.ASignManager;
 
 /**
@@ -62,7 +62,7 @@ public class APIRequest {
                 .build();
         // 实例化 Retrofit
         retrofit = new Retrofit.Builder().client(client)
-                .baseUrl(AConstants.BETA_BASE_URL)
+                .baseUrl(BuildConfig.baseUrl)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();

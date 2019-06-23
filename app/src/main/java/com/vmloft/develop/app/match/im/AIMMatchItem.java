@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.hyphenate.chat.EMMessage;
 
 import com.vmloft.develop.app.match.R;
-import com.vmloft.develop.app.match.bean.AAccount;
+import com.vmloft.develop.app.match.request.bean.AAccount;
 import com.vmloft.develop.app.match.common.AConstants;
 import com.vmloft.develop.app.match.common.ASignManager;
 import com.vmloft.develop.app.match.glide.ALoader;

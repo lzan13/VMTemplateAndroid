@@ -1,29 +1,143 @@
 apply plugin: 'com.android.application'
 
+def defaults = rootProject.ext.defaults
+def signings = rootProject.ext.signings
+def others = rootProject.ext.others
+ext {
+    isDebug = true
+}
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.vmloft.develop.app.match"
-        minSdkVersion 21
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        applicationId defaults.applicationId
+        minSdkVersion defaults.minSdkVersion
+        targetSdkVersion defaults.targetSdkVersion
+        versionCode defaults.versionCode
+        versionName defaults.versionName
         // 简单粗暴解决多个库出现 UnsatisfiedLinkError 文件错误问题
         ndk {
             abiFilters "armeabi-v7a"
         }
+
+        manifestPlaceholders = [
+            em_appkey: others.emAppkey,
+            bugly_app_id: others.buglyAppId,
+            bugly_app_version: defaults.versionName,
+            bugly_app_channel: "Default",
+            bugly_app_debug: isDebug
+        ]
     }
-    buildTypes {
+
+    // 签名信息
+    signingConfigs {
+        //  release 打包签名信息，因为签名文件是保密信息，放在一个配置文件中进行读取，这个文件不会再版本库里存在
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            keyAlias = signings.keyAlias
+            keyPassword = signings.keyPassword
+            storeFile = file(signings.storeFile)
+            storePassword = signings.storePassword
         }
     }
 
+    // 编译配置
+    buildTypes {
+        debug {
+            // 添加参数表示 debug 环境，这里使用测试环境
+            isDebug = true
+            buildConfigField("boolean", "isDebug", "true")
+            buildConfigField("String", "baseUrl", others.baseDebugUrl)
+            buildConfigField("String", "uploadUrl", others.uploadDebugUrl)
+            // 是否开启压缩
+            zipAlignEnabled false
+            // 是否开启混淆
+            minifyEnabled false
+        }
+        release {
+            // 添加参数表示 debug 环境，这里使用测试环境
+            isDebug = false
+            buildConfigField("boolean", "isDebug", "false")
+            buildConfigField("String", "baseUrl", others.baseReleaseUrl)
+            buildConfigField("String", "uploadUrl", others.uploadReleaseUrl)
+            // 是否开启压缩
+            zipAlignEnabled true
+            // 是否开启混淆
+            minifyEnabled true
+            // 打包时删除无用资源 依赖于混淆，必须和 minifyEnabled 一起使用
+            shrinkResources true
+            // 设置正式打包的签名
+            signingConfig signingConfigs.release
+            // 混淆文件
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            // 修改生成的 apk 名字，格式为:项目-版本-时间-渠道名.apk
+            android.applicationVariants.all { variant ->
+                variant.outputs.all {
+                    variant.getPackageApplicationProvider().get().outputDirectory = new File(project.rootDir.absolutePath + "/apk")
+                    outputFileName = "VMMatchV${defaultConfig.versionName}.${getTime()}." + variant.productFlavors[0].name + '.apk'
+                }
+            }
+        }
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    // 多渠道打包配置
+    flavorDimensions "default"
+    productFlavors {
+        Baidu {
+            dimension = "default"
+            manifestPlaceholders = [
+                em_appkey: others.emAppkey,
+                bugly_app_id: others.buglyAppId,
+                bugly_app_version: defaults.versionName,
+                bugly_app_channel: "BaiDu",
+                bugly_app_debug: isDebug
+            ]
+        }
+        QiHu360 {
+            dimension = "default"
+            manifestPlaceholders = [
+                em_appkey: others.emAppkey,
+                bugly_app_id: others.buglyAppId,
+                bugly_app_version: defaults.versionName,
+                bugly_app_channel: "QiHu360",
+                bugly_app_debug: isDebug
+            ]
+        }
+        GooglePlay {
+            dimension = "default"
+            manifestPlaceholders = [
+                em_appkey: others.emAppkey,
+                bugly_app_id: others.buglyAppId,
+                bugly_app_version: defaults.versionName,
+                bugly_app_channel: "GooglePlay",
+                bugly_app_debug: isDebug
+            ]
+        }
+        XiaoMi {
+            dimension = "default"
+            manifestPlaceholders = [
+                em_appkey: others.emAppkey,
+                bugly_app_id: others.buglyAppId,
+                bugly_app_version: defaults.versionName,
+                bugly_app_channel: "XiaoMi",
+                bugly_app_debug: isDebug
+            ]
+        }
+        WanDouJia {
+            dimension = "default"
+            manifestPlaceholders = [
+                em_appkey: others.emAppkey,
+                bugly_app_id: others.buglyAppId,
+                bugly_app_version: defaults.versionName,
+                bugly_app_channel: "WanDouJia",
+                bugly_app_debug: isDebug
+            ]
+        }
+    }
+    // 多渠道打包简介写法
+    // productFlavors.all { flavor -> flavor.manifestPlaceholders = [bugly_app_channel: name]}
 }
 
 dependencies {
@@ -37,7 +151,7 @@ dependencies {
 
     // 腾讯 Bug 统计库 https://bugly.qq.com/v2/downloads
     implementation 'com.tencent.bugly:crashreport:3.0.0'
-//    implementation 'com.tencent.bugly:nativecrashreport:3.7.1'
+    //    implementation 'com.tencent.bugly:nativecrashreport:3.7.1'
 
     // json 数据解析库
     implementation 'com.google.code.gson:gson:2.8.5'
@@ -59,7 +173,7 @@ dependencies {
     }
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
 
-    // ButterKnife 库
+    // ButterKnife 库 https://github.com/JakeWharton/butterknife
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
@@ -69,4 +183,9 @@ dependencies {
     // 引用自己封装的工具库 vmim 已经引用，这里不在引用，如想单独使用可以按照下边的方式引入
     //    implementation 'com.vmloft.library:vmtools:0.6.8'
     implementation project(':vmim')
+}
+
+// 获取当前系统时间
+def getTime() {
+    return new Date().format("yyyyMMdd", TimeZone.getTimeZone("UTC"))
 }

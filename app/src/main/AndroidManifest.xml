@@ -67,7 +67,25 @@
         <!-- 设置环信应用的 AppKey -->
         <meta-data
             android:name="EASEMOB_APPKEY"
-            android:value="lzan13#vmmatch" />
+            android:value="${em_appkey}" />
+
+        <!--Bugly 相关配置-->
+        <!-- 配置APP ID -->
+        <meta-data
+            android:name="BUGLY_APPID"
+            android:value="${bugly_app_id}" />
+        <!-- 配置APP版本号 -->
+        <meta-data
+            android:name="BUGLY_APP_VERSION"
+            android:value="${bugly_app_version}" />
+        <!-- 配置APP渠道号 -->
+        <meta-data
+            android:name="BUGLY_APP_CHANNEL"
+            android:value="${bugly_app_channel}" />
+        <!-- 配置Bugly调试模式（true或者false）-->
+        <meta-data
+            android:name="BUGLY_ENABLE_DEBUG"
+            android:value="${bugly_app_debug}" />
     </application>
 
     <!--全面屏适配-->

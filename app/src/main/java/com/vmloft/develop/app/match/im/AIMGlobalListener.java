@@ -6,7 +6,7 @@ import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMTextMessageBody;
 
 import com.vmloft.develop.app.match.base.ACallback;
-import com.vmloft.develop.app.match.bean.AAccount;
+import com.vmloft.develop.app.match.request.bean.AAccount;
 import com.vmloft.develop.app.match.common.AConstants;
 import com.vmloft.develop.app.match.common.ASignManager;
 import com.vmloft.develop.app.match.common.AUMSManager;

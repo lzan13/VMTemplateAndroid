@@ -1,0 +1,25 @@
+ext {
+    // 默认配置
+    defaults = [
+        versionName: "1.0.0",
+    ]
+    // 签名配置，记得将签名文件复制到项目中
+    signings = [
+        keyAlias: "签名别名",
+        keyPassword: "签名密码",
+        storeFile: "签名文件路径",
+        storePassword: "签名文件密码",
+    ]
+    // 其他配置
+    others = [
+        // 环信 Appkey 可以用掩饰lzan13#vmmatch，也可以用自己的
+        emAppkey: "环信 Appkey ",
+        buglyAppId: "Bugly App Id",
+        // Debug 服务器环境配置，可以用下边的配置，也可以自己部署服务器
+        baseDebugUrl: "\"http://118.190.25.131:8899/\"",
+        uploadDebugUrl: "\"http://118.190.25.131:8899/upload/\"",
+        // 线上服务器地址，这里暂时和 debug 一样
+        baseReleaseUrl: "\"http://118.190.25.131:8899/\"",
+        uploadReleaseUrl: "\"http://118.190.25.131:8899/upload/\"",
+    ]
+}

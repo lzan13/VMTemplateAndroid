@@ -7,7 +7,7 @@ import android.view.View;
 import com.vmloft.develop.app.match.R;
 import com.vmloft.develop.app.match.base.ACallback;
 import com.vmloft.develop.app.match.base.AppActivity;
-import com.vmloft.develop.app.match.bean.AAccount;
+import com.vmloft.develop.app.match.request.bean.AAccount;
 import com.vmloft.develop.app.match.common.ASignManager;
 import com.vmloft.develop.app.match.common.AUMSManager;
 import com.vmloft.develop.library.im.chat.IMChatManager;
@@ -151,11 +151,11 @@ public class MeInfoActivity extends AppActivity {
         }
 
         if (mAccount.getGender() == 0) {
-            mGenderLine.setCaption(VMStr.byRes(R.string.me_gender_unknown));
+            mGenderLine.setCaption(VMStr.byRes(R.string.me_gender_woman));
         } else if (mAccount.getGender() == 1) {
             mGenderLine.setCaption(VMStr.byRes(R.string.me_gender_man));
         } else if (mAccount.getGender() == 2) {
-            mGenderLine.setCaption(VMStr.byRes(R.string.me_gender_woman));
+            mGenderLine.setCaption(VMStr.byRes(R.string.me_gender_unknown));
         }
         //mBirthdayLine.setCaption();
         mAddressLine.setCaption(mAccount.getAddress());

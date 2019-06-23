@@ -1,4 +1,4 @@
-package com.vmloft.develop.app.match.bean;
+package com.vmloft.develop.app.match.request.bean;
 
 import com.google.gson.annotations.SerializedName;
 
