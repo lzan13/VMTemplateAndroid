@@ -1,6 +1,6 @@
 package com.vmloft.develop.app.match.request;
 
-import com.vmloft.develop.app.match.bean.AMatch;
+import com.vmloft.develop.app.match.request.bean.AMatch;
 import io.reactivex.Observable;
 
 import java.util.List;
@@ -15,8 +15,8 @@ import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 
-import com.vmloft.develop.app.match.bean.AAccount;
-import com.vmloft.develop.app.match.bean.AResult;
+import com.vmloft.develop.app.match.request.bean.AAccount;
+import com.vmloft.develop.app.match.request.bean.AResult;
 import retrofit2.http.Query;
 
 /**

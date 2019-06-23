@@ -13,19 +13,6 @@ public class AConstants {
     public static final long TIME_DAY = 24 * TIME_HOUR;
     public static final long TIME_WEEK = 7 * TIME_DAY;
 
-    // Bugly App Id
-    public static String APP_BUGLY_ID = "af01f1ab30";
-    // LeanCloud Id 和 key
-    public static String APP_LC_ID = "j1AGx1iU48PGjyv1RcuQr0OX-gzGzoHsz";
-    public static String APP_LC_KEY = "jwYileaj7c4FCU7L1SuAzUWR";
-
-    // 测试环境
-    public static final String BETA_BASE_URL = "http://118.190.25.131:8899/";
-    public static final String BETA_UPLOAD_URL = "http://118.190.25.131:8899/upload/";
-
-    // 线上环境
-    public static final String ONLINE_BASE_URL = "http://118.190.25.131:8899/";
-    public static final String ONLINE_UPLOAD_URL = "http://118.190.25.131:8899/upload/";
 
     // 聊天扩展
     public static String CHAT_EXT_MATCH = "chat_ext_match";

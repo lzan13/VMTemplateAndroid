@@ -9,7 +9,7 @@ import android.widget.Button;
 import com.vmloft.develop.app.match.R;
 import com.vmloft.develop.app.match.base.AppActivity;
 import com.vmloft.develop.app.match.base.ACallback;
-import com.vmloft.develop.app.match.bean.AAccount;
+import com.vmloft.develop.app.match.request.bean.AAccount;
 import com.vmloft.develop.app.match.common.ASignManager;
 import com.vmloft.develop.app.match.common.AUMSManager;
 import com.vmloft.develop.app.match.router.ARouter;

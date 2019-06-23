@@ -1,8 +1,8 @@
 package com.vmloft.develop.app.match.common;
 
 import com.vmloft.develop.app.match.base.ACallback;
-import com.vmloft.develop.app.match.bean.AMatch;
-import com.vmloft.develop.app.match.bean.AResult;
+import com.vmloft.develop.app.match.request.bean.AMatch;
+import com.vmloft.develop.app.match.request.bean.AResult;
 import com.vmloft.develop.app.match.request.APIRequest;
 import com.vmloft.develop.app.match.request.APIService;
 import com.vmloft.develop.app.match.utils.ARXUtils;

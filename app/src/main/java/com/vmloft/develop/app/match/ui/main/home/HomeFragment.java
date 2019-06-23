@@ -14,8 +14,8 @@ import com.vmloft.develop.app.match.R;
 import com.vmloft.develop.app.match.base.ACallback;
 import com.vmloft.develop.app.match.base.AppLazyFragment;
 
-import com.vmloft.develop.app.match.bean.AAccount;
-import com.vmloft.develop.app.match.bean.AMatch;
+import com.vmloft.develop.app.match.request.bean.AAccount;
+import com.vmloft.develop.app.match.request.bean.AMatch;
 import com.vmloft.develop.app.match.common.AConstants;
 import com.vmloft.develop.app.match.common.AMatchManager;
 import com.vmloft.develop.app.match.common.ASignManager;

@@ -1,7 +1,6 @@
 package com.vmloft.develop.app.match.common;
 
 import com.vmloft.develop.app.match.base.ACallback;
-import com.vmloft.develop.app.match.bean.AResult;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
