@@ -10,6 +10,12 @@
 [小米应用商店 审核中]()
 
 
+### 项目截图
+![匹配](http://q.data.melove.net/main01.png-vthumb256)![匹配](http://q.data.melove.net/main02.png-vthumb256)![匹配](http://q.data.melove.net/main03.png-vthumb256)
+![匹配](http://q.data.melove.net/chat01.png-vthumb256)![匹配](http://q.data.melove.net/chat02.png-vthumb256)![匹配](http://q.data.melove.net/call01.png-vthumb256)
+![匹配](http://q.data.melove.net/call02.png-vthumb256)![匹配](http://q.data.melove.net/call03.png-vthumb256)![匹配](http://q.data.melove.net/call04.png-vthumb256)
+![匹配](http://q.data.melove.net/settings01.png-vthumb256)![匹配](http://q.data.melove.net/settings02.png-vthumb256)
+
 
 ### 开发环境
 项目基本属于在最新的`Android`开发环境下开发，使用`Java8`的一些新特性，比如`Lambda`表达式，
@@ -91,6 +97,10 @@
 - [x] 开发与线上环境配置
 - [x] 敏感信息保护
 
+### 配置运行
+1. 首先复制`config.default.gradle`到`config.gradle`
+2. 配置下`config.gradle`环信`appkey`以及`bugly`统计Id
+3. 正式打包需要配置下签名信息，同时将签名文件放置在项目根目录
 
 ### 参与贡献
 如果你有什么好的想法，或者好的实现，可以通过下边的步骤参与进来，让我们一起把这个项目做得更好，欢迎参与 😁

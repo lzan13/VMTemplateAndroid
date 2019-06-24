@@ -72,7 +72,7 @@ android {
             // 修改生成的 apk 名字，格式为:项目-版本-时间-渠道名.apk
             android.applicationVariants.all { variant ->
                 variant.outputs.all {
-                    variant.getPackageApplicationProvider().get().outputDirectory = new File(project.rootDir.absolutePath + "/apk")
+//                    variant.getPackageApplicationProvider().get().outputDirectory = new File(project.rootDir.absolutePath + "/apk")
                     outputFileName = "VMMatchV${defaultConfig.versionName}.${getTime()}." + variant.productFlavors[0].name + '.apk'
                 }
             }
