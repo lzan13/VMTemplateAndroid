@@ -1,6 +1,10 @@
 ext {
     // 默认配置
     defaults = [
+        applicationId: "com.vmloft.develop.app.match",
+        minSdkVersion: 21,
+        targetSdkVersion: 28,
+        versionCode: 1,
         versionName: "1.0.0",
     ]
     // 签名配置，记得将签名文件复制到项目中
@@ -16,10 +20,10 @@ ext {
         emAppkey: "环信 Appkey ",
         buglyAppId: "Bugly App Id",
         // Debug 服务器环境配置，可以用下边的配置，也可以自己部署服务器
-        baseDebugUrl: "\"http://118.190.25.131:8899/\"",
-        uploadDebugUrl: "\"http://118.190.25.131:8899/upload/\"",
+        baseDebugUrl: "\"http://match.melove.net/api/v1/\"",
+        uploadDebugUrl: "\"http://match.melove.net/upload/\"",
         // 线上服务器地址，这里暂时和 debug 一样
-        baseReleaseUrl: "\"http://118.190.25.131:8899/\"",
-        uploadReleaseUrl: "\"http://118.190.25.131:8899/upload/\"",
+        baseReleaseUrl: "\"http://match.melove.net/api/v1/\"",
+        uploadReleaseUrl: "\"http://match.melove.net/upload/\"",
     ]
 }
