@@ -1,20 +1,33 @@
-# VMMatch
-一言不合就来场匹配吧
+VMMatch
+=======
+
+猿匹配 —— 国内首个程序猿非严肃婚恋交友应用，让我们一言不合就来场匹配吧😁
+
 
 ### 介绍
-这是一个使用环信 IM 开发的一款开源聊天项目，涵盖了时下流行的一些聊天元素，同时已将 IM 功能封装为单独库，可以直接引用，方便使用
+首先说下中文名：为什么叫这个名字呢，因为这是一个程序猿(媛)之间匹配交流的应用啊😁
 
-下载实例：
-[本地下载](./VMMatch.apk)
+其实这是一个使用环信 IM 开发的一款开源聊天项目，涵盖了时下流行的一些聊天元素，同时已将 IM 功能封装为单独库，可以直接引用，方便使用
+
+项目还处在初期阶段，还有许多功能需要实现，有兴趣的可以一起来
+
+> 项目资源均来自于互联网，如果有侵权请联系我
+
+
+**下载体验**
+
+[本地下载 >> Release >>](./release)
 
 [小米应用商店 审核中]()
 
+[Google Play 商店 审核中]()
+
 
 ### 项目截图
-![匹配](http://q.data.melove.net/main01.png-vthumb256)![匹配](http://q.data.melove.net/main02.png-vthumb256)![匹配](http://q.data.melove.net/main03.png-vthumb256)
-![匹配](http://q.data.melove.net/chat01.png-vthumb256)![匹配](http://q.data.melove.net/chat02.png-vthumb256)![匹配](http://q.data.melove.net/call01.png-vthumb256)
-![匹配](http://q.data.melove.net/call02.png-vthumb256)![匹配](http://q.data.melove.net/call03.png-vthumb256)![匹配](http://q.data.melove.net/call04.png-vthumb256)
-![匹配](http://q.data.melove.net/settings01.png-vthumb256)![匹配](http://q.data.melove.net/settings02.png-vthumb256)
+![匹配](http://q.data.melove.net/images/match_main01.png-v512)![匹配](http://q.data.melove.net/images/match_main02.png-v512)![匹配](http://q.data.melove.net/images/match_main03.png-v512)
+![匹配](http://q.data.melove.net/images/match_chat01.png-v512)![匹配](http://q.data.melove.net/images/match_chat02.png-v512)![匹配](http://q.data.melove.net/images/match_call01.png-v512)
+![匹配](http://q.data.melove.net/images/match_call02.png-v512)![匹配](http://q.data.melove.net/images/match_call03.png-v512)![匹配](http://q.data.melove.net/images/match_call04.png-v512)
+![匹配](http://q.data.melove.net/images/match_settings01.png-v512)![匹配](http://q.data.melove.net/images/match_settings02.png-v512)
 
 
 ### 开发环境
@@ -23,7 +36,6 @@
 
 - Mac OS 10.14.4
 - Android Studio 3.3.2
-
 
 
 ### 项目模块儿
@@ -62,7 +74,6 @@
     - [x] 石头剪刀布
     - [x] 大表情
   - [x] 昵称头像处理（通过回调实现）
-  - [x]
 
 
 **App部分功能**
@@ -87,9 +98,9 @@
     - [x] 退出
 - [ ] 社区
     - [ ] 发布
+    - [ ] 评论
     - [ ] 收藏
     - [ ] 关注
-
 
 **发布功能**
 - [x] 多渠道打包
@@ -97,10 +108,12 @@
 - [x] 开发与线上环境配置
 - [x] 敏感信息保护
 
+
 ### 配置运行
 1. 首先复制`config.default.gradle`到`config.gradle`
 2. 配置下`config.gradle`环信`appkey`以及`bugly`统计Id
 3. 正式打包需要配置下签名信息，同时将签名文件放置在项目根目录
+
 
 ### 参与贡献
 如果你有什么好的想法，或者好的实现，可以通过下边的步骤参与进来，让我们一起把这个项目做得更好，欢迎参与 😁
@@ -110,5 +123,11 @@
 3. 提交代码
 4. 新建`Pull Request`
 5. 等待我们的`Review & Merge`
+
+
+### 其他
+服务器端由`nodejs`实现，地址见这里 [VMServer](https://github.com/lzan13/VMServer)
+
+[博客介绍](https://blog.melove.net/develop-open-source-im-match-and-server/)
 
 
