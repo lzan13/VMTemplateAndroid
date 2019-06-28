@@ -20,7 +20,7 @@ VMMatch
 
 [小米应用商店 审核中]()
 
-[Google Play 商店 审核中]()
+[猿匹配 Google Play](https://play.google.com/store/apps/details?id=com.vmloft.develop.app.match)
 
 
 ### 项目截图
