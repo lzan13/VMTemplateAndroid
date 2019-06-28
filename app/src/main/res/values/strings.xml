@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">VMMatch</string>
+    <string name="app_name">猿匹配</string>
 
     <string name="app_text">测试文本</string>
     <!--登录注册相关资源-->
