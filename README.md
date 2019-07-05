@@ -130,4 +130,7 @@ VMMatch
 
 [博客介绍](https://blog.melove.net/develop-open-source-im-match-and-server/)
 
+### 加群交流
+![QQ 交流群](http://q.data.melove.net/image/dev_im_group.jpg)
+
 
