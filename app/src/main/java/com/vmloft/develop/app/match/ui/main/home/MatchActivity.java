@@ -120,7 +120,7 @@ public class MatchActivity extends AppActivity {
                     }
                     mMatchMap.put(match.getId(), match);
                     // 只显示最近已定数量参与匹配的人
-                    if (mMatchMap.size() >= 20) {
+                    if (mMatchMap.size() >= 30) {
                         break;
                     }
                 }
@@ -181,6 +181,9 @@ public class MatchActivity extends AppActivity {
             mMatchContainer.addView(imageView, lp);
 
             final AAccount account = AUMSManager.getInstance().getAccount(match.getAccountId());
+            if (account == null) {
+                continue;
+            }
             // 加载头像
             IPictureLoader.Options options = new IPictureLoader.Options(ALoader.wrapUrl(account.getAvatar()));
             if (AIMManager.getInstance().isCircleAvatar()) {
