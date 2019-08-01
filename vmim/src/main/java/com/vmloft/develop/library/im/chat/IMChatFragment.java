@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -38,6 +37,7 @@ import com.vmloft.develop.library.im.emotion.IMEmotionGroup;
 import com.vmloft.develop.library.im.emotion.IMEmotionItem;
 import com.vmloft.develop.library.im.emotion.IMEmotionManager;
 import com.vmloft.develop.library.im.emotion.IMEmotionPager;
+import com.vmloft.develop.library.im.utils.IMChatUtils;
 import com.vmloft.develop.library.im.utils.IMDialog;
 import com.vmloft.develop.library.im.utils.IMKeyboardLayout;
 import com.vmloft.develop.library.im.utils.IMUtils;
@@ -48,10 +48,10 @@ import com.vmloft.develop.library.tools.utils.VMColor;
 import com.vmloft.develop.library.tools.utils.VMDimen;
 import com.vmloft.develop.library.tools.utils.VMStr;
 import com.vmloft.develop.library.tools.utils.VMSystem;
+import com.vmloft.develop.library.tools.widget.VMEmojiRainView;
 import com.vmloft.develop.library.tools.widget.record.VMRecordView;
 import com.vmloft.develop.library.tools.widget.toast.VMToast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -85,6 +85,7 @@ public class IMChatFragment extends IMBaseFragment {
     private RelativeLayout mExtRecordContainer;
     private VMRecordView mExtRecordView;
     private RelativeLayout mExtMoreContainer;
+    private VMEmojiRainView mEmojiRainView;
 
     // 键盘高度
     private int mKeyboardHeight;
@@ -164,6 +165,8 @@ public class IMChatFragment extends IMBaseFragment {
         mExtRecordContainer = getView().findViewById(R.id.im_chat_ext_record_rl);
         mExtRecordView = getView().findViewById(R.id.im_chat_ext_record_view);
         mExtMoreContainer = getView().findViewById(R.id.im_chat_ext_more_rl);
+
+        mEmojiRainView = getView().findViewById(R.id.im_chat_emoji_rain_view);
 
         mEmotionBtn.setOnClickListener(viewListener);
         mSendBtn.setOnClickListener(viewListener);
@@ -455,7 +458,7 @@ public class IMChatFragment extends IMBaseFragment {
      */
     private void startCall() {
         String[] menus = {
-            VMStr.byRes(R.string.im_call_video), VMStr.byRes(R.string.im_call_voice)
+                VMStr.byRes(R.string.im_call_video), VMStr.byRes(R.string.im_call_voice)
         };
         IMDialog.showAlertDialog(mContext, menus, (DialogInterface dialog, int which) -> {
             if (which == 0) {
@@ -614,6 +617,9 @@ public class IMChatFragment extends IMBaseFragment {
      * 刷新插入新消息
      */
     private void refreshInsert(final EMMessage message) {
+        if (IMChatUtils.getMessageType(message) == IMConstants.MsgType.IM_TEXT_SEND || IMChatUtils.getMessageType(message) == IMConstants.MsgType.IM_TEXT_RECEIVE) {
+            mEmojiRainView.start();
+        }
         VMSystem.runInUIThread(() -> {
             int position = IMChatManager.getInstance().getPosition(message);
             if (position >= 0) {
@@ -707,8 +713,7 @@ public class IMChatFragment extends IMBaseFragment {
     /**
      * ------------------------------- 广播接收器部分 -------------------------------
      */
-    private NewMessageReceiver mNewMessageReceiver = new NewMessageReceiver();
-    private UpdateMessageReceiver mUpdateMessageReceiver = new UpdateMessageReceiver();
+    private ChatReceiver mChatReceiver = new ChatReceiver();
 
     /**
      * 初始化注册广播接收器
@@ -716,12 +721,10 @@ public class IMChatFragment extends IMBaseFragment {
     private void initReceiver() {
         LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(mContext);
         // 新消息广播接收器
-        IntentFilter newMessageFilter = new IntentFilter(IMUtils.Action.getNewMessageAction());
-        newMessageFilter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
-        lbm.registerReceiver(mNewMessageReceiver, newMessageFilter);
-
-        IntentFilter updateMessageFilter = new IntentFilter(IMUtils.Action.getUpdateMessageAction());
-        lbm.registerReceiver(mUpdateMessageReceiver, updateMessageFilter);
+        IntentFilter filter = new IntentFilter(IMUtils.Action.getNewMessageAction());
+        filter.addAction(IMUtils.Action.getUpdateMessageAction());
+        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+        lbm.registerReceiver(mChatReceiver, filter);
     }
 
     /**
@@ -729,38 +732,26 @@ public class IMChatFragment extends IMBaseFragment {
      */
     private void unregisterReceiver() {
         // 取消新消息广播接收器
-        LocalBroadcastManager.getInstance(mContext).unregisterReceiver(mNewMessageReceiver);
-        LocalBroadcastManager.getInstance(mContext).unregisterReceiver(mUpdateMessageReceiver);
+        LocalBroadcastManager.getInstance(mContext).unregisterReceiver(mChatReceiver);
     }
 
     /**
      * 定义广播接收器
      */
-    private class NewMessageReceiver extends BroadcastReceiver {
+    private class ChatReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             //这里处理接收的信息
             String id = intent.getStringExtra(IMConstants.IM_CHAT_ID);
             if (!VMStr.isEmpty(id) && id.equals(mId)) {
                 EMMessage message = intent.getParcelableExtra(IMConstants.IM_CHAT_MSG);
-                // 当前会话设置消息已读
-                mConversation.markMessageAsRead(message.getMsgId());
-                refreshInsert(message);
-            }
-        }
-    }
-
-    /**
-     * 定义广播接收器
-     */
-    private class UpdateMessageReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            //这里处理接收的信息
-            String id = intent.getStringExtra(IMConstants.IM_CHAT_ID);
-            if (!VMStr.isEmpty(id) && id.equals(mId)) {
-                EMMessage message = intent.getParcelableExtra(IMConstants.IM_CHAT_MSG);
-                refreshChange(message);
+                if (intent.getAction().equals(IMUtils.Action.getNewMessageAction())) {
+                    // 当前会话设置消息已读
+                    mConversation.markMessageAsRead(message.getMsgId());
+                    refreshInsert(message);
+                } else if (intent.getAction().equals(IMUtils.Action.getUpdateMessageAction())) {
+                    refreshChange(message);
+                }
             }
         }
     }

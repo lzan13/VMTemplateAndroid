@@ -12,16 +12,16 @@ import android.support.v7.widget.RecyclerView;
 
 import android.view.View;
 import android.widget.LinearLayout;
+
 import com.hyphenate.chat.EMConversation;
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.base.IMBaseFragment;
 import com.vmloft.develop.library.im.chat.IMChatManager;
 import com.vmloft.develop.library.im.connection.IMConnectionManager;
-import com.vmloft.develop.library.im.router.IMRouter;
 import com.vmloft.develop.library.im.utils.IMUtils;
-import com.vmloft.develop.library.tools.adapter.VMAdapter;
 
 import com.vmloft.develop.library.tools.utils.VMColor;
+
 import java.util.List;
 
 /**
@@ -126,8 +126,7 @@ public class IMConversationFragment extends IMBaseFragment {
     /**
      * ------------------------------- 广播接收器部分 -------------------------------
      */
-    private RefreshConversationReceiver mRefreshConversationReceiver = new RefreshConversationReceiver();
-    private ConnectionReceiver mConnectionReceiver = new ConnectionReceiver();
+    private ConversationReceiver mConversationReceiver = new ConversationReceiver();
 
     /**
      * 初始化注册广播接收器
@@ -135,11 +134,9 @@ public class IMConversationFragment extends IMBaseFragment {
     private void initReceiver() {
         LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(mContext);
         // 刷新会话广播接收器
-        IntentFilter refreshConversationFilter = new IntentFilter(IMUtils.Action.getRefreshConversationAction());
-        lbm.registerReceiver(mRefreshConversationReceiver, refreshConversationFilter);
-        // 链接变化广播接收器
-        IntentFilter connectionFilter = new IntentFilter(IMUtils.Action.getConnectionChangeAction());
-        lbm.registerReceiver(mConnectionReceiver, connectionFilter);
+        IntentFilter filter = new IntentFilter(IMUtils.Action.getRefreshConversationAction());
+        filter.addAction(IMUtils.Action.getConnectionChangeAction());
+        lbm.registerReceiver(mConversationReceiver, filter);
     }
 
     /**
@@ -147,27 +144,20 @@ public class IMConversationFragment extends IMBaseFragment {
      */
     private void unregisterReceiver() {
         // 取消新消息广播接收器
-        LocalBroadcastManager.getInstance(mContext).unregisterReceiver(mRefreshConversationReceiver);
-        LocalBroadcastManager.getInstance(mContext).unregisterReceiver(mConnectionReceiver);
+        LocalBroadcastManager.getInstance(mContext).unregisterReceiver(mConversationReceiver);
     }
 
     /**
      * 定义广播接收器
      */
-    private class RefreshConversationReceiver extends BroadcastReceiver {
+    private class ConversationReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            refreshConversation();
-        }
-    }
-
-    /**
-     * 定义广播接收器
-     */
-    private class ConnectionReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            connectionChange();
+            if (intent.getAction().equals(IMUtils.Action.getRefreshConversationAction())) {
+                refreshConversation();
+            } else if (intent.getAction().equals(IMUtils.Action.getConnectionChangeAction())) {
+                connectionChange();
+            }
         }
     }
 }

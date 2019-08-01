@@ -25,16 +25,13 @@ public class IMConversationAdapter extends VMAdapter<EMConversation, IMConversat
         super(context, list);
     }
 
-    @NonNull
     @Override
-    public ConversationHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int type) {
+    public ConversationHolder createHolder(@NonNull ViewGroup root, int viewType) {
         return new ConversationHolder(new IMConversationItem(mContext, this));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ConversationHolder holder, int position) {
-        super.onBindViewHolder(holder, position);
-        VMLog.d("ConversationAdapter onBindViewHolder - %d", position);
+    public void bindHolder(@NonNull ConversationHolder holder, int position) {
         EMConversation conversation = getItemData(position);
         ((IMConversationItem) holder.itemView).onBind(conversation);
     }

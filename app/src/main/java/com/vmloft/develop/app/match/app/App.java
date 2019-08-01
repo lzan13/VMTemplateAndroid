@@ -4,6 +4,7 @@ import com.tencent.bugly.crashreport.CrashReport;
 
 import com.vmloft.develop.app.match.BuildConfig;
 import com.vmloft.develop.app.match.im.AIMManager;
+import com.vmloft.develop.library.tools.VMTools;
 import com.vmloft.develop.library.tools.base.VMApp;
 import com.vmloft.develop.library.tools.utils.VMLog;
 
@@ -16,16 +17,21 @@ public class App extends VMApp {
     @Override
     public void onCreate() {
         super.onCreate();
-        VMLog.d("是否为 Debug 环境 %b", BuildConfig.isDebug);
+
         init();
     }
 
     private void init() {
+        VMTools.init(mContext, VMLog.Level.VERBOSE);
+//        VMLog.setEnableSave(true, 3);
+
+        VMLog.d("是否为 Debug 环境 %b", BuildConfig.isDebug);
+
         // 初始化 Bugly 日志上报功能
         initBugly();
 
         // 初始化 IM
-        AIMManager.getInstance().initIM(context);
+        AIMManager.getInstance().initIM(mContext);
     }
 
     /**
@@ -33,7 +39,7 @@ public class App extends VMApp {
      */
     private void initBugly() {
         // 设置是否为开发设备
-        CrashReport.setIsDevelopmentDevice(context, BuildConfig.isDebug);
-        CrashReport.initCrashReport(context);
+        CrashReport.setIsDevelopmentDevice(mContext, BuildConfig.isDebug);
+        CrashReport.initCrashReport(mContext);
     }
 }

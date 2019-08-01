@@ -46,7 +46,7 @@ public class IMUtils extends VMUtils {
         }
 
         /**
-         * 收到新消息
+         * 消息状态更新
          */
         public static String getUpdateMessageAction() {
             return actionPrefix() + "chat.update.message";
