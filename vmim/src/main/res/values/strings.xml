@@ -19,6 +19,11 @@
     <string name="im_notify_channel_chat_title">收到新消息</string>
 
     <string name="im_connection_error_hint">链接不到聊天服务器，请检查网络</string>
+    <!--表情雨触发字段-->
+    <string name="im_emoji_rain_happy_new_year">新年快乐</string>
+    <string name="im_emoji_rain_happy_birthday">生日快乐</string>
+    <string name="im_emoji_rain_good_luck">祝你好运</string>
+    <string name="im_emoji_rain_me_me_da">么么哒</string>
 
     <!--消息操作-->
     <string name="im_msg_copy">复制</string>

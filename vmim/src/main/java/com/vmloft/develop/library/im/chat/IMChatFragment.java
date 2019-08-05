@@ -26,6 +26,7 @@ import android.widget.RelativeLayout;
 
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
+import com.hyphenate.chat.EMTextMessageBody;
 import com.vmloft.develop.library.im.IM;
 import com.vmloft.develop.library.im.R;
 import com.vmloft.develop.library.im.base.IMBaseFragment;
@@ -617,9 +618,8 @@ public class IMChatFragment extends IMBaseFragment {
      * 刷新插入新消息
      */
     private void refreshInsert(final EMMessage message) {
-        if (IMChatUtils.getMessageType(message) == IMConstants.MsgType.IM_TEXT_SEND || IMChatUtils.getMessageType(message) == IMConstants.MsgType.IM_TEXT_RECEIVE) {
-            mEmojiRainView.start();
-        }
+        // 触发表情雨
+        checkEmojiRainView(message);
         VMSystem.runInUIThread(() -> {
             int position = IMChatManager.getInstance().getPosition(message);
             if (position >= 0) {
@@ -708,6 +708,31 @@ public class IMChatFragment extends IMBaseFragment {
         unregisterReceiver();
 
         super.onDestroy();
+    }
+
+    /**
+     * 检查表情雨控件
+     */
+    private void checkEmojiRainView(EMMessage message) {
+        if (IMChatUtils.getMessageType(message) == IMConstants.MsgType.IM_TEXT_SEND || IMChatUtils.getMessageType(message) == IMConstants.MsgType.IM_TEXT_RECEIVE) {
+            EMTextMessageBody body = (EMTextMessageBody) message.getBody();
+            // 新年快乐
+            if (body.getMessage().contains(VMStr.byRes(R.string.im_emoji_rain_happy_new_year))) {
+                mEmojiRainView.addEmoji(R.drawable.im_emoji_rain_happy);
+            }
+            if (body.getMessage().contains(VMStr.byRes(R.string.im_emoji_rain_happy_birthday))) {
+                mEmojiRainView.addEmoji(R.drawable.im_emoji_rain_happy);
+                mEmojiRainView.addEmoji(R.drawable.im_emoji_rain_birthday);
+            }
+            if (body.getMessage().contains(VMStr.byRes(R.string.im_emoji_rain_good_luck))) {
+                mEmojiRainView.addEmoji(R.drawable.im_emoji_rain_good_luck);
+            }
+            if (body.getMessage().contains(VMStr.byRes(R.string.im_emoji_rain_me_me_da))) {
+                mEmojiRainView.addEmoji(R.drawable.im_emoji_rain_memeda);
+                mEmojiRainView.addEmoji(R.drawable.im_emoji_rain_vermilion);
+            }
+            mEmojiRainView.start();
+        }
     }
 
     /**
