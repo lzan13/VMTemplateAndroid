@@ -50,7 +50,7 @@ public class UserDetailActivity extends AppActivity {
 
     @Override
     protected void initData() {
-        VMParams params = ARouter.getParams(mActivity);
+        VMParams params = (VMParams) ARouter.getParams(mActivity);
         mId = params.str0;
         mAccount = AUMSManager.getInstance().getAccount(mId);
 

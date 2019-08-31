@@ -73,7 +73,7 @@ public class MatchActivity extends AppActivity {
         setTopTitle(R.string.match);
         getTopBar().setTitleColor(R.color.app_title_light);
 
-        VMParams params = ARouter.getParams(mActivity);
+        VMParams params = (VMParams) ARouter.getParams(mActivity);
         mMatchType = params.arg0;
 
         mAccount = ASignManager.getInstance().getCurrentAccount();

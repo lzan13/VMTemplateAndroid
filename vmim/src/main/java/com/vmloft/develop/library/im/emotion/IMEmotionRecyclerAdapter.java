@@ -29,16 +29,14 @@ public class IMEmotionRecyclerAdapter extends VMAdapter<IMEmotionItem, IMEmotion
         VMLog.d("初始化表情适配器 表情数: %d", getItemCount());
     }
 
-    @NonNull
     @Override
-    public EmotionHolder onCreateViewHolder(@NonNull ViewGroup parent, int type) {
-        View view = mInflater.inflate(R.layout.im_emotion_recycler_view_item, parent, false);
+    public EmotionHolder createHolder(@NonNull ViewGroup root, int viewType) {
+        View view = mInflater.inflate(R.layout.im_emotion_recycler_view_item, root, false);
         return new EmotionHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull EmotionHolder holder, int position) {
-        super.onBindViewHolder(holder, position);
+    public void bindHolder(@NonNull EmotionHolder holder, int position) {
         IMEmotionItem item = getItemData(position);
         if (mEmotionGroup.isInnerEmotion) {
             holder.mNameView.setVisibility(View.GONE);
