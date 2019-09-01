@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".chat.IMChatFragment"
     >
     <com.vmloft.develop.library.im.utils.IMKeyboardLayout
         android:id="@+id/im_chat_keyboard_layout"
@@ -202,4 +204,11 @@
             android:overScrollMode="never"
             />
     </android.support.v4.widget.SwipeRefreshLayout>
+
+    <com.vmloft.develop.library.tools.widget.VMEmojiRainView
+        android:id="@+id/im_chat_emoji_rain_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:vm_emoji_count="56"
+        />
 </RelativeLayout>

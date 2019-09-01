@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -38,6 +37,7 @@ import com.vmloft.develop.library.im.emotion.IMEmotionGroup;
 import com.vmloft.develop.library.im.emotion.IMEmotionItem;
 import com.vmloft.develop.library.im.emotion.IMEmotionManager;
 import com.vmloft.develop.library.im.emotion.IMEmotionPager;
+import com.vmloft.develop.library.im.utils.IMChatUtils;
 import com.vmloft.develop.library.im.utils.IMDialog;
 import com.vmloft.develop.library.im.utils.IMKeyboardLayout;
 import com.vmloft.develop.library.im.utils.IMUtils;
@@ -48,6 +48,7 @@ import com.vmloft.develop.library.tools.utils.VMColor;
 import com.vmloft.develop.library.tools.utils.VMDimen;
 import com.vmloft.develop.library.tools.utils.VMStr;
 import com.vmloft.develop.library.tools.utils.VMSystem;
+import com.vmloft.develop.library.tools.widget.VMEmojiRainView;
 import com.vmloft.develop.library.tools.widget.record.VMRecordView;
 import com.vmloft.develop.library.tools.widget.toast.VMToast;
 
@@ -85,6 +86,7 @@ public class IMChatFragment extends IMBaseFragment {
     private RelativeLayout mExtRecordContainer;
     private VMRecordView mExtRecordView;
     private RelativeLayout mExtMoreContainer;
+    private VMEmojiRainView mEmojiRainView;
 
     // 键盘高度
     private int mKeyboardHeight;
@@ -164,6 +166,7 @@ public class IMChatFragment extends IMBaseFragment {
         mExtRecordContainer = getView().findViewById(R.id.im_chat_ext_record_rl);
         mExtRecordView = getView().findViewById(R.id.im_chat_ext_record_view);
         mExtMoreContainer = getView().findViewById(R.id.im_chat_ext_more_rl);
+        mEmojiRainView = getView().findViewById(R.id.im_chat_emoji_rain_view);
 
         mEmotionBtn.setOnClickListener(viewListener);
         mSendBtn.setOnClickListener(viewListener);
@@ -611,9 +614,35 @@ public class IMChatFragment extends IMBaseFragment {
     }
 
     /**
+     * 检查表情雨
+     */
+    private void checkEmojiRain(EMMessage message) {
+        if (IMChatUtils.getMessageType(message) != IMConstants.MsgType.IM_TEXT_RECEIVE && IMChatUtils.getMessageType(message) != IMConstants.MsgType.IM_TEXT_SEND) {
+            return;
+        }
+        String content = IMChatUtils.getSummary(message);
+        if (VMStr.isEmpty(content)) {
+            return;
+        }
+        mEmojiRainView.stop();
+        if (content.contains(VMStr.byRes(R.string.im_emoji_rain_memeda))) {
+            mEmojiRainView.addEmoji(R.drawable.im_emoji_rain_lip);
+            mEmojiRainView.addEmoji(R.drawable.im_emoji_rain_kiss);
+        } else if (content.contains(VMStr.byRes(R.string.im_emoji_rain_birthday))) {
+            mEmojiRainView.addEmoji(R.drawable.im_emoji_rain_happy);
+        } else if (content.contains(VMStr.byRes(R.string.im_emoji_rain_year))) {
+            mEmojiRainView.addEmoji(R.drawable.im_emoji_rain_happy);
+        } else if (content.contains(VMStr.byRes(R.string.im_emoji_rain_luck))) {
+            mEmojiRainView.addEmoji(R.drawable.im_emoji_rain_luck);
+        }
+        mEmojiRainView.start();
+    }
+
+    /**
      * 刷新插入新消息
      */
     private void refreshInsert(final EMMessage message) {
+        checkEmojiRain(message);
         VMSystem.runInUIThread(() -> {
             int position = IMChatManager.getInstance().getPosition(message);
             if (position >= 0) {
