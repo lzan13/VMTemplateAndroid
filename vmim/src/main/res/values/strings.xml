@@ -18,6 +18,12 @@
     <string name="im_notify_channel_call">通话通知消息</string>
     <string name="im_notify_channel_chat_title">收到新消息</string>
 
+    <!--表情雨匹配内容-->
+    <string name="im_emoji_rain_memeda">么么哒</string>
+    <string name="im_emoji_rain_birthday">生日快乐</string>
+    <string name="im_emoji_rain_year">新年快乐</string>
+    <string name="im_emoji_rain_luck">祝你好运</string>
+
     <string name="im_connection_error_hint">链接不到聊天服务器，请检查网络</string>
     <!--表情雨触发字段-->
     <string name="im_emoji_rain_happy_new_year">新年快乐</string>
@@ -44,7 +50,6 @@
     <string name="im_conversation_untop">取消置顶</string>
     <string name="im_conversation_remove">移除该聊天</string>
     <string name="im_conversation_clear">清空聊天消息</string>
-
 
     <!--通话相关-->
     <string name="im_call">通话</string>

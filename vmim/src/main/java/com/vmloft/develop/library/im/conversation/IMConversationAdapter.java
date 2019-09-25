@@ -13,7 +13,6 @@ import com.vmloft.develop.library.tools.utils.VMLog;
 
 import java.util.List;
 
-
 /**
  * Create by lzan13 on 2019/5/21 17:33
  *
@@ -25,13 +24,13 @@ public class IMConversationAdapter extends VMAdapter<EMConversation, IMConversat
         super(context, list);
     }
 
-    @Override
     public ConversationHolder createHolder(@NonNull ViewGroup root, int viewType) {
         return new ConversationHolder(new IMConversationItem(mContext, this));
     }
 
     @Override
     public void bindHolder(@NonNull ConversationHolder holder, int position) {
+        VMLog.d("ConversationAdapter onBindViewHolder - %d", position);
         EMConversation conversation = getItemData(position);
         ((IMConversationItem) holder.itemView).onBind(conversation);
     }

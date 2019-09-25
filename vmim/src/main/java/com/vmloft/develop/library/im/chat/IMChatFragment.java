@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import android.support.annotation.Nullable;
@@ -53,6 +55,7 @@ import com.vmloft.develop.library.tools.widget.VMEmojiRainView;
 import com.vmloft.develop.library.tools.widget.record.VMRecordView;
 import com.vmloft.develop.library.tools.widget.toast.VMToast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -166,6 +169,7 @@ public class IMChatFragment extends IMBaseFragment {
         mExtRecordContainer = getView().findViewById(R.id.im_chat_ext_record_rl);
         mExtRecordView = getView().findViewById(R.id.im_chat_ext_record_view);
         mExtMoreContainer = getView().findViewById(R.id.im_chat_ext_more_rl);
+        mEmojiRainView = getView().findViewById(R.id.im_chat_emoji_rain_view);
 
         mEmojiRainView = getView().findViewById(R.id.im_chat_emoji_rain_view);
 
@@ -615,11 +619,56 @@ public class IMChatFragment extends IMBaseFragment {
     }
 
     /**
+     * 检查表情雨
+     */
+    private void checkEmojiRain(EMMessage message) {
+        if (IMChatUtils.getMessageType(message) != IMConstants.MsgType.IM_TEXT_RECEIVE && IMChatUtils.getMessageType(message) != IMConstants.MsgType.IM_TEXT_SEND) {
+            return;
+        }
+        String content = IMChatUtils.getSummary(message);
+        if (VMStr.isEmpty(content)) {
+            return;
+        }
+
+        // 资源 id 方式
+        List<Integer> resList = new ArrayList<>();
+        if (content.contains(VMStr.byRes(R.string.im_emoji_rain_memeda))) {
+            resList.add(R.drawable.im_emoji_rain_lip);
+            resList.add(R.drawable.im_emoji_rain_kiss);
+        } else if (content.contains(VMStr.byRes(R.string.im_emoji_rain_birthday))) {
+            resList.add(R.drawable.im_emoji_rain_happy);
+            resList.add(R.drawable.im_emoji_rain_birthday);
+        } else if (content.contains(VMStr.byRes(R.string.im_emoji_rain_year))) {
+            resList.add(R.drawable.im_emoji_rain_happy);
+        } else if (content.contains(VMStr.byRes(R.string.im_emoji_rain_luck))) {
+            resList.add(R.drawable.im_emoji_rain_luck);
+        }
+//        // bitmap 方式
+//        List<Bitmap> bitmapList = new ArrayList<>();
+//        bitmapList.add(BitmapFactory.decodeResource(getResources(), R.drawable.emoji_cake));
+//        bitmapList.add(BitmapFactory.decodeResource(getResources(), R.drawable.emoji_dog));
+        VMEmojiRainView.Config config = new VMEmojiRainView.Config.Builder()
+//                .setBitmapList(bitmapList)
+                .setResList(resList)
+                .setWidth(VMDimen.dp2px(32))
+                .setHeight(VMDimen.dp2px(32))
+                .setCount(56)
+                .setDelay(200)
+                .setMaxDuration(5000)
+                .setMinDuration(4500)
+                .setMaxScale(150)
+                .setMinScale(50)
+                .build();
+
+        mEmojiRainView.start(config);
+    }
+
+    /**
      * 刷新插入新消息
      */
     private void refreshInsert(final EMMessage message) {
         // 触发表情雨
-        checkEmojiRainView(message);
+        checkEmojiRain(message);
         VMSystem.runInUIThread(() -> {
             int position = IMChatManager.getInstance().getPosition(message);
             if (position >= 0) {
@@ -708,31 +757,6 @@ public class IMChatFragment extends IMBaseFragment {
         unregisterReceiver();
 
         super.onDestroy();
-    }
-
-    /**
-     * 检查表情雨控件
-     */
-    private void checkEmojiRainView(EMMessage message) {
-        if (IMChatUtils.getMessageType(message) == IMConstants.MsgType.IM_TEXT_SEND || IMChatUtils.getMessageType(message) == IMConstants.MsgType.IM_TEXT_RECEIVE) {
-            EMTextMessageBody body = (EMTextMessageBody) message.getBody();
-            // 新年快乐
-            if (body.getMessage().contains(VMStr.byRes(R.string.im_emoji_rain_happy_new_year))) {
-                mEmojiRainView.addEmoji(R.drawable.im_emoji_rain_happy);
-            }
-            if (body.getMessage().contains(VMStr.byRes(R.string.im_emoji_rain_happy_birthday))) {
-                mEmojiRainView.addEmoji(R.drawable.im_emoji_rain_happy);
-                mEmojiRainView.addEmoji(R.drawable.im_emoji_rain_birthday);
-            }
-            if (body.getMessage().contains(VMStr.byRes(R.string.im_emoji_rain_good_luck))) {
-                mEmojiRainView.addEmoji(R.drawable.im_emoji_rain_good_luck);
-            }
-            if (body.getMessage().contains(VMStr.byRes(R.string.im_emoji_rain_me_me_da))) {
-                mEmojiRainView.addEmoji(R.drawable.im_emoji_rain_memeda);
-                mEmojiRainView.addEmoji(R.drawable.im_emoji_rain_vermilion);
-            }
-            mEmojiRainView.start();
-        }
     }
 
     /**

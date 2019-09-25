@@ -194,7 +194,7 @@ public class IM {
     }
 
     /**
-     * 获取外部扩展消息类型
+     * 获取外部扩展消息摘要
      */
     public String getMsgSummary(EMMessage message) {
         if (mGlobalListener != null) {

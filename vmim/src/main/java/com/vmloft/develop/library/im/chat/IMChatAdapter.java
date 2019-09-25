@@ -33,23 +33,23 @@ public class IMChatAdapter extends VMAdapter<EMMessage, IMChatAdapter.ChatHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull VMHolder holder, int position, @NonNull List<Object> payloads) {
-//        super.onBindViewHolder(holder, position, payloads);
-        if (payloads != null && !payloads.isEmpty()) {
-            ((IMBaseItem) holder.itemView).onUpdate(getItemData(position));
-        } else {
-            onBindViewHolder(holder, position);
-        }
-    }
-
-    @Override
-    public ChatHolder createHolder(@NonNull ViewGroup root, int viewType) {
-        return new ChatHolder(IMChatUtils.createMsgItem(mContext, this, viewType));
+    public ChatHolder createHolder(@NonNull ViewGroup root, int type) {
+        return new ChatHolder(IMChatUtils.createMsgItem(mContext, this, type));
     }
 
     @Override
     public void bindHolder(@NonNull ChatHolder holder, int position) {
         ((IMBaseItem) holder.itemView).onBind(position, getItemData(position));
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull VMHolder holder, int position, @NonNull List<Object> payloads) {
+        super.onBindViewHolder(holder, position, payloads);
+        if (payloads != null && !payloads.isEmpty()) {
+            ((IMBaseItem) holder.itemView).onUpdate(getItemData(position));
+        } else {
+            onBindViewHolder(holder, position);
+        }
     }
 
     @Override

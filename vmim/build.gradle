@@ -6,11 +6,11 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.0.2"
         // 简单粗暴解决多个库出现 UnsatisfiedLinkError 文件错误问题
         ndk {
-            abiFilters "armeabi-v7a"
+            abiFilters "armeabi-v7a", "arm64-v8a"
         }
     }
 
@@ -48,5 +48,5 @@ dependencies {
     api 'com.hyphenate:hyphenate-sdk:3.6.1'
 
     // 自己封装的工具库 VMTools https://github.com/lzan13/VMLibrary
-    api 'com.vmloft.library:vmtools:0.9.4'
+    api 'com.vmloft.library:vmtools:0.9.11'
 }

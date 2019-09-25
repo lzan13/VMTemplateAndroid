@@ -17,15 +17,14 @@ public class App extends VMApp {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        VMLog.d("是否为 Debug 环境 %b", BuildConfig.isDebug);
         init();
     }
 
     private void init() {
-        VMTools.init(mContext, VMLog.Level.VERBOSE);
-//        VMLog.setEnableSave(true, 3);
-
         VMLog.d("是否为 Debug 环境 %b", BuildConfig.isDebug);
+//        VMLog.setEnableSave(true, 3);
+        VMTools.init(mContext, BuildConfig.isDebug ? VMLog.Level.VERBOSE : VMLog.Level.ERROR);
 
         // 初始化 Bugly 日志上报功能
         initBugly();

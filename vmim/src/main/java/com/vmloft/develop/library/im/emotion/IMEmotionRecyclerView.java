@@ -80,9 +80,9 @@ public class IMEmotionRecyclerView extends RelativeLayout {
     private void initRecyclerView() {
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), mColumnCount));
         mAdapter = new IMEmotionRecyclerAdapter(getContext(), mEmotionGroup);
-        mAdapter.setClickListener((action, object) -> {
+        mAdapter.setClickListener((VMAdapter.IClickListener<IMEmotionItem>) (action, item) -> {
             if (mInnerListener != null) {
-                mInnerListener.onEmotionClick(mEmotionGroup, (IMEmotionItem) object);
+                mInnerListener.onEmotionClick(mEmotionGroup, item);
             }
         });
         mRecyclerView.setAdapter(mAdapter);

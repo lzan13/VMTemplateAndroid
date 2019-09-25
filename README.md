@@ -16,7 +16,7 @@ VMMatch
 
 **下载体验**
 
-[本地下载 >> Release >>](./release)
+[本地下载 >> Release >>](https://github.com/lzan13/VMMatch/releases)
 
 [小米应用商店 审核中]()
 
@@ -55,6 +55,7 @@ VMMatch
   - [x] 删除与清空
   - [x] 草稿功能
 - [x] 消息功能
+  - [x] 表情雨功能
   - [x] 下拉加载更多
   - [x] 消息复制（仅文字类消息）
   - [x] 消息删除
@@ -131,6 +132,7 @@ VMMatch
 [博客介绍](https://blog.melove.net/develop-open-source-im-match-and-server/)
 
 ### 加群交流
+群号: 901211985  
 ![QQ 交流群](http://q.data.melove.net/image/dev_im_group.jpg)
 
 
