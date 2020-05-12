@@ -1,28 +1,27 @@
 apply plugin: 'com.android.application'
 
-def defaults = rootProject.ext.defaults
+def configs = rootProject.ext.configs
 def signings = rootProject.ext.signings
-def others = rootProject.ext.others
 ext {
     isDebug = true
 }
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId defaults.applicationId
-        minSdkVersion defaults.minSdkVersion
-        targetSdkVersion defaults.targetSdkVersion
-        versionCode defaults.versionCode
-        versionName defaults.versionName
+        applicationId configs.applicationId
+        minSdkVersion configs.minSdkVersion
+        targetSdkVersion configs.targetSdkVersion
+        versionCode configs.versionCode
+        versionName configs.versionName
         // 简单粗暴解决多个库出现 UnsatisfiedLinkError 文件错误问题
         ndk {
             abiFilters "armeabi-v7a"
         }
 
         manifestPlaceholders = [
-            em_appkey: others.emAppkey,
-            bugly_app_id: others.buglyAppId,
-            bugly_app_version: defaults.versionName,
+            em_appkey: configs.emAppkey,
+            bugly_app_id: configs.buglyAppId,
+            bugly_app_version: configs.versionName,
             bugly_app_channel: "Default",
             bugly_app_debug: isDebug
         ]
@@ -45,8 +44,8 @@ android {
             // 添加参数表示 debug 环境，这里使用测试环境
             isDebug = true
             buildConfigField("boolean", "isDebug", "true")
-            buildConfigField("String", "baseUrl", others.baseDebugUrl)
-            buildConfigField("String", "uploadUrl", others.uploadDebugUrl)
+            buildConfigField("String", "baseUrl", configs.baseDebugUrl)
+            buildConfigField("String", "uploadUrl", configs.uploadDebugUrl)
             // 是否开启压缩
             zipAlignEnabled false
             // 是否开启混淆
@@ -56,8 +55,8 @@ android {
             // 添加参数表示 debug 环境，这里使用测试环境
             isDebug = false
             buildConfigField("boolean", "isDebug", "false")
-            buildConfigField("String", "baseUrl", others.baseReleaseUrl)
-            buildConfigField("String", "uploadUrl", others.uploadReleaseUrl)
+            buildConfigField("String", "baseUrl", configs.baseReleaseUrl)
+            buildConfigField("String", "uploadUrl", configs.uploadReleaseUrl)
             // 是否开启压缩
             zipAlignEnabled true
             // 是否开启混淆
@@ -88,9 +87,9 @@ android {
         Baidu {
             dimension = "default"
             manifestPlaceholders = [
-                em_appkey: others.emAppkey,
-                bugly_app_id: others.buglyAppId,
-                bugly_app_version: defaults.versionName,
+                em_appkey: configs.emAppkey,
+                bugly_app_id: configs.buglyAppId,
+                bugly_app_version: configs.versionName,
                 bugly_app_channel: "BaiDu",
                 bugly_app_debug: isDebug
             ]
@@ -98,9 +97,9 @@ android {
         QiHu360 {
             dimension = "default"
             manifestPlaceholders = [
-                em_appkey: others.emAppkey,
-                bugly_app_id: others.buglyAppId,
-                bugly_app_version: defaults.versionName,
+                em_appkey: configs.emAppkey,
+                bugly_app_id: configs.buglyAppId,
+                bugly_app_version: configs.versionName,
                 bugly_app_channel: "QiHu360",
                 bugly_app_debug: isDebug
             ]
@@ -108,9 +107,9 @@ android {
         GooglePlay {
             dimension = "default"
             manifestPlaceholders = [
-                em_appkey: others.emAppkey,
-                bugly_app_id: others.buglyAppId,
-                bugly_app_version: defaults.versionName,
+                em_appkey: configs.emAppkey,
+                bugly_app_id: configs.buglyAppId,
+                bugly_app_version: configs.versionName,
                 bugly_app_channel: "GooglePlay",
                 bugly_app_debug: isDebug
             ]
@@ -118,9 +117,9 @@ android {
         XiaoMi {
             dimension = "default"
             manifestPlaceholders = [
-                em_appkey: others.emAppkey,
-                bugly_app_id: others.buglyAppId,
-                bugly_app_version: defaults.versionName,
+                em_appkey: configs.emAppkey,
+                bugly_app_id: configs.buglyAppId,
+                bugly_app_version: configs.versionName,
                 bugly_app_channel: "XiaoMi",
                 bugly_app_debug: isDebug
             ]
@@ -128,9 +127,9 @@ android {
         WanDouJia {
             dimension = "default"
             manifestPlaceholders = [
-                em_appkey: others.emAppkey,
-                bugly_app_id: others.buglyAppId,
-                bugly_app_version: defaults.versionName,
+                em_appkey: configs.emAppkey,
+                bugly_app_id: configs.buglyAppId,
+                bugly_app_version: configs.versionName,
                 bugly_app_channel: "WanDouJia",
                 bugly_app_debug: isDebug
             ]
@@ -150,7 +149,7 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 
     // 腾讯 Bug 统计库 https://bugly.qq.com/v2/downloads
-    implementation 'com.tencent.bugly:crashreport:3.0.0'
+    implementation 'com.tencent.bugly:crashreport:3.1.0'
     //    implementation 'com.tencent.bugly:nativecrashreport:3.7.1'
 
     // json 数据解析库

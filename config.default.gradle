@@ -1,21 +1,12 @@
 ext {
-    // 默认配置
-    defaults = [
+    // 配置
+    configs = [
         applicationId: "com.vmloft.develop.app.match",
         minSdkVersion: 21,
         targetSdkVersion: 28,
         versionCode: 1,
         versionName: "1.0.0",
-    ]
-    // 签名配置，记得将签名文件复制到项目中
-    signings = [
-        keyAlias: "签名别名",
-        keyPassword: "签名密码",
-        storeFile: "签名文件路径",
-        storePassword: "签名文件密码",
-    ]
-    // 其他配置
-    others = [
+
         // 环信 Appkey 可以用掩饰lzan13#vmmatch，也可以用自己的
         emAppkey: "环信 Appkey ",
         buglyAppId: "Bugly App Id",
@@ -25,5 +16,12 @@ ext {
         // 线上服务器地址，这里暂时和 debug 一样
         baseReleaseUrl: "\"http://match.melove.net/api/v1/\"",
         uploadReleaseUrl: "\"http://match.melove.net/upload/\"",
+    ]
+    // 签名配置，记得将签名文件复制到项目中
+    signings = [
+        keyAlias: "签名别名",
+        keyPassword: "签名密码",
+        storeFile: "签名文件路径",
+        storePassword: "签名文件密码",
     ]
 }
