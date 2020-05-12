@@ -643,6 +643,10 @@ public class IMChatFragment extends IMBaseFragment {
         } else if (content.contains(VMStr.byRes(R.string.im_emoji_rain_luck))) {
             resList.add(R.drawable.im_emoji_rain_luck);
         }
+
+        if (resList.isEmpty()) {
+            return;
+        }
 //        // bitmap 方式
 //        List<Bitmap> bitmapList = new ArrayList<>();
 //        bitmapList.add(BitmapFactory.decodeResource(getResources(), R.drawable.emoji_cake));
