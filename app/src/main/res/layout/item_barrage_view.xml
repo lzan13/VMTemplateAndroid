@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_fillet_common_bg"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingStart="@dimen/vm_dimen_4"
+    android:paddingTop="@dimen/vm_dimen_4"
+    android:paddingEnd="@dimen/vm_dimen_8"
+    android:paddingBottom="@dimen/vm_dimen_4">
+
+    <ImageView
+        android:id="@+id/barrageItemIV"
+        android:layout_width="@dimen/vm_dimen_24"
+        android:layout_height="@dimen/vm_dimen_24" />
+
+    <TextView
+        android:id="@+id/barrageItemTV"
+        style="@style/AppText.Body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/vm_dimen_4"
+        tools:text="你好啊" />
+</LinearLayout>

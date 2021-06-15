@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg"
+    tools:context=".ui.settings.AboutSettingsActivity">
+
+    <include layout="@layout/widget_common_top_bar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/commonTopLL">
+
+        <ImageView
+            android:id="@+id/aboutIconIV"
+            android:layout_width="@dimen/vm_dimen_72"
+            android:layout_height="@dimen/vm_dimen_72"
+            android:layout_marginTop="@dimen/vm_dimen_36"
+            android:src="@drawable/logo" />
+
+        <TextView
+            android:id="@+id/aboutNameTV"
+            style="@style/AppText.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/vm_dimen_16"
+            android:gravity="center"
+            android:text="@string/app_name" />
+
+        <TextView
+            android:id="@+id/aboutVersionTV"
+            style="@style/AppText.Subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/vm_dimen_8"
+            android:textStyle="normal"
+            tools:text="Version 1.0.0" />
+
+        <TextView
+            android:id="@+id/aboutDescTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/vm_dimen_16"
+            android:layout_marginTop="@dimen/vm_dimen_8"
+            android:layout_marginEnd="@dimen/vm_dimen_16"
+            android:gravity="center"
+            android:text="@string/about_content" />
+
+        <!--检查更新-->
+        <com.vmloft.develop.library.tools.widget.VMLineView
+            android:id="@+id/aboutCheckVersionLV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/vm_dimen_24"
+            android:background="@color/app_bg_item"
+            app:vm_line_caption_color="@color/app_caption"
+            app:vm_line_decoration="center"
+            app:vm_line_decoration_color="@color/app_decoration"
+            app:vm_line_right_icon="@drawable/ic_arrow_next"
+            app:vm_line_title="@string/version_check" />
+
+        <!--反馈-->
+        <com.vmloft.develop.library.tools.widget.VMLineView
+            android:id="@+id/aboutFeedbackLV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/app_bg_item"
+            app:vm_line_caption_color="@color/app_caption"
+            app:vm_line_description="@string/settings_feedback_hint"
+            app:vm_line_right_icon="@drawable/ic_arrow_next"
+            app:vm_line_title="@string/settings_feedback" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/aboutPrivacyPolicyTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/vm_dimen_8"
+        android:text="@string/sign_privacy_policy"
+        android:textColor="@color/app_link"
+        android:textSize="@dimen/vm_size_12"
+        app:layout_constraintBottom_toTopOf="@+id/aboutCopyrightTV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/aboutCopyrightTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/vm_dimen_24"
+        android:gravity="center"
+        android:text="@string/about_copyright"
+        android:textColor="@color/app_tips"
+        android:textSize="@dimen/vm_size_12"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

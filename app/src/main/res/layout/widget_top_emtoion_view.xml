@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_fillet_common_bg"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingStart="@dimen/vm_dimen_4"
+    android:paddingTop="@dimen/vm_dimen_4"
+    android:paddingEnd="@dimen/vm_dimen_8"
+    android:paddingBottom="@dimen/vm_dimen_4">
+
+    <ImageView
+        android:id="@+id/emotionIV"
+        android:layout_width="@dimen/vm_dimen_24"
+        android:layout_height="@dimen/vm_dimen_24"
+        android:src="@drawable/ic_emotion_happy" />
+
+    <TextView
+        android:id="@+id/emotionTV"
+        style="@style/AppText.More"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/vm_dimen_4"
+        android:gravity="center"
+        tools:text="开心" />
+</LinearLayout>

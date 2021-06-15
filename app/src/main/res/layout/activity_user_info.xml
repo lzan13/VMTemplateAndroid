@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.vmloft.develop.app.template.ui.user.UserInfoViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.user.UserInfoActivity">
+
+        <com.vmloft.develop.library.tools.widget.behavior.VMBehaviorFrameLayout
+            android:id="@+id/infoBehaviorLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:vm_drag_over="true"
+            app:vm_stick_section_height="@dimen/vm_dimen_96">
+            <!--我的标签头部个人信息部分-->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/infoInfoCL"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/vm_dimen_320">
+
+                <ImageView
+                    android:id="@+id/infoCoverIV"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@drawable/img_default" />
+
+                <View
+                    android:layout_width="@dimen/vm_dimen_0"
+                    android:layout_height="@dimen/vm_dimen_0"
+                    android:background="@drawable/shape_info_top_mask"
+                    app:layout_constraintBottom_toBottomOf="@+id/infoCoverIV"
+                    app:layout_constraintEnd_toEndOf="@+id/infoCoverIV"
+                    app:layout_constraintStart_toStartOf="@+id/infoCoverIV"
+                    app:layout_constraintTop_toTopOf="@+id/infoCoverIV" />
+
+                <ImageView
+                    android:id="@+id/infoAvatarIV"
+                    android:layout_width="@dimen/vm_avatar_large"
+                    android:layout_height="@dimen/vm_avatar_large"
+                    android:layout_marginStart="@dimen/vm_dimen_16"
+                    android:layout_marginBottom="@dimen/vm_dimen_16"
+                    app:layout_constraintBottom_toTopOf="@+id/infoSignatureTV"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <ImageView
+                    android:id="@+id/infoGenderIV"
+                    android:layout_width="@dimen/vm_dimen_16"
+                    android:layout_height="@dimen/vm_dimen_16"
+                    android:background="@drawable/shape_circle_common_bg"
+                    android:padding="@dimen/vm_dimen_2"
+                    android:src="@drawable/ic_gender_man"
+                    app:layout_constraintBottom_toBottomOf="@+id/infoAvatarIV"
+                    app:layout_constraintEnd_toEndOf="@+id/infoAvatarIV" />
+
+                <TextView
+                    android:id="@+id/infoNameTV"
+                    style="@style/AppText.Title"
+                    android:layout_marginStart="@dimen/vm_dimen_16"
+                    android:layout_marginEnd="@dimen/vm_margin_normal"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/app_title_display"
+                    app:layout_constraintBottom_toTopOf="@+id/infoAddressTV"
+                    app:layout_constraintStart_toEndOf="@+id/infoAvatarIV"
+                    app:layout_constraintTop_toTopOf="@+id/infoAvatarIV"
+                    tools:text="名字十二个字名字十二个字" />
+
+                <TextView
+                    android:id="@+id/infoAddressTV"
+                    style="@style/AppText.Tips"
+                    android:layout_marginStart="@dimen/vm_dimen_16"
+                    android:layout_marginEnd="@dimen/vm_margin_normal"
+                    android:background="@drawable/shape_fillet_tips_bg"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/vm_dimen_8"
+                    android:paddingTop="@dimen/vm_dimen_4"
+                    android:paddingEnd="@dimen/vm_dimen_8"
+                    android:paddingBottom="@dimen/vm_dimen_4"
+                    android:textColor="@color/app_title_display"
+                    app:layout_constraintBottom_toBottomOf="@+id/infoAvatarIV"
+                    app:layout_constraintStart_toEndOf="@+id/infoAvatarIV"
+                    app:layout_constraintTop_toBottomOf="@+id/infoNameTV"
+                    tools:text="北京市朝阳区" />
+
+                <TextView
+                    android:id="@+id/infoSignatureTV"
+                    style="@style/AppText.Body"
+                    android:layout_width="@dimen/vm_dimen_0"
+                    android:layout_marginStart="@dimen/vm_dimen_16"
+                    android:layout_marginBottom="@dimen/vm_dimen_16"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:textColor="@color/app_title_display"
+                    app:layout_constraintBottom_toTopOf="@+id/infoFansLL"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:text="无个性不签名，慢慢来吧！" />
+
+                <!--关系部分-->
+                <!--粉丝-->
+                <LinearLayout
+                    android:id="@+id/infoFansLL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="@dimen/vm_dimen_16"
+                    app:layout_constraintBottom_toTopOf="@+id/tabLayout"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <TextView
+                        android:id="@+id/infoFansTV"
+                        style="@style/AppText.Body"
+                        android:textColor="@color/app_title_display"
+                        tools:text="521314" />
+
+                    <TextView
+                        style="@style/AppText.Tips"
+                        android:layout_marginTop="@dimen/vm_margin_normal"
+                        android:text="@string/fans"
+                        android:textColor="@color/app_title_display" />
+                </LinearLayout>
+                <!--关注-->
+                <LinearLayout
+                    android:id="@+id/infoFollowLL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="@dimen/vm_dimen_16"
+                    app:layout_constraintBottom_toBottomOf="@+id/infoFansLL"
+                    app:layout_constraintStart_toEndOf="@+id/infoFansLL"
+                    app:layout_constraintTop_toTopOf="@+id/infoFansLL">
+
+                    <TextView
+                        android:id="@+id/infoFollowTV"
+                        style="@style/AppText.Body"
+                        android:textColor="@color/app_title_display"
+                        tools:text="5" />
+
+                    <TextView
+                        style="@style/AppText.Tips"
+                        android:layout_marginTop="@dimen/vm_margin_normal"
+                        android:text="@string/follow"
+                        android:textColor="@color/app_title_display" />
+                </LinearLayout>
+                <!--喜欢的-->
+                <LinearLayout
+                    android:id="@+id/infoLikeLL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="@dimen/vm_dimen_16"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/infoFollowLL"
+                    app:layout_constraintStart_toEndOf="@+id/infoFollowLL"
+                    app:layout_constraintTop_toTopOf="@+id/infoFollowLL">
+
+                    <TextView
+                        android:id="@+id/infoLikeTV"
+                        style="@style/AppText.Body"
+                        android:textColor="@color/app_title_display"
+                        tools:text="12" />
+
+                    <TextView
+                        style="@style/AppText.Tips"
+                        android:layout_marginTop="@dimen/vm_margin_normal"
+                        android:text="@string/like"
+                        android:textColor="@color/app_title_display" />
+                </LinearLayout>
+                <!--关注-->
+                <TextView
+                    android:id="@+id/infoFollowMeTV"
+                    style="@style/AppText.Subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/vm_dimen_36"
+                    android:layout_marginEnd="@dimen/vm_dimen_16"
+                    android:background="@drawable/shape_fillet_common_border"
+                    android:gravity="center_vertical"
+                    android:paddingStart="@dimen/vm_dimen_16"
+                    android:paddingEnd="@dimen/vm_dimen_16"
+                    android:text="@string/follow"
+                    android:textColor="@color/app_title_display"
+                    android:textSize="@dimen/vm_size_13"
+                    app:layout_constraintBottom_toBottomOf="@+id/infoFansLL"
+                    app:layout_constraintEnd_toStartOf="@+id/infoSendBtn"
+                    app:layout_constraintTop_toTopOf="@+id/infoFansLL" />
+                <!--发消息-->
+                <ImageView
+                    android:id="@+id/infoSendBtn"
+                    android:layout_width="@dimen/vm_dimen_36"
+                    android:layout_height="@dimen/vm_dimen_36"
+                    android:layout_marginEnd="@dimen/vm_dimen_16"
+                    android:background="@drawable/shape_fillet_common_border"
+                    android:padding="@dimen/vm_dimen_10"
+                    android:src="@drawable/ic_send"
+                    app:layout_constraintBottom_toBottomOf="@+id/infoFansLL"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/infoFansLL"
+                    app:tint="@color/app_title_display" />
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/top_tab_height"
+                    android:background="@drawable/shape_rectangle_top_radius_bg"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:tabGravity="center"
+                    app:tabIndicator="@drawable/shape_tab_indicator"
+                    app:tabIndicatorColor="@color/app_accent"
+                    app:tabIndicatorFullWidth="true"
+                    app:tabIndicatorGravity="bottom"
+                    app:tabIndicatorHeight="@dimen/vm_dimen_3"
+                    app:tabMode="scrollable"
+                    app:tabSelectedTextColor="@color/app_tab_selected"
+                    app:tabTextColor="@color/app_tab" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/vm_dimen_320" />
+        </com.vmloft.develop.library.tools.widget.behavior.VMBehaviorFrameLayout>
+
+        <include layout="@layout/widget_common_top_bar" />
+
+    </RelativeLayout>
+</layout>

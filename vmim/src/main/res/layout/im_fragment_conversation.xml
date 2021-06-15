@@ -1,45 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:orientation="vertical"
-    tools:context=".conversation.IMConversationFragment"
-    >
+    tools:context=".conversation.IMConversationFragment">
+
     <LinearLayout
-        android:id="@+id/im_connection_ll"
+        android:id="@+id/imConversationConnectionLL"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/vm_red_12"
+        android:layout_height="@dimen/vm_dimen_36"
+        android:background="@color/app_main_12"
         android:gravity="center_vertical"
         android:visibility="gone"
-        >
+        tools:visibility="visible">
+
         <ImageView
-            android:layout_width="@dimen/vm_dimen_24"
-            android:layout_height="@dimen/vm_dimen_24"
+            android:layout_width="@dimen/vm_dimen_20"
+            android:layout_height="@dimen/vm_dimen_20"
             android:layout_marginStart="@dimen/vm_margin_large"
-            android:src="@drawable/im_ic_error"
-            />
+            android:src="@drawable/ic_alert"
+            app:tint="@color/app_main" />
+
         <TextView
+            style="@style/AppText.Tips"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/vm_padding_large"
-            android:text="@string/im_connection_error_hint"
-            />
+            android:layout_marginStart="@dimen/vm_dimen_8"
+            android:text="@string/im_connection_error_hint" />
     </LinearLayout>
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/im_conversation_swipe"
+
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/imConversationRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
+        app:srlEnableLoadMore="false">
 
         <!--展示会话列表-->
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/im_conversation_recycler_view"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/imConversationRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:overScrollMode="never"
-            />
-    </android.support.v4.widget.SwipeRefreshLayout>
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 </LinearLayout>

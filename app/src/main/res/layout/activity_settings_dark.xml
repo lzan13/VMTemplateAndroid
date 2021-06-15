@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg"
+    android:orientation="vertical"
+    tools:context=".ui.settings.DarkSettingsActivity">
+
+    <include layout="@layout/widget_common_top_bar" />
+
+    <!--跟随系统开关-->
+    <com.vmloft.develop.library.tools.widget.VMLineView
+        android:id="@+id/darkSystemSwitchLV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/app_bg_item"
+        app:vm_line_caption_color="@color/app_caption"
+        app:vm_line_description="@string/settings_dark_system_hint"
+        app:vm_line_right_icon="@drawable/ic_switch_selector"
+        app:vm_line_title="@string/settings_dark_system" />
+
+    <!--手动设置深色模式-->
+    <LinearLayout
+        android:id="@+id/darkManualLL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/vm_dimen_8"
+        android:orientation="vertical">
+
+        <!--手动设置-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/vm_padding_large"
+            android:text="@string/settings_dark_manual" />
+
+        <com.vmloft.develop.library.tools.widget.VMLineView
+            android:id="@+id/darkManualNormalLV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/vm_dimen_8"
+            android:background="@color/app_bg_item"
+            app:vm_line_decoration="center"
+            app:vm_line_decoration_color="@color/app_decoration"
+            app:vm_line_right_icon="@drawable/ic_done_selector"
+            app:vm_line_title="@string/settings_dark_normal" />
+
+        <com.vmloft.develop.library.tools.widget.VMLineView
+            android:id="@+id/darkManualDarkLV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/app_bg_item"
+            app:vm_line_right_icon="@drawable/ic_done_selector"
+            app:vm_line_title="@string/settings_dark" />
+    </LinearLayout>
+</LinearLayout>

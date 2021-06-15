@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/commonTopLL"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+    <!--TopBar 顶部 statusBar 填充-->
+    <View
+        android:id="@+id/commonTopSpace"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/vm_dimen_0"
+        />
+
+    <com.vmloft.develop.library.tools.widget.VMTopBar
+        android:id="@+id/commonTopBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+</LinearLayout>

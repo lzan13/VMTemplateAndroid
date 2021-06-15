@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.vmloft.develop.app.template.ui.main.mine.info.InfoViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/app_bg"
+        android:orientation="vertical"
+        tools:context=".ui.main.mine.info.EditNicknameActivity">
+
+        <include layout="@layout/widget_common_top_bar" />
+
+        <!--真实姓名-->
+        <EditText
+            android:id="@+id/authRealNameET"
+            style="@style/AppEdit.Single"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/vm_dimen_16"
+            android:layout_marginTop="@dimen/vm_dimen_16"
+            android:layout_marginEnd="@dimen/vm_dimen_16"
+            android:hint="@string/auth_real_name" />
+
+        <!--身份证号-->
+        <EditText
+            android:id="@+id/authIDCardNumberET"
+            style="@style/AppEdit.Single"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/vm_dimen_16"
+            android:hint="@string/auth_id_card_number" />
+
+        <TextView
+            android:id="@+id/authDescTV"
+            style="@style/AppText.Tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/vm_dimen_16"
+            android:layout_marginEnd="@dimen/vm_dimen_16"
+            android:paddingStart="@dimen/vm_dimen_16"
+            android:paddingEnd="@dimen/vm_dimen_16"
+            android:text="@string/auth_hint" />
+    </LinearLayout>
+</layout>

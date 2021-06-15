@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.vmloft.develop.app.template.ui.main.home.MatchViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.main.home.MatchFastActivity">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_match_bg" />
+        <!--匹配背景1-->
+        <View
+            android:id="@+id/matchAnimView1"
+            android:layout_width="@dimen/vm_avatar_normal"
+            android:layout_height="@dimen/vm_avatar_normal"
+            android:layout_centerInParent="true"
+            android:background="@drawable/shape_circle_common_bg"
+            android:backgroundTint="@color/app_accent" />
+        <!--匹配背景2-->
+        <View
+            android:id="@+id/matchAnimView2"
+            android:layout_width="@dimen/vm_avatar_normal"
+            android:layout_height="@dimen/vm_avatar_normal"
+            android:layout_centerInParent="true"
+            android:background="@drawable/shape_circle_common_bg"
+            android:backgroundTint="@color/app_accent" />
+
+        <ImageView
+            android:id="@+id/matchRadarIV"
+            android:layout_width="@dimen/vm_avatar_normal"
+            android:layout_height="@dimen/vm_avatar_normal"
+            android:layout_centerInParent="true"
+            android:background="@drawable/shape_circle_common_bg"
+            android:backgroundTint="@color/app_accent"
+            android:padding="@dimen/vm_dimen_16"
+            android:src="@drawable/ic_radar"
+            app:tint="@color/app_icon_light" />
+
+        <!--定义顶部 TopBar-->
+        <include layout="@layout/widget_common_top_bar" />
+
+        <!--匹配切换按钮-->
+        <TextView
+            android:id="@+id/matchStartBtn"
+            style="@style/AppBtn.Confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/vm_dimen_48"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/vm_dimen_36"
+            android:enabled="@{viewModel.uiState.isLoading ? false : true}"
+            android:paddingStart="@dimen/vm_dimen_56"
+            android:paddingEnd="@dimen/vm_dimen_56"
+            android:text="@string/match_start" />
+
+        <com.vmloft.develop.library.tools.widget.loading.VMLoadingView
+            android:id="@+id/loadingView"
+            android:layout_width="@dimen/vm_dimen_48"
+            android:layout_height="@dimen/vm_dimen_48"
+            android:layout_alignTop="@+id/matchStartBtn"
+            android:layout_alignEnd="@+id/matchStartBtn"
+            android:layout_alignBottom="@+id/matchStartBtn"
+            android:padding="@dimen/vm_dimen_8"
+            android:visibility="@{viewModel.uiState.isLoading ? View.VISIBLE : View.GONE}"
+            app:vm_loading_color="@color/app_main"
+            app:vm_loading_type="DoubleCircle" />
+
+    </RelativeLayout>
+</layout>

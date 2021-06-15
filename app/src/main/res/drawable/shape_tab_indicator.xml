@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:left="@dimen/vm_dimen_20"
+        android:right="@dimen/vm_dimen_20">
+        <!-- 注：这里需要一个 <shape /> 标签，否则会报错 -->
+        <shape>
+            <corners android:radius="@dimen/vm_dimen_2" />
+        </shape>
+    </item>
+</layer-list>

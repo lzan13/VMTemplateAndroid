@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg"
+    android:orientation="vertical"
+    tools:context="com.vmloft.develop.library.common.ui.debug.DebugActivity">
+
+    <include layout="@layout/widget_common_top_bar" />
+
+    <!--环境-->
+    <com.vmloft.develop.library.tools.widget.VMLineView
+        android:id="@+id/debugEnvLV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/app_bg_item"
+        app:vm_line_caption_color="@color/app_caption"
+        app:vm_line_decoration="right"
+        app:vm_line_right_icon="@drawable/ic_arrow_next"
+        app:vm_line_title="@string/debug_env" />
+
+</LinearLayout>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.aigestudio.wheelpicker.WheelPicker
+        android:id="@+id/commonPickerProvince"
+        android:layout_width="@dimen/vm_dimen_0"
+        android:layout_height="@dimen/vm_dimen_0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/commonPickerCity"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:wheel_atmospheric="true"
+        app:wheel_curved="false"
+        app:wheel_cyclic="false"
+        app:wheel_indicator="true"
+        app:wheel_indicator_color="@color/app_accent"
+        app:wheel_indicator_size="@dimen/vm_dimen_1"
+        app:wheel_item_align="center"
+        app:wheel_item_space="@dimen/vm_dimen_16"
+        app:wheel_item_text_color="@color/app_desc"
+        app:wheel_item_text_size="@dimen/vm_size_18"
+        app:wheel_selected_item_text_color="@color/app_main" />
+
+
+    <com.aigestudio.wheelpicker.WheelPicker
+        android:id="@+id/commonPickerCity"
+        android:layout_width="@dimen/vm_dimen_0"
+        android:layout_height="@dimen/vm_dimen_0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/commonPickerArea"
+        app:layout_constraintStart_toEndOf="@+id/commonPickerProvince"
+        app:layout_constraintTop_toTopOf="parent"
+        app:wheel_atmospheric="true"
+        app:wheel_curved="false"
+        app:wheel_cyclic="false"
+        app:wheel_indicator="true"
+        app:wheel_indicator_color="@color/app_accent"
+        app:wheel_indicator_size="@dimen/vm_dimen_1"
+        app:wheel_item_align="center"
+        app:wheel_item_space="@dimen/vm_dimen_16"
+        app:wheel_item_text_color="@color/app_desc"
+        app:wheel_item_text_size="@dimen/vm_size_18"
+        app:wheel_selected_item_text_color="@color/app_main" />
+
+
+    <com.aigestudio.wheelpicker.WheelPicker
+        android:id="@+id/commonPickerArea"
+        android:layout_width="@dimen/vm_dimen_0"
+        android:layout_height="@dimen/vm_dimen_0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/commonPickerCity"
+        app:layout_constraintTop_toTopOf="parent"
+        app:wheel_atmospheric="true"
+        app:wheel_curved="false"
+        app:wheel_cyclic="false"
+        app:wheel_indicator="true"
+        app:wheel_indicator_color="@color/app_accent"
+        app:wheel_indicator_size="@dimen/vm_dimen_1"
+        app:wheel_item_align="center"
+        app:wheel_item_space="@dimen/vm_dimen_16"
+        app:wheel_item_text_color="@color/app_desc"
+        app:wheel_item_text_size="@dimen/vm_size_18"
+        app:wheel_selected_item_text_color="@color/app_main" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

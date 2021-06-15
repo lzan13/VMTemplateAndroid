@@ -1,107 +1,212 @@
 <resources>
-    <string name="app_name">猿匹配</string>
+    <string name="app_name">社交模板</string>
 
-    <string name="app_text">测试文本</string>
-    <!--登录注册相关资源-->
-    <string name="sign_in">登录</string>
-    <string name="sign_in_welcome">嗨！欢迎回来</string>
-    <string name="sign_in_go">去登录</string>
-    <string name="sign_in_success">登录成功</string>
-    <string name="sign_up">注册</string>
-    <string name="sign_up_welcome">欢迎加入</string>
-    <string name="sign_up_boot">还没有账户？</string>
-    <string name="sign_up_success">注册成功</string>
-    <string name="sign_up_go">马上注册</string>
-    <string name="sign_out">退出登录</string>
-    <string name="sign_out_hint_title">确认退出登录？</string>
-    <string name="sign_out_hint_content">退出登录后将无法实时收到消息</string>
-    <string name="sign_forgot_password">忘记密码</string>
-    <string name="account">账户</string>
-    <string name="password">密码</string>
-    <string name="account_is_email">账户必须是邮箱</string>
+    <!--引导-->
+    <string name="guide_prev">上一步</string>
+    <string name="guide_next">下一步</string>
+    <string name="guide_finish">完成</string>
+    <string name="guide_title_0">冲浪时间</string>
+    <string name="guide_intro_0">闲下来，来浪吧，这里有世界各地的朋友</string>
+    <string name="guide_title_1">学习交流</string>
+    <string name="guide_intro_1">和社区内的小伙伴一起学习，一起进步</string>
+    <string name="guide_title_2">私密沟通</string>
+    <string name="guide_intro_2">文字、图片、语音、各种消息随心收发</string>
+    <string name="guide_title_3">积攒人气</string>
+    <string name="guide_intro_3">发布你的美照，让别人膜拜吧</string>
+    <string name="guide_title_4">Super Star</string>
+    <string name="guide_intro_4">在这里，你就是巨星，闪耀吧</string>
 
-    <string name="progress_wait">请稍等...</string>
+    <string name="nav_home">首页</string>
+    <string name="nav_explore">发现</string>
+    <string name="nav_msg">消息</string>
+    <string name="nav_mine">我的</string>
 
-    <!--按钮相关-->
-    <string name="btn_prev">上一步</string>
-    <string name="btn_next">下一步</string>
-    <string name="btn_cancel">取消</string>
-    <string name="btn_ok">确认</string>
-    <string name="btn_finish">完成</string>
+    <string name="search">搜索</string>
+    <string name="search_hint">输入搜索关键词</string>
+
+    <!--匹配-->
+    <string name="match_next">下一波</string>
+    <string name="match_start">开始扫描</string>
+    <string name="match_status">当前状态</string>
+    <string name="match_match_hint">说下你当前的状态吧，看看是否有人和你一样！</string>
+
+    <string name="match_random">相信缘分</string>
+    <string name="match_random_desc">缘分有很多\n我只相信这一刻</string>
+
+    <string name="match_emotion">心情雷达</string>
+    <string name="match_emotion_desc">情绪有很多\n你是什么心情呢</string>
+
+    <string name="match_secret">秘密枯井</string>
+    <string name="match_secret_desc">内心的秘密\n让它永藏井底吧</string>
+
+    <string name="match_room">解忧茶馆</string>
+    <string name="match_room_desc">来喝喝茶\n和茶友聊聊天吧</string>
+
+    <string name="match_fast">实时聊</string>
+    <string name="match_fast_desc">我在输入\n你看到了嘛😁</string>
+
+    <string name="match_wish">愿望古树</string>
+    <string name="match_wish_desc">许个愿吧\n万一实现了呢</string>
+
+    <string name="emotion_happy">开心</string>
+    <string name="emotion_normal">平淡</string>
+    <string name="emotion_sad">难过</string>
+
+    <!--二维码-->
+    <string name="qr_scan">二维码识别</string>
+    <string name="qr_scan_err">未识别到二维码</string>
+    <string name="qr_scan_camera_err">打开相机失败</string>
+    <string name="qr_mine">我的二维码</string>
+    <string name="qr_mine_tips">扫描上面二维码，加我好友</string>
+
+    <!--发布-->
+    <string name="publish_title">发布内容</string>
+    <string name="publish_success_hint">内容发布成功</string>
+    <string name="publish_content_hint">内容须在 1-800 之间，维护健康环境，需要你我同行</string>
+
+    <!--房间-->
+    <string name="room_list">房间大厅</string>
+    <string name="room_create">创建房间</string>
+    <string name="room_create_title_hint">标题，起个响亮的标题吧！2-16个字</string>
+    <string name="room_create_desc_hint">描述，介绍下房间聊什么吧！2-64个字</string>
+    <string name="room_create_welcome_hint">欢迎语，用户进入时会收到此条欢迎消息，2-64个字</string>
+
+    <string name="room_last_crash_hint">检测到你上次加入的房间意外退出，是否继续进入之前的房间？</string>
 
     <!--我的-->
-    <string name="me_info">个人信息</string>
-    <string name="me_avatar">头像</string>
-    <string name="me_username">用户名</string>
-    <string name="me_nickname">昵称</string>
-    <string name="me_nickname_default">昵称，不存在的</string>
-    <string name="me_signature">签名</string>
-    <string name="me_signature_default">无个性，不签名！</string>
-    <string name="me_gender">性别</string>
-    <string name="me_gender_unknown">神秘</string>
-    <string name="me_gender_man">帅</string>
-    <string name="me_gender_woman">美</string>
-    <string name="me_birthday">生日</string>
-    <string name="me_qr_code">二维码</string>
-    <string name="me_address">地址</string>
-    <string name="me_like">我喜欢的</string>
-    <string name="me_collect">我收藏的</string>
-
-    <string name="friend">好友</string>
-    <string name="follows">关注</string>
     <string name="fans">粉丝</string>
+    <string name="follow">关注</string>
+    <string name="like">我喜欢的</string>
 
-    <string name="match">匹配</string>
-    <string name="match_detail">匹配详情</string>
-    <string name="mine">我的</string>
-
-    <string name="private_letter">私信</string>
+    <string name="follow_status_0">已关注</string>
+    <string name="follow_status_1">回粉</string>
+    <string name="follow_status_2">互相关注</string>
 
     <!--设置-->
-    <string name="setting">设置</string>
-    <string name="notify">通知提醒</string>
-    <string name="notify_system">系统通知提醒</string>
-    <string name="notify_system_desc">前往系统设置中修改通知设置</string>
-    <string name="notify_desc">关闭后，收到新消息将不会有声音与震动提示</string>
-    <string name="notify_detail">通知显示消息详情</string>
-    <string name="notify_detail_desc">如果关闭，收到新消息后将不显示消息详情和消息摘要</string>
+    <string name="settings">设置</string>
+
+    <string name="settings_about">关于</string>
+    <string name="about_content">一个移动 APP 模板项目，可方便快速的搭建一个移动项目</string>
+    <string name="about_copyright">Copyright &#169; 2020 VMLoft.\nAll Right Reserved.</string>
+
+    <string name="settings_feedback">问题及意见反馈</string>
+    <string name="settings_feedback_hint">遇到问题或者有好的意见都可以反馈给我们</string>
+    <string name="feedback_contact">请输入联系方式~（选填）</string>
+    <string name="feedback_contact_hint">留下联系方式更容易解决问题和实现你的功能建议~</string>
+    <string name="feedback_content">请输入问题或意见内容~（必填）</string>
+    <string name="feedback_content_hint">辛苦详细描述下遇到的问题，或者你这边比较好的建议</string>
+    <string name="feedback_screenshot_hint">截图更方面我们定位问题，如果你这边能抓取到问题截图，辛苦上传给我们</string>
+    <string name="feedback_submit_hint">反馈内容已提交，感谢</string>
 
 
-    <string name="chat">聊天</string>
-    <string name="chat_settings">聊天设置</string>
-    <string name="circle_avatar">圆形头像</string>
-    <string name="circle_avatar_desc">是否显示圆形头像，默认为圆角样式</string>
-    <string name="chat_speaker_voice">扬声器播放语音</string>
-    <string name="chat_background">聊天背景</string>
+    <string name="version_check">检查更新</string>
+    <string name="version_check_toast">已经是最新版本</string>
+
+    <!--媒体相关设置-->
+    <string name="settings_media">图片资源</string>
+    <string name="media_auto">自动加载</string>
+    <string name="media_save">保存到相册</string>
+    <string name="media_save_hint">应用内拍照的图片将保存到系统相册</string>
+    <string name="media_clear">清空缓存</string>
+    <string name="media_clear_hint">缓存有利于节省流量，清空缓存可释放手机存储空间</string>
+    <string name="media_clear_toast">缓存清空完成</string>
+
+    <string name="settings_notify">通知设置</string>
+    <string name="notify_switch">通知开关</string>
+    <string name="notify_switch_msg">接收新消息通知</string>
+    <string name="notify_switch_call">接收音视频邀请通知通知</string>
+    <string name="notify_msg_detail">消息通知展示详情</string>
+    <string name="notify_msg_detail_hint">关闭后，收到新消息通知将不展示具体内容，展示为："你有新的消息，请注意查看"</string>
+    <string name="notify_sound_vibrator">声音与振动</string>
+    <string name="notify_msg_system">新消息系统通知</string>
+    <string name="notify_msg_system_hint">前往系统设置修改消息声音与震动</string>
+
+    <string name="settings_dark">深色模式</string>
+    <string name="settings_dark_system">跟随系统</string>
+    <string name="settings_dark_system_hint">开启状态下，会自动跟随系统夜间模式切换应用内主题样式</string>
+    <string name="settings_dark_manual">手动设置</string>
+    <string name="settings_dark_normal">正常模式</string>
+
+    <!--个人信息-->
+    <string name="settings_info">个人信息</string>
+    <string name="info_edit">编辑资料</string>
+    <string name="info_cover">封面图</string>
+    <string name="info_avatar">头像</string>
+    <string name="info_username">用户名</string>
+    <string name="info_username_hint">用户名必须唯一，且只能设置一次，4-16个字符，不能包含除 a-z A-Z 0-9 _ . 外的其它字符</string>
+    <string name="info_nickname">昵称</string>
+    <string name="info_nickname_default">小透明</string>
+    <string name="info_nickname_hint">4-24字符，不包含特殊字符</string>
+    <string name="info_email">邮箱</string>
+    <string name="info_email_null">未绑定</string>
+    <string name="info_phone">手机号</string>
+    <string name="info_phone_null">未绑定</string>
+    <string name="info_auth">认证</string>
+    <string name="info_auth_no">未认证</string>
+    <string name="info_auth_yes">已认证</string>
+    <string name="info_gender">性别</string>
+    <string name="info_birthday">生日</string>
+    <string name="info_signature">个性签名</string>
+    <string name="info_signature_default">无个性不签名</string>
+    <string name="info_address">地址</string>
+    <string name="info_address_default">四海为家</string>
+    <string name="info_profession">职业</string>
+    <string name="info_not_set">未设置</string>
+
+    <string name="info_gender_man">男</string>
+    <string name="info_gender_woman">女</string>
+    <string name="info_gender_unknow">保密</string>
+
+    <string name="personal_auth">个人认证</string>
+    <string name="auth_real_name">真实姓名</string>
+    <string name="auth_real_name_error">真实姓名格式错误</string>
+    <string name="auth_id_card_number">身份证号</string>
+    <string name="auth_id_card_number_error">身份证号格式校验错误，请检查</string>
+    <string name="auth_hint">个人实名认证仅用作系统验证，不会泄露给任何其他人</string>
+
+    <string name="info_perfect_hint">为了提高交流体验，请完善你的个人信息</string>
+
+    <!--注册登录-->
+    <string name="sign_welcome_to_back">嗨，欢迎回来！</string>
+    <string name="sign_welcome_to_join">你好，欢迎加入！</string>
+    <string name="sign_up">注册</string>
+    <string name="sign_in">登录</string>
+    <string name="sign_in_by_password">账户密码登录</string>
+    <string name="sign_in_by_device_id">绑定设备快速进入</string>
+    <string name="sign_out">退出登录</string>
+    <string name="sign_out_hint">退出登录将无法实时查看消息与相关内容，确认退出？</string>
+    <string name="sign_to_sign_up">去注册</string>
+    <string name="sign_forget_password">忘记密码</string>
+    <string name="sign_account">账户</string>
+    <!--    <string name="sign_account_hint">请填写用户名/手机号/邮箱</string>-->
+    <!--暂时屏蔽手机号登陆-->
+    <string name="sign_account_hint">请填写用户名/邮箱</string>
+    <string name="sign_phone_hint">请输入手机号</string>
+    <string name="sign_email_hint">请输入邮箱地址</string>
+    <string name="sign_password">密码</string>
+    <string name="sign_password_hint">请输入密码</string>
+    <string name="sign_code">获取验证码</string>
+    <string name="sign_code_again">重新获取(%d)</string>
+    <string name="sign_code_hint">请输入验证码</string>
+    <string name="sign_policy_prefix">进入表示你已阅读并同意</string>
+    <string name="sign_user_agreement">《用户协议》</string>
+    <string name="sign_privacy_policy">《隐私政策》</string>
+    <string name="sign_privacy_policy_hint">请阅读并同意《用户协议》与《隐私政策》</string>
+
+    <!--网络请求-->
+    <string name="network_failed">请求失败，请稍后重试</string>
+
+    <!--拼接资源-->
+    <string name="comment_count">条评论</string>
+    <string name="score">分</string>
+    <string name="album_count">+</string>
+    <string name="publish_time">发布</string>
+    <string name="category">分类</string>
+    <string name="tag">标签</string>
 
 
-    <string name="privacy">隐私</string>
-
-    <string name="general">通用</string>
-
-    <string name="help">帮助与反馈</string>
-    <string name="about">关于</string>
-    <string name="about_check_new">检查更新</string>
-    <string name="about_thanks">引导图：小丑的微笑灬 https://www.zcool.com.cn/work/ZMzIyMTY3NTI=.html</string>
-
-    <!--引导文案-->
-    <string name="guide_title_0">各种消息</string>
-    <string name="guide_title_1">外出时间</string>
-    <string name="guide_title_2">休息时间</string>
-    <string name="guide_intro_0">语音，文字，图片，各种消息随心收发</string>
-    <string name="guide_intro_1">外出时间保证直达，不漏过任何消息</string>
-    <string name="guide_intro_2">休息时间，嗨起来吧 ^_^</string>
-
-    <!--错误相关描述-->
-    <string name="unknown">未知错误: %1$s，可将错误码反馈给我们，感谢</string>
-    <string name="account_username_already_exist">用户名已被占用</string>
-    <string name="account_email_already_exist">邮箱已被占用</string>
-    <string name="account_phone_already_exist">手机号已被占用</string>
-    <string name="account_username_password_mismatch">用户名密码不匹配</string>
-    <string name="account_user_doesnot_exist">用户不存在</string>
-
-    <string name="err_server">服务器错误: %1$s，可将错误码反馈给我们</string>
-    <string name="err_network_unusable">网络不可用，请检查网络</string>
-    <string name="err_network_timeout">请求超时，请稍后再试</string>
-
+    <!--广告资源-->
+    <string name="ads_label">广告</string>
+    <string name="ads_empty">虚位以待</string>
 </resources>
+

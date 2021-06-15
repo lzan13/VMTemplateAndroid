@@ -1,7 +1,18 @@
 <resources>
     <!--聊天界面-->
+    <string name="im_chat_fast">要注意用词哦</string>
     <string name="im_chat_input_hint">请输入消息...</string>
-    <string name="im_chat_send_notnull">发送消息不能为空</string>
+    <string name="im_chat_input_status">对方正在输入...</string>
+    <string name="im_chat_send_notnull">消息内容不能为空</string>
+
+    <string name="im_chat_load_more_header_pulling">下拉加载更多</string>
+    <string name="im_chat_load_more_header_refreshing">正在加载...</string>
+    <string name="im_chat_load_more_header_loading">正在加载...</string>
+    <string name="im_chat_load_more_header_release">释放立即加载</string>
+    <string name="im_chat_load_more_header_finish">加载完成</string>
+    <string name="im_chat_load_more_header_failed">加载失败</string>
+    <string name="im_chat_load_more_header_secondary">释放进入二楼</string>
+    <string name="im_chat_load_more_header_update">上次加载 M-d HH:mm</string>
 
     <string name="im_cancel">取消</string>
     <string name="im_ok">确认</string>
@@ -12,7 +23,7 @@
     <string name="im_voice">语音</string>
     <string name="im_empty">- 空 -</string>
     <string name="im_unknown_msg">不支持的消息类型，升级应用查看</string>
-    <string name="im_error_recall_limit_time">你只能撤回两分钟以内的消息</string>
+    <string name="im_error_recall_limit_time">消息超过撤回时限</string>
 
     <string name="im_notify_channel_chat">聊天消息通知</string>
     <string name="im_notify_channel_call">通话通知消息</string>
@@ -24,22 +35,24 @@
     <string name="im_emoji_rain_year">新年快乐</string>
     <string name="im_emoji_rain_luck">祝你好运</string>
 
-    <string name="im_connection_error_hint">链接不到聊天服务器，请检查网络</string>
+
     <!--表情雨触发字段-->
     <string name="im_emoji_rain_happy_new_year">新年快乐</string>
     <string name="im_emoji_rain_happy_birthday">生日快乐</string>
     <string name="im_emoji_rain_good_luck">祝你好运</string>
     <string name="im_emoji_rain_me_me_da">么么哒</string>
 
+
     <!--消息操作-->
     <string name="im_msg_copy">复制</string>
+    <string name="im_msg_delete">删除</string>
+    <string name="im_msg_forward">转发</string>
+    <string name="im_msg_recall">撤回</string>
     <string name="im_msg_copy_success">已复制到剪切板</string>
     <string name="im_msg_voice_erduo">使用听筒播放</string>
     <string name="im_msg_voice_speaker">使用扬声器播放</string>
-    <string name="im_msg_forward">转发</string>
-    <string name="im_msg_remove">删除</string>
 
-    <string name="im_remove_hint_title">确定要删除？</string>
+    <string name="im_remove_hint_title">删除会话会清空聊天记录，确定要删除吗？</string>
     <string name="im_clear_hint_title">确定要清空会话？</string>
     <string name="im_hint_content">此操作不可撤销，请谨慎操作</string>
 
@@ -73,23 +86,45 @@
     <string name="im_call_voice_calling">语音通话进行中</string>
     <string name="im_calling_no_back">通话中不能返回</string>
 
-    <string name="call_busy">对方正忙</string>
-    <string name="call_cancel">已取消</string>
-    <string name="call_cancel_is_incoming">对方已取消</string>
+    <string name="im_call_status_busy">忙碌中</string>
+    <string name="im_call_status_cancel">已取消</string>
+    <string name="im_call_status_cancel_is_incoming">对方已取消</string>
+    <string name="im_call_status_reject">对方已拒绝</string>
+    <string name="im_call_status_reject_is_incoming">已拒绝</string>
+
     <string name="call_connection_fail">建立连接失败</string>
     <string name="call_not_answer">对方未接听</string>
     <string name="call_no_response">对方可能在忙，建议稍后拨打</string>
     <string name="call_offline">对方不在线</string>
     <string name="call_network_normal">网络状态良好</string>
-    <string name="call_reject">对方已拒绝</string>
-    <string name="call_reject_is_incoming">已拒绝</string>
     <string name="call_local_version_smaller">本地版本过低，无法通讯</string>
     <string name="call_opposite_version_smaller">对方版本过低，无法通讯</string>
     <string name="call_version_different">双方通讯协议不同，无法通讯</string>
 
+    <!--快速聊天-->
+    <string name="im_fast_cancel">不用了</string>
+    <string name="im_fast_confirm">去看看</string>
+    <string name="im_fast_wait">已申请和对方快速聊天，耐心等待对方回复？🤓</string>
+    <string name="im_fast_apply">对方申请和你进行快速聊天，要和TA聊聊吗？😎</string>
+    <string name="im_fast_agree">对方同意了你的申请，开始愉快的聊天吧😊</string>
+    <string name="im_fast_busy">对方正忙，重新匹配一个试试吧😫</string>
+    <string name="im_fast_reject">对方拒绝了你的申请，重新匹配一个试试吧😅</string>
+    <string name="im_fast_exit">退出将结束聊天，确定不再聊会了吗？🤔</string>
+    <string name="im_fast_end">聊天已结束，互有好感的话去对方主页打个招呼吧😁</string>
+
+    <!--聊天房-->
+    <string name="im_room_destroyed">房间已被房主销毁，请退出选择加入其它房间</string>
+    <string name="im_room_exit_hint">退出房间将无法收到房间消息，确定要退出房间吗？</string>
+    <string name="im_room_not_exist_hint">房间已销毁，请选择其他房间加入</string>
+    <string name="im_room_apply">申请上麦</string>
+    <string name="im_room_apply_hint">已申请上麦，等待房主同意</string>
+    <string name="im_room_apply_agree">同意上麦</string>
+    <string name="im_room_mic_not_null">当前麦上有人</string>
+    <string name="im_room_kicked_mic">你已被房主踢下麦，有问题请咨询房主</string>
+    <string name="im_room_kick_user_mic_hint">你确定要将用户踢下麦吗？</string>
 
     <!--其他错误 x-->
-    <string name="im_error_unknown">未知错误 %1$d</string>
+    <string name="im_error_unknown">未知错误 %1$d %2$s</string>
     <string name="im_error_general_error">一般错误，未细分的错误一般通过此 Error Code 抛出来</string>
     <string name="im_error_network_error">网络异常，请检查网络设置</string>
     <string name="im_error_disconnected">连接不到服务器</string>
@@ -122,6 +157,8 @@
     <string name="im_error_server_timeout">等待服务器响应超时</string>
     <!--303 一般连接不到服务器就会这样-->
     <string name="im_error_server_unknown">未知的 Server 异常</string>
+
+    <string name="im_connection_error_hint">链接不到聊天服务器，请检查网络</string>
 
     <!--文件错误 4xx-->
     <string name="im_error_file_download_failed">文件下载失败</string>

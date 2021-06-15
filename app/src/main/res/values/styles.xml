@@ -1,34 +1,44 @@
 <resources>
 
-    <!-- 基本应用程序的主题 -->
-    <style name="AppTheme" parent="VMTheme">
-        <item name="colorPrimary">@color/app_primary</item>
-        <item name="colorPrimaryDark">@color/app_primary_dark</item>
-        <item name="colorAccent">@color/app_accent</item>
-
-        <!-- 设置允许修改系统栏的背景色 比如导航栏 状态栏等-->
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    <!--启动主题-->
+    <style name="AppTheme.Launcher">
         <!--半透明状态栏-->
-        <item name="android:windowTranslucentStatus">true</item>
-        <!--设置导航栏半透明效果，TODO 设置导航栏半透明会导致布局下移，需注意-->
-        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <!--充满屏幕-->
+        <item name="android:windowFullscreen">false</item>
         <!--设置状态栏颜色-->
-        <item name="android:statusBarColor">@color/app_primary_dark</item>
+        <item name="android:statusBarColor">@color/app_bg</item>
+        <!--背景-->
+        <item name="android:windowBackground">@drawable/shape_launch_splash</item>
     </style>
 
-    <!--启动主题-->
-    <style name="AppTheme.Splash">
-        <item name="android:windowBackground">@drawable/splash_bg_shape</item>
+    <style name="AppSpinnerStyle">
+        <!--设置弹窗背景为 系统设置的 应用主色调 在application 的colorPrimay 中配置的颜色, actionBar toolbar 默认使用这个为背景颜色-->
+<!--        <item name="android:popupBackground">?attr/colorPrimary</item>-->
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <!--设置 spinner 显示位置往下偏移 actionBarSize 的高度, 默认显示是直接显示在 Spinner 的选中项的上方-->
+<!--        <item name="android:dropDownVerticalOffset">?attr/actionBarSize</item>-->
+        <!--设置选中之后Item 的背景变换 设置背景为 灰色背景色-->
+<!--        <item name="android:dropDownSelector">@color/app_decoration</item>-->
+        <!--设置下拉框的 list 的样式, 主要是设置 分割线, 当然也可以设置下拉的 list 的背景颜色-->
+<!--        <item name="android:dropDownListViewStyle">@style/AppSpinnerListStyle</item>-->
+        <!--设置显示在 popup 中 item(TextView) 的样式-->
+<!--        <item name="android:dropDownItemStyle">@style/AppSpinnerItemStyle</item>-->
     </style>
 
-    <!--启动主题-->
-    <style name="AppTheme.Chat">
-        <!-- 设置允许修改系统栏的背景色 比如导航栏 状态栏等-->
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <!--半透明状态栏-->
-        <item name="android:windowTranslucentStatus">true</item>
-        <!--设置导航栏半透明效果，TODO 设置导航栏半透明会导致布局下移，需注意-->
-        <item name="android:windowTranslucentNavigation">false</item>
+    <!--设置分割线-->
+    <style name="AppSpinnerListStyle" parent="@android:style/Widget.ListView.DropDown">
+        <item name="android:divider">#fff</item>
+        <item name="android:dividerHeight">1dp</item>
+    </style>
+
+    <!--设置 Item 文本样式-->
+    <style name="AppSpinnerItemStyle" parent="@android:style/Widget.TextView.SpinnerItem">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
 </resources>

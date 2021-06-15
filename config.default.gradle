@@ -1,27 +1,39 @@
 ext {
-    // 配置
+    // 默认配置
     configs = [
-        applicationId: "com.vmloft.develop.app.match",
-        minSdkVersion: 21,
-        targetSdkVersion: 28,
-        versionCode: 1,
-        versionName: "1.0.0",
+            compileSdkVersion: 29,
+            applicationId    : "com.vmloft.develop.app.template",
+            minSdkVersion    : 21,
+            targetSdkVersion : 29,
+            versionCode      : 1,
+            versionName      : "1.0.0",
 
-        // 环信 Appkey 可以用掩饰lzan13#vmmatch，也可以用自己的
-        emAppkey: "环信 Appkey ",
-        buglyAppId: "Bugly App Id",
-        // Debug 服务器环境配置，可以用下边的配置，也可以自己部署服务器
-        baseDebugUrl: "\"http://match.melove.net/api/v1/\"",
-        uploadDebugUrl: "\"http://match.melove.net/upload/\"",
-        // 线上服务器地址，这里暂时和 debug 一样
-        baseReleaseUrl: "\"http://match.melove.net/api/v1/\"",
-        uploadReleaseUrl: "\"http://match.melove.net/upload/\"",
+            admobAppId       : "Admob AppId",
+            buglyAppId       : "Bugly AppId",
+            mobAppId         : "Mob AppId",
+            mobAppSecret     : "Mob AppSecret",
+            umengAppId       : "UMeng AppId",
+
+            // 声网 AppId 替换成自己的 Appkey
+            agoraAppId       : "Agora AppId",
+
+            // 环信 Appkey 替换成自己的 Appkey
+            emAppkey         : "Appkey",
+
+            // Debug 服务器环境配置，可以用下边的配置，也可以自己部署服务器
+            baseDebugUrl   : "\"http://192.168.1.3:5920/\"",
+            // 线上服务器地址，这里暂时和 debug 一样
+            baseReleaseUrl : "\"你自己的域名地址\"",
     ]
-    // 签名配置，记得将签名文件复制到项目中
+
+    // 签名文件由 AndroidStudio 生成，然后使用 keytool 命令转换格式
+    // keytool -importkeystore -srckeystore ./vmloft.debug.jks -destkeystore ./vmloft.debug.keystore -deststoretype pkcs12
+    // 签名配置，这里是默认添加的 debug 签名，方便打包测试，发布时需生成自己的签名文件，记得将签名文件复制到项目中
     signings = [
-        keyAlias: "签名别名",
-        keyPassword: "签名密码",
-        storeFile: "签名文件路径",
-        storePassword: "签名文件密码",
+            keyAlias     : "vmloft",
+            keyPassword  : "123456",
+            storeFile    : "../vmloft.debug.keystore",
+            storePassword: "123456",
     ]
 }
+

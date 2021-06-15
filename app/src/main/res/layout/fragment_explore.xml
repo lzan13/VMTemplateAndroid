@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.vmloft.develop.app.template.ui.main.MainViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/app_bg"
+        tools:context=".ui.main.explore.ExploreFragment">
+
+        <include layout="@layout/widget_common_top_bar" />
+
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/vm_dimen_0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/commonTopLL"
+            app:srlEnableAutoLoadMore="false">
+
+            <!--展示帖子列表-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:overScrollMode="never" />
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+        <ImageView
+            android:id="@+id/postEmptyIV"
+            android:layout_width="@dimen/vm_dimen_192"
+            android:layout_height="@dimen/vm_dimen_192"
+            android:layout_margin="@dimen/vm_dimen_36"
+            android:src="@drawable/ic_empty_data"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/publishIV"
+            android:layout_width="@dimen/vm_dimen_48"
+            android:layout_height="@dimen/vm_dimen_48"
+            android:layout_margin="@dimen/vm_dimen_16"
+            android:background="@drawable/shape_circle_common_bg"
+            android:elevation="@dimen/vm_elevation_normal"
+            android:padding="@dimen/vm_dimen_12"
+            android:src="@drawable/ic_add"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:tint="@color/app_main" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

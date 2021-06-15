@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--Debug-->
+    <string name="settings_debug">调试模式</string>
+    <string name="debug_env">环境</string>
+    <string name="debug_env_debug">测试</string>
+    <string name="debug_env_release">线上</string>
+    <string name="debug_status_change_hint">切换环境需要退出重新登录，是否切换？</string>
+
+    <string name="picture_save_toast_succeed">图片保存成功</string>
+    <string name="picture_save_toast_failed">图片保存失败</string>
+
+    <string name="notify_msg_hint">你有新的消息，请注意查看</string>
+
+    <!--通用-->
+    <string name="common_loading">加载中...</string>
+    <string name="common_wait">请稍等...</string>
+    <string name="common_not_more">无更多数据</string>
+
+    <!--按钮-->
+    <string name="btn_save">保存</string>
+    <string name="btn_submit">提交</string>
+    <string name="btn_cancel">取消</string>
+    <string name="btn_confirm">确定</string>
+    <string name="btn_publish">发布</string>
+    <string name="btn_agree">同意</string>
+    <string name="btn_disagree">不同意</string>
+
+    <!--输入-->
+    <string name="input_hint">请输入...</string>
+    <string name="input_not_null">输入内容不能为空</string>
+</resources>

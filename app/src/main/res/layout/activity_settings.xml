@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg"
+    android:orientation="vertical"
+    tools:context=".ui.settings.SettingsActivity">
+
+    <include layout="@layout/widget_common_top_bar" />
+
+    <!--暗色主题设置-->
+    <com.vmloft.develop.library.tools.widget.VMLineView
+        android:id="@+id/settingsDarkLV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/app_bg_item"
+        app:vm_line_caption_color="@color/app_caption"
+        app:vm_line_right_icon="@drawable/ic_arrow_next"
+        app:vm_line_title="@string/settings_dark" />
+
+    <!--通知设置-->
+    <com.vmloft.develop.library.tools.widget.VMLineView
+        android:id="@+id/settingsNotifyLV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/vm_dimen_8"
+        android:background="@color/app_bg_item"
+        app:vm_line_caption_color="@color/app_caption"
+        app:vm_line_decoration="center"
+        app:vm_line_decoration_color="@color/app_decoration"
+        app:vm_line_right_icon="@drawable/ic_arrow_next"
+        app:vm_line_title="@string/settings_notify" />
+
+    <!--图片资源-->
+    <com.vmloft.develop.library.tools.widget.VMLineView
+        android:id="@+id/settingsPictureLV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/app_bg_item"
+        app:vm_line_caption_color="@color/app_caption"
+        app:vm_line_decoration="center"
+        app:vm_line_decoration_color="@color/app_decoration"
+        app:vm_line_right_icon="@drawable/ic_arrow_next"
+        app:vm_line_title="@string/settings_media" />
+
+    <!--关于-->
+    <com.vmloft.develop.library.tools.widget.VMLineView
+        android:id="@+id/settingsAboutLV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/app_bg_item"
+        app:vm_line_caption_color="@color/app_caption"
+        app:vm_line_right_icon="@drawable/ic_arrow_next"
+        app:vm_line_title="@string/settings_about" />
+
+    <!--退出-->
+    <com.vmloft.develop.library.tools.widget.VMLineView
+        android:id="@+id/settingsSignOutLV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/vm_dimen_8"
+        android:background="@color/app_bg_item"
+        app:vm_line_caption_color="@color/app_caption"
+        app:vm_line_title="@string/sign_out"
+        app:vm_line_title_color="@color/app_main" />
+</LinearLayout>

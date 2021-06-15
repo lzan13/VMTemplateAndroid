@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="android.text.TextUtils" />
+
+        <import type="com.vmloft.develop.library.common.utils.FormatUtils" />
+
+        <variable
+            name="data"
+            type="com.vmloft.develop.app.template.request.bean.Comment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context="com.vmloft.develop.app.template.ui.post.ItemPostDetailsCommentDelegate">
+
+        <ImageView
+            android:id="@+id/postAvatarIV"
+            android:layout_width="@dimen/vm_avatar_small"
+            android:layout_height="@dimen/vm_avatar_small"
+            android:layout_margin="@dimen/vm_dimen_16"
+            app:avatarUrl="@{data.owner.avatar}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/postGenderIV"
+            android:layout_width="@dimen/vm_dimen_12"
+            android:layout_height="@dimen/vm_dimen_12"
+            android:background="@drawable/shape_circle_common_bg"
+            android:padding="@dimen/vm_dimen_2"
+            android:src="@drawable/ic_gender_man"
+            app:layout_constraintBottom_toBottomOf="@+id/postAvatarIV"
+            app:layout_constraintEnd_toEndOf="@+id/postAvatarIV" />
+
+        <TextView
+            android:id="@+id/postNameTV"
+            style="@style/AppText.Title"
+            android:layout_marginStart="@dimen/vm_dimen_16"
+            android:layout_marginEnd="@dimen/vm_dimen_16"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{data.owner.nickname}"
+            android:textSize="@dimen/vm_size_12"
+            app:layout_constraintBottom_toTopOf="@+id/postTimeTV"
+            app:layout_constraintStart_toEndOf="@+id/postAvatarIV"
+            app:layout_constraintTop_toTopOf="@+id/postAvatarIV"
+            tools:text="名字十二个字名字十二个字" />
+
+        <!--时间-->
+        <TextView
+            android:id="@+id/postTimeTV"
+            style="@style/AppText.Tips"
+            android:layout_marginStart="@dimen/vm_dimen_8"
+            android:background="@drawable/shape_fillet_tips_bg"
+            android:paddingStart="@dimen/vm_dimen_8"
+            android:paddingTop="@dimen/vm_dimen_2"
+            android:paddingEnd="@dimen/vm_dimen_8"
+            android:paddingBottom="@dimen/vm_dimen_2"
+            android:text="@{FormatUtils.relativeTime(data.createdAt)}"
+            app:layout_constraintBottom_toBottomOf="@+id/postAvatarIV"
+            app:layout_constraintStart_toEndOf="@+id/postAvatarIV"
+            app:layout_constraintTop_toBottomOf="@+id/postNameTV"
+            tools:text="2021/05/26 12:36" />
+
+        <TextView
+            android:id="@+id/postContentTV"
+            style="@style/AppText.Body"
+            android:layout_width="@dimen/vm_dimen_0"
+            android:layout_marginStart="@dimen/vm_dimen_16"
+            android:layout_marginTop="@dimen/vm_dimen_4"
+            android:layout_marginEnd="@dimen/vm_dimen_16"
+            android:text="@{data.content}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/postAvatarIV"
+            tools:text="评论内容" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

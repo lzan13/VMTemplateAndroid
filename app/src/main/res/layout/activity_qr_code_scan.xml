@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg"
+    tools:context=".ui.qr.QRCodeScanActivity">
+
+    <cn.bingoogolapple.qrcode.zxing.ZXingView
+        android:id="@+id/qrCodeView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:qrcv_animTime="1000"
+        app:qrcv_barCodeTipText="将条码放入框内，即可自动扫描"
+        app:qrcv_barcodeRectHeight="@dimen/vm_dimen_128"
+        app:qrcv_borderColor="@color/app_decoration"
+        app:qrcv_borderSize="@dimen/vm_dimen_1"
+        app:qrcv_cornerColor="@color/app_main"
+        app:qrcv_cornerDisplayType="center"
+        app:qrcv_cornerLength="@dimen/vm_dimen_16"
+        app:qrcv_cornerSize="@dimen/vm_dimen_2"
+        app:qrcv_isAutoZoom="true"
+        app:qrcv_isBarcode="false"
+        app:qrcv_isOnlyDecodeScanBoxArea="false"
+        app:qrcv_isScanLineReverse="true"
+        app:qrcv_isShowDefaultGridScanLineDrawable="false"
+        app:qrcv_isShowDefaultScanLineDrawable="true"
+        app:qrcv_isShowLocationPoint="true"
+        app:qrcv_isShowTipBackground="true"
+        app:qrcv_isShowTipTextAsSingleLine="false"
+        app:qrcv_isTipTextBelowRect="false"
+        app:qrcv_maskColor="@color/app_bg_transparent_dark"
+        app:qrcv_qrCodeTipText="将二维码放入框内，即可自动扫描"
+        app:qrcv_rectWidth="@dimen/vm_dimen_192"
+        app:qrcv_scanLineColor="@color/app_main"
+        app:qrcv_scanLineMargin="@dimen/vm_dimen_0"
+        app:qrcv_scanLineSize="@dimen/vm_dimen_0_5"
+        app:qrcv_tipTextColor="@color/app_title_display"
+        app:qrcv_tipTextSize="@dimen/vm_size_12"
+        app:qrcv_toolbarHeight="@dimen/vm_dimen_48"
+        app:qrcv_topOffset="@dimen/vm_dimen_192"
+        app:qrcv_verticalBias="-1" />
+
+    <ImageView
+        android:id="@+id/qrMineIV"
+        android:layout_width="@dimen/vm_dimen_48"
+        android:layout_height="@dimen/vm_dimen_48"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/vm_dimen_24"
+        android:background="@drawable/shape_circle_common_bg"
+        android:backgroundTint="@color/app_bg_transparent_dark"
+        android:padding="@dimen/vm_dimen_12"
+        android:src="@drawable/ic_qrcode"
+        app:tint="@color/app_icon_light" />
+
+    <ImageView
+        android:id="@+id/qrAlbumIV"
+        android:layout_width="@dimen/vm_dimen_48"
+        android:layout_height="@dimen/vm_dimen_48"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/vm_dimen_24"
+        android:background="@drawable/shape_circle_common_bg"
+        android:backgroundTint="@color/app_bg_transparent_dark"
+        android:padding="@dimen/vm_dimen_12"
+        android:src="@drawable/ic_picture_album"
+        app:tint="@color/app_icon_light" />
+
+    <include layout="@layout/widget_common_top_bar" />
+
+</RelativeLayout>

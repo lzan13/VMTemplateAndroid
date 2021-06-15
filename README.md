@@ -1,48 +1,22 @@
-VMMatch
+VMMatchAndroid
 =======
-
-猿匹配 —— 国内首个程序猿非严肃婚恋交友应用，让我们一言不合就来场匹配吧😁
-
-
-### 介绍
-首先说下中文名：为什么叫这个名字呢，因为这是一个程序猿(媛)之间匹配交流的应用啊😁
-
-其实这是一个使用环信 IM 开发的一款开源聊天项目，涵盖了时下流行的一些聊天元素，同时已将 IM 功能封装为单独库，可以直接引用，方便使用
-
-项目还处在初期阶段，还有许多功能需要实现，有兴趣的可以一起来
+一套包含了社区匹配聊天语音以及直播相关的社交系统模板项目
 
 > 项目资源均来自于互联网，如果有侵权请联系我
 
-
-**下载体验**
-
-[本地下载 >> Release >>](https://github.com/lzan13/VMMatch/releases)
-
-[小米应用商店 审核中]()
-
-[猿匹配 Google Play](https://play.google.com/store/apps/details?id=com.vmloft.develop.app.match)
-
-
-### 项目截图
-![匹配](http://q.data.melove.net/images/match_main01.png-v512)![匹配](http://q.data.melove.net/images/match_main02.png-v512)![匹配](http://q.data.melove.net/images/match_main03.png-v512)
-![匹配](http://q.data.melove.net/images/match_chat01.png-v512)![匹配](http://q.data.melove.net/images/match_chat02.png-v512)![匹配](http://q.data.melove.net/images/match_call01.png-v512)
-![匹配](http://q.data.melove.net/images/match_call02.png-v512)![匹配](http://q.data.melove.net/images/match_call03.png-v512)![匹配](http://q.data.melove.net/images/match_call04.png-v512)
-![匹配](http://q.data.melove.net/images/match_settings01.png-v512)![匹配](http://q.data.melove.net/images/match_settings02.png-v512)
-
-
 ### 开发环境
-项目基本属于在最新的`Android`开发环境下开发，使用`Java8`的一些新特性，比如`Lambda`表达式，
-然后项目已经适配`Android6.x`以上的动态权限适配，以及`7.x`的文件选择，和`8.x`的通知提醒等；
+项目基本属于在最新的`Android`开发环境下开发，全局使用`Kotlin`语言
 
-- Mac OS 10.14.4
-- Android Studio 3.3.2
+项目已经适配`Android6.x`以上的动态权限适配，以及`7.x`的文件选择，和`8.x`的通知提醒，`10.x`的文件选择等；
+
+- Mac OS 11.1
+- Android Studio 4.2
 
 
 ### 项目模块儿
-本项目包含两部分：
-- 一部分是项目主模块`app`，这部分主要包含了项目的业务逻辑，比如匹配、信息修改、设置等
-- 另一部分是封装成`library`的`vmim`，这是为了方便大家引用到自己的项目中做的一步封装，不用再去复杂的复制代码和资源等，
-只需要将`vmim`以`module`导入到自己的项目中就行了，具体使用方式参见项目`app`模块儿；
+- `app`是项目主模块儿，这部分主要包含了项目的业务逻辑，比如匹配、内容发布，信息展示等
+- `vmcommon`是项目基础模块儿，这部分主要包含了项目的基类封装，依赖管理，包括网络请求，图片加载等工具类
+- `vmim`聊天与通话模块儿，这是为了方便大家引用到自己的项目中做的一步封装，不用再去复杂的复制代码和资源等，只需要将`vmim`以`module`导入到自己的项目中就行了，具体使用方式参见项目`app`模块儿；
 
 
 ### 功能与 TODO
@@ -50,58 +24,66 @@ VMMatch
 - [x] 链接监听
 - [x] 登录注册
 - [x] 会话功能
-  - [x] 置顶
-  - [x] 标为未读
-  - [x] 删除与清空
-  - [x] 草稿功能
-- [x] 消息功能
-  - [x] 表情雨功能
-  - [x] 下拉加载更多
-  - [x] 消息复制（仅文字类消息）
-  - [x] 消息删除
-  - [x] 文本+Emoji消息收发
-  - [x] 大表情消息收发
-  - [x] 图片消息
-    - [x] 查看大图
-    - [ ] 保存图片
-  - [x] 语音消息
-    - [x] 语音录制
-    - [x] 语音播放（可暂停，波形待优化）
-    - [x] 听筒和扬声器播放切换
-  - [x] 语音实时通话功能
-  - [x] 视频实时通话功能
-  - [x] 通话过程中的娱乐消息收发
-    - [x] 骰子
-    - [x] 石头剪刀布
-    - [x] 大表情
-  - [x] 昵称头像处理（通过回调实现）
+    - [x] 置顶
+    - [x] 标为未读
+    - [x] 删除与清空
+    - [x] 草稿功能
+- [x] 聊天功能
+    - [x]消息类型
+        - [x] 文本消息
+        - [x] 图片消息
+            - [x] 查看大图
+            - [x] 保存图片
+    - [x] 消息处理
+        - [x] 删除
+        - [x] 撤回
+        - [x] 复制（仅文本可复制）
+    - [x] 昵称头像处理（通过回调实现）
+    - [x] 头像点击（回调到 App 层）
+    - [x] 语音实时通话功能
+        - [x] 1V1音频通话
+        - [x] 静音、扬声器播放
+        - [x] 音效变声
+- [x] 解忧茶室
+    - [x] 创建房间
+    - [x] 发送消息
+        - [x] 文本消息
+        - [x] 鼓励消息
+    - [x] 上下麦处理
+    - [x] 音效变声（彩蛋功能）
+
 
 
 **App部分功能**
 - [x] 登录注册（包括业务逻辑和 IM 逻辑）
-- [x] 匹配
-    - [x] 提交匹配信息
-    - [x] 拉取匹配信息
+- [x] 首页
+    - [x] 自己的状态
+    - [x] 拉取其他人的状态信息
+    - [x] 心情匹配
+    - [x] 解忧聊天室
 - [x] 聊天（这里直接加载 IM 模块儿）
+- [x] 发现
+    - [x] 发布内容
+    - [x] 喜欢操作
+    - [x] 详情展示
+        - [x] 喜欢操作
+        - [ ] 评论获取
+        - [ ] 添加评论
 - [x] 我的
     - [x] 个人信息展示
-    - [x] 上传头像
-    - [x] 设置昵称
-    - [x] 设置签名
+    - [x] 上传头像、封面
+    - [x] 设置昵称、签名、职业、地址、生日、性别等
+    - [x] 个人发布与喜欢内容展示
 - [x] 设置
     - [x] 个人信息设置
-    - [x] 通知提醒
-    - [x] 聊天
-    - [ ] 隐私（随业务部分一起完善）
-    - [ ] 通用（随业务部分一起完善）
-    - [ ] 帮助反馈（随业务部分一起完善）
+    - [x] 深色模式适配
+    - [x] 通知设置
+    - [x] 资源加载设置
     - [x] 关于
+        - [ ] 检查更新
+        - [x] 问题反馈
+    - [x] 环境切换
     - [x] 退出
-- [ ] 社区
-    - [ ] 发布
-    - [ ] 评论
-    - [ ] 收藏
-    - [ ] 关注
 
 **发布功能**
 - [x] 多渠道打包
@@ -112,8 +94,9 @@ VMMatch
 
 ### 配置运行
 1. 首先复制`config.default.gradle`到`config.gradle`
-2. 配置下`config.gradle`环信`appkey`以及`bugly`统计Id
-3. 正式打包需要配置下签名信息，同时将签名文件放置在项目根目录
+2. 配置下`config.gradle`内相关字段
+3. 正式打包需要自己生成签名文件，然后修改下`config.gradle`的`signings`签名信息
+4. 需配合服务器端一起使用，修改上边`config.gradle`配置文件的`baseDebugUrl`和`baseReleaseUrl`
 
 
 ### 参与贡献
@@ -123,16 +106,39 @@ VMMatch
 2. 新建`feature_xxx`分支 (单独创建一个实现你自己想法的分支)
 3. 提交代码
 4. 新建`Pull Request`
-5. 等待我们的`Review & Merge`
+5. 等待`Review & Merge`
 
 
 ### 其他
-服务器端由`nodejs`实现，地址见这里 [VMServer](https://github.com/lzan13/VMServer)
+- 服务器 [github/vmtemplateserver](https://github.com/lzan13/vmtemplateserver) [gitee/vmtemplateserver](https://gitee.com/lzan13/vmtemplateserver) 服务器端项目使用`eggjs`框架实现 
+- [项目介绍](https://blog.melove.net/develop-open-source-app-and-server-template/) 项目整体介绍说明
 
-[博客介绍](https://blog.melove.net/develop-open-source-im-match-and-server/)
+**下载体验**
+这就是一个使用当前模板运营的一个项目
+- [APK 包下载](http://app.melove.net/squx)
+- [应用市场下载](https://play.google.com/store/apps/details?id=com.vmloft.develop.app.template)
+
+**项目截图**
+这里简单截取了几个界面，更多功能自己去发现吧
+<div align="center">
+    <img src="https://gitee.com/lzan13/VMPictureBed/raw/master/images/dev/matchHome.jpg" width="295px" height="640px" alt="matchHome"/>
+    <img src="https://gitee.com/lzan13/VMPictureBed/raw/master/images/dev/matchExplore.jpg" width="295px" height="640px" alt="matchExplore"/>
+    <img src="https://gitee.com/lzan13/VMPictureBed/raw/master/images/dev/matchMsg.jpg" width="295px" height="640px" alt="matchMsg"/>
+    <img src="https://gitee.com/lzan13/VMPictureBed/raw/master/images/dev/matchMine.jpg" width="295px" height="640px" alt="matchMine"/>
+    <img src="https://gitee.com/lzan13/VMPictureBed/raw/master/images/dev/matchChat.jpg" width="295px" height="640px" alt="matchChat"/>
+    <img src="https://gitee.com/lzan13/VMPictureBed/raw/master/images/dev/matchChatFast.png" width="295px" height="640px" alt="matchChatFast"/>
+    <img src="https://gitee.com/lzan13/VMPictureBed/raw/master/images/dev/matchCall.png" width="295px" height="640px" alt="matchCall"/>
+    <img src="https://gitee.com/lzan13/VMPictureBed/raw/master/images/dev/matchRoom.png" width="295px" height="640px" alt="matchAbout"/>
+    <img src="https://gitee.com/lzan13/VMPictureBed/raw/master/images/dev/matchInfo.jpg" width="295px" height="640px" alt="matchInfo"/>
+    <img src="https://gitee.com/lzan13/VMPictureBed/raw/master/images/dev/matchAbout.jpg" width="295px" height="640px" alt="matchAbout"/>
+</div>
+
 
 ### 加群交流
-群号: 901211985  
-![QQ 交流群](http://q.data.melove.net/image/dev_im_group.jpg)
+QQ群: 901211985  个人QQ: 1565176197
+<div align="center">
+    <img src="https://gitee.com/lzan13/VMPictureBed/raw/master/images/dev/imGroup.jpg" width="270px" height="370px" alt="QQ 交流群"/>
+    <img src="https://gitee.com/lzan13/VMPictureBed/raw/master/images/social/qqQR1565176197.png" width="256px" height="332px" alt="个人 QQ"/>
+</div>
 
 

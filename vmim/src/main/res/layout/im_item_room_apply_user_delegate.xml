@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+
+        <variable
+            name="data"
+            type="com.vmloft.develop.library.im.bean.IMUser" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/vm_dimen_4"
+        tools:context="com.vmloft.develop.library.im.room.ItemRoomApplyUserDelegate">
+
+        <!--头像-->
+        <ImageView
+            android:id="@+id/imApplyAvatarIV"
+            android:layout_width="@dimen/vm_dimen_32"
+            android:layout_height="@dimen/vm_dimen_32"
+            android:src="@drawable/img_default_avatar"
+            app:avatarUrl="@{data.avatar}"
+            app:layout_constraintEnd_toEndOf="@+id/imApplyNameTV"
+            app:layout_constraintStart_toStartOf="@+id/imApplyNameTV"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/imApplyNameTV"
+            style="@style/IMText.Tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/im_shape_msg_tips_bg"
+            android:paddingStart="@dimen/vm_dimen_8"
+            android:paddingTop="@dimen/vm_dimen_2"
+            android:paddingEnd="@dimen/vm_dimen_8"
+            android:paddingBottom="@dimen/vm_dimen_2"
+            android:text="@string/im_room_apply_agree"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imApplyAvatarIV" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

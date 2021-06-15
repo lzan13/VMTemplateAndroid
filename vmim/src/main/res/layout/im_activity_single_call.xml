@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".call.IMSingleCallActivity">
+
+    <!--背景-->
+    <ImageView
+        android:id="@+id/imCallCoverIV"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--定义顶部 TopBar-->
+    <include layout="@layout/widget_common_top_bar" />
+
+    <!--头像-->
+    <ImageView
+        android:id="@+id/imCallAvatarIV"
+        android:layout_width="@dimen/vm_dimen_72"
+        android:layout_height="@dimen/vm_dimen_72"
+        android:layout_margin="@dimen/vm_dimen_36"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/commonTopLL" />
+
+    <!--名字-->
+    <TextView
+        android:id="@+id/imCallNameTV"
+        style="@style/IMText.Title.Shadow"
+        android:layout_marginTop="@dimen/vm_margin_normal"
+        android:textColor="@color/vm_white"
+        android:textSize="@dimen/vm_size_16"
+        app:layout_constraintEnd_toEndOf="@+id/imCallAvatarIV"
+        app:layout_constraintStart_toStartOf="@+id/imCallAvatarIV"
+        app:layout_constraintTop_toBottomOf="@+id/imCallAvatarIV"
+        tools:text="小透明" />
+
+    <!--状态-->
+    <TextView
+        android:id="@+id/imCallStatusTV"
+        style="@style/VMText.Caption"
+        android:layout_marginBottom="@dimen/vm_margin_large"
+        android:background="@drawable/im_shape_msg_tips_bg"
+        android:paddingStart="@dimen/vm_padding_large"
+        android:paddingTop="@dimen/vm_padding_small"
+        android:paddingEnd="@dimen/vm_padding_large"
+        android:paddingBottom="@dimen/vm_padding_small"
+        android:textColor="@color/vm_white"
+        app:layout_constraintBottom_toTopOf="@+id/imCallTimeTV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="正在呼叫对方" />
+
+    <!--时间-->
+    <TextView
+        android:id="@+id/imCallTimeTV"
+        style="@style/IMText.Title.Shadow"
+        android:layout_marginBottom="@dimen/vm_dimen_36"
+        android:textColor="@color/app_title_display"
+        app:layout_constraintBottom_toTopOf="@+id/imCallEndBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="20:32" />
+
+    <!--麦克风-->
+    <ImageView
+        android:id="@+id/imCallMicBtn"
+        android:layout_width="@dimen/vm_dimen_56"
+        android:layout_height="@dimen/vm_dimen_56"
+        android:layout_margin="@dimen/vm_dimen_16"
+        android:background="@drawable/im_shape_call_icon_bg"
+        android:padding="@dimen/vm_dimen_16"
+        android:src="@drawable/ic_mic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imCallAnswerBtn"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/imCallVoiceEffectLL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/imCallMicBtn"
+        app:layout_constraintEnd_toEndOf="@+id/imCallMicBtn"
+        app:layout_constraintStart_toStartOf="@+id/imCallMicBtn"
+        tools:visibility="visible">
+
+        <ImageView
+            android:id="@+id/imCallVoiceEffectIV0"
+            android:layout_width="@dimen/vm_dimen_48"
+            android:layout_height="@dimen/vm_dimen_48"
+            android:layout_margin="@dimen/vm_dimen_4"
+            android:background="@drawable/im_shape_call_icon_effect_bg"
+            android:padding="@dimen/vm_dimen_8"
+            android:src="@drawable/im_ic_avatar_oldman" />
+
+        <ImageView
+            android:id="@+id/imCallVoiceEffectIV1"
+            android:layout_width="@dimen/vm_dimen_48"
+            android:layout_height="@dimen/vm_dimen_48"
+            android:layout_margin="@dimen/vm_dimen_4"
+            android:background="@drawable/im_shape_call_icon_effect_bg"
+            android:padding="@dimen/vm_dimen_8"
+            android:src="@drawable/im_ic_avatar_midlife" />
+
+        <ImageView
+            android:id="@+id/imCallVoiceEffectIV2"
+            android:layout_width="@dimen/vm_dimen_48"
+            android:layout_height="@dimen/vm_dimen_48"
+            android:layout_margin="@dimen/vm_dimen_4"
+            android:background="@drawable/im_shape_call_icon_effect_bg"
+            android:padding="@dimen/vm_dimen_8"
+            android:src="@drawable/im_ic_avatar_boy" />
+
+        <ImageView
+            android:id="@+id/imCallVoiceEffectIV3"
+            android:layout_width="@dimen/vm_dimen_48"
+            android:layout_height="@dimen/vm_dimen_48"
+            android:layout_margin="@dimen/vm_dimen_4"
+            android:background="@drawable/im_shape_call_icon_effect_bg"
+            android:padding="@dimen/vm_dimen_8"
+            android:src="@drawable/im_ic_avatar_girl" />
+
+        <ImageView
+            android:id="@+id/imCallVoiceEffectIV4"
+            android:layout_width="@dimen/vm_dimen_48"
+            android:layout_height="@dimen/vm_dimen_48"
+            android:layout_margin="@dimen/vm_dimen_4"
+            android:background="@drawable/im_shape_call_icon_effect_bg"
+            android:padding="@dimen/vm_dimen_8"
+            android:src="@drawable/im_ic_avatar_loli" />
+    </LinearLayout>
+    <!--接听-->
+    <ImageView
+        android:id="@+id/imCallAnswerBtn"
+        android:layout_width="@dimen/vm_dimen_56"
+        android:layout_height="@dimen/vm_dimen_56"
+        android:layout_margin="@dimen/vm_dimen_16"
+        android:background="@drawable/im_shape_call_icon_answer_bg"
+        android:padding="@dimen/vm_dimen_16"
+        android:src="@drawable/ic_call"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imCallEndBtn"
+        app:layout_constraintStart_toEndOf="@+id/imCallMicBtn"
+        tools:visibility="visible" />
+
+    <!--挂断-->
+    <ImageView
+        android:id="@+id/imCallEndBtn"
+        android:layout_width="@dimen/vm_dimen_56"
+        android:layout_height="@dimen/vm_dimen_56"
+        android:layout_margin="@dimen/vm_dimen_16"
+        android:background="@drawable/im_shape_call_icon_end_bg"
+        android:padding="@dimen/vm_dimen_16"
+        android:src="@drawable/ic_call_end"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imCallSpeakerBtn"
+        app:layout_constraintStart_toEndOf="@+id/imCallAnswerBtn" />
+
+    <!--扬声器-->
+    <ImageView
+        android:id="@+id/imCallSpeakerBtn"
+        android:layout_width="@dimen/vm_dimen_56"
+        android:layout_height="@dimen/vm_dimen_56"
+        android:layout_margin="@dimen/vm_dimen_16"
+        android:background="@drawable/im_shape_call_icon_bg"
+        android:padding="@dimen/vm_dimen_16"
+        android:src="@drawable/ic_speaker"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imCallEndBtn" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

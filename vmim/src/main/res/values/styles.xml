@@ -2,27 +2,67 @@
 <resources>
 
     <!--透明主题-->
-    <style name="IMTheme" parent="@style/VMTheme">
-        <item name="colorPrimary">@color/im_primary</item>
-        <item name="colorPrimaryDark">@color/im_primary_dark</item>
-        <item name="colorAccent">@color/im_accent</item>
-        <!-- 设置允许修改系统栏的背景色 比如导航栏 状态栏等-->
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <!--半透明状态栏-->
-        <item name="android:windowTranslucentStatus">false</item>
-        <!--设置导航栏半透明效果，TODO 设置导航栏半透明会导致布局下移，需注意-->
-        <item name="android:windowTranslucentNavigation">true</item>
-        <!--设置状态栏颜色-->
-        <item name="android:statusBarColor">@color/vm_black_12</item>
+    <style name="IMTheme" parent="AppTheme">
+
     </style>
 
     <!--聊天主题-->
-    <style name="IMTheme.Chat">
-        <!-- 设置允许修改系统栏的背景色 比如导航栏 状态栏等-->
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <!--半透明状态栏-->
-        <item name="android:windowTranslucentStatus">true</item>
-        <!--设置导航栏半透明效果，TODO 设置导航栏半透明会导致布局下移，需注意-->
-        <item name="android:windowTranslucentNavigation">false</item>
+    <style name="IMTheme.Chat"></style>
+
+    <style name="IMEdit.Message" parent="@style/VMEdit">
+        <item name="android:background">@drawable/shape_input_bg</item>
+        <item name="android:minHeight">@dimen/vm_dimen_40</item>
+        <item name="android:maxLines">3</item>
+        <item name="android:paddingStart">@dimen/vm_dimen_16</item>
+        <item name="android:paddingEnd">@dimen/vm_dimen_16</item>
+        <item name="android:paddingTop">@dimen/vm_dimen_8</item>
+        <item name="android:paddingBottom">@dimen/vm_dimen_8</item>
+        <item name="android:textColor">@color/app_input</item>
+        <item name="android:textColorHint">@color/app_input_hint</item>
+        <item name="android:textSize">@dimen/vm_size_14</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="IMText.Title" parent="AppText.Subtitle">
+        <item name="android:textSize">@dimen/vm_size_16</item>
+        <item name="android:textColor">@color/app_title</item>
+    </style>
+
+    <style name="IMText.Title.Shadow" parent="VMText.Title.Shadow">
+        <item name="android:textSize">@dimen/vm_size_16</item>
+        <item name="android:textColor">@color/app_title</item>
+    </style>
+
+    <style name="IMText.Subtitle" parent="AppText.Subtitle">
+        <item name="android:textSize">@dimen/vm_size_13</item>
+    </style>
+
+    <style name="IMText.From" parent="AppText.Tips">
+        <item name="android:textSize">@dimen/vm_size_8</item>
+        <item name="android:textColor">@color/app_title</item>
+    </style>
+
+    <style name="IMText.Msg" parent="AppText.Body">
+        <item name="android:textSize">@dimen/vm_size_13</item>
+        <item name="android:textColor">@color/app_title</item>
+    </style>
+
+    <style name="IMText.Msg.System" parent="AppText.Body">
+        <item name="android:textSize">@dimen/vm_size_12</item>
+        <item name="android:textColor">@color/app_title</item>
+    </style>
+
+    <style name="IMText.Tips" parent="AppText.Tips">
+        <item name="android:textSize">@dimen/vm_size_10</item>
+    </style>
+
+    <style name="IMText.Desc" parent="AppText.Body">
+        <item name="android:textSize">@dimen/vm_size_10</item>
+    </style>
+
+    <style name="IMText.Unread" parent="AppText.Tips">
+        <item name="android:textSize">@dimen/vm_size_10</item>
+        <item name="android:textColor">@color/app_unread</item>
+        <item name="android:background">@drawable/shape_unread_common_bg</item>
     </style>
 </resources>

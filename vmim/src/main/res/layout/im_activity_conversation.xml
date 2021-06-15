@@ -6,7 +6,7 @@
 
     <!--会话列表容器-->
     <RelativeLayout
-        android:id="@+id/im_conversation_container"
+        android:id="@+id/imConversationContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>

@@ -19,32 +19,45 @@
     <!-- 修改音频设置 -->
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <!--悬浮窗权限，最小化通话时使用-->
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <!--针对 8.0 以上的悬浮窗权限-->
     <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
+
+    <!--蓝牙权限 音视频通话需要监听蓝牙链接-->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
 
     <application>
         <!--聊天界面-->
         <activity
             android:name=".chat.IMChatActivity"
+            android:launchMode="singleTask"
             android:theme="@style/IMTheme.Chat"
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
-        <!--预览界面-->
+        <!--快速聊天界面-->
         <activity
-            android:name=".chat.IMPreviewActivity"
+            android:name=".fast.IMChatFastActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/IMTheme.Chat"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+        <!--聊天房间界面-->
+        <activity
+            android:name=".room.IMChatRoomActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/IMTheme.Chat"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+        <!--1V1通话界面-->
+        <activity
+            android:name=".call.IMSingleCallActivity"
+            android:launchMode="singleTask"
             android:theme="@style/IMTheme.Chat"
             android:windowSoftInputMode="adjustNothing|stateAlwaysHidden" />
 
-        <!--视频通话界面-->
-        <activity
-            android:name=".call.IMCallVoiceActivity"
-            android:theme="@style/IMTheme.Chat"
-            android:windowSoftInputMode="adjustNothing|stateAlwaysHidden" />
-        <!--视频通话界面-->
-        <activity
-            android:name=".call.IMCallVideoActivity"
-            android:theme="@style/IMTheme.Chat"
-            android:windowSoftInputMode="adjustNothing|stateAlwaysHidden" />
+        <!-- 设置环信应用的AppKey -->
+        <meta-data
+            android:name="EASEMOB_APPKEY"
+            android:value="${EM_APP_KEY}" />
     </application>
 </manifest>

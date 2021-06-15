@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="im_primary">@color/vm_white</color>
-    <color name="im_primary_dark">@color/vm_white</color>
-    <color name="im_accent">@color/vm_green</color>
+    <color name="im_bubble_bg">#ffffffff</color>
+    <color name="im_bubble_bg_press">#fff6f7f8</color>
 
-    <color name="im_input_text">@color/vm_black_87</color>
-    <color name="im_input_bg">@color/vm_white</color>
-    <color name="im_input_border">@color/vm_gray_black_12</color>
+    <!--通话图标背景-->
+    <color name="im_call_icon_bg">@color/vm_gray_white_12</color>
+    <color name="im_call_icon_bg_selected">@color/vm_white</color>
+    <color name="im_call_icon_effect_bg_selected">@color/vm_gray_white</color>
 
-    <color name="im_msg_send_bg">@color/vm_green_87</color>
-    <color name="im_msg_receive_bg">@color/vm_gray_white_87</color>
+    <color name="im_call_icon_answer_bg">@color/vm_green</color>
+    <color name="im_call_icon_end_bg">@color/vm_red</color>
 
-    <color name="im_conversation_bg">@color/vm_white_87</color>
-    <color name="im_conversation_top_bg">#fff8f8f8</color>
-    <color name="im_conversation_press_bg">#ffd8d8d8</color>
+
 </resources>

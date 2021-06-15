@@ -1,35 +1,35 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
+// 获取配置信息
 def configs = rootProject.ext.configs
 def signings = rootProject.ext.signings
+
 ext {
     isDebug = true
 }
 android {
-    compileSdkVersion 28
+    compileSdkVersion configs.compileSdkVersion
+
     defaultConfig {
         applicationId configs.applicationId
         minSdkVersion configs.minSdkVersion
         targetSdkVersion configs.targetSdkVersion
         versionCode configs.versionCode
         versionName configs.versionName
+
         // 简单粗暴解决多个库出现 UnsatisfiedLinkError 文件错误问题
         ndk {
+            // "x86", "armeabi-v7a", "arm64-v8a"
             abiFilters "armeabi-v7a"
         }
-
-        manifestPlaceholders = [
-            em_appkey: configs.emAppkey,
-            bugly_app_id: configs.buglyAppId,
-            bugly_app_version: configs.versionName,
-            bugly_app_channel: "Default",
-            bugly_app_debug: isDebug
-        ]
     }
 
     // 签名信息
     signingConfigs {
-        //  release 打包签名信息，因为签名文件是保密信息，放在一个配置文件中进行读取，这个文件不会再版本库里存在
+        // 签名信息，因为签名文件是保密信息，放在一个配置文件中进行读取，这个文件不会再版本库里存在
         release {
             keyAlias = signings.keyAlias
             keyPassword = signings.keyPassword
@@ -43,26 +43,22 @@ android {
         debug {
             // 添加参数表示 debug 环境，这里使用测试环境
             isDebug = true
-            buildConfigField("boolean", "isDebug", "true")
-            buildConfigField("String", "baseUrl", configs.baseDebugUrl)
-            buildConfigField("String", "uploadUrl", configs.uploadDebugUrl)
             // 是否开启压缩
             zipAlignEnabled false
             // 是否开启混淆
             minifyEnabled false
+            // Debug 打包签名信息，这里和 release 配置相同方便三方登录与分享调试
+            signingConfig signingConfigs.release
         }
         release {
             // 添加参数表示 debug 环境，这里使用测试环境
             isDebug = false
-            buildConfigField("boolean", "isDebug", "false")
-            buildConfigField("String", "baseUrl", configs.baseReleaseUrl)
-            buildConfigField("String", "uploadUrl", configs.uploadReleaseUrl)
             // 是否开启压缩
-            zipAlignEnabled true
+            zipAlignEnabled false
             // 是否开启混淆
-            minifyEnabled true
+            minifyEnabled false
             // 打包时删除无用资源 依赖于混淆，必须和 minifyEnabled 一起使用
-            shrinkResources true
+            shrinkResources false
             // 设置正式打包的签名
             signingConfig signingConfigs.release
             // 混淆文件
@@ -71,120 +67,77 @@ android {
             // 修改生成的 apk 名字，格式为:项目-版本-时间-渠道名.apk
             android.applicationVariants.all { variant ->
                 variant.outputs.all {
-//                    variant.getPackageApplicationProvider().get().outputDirectory = new File(project.rootDir.absolutePath + "/apk")
-                    outputFileName = "VMMatchV${defaultConfig.versionName}.${getTime()}." + variant.productFlavors[0].name + '.apk'
+                    outputFileName = "${rootProject.name}V${defaultConfig.versionName}.${getTime()}." + variant.productFlavors[0].name + '.apk'
                 }
             }
         }
     }
+
+    // 多渠道打包配置
+    flavorDimensions "default"
+    productFlavors {
+        Develop {
+            dimension = "default"
+            manifestPlaceholders = [
+                    APP_CHANNEL : "Develop",
+                    APP_DEBUG   : isDebug,
+                    APP_VERSION : configs.versionName,
+                    ADMOB_APP_ID: configs.admobAppId,
+                    BUGLY_APP_ID: configs.buglyAppId,
+                    UMENG_APP_ID: configs.umengAppId,
+
+                    EM_APP_KEY  : configs.emAppkey
+
+            ]
+        }
+    }
+
+    // 使用 Java 8 编译
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    // 多渠道打包配置
-    flavorDimensions "default"
-    productFlavors {
-        Baidu {
-            dimension = "default"
-            manifestPlaceholders = [
-                em_appkey: configs.emAppkey,
-                bugly_app_id: configs.buglyAppId,
-                bugly_app_version: configs.versionName,
-                bugly_app_channel: "BaiDu",
-                bugly_app_debug: isDebug
-            ]
-        }
-        QiHu360 {
-            dimension = "default"
-            manifestPlaceholders = [
-                em_appkey: configs.emAppkey,
-                bugly_app_id: configs.buglyAppId,
-                bugly_app_version: configs.versionName,
-                bugly_app_channel: "QiHu360",
-                bugly_app_debug: isDebug
-            ]
-        }
-        GooglePlay {
-            dimension = "default"
-            manifestPlaceholders = [
-                em_appkey: configs.emAppkey,
-                bugly_app_id: configs.buglyAppId,
-                bugly_app_version: configs.versionName,
-                bugly_app_channel: "GooglePlay",
-                bugly_app_debug: isDebug
-            ]
-        }
-        XiaoMi {
-            dimension = "default"
-            manifestPlaceholders = [
-                em_appkey: configs.emAppkey,
-                bugly_app_id: configs.buglyAppId,
-                bugly_app_version: configs.versionName,
-                bugly_app_channel: "XiaoMi",
-                bugly_app_debug: isDebug
-            ]
-        }
-        WanDouJia {
-            dimension = "default"
-            manifestPlaceholders = [
-                em_appkey: configs.emAppkey,
-                bugly_app_id: configs.buglyAppId,
-                bugly_app_version: configs.versionName,
-                bugly_app_channel: "WanDouJia",
-                bugly_app_debug: isDebug
-            ]
+    // 开启数据绑定
+//    dataBinding {
+//        enabled true
+//    }
+    buildFeatures {
+        dataBinding {
+            enabled true
         }
     }
-    // 多渠道打包简介写法
-    // productFlavors.all { flavor -> flavor.manifestPlaceholders = [bugly_app_channel: name]}
+    // 编译忽略错误配置
+    lintOptions {
+        abortOnError false
+    }
+    // kotlin 配置
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
+    // 阿里巴巴 ARouter Kotlin 下的配置
+    kapt {
+        arguments {
+            // 阿里巴巴 ARouter Kotlin 下的配置
+            arg("AROUTER_MODULE_NAME", project.getName())
+            // Room 配置
+            arg("room.schemaLocation", "$projectDir/schemas".toString())
+        }
+    }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    // 引入 design 库，同时剔除其它库的引用，防止引用多个版本
-    implementation('com.android.support:appcompat-v7:28.0.0') {
-        exclude group: 'com.android.support', module: 'design'
-    }
-    // 引用新的布局方式库
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 
-    // 腾讯 Bug 统计库 https://bugly.qq.com/v2/downloads
-    implementation 'com.tencent.bugly:crashreport:3.1.0'
-    //    implementation 'com.tencent.bugly:nativecrashreport:3.7.1'
+    kapt "androidx.room:room-compiler:2.3.0"
 
-    // json 数据解析库
-    implementation 'com.google.code.gson:gson:2.8.5'
+    kapt 'com.alibaba:arouter-compiler:1.2.2'
 
-    // 网络加载库 Retrofit https://github.com/square/retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
-
-    // RxAndroid https://github.com/ReactiveX/RxAndroid
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    // RxJava https://github.com/ReactiveX/RxJava
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.8'
-
-    // Glide 图片加载库 https://github.com/bumptech/glide
-    implementation('com.github.bumptech.glide:glide:4.9.0') {
-        exclude group: "com.android.support"
-    }
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
-
-    // ButterKnife 库 https://github.com/JakeWharton/butterknife
-    implementation 'com.jakewharton:butterknife:8.8.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-
-    // 一个比较强大的图片浏览控件 https://github.com/chrisbanes/PhotoView
-    implementation 'com.github.chrisbanes:PhotoView:2.0.0'
-
-    // 引用自己封装的工具库 vmim 已经引用，这里不在引用，如想单独使用可以按照下边的方式引入
-    //    implementation 'com.vmloft.library:vmtools:0.6.8'
-    implementation project(':vmim')
+    // 引入统一管理库
+    api project(':vmcommon')
+    api project(':vmim')
 }
 
 // 获取当前系统时间
 def getTime() {
-    return new Date().format("yyyyMMdd", TimeZone.getTimeZone("UTC"))
+    return new Date().format("yyyyMMddHHmm", TimeZone.getTimeZone("UTC"))
 }

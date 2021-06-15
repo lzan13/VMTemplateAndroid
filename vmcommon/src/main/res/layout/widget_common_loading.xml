@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="android.text.TextUtils" />
+
+        <variable
+            name="isLoading"
+            type="boolean" />
+
+        <variable
+            name="message"
+            type="String" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="@{isLoading ? View.VISIBLE : View.GONE}"
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/shape_card_common_bg"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/vm_dimen_16">
+
+            <com.vmloft.develop.library.tools.widget.loading.VMLoadingView
+                android:id="@+id/commonLoadingView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/vm_dimen_8"
+                app:vm_loading_color="@color/app_accent"
+                app:vm_loading_type="DoubleCircle" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{message}"
+                android:textColor="@color/app_loading"
+                android:textSize="@dimen/vm_size_12"
+                android:visibility="@{TextUtils.isEmpty(message) ? View.GONE : View.VISIBLE}"
+                tools:text="@string/common_loading" />
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

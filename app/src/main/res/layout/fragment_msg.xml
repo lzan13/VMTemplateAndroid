@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg"
+    tools:context=".ui.main.msg.MsgFragment">
+
+    <include layout="@layout/widget_common_top_bar" />
+
+    <!--会话列表容器-->
+    <LinearLayout
+        android:id="@+id/conversation_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/commonTopLL"
+        android:orientation="vertical" />
+</RelativeLayout>

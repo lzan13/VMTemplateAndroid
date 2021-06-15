@@ -1,214 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".chat.IMChatFragment"
-    >
-    <com.vmloft.develop.library.im.utils.IMKeyboardLayout
-        android:id="@+id/im_chat_keyboard_layout"
+    tools:context=".chat.IMChatFragment">
+
+    <!--    <com.vmloft.develop.library.common.widget.VMKeyboardLayout-->
+    <!--        android:id="@+id/imChatKeyboardLayout"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent" />-->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/imChatInputCL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
+        android:animateLayoutChanges="true"
+        android:padding="@dimen/vm_dimen_8"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-    <RelativeLayout
-        android:id="@+id/im_chat_bottom_rl"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        >
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/vm_dimen_0_5"
-            android:background="@color/vm_decoration_gray"
-            />
-
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/im_chat_bottom_input_cl"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/vm_margin_normal"
-            android:layout_marginStart="@dimen/vm_margin_normal"
-            android:layout_marginTop="@dimen/vm_margin_normal"
-            android:animateLayoutChanges="true"
-            android:background="@drawable/im_msg_input_shape"
-            >
-            <!--发送按钮-->
-            <ImageButton
-                android:id="@+id/im_chat_input_send_btn"
-                android:layout_width="@dimen/vm_dimen_40"
-                android:layout_height="@dimen/vm_dimen_40"
-                android:background="@drawable/im_send_selector"
-                android:src="@drawable/im_ic_send"
-                android:tint="@color/vm_white"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                />
-            <!--表情按钮-->
-            <ImageView
-                android:id="@+id/im_chat_input_emotion_btn"
-                android:layout_width="@dimen/vm_dimen_40"
-                android:layout_height="@dimen/vm_dimen_40"
-                android:background="@drawable/vm_click_full_fillet_transparent"
-                android:padding="@dimen/vm_padding_small"
-                android:src="@drawable/im_ic_emotion_selector"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/im_chat_input_send_btn"
-                />
-            <!--输入框-->
-            <EditText
-                android:id="@+id/im_chat_input_et"
-                android:layout_width="@dimen/vm_dimen_0"
-                android:layout_height="wrap_content"
-                android:background="@color/vm_transparent"
-                android:hint="@string/im_chat_input_hint"
-                android:maxLines="3"
-                android:paddingBottom="@dimen/vm_padding_normal"
-                android:paddingEnd="@dimen/vm_padding_normal"
-                android:paddingStart="@dimen/vm_padding_large"
-                android:paddingTop="@dimen/vm_padding_normal"
-                android:textSize="@dimen/vm_size_14"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/im_chat_input_emotion_btn"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
-        </android.support.constraint.ConstraintLayout>
-
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/im_chat_bottom_btn_cl"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/im_chat_bottom_input_cl"
-            android:padding="@dimen/vm_padding_small"
-            >
-            <!--图片-->
-            <ImageButton
-                android:id="@+id/im_chat_bottom_picture_btn"
-                android:layout_width="@dimen/vm_dimen_40"
-                android:layout_height="@dimen/vm_dimen_40"
-                android:layout_marginStart="@dimen/vm_margin_large"
-                android:background="@drawable/vm_click_full_fillet_transparent"
-                android:src="@drawable/im_ic_album"
-                app:layout_constraintEnd_toStartOf="@+id/im_chat_bottom_camera_btn"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
-            <!--相机-->
-            <ImageButton
-                android:id="@+id/im_chat_bottom_camera_btn"
-                android:layout_width="@dimen/vm_dimen_40"
-                android:layout_height="@dimen/vm_dimen_40"
-                android:background="@drawable/vm_click_full_fillet_transparent"
-                android:src="@drawable/im_ic_camera"
-                android:visibility="gone"
-                app:layout_constraintEnd_toStartOf="@+id/im_chat_bottom_call_btn"
-                app:layout_constraintStart_toEndOf="@+id/im_chat_bottom_picture_btn"
-                app:layout_constraintTop_toTopOf="parent"
-                />
-            <!--通话-->
-            <ImageButton
-                android:id="@+id/im_chat_bottom_call_btn"
-                android:layout_width="@dimen/vm_dimen_40"
-                android:layout_height="@dimen/vm_dimen_40"
-                android:background="@drawable/vm_click_full_fillet_transparent"
-                android:src="@drawable/im_ic_call"
-                app:layout_constraintEnd_toStartOf="@+id/im_chat_bottom_record_btn"
-                app:layout_constraintStart_toEndOf="@+id/im_chat_bottom_camera_btn"
-                app:layout_constraintTop_toTopOf="parent"
-                />
-            <!--语音-->
-            <ImageButton
-                android:id="@+id/im_chat_bottom_record_btn"
-                android:layout_width="@dimen/vm_dimen_40"
-                android:layout_height="@dimen/vm_dimen_40"
-                android:background="@drawable/vm_click_full_fillet_transparent"
-                android:src="@drawable/im_ic_mic_selector"
-                app:layout_constraintEnd_toStartOf="@+id/im_chat_bottom_more_btn"
-                app:layout_constraintStart_toEndOf="@+id/im_chat_bottom_call_btn"
-                app:layout_constraintTop_toTopOf="parent"
-                />
-            <!--更多-->
-            <ImageButton
-                android:id="@+id/im_chat_bottom_more_btn"
-                android:layout_width="@dimen/vm_dimen_40"
-                android:layout_height="@dimen/vm_dimen_40"
-                android:layout_marginEnd="@dimen/vm_margin_large"
-                android:background="@drawable/vm_click_full_fillet_transparent"
-                android:src="@drawable/im_ic_add"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/im_chat_bottom_record_btn"
-                app:layout_constraintTop_toTopOf="parent"
-                />
-        </android.support.constraint.ConstraintLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/vm_dimen_0_5"
-            android:layout_alignBottom="@+id/im_chat_bottom_btn_cl"
-            android:background="@color/vm_decoration_gray"
-            />
-        <!--扩展部分-->
-        <RelativeLayout
-            android:id="@+id/im_chat_bottom_ext_rl"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/vm_dimen_256"
-            android:layout_below="@+id/im_chat_bottom_btn_cl"
+        <!--语音-->
+        <ImageView
+            android:id="@+id/imChatRecordBtn"
+            android:layout_width="@dimen/vm_dimen_40"
+            android:layout_height="@dimen/vm_dimen_40"
+            android:layout_marginEnd="@dimen/vm_dimen_8"
+            android:background="@drawable/im_shape_circle_icon_bg"
+            android:padding="@dimen/vm_dimen_8"
+            android:src="@drawable/ic_fire"
             android:visibility="gone"
-            >
-            <!--表情容器-->
-            <RelativeLayout
-                android:id="@+id/im_chat_ext_emotion_rl"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
-            <!--录音容器-->
-            <RelativeLayout
-                android:id="@+id/im_chat_ext_record_rl"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
-                <com.vmloft.develop.library.tools.widget.record.VMRecordView
-                    android:id="@+id/im_chat_ext_record_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    />
-            </RelativeLayout>
-            <!--更多容器-->
-            <RelativeLayout
-                android:id="@+id/im_chat_ext_more_rl"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
-        </RelativeLayout>
-    </RelativeLayout>
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/im_chat_swipe"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imChatPictureBtn"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!--图片-->
+        <ImageView
+            android:id="@+id/imChatPictureBtn"
+            android:layout_width="@dimen/vm_dimen_40"
+            android:layout_height="@dimen/vm_dimen_40"
+            android:layout_marginEnd="@dimen/vm_dimen_8"
+            android:background="@drawable/im_shape_circle_icon_bg"
+            android:padding="@dimen/vm_dimen_10"
+            android:src="@drawable/ic_picture_album"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imChatCallBtn"
+            app:layout_constraintStart_toEndOf="@+id/imChatRecordBtn" />
+
+        <!--通话-->
+        <ImageView
+            android:id="@+id/imChatCallBtn"
+            android:layout_width="@dimen/vm_dimen_40"
+            android:layout_height="@dimen/vm_dimen_40"
+            android:layout_marginEnd="@dimen/vm_dimen_8"
+            android:background="@drawable/im_shape_circle_icon_bg"
+            android:padding="@dimen/vm_dimen_10"
+            android:src="@drawable/ic_call"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imChatMessageET"
+            app:layout_constraintStart_toEndOf="@+id/imChatPictureBtn"
+            app:tint="@color/app_icon" />
+
+        <!--输入框-->
+        <EditText
+            android:id="@+id/imChatMessageET"
+            style="@style/IMEdit.Message"
+            android:layout_width="@dimen/vm_dimen_0"
+            android:layout_height="wrap_content"
+            android:hint="@string/im_chat_input_hint"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imChatSendBtn"
+            app:layout_constraintStart_toEndOf="@+id/imChatCallBtn"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!--发送按钮-->
+        <ImageView
+            android:id="@+id/imChatSendBtn"
+            android:layout_width="@dimen/vm_dimen_40"
+            android:layout_height="@dimen/vm_dimen_40"
+            android:layout_marginStart="@dimen/vm_dimen_8"
+            android:background="@drawable/im_shape_circle_icon_bg"
+            android:padding="@dimen/vm_dimen_10"
+            android:src="@drawable/ic_send"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imChatMessageET"
+            tools:visibility="visible" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/imChatRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/im_chat_bottom_rl"
-        android:layout_alignParentTop="true"
-        >
+        android:layout_height="@dimen/vm_dimen_0"
+        app:layout_constraintBottom_toTopOf="@+id/imChatInputCL"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srlEnableLoadMore="false">
 
         <!--展示消息列表-->
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/im_chat_recycler_view"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/imChatRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:overScrollMode="never"
-            />
-    </android.support.v4.widget.SwipeRefreshLayout>
-
-    <com.vmloft.develop.library.tools.widget.VMEmojiRainView
-        android:id="@+id/im_chat_emoji_rain_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:vm_emoji_count="36"
-        />
-</RelativeLayout>
+            android:overScrollMode="never" />
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

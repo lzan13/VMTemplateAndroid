@@ -4,19 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/vm_theme_background"
+    android:background="@color/app_bg"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context=".chat.IMChatActivity"
-    >
+    tools:context=".chat.IMChatActivity">
 
     <!--定义顶部 TopBar-->
-    <include layout="@layout/im_widget_common_top_bar" />
+    <include layout="@layout/widget_common_top_bar" />
 
     <!--聊天界面容器-->
     <RelativeLayout
-        android:id="@+id/im_chat_container"
+        android:id="@+id/imChatContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="match_parent" />
 </LinearLayout>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape
+            android:dither="true"
+            android:shape="rectangle">
+            <corners android:radius="@dimen/vm_dimen_36" />
+            <!--填充背景色-->
+            <solid android:color="@color/app_bg" />
+        </shape>
+    </item>
+    <item
+        android:bottom="@dimen/vm_dimen_1"
+        android:left="@dimen/vm_dimen_1"
+        android:right="@dimen/vm_dimen_1"
+        android:top="@dimen/vm_dimen_1">
+        <shape
+            android:dither="true"
+            android:shape="rectangle">
+            <corners android:radius="@dimen/vm_dimen_36" />
+            <!--填充背景色-->
+            <solid android:color="@color/app_unread_bg" />
+        </shape>
+    </item>
+</layer-list>

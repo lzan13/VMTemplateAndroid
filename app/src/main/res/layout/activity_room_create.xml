@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.vmloft.develop.app.template.ui.room.RoomViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/app_bg"
+        android:orientation="vertical"
+        tools:context="com.vmloft.develop.app.template.ui.room.RoomCreateActivity">
+
+        <include layout="@layout/widget_common_top_bar" />
+
+        <!--标题输入框-->
+        <EditText
+            android:id="@+id/roomTitleET"
+            style="@style/AppEdit.Single"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/vm_dimen_16"
+            android:layout_marginTop="@dimen/vm_dimen_16"
+            android:layout_marginEnd="@dimen/vm_dimen_16"
+            android:hint="@string/input_hint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/commonTopLL" />
+
+        <TextView
+            android:id="@+id/roomTitleCountTV"
+            style="@style/AppText.Tips"
+            android:layout_width="@dimen/vm_dimen_0"
+            android:layout_height="wrap_content"
+            android:background="@drawable/im_shape_msg_tips_bg"
+            android:paddingStart="@dimen/vm_dimen_8"
+            android:paddingTop="@dimen/vm_dimen_4"
+            android:paddingEnd="@dimen/vm_dimen_8"
+            android:paddingBottom="@dimen/vm_dimen_4"
+            android:text="0"
+            app:layout_constraintBottom_toBottomOf="@+id/roomTitleET"
+            app:layout_constraintEnd_toEndOf="@+id/roomTitleET" />
+
+        <TextView
+            style="@style/AppText.Tips"
+            android:layout_width="@dimen/vm_dimen_0"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/vm_dimen_4"
+            android:text="@string/room_create_title_hint"
+            app:layout_constraintEnd_toEndOf="@+id/roomTitleET"
+            app:layout_constraintStart_toStartOf="@+id/roomTitleET"
+            app:layout_constraintTop_toBottomOf="@+id/roomTitleET" />
+
+        <!--描述输入框-->
+        <EditText
+            android:id="@+id/roomDescET"
+            style="@style/AppEdit.MultiLine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/vm_dimen_16"
+            android:layout_marginTop="@dimen/vm_dimen_32"
+            android:layout_marginEnd="@dimen/vm_dimen_16"
+            android:hint="@string/input_hint"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="@+id/roomTitleET"
+            app:layout_constraintStart_toStartOf="@+id/roomTitleET"
+            app:layout_constraintTop_toBottomOf="@+id/roomTitleET"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/roomDescCountTV"
+            style="@style/AppText.Tips"
+            android:layout_width="@dimen/vm_dimen_0"
+            android:layout_height="wrap_content"
+            android:background="@drawable/im_shape_msg_tips_bg"
+            android:paddingStart="@dimen/vm_dimen_8"
+            android:paddingTop="@dimen/vm_dimen_4"
+            android:paddingEnd="@dimen/vm_dimen_8"
+            android:paddingBottom="@dimen/vm_dimen_4"
+            android:text="0"
+            app:layout_constraintBottom_toBottomOf="@+id/roomDescET"
+            app:layout_constraintEnd_toEndOf="@+id/roomDescET" />
+
+        <TextView
+            style="@style/AppText.Tips"
+            android:layout_width="@dimen/vm_dimen_0"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/vm_dimen_4"
+            android:text="@string/room_create_desc_hint"
+            app:layout_constraintEnd_toEndOf="@+id/roomDescET"
+            app:layout_constraintStart_toStartOf="@+id/roomDescET"
+            app:layout_constraintTop_toBottomOf="@+id/roomDescET" />
+
+        <!--欢迎语输入框-->
+        <!--        <EditText-->
+        <!--            android:id="@+id/roomWelcomeET"-->
+        <!--            style="@style/AppEdit.MultiLine"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginStart="@dimen/vm_dimen_16"-->
+        <!--            android:layout_marginTop="@dimen/vm_dimen_32"-->
+        <!--            android:layout_marginEnd="@dimen/vm_dimen_16"-->
+        <!--            android:hint="@string/input_hint"-->
+        <!--            android:visibility="visible"-->
+        <!--            app:layout_constraintEnd_toEndOf="@+id/roomDescET"-->
+        <!--            app:layout_constraintStart_toStartOf="@+id/roomDescET"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/roomDescET"-->
+        <!--            tools:visibility="visible" />-->
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/roomWelcomeCountTV"-->
+        <!--            style="@style/AppText.Tips"-->
+        <!--            android:layout_width="@dimen/vm_dimen_0"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:background="@drawable/im_shape_msg_time_bg"-->
+        <!--            android:paddingStart="@dimen/vm_dimen_8"-->
+        <!--            android:paddingTop="@dimen/vm_dimen_4"-->
+        <!--            android:paddingEnd="@dimen/vm_dimen_8"-->
+        <!--            android:paddingBottom="@dimen/vm_dimen_4"-->
+        <!--            app:layout_constraintBottom_toBottomOf="@+id/roomWelcomeET"-->
+        <!--            app:layout_constraintEnd_toEndOf="@+id/roomWelcomeET"-->
+        <!--            tools:text="5" />-->
+
+        <!--        <TextView-->
+        <!--            style="@style/AppText.Tips"-->
+        <!--            android:layout_width="@dimen/vm_dimen_0"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="@dimen/vm_dimen_4"-->
+        <!--            android:text="@string/im_chat_room_create_welcome_hint"-->
+        <!--            app:layout_constraintEnd_toEndOf="@+id/roomWelcomeET"-->
+        <!--            app:layout_constraintStart_toStartOf="@+id/roomWelcomeET"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/roomWelcomeET" />-->
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

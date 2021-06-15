@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/vm_dimen_32"
+    android:background="@drawable/vm_shape_common_card_white">
+
+    <TextView
+        android:id="@+id/dialogTitleTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/vm_dimen_24"
+        android:gravity="center"
+        android:paddingStart="@dimen/vm_dimen_24"
+        android:paddingEnd="@dimen/vm_dimen_24"
+        android:text="@string/match_status"
+        android:textColor="@color/vm_title"
+        android:textSize="@dimen/vm_size_18"
+        android:textStyle="bold"
+        android:visibility="visible"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+    <EditText
+        android:id="@+id/dialogContentET"
+        style="@style/AppEdit.MultiLine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/vm_dimen_16"
+        android:hint="@string/match_match_hint"
+        android:padding="@dimen/vm_dimen_8"
+        android:textColor="@color/vm_title"
+        android:textSize="@dimen/vm_size_14"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/dialogTitleTV"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/dialogNegativeTV"
+        style="@style/VMBtn.Flat.Fillet.Border.Accent"
+        android:layout_width="@dimen/vm_dimen_0"
+        android:layout_height="@dimen/vm_dimen_40"
+        android:layout_marginStart="@dimen/vm_dimen_24"
+        android:layout_marginEnd="@dimen/vm_dimen_8"
+        android:text="@string/vm_btn_cancel"
+        app:layout_constraintBottom_toBottomOf="@+id/dialogPositiveTV"
+        app:layout_constraintEnd_toStartOf="@+id/dialogPositiveTV"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/dialogPositiveTV" />
+
+    <TextView
+        android:id="@+id/dialogPositiveTV"
+        style="@style/VMBtn.Flat.Fillet.Accent"
+        android:layout_width="@dimen/vm_dimen_0"
+        android:layout_height="@dimen/vm_dimen_40"
+        android:layout_marginStart="@dimen/vm_dimen_8"
+        android:layout_marginTop="@dimen/vm_dimen_24"
+        android:layout_marginEnd="@dimen/vm_dimen_24"
+        android:layout_marginBottom="@dimen/vm_dimen_24"
+        android:text="@string/vm_btn_confirm"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/dialogNegativeTV"
+        app:layout_constraintTop_toBottomOf="@+id/dialogContentET"
+        app:layout_goneMarginStart="@dimen/vm_dimen_24" />
+</androidx.constraintlayout.widget.ConstraintLayout>

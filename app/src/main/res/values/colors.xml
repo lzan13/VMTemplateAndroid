@@ -1,29 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="app_primary">#ffffff</color>
-    <color name="app_primary_dark">#ffffff</color>
-    <color name="app_accent">@color/vm_green</color>
+    <!--首页匹配颜色-->
+    <color name="app_home_card_random_start">#e6e66d48</color>
+    <color name="app_home_card_random_end">#e6ff8965</color>
+    <color name="app_home_card_emotion_start">#e6fc997f</color>
+    <color name="app_home_card_emotion_end">#e6fd86a8</color>
+    <color name="app_home_card_chat_start">#e6fab37b</color>
+    <color name="app_home_card_chat_end">#e6fca487</color>
+    <color name="app_home_card_fast_start">#e6d54b4b</color>
+    <color name="app_home_card_fast_end">#e6da6161</color>
+    <color name="app_home_card_secret_start">#e6b37fe8</color>
+    <color name="app_home_card_secret_end">#e67d77e0</color>
+    <color name="app_home_card_wish_start">#e66db7c7</color>
+    <color name="app_home_card_wish_end">#e66092e8</color>
 
-    <color name="app_bg">#f8f8f8</color>
-    <color name="app_bg_dark">@color/vm_gray_black</color>
-    <color name="app_card_bg">@color/vm_white</color>
-    <color name="app_border_white">@color/vm_white</color>
-    <color name="app_status_bar">@color/app_primary</color>
-
-    <color name="app_tab">#ff757575</color>
-    <color name="app_tab_select">@color/app_accent</color>
-
-    <color name="app_title">@color/vm_title</color>
-    <color name="app_subtitle">@color/vm_white_54</color>
-    <color name="app_title_light">@color/vm_white_87</color>
-    <color name="app_subtitle_light">@color/vm_black_54</color>
-    <color name="app_text_shadow">@color/vm_black_38</color>
-
-    <color name="app_input_border">@color/vm_gray_black_12</color>
-
-    <color name="app_guide_bg_0">@color/vm_green_38</color>
-    <color name="app_guide_bg_1">@color/vm_light_green_38</color>
-    <color name="app_guide_bg_2">@color/vm_teal_38</color>
+    <color name="app_home_card_name">@color/vm_white</color>
+    <color name="app_home_card_desc">@color/vm_white_87</color>
 
 </resources>

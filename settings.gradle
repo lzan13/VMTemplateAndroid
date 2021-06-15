@@ -1,1 +1,3 @@
-include ':app', ':vmim'
+include ':app'
+include ':vmcommon'
+include ':vmim'

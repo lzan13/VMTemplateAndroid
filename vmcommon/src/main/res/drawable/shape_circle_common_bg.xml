@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:dither="true"
+    android:shape="oval">
+    <!--填充背景色-->
+    <solid android:color="@color/app_common_shape" />
+</shape>

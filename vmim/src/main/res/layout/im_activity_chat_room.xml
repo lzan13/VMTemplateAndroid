@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".room.IMChatRoomActivity">
+
+    <!--定义顶部 TopBar-->
+    <include layout="@layout/widget_common_top_bar" />
+
+    <!--房间信息容器-->
+    <RelativeLayout
+        android:id="@+id/imRoomContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/commonTopLL" />
+
+    <!--聊天界面容器-->
+    <RelativeLayout
+        android:id="@+id/imChatContainer"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/vm_dimen_0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imRoomContainer" />
+</androidx.constraintlayout.widget.ConstraintLayout>

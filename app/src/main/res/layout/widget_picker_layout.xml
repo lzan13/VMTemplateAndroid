@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/pickerMaskLL"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg_mask"
+    android:elevation="@dimen/vm_elevation_high"
+    android:gravity="bottom"
+    android:orientation="vertical"
+    android:visibility="gone"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:visibility="visible">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_rectangle_top_radius_bg">
+
+        <TextView
+            android:id="@+id/pickerTitleTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/vm_dimen_16"
+            android:paddingStart="@dimen/vm_dimen_16"
+            android:text="@string/info_birthday"
+            android:textColor="@color/app_title"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/pickerConfirmTV"
+            style="@style/AppBtn.Confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/vm_dimen_16"
+            android:text="@string/btn_confirm"
+            app:layout_constraintBottom_toBottomOf="@+id/pickerTitleTV"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/pickerTitleTV" />
+
+        <com.aigestudio.wheelpicker.widgets.WheelDatePicker
+            android:id="@+id/pickerBirthdayView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/vm_dimen_256"
+            android:padding="@dimen/vm_dimen_16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pickerTitleTV" />
+
+        <com.aigestudio.wheelpicker.WheelPicker
+            android:id="@+id/pickerGenderView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/vm_dimen_256"
+            android:padding="@dimen/vm_dimen_16"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pickerTitleTV"
+            app:wheel_atmospheric="true"
+            app:wheel_curved="false"
+            app:wheel_cyclic="false"
+            app:wheel_indicator="true"
+            app:wheel_indicator_color="@color/app_accent"
+            app:wheel_indicator_size="@dimen/vm_dimen_1"
+            app:wheel_item_align="center"
+            app:wheel_item_space="@dimen/vm_dimen_16"
+            app:wheel_item_text_color="@color/app_desc"
+            app:wheel_item_text_size="@dimen/vm_size_18"
+            app:wheel_selected_item_text_color="@color/app_main" />
+
+        <com.vmloft.develop.library.common.widget.CAreaPicker
+            android:id="@+id/pickerAreaView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/vm_dimen_256"
+            android:padding="@dimen/vm_dimen_16"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pickerTitleTV" />
+
+        <com.aigestudio.wheelpicker.WheelPicker
+            android:id="@+id/pickerProfessionView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/vm_dimen_256"
+            android:padding="@dimen/vm_dimen_16"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pickerTitleTV"
+            app:wheel_atmospheric="true"
+            app:wheel_curved="false"
+            app:wheel_cyclic="false"
+            app:wheel_indicator="true"
+            app:wheel_indicator_color="@color/app_accent"
+            app:wheel_indicator_size="@dimen/vm_dimen_1"
+            app:wheel_item_align="center"
+            app:wheel_item_space="@dimen/vm_dimen_16"
+            app:wheel_item_text_color="@color/app_desc"
+            app:wheel_item_text_size="@dimen/vm_size_18"
+            app:wheel_selected_item_text_color="@color/app_main" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

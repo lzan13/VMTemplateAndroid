@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--暗色主题资源-->
+    <color name="app_primary">#ff222222</color>
+    <color name="app_primary_dark">#ff222222</color>
+    <!--强调色-->
+    <color name="app_accent">#e6e63f3f</color>
+    <!--主色-->
+    <color name="app_main">#e6e63f3f</color>
+    <color name="app_main_87">#dde63f3f</color>
+    <color name="app_main_54">#89e63f3f</color>
+    <color name="app_main_38">#61e63f3f</color>
+    <color name="app_main_12">#1ee63f3f</color>
+
+    <!--背景色-->
+    <color name="app_bg">#ff000000</color>
+    <color name="app_bg_nav">#ff000000</color>
+    <color name="app_bg_display">#ff000000</color>
+    <color name="app_bg_input">#ff2a2a2a</color>
+    <color name="app_bg_icon">@color/vm_gray_white_54</color>
+    <color name="app_bg_item">@color/vm_gray_black_12</color>
+    <color name="app_bg_mask">@color/vm_black_38</color>
+    <color name="app_bg_tag">@color/vm_gray_white_12</color>
+    <color name="app_bg_transparent_dark">@color/vm_black_12</color>
+    <color name="app_bg_transparent_light">@color/vm_white_12</color>
+    <color name="app_bg_time">@color/vm_black_12</color>
+
+
+    <!--tab 颜色-->
+    <color name="app_tab">@color/vm_gray_white_54</color>
+    <color name="app_tab_selected">@color/app_main</color>
+
+
+    <!--未读颜色-->
+    <color name="app_unread">@color/vm_white_54</color>
+    <color name="app_unread_bg">#e62c2c</color>
+
+
+    <!--按钮颜色-->
+    <color name="app_btn_unable">@color/vm_gray_white_54</color>
+    <color name="app_btn_enable">@color/app_main</color>
+
+    <!--图标颜色-->
+    <color name="app_icon">@color/vm_gray_black_87</color>
+    <color name="app_icon_light">@color/vm_white_87</color>
+    <color name="app_icon_man">#72BAF4</color>
+    <color name="app_icon_woman">#FD6388</color>
+
+
+    <color name="app_error">#fffc2c2c</color>
+
+    
+    <!--导航颜色-->
+    <color name="app_nav">@color/vm_gray_black_87</color>
+    <color name="app_nav_checked">@color/app_main</color>
+
+
+    <!--输入框文本颜色-->
+    <color name="app_input">@color/vm_gray_white_87</color>
+    <color name="app_input_hint">@color/vm_gray_white_54</color>
+
+
+    <!--文本颜色-->
+    <color name="app_body">@color/vm_gray_white_87</color>
+    <color name="app_caption">@color/vm_gray_87</color>
+    <color name="app_desc">@color/vm_gray_54</color>
+    <color name="app_more">@color/vm_gray_87</color>
+    <color name="app_link">@color/vm_blue_87</color>
+    <color name="app_tips">@color/vm_gray_54</color>
+    <color name="app_title">@color/vm_gray_white_87</color>
+    <color name="app_subtitle">@color/vm_gray_white_54</color>
+    <color name="app_title_display">@color/vm_gray_white_87</color>
+
+
+    <!--阴影-->
+    <color name="app_shade_start">@color/vm_transparent</color>
+    <color name="app_shade_end">@color/vm_translucent</color>
+
+
+    <!--指示器-->
+    <color name="app_indicator_normal">@color/vm_gray_white_87</color>
+    <color name="app_indicator_select">@color/app_main</color>
+
+
+    <!--通用 shape 颜色-->
+    <color name="app_common_shape">#ff2a2a2a</color>
+    <color name="app_common_shape_press">#ff000000</color>
+    <color name="app_common_border">#ff898989</color>
+
+
+    <!--分割线-->
+    <color name="app_decoration">@color/vm_gray_white_12</color>
+
+    <!--加载文本-->
+    <color name="app_loading">@color/vm_gray_54</color>
+</resources>

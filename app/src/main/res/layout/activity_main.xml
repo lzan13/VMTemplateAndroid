@@ -1,38 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.main.MainActivity"
-    >
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/vm_dimen_0_5"
-        android:background="@color/vm_decoration_gray"
-        app:layout_constraintTop_toTopOf="@+id/main_tab_layout"
-        />
-    <android.support.design.widget.TabLayout
-        android:id="@+id/main_tab_layout"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/main_tab_height"
-        android:background="@color/app_card_bg"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:tabIndicatorHeight="@dimen/common_0"
-        />
+    <data>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/main_view_pager"
+        <variable
+            name="viewModel"
+            type="com.vmloft.develop.app.template.ui.main.MainViewModel" />
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/common_0"
-        android:background="@color/app_bg"
-        android:overScrollMode="never"
-        app:layout_constraintBottom_toTopOf="@+id/main_tab_layout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-</android.support.constraint.ConstraintLayout>
+        android:layout_height="match_parent"
+        tools:context=".ui.main.MainActivity">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/mainNav"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bottom_nav_height"
+            android:layout_alignParentBottom="true"
+            android:background="@color/app_bg_nav"
+            app:itemBackground="@color/app_bg_nav"
+            app:itemHorizontalTranslationEnabled="false"
+            app:itemIconTint="@color/selector_bottom_nav"
+            app:itemTextAppearanceActive="@style/AppText.BNV.Active"
+            app:itemTextAppearanceInactive="@style/AppText.BNV.Inactive"
+            app:itemTextColor="@color/selector_bottom_nav"
+            app:labelVisibilityMode="unlabeled"
+            app:menu="@menu/main_nav_menu" />
+
+        <FrameLayout
+            android:id="@+id/mainContainerFL"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/mainNav" />
+    </RelativeLayout>
+</layout>

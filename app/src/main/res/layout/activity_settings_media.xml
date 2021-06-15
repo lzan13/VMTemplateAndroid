@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg"
+    android:orientation="vertical"
+    tools:context=".ui.settings.MediaSettingsActivity">
+
+    <include layout="@layout/widget_common_top_bar" />
+
+    <!--自动加载-->
+    <com.vmloft.develop.library.tools.widget.VMLineView
+        android:id="@+id/pictureAutoLoadLV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/app_bg_item"
+        app:vm_line_caption_color="@color/app_caption"
+        app:vm_line_decoration="center"
+        app:vm_line_decoration_color="@color/app_decoration"
+        app:vm_line_right_icon="@drawable/ic_switch_selector"
+        app:vm_line_title="@string/media_auto" />
+
+    <!--保存到相册-->
+    <com.vmloft.develop.library.tools.widget.VMLineView
+        android:id="@+id/pictureSaveDICMLV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/app_bg_item"
+        app:vm_line_caption_color="@color/app_caption"
+        app:vm_line_decoration="center"
+        app:vm_line_decoration_color="@color/app_decoration"
+        app:vm_line_description="@string/media_save_hint"
+        app:vm_line_right_icon="@drawable/ic_switch_selector"
+        app:vm_line_title="@string/media_save" />
+
+    <!--清空缓存-->
+    <com.vmloft.develop.library.tools.widget.VMLineView
+        android:id="@+id/pictureClearCacheLV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/app_bg_item"
+        app:vm_line_caption_color="@color/app_caption"
+        app:vm_line_description="@string/media_clear_hint"
+        app:vm_line_right_icon="@drawable/ic_arrow_next"
+        app:vm_line_title="@string/media_clear" />
+</LinearLayout>
