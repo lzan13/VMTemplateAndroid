@@ -134,11 +134,16 @@ VMMatchAndroid
 </div>
 
 
-### 加群交流
+### 交流
 QQ群: 901211985  个人QQ: 1565176197
 <div align="center">
-    <img src="https://gitee.com/lzan13/VMPictureBed/raw/master/images/dev/imGroup.jpg" width="270px" height="370px" alt="QQ 交流群"/>
-    <img src="https://gitee.com/lzan13/VMPictureBed/raw/master/images/social/qqQR1565176197.png" width="256px" height="332px" alt="个人 QQ"/>
+    <img src="https://gitee.com/lzan13/VMPictureBed/raw/master/images/dev/imGroup.jpg" width="256px" height="316.5px" alt="QQ 交流群"/>
+    <img src="https://gitee.com/lzan13/VMPictureBed/raw/master/images/social/qqQR1565176197.jpg" width="256px" height="316.5px" alt="个人 QQ"/>
 </div>
 
-
+### 支持赞助
+如果你觉得当前项目帮你节省了开发时间，想要支持赞助我的话👍，可以扫描下方的二维码打赏请我吃个鸡腿🍗，你的支持将鼓励我继续创作👨‍💻‍，感谢☺️ [赞助列表](./sponsor.md)
+<div align="center">
+    <img src="https://gitee.com/lzan13/VMPictureBed/raw/master/images/social/payQRAli.jpg" width="256px" height="316.5px" alt="支付宝捐赠"/>
+    <img src="https://gitee.com/lzan13/VMPictureBed/raw/master/images/social/payQRWeChat.jpg" width="256px" height="316.5px" alt="微信捐赠"/>
+</div>
