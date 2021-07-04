@@ -127,7 +127,7 @@ VMMatchAndroid
 **下载体验**
 这就是一个使用当前模板运营的一个项目
 - [APK 包下载](http://app.melove.net/squx)
-- [应用市场下载](https://play.google.com/store/apps/details?id=com.vmloft.develop.app.template)
+- [应用市场下载](https://play.google.com/store/apps/details?id=com.vmloft.develop.app.match)
 
 ### 项目截图
 这里简单截取了几个界面，更多功能自己去发现吧
