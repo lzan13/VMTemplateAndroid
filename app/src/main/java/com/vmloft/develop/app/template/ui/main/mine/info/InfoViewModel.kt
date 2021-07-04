@@ -134,6 +134,22 @@ class InfoViewModel(private val repository: InfoRepository, private val commonRe
     }
 
     /**
+     * 绑定邮箱
+     */
+    fun bindEmail(email: String, code: String) {
+        viewModelScope.launch(Dispatchers.Main) {
+            emitUIState(true)
+            val result = repository.bindEmail(email, code)
+            if (result is RResult.Success) {
+                emitUIState(isSuccess = true, data = result.data, type = "bindEmail")
+                return@launch
+            } else if (result is RResult.Error) {
+                emitUIState(code = result.code, error = result.error)
+            }
+        }
+    }
+
+    /**
      * 更新密码
      */
     fun updatePassword(password: String, oldPassword: String) {
@@ -199,6 +215,38 @@ class InfoViewModel(private val repository: InfoRepository, private val commonRe
             val result = repository.clock()
             if (result is RResult.Success) {
                 emitUIState(isSuccess = true, data = result.data, type = "clock")
+                return@launch
+            } else if (result is RResult.Error) {
+                emitUIState(code = result.code, error = result.error)
+            }
+        }
+    }
+
+    /**
+     * 请求验证码
+     */
+    fun sendCodeEmail(email: String) {
+        viewModelScope.launch(Dispatchers.Main) {
+            emitUIState(true)
+            val result = repository.sendCodeEmail(email)
+            if (result is RResult.Success) {
+                emitUIState(isSuccess = true, data = result.data, type = "sendCodeEmail")
+                return@launch
+            } else if (result is RResult.Error) {
+                emitUIState(code = result.code, error = result.error)
+            }
+        }
+    }
+
+    /**
+     * 检查版本
+     */
+    fun checkVersion(server: Boolean) {
+        viewModelScope.launch(Dispatchers.Main) {
+            emitUIState(true)
+            val result = commonRepository.checkVersion(server)
+            if (result is RResult.Success) {
+                emitUIState(isSuccess = true, data = result.data, type = "checkVersion")
                 return@launch
             } else if (result is RResult.Error) {
                 emitUIState(code = result.code, error = result.error)

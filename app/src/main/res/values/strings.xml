@@ -100,6 +100,8 @@
 
 
     <string name="version_check">检查更新</string>
+    <string name="version_skip">暂不升级</string>
+    <string name="version_upgrade">马上升级</string>
     <string name="version_check_toast">已经是最新版本</string>
 
     <!--媒体相关设置-->
@@ -138,6 +140,8 @@
     <string name="info_nickname_default">小透明</string>
     <string name="info_nickname_hint">4-24字符，不包含特殊字符</string>
     <string name="info_email">邮箱</string>
+    <string name="info_bind_email">绑定邮箱</string>
+    <string name="info_bind_email_tips">绑定邮箱需要进行验证，请输入正确邮箱，如果你已经绑定邮箱，之前的邮箱将失效</string>
     <string name="info_email_null">未绑定</string>
     <string name="info_phone">手机号</string>
     <string name="info_phone_null">未绑定</string>

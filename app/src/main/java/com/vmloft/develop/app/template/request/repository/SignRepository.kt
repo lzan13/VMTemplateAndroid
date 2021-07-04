@@ -63,6 +63,16 @@ class SignRepository : BaseRepository() {
         executeResponse(APIRequest.signAPI.signInByCode(phone, code))
 
     /**
+     * 使用 devicesId 登录
+     */
+    suspend fun signInByDevicesId(devicesId: String, password: String): RResult<User> {
+        return safeRequest(call = { requestSignInByDevicesId(devicesId, password) })
+    }
+
+    private suspend fun requestSignInByDevicesId(devicesId: String, password: String): RResult<User> =
+        executeResponse(APIRequest.signAPI.signInByDevicesId(devicesId, password))
+
+    /**
      * 退出登录
      */
     suspend fun signOut(): RResult<Any> {
@@ -71,6 +81,16 @@ class SignRepository : BaseRepository() {
 
     private suspend fun requestSignOut(): RResult<Any> =
         executeResponse(APIRequest.signAPI.signOut())
+
+    /**
+     * 请求验证码
+     */
+    suspend fun sendCodeEmail(email: String): RResult<Any> {
+        return safeRequest(call = { requestSendCodeEmail(email) })
+    }
+
+    private suspend fun requestSendCodeEmail(email: String): RResult<Any> =
+        executeResponse(APIRequest.signAPI.sendCodeEmail(email))
 
 
 }

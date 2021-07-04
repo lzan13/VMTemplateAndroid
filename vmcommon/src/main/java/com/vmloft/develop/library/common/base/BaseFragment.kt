@@ -20,6 +20,8 @@ import kotlinx.android.synthetic.main.widget_common_top_bar.*
 abstract class BaseFragment : Fragment() {
     protected var mDialog: CommonDialog? = null
     protected var isLoaded: Boolean = false
+    // 是否居中显示标题
+    open var centerTitle: Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(layoutId(), container, false)
@@ -61,7 +63,7 @@ abstract class BaseFragment : Fragment() {
         // 设置状态栏透明主题时，布局整体会上移，所以给头部 View 设置 StatusBar 的高度
         commonTopSpace?.layoutParams?.height = VMDimen.statusBarHeight
 
-        commonTopBar?.setCenter(true)
+        commonTopBar?.setCenter(centerTitle)
         commonTopBar?.setTitleStyle(R.style.AppText_Title)
     }
 

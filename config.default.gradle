@@ -14,13 +14,14 @@ ext {
             mobAppSecret     : "Mob AppSecret",
             umengAppId       : "UMeng AppId",
 
-            // 声网 AppId 替换成自己的 Appkey
+            // 声网 AppId 替换成自己的 AppId，这里需要写入 BuildConfig 只会写入双引号内部字段，所以需要多包一层""
             agoraAppId       : "Agora AppId",
 
             // 环信 Appkey 替换成自己的 Appkey
             emAppkey         : "Appkey",
 
-            // Debug 服务器环境配置，可以用下边的配置，也可以自己部署服务器
+            // 这里需要写入 BuildConfig 只会写入双引号内部字段，所以需要多包一层""
+            // 调试服务器环境配置
             baseDebugUrl   : "\"http://192.168.1.3:5920/\"",
             // 线上服务器地址，这里暂时和 debug 一样
             baseReleaseUrl : "\"你自己的域名地址\"",

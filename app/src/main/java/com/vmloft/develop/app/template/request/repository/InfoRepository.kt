@@ -55,6 +55,16 @@ class InfoRepository : BaseRepository() {
         executeResponse(APIRequest.userInfoAPI.updateCover(part))
 
     /**
+     * 绑定邮箱
+     */
+    suspend fun bindEmail(email: String, code: String): RResult<User> {
+        return safeRequest(call = { requestBindEmail(email, code) })
+    }
+
+    private suspend fun requestBindEmail(email: String, code: String): RResult<User> =
+        executeResponse(APIRequest.userInfoAPI.bindEmail(email, code))
+
+    /**
      * 更新密码
      */
     suspend fun updatePassword(password: String, oldPassword: String): RResult<Any> {
@@ -113,4 +123,16 @@ class InfoRepository : BaseRepository() {
 
     private suspend fun requestClock(): RResult<Any> =
         executeResponse(APIRequest.userInfoAPI.clock())
+
+    /**
+     * 请求验证码
+     */
+    suspend fun sendCodeEmail(email: String): RResult<Any> {
+        return safeRequest(call = { requestSendCodeEmail(email) })
+    }
+
+    private suspend fun requestSendCodeEmail(email: String): RResult<Any> =
+        executeResponse(APIRequest.signAPI.sendCodeEmail(email))
+
+
 }

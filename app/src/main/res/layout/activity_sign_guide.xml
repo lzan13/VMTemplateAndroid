@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/app_bg"
-        tools:context=".ui.sign.SignUpActivity">
+        tools:context=".ui.sign.SignActivity">
 
         <include layout="@layout/widget_common_top_bar" />
 

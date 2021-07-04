@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.activity_settings_notify.*
 @Route(path = AppRouter.appSettingsNotify)
 class NotifySettingsActivity : BaseActivity() {
     // 缓存地址
-    private val cachePath = "${VMFile.cacheFromSDCard}${CConstants.cacheImageDir}"
+    private val cachePath = "${VMFile.cachePath}${CConstants.cacheImageDir}"
 
 
     override fun layoutId(): Int = R.layout.activity_settings_notify

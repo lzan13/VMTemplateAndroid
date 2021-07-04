@@ -5,7 +5,7 @@
 
 | Name                   | Money   |
 |------------------------|---------|
-| [devilsafe](devilsafe) | 200     |
+| [devilsafe][devilsafe] | 200     |
 |  |      |
 
 [devilsafe]: https://github.com/devilsafe/

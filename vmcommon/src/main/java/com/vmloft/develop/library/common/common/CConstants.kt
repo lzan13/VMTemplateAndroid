@@ -26,13 +26,6 @@ object CConstants {
 
 
     /**
-     * 获取声网 AppId
-     */
-    fun agoraAppId(): String {
-        return BuildConfig.agoraAppId
-    }
-
-    /**
      * 获取接口 host 地址，根据 debug 状态返回不同地址
      */
     fun baseHost(): String {

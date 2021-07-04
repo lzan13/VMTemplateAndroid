@@ -74,7 +74,7 @@ class PersonalInfoActivity : BVMActivity<InfoViewModel>() {
         infoNicknameLV.setOnClickListener { AppRouter.goEditNickname(mUser.nickname) }
         infoSignatureLV.setOnClickListener { AppRouter.goEditSignature(mUser.signature) }
         infoPhoneLV.setOnClickListener { }
-        infoEmailLV.setOnClickListener { }
+        infoEmailLV.setOnClickListener { CRouter.go(AppRouter.appBindEmail) }
         infoAuthStatusLV.setOnClickListener { checkPersonalAuth() }
 
         LDEventBus.observe(this, Constants.userInfoEvent, User::class.java, { user ->

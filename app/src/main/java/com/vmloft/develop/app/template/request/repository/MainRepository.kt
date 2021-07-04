@@ -1,9 +1,13 @@
 package com.vmloft.develop.app.template.request.repository
 
+import com.vmloft.develop.app.template.common.SPManager
 import com.vmloft.develop.app.template.request.api.APIRequest
 import com.vmloft.develop.library.common.request.BaseRepository
 import com.vmloft.develop.library.common.request.RResult
 import com.vmloft.develop.app.template.request.bean.User
+import com.vmloft.develop.app.template.request.bean.Version
+import com.vmloft.develop.library.common.common.CConstants
+import com.vmloft.develop.library.common.request.RPaging
 
 
 /**

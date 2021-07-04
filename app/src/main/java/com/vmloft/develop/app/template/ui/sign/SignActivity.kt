@@ -42,7 +42,7 @@ class SignActivity : BVMActivity<SignViewModel>() {
         signUserAgreementTV.setOnClickListener { CRouter.goWeb(Constants.privatePolicyUrl) }
         signByDevicesIdBtn.setOnClickListener {
             if (signPrivacyPolicyCB.isChecked) {
-                mViewModel.signIn(devicesId, "123456")
+                mViewModel.signInByDevicesId(devicesId, "123456")
             } else {
                 errorBar(R.string.sign_privacy_policy_hint)
             }
@@ -55,7 +55,7 @@ class SignActivity : BVMActivity<SignViewModel>() {
     }
 
     override fun onModelRefresh(model: BViewModel.UIModel) {
-        if (model.type == "signIn" || model.type == "signUpByDevicesId") {
+        if (model.type == "signInByDevicesId" || model.type == "signUpByDevicesId") {
             // 这里直接调用下 IM 的登录，不影响页面的继续
             mViewModel.signInIM()
 
@@ -65,7 +65,7 @@ class SignActivity : BVMActivity<SignViewModel>() {
     }
 
     override fun onModelError(model: BViewModel.UIModel) {
-        if (model.code == 404) {
+        if (model.type == "signInByDevicesId" && model.code == 404) {
             // 账户不存在，去注册一下
             mViewModel.signUpByDevicesId(devicesId, "123456")
         } else {

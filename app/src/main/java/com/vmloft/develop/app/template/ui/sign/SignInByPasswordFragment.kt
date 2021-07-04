@@ -30,8 +30,8 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  */
 class SignInByPasswordFragment : BVMFragment<SignViewModel>() {
 
-    private lateinit var mAccount: String
-    private lateinit var mPassword: String
+    private var mAccount: String = ""
+    private var mPassword: String = ""
 
     override fun initVM(): SignViewModel = getViewModel()
 
@@ -76,7 +76,7 @@ class SignInByPasswordFragment : BVMFragment<SignViewModel>() {
         signSubmitBtn.setOnClickListener {
             if (signPrivacyPolicyCB.isChecked) {
                 mViewModel.signIn(mAccount, mPassword)
-            }else{
+            } else {
                 errorBar(R.string.sign_privacy_policy_hint)
             }
         }

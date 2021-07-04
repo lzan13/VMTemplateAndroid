@@ -9,7 +9,6 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.hyphenate.chat.EMMessage
 
 import com.vmloft.develop.library.common.base.BaseActivity
-import com.vmloft.develop.library.common.common.CConstants
 import com.vmloft.develop.library.common.event.LDEventBus
 import com.vmloft.develop.library.common.image.IMGLoader
 import com.vmloft.develop.library.common.utils.showBar
@@ -171,7 +170,7 @@ class IMSingleCallActivity : BaseActivity() {
      */
     private fun initRtcEngine() {
         try {
-            rtcEngine = RtcEngine.create(IM.instance.imContext, CConstants.agoraAppId(), object : IRtcEngineEventHandler() {})
+            rtcEngine = RtcEngine.create(IM.instance.imContext, IMConstants.agoraAppId(), object : IRtcEngineEventHandler() {})
             // 这里设置成通话场景
             rtcEngine.setChannelProfile(Constants.CHANNEL_PROFILE_COMMUNICATION)
             // 设置采样率和音频通话场景

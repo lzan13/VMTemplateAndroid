@@ -40,8 +40,10 @@ class SPManager {
      * 记录时间
      */
     private val timeEntry = "time"
-    private val categoryTimeKey = "categoryTimeKey"
-    private val professionTimeKey = "categoryTimeKey"
+    private val categoryTimeKey = "categoryTimeKey" // 上次获取分类时间
+    private val professionTimeKey = "categoryTimeKey" // 上次获取职业时间
+    private val checkVersionTimeKey = "checkVersionTimeKey" // 上次版本检查时间
+
 
     companion object {
         val instance: SPManager by lazy {
@@ -224,4 +226,18 @@ class SPManager {
         putAsync(timeEntry, professionTimeKey, time)
     }
 
+
+    /**
+     * 获取最近一次版本检查时间
+     */
+    fun getCheckVersionTime(): Long {
+        return get(timeEntry, checkVersionTimeKey, 0L) as Long
+    }
+
+    /**
+     * 设置最近一次职业获取缓存时间
+     */
+    fun setCheckVersionTime(time: Long) {
+        putAsync(timeEntry, checkVersionTimeKey, time)
+    }
 }

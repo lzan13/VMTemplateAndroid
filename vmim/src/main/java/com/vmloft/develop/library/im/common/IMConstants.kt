@@ -1,11 +1,20 @@
 package com.vmloft.develop.library.im.common
 
+import com.vmloft.develop.library.im.BuildConfig
+
 /**
  * Create by lzan13 on 2019/5/21 15:32
  *
  * IM 常量类
  */
 object IMConstants {
+
+    /**
+     * 获取声网 AppId
+     */
+    fun agoraAppId(): String {
+        return BuildConfig.agoraAppId
+    }
 
     /**
      * 链接状态

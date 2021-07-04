@@ -21,26 +21,26 @@ interface CommonAPI {
      * 上传单附件
      */
     @Multipart
-    @POST("/api/attachment")
+    @POST("/v1/attachment")
     suspend fun upload(@Part file: MultipartBody.Part): RResponse<Attachment>
 
     /**
      * 通过网络地址上传附件
      */
     @FormUrlEncoded
-    @POST("/api/attachment/url")
+    @POST("/v1/attachment/url")
     suspend fun uploadByUrl(@Field("url") url: String): RResponse<Attachment>
 
     /**
      * 多附件上传
      */
-    @POST("/api/attachments")
+    @POST("/v1/attachments")
     suspend fun uploadMultipart(@Body body: MultipartBody): RResponse<List<Attachment>>
 
     /**
      * 删除附件
      */
-    @POST("/api/attachment/{id}")
+    @POST("/v1/attachment/{id}")
     suspend fun deletePicture(@Path("id") id: String): RResponse<Any>
 
     /**
@@ -49,7 +49,7 @@ interface CommonAPI {
     /**
      * 获取分类列表
      */
-    @GET("/api/info/category")
+    @GET("/v1/info/category")
     suspend fun getCategoryList(
         @Query("page") page: Int = CConstants.defaultPage,
         @Query("limit") limit: Int = CConstants.defaultLimit,
@@ -58,11 +58,21 @@ interface CommonAPI {
     /**
      * 获取职业列表
      */
-    @GET("/api/info/profession")
+    @GET("/v1/info/profession")
     suspend fun getProfessionList(
         @Query("page") page: Int = CConstants.defaultPage,
         @Query("limit") limit: Int = CConstants.defaultLimit,
     ): RResponse<RPaging<Profession>>
+
+    /**
+     * ------------------------------------ 获取配置相关  ------------------------------------
+     */
+    /**
+     * 提交反馈
+     */
+    @POST("/v1/checkVersion")
+    suspend fun checkVersion(@Query("platform") platform: String): RResponse<Config>
+
 
     /**
      * ------------------------------------ 反馈接口  ------------------------------------
@@ -71,12 +81,11 @@ interface CommonAPI {
      * 提交反馈
      */
     @FormUrlEncoded
-    @POST("/api/feedback")
+    @POST("/v1/feedback")
     suspend fun feedback(
         @Field("contact") contact: String,
         @Field("content") content: String,
         @Field("attachment") attachment: String,
     ): RResponse<Any>
-
 
 }

@@ -23,6 +23,9 @@ abstract class BaseActivity : AppCompatActivity() {
 
     protected lateinit var mActivity: Activity
 
+    // 是否居中显示标题
+    open var centerTitle: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -65,7 +68,7 @@ abstract class BaseActivity : AppCompatActivity() {
             commonTopSpace?.layoutParams?.height = VMDimen.statusBarHeight
         }
 
-        commonTopBar?.setCenter(true)
+        commonTopBar?.setCenter(centerTitle)
         commonTopBar?.setTitleStyle(R.style.AppText_Title)
         commonTopBar?.setIcon(R.drawable.ic_arrow_back)
         commonTopBar?.setIconListener { onBackPressed() }

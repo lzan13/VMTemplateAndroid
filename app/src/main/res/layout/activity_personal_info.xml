@@ -123,7 +123,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/app_bg_item"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:vm_line_caption_color="@color/app_caption"
                     app:vm_line_decoration="center"
                     app:vm_line_decoration_color="@color/app_decoration"

@@ -19,7 +19,7 @@ interface MatchAPI {
      * 提交匹配数据
      */
     @FormUrlEncoded
-    @POST("/api/match")
+    @POST("/v1/match")
     suspend fun submitMatch(
         @Field("content") content: String,
         @Field("emotion") emotion: Int,
@@ -29,13 +29,13 @@ interface MatchAPI {
     /**
      * 删除一条匹配数据
      */
-    @DELETE("/api/match/{id}")
+    @DELETE("/v1/match/{id}")
     suspend fun removeMatch(@Path("id") id: String): RResponse<Any>
 
     /**
      * 获取匹配列表
      */
-    @GET("/api/match")
+    @GET("/v1/match")
     suspend fun getMatchList(
         @Query("page") page: Int,
         @Query("limit") limit: Int,
@@ -44,7 +44,7 @@ interface MatchAPI {
     /**
      * 随机获取一条匹配数据
      */
-    @GET("/api/match/one")
+    @GET("/v1/match/one")
     suspend fun getMatchOne(@Query("type") type: Int): RResponse<Match>
 
 }

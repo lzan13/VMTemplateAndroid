@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.vmloft.develop.app.template.ui.main.mine.info.InfoViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/app_bg"
+        android:orientation="vertical"
+        tools:context=".ui.main.mine.info.EditNicknameActivity">
+
+        <include layout="@layout/widget_common_top_bar" />
+
+        <!--输入邮箱-->
+        <EditText
+            android:id="@+id/bindEmailET"
+            style="@style/AppEdit.Single"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/vm_dimen_16"
+            android:layout_marginTop="@dimen/vm_dimen_16"
+            android:layout_marginEnd="@dimen/vm_dimen_16"
+            android:hint="@string/input_hint"
+            app:layout_constraintTop_toBottomOf="@+id/commonTopLL" />
+        <!--邮箱说明-->
+        <TextView
+            android:id="@+id/bindEmailDescTV"
+            style="@style/AppText.Tips"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/vm_dimen_16"
+            android:layout_marginTop="@dimen/vm_dimen_8"
+            android:layout_marginEnd="@dimen/vm_dimen_16"
+            android:paddingStart="@dimen/vm_dimen_16"
+            android:paddingEnd="@dimen/vm_dimen_16"
+            android:text="@string/info_bind_email_tips"
+            app:layout_constraintTop_toBottomOf="@+id/bindEmailET" />
+
+        <!--验证码-->
+        <EditText
+            android:id="@+id/bindCodeET"
+            style="@style/AppEdit.Single"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/vm_dimen_16"
+            android:layout_marginTop="@dimen/vm_dimen_16"
+            android:layout_marginEnd="@dimen/vm_dimen_16"
+            android:hint="@string/sign_code_hint"
+            app:layout_constraintTop_toBottomOf="@+id/bindEmailDescTV" />
+
+        <com.vmloft.develop.library.tools.widget.VMTimerBtn
+            android:id="@+id/bindCodeBtn"
+            style="@style/AppBtn.Confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/vm_dimen_4"
+            android:text="@string/sign_code"
+            app:layout_constraintBottom_toBottomOf="@+id/bindCodeET"
+            app:layout_constraintEnd_toEndOf="@+id/bindCodeET"
+            app:layout_constraintTop_toTopOf="@+id/bindCodeET"
+            app:vm_timer_text="@string/sign_code_again"
+            app:vm_timer_time="60" />
+        <!--验证码说明-->
+        <!--        <TextView-->
+        <!--            android:id="@+id/bindCodeDescTV"-->
+        <!--            style="@style/AppText.Tips"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="@dimen/vm_dimen_8"-->
+        <!--            android:layout_marginEnd="@dimen/vm_dimen_16"-->
+        <!--            android:paddingStart="@dimen/vm_dimen_16"-->
+        <!--            android:paddingEnd="@dimen/vm_dimen_16"-->
+        <!--            android:text="@string/sign_code_hint"-->
+        <!--            app:layout_constraintStart_toStartOf="@+id/bindCodeET"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/bindCodeET" />-->
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

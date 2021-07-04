@@ -105,6 +105,8 @@
 
         <!--个人信息-->
         <activity android:name=".ui.main.mine.info.PersonalInfoActivity" />
+        <!--个人信息绑定邮箱-->
+        <activity android:name=".ui.main.mine.info.BindEmailActivity" />
         <!--个人信息用户名设置-->
         <activity android:name=".ui.main.mine.info.EditUsernameActivity" />
         <!--个人信息昵称设置-->

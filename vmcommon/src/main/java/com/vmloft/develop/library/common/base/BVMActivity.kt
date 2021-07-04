@@ -29,6 +29,9 @@ abstract class BVMActivity<VM : BViewModel> : AppCompatActivity() {
 
     protected var mDialog: CommonDialog? = null
 
+    // 是否居中显示标题
+    open var centerTitle: Boolean = false
+
     protected lateinit var mActivity: Activity
     protected lateinit var mBinding: ViewDataBinding
     protected lateinit var mViewModel: VM
@@ -114,7 +117,7 @@ abstract class BVMActivity<VM : BViewModel> : AppCompatActivity() {
             commonTopSpace?.layoutParams?.height = VMDimen.statusBarHeight
         }
 
-        commonTopBar?.setCenter(true)
+        commonTopBar?.setCenter(centerTitle)
         commonTopBar?.setTitleStyle(R.style.AppText_Title)
         commonTopBar?.setIcon(R.drawable.ic_arrow_back)
         commonTopBar?.setIconListener { onBackPressed() }

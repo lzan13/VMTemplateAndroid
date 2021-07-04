@@ -97,6 +97,25 @@ class SignViewModel(private val repository: SignRepository) : BViewModel() {
     }
 
     /**
+     * 使用 devicesId 登录
+     */
+    fun signInByDevicesId(devicesId: String, password: String) {
+        viewModelScope.launch(Dispatchers.Main) {
+            emitUIState(true)
+            val result = repository.signInByDevicesId(devicesId, password)
+            if (result is RResult.Success && result.data != null && result.data is User) {
+                // 登录成功存储下登录信息
+                SignManager.instance.setToken(result.data!!.token)
+                SignManager.instance.setCurrUser(result.data)
+                emitUIState(isSuccess = true, data = result.data, type = "signInByDevicesId")
+                return@launch
+            } else if (result is RResult.Error) {
+                emitUIState(code = result.code, error = result.error)
+            }
+        }
+    }
+
+    /**
      * 通过验证码登录
      */
     fun signInByCode(phone: String, code: String) {

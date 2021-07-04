@@ -20,7 +20,7 @@ interface PostAPI {
      * 发布
      */
     @FormUrlEncoded
-    @POST("/api/post")
+    @POST("/v1/post")
     suspend fun createPost(
         @Field("title") title: String,
         @Field("content") content: String,
@@ -33,19 +33,19 @@ interface PostAPI {
     /**
      * 删除
      */
-    @DELETE("/api/post/{id}")
+    @DELETE("/v1/post/{id}")
     suspend fun deletePost(@Path("id") id: String): RResponse<Any>
 
     /**
      * 更新
      */
-    @PUT("/api/post/{id}")
+    @PUT("/v1/post/{id}")
     suspend fun updatePost(@Field("id") id: String, @Body body: RequestBody): RResponse<Post>
 
     /**
      * 获取
      */
-    @GET("/api/post")
+    @GET("/v1/post")
     suspend fun getPostList(
         @Query("page") page: Int,
         @Query("limit") limit: Int,
@@ -59,7 +59,7 @@ interface PostAPI {
      * 创建
      */
     @FormUrlEncoded
-    @POST("/api/comment")
+    @POST("/v1/comment")
     suspend fun createComment(
         @Field("content") content: String,
         @Field("post") post: String,
@@ -69,13 +69,13 @@ interface PostAPI {
     /**
      * 删除
      */
-    @DELETE("/api/comment/{id}")
+    @DELETE("/v1/comment/{id}")
     suspend fun deleteComment(@Path("id") id: String): RResponse<Any>
 
     /**
      * 获取
      */
-    @GET("/api/comment")
+    @GET("/v1/comment")
     suspend fun getCommentList(
         @Query("post") post: String,
         @Query("page") page: Int,

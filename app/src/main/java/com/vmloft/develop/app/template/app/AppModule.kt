@@ -23,7 +23,7 @@ val viewModelModule = module {
     viewModel { ExploreViewModel(get(), get()) }
     viewModel { FeedbackViewModel(get()) }
     viewModel { InfoViewModel(get(), get()) }
-    viewModel { MainViewModel(get()) }
+    viewModel { MainViewModel(get(), get()) }
     viewModel { MatchViewModel(get()) }
     viewModel { PostViewModel(get(), get(), get()) }
     viewModel { RoomViewModel(get()) }

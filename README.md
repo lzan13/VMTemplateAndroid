@@ -1,16 +1,25 @@
 VMMatchAndroid
 =======
-一套包含了社区匹配聊天语音以及直播相关的社交系统模板项目
+一套包含了社区匹配聊天语音以及直播相关的社交系统模板项目，包括服务器端以及 `Android` 客户端
 
 > 项目资源均来自于互联网，如果有侵权请联系我
 
+### 背景及选型
+一直以来都是标榜自己是一个喜欢开源的程序猿，一直想做一款能够被大家认同的开源项目，也是想提供给广大的新手程序猿一个比较完整系统的社交系统以供参考，因此有了这一套社交系统模板项目，
+当前模板项目主要功能可以看下边的 [功能与TODO](#功能与TODO)
+
+在实现社交相关项目时，少不了 `IM` 及时聊天功能，这里选择了自己比较熟悉的环信三方 `SDK`，环信 IMSDK 能够比较方便的实现自定义扩展功能，比如会话扩展，消息扩展等，消息效果可以看下方 [项目截图](#项目截图)
+
+通话方面这里选择了声网提供的服务，看了下他们提供的功能还是比较多的，这里主要用到了语音通话，以及变声效果处理，他们还提供了更多场景使用，比如教育，直播等，更多功能大家可以搜索他们官网查看，通话效果可以看下方 [项目截图](#项目截图)
+
+
 ### 开发环境
-项目基本属于在最新的`Android`开发环境下开发，全局使用`Kotlin`语言
+项目基本属于在`Android`开发环境下开发，全局使用`Kotlin`语言，项目已经适配`Android6.x`以上的动态权限适配，以及`7.x`的文件选择，和`8.x`的通知提醒，`10.x`的文件选择等；
 
-项目已经适配`Android6.x`以上的动态权限适配，以及`7.x`的文件选择，和`8.x`的通知提醒，`10.x`的文件选择等；
-
-- Mac OS 11.1
-- Android Studio 4.2
+- 开发系统：Mac OS 11.1
+- 开发工具：Android Studio 4.2
+- 打包工具：Gradle 4.2.0
+- 开发语言：Kotlin 1.4.32
 
 
 ### 项目模块儿
@@ -19,7 +28,7 @@ VMMatchAndroid
 - `vmim`聊天与通话模块儿，这是为了方便大家引用到自己的项目中做的一步封装，不用再去复杂的复制代码和资源等，只需要将`vmim`以`module`导入到自己的项目中就行了，具体使用方式参见项目`app`模块儿；
 
 
-### 功能与 TODO
+### 功能与TODO
 **IM部分功能**
 - [x] 链接监听
 - [x] 登录注册
@@ -73,6 +82,7 @@ VMMatchAndroid
     - [x] 个人信息展示
     - [x] 上传头像、封面
     - [x] 设置昵称、签名、职业、地址、生日、性别等
+    - [x] 邮箱绑定
     - [x] 个人发布与喜欢内容展示
 - [x] 设置
     - [x] 个人信息设置
@@ -80,7 +90,7 @@ VMMatchAndroid
     - [x] 通知设置
     - [x] 资源加载设置
     - [x] 关于
-        - [ ] 检查更新
+        - [x] 检查更新
         - [x] 问题反馈
     - [x] 环境切换
     - [x] 退出
@@ -112,13 +122,14 @@ VMMatchAndroid
 ### 其他
 - 服务器 [github/vmtemplateserver](https://github.com/lzan13/vmtemplateserver) [gitee/vmtemplateserver](https://gitee.com/lzan13/vmtemplateserver) 服务器端项目使用`eggjs`框架实现 
 - [项目介绍](https://blog.melove.net/develop-open-source-app-and-server-template/) 项目整体介绍说明
+- [更新记录](./UPDATE.md)
 
 **下载体验**
 这就是一个使用当前模板运营的一个项目
 - [APK 包下载](http://app.melove.net/squx)
 - [应用市场下载](https://play.google.com/store/apps/details?id=com.vmloft.develop.app.template)
 
-**项目截图**
+### 项目截图
 这里简单截取了几个界面，更多功能自己去发现吧
 <div align="center">
     <img src="https://gitee.com/lzan13/VMPictureBed/raw/master/images/dev/matchHome.jpg" width="295px" height="640px" alt="matchHome"/>
@@ -147,3 +158,6 @@ QQ群: 901211985  个人QQ: 1565176197
     <img src="https://gitee.com/lzan13/VMPictureBed/raw/master/images/social/payQRAli.jpg" width="256px" height="316.5px" alt="支付宝捐赠"/>
     <img src="https://gitee.com/lzan13/VMPictureBed/raw/master/images/social/payQRWeChat.jpg" width="256px" height="316.5px" alt="微信捐赠"/>
 </div>
+
+### LICENSE
+[MIT License Copyright (c) 2021 lzan13](./LICENSE)

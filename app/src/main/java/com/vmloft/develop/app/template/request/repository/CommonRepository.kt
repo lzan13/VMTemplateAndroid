@@ -8,6 +8,7 @@ import com.vmloft.develop.library.common.request.RResult
 import com.vmloft.develop.app.template.request.db.AppDatabase
 import com.vmloft.develop.library.common.common.CConstants
 import com.vmloft.develop.library.common.request.RPaging
+import com.vmloft.develop.library.tools.utils.VMSystem
 import okhttp3.MultipartBody
 
 
@@ -84,6 +85,35 @@ class CommonRepository : BaseRepository() {
     private suspend fun requestProfessionList(): RResult<RPaging<Profession>> =
         executeResponse(APIRequest.commonAPI.getProfessionList())
 
+
+    /**
+     * 检查版本，这里控制超过 24 小时去服务器请求
+     */
+    suspend fun checkVersion(server: Boolean = false): RResult<Version> {
+        val time = SPManager.instance.getCheckVersionTime()
+        val intervalTime = System.currentTimeMillis() - time
+        if (!server && intervalTime < CConstants.timeDay) {
+            val list = AppDatabase.getInstance().versionDao().all()
+            if (list.isNotEmpty()) {
+                val version = list[0]
+                return if (version.force || version.versionCode - VMSystem.versionCode > 10) {
+                    RResult.Success("", version)
+                } else {
+                    // 非强制更新，返回默认数据
+                    RResult.Success("", Version())
+                }
+            }
+        }
+        val result = safeRequest(call = { requestCheckVersion() })
+        if (result is RResult.Success) {
+            SPManager.instance.setCheckVersionTime(System.currentTimeMillis())
+        }
+
+        return result
+    }
+
+    private suspend fun requestCheckVersion(): RResult<Version> =
+        executeResponse(APIRequest.userInfoAPI.checkVersion())
 
     /**
      * 提交反馈

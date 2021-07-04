@@ -15,6 +15,8 @@ android {
         versionCode configs.versionCode
         versionName configs.versionName
 
+        // 这里通过配置文件设置声网 AppId
+        buildConfigField("String", "agoraAppId", configs.agoraAppId)
     }
 
     buildTypes {

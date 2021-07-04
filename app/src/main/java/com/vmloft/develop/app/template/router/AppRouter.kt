@@ -13,7 +13,6 @@ import com.vmloft.develop.app.template.ui.main.mine.info.EditSignatureActivity
  */
 object AppRouter {
 
-    const val appMain = "/App/Main"
     const val appGuide = "/App/Guide"
 
     // 注册登录
@@ -40,6 +39,8 @@ object AppRouter {
     const val appEditUsername = "/App/EditUsername"
     const val appEditNickname = "/App/EditNickname"
     const val appEditSignature = "/App/EditSignature"
+    // 绑定邮箱
+    const val appBindEmail = "/App/BindEmail"
 
 
     // 内容

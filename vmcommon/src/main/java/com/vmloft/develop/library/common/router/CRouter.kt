@@ -2,10 +2,12 @@ package com.vmloft.develop.library.common.router
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import com.alibaba.android.arouter.launcher.ARouter
 import com.vmloft.develop.library.common.ui.display.DisplayMultiActivity
 import com.vmloft.develop.library.common.ui.display.DisplaySingleActivity
 import com.vmloft.develop.library.common.ui.web.WebActivity
+import com.vmloft.develop.library.tools.VMTools
 
 /**
  * Create by lzan13 on 2020-02-24 21:57
@@ -55,8 +57,15 @@ object CRouter {
     /**
      * 打开 Web 页面[WebActivity]
      */
-    fun goWeb(url: String) {
-        ARouter.getInstance().build(commonWeb).withString("url", url).navigation()
+    fun goWeb(url: String, system: Boolean = false) {
+        if (system) {
+            val uri = Uri.parse(url)
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            VMTools.context.startActivity(intent)
+        } else {
+            ARouter.getInstance().build(commonWeb).withString("url", url).navigation()
+        }
     }
 
     /**

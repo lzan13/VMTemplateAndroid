@@ -25,7 +25,9 @@
             style="@style/AppEdit.Single"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/vm_dimen_16"
+            android:layout_marginStart="@dimen/vm_dimen_16"
+            android:layout_marginTop="@dimen/vm_dimen_16"
+            android:layout_marginEnd="@dimen/vm_dimen_16"
             android:hint="@string/input_hint" />
 
         <!--多行输入框-->
@@ -34,7 +36,9 @@
             style="@style/AppEdit.MultiLine"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/vm_dimen_16"
+            android:layout_marginStart="@dimen/vm_dimen_16"
+            android:layout_marginTop="@dimen/vm_dimen_16"
+            android:layout_marginEnd="@dimen/vm_dimen_16"
             android:hint="@string/input_hint"
             android:visibility="gone"
             tools:visibility="visible" />
@@ -45,6 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/vm_dimen_16"
+            android:layout_marginTop="@dimen/vm_dimen_8"
             android:layout_marginEnd="@dimen/vm_dimen_16"
             android:paddingStart="@dimen/vm_dimen_16"
             android:paddingEnd="@dimen/vm_dimen_16"

@@ -11,12 +11,13 @@ import com.vmloft.develop.app.template.app.App
 import com.vmloft.develop.app.template.common.Constants
 import com.vmloft.develop.app.template.request.bean.Category
 import com.vmloft.develop.app.template.request.bean.Profession
+import com.vmloft.develop.app.template.request.bean.Version
 
 /**
  * Create by lzan13 on 2020/8/9 14:35
  * 描述：Room 数据库操作类
  */
-@Database(entities = [Category::class, Profession::class], version = 1)
+@Database(entities = [Category::class, Profession::class, Version::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
 
     companion object {
@@ -62,5 +63,8 @@ abstract class AppDatabase : RoomDatabase() {
 
     // 获取职业数据操作 Dao
     abstract fun professionDao(): ProfessionDao
+
+    // 获取版本检查数据操作 Dao
+    abstract fun versionDao(): VersionDao
 
 }

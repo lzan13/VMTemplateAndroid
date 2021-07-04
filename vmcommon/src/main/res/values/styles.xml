@@ -97,20 +97,6 @@
         <item name="android:textSize">@dimen/vm_size_10</item>
     </style>
 
-    <!--首页卡片文本样式-->
-    <style name="AppText.HomeCardName" parent="@style/VMText.Body1">
-        <item name="android:textSize">@dimen/vm_size_12</item>
-        <item name="android:textColor">@color/app_home_card_name</item>
-        <item name="android:layout_marginTop">@dimen/vm_dimen_4</item>
-    </style>
-
-    <style name="AppText.HomeCardDesc" parent="@style/VMText.Body1">
-        <item name="android:textSize">@dimen/vm_size_8</item>
-        <item name="android:textColor">@color/app_home_card_desc</item>
-        <item name="android:layout_marginTop">@dimen/vm_dimen_2</item>
-        <item name="android:lines">2</item>
-    </style>
-
     <style name="AppText.TopBarEndBtn" parent="@style/VMText.Body1">
         <item name="android:textSize">@dimen/vm_size_14</item>
         <item name="android:textColor">@color/selector_text_accent</item>
@@ -176,8 +162,9 @@
     </style>
     <!--按钮样式 end-->
 
+    <!--Spinner样式定义 start-->
     <style name="AppSpinner">
-        <!--设置弹窗背景为 系统设置的 应用主色调 在application 的colorPrimay 中配置的颜色, actionBar toolbar 默认使用这个为背景颜色-->
+        <!--设置弹窗背景为 系统设置的 应用主色调 在application 的colorPrimary 中配置的颜色, actionBar toolbar 默认使用这个为背景颜色-->
         <item name="android:popupBackground">?attr/colorPrimary</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
@@ -204,4 +191,6 @@
         <item name="android:textColor">@color/app_title</item>
         <item name="android:textSize">@dimen/vm_size_14</item>
     </style>
+    <!--Spinner样式定义 end-->
+
 </resources>

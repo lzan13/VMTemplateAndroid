@@ -18,19 +18,19 @@ interface FollowAPI {
     /**
      * 关注
      */
-    @POST("/api/follow/{id}")
+    @POST("/v1/follow/{id}")
     suspend fun follow(@Path("id") id: String): RResponse<Any>
 
     /**
      * 取消关注
      */
-    @DELETE("/api/follow/{id}")
+    @DELETE("/v1/follow/{id}")
     suspend fun cancelFollow(@Path("id") id: String): RResponse<Any>
 
     /**
      * 获取关注列表
      */
-    @GET("/api/follow")
+    @GET("/v1/follow")
     suspend fun getFollowList(
         @Query("userId") userId: String,
         @Query("type") type: Int,

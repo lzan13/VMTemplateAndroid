@@ -18,7 +18,7 @@ import java.io.File
 @Route(path = AppRouter.appSettingsMedia)
 class MediaSettingsActivity : BaseActivity() {
     // 缓存地址
-    private val cachePath = "${VMFile.cacheFromSDCard}${CConstants.cacheImageDir}"
+    private val cachePath = "${VMFile.cachePath}${CConstants.cacheImageDir}"
 
     override fun layoutId(): Int = R.layout.activity_settings_media
 

@@ -13,6 +13,7 @@ import com.vmloft.develop.app.template.common.Constants
 import com.vmloft.develop.app.template.common.SignManager
 import com.vmloft.develop.app.template.databinding.ActivityMainBinding
 import com.vmloft.develop.app.template.request.bean.User
+import com.vmloft.develop.app.template.request.bean.Version
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.app.template.ui.main.explore.ExploreFragment
 import com.vmloft.develop.app.template.ui.main.home.HomeFragment
@@ -23,6 +24,11 @@ import com.vmloft.develop.library.common.base.BViewModel
 import com.vmloft.develop.library.common.common.PermissionManager
 import com.vmloft.develop.library.common.event.LDEventBus
 import com.vmloft.develop.library.common.router.CRouter
+import com.vmloft.develop.library.common.utils.errorBar
+import com.vmloft.develop.library.common.utils.showBar
+import com.vmloft.develop.library.common.widget.CommonDialog
+import com.vmloft.develop.library.tools.utils.VMStr
+import com.vmloft.develop.library.tools.utils.VMSystem
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -30,7 +36,7 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  * Create by lzan13 on 2020/05/02 19:08
  * 描述：主界面
  */
-@Route(path = AppRouter.appMain)
+@Route(path = CRouter.appMain)
 class MainActivity : BVMActivity<MainViewModel>() {
 
     private val currentTabKey = "currentTabKey"
@@ -188,9 +194,44 @@ class MainActivity : BVMActivity<MainViewModel>() {
                 if (it.avatar.isNullOrEmpty() || it.nickname.isNullOrEmpty()) {
                     // 去设置用户信息
                     CRouter.go(AppRouter.appPersonalInfo)
+                } else {
+                    // 这里放在用户信息成功后检查版本
+                    mViewModel.checkVersion()
                 }
                 LDEventBus.post(Constants.userInfoEvent, it)
             }
+        } else if (model.type == "checkVersion") {
+            if (model.data == null) return
+            showVersionDialog(model.data as Version)
+        }
+    }
+
+
+    /**
+     * 显示版本更新弹窗
+     */
+    private fun showVersionDialog(version: Version) {
+        if (version.versionCode <= VMSystem.versionCode) return
+
+        mDialog = CommonDialog(this)
+        (mDialog as CommonDialog).let { dialog ->
+            // 判断是否需要强制更新，如果强制更新，则不能关闭对话框
+            val force = version.force or (version.versionCode - VMSystem.versionCode > 10)
+            dialog.backDismissSwitch = !force
+            dialog.touchDismissSwitch = !force
+
+            dialog.setTitle(version.title)
+            dialog.setContent(version.desc)
+            dialog.setNegative(if (force) "" else VMStr.byRes(R.string.version_skip))
+            dialog.setPositive(VMStr.byRes(R.string.version_upgrade)) {
+                if (version.url.isNullOrEmpty()) {
+                    errorBar("无法打开升级地址")
+                } else {
+                    CRouter.goWeb(version.url, true)
+                    finish()
+                }
+            }
+            dialog.show()
         }
     }
 }

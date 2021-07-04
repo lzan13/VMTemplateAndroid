@@ -41,4 +41,18 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <!--首页卡片文本样式-->
+    <style name="AppText.HomeCardName" parent="@style/VMText.Body1">
+        <item name="android:textSize">@dimen/vm_size_12</item>
+        <item name="android:textColor">@color/app_home_card_name</item>
+        <item name="android:layout_marginTop">@dimen/vm_dimen_4</item>
+    </style>
+
+    <style name="AppText.HomeCardDesc" parent="@style/VMText.Body1">
+        <item name="android:textSize">@dimen/vm_size_8</item>
+        <item name="android:textColor">@color/app_home_card_desc</item>
+        <item name="android:layout_marginTop">@dimen/vm_dimen_2</item>
+        <item name="android:lines">2</item>
+    </style>
+
 </resources>

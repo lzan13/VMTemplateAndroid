@@ -12,7 +12,6 @@ import com.hyphenate.chat.EMMessage
 
 import com.vmloft.develop.library.common.base.BItemDelegate
 import com.vmloft.develop.library.common.base.BaseFragment
-import com.vmloft.develop.library.common.common.CConstants
 import com.vmloft.develop.library.common.event.LDEventBus
 import com.vmloft.develop.library.common.image.IMGLoader
 import com.vmloft.develop.library.common.utils.JsonUtils
@@ -372,7 +371,7 @@ class IMRoomCallFragment : BaseFragment() {
      */
     private fun initRtcEngine() {
         try {
-            rtcEngine = RtcEngine.create(IM.instance.imContext, CConstants.agoraAppId(), object : IRtcEngineEventHandler() {})
+            rtcEngine = RtcEngine.create(IM.instance.imContext, IMConstants.agoraAppId(), object : IRtcEngineEventHandler() {})
             // 这里设置成直播场景
             rtcEngine.setChannelProfile(Constants.CHANNEL_PROFILE_LIVE_BROADCASTING)
             // 设置用户角色，房主默认为主播，其他人默认为观众
