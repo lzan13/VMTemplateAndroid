@@ -63,6 +63,7 @@ android {
             signingConfig signingConfigs.release
             // 混淆文件
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            consumerProguardFiles 'consumer-rules.pro'
 
             // 修改生成的 apk 名字，格式为:项目-版本-时间-渠道名.apk
             android.applicationVariants.all { variant ->

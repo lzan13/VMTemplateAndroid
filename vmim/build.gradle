@@ -22,8 +22,8 @@ android {
     buildTypes {
         release {
             // 混淆文件
-            consumerProguardFiles 'proguard-rules.pro'
-//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            consumerProguardFiles 'consumer-rules.pro'
         }
     }
 
