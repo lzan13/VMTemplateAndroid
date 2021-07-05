@@ -19,7 +19,7 @@ interface RoomAPI {
      * 创建房间
      */
     @FormUrlEncoded
-    @POST("/v1/room")
+    @POST("v1/room")
     suspend fun createRoom(
         @Field("title") title: String,
         @Field("desc") desc: String,
@@ -29,14 +29,14 @@ interface RoomAPI {
     /**
      * 销毁房间
      */
-    @DELETE("/v1/room/{id}")
+    @DELETE("v1/room/{id}")
     suspend fun destroyRoom(@Path("id") id: String): RResponse<Any>
 
     /**
      * 更新房间
      */
     @FormUrlEncoded
-    @PUT("/v1/room/{id}")
+    @PUT("v1/room/{id}")
     suspend fun updateRoom(
         @Field("id") id: String,
         @Field("title") title: String,
@@ -46,7 +46,7 @@ interface RoomAPI {
     /**
      * 获取房间列表
      */
-    @GET("/v1/room")
+    @GET("v1/room")
     suspend fun getRoomList(
         @Query("page") page: Int,
         @Query("limit") limit: Int,
@@ -56,7 +56,7 @@ interface RoomAPI {
     /**
      * 获取房间信息
      */
-    @GET("/v1/room/{id}")
+    @GET("v1/room/{id}")
     suspend fun getRoomInfo(@Query("id") id: String): RResponse<Room>
 
 }

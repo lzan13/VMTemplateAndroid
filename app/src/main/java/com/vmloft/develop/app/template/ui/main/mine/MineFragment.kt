@@ -49,7 +49,7 @@ class MineFragment : BaseFragment() {
 
         initBehavior()
 
-        mineCoverIV.setOnClickListener { CRouter.goDisplaySingle(mUser.cover) }
+        mineCoverIV.setOnClickListener { CRouter.goDisplaySingle(if (mUser.cover.isNullOrEmpty()) mUser.avatar else mUser.cover) }
         mineAvatarIV.setOnClickListener { CRouter.goDisplaySingle(mUser.avatar) }
         mineFansLL.setOnClickListener { }
         mineFollowLL.setOnClickListener { }

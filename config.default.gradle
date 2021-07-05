@@ -21,6 +21,7 @@ ext {
             emAppkey         : "Appkey",
 
             // 这里需要写入 BuildConfig 只会写入双引号内部字段，所以需要多包一层""
+            // 然后这里地址需要和服务器配置一致，看服务器项目的 default 配置 subSite 字段，如果是二级目录需要带上完整的路径如：https://xxx.com/api/
             // 调试服务器环境配置
             baseDebugUrl   : "\"http://192.168.1.3:5920/\"",
             // 线上服务器地址，这里暂时和 debug 一样

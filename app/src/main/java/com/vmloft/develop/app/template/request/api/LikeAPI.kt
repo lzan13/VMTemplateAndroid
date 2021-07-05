@@ -22,7 +22,7 @@ interface LikeAPI {
      * @param id 喜欢的数据 id
      */
     @FormUrlEncoded
-    @POST("/v1/like")
+    @POST("v1/like")
     suspend fun like(
         @Field("type") type: Int,
         @Field("id") id: String,
@@ -31,7 +31,7 @@ interface LikeAPI {
     /**
      * 取消关注
      */
-    @DELETE("/v1/like")
+    @DELETE("v1/like")
     suspend fun cancelLike(
         @Query("type") type: Int,
         @Query("id") id: String,
@@ -43,7 +43,7 @@ interface LikeAPI {
      * @param id 喜欢的数据 id
      * @param owner 发起喜欢的人，查询指定用户喜欢的数据是用到
      */
-    @GET("/v1/like")
+    @GET("v1/like")
     suspend fun getLikeUserList(
         @Query("type") type: Int = 0,
         @Query("id") id: String,
@@ -58,7 +58,7 @@ interface LikeAPI {
      * @param id 喜欢的数据 id
      * @param owner 发起喜欢的人，查询指定用户喜欢的数据是用到
      */
-    @GET("/v1/like")
+    @GET("v1/like")
     suspend fun getLikePostList(
         @Query("type") type: Int = 1,
         @Query("id") id: String,

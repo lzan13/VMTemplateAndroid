@@ -58,7 +58,7 @@ class UserInfoActivity : BVMActivity<UserInfoViewModel>() {
 
         initBehavior()
 
-        infoCoverIV.setOnClickListener { CRouter.goDisplaySingle(user.cover) }
+        infoCoverIV.setOnClickListener { CRouter.goDisplaySingle(if (user.cover.isNullOrEmpty()) user.avatar else user.cover) }
         infoAvatarIV.setOnClickListener { CRouter.goDisplaySingle(user.avatar) }
         infoFansLL.setOnClickListener { }
         infoFollowLL.setOnClickListener { }
