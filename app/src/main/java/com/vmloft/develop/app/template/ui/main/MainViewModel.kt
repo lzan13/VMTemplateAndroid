@@ -28,7 +28,7 @@ class MainViewModel(val repository: MainRepository, val commonRepository: Common
             val result = repository.loadCurrUser()
 
             if (result is RResult.Success) {
-                SignManager.instance.setCurrUser(result.data as User)
+                SignManager.setCurrUser(result.data as User)
 
                 emitUIState(isSuccess = true, data = result.data, type = "userInfo")
                 return@launch

@@ -11,19 +11,10 @@ import com.vmloft.develop.app.template.app.App
  * Create by lzan13 on 2020/4/29 21:51
  * 描述：上报管理类
  */
-class ReportManager {
+object ReportManager {
 
     // 定义事件 Key，需和后端一致
     private val eventKeyXXX = "eventKeyXXX"
-
-    /**
-     * 伴生对象实现单例效果
-     */
-    companion object {
-        val instance: ReportManager by lazy {
-            ReportManager()
-        }
-    }
 
     fun init() {
         // 初始化 Bugly

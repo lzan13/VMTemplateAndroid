@@ -26,7 +26,7 @@ import java.util.*
  * Create by lzan13 on 2021/5/23 09:57
  * 描述：通化管理类
  */
-class IMCallManager {
+object IMCallManager {
 
     // 声音管理器
     private lateinit var audioManager: AudioManager
@@ -55,17 +55,11 @@ class IMCallManager {
     private var callTime = 0
 
 
-    companion object {
-        val instance: IMCallManager by lazy {
-            IMCallManager()
-        }
-    }
-
     /**
      * 初始化
      */
     fun init() {
-        audioManager = IM.instance.imContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        audioManager = IM.imContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
         // 设置音频要用在什么地方，这里选择电话通知铃音
         val attributes = AudioAttributes.Builder()
             .setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE)
@@ -99,7 +93,7 @@ class IMCallManager {
             saveCallMessage(callId)
             stopCallTime()
         }
-        IMChatManager.instance.sendCallSignal(callId, status)
+        IMChatManager.sendCallSignal(callId, status)
     }
 
     /**
@@ -144,7 +138,7 @@ class IMCallManager {
         } else {
             content = "通话结束 " + getCallTime()
         }
-        val message = IMChatManager.instance.createTextMessage(content, id, !isInComingCall)
+        val message = IMChatManager.createTextMessage(content, id, !isInComingCall)
         message.chatType = EMMessage.ChatType.Chat
         message.setStatus(EMMessage.Status.SUCCESS)
         message.setAttribute(IMConstants.Common.msgAttrExtType, IMConstants.MsgType.imCall)
@@ -156,7 +150,7 @@ class IMCallManager {
             message.to = id
         }
 
-        IMChatManager.instance.saveMessage(message)
+        IMChatManager.saveMessage(message)
     }
 
     /**
@@ -266,9 +260,9 @@ class IMCallManager {
                 startPlaySound()
             }
             loadResId = if (isInComingCall) {
-                soundPool.load(IM.instance.imContext, R.raw.im_incoming_call, 1)
+                soundPool.load(IM.imContext, R.raw.im_incoming_call, 1)
             } else {
-                soundPool.load(IM.instance.imContext, R.raw.im_call_out, 1)
+                soundPool.load(IM.imContext, R.raw.im_call_out, 1)
             }
         }
     }

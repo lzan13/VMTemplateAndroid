@@ -6,6 +6,7 @@ import com.vmloft.develop.library.common.request.RPaging
 import com.vmloft.develop.library.common.request.RResponse
 
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.*
 
 /**
@@ -15,33 +16,13 @@ import retrofit2.http.*
 interface CommonAPI {
 
     /**
-     * --------------------------------- 上传文件接口 ---------------------------------
+     * --------------------------------- 附件件接口 ---------------------------------
      */
     /**
-     * 上传单附件
+     * UCloud 上传附件回调接口
      */
-    @Multipart
-    @POST("v1/attachment")
-    suspend fun upload(@Part file: MultipartBody.Part): RResponse<Attachment>
-
-    /**
-     * 通过网络地址上传附件
-     */
-    @FormUrlEncoded
-    @POST("v1/attachment/url")
-    suspend fun uploadByUrl(@Field("url") url: String): RResponse<Attachment>
-
-    /**
-     * 多附件上传
-     */
-    @POST("v1/attachments")
-    suspend fun uploadMultipart(@Body body: MultipartBody): RResponse<List<Attachment>>
-
-    /**
-     * 删除附件
-     */
-    @POST("v1/attachment/{id}")
-    suspend fun deletePicture(@Path("id") id: String): RResponse<Any>
+    @POST("v1/third/ucloud/callbackObj")
+    suspend fun ucloudCallbackObj(@Body body: RequestBody): RResponse<Attachment>
 
     /**
      * ------------------------------------ 职业分类等接口  ------------------------------------

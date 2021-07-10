@@ -31,7 +31,7 @@ object IMGChoose {
         // 照片文件名
         val name = "IMG_" + VMDate.sdfFilenameDateTime
         // 照片是否保存到系统相册文件
-        val isCopyInDCIM = CSPManager.instance.isSaveDICM()
+        val isCopyInDCIM = CSPManager.isSaveDICM()
         ImagePicker.takePhoto(activity, name, isCopyInDCIM) {
             // 拍照结果回调，主线程
             callback.invoke(it[0].uri)
@@ -47,7 +47,7 @@ object IMGChoose {
         // 可录制的最大时常，单位毫秒ms
         val maxDuration = CConstants.timeMinute
         // 照片是否保存到系统相册文件
-        val isCopyInDCIM = CSPManager.instance.isSaveDICM()
+        val isCopyInDCIM = CSPManager.isSaveDICM()
         ImagePicker.takeVideo(activity, name, maxDuration, isCopyInDCIM) {
             // 拍摄结果回调，主线程
             callback.invoke(it[0].uri)

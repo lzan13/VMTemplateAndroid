@@ -79,7 +79,7 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
 
 
     override fun initData() {
-        mUser = SignManager.instance.getCurrUser() ?: User()
+        mUser = SignManager.getCurrUser() ?: User()
         selfMatch = Match("", mUser, 0, 0, "")
         // 请求匹配数据集
         mViewModel.getMatchList(mPage, mLimit)
@@ -101,8 +101,8 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
         }
         if (model.type == "matchOne") {
             val match = model.data as Match
-            CacheManager.instance.putUser(match.user)
-            IMManager.instance.goChat(match.user.id)
+            CacheManager.putUser(match.user)
+            IMManager.goChat(match.user.id)
         }
         if (model.type == "matchList") {
             val paging = model.data as RPaging<Match>
@@ -113,7 +113,7 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
             }
             paging.data.forEach {
                 if (it.user.id != mUser.id) {
-                    CacheManager.instance.putUser(it.user)
+                    CacheManager.putUser(it.user)
                     homeBarrageView.addBarrage(it)
                 }
             }

@@ -46,7 +46,7 @@ class IMChatRoomActivity : BaseActivity() {
         setTopTitle(mRoom.title)
 
         // 加入聊天室
-        IMChatRoomManager.instance.joinRoom(chatId) { code ->
+        IMChatRoomManager.joinRoom(chatId) { code ->
             VMSystem.runInUIThread({
                 if (code != 0) {
                     notRoom()
@@ -82,7 +82,7 @@ class IMChatRoomActivity : BaseActivity() {
             dialog.setNegative("")
             dialog.setPositive(listener = {
                 // 退出聊天室
-                IMChatRoomManager.instance.exitRoom(chatId)
+                IMChatRoomManager.exitRoom(chatId)
                 finish()
             })
             dialog.show()
@@ -98,7 +98,7 @@ class IMChatRoomActivity : BaseActivity() {
             dialog.setContent(R.string.im_room_exit_hint)
             dialog.setPositive(listener = {
                 // 退出聊天室
-                IMChatRoomManager.instance.exitRoom(chatId)
+                IMChatRoomManager.exitRoom(chatId)
                 finish()
             })
             dialog.show()

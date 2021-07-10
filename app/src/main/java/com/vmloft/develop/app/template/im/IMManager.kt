@@ -14,31 +14,25 @@ import kotlinx.coroutines.withContext
  * Create by lzan13 on 2021/5/23 09:39
  * 描述：IM 管理类
  */
-class IMManager {
-
-    companion object {
-        val instance: IMManager by lazy {
-            IMManager()
-        }
-    }
+object IMManager {
 
     /**
      * 初始化 IM
      */
     fun init(context: Context) {
-        IM.instance.init(context, IMListener())
+        IM.init(context, IMListener())
     }
 
     /**
      * 登录 IM
      */
     suspend fun signIn() = withContext(Dispatchers.IO) {
-        val user = SignManager.instance.getCurrUser() ?: User()
-        IM.instance.signIn(user.id, user.password)
+        val user = SignManager.getCurrUser() ?: User()
+        IM.signIn(user.id, user.password)
     }
 
     fun exit() {
-        IM.instance.signOut(false)
+        IM.signOut(false)
     }
 
     /**
@@ -67,18 +61,18 @@ class IMManager {
      * 设置通知
      */
     var isNotify: Boolean
-        get() = IM.instance.isNotify
+        get() = IM.isNotify
         set(open) {
-            IM.instance.isNotify = open
+            IM.isNotify = open
         }
 
     /**
      * 设置通知详情
      */
     var isNotifyDetail: Boolean
-        get() = IM.instance.isNotifyDetail
+        get() = IM.isNotifyDetail
         set(open) {
-            IM.instance.isNotifyDetail = open
+            IM.isNotifyDetail = open
         }
     /**
      * ---------------------------------------------------------------------
@@ -88,9 +82,9 @@ class IMManager {
      * 设置开启圆形头像
      */
     var isCircleAvatar: Boolean
-        get() = IM.instance.isCircleAvatar
+        get() = IM.isCircleAvatar
         set(open) {
-            IM.instance.isCircleAvatar = open
+            IM.isCircleAvatar = open
         }
     /**
      * 判断是否扬声器播放语音
@@ -99,9 +93,9 @@ class IMManager {
      * 设置是否扬声器播放语音
      */
     var isSpeakerVoice: Boolean
-        get() = IM.instance.isSpeakerVoice
+        get() = IM.isSpeakerVoice
         set(speaker) {
-            IM.instance.isSpeakerVoice = speaker
+            IM.isSpeakerVoice = speaker
         }
 
 }

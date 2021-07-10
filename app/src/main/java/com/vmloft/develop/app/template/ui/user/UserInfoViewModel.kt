@@ -66,7 +66,7 @@ class UserInfoViewModel(val repository: FollowRepository, val infoRepository: In
             }
 
             if (result is RResult.Success && result.data != null) {
-                CacheManager.instance.putUser(result.data!!)
+                CacheManager.putUser(result.data!!)
                 emitUIState(isSuccess = true, data = result.data, type = "userInfo")
                 return@launch
             } else if (result is RResult.Error) {

@@ -67,10 +67,10 @@ class App : Application() {
         initRefresh()
 
         // 初始化短信
-//        SMSManager.instance.init()
+//        SMSManager.init()
 
         // 初始化广告管理
-        // ADSManager.instance.init(appContext)
+        // ADSManager.init(appContext)
 
         // 初始化事件总线
         LDEventBus.init()
@@ -82,14 +82,14 @@ class App : Application() {
      */
     private fun initCommon() {
         VMTools.init(appContext)
-        val level = if (CSPManager.instance.isDebug()) VMLog.Level.DEBUG else VMLog.Level.ERROR
+        val level = if (CSPManager.isDebug()) VMLog.Level.DEBUG else VMLog.Level.ERROR
         VMLog.init(level, "VMMatchAndroid")
 
         // 设置暗色主题模式
-        if (SPManager.instance.isDarkModeSystemSwitch()) {
+        if (SPManager.isDarkModeSystemSwitch()) {
             VMTheme.setDarkTheme(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         } else {
-            VMTheme.setDarkTheme(SPManager.instance.getDarkModeManual())
+            VMTheme.setDarkTheme(SPManager.getDarkModeManual())
         }
 
         val path = "${VMFile.pictures}${CConstants.projectDir}"
@@ -124,7 +124,7 @@ class App : Application() {
      * 初始化通知
      */
     private fun initNotify() {
-        NotifyManager.instance.init(appContext)
+        NotifyManager.init(appContext)
     }
 
     /**
@@ -132,14 +132,14 @@ class App : Application() {
      */
     private fun initIM() {
         // 初始化 IM
-        IMManager.instance.init(appContext);
+        IMManager.init(appContext);
     }
 
     /**
      * 初始化上报
      */
     private fun initReport() {
-        ReportManager.instance.init()
+        ReportManager.init()
     }
 
     /**

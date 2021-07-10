@@ -17,9 +17,9 @@ class SplashActivity : BaseActivity() {
 
     override fun initUI() {
         super.initUI()
-        if (SPManager.instance.isGuideShow()) {
+        if (SPManager.isGuideShow()) {
             CRouter.go(AppRouter.appGuide)
-        } else if (!SignManager.instance.isSingIn()) {
+        } else if (!SignManager.isSingIn()) {
             CRouter.go(AppRouter.appSignGuide)
         } else {
             CRouter.goMain()

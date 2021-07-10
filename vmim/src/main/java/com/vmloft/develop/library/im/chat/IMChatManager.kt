@@ -25,16 +25,11 @@ import org.json.JSONObject
  * Create by lzan13 2021/5/20
  * 描述：聊天管理
  */
-class IMChatManager {
+object IMChatManager {
 
     // 当前聊天对象 Id
     private var currChatId: String? = null
 
-    companion object {
-        val instance: IMChatManager by lazy {
-            IMChatManager()
-        }
-    }
 
     fun init() {
         // 将会话加载到内存，因为这个必须要登录之后才能加载，这里只是登录过才有效
@@ -611,7 +606,7 @@ class IMChatManager {
         error: (Int, String) -> Unit = { _: Int, _: String -> },
         progress: (Int, String) -> Unit = { _, _ -> },
     ) {
-        if (!IM.instance.isSignIn()) {
+        if (!IM.isSignIn()) {
             error.invoke(-1, "未登录，无法发送消息")
             return
         }

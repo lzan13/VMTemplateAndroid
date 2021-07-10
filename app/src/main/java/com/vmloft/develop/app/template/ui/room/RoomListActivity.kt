@@ -71,8 +71,8 @@ class RoomListActivity : BVMActivity<RoomViewModel>() {
         mAdapter.register(ItemRoomDelegate(object : BItemDelegate.BItemListener<Room> {
             override fun onClick(v: View, data: Room, position: Int) {
                 // 进入房间，进行下记录，这里是加入别人创建的
-                CacheManager.instance.setLastRoom(data)
-                IMManager.instance.goChatRoom(data.id)
+                CacheManager.setLastRoom(data)
+                IMManager.goChatRoom(data.id)
             }
         }))
 
@@ -100,7 +100,7 @@ class RoomListActivity : BVMActivity<RoomViewModel>() {
         }
         if (model.type == "destroyRoom") {
             // 1.销毁的话把缓存里的房间信息也要删掉
-            CacheManager.instance.setLastRoom(null, true)
+            CacheManager.setLastRoom(null, true)
         } else if (model.type == "roomList") {
             refresh(model.data as RPaging<Room>)
         }
@@ -114,14 +114,14 @@ class RoomListActivity : BVMActivity<RoomViewModel>() {
             checkLastRoom()
 
             // 将房间信息缓存起来
-            CacheManager.instance.resetRoom(paging.data)
+            CacheManager.resetRoom(paging.data)
 
             mItems.clear()
             mItems.addAll(paging.data)
             mAdapter.notifyDataSetChanged()
         } else {
             // 将房间信息缓存起来
-            CacheManager.instance.resetRoom(paging.data)
+            CacheManager.resetRoom(paging.data)
 
             val position = mItems.size
             val count = paging.data.size
@@ -139,7 +139,7 @@ class RoomListActivity : BVMActivity<RoomViewModel>() {
      * 检查最后一次加入的房间，如果有给用户一个提示，继续进入，或者取消，取消的话如果是自己创建的进行销毁
      */
     private fun checkLastRoom() {
-        val room = CacheManager.instance.getLastRoom() ?: return
+        val room = CacheManager.getLastRoom() ?: return
 
         mDialog = CommonDialog(this)
         (mDialog as CommonDialog).let { dialog ->
@@ -150,7 +150,7 @@ class RoomListActivity : BVMActivity<RoomViewModel>() {
                 exitRoom()
             })
             dialog.setPositive(listener = {
-                IMManager.instance.goChatRoom(room.id)
+                IMManager.goChatRoom(room.id)
             })
             dialog.show()
         }
@@ -160,14 +160,14 @@ class RoomListActivity : BVMActivity<RoomViewModel>() {
      * 退出房间
      */
     private fun exitRoom() {
-        val room = CacheManager.instance.getLastRoom() ?: return
-        val user = SignManager.instance.getCurrUser() ?: return
+        val room = CacheManager.getLastRoom() ?: return
+        val user = SignManager.getCurrUser() ?: return
         // 检查下是不是自己创建的房间
         if (room.owner.id == user.id) {
             mViewModel.destroyRoom(room.id)
         } else {
             // 2.只是退出，置空下最后加入的房间就好
-            CacheManager.instance.setLastRoom(null)
+            CacheManager.setLastRoom(null)
         }
     }
 

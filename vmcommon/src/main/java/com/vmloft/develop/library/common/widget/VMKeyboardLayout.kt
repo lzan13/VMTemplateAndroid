@@ -68,7 +68,7 @@ class VMKeyboardLayout @JvmOverloads constructor(context: Context, attrs: Attrib
             if (Math.abs(height) > screenHeight / 5) {
                 active = true
                 keyboardHeight = height
-                CSPManager.instance.putKeyboardHeight(keyboardHeight)
+                CSPManager.putKeyboardHeight(keyboardHeight)
             }
             isActive = active
             if (mListener != null) {

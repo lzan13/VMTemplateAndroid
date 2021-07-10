@@ -63,7 +63,7 @@ class MatchActivity : BVMActivity<MatchViewModel>() {
     }
 
     override fun initData() {
-        mUser = SignManager.instance.getCurrUser() ?: User()
+        mUser = SignManager.getCurrUser() ?: User()
         avatarSize = VMDimen.dp2px(48)
 
         // 获取匹配信息
@@ -101,16 +101,18 @@ class MatchActivity : BVMActivity<MatchViewModel>() {
      * 开始匹配，需要经自己的信息提交到后端
      */
     private fun startAnim() {
-        mAnimatorWrap = VMAnimator.createAnimator()
-            .play(VMAnimator.createOptions(matchAnimView1, VMAnimator.SCALEX, 2000, VMAnimator.INFINITE, 0f, 20f))
-            .with(VMAnimator.createOptions(matchAnimView1, VMAnimator.SCALEY, 2000, VMAnimator.INFINITE, 0f, 20f))
-            .with(VMAnimator.createOptions(matchAnimView1, VMAnimator.ALPHA, 2000, VMAnimator.INFINITE, 1.0f, 0.0f))
+        val scaleXOptions = VMAnimator.AnimOptions(matchAnimView1, floatArrayOf(0f, 20f), VMAnimator.scaleX, 2000, repeatMode = 1)
+        val scaleYOptions = VMAnimator.AnimOptions(matchAnimView1, floatArrayOf(0f, 20f), VMAnimator.scaleY, 2000, repeatMode = 1)
+        val alphaOptions = VMAnimator.AnimOptions(matchAnimView1, floatArrayOf(1.0f, 0.0f), VMAnimator.alpha, 2000, repeatMode = 1)
+        mAnimatorWrap = VMAnimator.createAnimator().play(scaleXOptions).with(scaleYOptions).with(alphaOptions)
         mAnimatorWrap?.start()
-        mAnimatorWrap2 = VMAnimator.createAnimator()
-            .play(VMAnimator.createOptions(matchAnimView2, VMAnimator.SCALEX, 2000, VMAnimator.INFINITE, 0f, 20f))
-            .with(VMAnimator.createOptions(matchAnimView2, VMAnimator.SCALEY, 2000, VMAnimator.INFINITE, 0f, 20f))
-            .with(VMAnimator.createOptions(matchAnimView2, VMAnimator.ALPHA, 2000, VMAnimator.INFINITE, 1.0f, 0.0f))
-        mAnimatorWrap2?.startDelay(1000)
+
+        val scaleXOptions2 = VMAnimator.AnimOptions(matchAnimView2, floatArrayOf(0f, 20f), VMAnimator.scaleX, 2000, repeatMode = 1)
+        val scaleYOptions2 = VMAnimator.AnimOptions(matchAnimView2, floatArrayOf(0f, 20f), VMAnimator.scaleY, 2000, repeatMode = 1)
+        val alphaOptions2 = VMAnimator.AnimOptions(matchAnimView2, floatArrayOf(1.0f, 0.0f), VMAnimator.alpha, 2000, repeatMode = 1)
+        mAnimatorWrap2 = VMAnimator.createAnimator().play(scaleXOptions2).with(scaleYOptions2).with(alphaOptions2)
+        mAnimatorWrap2?.start(delay = 1000)
+
     }
 
     /**
@@ -144,8 +146,8 @@ class MatchActivity : BVMActivity<MatchViewModel>() {
 
             // 动画出现
             val delay = CUtils.random(50) * 50.toLong()
-            val options = VMAnimator.createOptions(imageView, VMAnimator.ALPHA, 1500, VMAnimator.INFINITE, 0.0f, 1.0f)
-            VMAnimator.createAnimator().play(options).startDelay(delay)
+            val options = VMAnimator.AnimOptions(imageView, floatArrayOf(0.0f, 1.0f), VMAnimator.alpha, 1500)
+            VMAnimator.createAnimator().play(options).start(delay = delay)
         }
     }
 

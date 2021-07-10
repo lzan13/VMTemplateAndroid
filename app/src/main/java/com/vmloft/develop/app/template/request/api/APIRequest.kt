@@ -47,7 +47,7 @@ object APIRequest : BaseRequest() {
             // 当前时间戳
             builder.addHeader("timestamp", VMDate.currentMilli().toString())
 
-            val token = SignManager.instance.getToken()
+            val token = SignManager.getToken()
             if (!token.isNullOrEmpty()) {
                 // 在请求头添加 Token
                 builder.header("Authorization", "Bearer $token")

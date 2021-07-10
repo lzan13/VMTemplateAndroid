@@ -73,39 +73,39 @@ class IMSingleCallActivity : BaseActivity() {
         // 设置麦克风点击事件
         imCallMicBtn.setOnClickListener {
             imCallMicBtn.isSelected = !imCallMicBtn.isSelected
-            IMCallManager.instance.setMuteEnable(rtcEngine, !imCallMicBtn.isSelected)
+            IMCallManager.setMuteEnable(rtcEngine, !imCallMicBtn.isSelected)
         }
         // 设置扬声器点击事件
         imCallSpeakerBtn.setOnClickListener {
             imCallSpeakerBtn.isSelected = !imCallSpeakerBtn.isSelected
-            IMCallManager.instance.setMuteEnable(rtcEngine, imCallSpeakerBtn.isSelected)
+            IMCallManager.setMuteEnable(rtcEngine, imCallSpeakerBtn.isSelected)
         }
 
         // 自己点击接听，然后加入频道
         imCallAnswerBtn.setOnClickListener {
             imCallAnswerBtn.visibility = View.GONE
             imCallStatusTV.setText(R.string.im_call_accepted)
-            IMCallManager.instance.sendCallSignal(callId, IMConstants.Call.callStatusAgree)
+            IMCallManager.sendCallSignal(callId, IMConstants.Call.callStatusAgree)
             joinChannel()
         }
         // 挂断按钮，根据通话状态调用不同操作
         imCallEndBtn.setOnClickListener {
-            if (IMCallManager.instance.callStatus == IMConstants.Call.callStatusApply) {
-                IMCallManager.instance.sendCallSignal(callId, IMConstants.Call.callStatusReject)
+            if (IMCallManager.callStatus == IMConstants.Call.callStatusApply) {
+                IMCallManager.sendCallSignal(callId, IMConstants.Call.callStatusReject)
                 finish()
             } else {
-                IMCallManager.instance.sendCallSignal(callId, IMConstants.Call.callStatusEnd)
-                IMCallManager.instance.exitChannel(rtcEngine)
+                IMCallManager.sendCallSignal(callId, IMConstants.Call.callStatusEnd)
+                IMCallManager.exitChannel(rtcEngine)
                 finish()
             }
         }
 
         // 默认开启麦克风和扬声器
-        imCallMicBtn.isSelected = !IMCallManager.instance.isMute
-        imCallSpeakerBtn.isSelected = IMCallManager.instance.isSpeaker
+        imCallMicBtn.isSelected = !IMCallManager.isMute
+        imCallSpeakerBtn.isSelected = IMCallManager.isSpeaker
 
-        IMCallManager.instance.setMuteEnable(rtcEngine, !imCallMicBtn.isSelected)
-        IMCallManager.instance.setSpeakerEnable(rtcEngine, imCallSpeakerBtn.isSelected)
+        IMCallManager.setMuteEnable(rtcEngine, !imCallMicBtn.isSelected)
+        IMCallManager.setSpeakerEnable(rtcEngine, imCallSpeakerBtn.isSelected)
 
         // 监听通话信令
         LDEventBus.observe(this, IMConstants.Call.cmdCallStatusEvent, EMMessage::class.java) {
@@ -117,12 +117,12 @@ class IMSingleCallActivity : BaseActivity() {
             } else if (status == IMConstants.Call.callStatusReject || status == IMConstants.Call.callStatusBusy) {
                 finish()
             } else if (status == IMConstants.Call.callStatusEnd) {
-                IMCallManager.instance.exitChannel(rtcEngine)
+                IMCallManager.exitChannel(rtcEngine)
                 finish()
             }
         }
         LDEventBus.observe(this, IMConstants.Call.callTimeEvent, Int::class.java) {
-            imCallTimeTV.text = IMCallManager.instance.getCallTime()
+            imCallTimeTV.text = IMCallManager.getCallTime()
         }
     }
 
@@ -135,15 +135,15 @@ class IMSingleCallActivity : BaseActivity() {
         token = ""
 
         channel = if (isInComingCall) {
-            callId + IM.instance.getSelfId()
+            callId + IM.getSelfId()
         } else {
-            IM.instance.getSelfId() + callId
+            IM.getSelfId() + callId
         }
 
         bindInfo()
 
         if (!isInComingCall) {
-            IMCallManager.instance.sendCallSignal(callId, 0)
+            IMCallManager.sendCallSignal(callId, 0)
         }
     }
 
@@ -170,7 +170,7 @@ class IMSingleCallActivity : BaseActivity() {
      */
     private fun initRtcEngine() {
         try {
-            rtcEngine = RtcEngine.create(IM.instance.imContext, IMConstants.agoraAppId(), object : IRtcEngineEventHandler() {})
+            rtcEngine = RtcEngine.create(IM.imContext, IMConstants.agoraAppId(), object : IRtcEngineEventHandler() {})
             // 这里设置成通话场景
             rtcEngine.setChannelProfile(Constants.CHANNEL_PROFILE_COMMUNICATION)
             // 设置采样率和音频通话场景
@@ -208,7 +208,7 @@ class IMSingleCallActivity : BaseActivity() {
      * 加入通话
      */
     private fun joinChannel() {
-        IMCallManager.instance.joinChannel(rtcEngine, token, channel)
+        IMCallManager.joinChannel(rtcEngine, token, channel)
     }
 
     override fun onDestroy() {

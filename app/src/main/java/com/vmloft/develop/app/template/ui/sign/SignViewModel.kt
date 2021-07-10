@@ -27,8 +27,8 @@ class SignViewModel(private val repository: SignRepository) : BViewModel() {
             val result = repository.signUpByDevicesId(devicesId, password)
             if (result is RResult.Success && result.data != null && result.data is User) {
                 // 注册成功存储下登录信息
-                SignManager.instance.setToken(result.data!!.token)
-                SignManager.instance.setCurrUser(result.data)
+                SignManager.setToken(result.data!!.token)
+                SignManager.setCurrUser(result.data)
                 emitUIState(isSuccess = true, data = result.data, type = "signUpByDevicesId")
                 return@launch
             } else if (result is RResult.Error) {
@@ -47,8 +47,8 @@ class SignViewModel(private val repository: SignRepository) : BViewModel() {
 
             if (result is RResult.Success && result.data != null && result.data is User) {
                 // 注册成功存储下登录信息
-                SignManager.instance.setToken(result.data!!.token)
-                SignManager.instance.setCurrUser(result.data)
+                SignManager.setToken(result.data!!.token)
+                SignManager.setCurrUser(result.data)
                 emitUIState(isSuccess = true, data = result.data, type = "signUpByEmail")
                 return@launch
             } else if (result is RResult.Error) {
@@ -67,8 +67,8 @@ class SignViewModel(private val repository: SignRepository) : BViewModel() {
 
             if (result is RResult.Success && result.data != null && result.data is User) {
                 // 注册成功存储下登录信息
-                SignManager.instance.setToken(result.data!!.token)
-                SignManager.instance.setCurrUser(result.data)
+                SignManager.setToken(result.data!!.token)
+                SignManager.setCurrUser(result.data)
                 emitUIState(isSuccess = true, data = result.data, type = "signUpByPhone")
                 return@launch
             } else if (result is RResult.Error) {
@@ -86,8 +86,8 @@ class SignViewModel(private val repository: SignRepository) : BViewModel() {
             val result = repository.signIn(account, password)
             if (result is RResult.Success && result.data != null && result.data is User) {
                 // 登录成功存储下登录信息
-                SignManager.instance.setToken(result.data!!.token)
-                SignManager.instance.setCurrUser(result.data)
+                SignManager.setToken(result.data!!.token)
+                SignManager.setCurrUser(result.data)
                 emitUIState(isSuccess = true, data = result.data, type = "signIn")
                 return@launch
             } else if (result is RResult.Error) {
@@ -105,12 +105,12 @@ class SignViewModel(private val repository: SignRepository) : BViewModel() {
             val result = repository.signInByDevicesId(devicesId, password)
             if (result is RResult.Success && result.data != null && result.data is User) {
                 // 登录成功存储下登录信息
-                SignManager.instance.setToken(result.data!!.token)
-                SignManager.instance.setCurrUser(result.data)
+                SignManager.setToken(result.data!!.token)
+                SignManager.setCurrUser(result.data)
                 emitUIState(isSuccess = true, data = result.data, type = "signInByDevicesId")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(code = result.code, error = result.error, type ="signInByDevicesId")
             }
         }
     }
@@ -124,8 +124,8 @@ class SignViewModel(private val repository: SignRepository) : BViewModel() {
             val result = repository.signInByCode(phone, code)
             if (result is RResult.Success && result.data != null && result.data is User) {
                 // 登录成功存储下登录信息
-                SignManager.instance.setToken(result.data!!.token)
-                SignManager.instance.setCurrUser(result.data)
+                SignManager.setToken(result.data!!.token)
+                SignManager.setCurrUser(result.data)
                 emitUIState(isSuccess = true, data = result.data, type = "signInByCode")
                 return@launch
             } else if (result is RResult.Error) {
@@ -140,7 +140,7 @@ class SignViewModel(private val repository: SignRepository) : BViewModel() {
     fun requestCodeBySMS(phone: String) {
 //        viewModelScope.launch(Dispatchers.Main) {
 //            emitUIState(true)
-//            val result = SMSManager.instance.requestCode("86", phone)
+//            val result = SMSManager.requestCode("86", phone)
 //            if (result is RResult.Success) {
 //                emitUIState(isSuccess = true, data = result.data, type = "requestCodeBySMS")
 //                return@launch
@@ -156,7 +156,7 @@ class SignViewModel(private val repository: SignRepository) : BViewModel() {
     fun verifyLocalPhone(phone: String) {
 //        viewModelScope.launch(Dispatchers.Main) {
 //            emitUIState(true)
-//            val result = SMSManager.instance.verifyLocalPhone(phone)
+//            val result = SMSManager.verifyLocalPhone(phone)
 //            if (result is RResult.Success) {
 //                emitUIState(isSuccess = true, data = result.data, type = "verifyLocalPhone")
 //                return@launch
@@ -190,7 +190,7 @@ class SignViewModel(private val repository: SignRepository) : BViewModel() {
     fun signInIM() {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val result = IMManager.instance.signIn()
+            val result = IMManager.signIn()
             if (result is RResult.Success) {
                 emitUIState(isSuccess = true, type = "signInIM")
                 return@launch

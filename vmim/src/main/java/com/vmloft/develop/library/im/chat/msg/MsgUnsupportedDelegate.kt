@@ -21,7 +21,7 @@ class MsgUnsupportedDelegate : BItemDelegate<EMMessage, ImItemMsgUnsupportedDele
     override fun layoutId(): Int = R.layout.im_item_msg_unsupported_delegate
 
     override fun onBindView(holder: BItemHolder<ImItemMsgUnsupportedDelegateBinding>, item: EMMessage) {
-        holder.binding.imMsgTimeTV.visibility = if (IMChatManager.instance.isShowTime(getPosition(holder), item)) View.VISIBLE else View.GONE
+        holder.binding.imMsgTimeTV.visibility = if (IMChatManager.isShowTime(getPosition(holder), item)) View.VISIBLE else View.GONE
 
         holder.binding.time = item.localTime()
 

@@ -80,7 +80,9 @@
 
 
 ### AgentWeb 库混淆配置
--keep class com.just.agentweb.** {
-    *;
-}
+-keep class com.just.agentweb.** {*;}
+-dontwarn com.just.agentweb.**
+
+### UCloud ufile-sdk-java 库混淆配置
+-keep class com.ucloud.ufile.** { *; }
 -dontwarn com.just.agentweb.**

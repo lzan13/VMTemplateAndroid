@@ -40,7 +40,7 @@ class QRCodeMineActivity : BaseActivity() {
     }
 
     override fun initData() {
-        user = SignManager.instance.getCurrUser() ?: return finish()
+        user = SignManager.getCurrUser() ?: return finish()
 
         bindInfo()
 

@@ -11,13 +11,7 @@ import java.util.*
  * Create by lzan13 2020/02/23
  * 描述：权限管理类
  */
-class PermissionManager() {
-
-    companion object {
-        val instance: PermissionManager by lazy {
-            PermissionManager()
-        }
-    }
+object PermissionManager {
 
     /**
      * 检查写入权限

@@ -21,7 +21,7 @@ import com.vmloft.develop.library.tools.utils.logger.VMLog
  * Create by lzan13 on 2020/6/22 10:20
  * 描述：通知管理类
  */
-class NotifyManager {
+object NotifyManager {
 
     // 系统通知管理类
     private lateinit var mNotificationManager: NotificationManager
@@ -32,23 +32,17 @@ class NotifyManager {
      */
     private var lastNotifyTime: Long = 0
 
-    companion object {
-        // 通知消息通道 Id
-        private const val notifyMsgChannelGroupId = "notifyMsgChannelGroupId"
-        private const val notifyMsgChannelGroupName = "消息通知"
-        private const val notifyMsgChannelGroupDescription = "收到新消息时通知通道，建议开启"
-        private const val notifyMsgChannelId = "notifyMsgChannelId"
-        private const val notifyMsgChannelName = "消息通知"
-        private const val notifyMsgChannelDescription = "收到新消息时通知通道，建议开启"
+    // 通知消息通道 Id
+    private const val notifyMsgChannelGroupId = "notifyMsgChannelGroupId"
+    private const val notifyMsgChannelGroupName = "消息通知"
+    private const val notifyMsgChannelGroupDescription = "收到新消息时通知通道，建议开启"
+    private const val notifyMsgChannelId = "notifyMsgChannelId"
+    private const val notifyMsgChannelName = "消息通知"
+    private const val notifyMsgChannelDescription = "收到新消息时通知通道，建议开启"
 
-        private const val notifyOtherChannelId = "notifyOtherChannelId"
-        private const val notifyOtherChannelName = "其他通知"
-        private const val notifyOtherChannelDescription = "收到其他消息时通知通道，可以关闭"
-
-        val instance: NotifyManager by lazy {
-            NotifyManager()
-        }
-    }
+    private const val notifyOtherChannelId = "notifyOtherChannelId"
+    private const val notifyOtherChannelName = "其他通知"
+    private const val notifyOtherChannelDescription = "收到其他消息时通知通道，可以关闭"
 
     /**
      * 初始化通知
@@ -64,19 +58,19 @@ class NotifyManager {
      * 发送通知
      */
     fun sendNotify(content: String, title: String) {
-        if (!CSPManager.instance.isNotifyMsgSwitch()) {
+        if (!CSPManager.isNotifyMsgSwitch()) {
             return
         }
         val builder: NotificationCompat.Builder = getBuilder(notifyMsgChannelId)
 
         // 通知标题
-        if (!VMStr.isEmpty(title)) {
+        if (!title.isNullOrEmpty()) {
             builder.setContentTitle(title)
         }
 
         // 通知内容
         // 开始在状态栏上显示的提示文案
-        if (CSPManager.instance.isNotifyMsgDetailSwitch()) {
+        if (CSPManager.isNotifyMsgDetailSwitch()) {
             builder.setTicker(content)
             builder.setContentText(content)
         } else {
@@ -213,7 +207,7 @@ class NotifyManager {
             // 设置绕过免打扰模式
             channel.setBypassDnd(true)
             // 设置通知所属分组
-            if (!VMStr.isEmpty(groupId)) {
+            if (!groupId.isNullOrEmpty()) {
                 channel.group = groupId
             }
             // 设置通知通道描述

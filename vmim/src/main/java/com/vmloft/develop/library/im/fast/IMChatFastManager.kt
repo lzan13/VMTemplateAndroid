@@ -10,15 +10,10 @@ import com.vmloft.develop.library.tools.utils.logger.VMLog
  * Create by lzan13 2021/05/26
  * 描述：快速聊天管理
  */
-class IMChatFastManager {
+object IMChatFastManager {
 
     private var fastStatus: Int = IMConstants.ChatFast.fastInputStatusEnd
 
-    companion object {
-        val instance: IMChatFastManager by lazy {
-            IMChatFastManager()
-        }
-    }
     /**
      * ----------------------------------------------------------------
      * 快速聊天信令处理
@@ -35,7 +30,7 @@ class IMChatFastManager {
         } else if (status == IMConstants.ChatFast.fastInputStatusBusy) {
         } else {
         }
-        IMChatManager.instance.sendFastSignal(chatId, status, content, len)
+        IMChatManager.sendFastSignal(chatId, status, content, len)
     }
 
     /**

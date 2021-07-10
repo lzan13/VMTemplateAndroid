@@ -33,7 +33,7 @@ class DebugActivity : BaseActivity() {
     }
 
     override fun initData() {
-        debugEnvLV.setCaption(VMStr.byRes(if (CSPManager.instance.isDebug()) R.string.debug_env_debug else R.string.debug_env_release))
+        debugEnvLV.setCaption(VMStr.byRes(if (CSPManager.isDebug()) R.string.debug_env_debug else R.string.debug_env_release))
     }
 
     private fun showRebootDialog() {
@@ -43,8 +43,8 @@ class DebugActivity : BaseActivity() {
             dialog.touchDismissSwitch = false
             dialog.setContent(R.string.debug_status_change_hint)
             dialog.setPositive(listener = {
-                CSPManager.instance.setDebug(!CSPManager.instance.isDebug())
-                debugEnvLV.setCaption(VMStr.byRes(if (CSPManager.instance.isDebug()) R.string.debug_env_debug else R.string.debug_env_release))
+                CSPManager.setDebug(!CSPManager.isDebug())
+                debugEnvLV.setCaption(VMStr.byRes(if (CSPManager.isDebug()) R.string.debug_env_debug else R.string.debug_env_release))
                 CRouter.goMain(1)
 
             })

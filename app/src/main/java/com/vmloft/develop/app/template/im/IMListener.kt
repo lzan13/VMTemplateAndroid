@@ -1,6 +1,7 @@
 package com.vmloft.develop.app.template.im
 
 import com.hyphenate.chat.EMMessage
+
 import com.vmloft.develop.app.template.common.CacheManager
 import com.vmloft.develop.app.template.common.SignManager
 import com.vmloft.develop.app.template.request.bean.User
@@ -11,7 +12,7 @@ import com.vmloft.develop.library.common.request.RResult
 import com.vmloft.develop.library.im.IIMListener
 import com.vmloft.develop.library.im.bean.IMRoom
 import com.vmloft.develop.library.im.bean.IMUser
-import com.vmloft.develop.library.tools.utils.logger.VMLog
+
 import kotlinx.coroutines.*
 
 /**
@@ -26,13 +27,13 @@ class IMListener : IIMListener {
      * @param id 联系人 id
      */
     override fun getUser(id: String): IMUser? {
-        var user = SignManager.instance.getCurrUser()
+        var user = SignManager.getCurrUser()
         user?.let {
             if (it.id == id) {
                 return IMUser(id, it.username, it.nickname, it.avatar, it.gender)
             }
         }
-        user = CacheManager.instance.getUser(id)
+        user = CacheManager.getUser(id)
         user?.let {
             return IMUser(id, it.username, it.nickname, it.avatar, it.gender)
         }
@@ -45,7 +46,7 @@ class IMListener : IIMListener {
      * @param id 联系人 id
      */
     override fun getUser(id: String, callback: (IMUser) -> Unit) {
-        var user = CacheManager.instance.getUser(id)
+        var user = CacheManager.getUser(id)
         user?.let {
             return callback.invoke(IMUser(id, it.username, it.nickname, it.avatar, it.gender))
         }
@@ -56,7 +57,7 @@ class IMListener : IIMListener {
             if (result is RResult.Success && result.data != null) {
                 val user = result.data!!
                 // 将用户信息加入到缓存
-                CacheManager.instance.putUser(user)
+                CacheManager.putUser(user)
                 callback.invoke(IMUser(id, user.username, user.nickname, user.avatar, user.gender))
             } else if (result is RResult.Error) {
                 callback.invoke(IMUser(id))
@@ -73,7 +74,7 @@ class IMListener : IIMListener {
         scope.launch {
             val result = InfoRepository().getUserList(ids)
             if (result is RResult.Success && result.data != null) {
-                CacheManager.instance.resetUsers(result.data!!)
+                CacheManager.resetUsers(result.data!!)
             }
             callback.invoke()
         }
@@ -83,7 +84,7 @@ class IMListener : IIMListener {
      * 获取房间信息
      */
     override fun getRoom(id: String): IMRoom {
-        val room = CacheManager.instance.getRoom(id)
+        val room = CacheManager.getRoom(id)
         room?.let {
             val owner = IMUser(room.owner.id, room.owner.username, room.owner.nickname, room.owner.avatar, room.owner.gender)
             return IMRoom(id, owner, room.title, room.desc, room.count)
@@ -102,7 +103,7 @@ class IMListener : IIMListener {
 //            if (result is RResult.Success && result.data != null) {
 //                val room = result.data!!
 //                // 将用户信息加入到缓存
-//                CacheManager.instance.putRoom(room)
+//                CacheManager.putRoom(room)
 //                // 包装回调
 //                val owner = IMUser(room.owner.id, room.owner.username, room.owner.nickname, room.owner.avatar, room.owner.gender)
 //                callback.invoke(IMRoom(id, owner, room.title, room.desc, room.count))
@@ -116,8 +117,8 @@ class IMListener : IIMListener {
      * 离开房间
      */
     override fun exitRoom(id: String) {
-        val room = CacheManager.instance.getLastRoom() ?: return
-        val user = SignManager.instance.getCurrUser() ?: return
+        val room = CacheManager.getLastRoom() ?: return
+        val user = SignManager.getCurrUser() ?: return
         // 检查下是不是自己创建的房间
         if (room.owner.id == user.id) {
             // 这里使用协程调用销毁聊天室
@@ -126,12 +127,12 @@ class IMListener : IIMListener {
                 val result = RoomRepository().destroyRoom(id)
                 if (result is RResult.Success) {
                     // 1.销毁的话把缓存里的房间信息也要删掉
-                    CacheManager.instance.setLastRoom(null)
+                    CacheManager.setLastRoom(null)
                 }
             }
         } else {
             // 2.只是退出，置空下最后加入的房间就好
-            CacheManager.instance.setLastRoom(null)
+            CacheManager.setLastRoom(null)
         }
     }
 
@@ -141,7 +142,7 @@ class IMListener : IIMListener {
      * @param id 用户 id
      */
     override fun onHeadClick(id: String) {
-        val user = CacheManager.instance.getUser(id) ?: User(id)
+        val user = CacheManager.getUser(id) ?: User(id)
         AppRouter.goUserInfo(user)
     }
 

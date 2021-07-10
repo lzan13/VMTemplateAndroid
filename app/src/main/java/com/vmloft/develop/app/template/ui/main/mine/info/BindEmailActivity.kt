@@ -71,7 +71,7 @@ class BindEmailActivity : BVMActivity<InfoViewModel>() {
         if (model.type == "sendCodeEmail") {
             bindCodeBtn.startTimer()
         } else if (model.type == "bindEmail") {
-            SignManager.instance.setCurrUser(model.data as User)
+            SignManager.setCurrUser(model.data as User)
             finish()
         }
     }

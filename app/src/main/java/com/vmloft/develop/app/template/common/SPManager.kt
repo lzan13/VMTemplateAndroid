@@ -7,7 +7,7 @@ import com.vmloft.develop.library.tools.utils.VMSystem
  * Create by lzan13 on 2020/4/25 19:48
  * 描述：SharedPreference 管理
  */
-class SPManager {
+object SPManager {
     /**
      * 记录设置项
      */
@@ -45,11 +45,6 @@ class SPManager {
     private val checkVersionTimeKey = "checkVersionTimeKey" // 上次版本检查时间
 
 
-    companion object {
-        val instance: SPManager by lazy {
-            SPManager()
-        }
-    }
     /**
      * -------------------------------------------------------------------------------
      * 通用的几个方法

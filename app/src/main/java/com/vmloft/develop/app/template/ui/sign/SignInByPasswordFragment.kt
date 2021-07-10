@@ -83,7 +83,7 @@ class SignInByPasswordFragment : BVMFragment<SignViewModel>() {
     }
 
     override fun initData() {
-        val user = SignManager.instance.getPrevUser()
+        val user = SignManager.getPrevUser()
         if (user?.username.isNullOrEmpty()) {
             signAccountET.setText(user?.username)
         } else if (user?.phone.isNullOrEmpty()) {

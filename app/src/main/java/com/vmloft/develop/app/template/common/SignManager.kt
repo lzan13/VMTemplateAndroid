@@ -10,7 +10,7 @@ import com.vmloft.develop.library.common.utils.JsonUtils
  * Create by lzan13 on 2020/6/19 14:08
  * 描述：用户管理
  */
-class SignManager {
+object SignManager {
 
     private var mToken: String = ""
 
@@ -18,11 +18,6 @@ class SignManager {
     private var mCurrUser: User? = null
     private var mPrevUser: User? = null
 
-    companion object {
-        val instance: SignManager by lazy {
-            SignManager()
-        }
-    }
 
     /**
      * 判断是否登录
@@ -36,12 +31,12 @@ class SignManager {
      */
     fun setToken(token: String) {
         mToken = token
-        SPManager.instance.putToken(mToken)
+        SPManager.putToken(mToken)
     }
 
     fun getToken(): String? {
         if (mToken.isNullOrEmpty()) {
-            mToken = SPManager.instance.getToken()
+            mToken = SPManager.getToken()
         }
         return mToken
     }
@@ -54,8 +49,8 @@ class SignManager {
         mCurrUser = user
         mPrevUser = user
         val userJson: String = JsonUtils.toJson(user, User::class.java)
-        SPManager.instance.putCurrUser(userJson)
-        SPManager.instance.putPrevUser(userJson)
+        SPManager.putCurrUser(userJson)
+        SPManager.putPrevUser(userJson)
         user?.let {
             LDEventBus.post(Constants.userInfoEvent, it)
         }
@@ -63,7 +58,7 @@ class SignManager {
 
     fun getCurrUser(): User? {
         if (mCurrUser == null) {
-            var userJson: String = SPManager.instance.getCurrUser()
+            var userJson: String = SPManager.getCurrUser()
             mCurrUser = JsonUtils.formJson(userJson, User::class.java)
         }
         return mCurrUser
@@ -74,7 +69,7 @@ class SignManager {
      */
     fun getPrevUser(): User? {
         if (mPrevUser == null) {
-            var userJson: String = SPManager.instance.getPrevUser()
+            var userJson: String = SPManager.getPrevUser()
             mPrevUser = JsonUtils.formJson(userJson, User::class.java)
         }
         return mPrevUser
@@ -87,7 +82,7 @@ class SignManager {
         setToken("")
         setCurrUser(null)
 
-        IMManager.instance.exit()
+        IMManager.exit()
     }
 
 }

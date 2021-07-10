@@ -11,6 +11,7 @@ import com.vmloft.develop.app.template.ui.post.PostViewModel
 import com.vmloft.develop.app.template.ui.sign.SignViewModel
 import com.vmloft.develop.app.template.ui.user.UserInfoViewModel
 import com.vmloft.develop.app.template.ui.room.RoomViewModel
+import com.vmloft.develop.library.common.request.FileRepository
 
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -21,11 +22,11 @@ import org.koin.dsl.module
 val viewModelModule = module {
     viewModel { DisplayViewModel() }
     viewModel { ExploreViewModel(get(), get()) }
-    viewModel { FeedbackViewModel(get()) }
-    viewModel { InfoViewModel(get(), get()) }
+    viewModel { FeedbackViewModel(get(), get()) }
+    viewModel { InfoViewModel(get(), get(), get()) }
     viewModel { MainViewModel(get(), get()) }
     viewModel { MatchViewModel(get()) }
-    viewModel { PostViewModel(get(), get(), get()) }
+    viewModel { PostViewModel(get(), get(), get(), get()) }
     viewModel { RoomViewModel(get()) }
     viewModel { SignViewModel(get()) }
     viewModel { UserInfoViewModel(get(), get()) }
@@ -36,6 +37,7 @@ val repositoryModule = module {
 //    single { APIRequest.getAPI(APIService::class.java, CConstants.baseHost()) }
     single { CoroutinesDispatcherProvider() }
     single { CommonRepository() }
+    single { FileRepository() }
     single { FollowRepository() }
     single { InfoRepository() }
     single { LikeRepository() }

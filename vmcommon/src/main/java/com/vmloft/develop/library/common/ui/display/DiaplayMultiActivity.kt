@@ -60,7 +60,7 @@ class DisplayMultiActivity : BVMActivity<DisplayViewModel>() {
 
         displayViewPager.currentItem = index.toInt()
 
-//        ADSManager.instance.loadBannerADS(ADSManager.adsBannerId, adsContainer)
+//        ADSManager.loadBannerADS(ADSManager.adsBannerId, adsContainer)
     }
 
     override fun onModelRefresh(model: BViewModel.UIModel) {
@@ -98,7 +98,7 @@ class DisplayMultiActivity : BVMActivity<DisplayViewModel>() {
         mViewModel.savePictureSingle(mActivity, url)
 
         // 上报下载图片事件
-//        ReportManager.instance.reportDownloadPicture(url)
+//        ReportManager.reportDownloadPicture(url)
     }
 
     /**

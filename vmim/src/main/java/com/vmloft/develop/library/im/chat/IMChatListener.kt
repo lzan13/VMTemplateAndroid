@@ -33,8 +33,8 @@ class IMChatListener : EMMessageListener {
         // 遍历消息集合
         for (msg in list) {
             // 更新会话时间
-            val conversation: EMConversation = IMChatManager.instance.getConversation(msg.conversationId(), msg.chatType.ordinal)
-            IMChatManager.instance.setConversationTime(conversation, msg.localTime())
+            val conversation: EMConversation = IMChatManager.getConversation(msg.conversationId(), msg.chatType.ordinal)
+            IMChatManager.setConversationTime(conversation, msg.localTime())
             // 先获取联系人信息再通知消息刷新
             if (IM.imListener.getUser(msg.from) != null) {
                 onNotifyMessage(msg)
@@ -52,10 +52,10 @@ class IMChatListener : EMMessageListener {
     private fun onNotifyMessage(msg: EMMessage) {
         // 通知有新消息来了，新消息通知肯定要发送，不在当前聊天界面还要发送通知栏提醒
         LDEventBus.post(IMConstants.Common.newMsgEvent, msg)
-        if (!IMChatManager.instance.isCurrChat(msg.conversationId())) {
-            val title = IMChatManager.instance.getSummary(msg)
-            val content = IMChatManager.instance.getSummary(msg)
-            NotifyManager.instance.sendNotify(content, title)
+        if (!IMChatManager.isCurrChat(msg.conversationId())) {
+            val title = IMChatManager.getSummary(msg)
+            val content = IMChatManager.getSummary(msg)
+            NotifyManager.sendNotify(content, title)
         }
     }
 
@@ -89,7 +89,7 @@ class IMChatListener : EMMessageListener {
             // 鼓励
             body.action() == IMConstants.Common.cmdEncourageAction -> {
                 // 如果不是发给当前会话的，就不需要处理
-                if (IMChatManager.instance.isCurrChat(msg.conversationId())) {
+                if (IMChatManager.isCurrChat(msg.conversationId())) {
                     LDEventBus.post(IMConstants.Common.cmdEncourageAction, msg)
                 }
             }
@@ -101,7 +101,7 @@ class IMChatListener : EMMessageListener {
                     return
                 }
                 // 如果不是发给当前会话的，就不需要处理
-                if (IMChatManager.instance.isCurrChat(msg.conversationId())) {
+                if (IMChatManager.isCurrChat(msg.conversationId())) {
                     LDEventBus.post(IMConstants.Common.cmdInputStatusAction, msg)
                 }
             }
@@ -114,7 +114,7 @@ class IMChatListener : EMMessageListener {
                 }
                 // 快速聊天信令[IMConstants.ChatFast]
                 val status = msg.getIntAttribute(IMConstants.ChatFast.msgAttrFastInputStatus, IMConstants.ChatFast.fastInputStatusEnd)
-                IMChatFastManager.instance.receiveFastSignal(msg.conversationId(), status)
+                IMChatFastManager.receiveFastSignal(msg.conversationId(), status)
                 LDEventBus.post(IMConstants.ChatFast.cmdFastInputAction, msg)
             }
 
@@ -125,7 +125,7 @@ class IMChatListener : EMMessageListener {
 
             // 撤回消息
             body.action() == IMConstants.Common.cmdRecallAction -> {
-                IMChatManager.instance.receiveRecallMessage(msg)
+                IMChatManager.receiveRecallMessage(msg)
             }
 
             // 通话信令
@@ -134,23 +134,23 @@ class IMChatListener : EMMessageListener {
                     // 如果命令消息超过一分钟，则不进行处理
                     return
                 }
-//                if (IMCallManager.instance.isCalling) {
-//                    if (!IMChatManager.instance.isCurrChat(msg.conversationId())) {
+//                if (IMCallManager.isCalling) {
+//                    if (!IMChatManager.isCurrChat(msg.conversationId())) {
 //                        // 通话中，但是消息信令不是当前通话对象发过来的，则忽略不处理，或者回复拒绝
-//                        IMChatManager.instance.sendCallSignal(msg.conversationId(), IMConstants.Call.callStatusBusy)
+//                        IMChatManager.sendCallSignal(msg.conversationId(), IMConstants.Call.callStatusBusy)
 //                        return
 //                    }
 //                }
                 // 通话信令状态 [IMContacts.Call]
                 val status = msg.getIntAttribute(IMConstants.Call.msgAttrCallStatus, IMConstants.Call.callStatusEnd)
-                IMCallManager.instance.receiveCallSignal(msg.conversationId(), status)
+                IMCallManager.receiveCallSignal(msg.conversationId(), status)
                 LDEventBus.post(IMConstants.Call.cmdCallStatusEvent, msg)
             }
 
             // 房间上麦
             body.action() == IMConstants.Call.cmdRoomApplyMic -> {
                 // 只有发给当前房间的消息才处理
-                if (IMChatManager.instance.isCurrChat(msg.conversationId())) {
+                if (IMChatManager.isCurrChat(msg.conversationId())) {
                     LDEventBus.post(IMConstants.Call.cmdRoomApplyMic, msg)
                 }
             }

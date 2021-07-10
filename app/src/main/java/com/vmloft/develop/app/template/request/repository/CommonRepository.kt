@@ -9,7 +9,9 @@ import com.vmloft.develop.app.template.request.db.AppDatabase
 import com.vmloft.develop.library.common.common.CConstants
 import com.vmloft.develop.library.common.request.RPaging
 import com.vmloft.develop.library.tools.utils.VMSystem
+
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 
 /**
@@ -21,19 +23,19 @@ class CommonRepository : BaseRepository() {
     /**
      * 上传附件
      */
-    suspend fun upload(part: MultipartBody.Part): RResult<Attachment> {
-        return safeRequest(call = { requestUpload(part) })
+    suspend fun ucloudCallbackObj(body: RequestBody): RResult<Attachment> {
+        return safeRequest(call = { requestUpload(body) })
     }
 
-    private suspend fun requestUpload(part: MultipartBody.Part): RResult<Attachment> =
-        executeResponse(APIRequest.commonAPI.upload(part))
+    private suspend fun requestUpload(body: RequestBody): RResult<Attachment> =
+        executeResponse(APIRequest.commonAPI.ucloudCallbackObj(body))
 
     /**
      * 获取分类集合
      */
     suspend fun getCategoryList(server: Boolean = false): RResult<RPaging<Category>> {
         // 根据参数优先从本地获取，这里检查下缓存时间，大于 1 天就重新从服务器获取
-        val time = SPManager.instance.getCategoryTime()
+        val time = SPManager.getCategoryTime()
         val intervalTime = System.currentTimeMillis() - time
         if (!server && intervalTime < CConstants.timeDay) {
             val list = AppDatabase.getInstance().categoryDao().all()
@@ -44,7 +46,7 @@ class CommonRepository : BaseRepository() {
         // 从服务器获取后保存到本地数据库
         val result = safeRequest(call = { requestCategoryList() })
         if (result is RResult.Success) {
-            SPManager.instance.setCategoryTime(System.currentTimeMillis())
+            SPManager.setCategoryTime(System.currentTimeMillis())
             // 先清空原来的数据
             AppDatabase.getInstance().categoryDao().delete()
             // 重新插入
@@ -62,7 +64,7 @@ class CommonRepository : BaseRepository() {
     suspend fun getProfessionList(server: Boolean = false): RResult<RPaging<Profession>> {
         // 根据参数优先从本地获取，这里检查下缓存时间，大于 1 天就重新从服务器获取
         // 根据参数优先从本地获取
-        val time = SPManager.instance.getProfessionTime()
+        val time = SPManager.getProfessionTime()
         val intervalTime = System.currentTimeMillis() - time
         if (!server && intervalTime < CConstants.timeDay) {
             val list = AppDatabase.getInstance().professionDao().all()
@@ -73,7 +75,7 @@ class CommonRepository : BaseRepository() {
         // 从服务器获取后保存到本地数据库
         val result = safeRequest(call = { requestProfessionList() })
         if (result is RResult.Success) {
-            SPManager.instance.setProfessionTime(System.currentTimeMillis())
+            SPManager.setProfessionTime(System.currentTimeMillis())
             // 先清空原来的数据
             AppDatabase.getInstance().professionDao().delete()
             // 重新插入
@@ -90,7 +92,7 @@ class CommonRepository : BaseRepository() {
      * 检查版本，这里控制超过 24 小时去服务器请求
      */
     suspend fun checkVersion(server: Boolean = false): RResult<Version> {
-        val time = SPManager.instance.getCheckVersionTime()
+        val time = SPManager.getCheckVersionTime()
         val intervalTime = System.currentTimeMillis() - time
         if (!server && intervalTime < CConstants.timeDay) {
             val list = AppDatabase.getInstance().versionDao().all()
@@ -106,7 +108,7 @@ class CommonRepository : BaseRepository() {
         }
         val result = safeRequest(call = { requestCheckVersion() })
         if (result is RResult.Success) {
-            SPManager.instance.setCheckVersionTime(System.currentTimeMillis())
+            SPManager.setCheckVersionTime(System.currentTimeMillis())
         }
 
         return result

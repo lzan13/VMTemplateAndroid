@@ -92,7 +92,7 @@ class IMChatFastActivity : BaseActivity() {
                     len = before
                 }
                 VMLog.e("输入内容变化 $s content-$content start-$start before-$before count-$count")
-                IMChatFastManager.instance.sendFastSignal(chatId, IMConstants.ChatFast.fastInputStatusContent, content, len)
+                IMChatFastManager.sendFastSignal(chatId, IMConstants.ChatFast.fastInputStatusContent, content, len)
             }
 
             override fun afterTextChanged(s: Editable) {
@@ -112,7 +112,7 @@ class IMChatFastActivity : BaseActivity() {
         ARouter.getInstance().inject(this)
 
         mUser = IM.imListener.getUser(chatId) ?: IMUser(chatId)
-        val selfId = IM.instance.getSelfId()
+        val selfId = IM.getSelfId()
         mSelfUser = IM.imListener.getUser(selfId) ?: IMUser(selfId)
 
         bindInfo()
@@ -120,7 +120,7 @@ class IMChatFastActivity : BaseActivity() {
         if (isApply) {
             showApplyDialog()
         } else {
-            IMChatFastManager.instance.sendFastSignal(chatId, IMConstants.ChatFast.fastInputStatusApply)
+            IMChatFastManager.sendFastSignal(chatId, IMConstants.ChatFast.fastInputStatusApply)
             showBar(R.string.im_fast_wait)
         }
     }
@@ -168,11 +168,11 @@ class IMChatFastActivity : BaseActivity() {
             dialog.touchDismissSwitch = false
             dialog.setContent(R.string.im_fast_apply)
             dialog.setNegative() {
-                IMChatFastManager.instance.sendFastSignal(chatId, IMConstants.ChatFast.fastInputStatusReject)
+                IMChatFastManager.sendFastSignal(chatId, IMConstants.ChatFast.fastInputStatusReject)
                 finish()
             }
             dialog.setPositive() {
-                IMChatFastManager.instance.sendFastSignal(chatId, IMConstants.ChatFast.fastInputStatusAgree)
+                IMChatFastManager.sendFastSignal(chatId, IMConstants.ChatFast.fastInputStatusAgree)
             }
             dialog.show()
         }
@@ -229,7 +229,7 @@ class IMChatFastActivity : BaseActivity() {
             dialog.touchDismissSwitch = false
             dialog.setContent(R.string.im_fast_exit)
             dialog.setPositive(listener = {
-                IMChatFastManager.instance.sendFastSignal(chatId, IMConstants.ChatFast.fastInputStatusEnd)
+                IMChatFastManager.sendFastSignal(chatId, IMConstants.ChatFast.fastInputStatusEnd)
                 finish()
             })
             dialog.show()

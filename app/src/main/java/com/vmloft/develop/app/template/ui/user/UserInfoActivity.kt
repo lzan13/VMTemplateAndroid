@@ -65,7 +65,7 @@ class UserInfoActivity : BVMActivity<UserInfoViewModel>() {
         infoLikeLL.setOnClickListener { }
 
         infoFollowMeTV.setOnClickListener { follow() }
-        infoSendBtn.setOnClickListener { IMManager.instance.goChat(user.id) }
+        infoSendBtn.setOnClickListener { IMManager.goChat(user.id) }
 
     }
 

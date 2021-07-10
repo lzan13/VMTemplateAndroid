@@ -31,20 +31,6 @@ interface UserInfoAPI {
     suspend fun updateUsername(@Field("username") username: String): RResponse<User>
 
     /**
-     * 更新当前账户头像
-     */
-    @Multipart
-    @PUT("v1/info/avatar")
-    suspend fun updateAvatar(@Part avatar: MultipartBody.Part): RResponse<User>
-
-    /**
-     * 更新当前账户封面
-     */
-    @Multipart
-    @PUT("v1/info/cover")
-    suspend fun updateCover(@Part cover: MultipartBody.Part): RResponse<User>
-
-    /**
      * 更新当前用户邮箱绑定
      */
     @FormUrlEncoded

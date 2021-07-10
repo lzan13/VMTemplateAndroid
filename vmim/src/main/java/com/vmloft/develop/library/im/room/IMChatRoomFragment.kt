@@ -123,30 +123,30 @@ class IMChatRoomFragment : BaseFragment() {
      */
     private fun initConversation() {
         // 获取会话对象
-        conversation = IMChatManager.instance.getConversation(chatId, chatType)
+        conversation = IMChatManager.getConversation(chatId, chatType)
 
         // 清空未读
-        IMChatManager.instance.setConversationUnread(conversation, false)
-        val cacheCount = IMChatManager.instance.getCacheMessages(chatId, chatType).size
-        val sumCount = IMChatManager.instance.getMessagesCount(chatId, chatType)
+        IMChatManager.setConversationUnread(conversation, false)
+        val cacheCount = IMChatManager.getCacheMessages(chatId, chatType).size
+        val sumCount = IMChatManager.getMessagesCount(chatId, chatType)
         if (cacheCount in 1 until sumCount && cacheCount < limit) {
             // 加载更多消息，填充满一页
-            IMChatManager.instance.loadMoreMessages(conversation, limit)
+            IMChatManager.loadMoreMessages(conversation, limit)
         }
         mItems.clear()
-        mItems.addAll(IMChatManager.instance.getCacheMessages(chatId, chatType))
+        mItems.addAll(IMChatManager.getCacheMessages(chatId, chatType))
         mAdapter.notifyDataSetChanged()
     }
 
 
     override fun onResume() {
         super.onResume()
-        IMChatManager.instance.setCurrChatId(chatId)
+        IMChatManager.setCurrChatId(chatId)
     }
 
     override fun onPause() {
         super.onPause()
-        IMChatManager.instance.setCurrChatId("")
+        IMChatManager.setCurrChatId("")
     }
 
     private fun initRecyclerView() {
@@ -169,7 +169,7 @@ class IMChatRoomFragment : BaseFragment() {
             MsgTextSendDelegate(),
         ).withKotlinClassLinker { _, data ->
             // 根据消息类型返回不同的 View 展示
-            when (IMChatManager.instance.getMsgType(data)) {
+            when (IMChatManager.getMsgType(data)) {
                 IMConstants.MsgType.imTextReceive -> MsgTextReceiveDelegate::class
                 IMConstants.MsgType.imTextSend -> MsgTextSendDelegate::class
                 else -> MsgUnsupportedDelegate::class
@@ -210,7 +210,7 @@ class IMChatRoomFragment : BaseFragment() {
      * 刷新消息更新
      */
     private fun refreshUpdateMsg(msg: EMMessage) {
-        val position = IMChatManager.instance.getPosition(msg)
+        val position = IMChatManager.getPosition(msg)
         mAdapter.notifyItemChanged(position)
     }
 
@@ -220,7 +220,7 @@ class IMChatRoomFragment : BaseFragment() {
     private fun loadMoreMsg() {
         imChatRefreshLayout.finishRefresh()
 
-        val list = IMChatManager.instance.loadMoreMessages(conversation, limit)
+        val list = IMChatManager.loadMoreMessages(conversation, limit)
         mItems.addAll(0, list)
         mAdapter.notifyItemRangeInserted(0, list.size)
     }
@@ -230,7 +230,7 @@ class IMChatRoomFragment : BaseFragment() {
      */
     private fun sendEncourage() {
         // 发送消息
-        IMChatManager.instance.sendEncourage(chatId, chatType)
+        IMChatManager.sendEncourage(chatId, chatType)
         // 本地播放鼓励动画
         addEncourageAnim()
     }
@@ -245,16 +245,16 @@ class IMChatRoomFragment : BaseFragment() {
         }
         imChatMessageET.setText("")
         // 发送消息
-        sendMessage(IMChatManager.instance.createTextMessage(content, chatId))
+        sendMessage(IMChatManager.createTextMessage(content, chatId))
     }
 
     /**
      * 发送消息统一收口
      */
     private fun sendMessage(message: EMMessage) {
-        message.chatType = IMChatManager.instance.wrapChatType(chatType)
+        message.chatType = IMChatManager.wrapChatType(chatType)
 
-        IMChatManager.instance.sendMessage(message)
+        IMChatManager.sendMessage(message)
 
         // 通知有新消息，这里主要是通知会话列表刷新
         LDEventBus.post(IMConstants.Common.newMsgEvent, message)
@@ -286,7 +286,7 @@ class IMChatRoomFragment : BaseFragment() {
         imRoomEncourageFL.addView(imageView, lp)
 
         // 动画出现
-        val options = VMAnimator.createOptions(imageView, VMAnimator.ALPHA, 1000, 3, 0.0f, 1.0f)
+        val options = VMAnimator.AnimOptions(imageView, floatArrayOf(0.0f, 1.0f), VMAnimator.alpha, 1000, 3)
         VMAnimator.createAnimator().play(options).start()
         VMSystem.runInUIThread({
             imRoomEncourageFL.removeView(imageView)

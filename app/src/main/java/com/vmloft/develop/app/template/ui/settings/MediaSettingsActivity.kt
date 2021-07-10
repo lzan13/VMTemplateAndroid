@@ -27,13 +27,13 @@ class MediaSettingsActivity : BaseActivity() {
         setTopTitle(R.string.settings_media)
 
         pictureAutoLoadLV.setOnClickListener {
-            CSPManager.instance.setAutoLoad(!CSPManager.instance.isAutoLoad())
-            pictureAutoLoadLV.isActivated = CSPManager.instance.isAutoLoad()
+            CSPManager.setAutoLoad(!CSPManager.isAutoLoad())
+            pictureAutoLoadLV.isActivated = CSPManager.isAutoLoad()
         }
 
         pictureSaveDICMLV.setOnClickListener {
-            CSPManager.instance.setSaveDICM(!CSPManager.instance.isSaveDICM())
-            pictureSaveDICMLV.isActivated = CSPManager.instance.isSaveDICM()
+            CSPManager.setSaveDICM(!CSPManager.isSaveDICM())
+            pictureSaveDICMLV.isActivated = CSPManager.isSaveDICM()
         }
         pictureClearCacheLV.setOnClickListener {
             VMFile.deleteFolder(cachePath, false)
@@ -44,8 +44,8 @@ class MediaSettingsActivity : BaseActivity() {
     }
 
     override fun initData() {
-        pictureAutoLoadLV.isActivated = CSPManager.instance.isAutoLoad()
-        pictureSaveDICMLV.isActivated = CSPManager.instance.isSaveDICM()
+        pictureAutoLoadLV.isActivated = CSPManager.isAutoLoad()
+        pictureSaveDICMLV.isActivated = CSPManager.isSaveDICM()
 
         bindCache()
     }

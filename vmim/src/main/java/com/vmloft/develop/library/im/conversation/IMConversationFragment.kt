@@ -133,10 +133,10 @@ class IMConversationFragment : BaseFragment() {
      * 设置标为未读
      */
     private fun setUnread() {
-        if (IMChatManager.instance.getConversationUnread(currConversation) > 0) {
-            IMChatManager.instance.setConversationUnread(currConversation, false)
+        if (IMChatManager.getConversationUnread(currConversation) > 0) {
+            IMChatManager.setConversationUnread(currConversation, false)
         } else {
-            IMChatManager.instance.setConversationUnread(currConversation, true)
+            IMChatManager.setConversationUnread(currConversation, true)
         }
     }
 
@@ -144,10 +144,10 @@ class IMConversationFragment : BaseFragment() {
      * 设置指定状态
      */
     private fun setTop() {
-        if (IMChatManager.instance.getConversationTop(currConversation)) {
-            IMChatManager.instance.setConversationTop(currConversation, false)
+        if (IMChatManager.getConversationTop(currConversation)) {
+            IMChatManager.setConversationTop(currConversation, false)
         } else {
-            IMChatManager.instance.setConversationTop(currConversation, true)
+            IMChatManager.setConversationTop(currConversation, true)
         }
     }
 
@@ -155,27 +155,27 @@ class IMConversationFragment : BaseFragment() {
      * 删除会话
      */
     private fun remove() {
-        IMChatManager.instance.deleteConversation(currConversation.conversationId())
+        IMChatManager.deleteConversation(currConversation.conversationId())
     }
 
     /**
      * 清空会话
      */
     private fun clear() {
-        IMChatManager.instance.clearConversation(currConversation.conversationId())
+        IMChatManager.clearConversation(currConversation.conversationId())
     }
 
     /**
      * 弹出菜单
      */
     private fun showFloatMenu(view: View, event: MotionEvent) {
-        val unread = if (IMChatManager.instance.getConversationUnread(currConversation) > 0) {
+        val unread = if (IMChatManager.getConversationUnread(currConversation) > 0) {
             VMStr.byRes(R.string.im_conversation_read)
         } else {
             VMStr.byRes(R.string.im_conversation_unread)
         }
 
-        val top = if (IMChatManager.instance.getConversationTop(currConversation)) {
+        val top = if (IMChatManager.getConversationTop(currConversation)) {
             VMStr.byRes(R.string.im_conversation_untop)
         } else {
             VMStr.byRes(R.string.im_conversation_top)
@@ -192,7 +192,7 @@ class IMConversationFragment : BaseFragment() {
 
 
     private fun loadConversation() {
-        val list = IMChatManager.instance.getAllConversation()
+        val list = IMChatManager.getAllConversation()
         val ids = list.map { it.conversationId() }
 
         VMLog.d("-lz-0 获取指定用户信息")
@@ -208,7 +208,7 @@ class IMConversationFragment : BaseFragment() {
      * 刷新界面
      */
     private fun refresh() {
-        val list = IMChatManager.instance.getAllConversation()
+        val list = IMChatManager.getAllConversation()
 
 //        val result = DiffUtil.calculateDiff(ConversationDiff(mItems, list), true)
 //

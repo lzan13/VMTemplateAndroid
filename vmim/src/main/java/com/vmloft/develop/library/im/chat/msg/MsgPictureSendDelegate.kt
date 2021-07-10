@@ -33,7 +33,7 @@ class MsgPictureSendDelegate(listener: BItemListener<EMMessage>, longListener: B
     override fun layoutId(): Int = R.layout.im_item_msg_picture_send_delegate
 
     override fun onBindView(holder: BItemHolder<ImItemMsgPictureSendDelegateBinding>, item: EMMessage) {
-        holder.binding.imMsgTimeTV.visibility = if (IMChatManager.instance.isShowTime(getPosition(holder), item)) View.VISIBLE else View.GONE
+        holder.binding.imMsgTimeTV.visibility = if (IMChatManager.isShowTime(getPosition(holder), item)) View.VISIBLE else View.GONE
 
         val user = IM.imListener.getUser(item.from)
         IMGLoader.loadAvatar(holder.binding.imMsgAvatarIV, user?.avatar ?: "")

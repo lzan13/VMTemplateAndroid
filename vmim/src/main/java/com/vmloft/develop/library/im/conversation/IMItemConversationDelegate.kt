@@ -19,15 +19,15 @@ class IMItemConversationDelegate(listener: BItemListener<EMConversation>, longLi
     override fun layoutId(): Int = R.layout.im_item_conversation_delegate
 
     override fun onBindView(holder: BItemHolder<ImItemConversationDelegateBinding>, item: EMConversation) {
-        holder.binding.top = IMChatManager.instance.getConversationTop(item)
+        holder.binding.top = IMChatManager.getConversationTop(item)
 
-        holder.binding.unread = IMChatManager.instance.getConversationUnread(item)
+        holder.binding.unread = IMChatManager.getConversationUnread(item)
 
         val user = IM.imListener.getUser(item.conversationId())
         IMGLoader.loadAvatar(holder.binding.imConversationAvatarIV, user?.avatar ?: "")
         holder.binding.title = user?.nickname ?: "小透明"
-        holder.binding.content = IMChatManager.instance.getSummary(item.lastMessage)
-        holder.binding.time = IMChatManager.instance.getConversationTime(item)
+        holder.binding.content = IMChatManager.getSummary(item.lastMessage)
+        holder.binding.time = IMChatManager.getConversationTime(item)
 
         holder.binding.executePendingBindings()
     }

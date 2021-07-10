@@ -59,7 +59,7 @@ class MainActivity : BVMActivity<MainViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (!SignManager.instance.isSingIn()) {
+        if (!SignManager.isSingIn()) {
             CRouter.go(AppRouter.appSignGuide)
             return finish()
         }
@@ -92,17 +92,17 @@ class MainActivity : BVMActivity<MainViewModel>() {
         super.initUI()
         (mBinding as ActivityMainBinding).viewModel = mViewModel
 
-        if (!SignManager.instance.isSingIn()) return
+        if (!SignManager.isSingIn()) return
 
         initBottomNav()
 
-        PermissionManager.instance.requestPermissions(this)
+        PermissionManager.requestPermissions(this)
     }
 
     override fun initData() {
         ARouter.getInstance().inject(this)
 
-        if (!SignManager.instance.isSingIn()) return
+        if (!SignManager.isSingIn()) return
 
         mViewModel.getCurrUser()
     }
@@ -113,9 +113,9 @@ class MainActivity : BVMActivity<MainViewModel>() {
         ARouter.getInstance().inject(this)
         if (type == 1) {
             // 清空登录信息统一交给 Main 界面处理
-            SignManager.instance.signOut()
+            SignManager.signOut()
         }
-        if (!SignManager.instance.isSingIn()) {
+        if (!SignManager.isSingIn()) {
             CRouter.go(AppRouter.appSignGuide)
             finish()
             return

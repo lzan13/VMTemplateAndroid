@@ -7,7 +7,7 @@ import com.vmloft.develop.library.tools.utils.VMSPUtil
  *
  * 描述：SharedPreference 管理
  */
-class IMSPManager {
+object IMSPManager {
     /**
      * 记录设置项
      */
@@ -22,12 +22,6 @@ class IMSPManager {
     // 麦克风播放语音
     private val imSpeakerVoiceKey = "imSpeakerVoiceKey"
 
-
-    companion object {
-        val instance: IMSPManager by lazy {
-            IMSPManager()
-        }
-    }
 
     /**
      * -------------------------------------------------------------------------------

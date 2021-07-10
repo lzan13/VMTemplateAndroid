@@ -84,7 +84,7 @@ class PersonalInfoActivity : BVMActivity<InfoViewModel>() {
     }
 
     override fun initData() {
-        mUser = SignManager.instance.getCurrUser() ?: return finish()
+        mUser = SignManager.getCurrUser() ?: return finish()
 
         bindInfo()
         bindPicker()
@@ -95,20 +95,20 @@ class PersonalInfoActivity : BVMActivity<InfoViewModel>() {
 
     override fun onModelRefresh(model: BViewModel.UIModel) {
         if (model.type == "userInfo") {
-            SignManager.instance.setCurrUser(model.data as User)
+            SignManager.setCurrUser(model.data as User)
         }
         if (model.type == "professionList") {
             mProfessionList.addAll((model.data as RPaging<Profession>).data)
             bindProfessionData()
         }
         if (model.type == "updateInfo") {
-            SignManager.instance.setCurrUser(model.data as User)
+            SignManager.setCurrUser(model.data as User)
         }
         if (model.type == "updateCover") {
-            SignManager.instance.setCurrUser(model.data as User)
+            SignManager.setCurrUser(model.data as User)
         }
         if (model.type == "updateAvatar") {
-            SignManager.instance.setCurrUser(model.data as User)
+            SignManager.setCurrUser(model.data as User)
         }
     }
 
@@ -258,10 +258,9 @@ class PersonalInfoActivity : BVMActivity<InfoViewModel>() {
      * 选择封面
      */
     private fun chooseCover() {
-        if (!PermissionManager.instance.storagePermission(this)) return
+        if (!PermissionManager.storagePermission(this)) return
 
         IMGChoose.singleCrop(this) { result ->
-            VMLog.d("选择结果 $result")
             mViewModel.updateCover(result)
         }
     }
@@ -270,10 +269,9 @@ class PersonalInfoActivity : BVMActivity<InfoViewModel>() {
      * 选择头像
      */
     private fun chooseAvatar() {
-        if (!PermissionManager.instance.storagePermission(this)) return
+        if (!PermissionManager.storagePermission(this)) return
 
         IMGChoose.singleCrop(this) { result ->
-            VMLog.d("选择结果 $result")
             mViewModel.updateAvatar(result)
         }
     }

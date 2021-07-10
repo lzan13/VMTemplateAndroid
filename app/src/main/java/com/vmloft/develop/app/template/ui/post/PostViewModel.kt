@@ -8,14 +8,19 @@ import com.vmloft.develop.library.common.base.BViewModel
 import com.vmloft.develop.library.common.request.RResult
 import com.vmloft.develop.app.template.request.repository.PostRepository
 import com.vmloft.develop.library.common.common.CConstants
+import com.vmloft.develop.library.common.request.FileRepository
+import com.vmloft.develop.library.common.utils.JsonUtils
+import com.vmloft.develop.library.tools.utils.VMFile
 import com.vmloft.develop.library.tools.utils.bitmap.VMBitmap
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 
 /**
@@ -23,9 +28,10 @@ import java.io.File
  * 描述：内容 ViewModel
  */
 class PostViewModel(
-    val repository: PostRepository,
-    val commonRepository: CommonRepository,
-    val likeRepository: LikeRepository,
+    private val repo: PostRepository,
+    private val commonRepo: CommonRepository,
+    private val fileRepo: FileRepository,
+    private val likeRepo: LikeRepository,
 ) : BViewModel() {
 
     /**
@@ -36,7 +42,7 @@ class PostViewModel(
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
             val result = withContext(Dispatchers.IO) {
-                commonRepository.getCategoryList()
+                commonRepo.getCategoryList()
             }
 
             if (result is RResult.Success) {
@@ -47,7 +53,6 @@ class PostViewModel(
             }
         }
     }
-
 
     /**
      * -------------------------------------------------------
@@ -61,9 +66,24 @@ class PostViewModel(
             // 临时压缩下图片，这里压缩到默认的分辨率
             val tempPath = VMBitmap.compressTempImage(picture, 2048, 256)
             val file = File(tempPath)
-            val body: RequestBody = RequestBody.create("image/*".toMediaTypeOrNull(), file)
-            val part: MultipartBody.Part = MultipartBody.Part.createFormData("picture", file.name, body)
-            val result = commonRepository.upload(part)
+
+            // 调用上传图片
+            var uploadResult = fileRepo.uploadPicture(file)
+            // 构建参数
+            if (uploadResult is RResult.Error) {
+                emitUIState(code = uploadResult.code, error = uploadResult.error)
+                return@launch
+            }
+            // 构建参数
+            val params: MutableMap<String, Any> = mutableMapOf()
+            if (uploadResult is RResult.Success) {
+                params["extname"] = VMFile.parseSuffix(file.path)
+                params["filename"] = VMFile.parseFilename(uploadResult.data!!)
+                params["path"] = uploadResult.data!!
+                params["extra"] = "post"
+            }
+            // 回调上传结果
+            val result = commonRepo.ucloudCallbackObj(JsonUtils.map2json(params).toRequestBody("application/json".toMediaType()))
 
             if (result is RResult.Success) {
                 emitUIState(isSuccess = true, data = result.data, type = "uploadPicture")
@@ -74,7 +94,6 @@ class PostViewModel(
         }
     }
 
-
     /**
      * -------------------------------------------------------
      */
@@ -84,7 +103,7 @@ class PostViewModel(
     fun createPost(title: String, content: String, category: String, attachments: List<String> = arrayListOf()) {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val result = repository.createPost(title, content, category, attachments)
+            val result = repo.createPost(title, content, category, attachments)
 
             if (result is RResult.Success) {
                 emitUIState(isSuccess = true, type = "createPost")
@@ -101,7 +120,7 @@ class PostViewModel(
     fun getPostList(owner: String, page: Int = CConstants.defaultPage, limit: Int = CConstants.defaultLimit) {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val result = repository.getPostList(page, limit, owner)
+            val result = repo.getPostList(page, limit, owner)
 
             if (result is RResult.Success) {
                 emitUIState(isSuccess = true, data = result.data, type = "postList")
@@ -121,7 +140,7 @@ class PostViewModel(
     fun createComment(content: String, post: String, user: String = "") {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val result = repository.createComment(content, post, user)
+            val result = repo.createComment(content, post, user)
 
             if (result is RResult.Success) {
                 emitUIState(isSuccess = true, type = "createComment")
@@ -138,7 +157,7 @@ class PostViewModel(
     fun getCommentList(post: String, page: Int = CConstants.defaultPage, limit: Int = CConstants.defaultLimit) {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val result = repository.getCommentList(post, page, limit)
+            val result = repo.getCommentList(post, page, limit)
 
             if (result is RResult.Success) {
                 emitUIState(isSuccess = true, data = result.data, type = "commentList")
@@ -158,7 +177,7 @@ class PostViewModel(
     fun like(id: String) {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val result = likeRepository.like(1, id)
+            val result = likeRepo.like(1, id)
 
             if (result is RResult.Success) {
                 emitUIState(isSuccess = true, type = "like")
@@ -175,7 +194,7 @@ class PostViewModel(
     fun cancelLike(id: String) {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val result = likeRepository.cancelLike(1, id)
+            val result = likeRepo.cancelLike(1, id)
 
             if (result is RResult.Success) {
                 emitUIState(isSuccess = true, type = "cancelLike")
@@ -192,7 +211,7 @@ class PostViewModel(
     fun getLikePostList(owner: String, page: Int = CConstants.defaultPage, limit: Int = CConstants.defaultLimit) {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val result = likeRepository.getLikePostList(owner, page, limit, 1, "")
+            val result = likeRepo.getLikePostList(owner, page, limit, 1, "")
 
             if (result is RResult.Success) {
                 emitUIState(isSuccess = true, data = result.data, type = "likeList")

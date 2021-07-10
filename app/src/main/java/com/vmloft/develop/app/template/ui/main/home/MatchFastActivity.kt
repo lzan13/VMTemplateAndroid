@@ -16,8 +16,11 @@ import com.vmloft.develop.library.common.common.CConstants
 import com.vmloft.develop.library.common.utils.CUtils
 import com.vmloft.develop.library.tools.animator.VMAnimator
 import com.vmloft.develop.library.tools.utils.VMSystem
+import kotlinx.android.synthetic.main.activity_match.*
 
 import kotlinx.android.synthetic.main.activity_match_fast.*
+import kotlinx.android.synthetic.main.activity_match_fast.matchAnimView1
+import kotlinx.android.synthetic.main.activity_match_fast.matchAnimView2
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -59,8 +62,8 @@ class MatchFastActivity : BVMActivity<MatchViewModel>() {
     override fun onModelRefresh(model: BViewModel.UIModel) {
         if (model.type == "matchOne") {
             val match = model.data as Match
-            CacheManager.instance.putUser(match.user)
-            IMManager.instance.goChatFast(match.user.id)
+            CacheManager.putUser(match.user)
+            IMManager.goChatFast(match.user.id)
             finish()
         }
     }
@@ -69,19 +72,22 @@ class MatchFastActivity : BVMActivity<MatchViewModel>() {
      * 开始匹配，需要经自己的信息提交到后端
      */
     private fun startAnim() {
-        mAnimatorWrapRadar = VMAnimator.createAnimator().play(VMAnimator.createOptions(matchRadarIV, VMAnimator.ROTATION, 1000, VMAnimator.INFINITE, -45f, 45f))
+        val radarOptions = VMAnimator.AnimOptions(matchAnimView1, floatArrayOf(-45f, 45f), VMAnimator.rotation, 1000)
+        mAnimatorWrapRadar = VMAnimator.createAnimator().play(radarOptions)
         mAnimatorWrapRadar?.start()
 
-        mAnimatorWrap = VMAnimator.createAnimator()
-            .play(VMAnimator.createOptions(matchAnimView1, VMAnimator.SCALEX, 2000, VMAnimator.INFINITE, 0f, 20f))
-            .with(VMAnimator.createOptions(matchAnimView1, VMAnimator.SCALEY, 2000, VMAnimator.INFINITE, 0f, 20f))
-            .with(VMAnimator.createOptions(matchAnimView1, VMAnimator.ALPHA, 2000, VMAnimator.INFINITE, 1.0f, 0.0f))
+
+        val scaleXOptions = VMAnimator.AnimOptions(matchAnimView1, floatArrayOf(0f, 20f), VMAnimator.scaleX, 2000, repeatMode = 1)
+        val scaleYOptions = VMAnimator.AnimOptions(matchAnimView1, floatArrayOf(0f, 20f), VMAnimator.scaleY, 2000, repeatMode = 1)
+        val alphaOptions = VMAnimator.AnimOptions(matchAnimView1, floatArrayOf(1.0f, 0.0f), VMAnimator.alpha, 2000, repeatMode = 1)
+        mAnimatorWrap = VMAnimator.createAnimator().play(scaleXOptions).with(scaleYOptions).with(alphaOptions)
         mAnimatorWrap?.start()
-        mAnimatorWrap2 = VMAnimator.createAnimator()
-            .play(VMAnimator.createOptions(matchAnimView2, VMAnimator.SCALEX, 2000, VMAnimator.INFINITE, 0f, 20f))
-            .with(VMAnimator.createOptions(matchAnimView2, VMAnimator.SCALEY, 2000, VMAnimator.INFINITE, 0f, 20f))
-            .with(VMAnimator.createOptions(matchAnimView2, VMAnimator.ALPHA, 2000, VMAnimator.INFINITE, 1.0f, 0.0f))
-        mAnimatorWrap2?.startDelay(1000)
+
+        val scaleXOptions2 = VMAnimator.AnimOptions(matchAnimView2, floatArrayOf(0f, 20f), VMAnimator.scaleX, 2000, repeatMode = 1)
+        val scaleYOptions2 = VMAnimator.AnimOptions(matchAnimView2, floatArrayOf(0f, 20f), VMAnimator.scaleY, 2000, repeatMode = 1)
+        val alphaOptions2 = VMAnimator.AnimOptions(matchAnimView2, floatArrayOf(1.0f, 0.0f), VMAnimator.alpha, 2000, repeatMode = 1)
+        mAnimatorWrap2 = VMAnimator.createAnimator().play(scaleXOptions2).with(scaleYOptions2).with(alphaOptions2)
+        mAnimatorWrap2?.start(delay = 1000)
     }
 
     private fun stopAnim() {

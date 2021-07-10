@@ -9,7 +9,7 @@ import com.vmloft.develop.library.tools.utils.VMSPUtil
  *
  * 描述：SharedPreferences 配置管理类
  */
-class CSPManager {
+object CSPManager {
     /**
      * 记录设置项
      */
@@ -25,13 +25,6 @@ class CSPManager {
     // 通知开关
     private val notifyMsgSwitchKey = "notifyMsgSwitchKey"
     private val notifyMsgDetailSwitchKey = "notifyMsgDetailSwitchKey"
-
-
-    companion object {
-        val instance: CSPManager by lazy {
-            CSPManager()
-        }
-    }
 
     /**
      * Debug 状态

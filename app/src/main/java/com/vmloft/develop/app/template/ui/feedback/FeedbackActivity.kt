@@ -100,7 +100,7 @@ class FeedbackActivity : BVMActivity<FeedbackViewModel>() {
      */
     private fun verifyInputBox() {
         // 检查输入框是否为空
-        setTopEndBtnEnable(!VMStr.isEmpty(mContent))
+        setTopEndBtnEnable(!mContent.isNullOrEmpty())
     }
 
     /**

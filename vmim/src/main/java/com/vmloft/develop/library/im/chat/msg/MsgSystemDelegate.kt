@@ -19,11 +19,11 @@ class MsgSystemDelegate : BItemDelegate<EMMessage, ImItemMsgSystemDelegateBindin
     override fun layoutId(): Int = R.layout.im_item_msg_system_delegate
 
     override fun onBindView(holder: BItemHolder<ImItemMsgSystemDelegateBinding>, item: EMMessage) {
-        holder.binding.imMsgTimeTV.visibility = if (IMChatManager.instance.isShowTime(getPosition(holder), item)) View.VISIBLE else View.GONE
+        holder.binding.imMsgTimeTV.visibility = if (IMChatManager.isShowTime(getPosition(holder), item)) View.VISIBLE else View.GONE
 
         holder.binding.time = item.localTime()
 
-        val content = when (IMChatManager.instance.getMsgType(item)) {
+        val content = when (IMChatManager.getMsgType(item)) {
             IMConstants.MsgType.imRecall -> VMStr.byRes(R.string.im_recall_already)
             else -> item.getStringAttribute(IMConstants.Common.msgAttrSystem, "")
         }

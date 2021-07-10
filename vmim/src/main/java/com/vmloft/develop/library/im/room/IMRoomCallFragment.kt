@@ -136,7 +136,7 @@ class IMRoomCallFragment : BaseFragment() {
 
         mRoom = IM.imListener.getRoom(chatId)
         // 判断下当前用户是不是 Owner
-        selfId = IM.instance.getSelfId()
+        selfId = IM.getSelfId()
         isOwner = selfId == mRoom.owner.id
 
         initRtcEngine()
@@ -209,8 +209,8 @@ class IMRoomCallFragment : BaseFragment() {
      * @param status 0-申请 1-同意 2-上麦 3-下麦 4-被踢下麦
      */
     private fun sendApplyMicMsg(status: Int, id: String = "") {
-        val msg = IMChatManager.instance.createCMDMessage(IMConstants.Call.cmdRoomApplyMic, chatId)
-        msg.chatType = IMChatManager.instance.wrapChatType(IMConstants.ChatType.imChatRoom)
+        val msg = IMChatManager.createCMDMessage(IMConstants.Call.cmdRoomApplyMic, chatId)
+        msg.chatType = IMChatManager.wrapChatType(IMConstants.ChatType.imChatRoom)
         msg.setAttribute(IMConstants.Call.msgAttrApplyMicStatus, status)
 
         if (status == IMConstants.Call.roomApplyMicStatusAgree) {
@@ -236,7 +236,7 @@ class IMRoomCallFragment : BaseFragment() {
             bindGuest()
         }
 
-        IMChatManager.instance.sendMessage(msg)
+        IMChatManager.sendMessage(msg)
     }
 
     /**
@@ -315,7 +315,7 @@ class IMRoomCallFragment : BaseFragment() {
             dialog.setNegative("")
             dialog.setPositive(VMStr.byRes(R.string.vm_i_know)) {
                 // 退出聊天室
-                IMChatRoomManager.instance.exitRoom(chatId)
+                IMChatRoomManager.exitRoom(chatId)
                 requireActivity().finish()
             }
             dialog.show()
@@ -371,7 +371,7 @@ class IMRoomCallFragment : BaseFragment() {
      */
     private fun initRtcEngine() {
         try {
-            rtcEngine = RtcEngine.create(IM.instance.imContext, IMConstants.agoraAppId(), object : IRtcEngineEventHandler() {})
+            rtcEngine = RtcEngine.create(IM.imContext, IMConstants.agoraAppId(), object : IRtcEngineEventHandler() {})
             // 这里设置成直播场景
             rtcEngine.setChannelProfile(Constants.CHANNEL_PROFILE_LIVE_BROADCASTING)
             // 设置用户角色，房主默认为主播，其他人默认为观众

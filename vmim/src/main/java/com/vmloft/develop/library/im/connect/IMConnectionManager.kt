@@ -14,14 +14,7 @@ import com.vmloft.develop.library.tools.utils.logger.VMLog
  *
  * IM 链接监听管理类
  */
-class IMConnectionManager {
-
-    companion object {
-        val instance: IMConnectionManager by lazy {
-            IMConnectionManager()
-        }
-    }
-
+object IMConnectionManager {
 
     fun init() {
         EMClient.getInstance().addConnectionListener(object : EMConnectionListener {
@@ -35,10 +28,10 @@ class IMConnectionManager {
                 VMLog.d("链接断开 $code")
                 if (code == EMError.USER_LOGIN_ANOTHER_DEVICE) {
                     // 其他设备登录，自己被踢
-                    IM.instance.signOut(false)
+                    IM.signOut(false)
                 } else if (code == EMError.USER_REMOVED) {
                     // 账户被强制下线
-                    IM.instance.signOut(false)
+                    IM.signOut(false)
                 } else {
                     // 连接不到服务器
                 }

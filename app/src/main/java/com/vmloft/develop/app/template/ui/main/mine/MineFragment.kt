@@ -65,7 +65,7 @@ class MineFragment : BaseFragment() {
     }
 
     override fun initData() {
-        mUser = SignManager.instance.getCurrUser() ?: User()
+        mUser = SignManager.getCurrUser() ?: User()
 
         initFragmentList()
         initViewPager()

@@ -10,7 +10,7 @@ import com.vmloft.develop.library.common.utils.JsonUtils
  * Create by lzan13 on 2021/5/19 14:08
  * 描述：缓存管理
  */
-class CacheManager {
+object CacheManager {
 
     // 缓存用户信息
     private val userMap = mutableMapOf<String, User>()
@@ -19,13 +19,6 @@ class CacheManager {
     private val roomMap = mutableMapOf<String, Room>()
 
     private var lastRoom: Room? = null
-
-
-    companion object {
-        val instance: CacheManager by lazy {
-            CacheManager()
-        }
-    }
 
     /**
      * ----------------------------------------------------------------------
@@ -93,12 +86,12 @@ class CacheManager {
         }
         lastRoom = room
         val json: String = JsonUtils.toJson(room, Room::class.java)
-        SPManager.instance.putLastRoom(json)
+        SPManager.putLastRoom(json)
     }
 
     fun getLastRoom(): Room? {
         if (lastRoom == null) {
-            val json: String = SPManager.instance.getLastRoom()
+            val json: String = SPManager.getLastRoom()
             lastRoom = JsonUtils.formJson(json, Room::class.java)
         }
         return lastRoom

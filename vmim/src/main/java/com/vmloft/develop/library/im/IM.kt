@@ -5,8 +5,8 @@ import android.content.Context
 import com.hyphenate.EMCallBack
 import com.hyphenate.chat.EMClient
 import com.hyphenate.chat.EMOptions
-import com.vmloft.develop.library.common.common.CError
 
+import com.vmloft.develop.library.common.common.CError
 import com.vmloft.develop.library.common.common.CSPManager
 import com.vmloft.develop.library.common.request.RResult
 import com.vmloft.develop.library.im.call.IMCallManager
@@ -18,6 +18,7 @@ import com.vmloft.develop.library.tools.utils.VMSystem
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+
 import java.util.concurrent.CountDownLatch
 
 /**
@@ -25,17 +26,8 @@ import java.util.concurrent.CountDownLatch
  *
  * 入口类
  */
-class IM {
-
-    companion object {
-
-        lateinit var imListener: IIMListener
-
-        val instance: IM by lazy {
-            IM()
-        }
-    }
-
+object IM {
+    lateinit var imListener: IIMListener
 
     /**
      * 获取上下文对象
@@ -77,11 +69,11 @@ class IM {
         EMClient.getInstance().setDebugMode(BuildConfig.DEBUG)
 
         // IM 内部相关管理类的初始化
-        IMConnectionManager.instance.init()
+        IMConnectionManager.init()
         // 初始化聊天管理类
-        IMChatManager.instance.init()
+        IMChatManager.init()
         // 初始化通话管理类
-        IMCallManager.instance.init()
+        IMCallManager.init()
 
         // 初始化完成
         isInit = true
@@ -107,7 +99,7 @@ class IM {
         EMClient.getInstance().login(id, password, object : EMCallBack {
             override fun onSuccess() {
                 selfId = id
-                IMSPManager.instance.putSelfId(id)
+                IMSPManager.putSelfId(id)
                 // 因为这个必须要登录之后才能加载，所以这里也加载一次
                 EMClient.getInstance().chatManager().loadAllConversations()
 
@@ -142,7 +134,7 @@ class IM {
         if (!isSignIn()) {
             return
         }
-        IMSPManager.instance.putSelfId("")
+        IMSPManager.putSelfId("")
         EMClient.getInstance().logout(unbuild)
     }
 
@@ -197,7 +189,7 @@ class IM {
      * 获取当前登录IM的用户 id
      */
     fun getSelfId(): String {
-        return selfId ?: IMSPManager.instance.getSelfId()
+        return selfId ?: IMSPManager.getSelfId()
     }
 
     /**
@@ -207,18 +199,18 @@ class IM {
      * 通知开关
      */
     var isNotify: Boolean
-        get() = CSPManager.instance.isNotifyMsgSwitch()
+        get() = CSPManager.isNotifyMsgSwitch()
         set(open) {
-            CSPManager.instance.setNotifyMsgSwitch(open)
+            CSPManager.setNotifyMsgSwitch(open)
         }
 
     /**
      * 通知详情
      */
     var isNotifyDetail: Boolean
-        get() = CSPManager.instance.isNotifyMsgDetailSwitch()
+        get() = CSPManager.isNotifyMsgDetailSwitch()
         set(open) {
-            CSPManager.instance.setNotifyMsgDetailSwitch(open)
+            CSPManager.setNotifyMsgDetailSwitch(open)
         }
     /**
      * ---------------------------------------------------------------------
@@ -227,17 +219,17 @@ class IM {
      * 圆形头像
      */
     var isCircleAvatar: Boolean
-        get() = IMSPManager.instance.isCircleAvatar()
+        get() = IMSPManager.isCircleAvatar()
         set(open) {
-            IMSPManager.instance.putCircleAvatar(open)
+            IMSPManager.putCircleAvatar(open)
         }
 
     /**
      * 扬声器播放语音
      */
     var isSpeakerVoice: Boolean
-        get() = IMSPManager.instance.isSpeakerVoice()
+        get() = IMSPManager.isSpeakerVoice()
         set(speaker) {
-            IMSPManager.instance.putSpeakerVoice(speaker)
+            IMSPManager.putSpeakerVoice(speaker)
         }
 }

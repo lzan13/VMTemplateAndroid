@@ -66,7 +66,7 @@ class EditSignatureActivity : com.vmloft.develop.library.common.base.BVMActivity
     }
 
     override fun onModelRefresh(model: BViewModel.UIModel) {
-        SignManager.instance.setCurrUser(model.data as User)
+        SignManager.setCurrUser(model.data as User)
         finish()
     }
 

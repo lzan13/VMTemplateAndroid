@@ -15,4 +15,5 @@ sealed class RResult<out T : Any> {
             is Error -> "请求失败 - code:$code, error: $error"
         }
     }
+
 }

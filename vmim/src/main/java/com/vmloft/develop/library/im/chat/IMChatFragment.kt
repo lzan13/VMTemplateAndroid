@@ -94,7 +94,7 @@ class IMChatFragment : BaseFragment() {
         // 开启通话申请
         imChatCallBtn.setOnClickListener {
             // 必须有录音权限才能进行通话
-            if (PermissionManager.instance.recordPermission(requireContext())) {
+            if (PermissionManager.recordPermission(requireContext())) {
                 IMRouter.goSingleCall(chatId)
             }
         }
@@ -136,18 +136,18 @@ class IMChatFragment : BaseFragment() {
      */
     private fun initConversation() {
         // 获取会话对象
-        conversation = IMChatManager.instance.getConversation(chatId, chatType)
+        conversation = IMChatManager.getConversation(chatId, chatType)
 
         // 清空未读
-        IMChatManager.instance.setConversationUnread(conversation, false)
-        val cacheCount = IMChatManager.instance.getCacheMessages(chatId, chatType).size
-        val sumCount = IMChatManager.instance.getMessagesCount(chatId, chatType)
+        IMChatManager.setConversationUnread(conversation, false)
+        val cacheCount = IMChatManager.getCacheMessages(chatId, chatType).size
+        val sumCount = IMChatManager.getMessagesCount(chatId, chatType)
         if (cacheCount in 1 until sumCount && cacheCount < limit) {
             // 加载更多消息，填充满一页
-            IMChatManager.instance.loadMoreMessages(conversation, limit)
+            IMChatManager.loadMoreMessages(conversation, limit)
         }
         mItems.clear()
-        mItems.addAll(IMChatManager.instance.getCacheMessages(chatId, chatType))
+        mItems.addAll(IMChatManager.getCacheMessages(chatId, chatType))
         mAdapter.notifyDataSetChanged()
     }
 
@@ -155,10 +155,10 @@ class IMChatFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
 
-        IMChatManager.instance.setCurrChatId(chatId)
+        IMChatManager.setCurrChatId(chatId)
 
         // 检查是否有草稿没有发出
-        val draft = IMChatManager.instance.getConversationDraft(conversation)
+        val draft = IMChatManager.getConversationDraft(conversation)
         if (!draft.isNullOrEmpty()) {
             imChatMessageET.setText(draft)
         }
@@ -166,16 +166,16 @@ class IMChatFragment : BaseFragment() {
 
     override fun onPause() {
         super.onPause()
-        IMChatManager.instance.setCurrChatId("")
+        IMChatManager.setCurrChatId("")
         // 清空未读
-        IMChatManager.instance.setConversationUnread(conversation, false)
+        IMChatManager.setConversationUnread(conversation, false)
         /**
          * 判断聊天输入框内容是否为空，不为空就保存输入框内容到[EMConversation]的扩展中
          * 调用[IMChatManager.setConversationDraft]方法
          */
         val draft = imChatMessageET.text.toString().trim()
         // 将输入框的内容保存为草稿
-        IMChatManager.instance.setConversationDraft(conversation, draft)
+        IMChatManager.setConversationDraft(conversation, draft)
     }
 
     private fun initRecyclerView() {
@@ -220,7 +220,7 @@ class IMChatFragment : BaseFragment() {
             MsgTextSendDelegate(longListener),
         ).withKotlinClassLinker { _, data ->
             // 根据消息类型返回不同的 View 展示
-            when (IMChatManager.instance.getMsgType(data)) {
+            when (IMChatManager.getMsgType(data)) {
                 IMConstants.MsgType.imSystem -> MsgSystemDelegate::class
                 IMConstants.MsgType.imRecall -> MsgSystemDelegate::class
                 IMConstants.MsgType.imCallReceive -> MsgCallReceiveDelegate::class
@@ -255,7 +255,7 @@ class IMChatFragment : BaseFragment() {
                     val time = System.currentTimeMillis()
                     if (time - lastTimeInputStatus > CConstants.timeSecond * 2) {
                         lastTimeInputStatus = time
-                        IMChatManager.instance.sendInputStatus(chatId)
+                        IMChatManager.sendInputStatus(chatId)
                     }
                 }
                 imChatSendBtn.visibility = if (s.toString().isNullOrEmpty()) View.GONE else View.VISIBLE
@@ -285,7 +285,7 @@ class IMChatFragment : BaseFragment() {
      * 刷新消息更新
      */
     private fun refreshUpdateMsg(msg: EMMessage) {
-        val position = IMChatManager.instance.getPosition(msg)
+        val position = IMChatManager.getPosition(msg)
         mAdapter.notifyItemChanged(position)
     }
 
@@ -295,7 +295,7 @@ class IMChatFragment : BaseFragment() {
     private fun loadMoreMsg() {
         imChatRefreshLayout.finishRefresh()
 
-        val list = IMChatManager.instance.loadMoreMessages(conversation, limit)
+        val list = IMChatManager.loadMoreMessages(conversation, limit)
         mItems.addAll(0, list)
         mAdapter.notifyItemRangeInserted(0, list.size)
     }
@@ -311,7 +311,7 @@ class IMChatFragment : BaseFragment() {
         imChatMessageET.setText("")
         lastTimeInputStatus = 0
         // 创建消息
-        sendMessage(IMChatManager.instance.createTextMessage(content, chatId))
+        sendMessage(IMChatManager.createTextMessage(content, chatId))
     }
 
     /**
@@ -320,14 +320,14 @@ class IMChatFragment : BaseFragment() {
     private fun sendPicture(uri: Uri) {
         // 临时压缩下图片，这里压缩到默认的分辨率
         val tempPath = VMBitmap.compressTempImage(uri, 2048, 256)
-        sendMessage(IMChatManager.instance.createPictureMessage(Uri.parse(tempPath), chatId))
+        sendMessage(IMChatManager.createPictureMessage(Uri.parse(tempPath), chatId))
     }
 
     /**
      * 发送消息统一收口
      */
     private fun sendMessage(message: EMMessage) {
-        IMChatManager.instance.sendMessage(message)
+        IMChatManager.sendMessage(message)
 
         // 通知有新消息，这里主要是通知会话列表刷新
         LDEventBus.post(IMConstants.Common.newMsgEvent, message)
@@ -374,7 +374,7 @@ class IMChatFragment : BaseFragment() {
         floatMenu.clearAllItem()
 
 
-        val msgType = IMChatManager.instance.getMsgType(currMsg)
+        val msgType = IMChatManager.getMsgType(currMsg)
         if (msgType == IMConstants.MsgType.imTextReceive || msgType == IMConstants.MsgType.imTextSend) {
             floatMenu.addItem(VMFloatMenu.ItemBean(0, VMStr.byRes(R.string.im_msg_copy)))
         }
@@ -405,7 +405,7 @@ class IMChatFragment : BaseFragment() {
      * 撤回消息，特定时间内才会触发
      */
     private fun recallMsg() {
-        IMChatManager.instance.sendRecallMessage(currMsg, {
+        IMChatManager.sendRecallMessage(currMsg, {
             VMSystem.runInUIThread({ refreshUpdateMsg(currMsg) })
         }) { code, desc ->
             VMSystem.runInUIThread({ errorBar("$code $desc") })
@@ -416,7 +416,7 @@ class IMChatFragment : BaseFragment() {
      * 删除消息，都会触发
      */
     private fun deleteMsg() {
-        IMChatManager.instance.removeMessage(currMsg)
+        IMChatManager.removeMessage(currMsg)
         refreshDeleteMsg(currMsg, currPosition)
     }
 

@@ -35,26 +35,6 @@ class InfoRepository : BaseRepository() {
         executeResponse(APIRequest.userInfoAPI.updateInfo(body))
 
     /**
-     * 更新头像
-     */
-    suspend fun updateAvatar(part: MultipartBody.Part): RResult<User> {
-        return safeRequest(call = { requestUpdateAvatar(part) })
-    }
-
-    private suspend fun requestUpdateAvatar(part: MultipartBody.Part): RResult<User> =
-        executeResponse(APIRequest.userInfoAPI.updateAvatar(part))
-
-    /**
-     * 更新封面
-     */
-    suspend fun updateCover(part: MultipartBody.Part): RResult<User> {
-        return safeRequest(call = { requestUpdateCover(part) })
-    }
-
-    private suspend fun requestUpdateCover(part: MultipartBody.Part): RResult<User> =
-        executeResponse(APIRequest.userInfoAPI.updateCover(part))
-
-    /**
      * 绑定邮箱
      */
     suspend fun bindEmail(email: String, code: String): RResult<User> {

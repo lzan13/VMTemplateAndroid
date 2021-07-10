@@ -24,31 +24,31 @@ class DarkSettingsActivity : BaseActivity() {
 
         darkSystemSwitchLV.setOnClickListener {
             darkSystemSwitchLV.isActivated = !darkSystemSwitchLV.isActivated
-            darkManualLL.visibility = if (SPManager.instance.isDarkModeSystemSwitch()) View.VISIBLE else View.GONE
+            darkManualLL.visibility = if (SPManager.isDarkModeSystemSwitch()) View.VISIBLE else View.GONE
 
-            SPManager.instance.setDarkModeSystemSwitch(darkSystemSwitchLV.isActivated)
+            SPManager.setDarkModeSystemSwitch(darkSystemSwitchLV.isActivated)
         }
 
         darkManualNormalLV.setOnClickListener {
-            SPManager.instance.setDarkModeManual(AppCompatDelegate.MODE_NIGHT_NO)
-            darkManualNormalLV.isActivated = SPManager.instance.getDarkModeManual() == AppCompatDelegate.MODE_NIGHT_NO
-            darkManualDarkLV.isActivated = SPManager.instance.getDarkModeManual() == AppCompatDelegate.MODE_NIGHT_YES
+            SPManager.setDarkModeManual(AppCompatDelegate.MODE_NIGHT_NO)
+            darkManualNormalLV.isActivated = SPManager.getDarkModeManual() == AppCompatDelegate.MODE_NIGHT_NO
+            darkManualDarkLV.isActivated = SPManager.getDarkModeManual() == AppCompatDelegate.MODE_NIGHT_YES
         }
         darkManualDarkLV.setOnClickListener {
-            SPManager.instance.setDarkModeManual(AppCompatDelegate.MODE_NIGHT_YES)
-            darkManualNormalLV.isActivated = SPManager.instance.getDarkModeManual() == AppCompatDelegate.MODE_NIGHT_NO
-            darkManualDarkLV.isActivated = SPManager.instance.getDarkModeManual() == AppCompatDelegate.MODE_NIGHT_YES
+            SPManager.setDarkModeManual(AppCompatDelegate.MODE_NIGHT_YES)
+            darkManualNormalLV.isActivated = SPManager.getDarkModeManual() == AppCompatDelegate.MODE_NIGHT_NO
+            darkManualDarkLV.isActivated = SPManager.getDarkModeManual() == AppCompatDelegate.MODE_NIGHT_YES
         }
     }
 
     override fun initData() {
         // 获取开关状态
-        darkSystemSwitchLV.isActivated = SPManager.instance.isDarkModeSystemSwitch()
+        darkSystemSwitchLV.isActivated = SPManager.isDarkModeSystemSwitch()
 
-        darkManualLL.visibility = if (SPManager.instance.isDarkModeSystemSwitch()) View.GONE else View.VISIBLE
+        darkManualLL.visibility = if (SPManager.isDarkModeSystemSwitch()) View.GONE else View.VISIBLE
 
-        darkManualNormalLV.isActivated = SPManager.instance.getDarkModeManual() == AppCompatDelegate.MODE_NIGHT_NO
-        darkManualDarkLV.isActivated = SPManager.instance.getDarkModeManual() == AppCompatDelegate.MODE_NIGHT_YES
+        darkManualNormalLV.isActivated = SPManager.getDarkModeManual() == AppCompatDelegate.MODE_NIGHT_NO
+        darkManualDarkLV.isActivated = SPManager.getDarkModeManual() == AppCompatDelegate.MODE_NIGHT_YES
     }
 
 }

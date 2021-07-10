@@ -32,22 +32,22 @@ class NotifySettingsActivity : BaseActivity() {
         notifyMsgLV.setOnClickListener {
             notifyMsgLV.isActivated = !notifyMsgLV.isActivated
             notifyMsgSystemLL.visibility = if (notifyMsgLV.isActivated) View.VISIBLE else View.GONE
-            CSPManager.instance.setNotifyMsgSwitch(notifyMsgLV.isActivated)
+            CSPManager.setNotifyMsgSwitch(notifyMsgLV.isActivated)
         }
         notifyMsgDetailLV.setOnClickListener {
             notifyMsgDetailLV.isActivated = !notifyMsgDetailLV.isActivated
             notifyMsgSystemLL.visibility = if (notifyMsgLV.isActivated) View.VISIBLE else View.GONE
-            CSPManager.instance.setNotifyMsgDetailSwitch(notifyMsgDetailLV.isActivated)
+            CSPManager.setNotifyMsgDetailSwitch(notifyMsgDetailLV.isActivated)
         }
 
         // 打开设置
-        notifyMsgSystemLV.setOnClickListener { NotifyManager.instance.openNotifySetting() }
+        notifyMsgSystemLV.setOnClickListener { NotifyManager.openNotifySetting() }
 
     }
 
     override fun initData() {
-        notifyMsgLV.isActivated = CSPManager.instance.isNotifyMsgSwitch()
-        notifyMsgDetailLV.isActivated = CSPManager.instance.isNotifyMsgDetailSwitch()
+        notifyMsgLV.isActivated = CSPManager.isNotifyMsgSwitch()
+        notifyMsgDetailLV.isActivated = CSPManager.isNotifyMsgDetailSwitch()
         notifyMsgSystemLL.visibility = if (notifyMsgLV.isActivated) View.VISIBLE else View.GONE
     }
 

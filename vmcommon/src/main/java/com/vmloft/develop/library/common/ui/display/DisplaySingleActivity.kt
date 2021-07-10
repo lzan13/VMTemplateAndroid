@@ -45,7 +45,7 @@ class DisplaySingleActivity : BVMActivity<DisplayViewModel>() {
 
         IMGLoader.loadCover(displayIV, url)
 
-//        ADSManager.instance.loadBannerADS(ADSManager.adsBannerId, adsContainer)
+//        ADSManager.loadBannerADS(ADSManager.adsBannerId, adsContainer)
     }
 
     override fun onModelRefresh(model: BViewModel.UIModel) {
@@ -59,7 +59,7 @@ class DisplaySingleActivity : BVMActivity<DisplayViewModel>() {
         mViewModel.savePictureSingle(this, url)
 
         // 上报下载图片事件
-//        ReportManager.instance.reportDownloadPicture(url)
+//        ReportManager.reportDownloadPicture(url)
     }
 
 

@@ -75,9 +75,9 @@ class RoomCreateActivity : BVMActivity<RoomViewModel>() {
         if (model.type == "createRoom") {
             val room = model.data as Room
             // 进入房间，进行下记录，这里是自己创建的
-            CacheManager.instance.putRoom(room)
-            CacheManager.instance.setLastRoom(room)
-            IMManager.instance.goChatRoom(room.id)
+            CacheManager.putRoom(room)
+            CacheManager.setLastRoom(room)
+            IMManager.goChatRoom(room.id)
             finish()
         }
     }

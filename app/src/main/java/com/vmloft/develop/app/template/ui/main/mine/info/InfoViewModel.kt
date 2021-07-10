@@ -1,23 +1,24 @@
 package com.vmloft.develop.app.template.ui.main.mine.info
 
 import androidx.lifecycle.viewModelScope
-import com.vmloft.develop.app.template.common.CacheManager
-import com.vmloft.develop.app.template.common.SignManager
 
+import com.vmloft.develop.app.template.common.CacheManager
 import com.vmloft.develop.library.common.base.BViewModel
 import com.vmloft.develop.library.common.request.RResult
 import com.vmloft.develop.app.template.request.repository.CommonRepository
 import com.vmloft.develop.app.template.request.repository.InfoRepository
+import com.vmloft.develop.library.common.request.FileRepository
 import com.vmloft.develop.library.common.utils.JsonUtils
+import com.vmloft.develop.library.tools.utils.VMFile
 import com.vmloft.develop.library.tools.utils.bitmap.VMBitmap
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 
 import java.io.File
 
@@ -26,7 +27,11 @@ import java.io.File
  * Create by lzan13 on 2020/4/20 17:28
  * 描述：编辑信息 ViewModel
  */
-class InfoViewModel(private val repository: InfoRepository, private val commonRepository: CommonRepository) : BViewModel() {
+class InfoViewModel(
+    private val repo: InfoRepository,
+    private val commonRepo: CommonRepository,
+    private val fileRepo: FileRepository,
+) : BViewModel() {
 
     /**
      * ------------------------ 公共信息相关接口 ----------------------------
@@ -38,7 +43,7 @@ class InfoViewModel(private val repository: InfoRepository, private val commonRe
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
             val result = withContext(Dispatchers.IO) {
-                commonRepository.getProfessionList()
+                commonRepo.getProfessionList()
             }
             if (result is RResult.Success) {
                 emitUIState(isSuccess = true, data = result.data, type = "professionList")
@@ -58,7 +63,7 @@ class InfoViewModel(private val repository: InfoRepository, private val commonRe
     fun updateUsername(username: String) {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val result = repository.updateUsername(username)
+            val result = repo.updateUsername(username)
 
             if (result is RResult.Success) {
                 emitUIState(isSuccess = true, data = result.data, type = "updateUsername")
@@ -75,8 +80,8 @@ class InfoViewModel(private val repository: InfoRepository, private val commonRe
     fun updateInfo(params: Map<String, Any>) {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val body: RequestBody = RequestBody.create("application/json".toMediaTypeOrNull(), JsonUtils.map2json(params))
-            val result = repository.updateInfo(body)
+            val body: RequestBody = JsonUtils.map2json(params).toRequestBody("application/json".toMediaType())
+            val result = repo.updateInfo(body)
 
             if (result is RResult.Success) {
                 emitUIState(isSuccess = true, data = result.data, type = "updateInfo")
@@ -93,17 +98,35 @@ class InfoViewModel(private val repository: InfoRepository, private val commonRe
     fun updateAvatar(avatar: Any) {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            // 组装上传头像
             // 临时压缩下图片，这里压缩到默认的分辨率
-            val tempPath = VMBitmap.compressTempImage(avatar, 512, 80)
+            val tempPath = VMBitmap.compressTempImage(avatar, 512, 72)
             val file = File(tempPath)
-            val body: RequestBody = RequestBody.create("image/*".toMediaTypeOrNull(), file)
-            val part: MultipartBody.Part = MultipartBody.Part.createFormData("avatar", file.name, body)
-            val result = repository.updateAvatar(part)
+
+            // 调用上传图片
+            var uploadResult = fileRepo.uploadPicture(file)
+            if (uploadResult is RResult.Error) {
+                emitUIState(code = uploadResult.code, error = uploadResult.error)
+                return@launch
+            }
+            // 构建参数
+            val infoParams: MutableMap<String, Any> = mutableMapOf()
+            val attachmentParams: MutableMap<String, Any> = mutableMapOf()
+            if (uploadResult is RResult.Success) {
+                infoParams["avatar"] = uploadResult.data!!
+
+                attachmentParams["extname"] = VMFile.parseSuffix(file.path)
+                attachmentParams["filename"] = "${VMFile.parseFilename(uploadResult.data!!)}${VMFile.parseSuffix(file.path)}"
+                attachmentParams["path"] = uploadResult.data!!
+                attachmentParams["extra"] = "avatar"
+            }
+            // 回调上传结果
+            commonRepo.ucloudCallbackObj(JsonUtils.map2json(attachmentParams).toRequestBody("application/json".toMediaType()))
+
+            // 更新用户信息
+            val result = repo.updateInfo(JsonUtils.map2json(infoParams).toRequestBody("application/json".toMediaType()))
 
             if (result is RResult.Success) {
                 emitUIState(isSuccess = true, data = result.data, type = "updateAvatar")
-                return@launch
             } else if (result is RResult.Error) {
                 emitUIState(code = result.code, error = result.error)
             }
@@ -116,17 +139,36 @@ class InfoViewModel(private val repository: InfoRepository, private val commonRe
     fun updateCover(cover: Any) {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            // 组装上传头像
             // 临时压缩下图片，这里压缩到默认的分辨率
-            val tempPath = VMBitmap.compressTempImage(cover, 1080, 100)
+            val tempPath = VMBitmap.compressTempImage(cover, 1024, 128)
             val file = File(tempPath)
-            val body: RequestBody = RequestBody.create("image/*".toMediaTypeOrNull(), file)
-            val part: MultipartBody.Part = MultipartBody.Part.createFormData("cover", file.name, body)
-            val result = repository.updateCover(part)
+
+            // 调用上传图片
+            var uploadResult = fileRepo.uploadPicture(file)
+            // 构建参数
+            if (uploadResult is RResult.Error) {
+                emitUIState(code = uploadResult.code, error = uploadResult.error)
+                return@launch
+            }
+            // 构建参数
+            val infoParams: MutableMap<String, Any> = mutableMapOf()
+            val attachmentParams: MutableMap<String, Any> = mutableMapOf()
+            if (uploadResult is RResult.Success) {
+                infoParams["cover"] = uploadResult.data!!
+
+                attachmentParams["extname"] = VMFile.parseSuffix(file.path)
+                attachmentParams["filename"] = "${VMFile.parseFilename(uploadResult.data!!)}${VMFile.parseSuffix(file.path)}"
+                attachmentParams["path"] = uploadResult.data!!
+                attachmentParams["extra"] = "cover"
+            }
+            // 回调上传结果
+            commonRepo.ucloudCallbackObj(JsonUtils.map2json(attachmentParams).toRequestBody("application/json".toMediaType()))
+
+            // 更新用户信息
+            val result = repo.updateInfo(JsonUtils.map2json(infoParams).toRequestBody("application/json".toMediaType()))
 
             if (result is RResult.Success) {
                 emitUIState(isSuccess = true, data = result.data, type = "updateCover")
-                return@launch
             } else if (result is RResult.Error) {
                 emitUIState(code = result.code, error = result.error)
             }
@@ -139,7 +181,7 @@ class InfoViewModel(private val repository: InfoRepository, private val commonRe
     fun bindEmail(email: String, code: String) {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val result = repository.bindEmail(email, code)
+            val result = repo.bindEmail(email, code)
             if (result is RResult.Success) {
                 emitUIState(isSuccess = true, data = result.data, type = "bindEmail")
                 return@launch
@@ -155,7 +197,7 @@ class InfoViewModel(private val repository: InfoRepository, private val commonRe
     fun updatePassword(password: String, oldPassword: String) {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val result = repository.updatePassword(password, oldPassword)
+            val result = repo.updatePassword(password, oldPassword)
 
             if (result is RResult.Success) {
                 emitUIState(isSuccess = true, data = result.data, type = "updatePassword")
@@ -172,7 +214,7 @@ class InfoViewModel(private val repository: InfoRepository, private val commonRe
     fun personalAuth(realName: String, idCardNumber: String) {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val result = repository.personalAuth(realName, idCardNumber)
+            val result = repo.personalAuth(realName, idCardNumber)
 
             if (result is RResult.Success) {
                 emitUIState(isSuccess = true, data = result.data, type = "personalAuth")
@@ -190,14 +232,14 @@ class InfoViewModel(private val repository: InfoRepository, private val commonRe
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
             val result = if (id.isEmpty()) {
-                repository.current()
+                repo.current()
             } else {
-                repository.other(id)
+                repo.other(id)
             }
 
             if (result is RResult.Success && result.data != null) {
                 // 将用户信息加入到缓存
-                CacheManager.instance.putUser(result.data!!)
+                CacheManager.putUser(result.data!!)
                 emitUIState(isSuccess = true, data = result.data, type = "userInfo")
                 return@launch
             } else if (result is RResult.Error) {
@@ -212,7 +254,7 @@ class InfoViewModel(private val repository: InfoRepository, private val commonRe
     fun clock() {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val result = repository.clock()
+            val result = repo.clock()
             if (result is RResult.Success) {
                 emitUIState(isSuccess = true, data = result.data, type = "clock")
                 return@launch
@@ -228,7 +270,7 @@ class InfoViewModel(private val repository: InfoRepository, private val commonRe
     fun sendCodeEmail(email: String) {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val result = repository.sendCodeEmail(email)
+            val result = repo.sendCodeEmail(email)
             if (result is RResult.Success) {
                 emitUIState(isSuccess = true, data = result.data, type = "sendCodeEmail")
                 return@launch
@@ -244,7 +286,7 @@ class InfoViewModel(private val repository: InfoRepository, private val commonRe
     fun checkVersion(server: Boolean) {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val result = commonRepository.checkVersion(server)
+            val result = commonRepo.checkVersion(server)
             if (result is RResult.Success) {
                 emitUIState(isSuccess = true, data = result.data, type = "checkVersion")
                 return@launch

@@ -16,17 +16,17 @@ class ConversationDiff(oldList: List<EMConversation>, newList: List<EMConversati
         val oldItem = getOldItem(oldPosition)
         val newItem = getNewItem(newPosition)
 
-        val oldUnread = IMChatManager.instance.getConversationUnread(oldItem)
-        val newUnread = IMChatManager.instance.getConversationUnread(newItem)
+        val oldUnread = IMChatManager.getConversationUnread(oldItem)
+        val newUnread = IMChatManager.getConversationUnread(newItem)
 
-        val oldTop = IMChatManager.instance.getConversationTop(oldItem)
-        val newTop = IMChatManager.instance.getConversationTop(newItem)
+        val oldTop = IMChatManager.getConversationTop(oldItem)
+        val newTop = IMChatManager.getConversationTop(newItem)
 
-        val oldDraft = IMChatManager.instance.getConversationDraft(oldItem)
-        val newDraft = IMChatManager.instance.getConversationDraft(newItem)
+        val oldDraft = IMChatManager.getConversationDraft(oldItem)
+        val newDraft = IMChatManager.getConversationDraft(newItem)
 
-        val oldSummary = IMChatManager.instance.getSummary(oldItem.lastMessage)
-        val newSummary = IMChatManager.instance.getSummary(newItem.lastMessage)
+        val oldSummary = IMChatManager.getSummary(oldItem.lastMessage)
+        val newSummary = IMChatManager.getSummary(newItem.lastMessage)
 
         return oldUnread == newUnread && oldDraft == newDraft && oldSummary == newSummary
     }
