@@ -7,14 +7,17 @@ import android.text.TextWatcher
 import android.view.MotionEvent
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+
 import com.drakeet.multitype.MultiTypeAdapter
+
 import com.hyphenate.chat.EMConversation
 import com.hyphenate.chat.EMImageMessageBody
 import com.hyphenate.chat.EMMessage
 import com.hyphenate.chat.EMTextMessageBody
-import com.scwang.smart.refresh.header.ClassicsHeader
-import com.vmloft.develop.library.common.base.BItemDelegate
 
+import com.scwang.smart.refresh.header.ClassicsHeader
+
+import com.vmloft.develop.library.common.base.BItemDelegate
 import com.vmloft.develop.library.common.base.BaseFragment
 import com.vmloft.develop.library.common.common.CConstants
 import com.vmloft.develop.library.common.common.PermissionManager
@@ -23,6 +26,7 @@ import com.vmloft.develop.library.common.image.IMGChoose
 import com.vmloft.develop.library.common.router.CRouter
 import com.vmloft.develop.library.common.utils.errorBar
 import com.vmloft.develop.library.common.utils.showBar
+import com.vmloft.develop.library.common.widget.CommonDialog
 import com.vmloft.develop.library.im.R
 import com.vmloft.develop.library.im.chat.msg.*
 import com.vmloft.develop.library.im.common.IMConstants
@@ -63,6 +67,8 @@ class IMChatFragment : BaseFragment() {
     private var chatType: Int = 0
     private lateinit var conversation: EMConversation
 
+    private var receiveMsgCount = 0
+    private var sendMsgCount = 0
 
     companion object {
         private val argChatId = "argChatId"
@@ -90,16 +96,13 @@ class IMChatFragment : BaseFragment() {
         super.initUI()
 
         // 选择图片
-        imChatPictureBtn.setOnClickListener { IMGChoose.singlePicture(requireActivity()) { sendPicture(it as Uri) } }
+        imChatPictureIV.setOnClickListener { openAlbum() }
+        imChatPictureLockIV.setOnClickListener { showPictureLimitDialog() }
         // 开启通话申请
-        imChatCallBtn.setOnClickListener {
-            // 必须有录音权限才能进行通话
-            if (PermissionManager.recordPermission(requireContext())) {
-                IMRouter.goSingleCall(chatId)
-            }
-        }
+        imChatCallIV.setOnClickListener { requestCall() }
+        imChatCallLockIV.setOnClickListener { showCallLimitDialog() }
         // 点击发送
-        imChatSendBtn.setOnClickListener { sendText() }
+        imChatSendIV.setOnClickListener { sendText() }
 
         // 初始化输入框监听
         initInputWatcher()
@@ -110,8 +113,10 @@ class IMChatFragment : BaseFragment() {
 
         // 监听新消息过来，这里肯定是发给自己的消息，在发送事件时已经过滤
         LDEventBus.observe(this, IMConstants.Common.newMsgEvent, EMMessage::class.java) {
+            checkLockStatus()
             refreshNewMsg(it)
         }
+
         // 监听消息状态刷新，这里肯定是发给自己的消息，在发送事件时已经过滤
         LDEventBus.observe(this, IMConstants.Common.updateMsgEvent, EMMessage::class.java) {
             refreshUpdateMsg(it)
@@ -125,10 +130,12 @@ class IMChatFragment : BaseFragment() {
     }
 
     override fun initData() {
-        chatId = arguments!!.getString(argChatId) ?: ""
-        chatType = arguments!!.getInt(argChatType, 0)
+        chatId = requireArguments().getString(argChatId) ?: ""
+        chatType = requireArguments().getInt(argChatType, 0)
 
         initConversation()
+
+        checkLockStatus()
     }
 
     /**
@@ -137,6 +144,9 @@ class IMChatFragment : BaseFragment() {
     private fun initConversation() {
         // 获取会话对象
         conversation = IMChatManager.getConversation(chatId, chatType)
+
+        receiveMsgCount = IMChatManager.getConversationMsgReceiveCount(conversation)
+        sendMsgCount = IMChatManager.getConversationMsgSendCount(conversation)
 
         // 清空未读
         IMChatManager.setConversationUnread(conversation, false)
@@ -258,9 +268,75 @@ class IMChatFragment : BaseFragment() {
                         IMChatManager.sendInputStatus(chatId)
                     }
                 }
-                imChatSendBtn.visibility = if (s.toString().isNullOrEmpty()) View.GONE else View.VISIBLE
+                imChatSendIV.visibility = if (s.toString().isNullOrEmpty()) View.GONE else View.VISIBLE
             }
         })
+    }
+
+    /**
+     * 检查锁状态
+     */
+    private fun checkLockStatus(msg: EMMessage? = null) {
+        msg?.let {
+            if (msg.direct() == EMMessage.Direct.RECEIVE) {
+                receiveMsgCount++
+            } else {
+                sendMsgCount++
+            }
+        }
+        if (receiveMsgCount < 10 || sendMsgCount < 10) {
+            imChatPictureLockIV.visibility = View.VISIBLE
+        } else {
+            imChatPictureLockIV.visibility = View.GONE
+        }
+        if (receiveMsgCount < 20 || sendMsgCount < 20) {
+            imChatCallLockIV.visibility = View.VISIBLE
+        } else {
+            imChatCallLockIV.visibility = View.GONE
+        }
+    }
+
+    /**
+     * 打开相册选择图片发送
+     */
+    private fun openAlbum() {
+        IMGChoose.singlePicture(requireActivity()) { sendPicture(it as Uri) }
+    }
+
+    /**
+     * 显示发送图片限制对话框
+     */
+    private fun showPictureLimitDialog() {
+        mDialog = CommonDialog(requireActivity())
+        (mDialog as CommonDialog).let { dialog ->
+            dialog.setContent(VMStr.byResArgs(R.string.im_chat_picture_limit, 10, 10))
+            dialog.setNegative("")
+            dialog.setPositive(VMStr.byRes(R.string.btn_i_known))
+            dialog.show()
+        }
+    }
+
+    /**
+     * 请求通话
+     */
+    private fun requestCall() {
+        // 必须有录音权限才能进行通话
+        if (PermissionManager.recordPermission(requireContext())) {
+            IMRouter.goSingleCall(chatId)
+        }
+    }
+
+    /**
+     * 显示通话限制对话框
+     */
+    private fun showCallLimitDialog() {
+        mDialog = CommonDialog(requireActivity())
+        (mDialog as CommonDialog).let { dialog ->
+            dialog.setContent(VMStr.byResArgs(R.string.im_chat_call_limit, 20, 20))
+            dialog.setNegative("")
+            dialog.setPositive(VMStr.byRes(R.string.btn_i_known))
+            dialog.show()
+        }
     }
 
     /**
@@ -328,6 +404,9 @@ class IMChatFragment : BaseFragment() {
      */
     private fun sendMessage(message: EMMessage) {
         IMChatManager.sendMessage(message)
+
+        // 发送消息数+1
+        IMChatManager.setConversationMsgSendCountAdd(conversation)
 
         // 通知有新消息，这里主要是通知会话列表刷新
         LDEventBus.post(IMConstants.Common.newMsgEvent, message)

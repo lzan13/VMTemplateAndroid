@@ -11,6 +11,7 @@ import com.vmloft.develop.app.template.ui.post.PostViewModel
 import com.vmloft.develop.app.template.ui.sign.SignViewModel
 import com.vmloft.develop.app.template.ui.user.UserInfoViewModel
 import com.vmloft.develop.app.template.ui.room.RoomViewModel
+import com.vmloft.develop.app.template.ui.settings.SettingsViewModel
 import com.vmloft.develop.library.common.request.FileRepository
 
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -29,6 +30,7 @@ val viewModelModule = module {
     viewModel { PostViewModel(get(), get(), get(), get()) }
     viewModel { RoomViewModel(get()) }
     viewModel { SignViewModel(get()) }
+    viewModel { SettingsViewModel(get()) }
     viewModel { UserInfoViewModel(get(), get()) }
 
 }

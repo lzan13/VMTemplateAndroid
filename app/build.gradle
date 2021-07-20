@@ -7,9 +7,6 @@ apply plugin: 'kotlin-kapt'
 def configs = rootProject.ext.configs
 def signings = rootProject.ext.signings
 
-ext {
-    isDebug = true
-}
 android {
     compileSdkVersion configs.compileSdkVersion
 
@@ -41,8 +38,6 @@ android {
     // 编译配置
     buildTypes {
         debug {
-            // 添加参数表示 debug 环境，这里使用测试环境
-            isDebug = true
             // 是否开启压缩
             zipAlignEnabled false
             // 是否开启混淆
@@ -51,8 +46,6 @@ android {
             signingConfig signingConfigs.release
         }
         release {
-            // 添加参数表示 debug 环境，这里使用测试环境
-            isDebug = false
             // 是否开启压缩
             zipAlignEnabled false
             // 是否开启混淆
@@ -80,14 +73,10 @@ android {
         Develop {
             dimension = "default"
             manifestPlaceholders = [
-                    APP_CHANNEL : "Develop",
-                    APP_DEBUG   : isDebug,
-                    APP_VERSION : configs.versionName,
-                    ADMOB_APP_ID: configs.admobAppId,
-                    BUGLY_APP_ID: configs.buglyAppId,
-                    UMENG_APP_ID: configs.umengAppId,
+                    appChannel   : "Develop",
+                    umengAppKey  : configs.umengAppKey,
 
-                    EM_APP_KEY  : configs.emAppkey
+                    easemobAppKey: configs.easemobAppKey
 
             ]
         }

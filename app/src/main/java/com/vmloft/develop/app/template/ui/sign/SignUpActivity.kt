@@ -9,7 +9,6 @@ import android.text.method.PasswordTransformationMethod
 import com.alibaba.android.arouter.facade.annotation.Route
 
 import com.vmloft.develop.app.template.R
-import com.vmloft.develop.app.template.common.Constants
 import com.vmloft.develop.app.template.databinding.ActivitySignUpBinding
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.common.base.BVMActivity
@@ -75,7 +74,8 @@ class SignUpActivity : BVMActivity<SignViewModel>() {
                 signPasswordIcon.isSelected = true
             }
         }
-        signPrivacyPolicyTV.setOnClickListener { CRouter.goWeb(Constants.privatePolicyUrl) }
+        signUserAgreementTV.setOnClickListener { AppRouter.goAgreementPolicy() }
+        signPrivacyPolicyTV.setOnClickListener { AppRouter.goAgreementPolicy("policy") }
         signSubmitBtn.setOnClickListener {
             if (signPrivacyPolicyCB.isChecked) {
                 if (VMReg.isEmail(mAccount)) {
@@ -89,7 +89,7 @@ class SignUpActivity : BVMActivity<SignViewModel>() {
 //                    mViewModel.signUpByPhone(mAccount, mPassword)
 //                }
             } else {
-                errorBar(R.string.sign_privacy_policy_hint)
+                errorBar(R.string.agreement_policy_hint)
             }
         }
     }

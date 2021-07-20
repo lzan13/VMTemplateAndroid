@@ -118,6 +118,7 @@
         android:background="@drawable/shape_card_common_bg"
         android:gravity="top"
         android:padding="@dimen/vm_dimen_8"
+        android:hint="@string/im_chat_input_hint"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imChatFastContent1TV"

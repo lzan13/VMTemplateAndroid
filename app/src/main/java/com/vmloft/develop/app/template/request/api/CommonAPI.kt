@@ -25,12 +25,12 @@ interface CommonAPI {
     suspend fun ucloudCallbackObj(@Body body: RequestBody): RResponse<Attachment>
 
     /**
-     * ------------------------------------ 职业分类等接口  ------------------------------------
+     * ------------------------------------ 通用接口  ------------------------------------
      */
     /**
      * 获取分类列表
      */
-    @GET("v1/info/category")
+    @GET("v1/common/category")
     suspend fun getCategoryList(
         @Query("page") page: Int = CConstants.defaultPage,
         @Query("limit") limit: Int = CConstants.defaultLimit,
@@ -39,20 +39,35 @@ interface CommonAPI {
     /**
      * 获取职业列表
      */
-    @GET("v1/info/profession")
+    @GET("v1/common/profession")
     suspend fun getProfessionList(
         @Query("page") page: Int = CConstants.defaultPage,
         @Query("limit") limit: Int = CConstants.defaultLimit,
     ): RResponse<RPaging<Profession>>
 
     /**
-     * ------------------------------------ 获取配置相关  ------------------------------------
+     * 检查版本
      */
+    @GET("v1/common/checkVersion")
+    suspend fun checkVersion(@Query("platform") platform: String = "android"): RResponse<Version>
+
     /**
-     * 提交反馈
+     * 获取客户端配置
      */
-    @POST("v1/checkVersion")
-    suspend fun checkVersion(@Query("platform") platform: String): RResponse<Config>
+    @GET("v1/common/clientConfig")
+    suspend fun getClientConfig(): RResponse<Config>
+
+    /**
+     * 获取隐私zhegn
+     */
+    @GET("v1/common/privacyPolicy")
+    suspend fun getPrivacyPolicy(): RResponse<Config>
+
+    /**
+     * 获取用户协议
+     */
+    @GET("v1/common/userAgreement")
+    suspend fun getUserAgreement(): RResponse<Config>
 
 
     /**

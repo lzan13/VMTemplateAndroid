@@ -81,7 +81,15 @@ class FileRepository : BaseRepository() {
             VMLog.d("上传结果地址 $url")
             // 获取图片大小
             val sizes = VMBitmap.getImageSize(file.path)
-            return@withContext RResult.Success("", "$url?w=${sizes[0]}&h=${sizes[1]}")
+            var w = sizes[0]
+            var h = sizes[1]
+            // 防止宽高比差距过大，这里做个重新赋值限制下
+            if (w > h * 2) {
+                w = h * 2
+            } else if (h > w * 2) {
+                h = w * 2
+            }
+            return@withContext RResult.Success("", "$url?w=$w&h=$h")
         } catch (e: UfileClientException) {
             VMLog.d("上传图片失败 ${e.message}")
             return@withContext RResult.Error(-1, "上传文件失败 ${e.message}")

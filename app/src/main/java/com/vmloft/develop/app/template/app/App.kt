@@ -15,7 +15,7 @@ import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.common.SPManager
 import com.vmloft.develop.app.template.im.IMManager
 import com.vmloft.develop.library.common.event.LDEventBus
-import com.vmloft.develop.app.template.report.ReportManager
+import com.vmloft.develop.library.common.report.ReportManager
 import com.vmloft.develop.library.common.common.CConstants
 import com.vmloft.develop.library.common.common.CSPManager
 import com.vmloft.develop.library.common.notify.NotifyManager
@@ -139,7 +139,7 @@ class App : Application() {
      * 初始化上报
      */
     private fun initReport() {
-        ReportManager.init()
+        ReportManager.init(appContext)
     }
 
     /**

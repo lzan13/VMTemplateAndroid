@@ -4,7 +4,7 @@
     android:shape="rectangle">
     <gradient
         android:angle="315"
-        android:endColor="@color/app_home_card_random_end"
-        android:startColor="@color/app_home_card_random_start" />
+        android:endColor="@color/app_home_card_destiny_end"
+        android:startColor="@color/app_home_card_destiny_start" />
     <corners android:radius="@dimen/vm_dimen_8" />
 </shape>

@@ -64,12 +64,12 @@
             tools:visibility="visible" />
 
         <!--引入加载视图-->
-        <include
-            layout="@layout/widget_common_loading"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/vm_dimen_0"
-            app:isLoading="@{viewModel.uiState.isLoading}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+<!--        <include-->
+<!--            layout="@layout/widget_common_loading"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="@dimen/vm_dimen_0"-->
+<!--            app:isLoading="@{viewModel.uiState.isLoading}"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

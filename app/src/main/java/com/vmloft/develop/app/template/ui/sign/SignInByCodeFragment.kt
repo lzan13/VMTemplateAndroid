@@ -3,20 +3,21 @@ package com.vmloft.develop.app.template.ui.sign
 
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.lifecycle.Observer
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.databinding.FragmentSignInByCodeBinding
+import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.common.base.BVMFragment
 import com.vmloft.develop.library.common.base.BViewModel
-import com.vmloft.develop.library.common.utils.showBar
 import com.vmloft.develop.library.common.utils.errorBar
 import com.vmloft.develop.library.tools.utils.VMReg
-import kotlinx.android.synthetic.main.activity_sign_up.*
 
 import kotlinx.android.synthetic.main.fragment_sign_in_by_code.*
 import kotlinx.android.synthetic.main.fragment_sign_in_by_code.signAccountET
 import kotlinx.android.synthetic.main.fragment_sign_in_by_code.signPrivacyPolicyCB
+import kotlinx.android.synthetic.main.fragment_sign_in_by_code.signPrivacyPolicyTV
 import kotlinx.android.synthetic.main.fragment_sign_in_by_code.signSubmitBtn
+import kotlinx.android.synthetic.main.fragment_sign_in_by_code.signUserAgreementTV
+import kotlinx.android.synthetic.main.fragment_sign_in_by_password.*
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -62,11 +63,14 @@ class SignInByCodeFragment : BVMFragment<SignViewModel>() {
         signCodeBtn.setOnClickListener {
             mViewModel.requestCodeBySMS(mPhone)
         }
+
+        signUserAgreementTV.setOnClickListener { AppRouter.goAgreementPolicy() }
+        signPrivacyPolicyTV.setOnClickListener { AppRouter.goAgreementPolicy("policy") }
         signSubmitBtn.setOnClickListener {
             if (signPrivacyPolicyCB.isChecked) {
                 mViewModel.signInByCode(mPhone, mCode)
             }else{
-                errorBar(R.string.sign_privacy_policy_hint)
+                errorBar(R.string.agreement_policy_hint)
             }
         }
     }

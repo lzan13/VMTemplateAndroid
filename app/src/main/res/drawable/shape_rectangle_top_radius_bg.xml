@@ -3,7 +3,7 @@
     android:dither="true"
     android:shape="rectangle">
     <corners
-        android:topLeftRadius="@dimen/vm_dimen_8"
-        android:topRightRadius="@dimen/vm_dimen_8" />
+        android:topLeftRadius="@dimen/vm_dimen_16"
+        android:topRightRadius="@dimen/vm_dimen_16" />
     <solid android:color="@color/app_bg" />
 </shape>

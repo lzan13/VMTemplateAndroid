@@ -5,8 +5,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!--读取手机状态-->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!--访问相机-->
     <uses-permission android:name="android.permission.CAMERA" />
     <!--录音权限-->
@@ -58,6 +56,6 @@
         <!-- 设置环信应用的AppKey -->
         <meta-data
             android:name="EASEMOB_APPKEY"
-            android:value="${EM_APP_KEY}" />
+            android:value="${easemobAppKey}" />
     </application>
 </manifest>

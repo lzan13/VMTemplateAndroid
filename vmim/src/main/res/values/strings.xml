@@ -5,6 +5,9 @@
     <string name="im_chat_input_status">对方正在输入...</string>
     <string name="im_chat_send_notnull">消息内容不能为空</string>
 
+    <string name="im_chat_picture_limit">双方互相发送消息超过 %1$d 条以上才能解锁图片功能，需要双方都超过 %2$d 条</string>
+    <string name="im_chat_call_limit">双方互相发送消息超过 %1$d 条以上才能解锁通话功能，需要双方都超过 %2$d 条</string>
+
     <string name="im_chat_load_more_header_pulling">下拉加载更多</string>
     <string name="im_chat_load_more_header_refreshing">正在加载...</string>
     <string name="im_chat_load_more_header_loading">正在加载...</string>
@@ -104,7 +107,7 @@
     <!--快速聊天-->
     <string name="im_fast_cancel">不用了</string>
     <string name="im_fast_confirm">去看看</string>
-    <string name="im_fast_wait">已申请和对方快速聊天，耐心等待对方回复？🤓</string>
+    <string name="im_fast_wait">已申请和对方快速聊天，请耐心等待对方回复🤓</string>
     <string name="im_fast_apply">对方申请和你进行快速聊天，要和TA聊聊吗？😎</string>
     <string name="im_fast_agree">对方同意了你的申请，开始愉快的聊天吧😊</string>
     <string name="im_fast_busy">对方正忙，重新匹配一个试试吧😫</string>

@@ -46,7 +46,9 @@
                 android:paddingStart="@dimen/vm_dimen_4"
                 android:paddingEnd="@dimen/vm_dimen_4"
                 android:text="@{FormatUtils.relativeTime(data.createdAt)}"
-                tools:text="2020.09.22" />
+                android:visibility="gone"
+                tools:text="2020.09.22"
+                tools:visibility="visible" />
         </com.vmloft.develop.library.tools.widget.VMRatioLayout>
 
         <TextView
@@ -61,6 +63,7 @@
             android:paddingEnd="@dimen/vm_dimen_8"
             android:text="@{data.title}"
             android:textSize="@dimen/vm_size_12"
+            android:visibility="@{TextUtils.isEmpty(data.title) ? View.GONE : View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="@+id/itemRatioLayout"
             app:layout_constraintStart_toStartOf="@+id/itemRatioLayout"
             app:layout_constraintTop_toBottomOf="@+id/itemRatioLayout"
@@ -78,8 +81,8 @@
             android:paddingEnd="@dimen/vm_dimen_8"
             android:text="@{data.content}"
             android:textSize="@dimen/vm_size_11"
-            app:layout_constraintEnd_toEndOf="@+id/itemTitleTV"
-            app:layout_constraintStart_toStartOf="@+id/itemTitleTV"
+            app:layout_constraintEnd_toEndOf="@+id/itemRatioLayout"
+            app:layout_constraintStart_toStartOf="@+id/itemRatioLayout"
             app:layout_constraintTop_toBottomOf="@+id/itemTitleTV"
             tools:text="房间描述内容，最多两行" />
 
@@ -90,7 +93,7 @@
             android:padding="@dimen/vm_dimen_8"
             android:scaleType="centerCrop"
             app:avatarUrl="@{data.owner.avatar}"
-            app:layout_constraintStart_toStartOf="@+id/itemContentTV"
+            app:layout_constraintStart_toStartOf="@+id/itemRatioLayout"
             app:layout_constraintTop_toBottomOf="@+id/itemContentTV" />
 
         <TextView

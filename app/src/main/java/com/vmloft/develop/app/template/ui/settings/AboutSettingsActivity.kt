@@ -46,8 +46,7 @@ class AboutSettingsActivity : BVMActivity<InfoViewModel>() {
         // 检查更新
         aboutCheckVersionLV.setOnClickListener { mViewModel.checkVersion(true) }
 
-
-        aboutPrivacyPolicyTV.setOnClickListener { CRouter.goWeb(Constants.privatePolicyUrl) }
+        aboutPrivacyPolicyTV.setOnClickListener { AppRouter.goAgreementPolicy("policy") }
     }
 
     override fun initData() {

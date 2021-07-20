@@ -3,7 +3,9 @@ package com.vmloft.develop.app.template.ui.sign
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+
 import com.alibaba.android.arouter.facade.annotation.Route
+
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.databinding.ActivitySignInBinding
 import com.vmloft.develop.app.template.router.AppRouter

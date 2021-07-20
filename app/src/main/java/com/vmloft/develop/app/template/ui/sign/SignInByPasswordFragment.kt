@@ -4,6 +4,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
+
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.common.SignManager
 import com.vmloft.develop.app.template.databinding.FragmentSignInByPasswordBinding
@@ -13,13 +14,8 @@ import com.vmloft.develop.library.common.base.BViewModel
 import com.vmloft.develop.library.common.router.CRouter
 import com.vmloft.develop.library.common.utils.errorBar
 import com.vmloft.develop.library.tools.utils.VMReg
-import com.vmloft.develop.library.tools.utils.VMStr
-import kotlinx.android.synthetic.main.fragment_sign_in_by_code.*
 
 import kotlinx.android.synthetic.main.fragment_sign_in_by_password.*
-import kotlinx.android.synthetic.main.fragment_sign_in_by_password.signAccountET
-import kotlinx.android.synthetic.main.fragment_sign_in_by_password.signPrivacyPolicyCB
-import kotlinx.android.synthetic.main.fragment_sign_in_by_password.signSubmitBtn
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -73,11 +69,13 @@ class SignInByPasswordFragment : BVMFragment<SignViewModel>() {
             }
         }
 
+        signUserAgreementTV.setOnClickListener { AppRouter.goAgreementPolicy() }
+        signPrivacyPolicyTV.setOnClickListener { AppRouter.goAgreementPolicy("policy") }
         signSubmitBtn.setOnClickListener {
             if (signPrivacyPolicyCB.isChecked) {
                 mViewModel.signIn(mAccount, mPassword)
             } else {
-                errorBar(R.string.sign_privacy_policy_hint)
+                errorBar(R.string.agreement_policy_hint)
             }
         }
     }

@@ -2,6 +2,7 @@ package com.vmloft.develop.app.template.request.repository
 
 import com.vmloft.develop.app.template.request.api.APIRequest
 import com.vmloft.develop.app.template.request.bean.Match
+import com.vmloft.develop.app.template.request.db.AppDatabase
 import com.vmloft.develop.library.common.request.RPaging
 import com.vmloft.develop.library.common.request.BaseRepository
 import com.vmloft.develop.library.common.request.RResult
@@ -16,8 +17,8 @@ class MatchRepository : BaseRepository() {
     /**
      * 获取匹配列表数据
      */
-    suspend fun submitMatch(content: String, emotion: Int, type: Int): RResult<Match> {
-        return safeRequest(call = { requestSubmitMatch(content, emotion, type) })
+    suspend fun submitMatch(match: Match): RResult<Match> {
+        return safeRequest(call = { requestSubmitMatch(match.content, match.emotion, match.type) })
     }
 
     private suspend fun requestSubmitMatch(content: String, emotion: Int, type: Int): RResult<Match> =
@@ -44,9 +45,27 @@ class MatchRepository : BaseRepository() {
         executeResponse(APIRequest.matchAPI.getMatchList(page, limit))
 
     /**
+     * 获取自己的匹配数据
+     */
+    suspend fun getSelfMatch(): RResult<Match> {
+        val match = AppDatabase.getInstance().matchDao().query("selfMatch")
+        return RResult.Success("", match)
+    }
+
+    /**
+     * 更新自己的匹配数据
+     */
+    suspend fun setSelfMatch(match: Match) {
+        // 先清空原来的数据
+        AppDatabase.getInstance().matchDao().delete()
+        // 重新插入
+        AppDatabase.getInstance().matchDao().insert(match)
+    }
+
+    /**
      * 随机获取一条匹配数据
      */
-    suspend fun getMatchOne(type: Int): RResult<Match> {
+    suspend fun getOneMatch(type: Int): RResult<Match> {
         return safeRequest(call = { requestMatchOne(type) })
     }
 

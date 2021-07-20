@@ -86,7 +86,7 @@ class IMChatRoomFragment : BaseFragment() {
         // 发送鼓励
         imRoomEncourageBtn.setOnClickListener { sendEncourage() }
         // 点击发送
-        imChatSendBtn.setOnClickListener { sendText() }
+        imChatSendIV.setOnClickListener { sendText() }
 
         // 初始化输入框监听
         initInputWatcher()
@@ -192,7 +192,7 @@ class IMChatRoomFragment : BaseFragment() {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable) {
-                imChatSendBtn.visibility = if (s.toString().isNullOrEmpty()) View.GONE else View.VISIBLE
+                imChatSendIV.visibility = if (s.toString().isNullOrEmpty()) View.GONE else View.VISIBLE
             }
         })
     }

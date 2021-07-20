@@ -63,6 +63,7 @@ class IMChatFastActivity : BaseActivity() {
                 // TODO 邀请的申请过不来这里的，通过入参判断是否显示申请对话框
             } else if (status == IMConstants.ChatFast.fastInputStatusAgree) {
                 showBar(R.string.im_fast_agree)
+                imChatFastContentET.isEnabled = true
             } else if (status == IMConstants.ChatFast.fastInputStatusReject || status == IMConstants.ChatFast.fastInputStatusBusy) {
                 showRejectOrBusyDialog(status)
             } else if (status == IMConstants.ChatFast.fastInputStatusContent) {
@@ -103,8 +104,12 @@ class IMChatFastActivity : BaseActivity() {
         imChatFastContentET.isFocusableInTouchMode = true
         imChatFastContentET.requestFocus()
         imChatFastContentET.setOnClickListener {
-            imChatFastContentET.requestFocus()
-            imChatFastContentET.text?.let { content -> imChatFastContentET.setSelection(content.length) }
+            if (imChatFastContentET.isEnabled) {
+                imChatFastContentET.requestFocus()
+                imChatFastContentET.text?.let { content -> imChatFastContentET.setSelection(content.length) }
+            }else{
+                showBar(R.string.im_fast_wait)
+            }
         }
     }
 
@@ -120,6 +125,8 @@ class IMChatFastActivity : BaseActivity() {
         if (isApply) {
             showApplyDialog()
         } else {
+            // 对方没有同意时不能发送消息
+            imChatFastContentET.isEnabled = false
             IMChatFastManager.sendFastSignal(chatId, IMConstants.ChatFast.fastInputStatusApply)
             showBar(R.string.im_fast_wait)
         }

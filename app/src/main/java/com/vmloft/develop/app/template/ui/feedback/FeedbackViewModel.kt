@@ -34,10 +34,10 @@ class FeedbackViewModel(
             emitUIState(true)
             val result = repo.feedback(contact, content, attachment)
             if (result is RResult.Success) {
-                emitUIState(isSuccess = true, type = "feedback")
+                emitUIState(type = "feedback")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }
@@ -71,10 +71,10 @@ class FeedbackViewModel(
             val result = repo.ucloudCallbackObj(JsonUtils.map2json(params).toRequestBody("application/json".toMediaType()))
 
             if (result is RResult.Success) {
-                emitUIState(isSuccess = true, data = result.data, type = "uploadPicture")
+                emitUIState(data = result.data, type = "uploadPicture")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }

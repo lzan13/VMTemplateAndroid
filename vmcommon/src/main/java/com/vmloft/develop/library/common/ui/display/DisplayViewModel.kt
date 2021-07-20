@@ -29,7 +29,7 @@ class DisplayViewModel : BViewModel() {
                 emitUIState(data = result.data, toast = result.msg)
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }

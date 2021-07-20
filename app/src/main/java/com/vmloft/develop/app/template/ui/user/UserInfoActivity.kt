@@ -1,6 +1,5 @@
 package com.vmloft.develop.app.template.ui.user
 
-import android.graphics.Color
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
@@ -23,7 +22,6 @@ import com.vmloft.develop.library.common.router.CRouter
 import com.vmloft.develop.library.common.utils.CUtils
 import com.vmloft.develop.library.tools.utils.VMDimen
 import com.vmloft.develop.library.tools.utils.VMStr
-import com.vmloft.develop.library.tools.widget.behavior.VMBehaviorFrameLayout
 
 import kotlinx.android.synthetic.main.activity_user_info.*
 
@@ -42,9 +40,9 @@ class UserInfoActivity : BVMActivity<UserInfoViewModel>() {
 
     private val fragmentList = arrayListOf<Fragment>()
     private lateinit var publishFragment: PostFallsFragment
-//    private lateinit var likesFragment: PostLikesFragment
+    private lateinit var likesFragment: PostLikesFragment
 
-    private val titles = listOf("发布的")
+    private val titles = listOf("发布的", "喜欢的")
 
     override fun initVM(): UserInfoViewModel = getViewModel()
 
@@ -54,9 +52,8 @@ class UserInfoActivity : BVMActivity<UserInfoViewModel>() {
         super.initUI()
         CUtils.setDarkMode(this, false)
 
+        tabTopSpaceView.layoutParams.height = VMDimen.dp2px(48) + VMDimen.statusBarHeight
         setTopTitleColor(R.color.app_title_display)
-
-        initBehavior()
 
         infoCoverIV.setOnClickListener { CRouter.goDisplaySingle(if (user.cover.isNullOrEmpty()) user.avatar else user.cover) }
         infoAvatarIV.setOnClickListener { CRouter.goDisplaySingle(user.avatar) }
@@ -85,34 +82,19 @@ class UserInfoActivity : BVMActivity<UserInfoViewModel>() {
      */
     private fun initFragmentList() {
         publishFragment = PostFallsFragment.newInstance(user.id)
-//        likesFragment = PostLikesFragment.newInstance(user.id)
+        likesFragment = PostLikesFragment.newInstance(user.id)
 
         fragmentList.run {
             add(publishFragment)
-//            add(likesFragment)
+            add(likesFragment)
         }
-    }
-
-    private fun initBehavior() {
-        infoBehaviorLayout.setStickHeaderHeight(VMDimen.dp2px(48) + VMDimen.dp2px(36) + VMDimen.statusBarHeight)
-        infoBehaviorLayout.setHeaderScrollListener(object : VMBehaviorFrameLayout.SimpleHeaderScrollListener() {
-            override fun onScroll(dy: Int, percent: Float) {
-                infoCoverIV.translationY = dy / 2f
-
-                setTopTitle(if (percent > 0.6) user.nickname else "")
-
-                setTopBGColor(Color.argb((percent * 255).toInt(), 42, 42, 42))
-            }
-        })
-        infoBehaviorLayout.setMaxHeaderHeight(VMDimen.dp2px(512))
-
     }
 
     /**
      * 初始化 ViewPager
      */
     private fun initViewPager() {
-//        viewPager.offscreenPageLimit = titles.size - 1
+        viewPager.offscreenPageLimit = titles.size - 1
         viewPager.adapter = object : FragmentStateAdapter(this) {
             override fun createFragment(position: Int) = fragmentList[position]
 
@@ -154,7 +136,9 @@ class UserInfoActivity : BVMActivity<UserInfoViewModel>() {
             else -> infoGenderIV.setImageResource(R.drawable.ic_gender_man)
         }
 
-        infoNameTV.text = user.nickname
+        val nickname = if (user.nickname.isNullOrEmpty()) VMStr.byRes(R.string.info_nickname_default) else user.nickname
+        setTopTitle(nickname)
+        infoNameTV.text = nickname
         infoAddressTV.text = user.address
         infoSignatureTV.text = user.signature
 
@@ -163,6 +147,9 @@ class UserInfoActivity : BVMActivity<UserInfoViewModel>() {
         infoFansTV.text = user.fansCount.toString()
 
         setupFollowStatus()
+
+        // VMHeaderLayout 会缓存子 View 布局内容，默认情况下不会重新刷新布局内容，这里主动通知 VMHeaderLayout 子 View 内容有更新
+//        infoHeaderLayout.updateLayout()
     }
 
     private fun setupFollowStatus() {

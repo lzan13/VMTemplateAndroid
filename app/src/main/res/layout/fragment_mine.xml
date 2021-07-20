@@ -1,43 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:background="@color/app_bg"
+    android:background="@color/app_bg"
     tools:context=".ui.main.mine.MineFragment">
 
-    <com.vmloft.develop.library.tools.widget.behavior.VMBehaviorFrameLayout
-        android:id="@+id/mineBehaviorLayout"
+    <com.vmloft.develop.library.tools.widget.behavior.VMHeaderLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:vm_drag_over="true"
-        app:vm_stick_section_height="@dimen/vm_dimen_96">
+        android:layout_height="wrap_content"
+        app:vm_extend_height="30%">
+
+        <ImageView
+            android:id="@+id/mineCoverIV"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/vm_dimen_320"
+            android:scaleType="centerCrop"
+            app:vm_transformation="scroll|extend_scale"
+            tools:src="@drawable/img_default" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/vm_dimen_320"
+            android:background="@drawable/shape_info_top_mask"
+            app:vm_transformation="scroll|extend_scale" />
+
         <!--我的标签头部个人信息部分-->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/mineInfoCL"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/vm_dimen_320">
-
-            <ImageView
-                android:id="@+id/mineCoverIV"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/img_default" />
-
-            <View
-                android:layout_width="@dimen/vm_dimen_0"
-                android:layout_height="@dimen/vm_dimen_0"
-                android:background="@drawable/shape_info_top_mask"
-                app:layout_constraintBottom_toBottomOf="@+id/mineCoverIV"
-                app:layout_constraintEnd_toEndOf="@+id/mineCoverIV"
-                app:layout_constraintStart_toStartOf="@+id/mineCoverIV"
-                app:layout_constraintTop_toTopOf="@+id/mineCoverIV" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/vm_dimen_36"
+            app:vm_transformation="scroll|alpha">
 
             <ImageView
                 android:id="@+id/mineAvatarIV"
@@ -112,7 +108,7 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="@dimen/vm_dimen_16"
-                app:layout_constraintBottom_toTopOf="@+id/tabLayout"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
@@ -208,6 +204,41 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/mineFansLL"
                 app:tint="@color/app_title_display" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/commonTopLL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alpha="0.0"
+            android:orientation="vertical"
+            app:vm_transformation="alpha_contrary">
+
+            <!--TopBar 顶部 statusBar 填充-->
+            <View
+                android:id="@+id/commonTopSpace"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/vm_dimen_0" />
+
+            <com.vmloft.develop.library.tools.widget.VMTopBar
+                android:id="@+id/commonTopBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:gravity="bottom"
+            android:orientation="vertical"
+            app:vm_sticky_until_exit="true"
+            app:vm_transformation="scroll">
+
+            <View
+                android:id="@+id/tabTopSpaceView"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/vm_dimen_0" />
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout"
@@ -224,15 +255,13 @@
                 app:tabMode="scrollable"
                 app:tabSelectedTextColor="@color/app_tab_selected"
                 app:tabTextColor="@color/app_tab" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+    </com.vmloft.develop.library.tools.widget.behavior.VMHeaderLayout>
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/viewPager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/vm_dimen_320" />
-    </com.vmloft.develop.library.tools.widget.behavior.VMBehaviorFrameLayout>
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/vm_scrolling_view_behavior" />
 
-    <include layout="@layout/widget_common_top_bar" />
-
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

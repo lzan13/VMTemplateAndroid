@@ -1,6 +1,5 @@
 package com.vmloft.develop.app.template.ui.main.msg
 
-import android.view.LayoutInflater
 import android.view.View
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -32,7 +31,7 @@ class MsgFragment : BaseFragment() {
         super.initUI()
         CUtils.setDarkMode(requireActivity(), true)
         setTopTitle(R.string.nav_msg)
-        setTopEndIcon(R.drawable.ic_add) { showFloatMenu(it) }
+//        setTopEndIcon(R.drawable.ic_add) { showFloatMenu(it) }
 
         setupFragment()
         initFloatMenu()

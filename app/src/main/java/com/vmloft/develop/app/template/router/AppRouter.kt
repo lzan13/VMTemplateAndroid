@@ -29,6 +29,9 @@ object AppRouter {
     const val appSettingsAbout = "/App/SettingsAbout"
     const val appFeedback = "/App/Feedback"
 
+    // 政策协议
+    const val appSettingsAgreementPolicy = "/App/SettingsAgreementPolicy"
+
     // 二维码
     const val appQRScan = "/App/QRScan"
     const val appQRMine = "/App/QRMine"
@@ -39,6 +42,7 @@ object AppRouter {
     const val appEditUsername = "/App/EditUsername"
     const val appEditNickname = "/App/EditNickname"
     const val appEditSignature = "/App/EditSignature"
+
     // 绑定邮箱
     const val appBindEmail = "/App/BindEmail"
 
@@ -48,8 +52,7 @@ object AppRouter {
     const val appPostDetails = "/App/PostDetail"
 
     // 匹配
-    const val appMatch = "/App/Match"
-    const val appMatchFast = "/App/MatchFast"
+    const val appMatchAnim = "/App/MatchFast"
 
     // 用户信息
     const val appUserInfo = "/App/UserInfo"
@@ -58,6 +61,13 @@ object AppRouter {
     const val appRoomList = "/App/RoomList"
     const val appRoomCreate = "/App/RoomCreate"
 
+
+    /**
+     * 跳转匹配过渡动画界面
+     */
+    fun goMatch(type: Int = 0) {
+        ARouter.getInstance().build(appMatchAnim).withInt("type", type).navigation()
+    }
 
     /**
      * 用户信息
@@ -85,6 +95,13 @@ object AppRouter {
      */
     fun goEditSignature(signature: String?) {
         ARouter.getInstance().build(appEditSignature).withString("signature", signature).navigation()
+    }
+
+    /**
+     * 协议和政策[AgreementPolicyActivity]
+     */
+    fun goAgreementPolicy(type: String = "agreement") {
+        ARouter.getInstance().build(appSettingsAgreementPolicy).withString("type", type).navigation()
     }
 
 }

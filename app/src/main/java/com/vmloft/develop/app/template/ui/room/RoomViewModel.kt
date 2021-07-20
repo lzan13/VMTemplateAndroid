@@ -24,10 +24,10 @@ class RoomViewModel(val repository: RoomRepository) : BViewModel() {
             emitUIState(true)
             val result = repository.createRoom(title, desc, owner)
             if (result is RResult.Success) {
-                emitUIState(isSuccess = true, data = result.data, type = "createRoom")
+                emitUIState(data = result.data, type = "createRoom")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }
@@ -40,10 +40,10 @@ class RoomViewModel(val repository: RoomRepository) : BViewModel() {
             emitUIState(true)
             val result = repository.destroyRoom(id)
             if (result is RResult.Success) {
-                emitUIState(isSuccess = true, data = result.data, type = "destroyRoom")
+                emitUIState(data = result.data, type = "destroyRoom")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }
@@ -56,10 +56,10 @@ class RoomViewModel(val repository: RoomRepository) : BViewModel() {
             emitUIState(true)
             val result = repository.updateRoom(id, title, desc)
             if (result is RResult.Success) {
-                emitUIState(isSuccess = true, data = result.data, type = "updateRoom")
+                emitUIState(data = result.data, type = "updateRoom")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }
@@ -72,10 +72,10 @@ class RoomViewModel(val repository: RoomRepository) : BViewModel() {
             emitUIState(true)
             val result = repository.getRoomList(page, limit)
             if (result is RResult.Success) {
-                emitUIState(isSuccess = true, data = result.data, type = "roomList")
+                emitUIState(data = result.data, type = "roomList")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }
@@ -88,10 +88,10 @@ class RoomViewModel(val repository: RoomRepository) : BViewModel() {
             emitUIState(true)
             val result = repository.getRoomInfo(id)
             if (result is RResult.Success) {
-                emitUIState(isSuccess = true, data = result.data, toast = result.msg, type = "roomInfo")
+                emitUIState(data = result.data, toast = result.msg, type = "roomInfo")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }

@@ -22,7 +22,7 @@
 
         <!--语音-->
         <ImageView
-            android:id="@+id/imChatRecordBtn"
+            android:id="@+id/imChatRecordIV"
             android:layout_width="@dimen/vm_dimen_40"
             android:layout_height="@dimen/vm_dimen_40"
             android:layout_marginEnd="@dimen/vm_dimen_8"
@@ -31,12 +31,12 @@
             android:src="@drawable/ic_fire"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/imChatPictureBtn"
+            app:layout_constraintEnd_toStartOf="@+id/imChatPictureIV"
             app:layout_constraintStart_toStartOf="parent" />
 
         <!--图片-->
         <ImageView
-            android:id="@+id/imChatPictureBtn"
+            android:id="@+id/imChatPictureIV"
             android:layout_width="@dimen/vm_dimen_40"
             android:layout_height="@dimen/vm_dimen_40"
             android:layout_marginEnd="@dimen/vm_dimen_8"
@@ -45,12 +45,27 @@
             android:src="@drawable/ic_picture_album"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/imChatCallBtn"
-            app:layout_constraintStart_toEndOf="@+id/imChatRecordBtn" />
+            app:layout_constraintEnd_toStartOf="@+id/imChatCallIV"
+            app:layout_constraintStart_toEndOf="@+id/imChatRecordIV" />
+
+        <!--图片锁-->
+        <ImageView
+            android:id="@+id/imChatPictureLockIV"
+            android:layout_width="@dimen/vm_dimen_40"
+            android:layout_height="@dimen/vm_dimen_40"
+            android:background="@drawable/im_shape_circle_icon_bg"
+            android:paddingStart="@dimen/vm_dimen_24"
+            android:paddingTop="@dimen/vm_dimen_24"
+            android:paddingEnd="4dp"
+            android:paddingBottom="4dp"
+            android:src="@drawable/ic_lock"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/imChatPictureIV"
+            app:layout_constraintEnd_toEndOf="@+id/imChatPictureIV" />
 
         <!--通话-->
         <ImageView
-            android:id="@+id/imChatCallBtn"
+            android:id="@+id/imChatCallIV"
             android:layout_width="@dimen/vm_dimen_40"
             android:layout_height="@dimen/vm_dimen_40"
             android:layout_marginEnd="@dimen/vm_dimen_8"
@@ -60,8 +75,23 @@
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/imChatMessageET"
-            app:layout_constraintStart_toEndOf="@+id/imChatPictureBtn"
+            app:layout_constraintStart_toEndOf="@+id/imChatPictureIV"
             app:tint="@color/app_icon" />
+
+        <!--通话锁-->
+        <ImageView
+            android:id="@+id/imChatCallLockIV"
+            android:layout_width="@dimen/vm_dimen_40"
+            android:layout_height="@dimen/vm_dimen_40"
+            android:background="@drawable/im_shape_circle_icon_bg"
+            android:paddingStart="@dimen/vm_dimen_24"
+            android:paddingTop="@dimen/vm_dimen_24"
+            android:paddingEnd="4dp"
+            android:paddingBottom="4dp"
+            android:src="@drawable/ic_lock"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/imChatCallIV"
+            app:layout_constraintEnd_toEndOf="@+id/imChatCallIV" />
 
         <!--输入框-->
         <EditText
@@ -72,13 +102,13 @@
             android:hint="@string/im_chat_input_hint"
             app:layout_constrainedWidth="true"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/imChatSendBtn"
-            app:layout_constraintStart_toEndOf="@+id/imChatCallBtn"
+            app:layout_constraintEnd_toStartOf="@+id/imChatSendIV"
+            app:layout_constraintStart_toEndOf="@+id/imChatCallIV"
             app:layout_constraintTop_toTopOf="parent" />
 
         <!--发送按钮-->
         <ImageView
-            android:id="@+id/imChatSendBtn"
+            android:id="@+id/imChatSendIV"
             android:layout_width="@dimen/vm_dimen_40"
             android:layout_height="@dimen/vm_dimen_40"
             android:layout_marginStart="@dimen/vm_dimen_8"

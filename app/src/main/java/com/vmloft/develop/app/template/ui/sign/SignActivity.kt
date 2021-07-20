@@ -2,8 +2,8 @@ package com.vmloft.develop.app.template.ui.sign
 
 
 import com.alibaba.android.arouter.facade.annotation.Route
+
 import com.vmloft.develop.app.template.R
-import com.vmloft.develop.app.template.common.Constants
 import com.vmloft.develop.app.template.databinding.ActivitySignGuideBinding
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.common.base.BVMActivity
@@ -11,6 +11,7 @@ import com.vmloft.develop.library.common.base.BViewModel
 import com.vmloft.develop.library.common.router.CRouter
 import com.vmloft.develop.library.common.utils.errorBar
 import com.vmloft.develop.library.tools.utils.VMSystem
+
 import kotlinx.android.synthetic.main.activity_sign_guide.*
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -38,13 +39,13 @@ class SignActivity : BVMActivity<SignViewModel>() {
 
         setTopEndIcon(R.drawable.ic_info) { CRouter.go(AppRouter.appSettingsAbout) }
 
-        signPrivacyPolicyTV.setOnClickListener { CRouter.goWeb(Constants.userAgreementUrl) }
-        signUserAgreementTV.setOnClickListener { CRouter.goWeb(Constants.privatePolicyUrl) }
+        signUserAgreementTV.setOnClickListener { AppRouter.goAgreementPolicy() }
+        signPrivacyPolicyTV.setOnClickListener { AppRouter.goAgreementPolicy("policy") }
         signByDevicesIdBtn.setOnClickListener {
             if (signPrivacyPolicyCB.isChecked) {
                 mViewModel.signInByDevicesId(devicesId, "123456")
             } else {
-                errorBar(R.string.sign_privacy_policy_hint)
+                errorBar(R.string.agreement_policy_hint)
             }
         }
         signByPasswordBtn.setOnClickListener { CRouter.go(AppRouter.appSignIn) }

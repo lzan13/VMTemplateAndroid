@@ -13,6 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         android:background="@color/app_bg"
         tools:context=".ui.post.PostLikesFragment">
 
@@ -29,17 +30,7 @@
                 android:scrollbars="none" />
         </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
-        <ImageView
-            android:id="@+id/postEmptyIV"
-            android:layout_width="@dimen/vm_dimen_192"
-            android:layout_height="@dimen/vm_dimen_192"
-            android:layout_margin="@dimen/vm_dimen_36"
-            android:src="@drawable/ic_empty_data"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible" />
+        <include layout="@layout/widget_common_empty_status_view" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

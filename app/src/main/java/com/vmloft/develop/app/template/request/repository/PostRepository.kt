@@ -16,12 +16,12 @@ class PostRepository : BaseRepository() {
     /**
      * 创建帖子
      */
-    suspend fun createPost(title: String, content: String, category: String, attachments: List<String>): RResult<Any> {
-        return safeRequest(call = { requestCreatePost(title, content, category, attachments) })
+    suspend fun createPost(content: String, category: String, attachments: List<String>): RResult<Any> {
+        return safeRequest(call = { requestCreatePost(content, category, attachments) })
     }
 
-    private suspend fun requestCreatePost(title: String, content: String, category: String, attachments: List<String>): RResult<Any> =
-        executeResponse(APIRequest.postAPI.createPost(title, content, category, attachments))
+    private suspend fun requestCreatePost(content: String, category: String, attachments: List<String>): RResult<Any> =
+        executeResponse(APIRequest.postAPI.createPost(content, category, attachments))
 
     /**
      * 获取列表

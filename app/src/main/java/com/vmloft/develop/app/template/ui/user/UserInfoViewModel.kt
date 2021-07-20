@@ -28,10 +28,10 @@ class UserInfoViewModel(val repository: FollowRepository, val infoRepository: In
             emitUIState(true)
             val result = repository.follow(id)
             if (result is RResult.Success) {
-                emitUIState(isSuccess = true, data = result.data, type = "follow")
+                emitUIState(data = result.data, type = "follow")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }
@@ -44,10 +44,10 @@ class UserInfoViewModel(val repository: FollowRepository, val infoRepository: In
             emitUIState(true)
             val result = repository.cancelFollow(id)
             if (result is RResult.Success) {
-                emitUIState(isSuccess = true, data = result.data, type = "cancelFollow")
+                emitUIState(data = result.data, type = "cancelFollow")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }
@@ -67,10 +67,10 @@ class UserInfoViewModel(val repository: FollowRepository, val infoRepository: In
 
             if (result is RResult.Success && result.data != null) {
                 CacheManager.putUser(result.data!!)
-                emitUIState(isSuccess = true, data = result.data, type = "userInfo")
+                emitUIState(data = result.data, type = "userInfo")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }

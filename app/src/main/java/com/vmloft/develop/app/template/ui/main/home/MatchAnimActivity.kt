@@ -6,32 +6,32 @@ import com.alibaba.android.arouter.launcher.ARouter
 
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.common.CacheManager
-import com.vmloft.develop.app.template.databinding.ActivityMatchFastBinding
+import com.vmloft.develop.app.template.databinding.ActivityMatchAnimBinding
 import com.vmloft.develop.app.template.im.IMManager
 import com.vmloft.develop.app.template.request.bean.Match
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.common.base.BVMActivity
 import com.vmloft.develop.library.common.base.BViewModel
-import com.vmloft.develop.library.common.common.CConstants
 import com.vmloft.develop.library.common.utils.CUtils
+import com.vmloft.develop.library.common.utils.errorBar
 import com.vmloft.develop.library.tools.animator.VMAnimator
 import com.vmloft.develop.library.tools.utils.VMSystem
-import kotlinx.android.synthetic.main.activity_match.*
 
-import kotlinx.android.synthetic.main.activity_match_fast.*
-import kotlinx.android.synthetic.main.activity_match_fast.matchAnimView1
-import kotlinx.android.synthetic.main.activity_match_fast.matchAnimView2
+import kotlinx.android.synthetic.main.activity_match_anim.*
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 
 /**
  * Create by lzan13 on 2019/5/15 23:13
- *
- * 匹配快速聊天界面
+ * 描述：匹配动画过渡界面
  */
-@Route(path = AppRouter.appMatchFast)
-class MatchFastActivity : BVMActivity<MatchViewModel>() {
+@Route(path = AppRouter.appMatchAnim)
+class MatchAnimActivity : BVMActivity<MatchViewModel>() {
+
+    @Autowired
+    @JvmField
+    var type: Int = 0
 
     private var mAnimatorWrapRadar: VMAnimator.AnimatorSetWrap? = null
     private var mAnimatorWrap: VMAnimator.AnimatorSetWrap? = null
@@ -39,32 +39,48 @@ class MatchFastActivity : BVMActivity<MatchViewModel>() {
 
     override fun initVM(): MatchViewModel = getViewModel()
 
-    override fun layoutId() = R.layout.activity_match_fast
+    override fun layoutId() = R.layout.activity_match_anim
 
     override fun initUI() {
         super.initUI()
         CUtils.setDarkMode(mActivity, false)
 
-        setTopTitle(R.string.match_fast)
+        setTopTitle(R.string.match_loading)
         setTopTitleColor(R.color.app_title_display)
 
-        (mBinding as ActivityMatchFastBinding).viewModel = mViewModel
+        (mBinding as ActivityMatchAnimBinding).viewModel = mViewModel
 
-        matchStartBtn.setOnClickListener {
-            startAnim()
-            mViewModel.getMatchOne()
-        }
+        mViewModel.getOneMatch()
     }
 
     override fun initData() {
+        ARouter.getInstance().inject(this)
     }
 
     override fun onModelRefresh(model: BViewModel.UIModel) {
-        if (model.type == "matchOne") {
+        if (model.isLoading) {
+            startAnim()
+        } else {
+            stopAnim()
+        }
+        if (model.type == "oneMatch") {
             val match = model.data as Match
             CacheManager.putUser(match.user)
-            IMManager.goChatFast(match.user.id)
+
+            when (type) {
+                0 -> IMManager.goChat(match.user.id)
+                2 -> IMManager.goChatFast(match.user.id)
+                else -> AppRouter.goUserInfo(match.user)
+            }
+
             finish()
+        }
+    }
+
+    override fun onModelError(model: BViewModel.UIModel) {
+        super.onModelError(model)
+        model.error?.let {
+            VMSystem.runInUIThread({ finish() }, 1000)
         }
     }
 
@@ -72,10 +88,9 @@ class MatchFastActivity : BVMActivity<MatchViewModel>() {
      * 开始匹配，需要经自己的信息提交到后端
      */
     private fun startAnim() {
-        val radarOptions = VMAnimator.AnimOptions(matchAnimView1, floatArrayOf(-45f, 45f), VMAnimator.rotation, 1000)
+        val radarOptions = VMAnimator.AnimOptions(matchRadarIV, floatArrayOf(-45f, 45f), VMAnimator.rotation, 1000)
         mAnimatorWrapRadar = VMAnimator.createAnimator().play(radarOptions)
         mAnimatorWrapRadar?.start()
-
 
         val scaleXOptions = VMAnimator.AnimOptions(matchAnimView1, floatArrayOf(0f, 20f), VMAnimator.scaleX, 2000, repeatMode = 1)
         val scaleYOptions = VMAnimator.AnimOptions(matchAnimView1, floatArrayOf(0f, 20f), VMAnimator.scaleY, 2000, repeatMode = 1)

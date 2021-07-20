@@ -123,9 +123,9 @@
         <item name="android:textColor">@color/app_input</item>
         <item name="android:textColorHint">@color/app_input_hint</item>
         <item name="android:paddingStart">@dimen/vm_padding_large</item>
-        <item name="android:paddingEnd">@dimen/vm_dimen_12</item>
+        <item name="android:paddingEnd">@dimen/vm_padding_large</item>
         <item name="android:paddingTop">@dimen/vm_dimen_12</item>
-        <item name="android:paddingBottom">@dimen/vm_padding_large</item>
+        <item name="android:paddingBottom">@dimen/vm_dimen_12</item>
         <item name="android:textStyle">normal</item>
     </style>
 

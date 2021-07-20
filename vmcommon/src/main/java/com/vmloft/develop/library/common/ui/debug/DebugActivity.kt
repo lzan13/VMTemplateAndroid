@@ -6,12 +6,10 @@ import com.vmloft.develop.library.common.R
 import com.vmloft.develop.library.common.base.BaseActivity
 import com.vmloft.develop.library.common.common.CSPManager
 import com.vmloft.develop.library.common.router.CRouter
-import com.vmloft.develop.library.common.utils.showBar
 import com.vmloft.develop.library.common.widget.CommonDialog
 import com.vmloft.develop.library.tools.utils.VMStr
 
 import kotlinx.android.synthetic.main.activity_debug.*
-import kotlin.system.exitProcess
 
 /**
  * Create by lzan13 on 2020/05/02 22:56

@@ -50,6 +50,9 @@ class IMChatListener : EMMessageListener {
      * 通知新消息，这里已经获取过用户信息
      */
     private fun onNotifyMessage(msg: EMMessage) {
+        // 接收消息数+1
+        val conversation = IMChatManager.getConversation(msg.conversationId(), msg.chatType.ordinal)
+        IMChatManager.setConversationMsgReceiveCountAdd(conversation)
         // 通知有新消息来了，新消息通知肯定要发送，不在当前聊天界面还要发送通知栏提醒
         LDEventBus.post(IMConstants.Common.newMsgEvent, msg)
         if (!IMChatManager.isCurrChat(msg.conversationId())) {

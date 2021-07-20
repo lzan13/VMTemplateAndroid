@@ -29,10 +29,10 @@ class ExploreViewModel(
             val result = postRepository.getPostList(page, limit)
 
             if (result is RResult.Success) {
-                emitUIState(isSuccess = true, data = result.data, type = "postList")
+                emitUIState(data = result.data, type = "postList")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }
@@ -49,10 +49,10 @@ class ExploreViewModel(
             val result = likeRepository.like(1, id)
 
             if (result is RResult.Success) {
-                emitUIState(isSuccess = true, type = "like")
+                emitUIState(type = "like")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }
@@ -66,10 +66,10 @@ class ExploreViewModel(
             val result = likeRepository.cancelLike(1, id)
 
             if (result is RResult.Success) {
-                emitUIState(isSuccess = true, type = "cancelLike")
+                emitUIState(type = "cancelLike")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }

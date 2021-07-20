@@ -21,6 +21,7 @@ import com.vmloft.develop.library.common.widget.StaggeredItemDecoration
 import com.vmloft.develop.library.tools.utils.VMDimen
 
 import kotlinx.android.synthetic.main.fragment_explore.*
+import kotlinx.android.synthetic.main.widget_common_empty_status_view.*
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -61,16 +62,6 @@ class ExploreFragment : BVMFragment<ExploreViewModel>() {
     override fun initData() {
 
         mViewModel.getPostList()
-    }
-
-    override fun onModelRefresh(model: BViewModel.UIModel) {
-        if (!model.isLoading) {
-            refreshLayout.finishRefresh()
-            refreshLayout.finishLoadMore()
-        }
-        if (model.type == "postList") {
-            refresh(model.data as RPaging<Post>)
-        }
     }
 
     /**
@@ -116,8 +107,40 @@ class ExploreFragment : BVMFragment<ExploreViewModel>() {
         if (paging.currentCount + paging.page * paging.limit >= paging.totalCount) {
             refreshLayout.setNoMoreData(true)
         }
-        // 空数据展示
-        postEmptyIV.visibility = if (mItems.isEmpty()) View.VISIBLE else View.GONE
+
+        // 空态检查
+        checkEmptyStatus()
+    }
+
+    /**
+     * 空态检查
+     * @param type  0-默认检查空态 1-请求失败
+     */
+    private fun checkEmptyStatus(type: Int = 0) {
+        if (type == 0) {
+            emptyStatusIV.setImageResource(R.drawable.ic_empty_data)
+            refreshLayout.visibility = if (mItems.isEmpty()) View.GONE else View.VISIBLE
+            emptyStatusLL.visibility = if (mItems.isEmpty()) View.VISIBLE else View.GONE
+        } else {
+            emptyStatusIV.setImageResource(R.drawable.ic_empty_failed)
+            refreshLayout.visibility = View.GONE
+            emptyStatusLL.visibility = View.VISIBLE
+        }
+    }
+
+    override fun onModelRefresh(model: BViewModel.UIModel) {
+        if (!model.isLoading) {
+            refreshLayout.finishRefresh()
+            refreshLayout.finishLoadMore()
+        }
+        if (model.type == "postList") {
+            refresh(model.data as RPaging<Post>)
+        }
+    }
+
+    override fun onModelError(model: BViewModel.UIModel) {
+        super.onModelError(model)
+        checkEmptyStatus(1)
     }
 
     /**

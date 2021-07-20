@@ -25,6 +25,8 @@ import com.vmloft.develop.library.common.common.CConstants
 import com.vmloft.develop.library.common.event.LDEventBus
 import com.vmloft.develop.library.common.image.IMGChoose
 import com.vmloft.develop.library.common.image.IMGLoader
+import com.vmloft.develop.app.template.report.ReportConstants
+import com.vmloft.develop.library.common.report.ReportManager
 import com.vmloft.develop.library.common.router.CRouter
 import com.vmloft.develop.library.common.utils.errorBar
 import com.vmloft.develop.library.common.utils.showBar
@@ -132,13 +134,16 @@ class PostCreateActivity : BVMActivity<PostViewModel>() {
         if (!VMReg.isCommonReg(mContent, "^[\\s\\S]{1,800}\$")) {
             return errorBar(R.string.publish_content_hint)
         }
-        val title = mContent.substring(0, if (mContent.length > 10) 10 else mContent.length - 1)
+//        val title = if (mContent.length > 16) mContent.substring(0, 16) else mContent
 
         val list = mutableListOf<String>()
         attachment?.let {
             list.add(it.id)
         }
-        mViewModel.createPost(title, mContent, mCategory.id, list)
+        // 上报内容发布
+        ReportManager.reportEvent(ReportConstants.eventPostCreate)
+
+        mViewModel.createPost(mContent, mCategory.id, list)
     }
 
     /**

@@ -2,14 +2,14 @@
 <resources>
 
     <!--首页匹配颜色-->
-    <color name="app_home_card_random_start">#dde66d48</color>
-    <color name="app_home_card_random_end">#ddff8965</color>
+    <color name="app_home_card_destiny_start">#dde66d48</color>
+    <color name="app_home_card_destiny_end">#ddff8965</color>
     <color name="app_home_card_emotion_start">#ddfc997f</color>
     <color name="app_home_card_emotion_end">#ddfd86a8</color>
-    <color name="app_home_card_chat_start">#ddfab37b</color>
-    <color name="app_home_card_chat_end">#ddfca487</color>
     <color name="app_home_card_fast_start">#ddd54b4b</color>
     <color name="app_home_card_fast_end">#ddda6161</color>
+    <color name="app_home_card_room_start">#ddfab37b</color>
+    <color name="app_home_card_room_end">#ddfca487</color>
     <color name="app_home_card_secret_start">#ddb37fe8</color>
     <color name="app_home_card_secret_end">#dd7d77e0</color>
     <color name="app_home_card_wish_start">#dd6db7c7</color>

@@ -11,7 +11,7 @@ object CConstants {
     const val cacheImageDir = "images"
 
     // 应用在 SDCard 创建区别其他项目目录，一般以项目名命名
-    const val projectDir = "VMMatch/"
+    const val projectDir = "VMMatch"
 
     // 分页默认数据
     const val defaultPage = 0

@@ -1,8 +1,8 @@
 package com.vmloft.develop.app.template.ui.main.mine
 
-import android.graphics.Color
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+
 import com.google.android.material.tabs.TabLayoutMediator
 
 import com.vmloft.develop.app.template.R
@@ -19,7 +19,6 @@ import com.vmloft.develop.library.common.router.CRouter
 import com.vmloft.develop.library.common.utils.CUtils
 import com.vmloft.develop.library.tools.utils.VMDimen
 import com.vmloft.develop.library.tools.utils.VMStr
-import com.vmloft.develop.library.tools.widget.behavior.VMBehaviorFrameLayout
 
 import kotlinx.android.synthetic.main.fragment_mine.*
 
@@ -30,7 +29,7 @@ import kotlinx.android.synthetic.main.fragment_mine.*
  */
 class MineFragment : BaseFragment() {
 
-    private lateinit var mUser: User
+    private lateinit var user: User
 
     private val fragmentList = arrayListOf<Fragment>()
     private lateinit var publishFragment: PostFallsFragment
@@ -45,12 +44,11 @@ class MineFragment : BaseFragment() {
         super.initUI()
         CUtils.setDarkMode(requireActivity(), false)
 
+        tabTopSpaceView.layoutParams.height = VMDimen.dp2px(48) + VMDimen.statusBarHeight
         setTopTitleColor(R.color.app_title_display)
 
-        initBehavior()
-
-        mineCoverIV.setOnClickListener { CRouter.goDisplaySingle(if (mUser.cover.isNullOrEmpty()) mUser.avatar else mUser.cover) }
-        mineAvatarIV.setOnClickListener { CRouter.goDisplaySingle(mUser.avatar) }
+        mineCoverIV.setOnClickListener { CRouter.goDisplaySingle(if (user.cover.isNullOrEmpty()) user.avatar else user.cover) }
+        mineAvatarIV.setOnClickListener { CRouter.goDisplaySingle(user.avatar) }
         mineFansLL.setOnClickListener { }
         mineFollowLL.setOnClickListener { }
         mineLikeLL.setOnClickListener { }
@@ -59,13 +57,13 @@ class MineFragment : BaseFragment() {
         mineSettingsBtn.setOnClickListener { CRouter.go(AppRouter.appSettings) }
 
         LDEventBus.observe(this, Constants.userInfoEvent, User::class.java, {
-            mUser = it
+            user = it
             bindInfo()
         })
     }
 
     override fun initData() {
-        mUser = SignManager.getCurrUser() ?: User()
+        user = SignManager.getCurrUser() ?: User()
 
         initFragmentList()
         initViewPager()
@@ -77,28 +75,13 @@ class MineFragment : BaseFragment() {
      * 初始化 Fragment 集合
      */
     private fun initFragmentList() {
-        publishFragment = PostFallsFragment.newInstance(mUser.id)
-        likesFragment = PostLikesFragment.newInstance(mUser.id)
+        publishFragment = PostFallsFragment.newInstance(user.id)
+        likesFragment = PostLikesFragment.newInstance(user.id)
 
         fragmentList.run {
             add(publishFragment)
             add(likesFragment)
         }
-    }
-
-    private fun initBehavior() {
-        mineBehaviorLayout.setStickHeaderHeight(VMDimen.dp2px(48) + VMDimen.dp2px(36) + VMDimen.statusBarHeight)
-        mineBehaviorLayout.setHeaderScrollListener(object : VMBehaviorFrameLayout.SimpleHeaderScrollListener() {
-            override fun onScroll(dy: Int, percent: Float) {
-                mineCoverIV.translationY = dy / 2f
-
-                setTopTitle(if (percent > 0.6) if (mUser.nickname.isNullOrEmpty()) "小透明" else mUser.nickname else "")
-
-                setTopBGColor(Color.argb((percent * 255).toInt(), 42, 42, 42))
-            }
-        })
-        mineBehaviorLayout.setMaxHeaderHeight(VMDimen.dp2px(512))
-
     }
 
     /**
@@ -129,28 +112,29 @@ class MineFragment : BaseFragment() {
      * 绑定用户数据
      */
     private fun bindInfo() {
-        if (mUser.cover.isNullOrEmpty()) {
-            IMGLoader.loadCover(mineCoverIV, mUser.avatar, isBlur = true)
+        if (user.cover.isNullOrEmpty()) {
+            IMGLoader.loadCover(mineCoverIV, user.avatar, isBlur = true)
         } else {
-            IMGLoader.loadCover(mineCoverIV, mUser.cover, isBlur = true)
+            IMGLoader.loadCover(mineCoverIV, user.cover, isBlur = true)
         }
 
-        val avatar: String = mUser.avatar
+        val avatar: String = user.avatar
         IMGLoader.loadAvatar(mineAvatarIV, avatar)
 
-        when (mUser.gender) {
+        when (user.gender) {
             1 -> mineGenderIV.setImageResource(R.drawable.ic_gender_man)
             0 -> mineGenderIV.setImageResource(R.drawable.ic_gender_woman)
             else -> mineGenderIV.setImageResource(R.drawable.ic_gender_man)
         }
+        val nickname = if (user.nickname.isNullOrEmpty()) VMStr.byRes(R.string.info_nickname_default) else user.nickname
+        setTopTitle(nickname)
+        mineNameTV.text = nickname
+        mineAddressTV.text = if (user.address.isNullOrEmpty()) VMStr.byRes(R.string.info_address_default) else user.address
+        mineSignatureTV.text = if (user.signature.isNullOrEmpty()) VMStr.byRes(R.string.info_signature_default) else user.signature
 
-        mineNameTV.text = if (mUser.nickname.isNullOrEmpty()) VMStr.byRes(R.string.info_nickname_default) else mUser.nickname
-        mineAddressTV.text = if (mUser.address.isNullOrEmpty()) VMStr.byRes(R.string.info_address_default) else mUser.address
-        mineSignatureTV.text = if (mUser.signature.isNullOrEmpty()) VMStr.byRes(R.string.info_signature_default) else mUser.signature
-
-        mineLikeTV.text = mUser.likeCount.toString()
-        mineFollowTV.text = mUser.followCount.toString()
-        mineFansTV.text = mUser.fansCount.toString()
+        mineLikeTV.text = user.likeCount.toString()
+        mineFollowTV.text = user.followCount.toString()
+        mineFansTV.text = user.fansCount.toString()
     }
 
 

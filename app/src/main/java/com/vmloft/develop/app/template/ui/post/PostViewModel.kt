@@ -46,10 +46,10 @@ class PostViewModel(
             }
 
             if (result is RResult.Success) {
-                emitUIState(isSuccess = true, data = result.data, type = "categoryList")
+                emitUIState(data = result.data, type = "categoryList")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }
@@ -86,10 +86,10 @@ class PostViewModel(
             val result = commonRepo.ucloudCallbackObj(JsonUtils.map2json(params).toRequestBody("application/json".toMediaType()))
 
             if (result is RResult.Success) {
-                emitUIState(isSuccess = true, data = result.data, type = "uploadPicture")
+                emitUIState(data = result.data, type = "uploadPicture")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }
@@ -100,16 +100,16 @@ class PostViewModel(
     /**
      * 创建
      */
-    fun createPost(title: String, content: String, category: String, attachments: List<String> = arrayListOf()) {
+    fun createPost(content: String, category: String, attachments: List<String> = arrayListOf()) {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val result = repo.createPost(title, content, category, attachments)
+            val result = repo.createPost(content, category, attachments)
 
             if (result is RResult.Success) {
-                emitUIState(isSuccess = true, type = "createPost")
+                emitUIState(type = "createPost")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }
@@ -123,10 +123,10 @@ class PostViewModel(
             val result = repo.getPostList(page, limit, owner)
 
             if (result is RResult.Success) {
-                emitUIState(isSuccess = true, data = result.data, type = "postList")
+                emitUIState(data = result.data, type = "postList")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }
@@ -143,10 +143,10 @@ class PostViewModel(
             val result = repo.createComment(content, post, user)
 
             if (result is RResult.Success) {
-                emitUIState(isSuccess = true, type = "createComment")
+                emitUIState(type = "createComment")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }
@@ -160,10 +160,10 @@ class PostViewModel(
             val result = repo.getCommentList(post, page, limit)
 
             if (result is RResult.Success) {
-                emitUIState(isSuccess = true, data = result.data, type = "commentList")
+                emitUIState(data = result.data, type = "commentList")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }
@@ -180,10 +180,10 @@ class PostViewModel(
             val result = likeRepo.like(1, id)
 
             if (result is RResult.Success) {
-                emitUIState(isSuccess = true, type = "like")
+                emitUIState(type = "like")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }
@@ -197,10 +197,10 @@ class PostViewModel(
             val result = likeRepo.cancelLike(1, id)
 
             if (result is RResult.Success) {
-                emitUIState(isSuccess = true, type = "cancelLike")
+                emitUIState(type = "cancelLike")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }
@@ -214,10 +214,10 @@ class PostViewModel(
             val result = likeRepo.getLikePostList(owner, page, limit, 1, "")
 
             if (result is RResult.Success) {
-                emitUIState(isSuccess = true, data = result.data, type = "likeList")
+                emitUIState(data = result.data, type = "likeList")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }

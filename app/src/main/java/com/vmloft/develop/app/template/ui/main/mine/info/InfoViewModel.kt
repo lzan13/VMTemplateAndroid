@@ -46,10 +46,10 @@ class InfoViewModel(
                 commonRepo.getProfessionList()
             }
             if (result is RResult.Success) {
-                emitUIState(isSuccess = true, data = result.data, type = "professionList")
+                emitUIState(data = result.data, type = "professionList")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }
@@ -66,10 +66,10 @@ class InfoViewModel(
             val result = repo.updateUsername(username)
 
             if (result is RResult.Success) {
-                emitUIState(isSuccess = true, data = result.data, type = "updateUsername")
+                emitUIState(data = result.data, type = "updateUsername")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }
@@ -84,10 +84,10 @@ class InfoViewModel(
             val result = repo.updateInfo(body)
 
             if (result is RResult.Success) {
-                emitUIState(isSuccess = true, data = result.data, type = "updateInfo")
+                emitUIState(data = result.data, type = "updateInfo")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }
@@ -126,9 +126,9 @@ class InfoViewModel(
             val result = repo.updateInfo(JsonUtils.map2json(infoParams).toRequestBody("application/json".toMediaType()))
 
             if (result is RResult.Success) {
-                emitUIState(isSuccess = true, data = result.data, type = "updateAvatar")
+                emitUIState(data = result.data, type = "updateAvatar")
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }
@@ -168,9 +168,9 @@ class InfoViewModel(
             val result = repo.updateInfo(JsonUtils.map2json(infoParams).toRequestBody("application/json".toMediaType()))
 
             if (result is RResult.Success) {
-                emitUIState(isSuccess = true, data = result.data, type = "updateCover")
+                emitUIState(data = result.data, type = "updateCover")
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }
@@ -183,10 +183,10 @@ class InfoViewModel(
             emitUIState(true)
             val result = repo.bindEmail(email, code)
             if (result is RResult.Success) {
-                emitUIState(isSuccess = true, data = result.data, type = "bindEmail")
+                emitUIState(data = result.data, type = "bindEmail")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }
@@ -200,10 +200,10 @@ class InfoViewModel(
             val result = repo.updatePassword(password, oldPassword)
 
             if (result is RResult.Success) {
-                emitUIState(isSuccess = true, data = result.data, type = "updatePassword")
+                emitUIState(data = result.data, type = "updatePassword")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }
@@ -217,10 +217,10 @@ class InfoViewModel(
             val result = repo.personalAuth(realName, idCardNumber)
 
             if (result is RResult.Success) {
-                emitUIState(isSuccess = true, data = result.data, type = "personalAuth")
+                emitUIState(data = result.data, type = "personalAuth")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }
@@ -240,10 +240,10 @@ class InfoViewModel(
             if (result is RResult.Success && result.data != null) {
                 // 将用户信息加入到缓存
                 CacheManager.putUser(result.data!!)
-                emitUIState(isSuccess = true, data = result.data, type = "userInfo")
+                emitUIState(data = result.data, type = "userInfo")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }
@@ -256,10 +256,10 @@ class InfoViewModel(
             emitUIState(true)
             val result = repo.clock()
             if (result is RResult.Success) {
-                emitUIState(isSuccess = true, data = result.data, type = "clock")
+                emitUIState(data = result.data, type = "clock")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }
@@ -272,10 +272,10 @@ class InfoViewModel(
             emitUIState(true)
             val result = repo.sendCodeEmail(email)
             if (result is RResult.Success) {
-                emitUIState(isSuccess = true, data = result.data, type = "sendCodeEmail")
+                emitUIState(data = result.data, type = "sendCodeEmail")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }
@@ -286,12 +286,14 @@ class InfoViewModel(
     fun checkVersion(server: Boolean) {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val result = commonRepo.checkVersion(server)
+            val result = withContext(Dispatchers.IO) {
+                commonRepo.checkVersion()
+            }
             if (result is RResult.Success) {
-                emitUIState(isSuccess = true, data = result.data, type = "checkVersion")
+                emitUIState(data = result.data, type = "checkVersion")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }

@@ -26,6 +26,7 @@ import com.vmloft.develop.library.common.widget.StaggeredItemDecoration
 import com.vmloft.develop.library.tools.utils.VMDimen
 
 import kotlinx.android.synthetic.main.activity_room_list.*
+import kotlinx.android.synthetic.main.widget_common_empty_status_view.*
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -93,19 +94,6 @@ class RoomListActivity : BVMActivity<RoomViewModel>() {
         }
     }
 
-    override fun onModelRefresh(model: BViewModel.UIModel) {
-        if (!model.isLoading) {
-            refreshLayout.finishRefresh()
-            refreshLayout.finishLoadMore()
-        }
-        if (model.type == "destroyRoom") {
-            // 1.销毁的话把缓存里的房间信息也要删掉
-            CacheManager.setLastRoom(null, true)
-        } else if (model.type == "roomList") {
-            refresh(model.data as RPaging<Room>)
-        }
-    }
-
     /**
      * 数据刷新
      */
@@ -131,8 +119,45 @@ class RoomListActivity : BVMActivity<RoomViewModel>() {
         if (paging.currentCount + paging.page * paging.limit >= paging.totalCount) {
             refreshLayout.setNoMoreData(true)
         }
-        // 空数据展示
-        roomListEmptyIV.visibility = if (mItems.isEmpty()) View.VISIBLE else View.GONE
+        // 空态检查
+        checkEmptyStatus()
+    }
+
+    /**
+     * 空态检查
+     * @param type  0-默认检查空态 1-请求失败
+     */
+    private fun checkEmptyStatus(type: Int = 0) {
+        if (type == 0) {
+            emptyStatusIV.setImageResource(R.drawable.ic_empty_data)
+            refreshLayout.visibility = if (mItems.isEmpty()) View.GONE else View.VISIBLE
+            emptyStatusLL.visibility = if (mItems.isEmpty()) View.VISIBLE else View.GONE
+        } else {
+            emptyStatusIV.setImageResource(R.drawable.ic_empty_failed)
+            refreshLayout.visibility = View.GONE
+            emptyStatusLL.visibility = View.VISIBLE
+        }
+    }
+
+    /**
+     * 结果刷新
+     */
+    override fun onModelRefresh(model: BViewModel.UIModel) {
+        if (!model.isLoading) {
+            refreshLayout.finishRefresh()
+            refreshLayout.finishLoadMore()
+        }
+        if (model.type == "destroyRoom") {
+            // 1.销毁的话把缓存里的房间信息也要删掉
+            CacheManager.setLastRoom(null, true)
+        } else if (model.type == "roomList") {
+            refresh(model.data as RPaging<Room>)
+        }
+    }
+
+    override fun onModelError(model: BViewModel.UIModel) {
+        super.onModelError(model)
+        checkEmptyStatus(1)
     }
 
     /**

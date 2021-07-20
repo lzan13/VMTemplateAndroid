@@ -10,7 +10,6 @@ import com.vmloft.develop.library.common.common.CConstants
 import com.vmloft.develop.library.common.request.RPaging
 import com.vmloft.develop.library.tools.utils.VMSystem
 
-import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
 
@@ -87,7 +86,6 @@ class CommonRepository : BaseRepository() {
     private suspend fun requestProfessionList(): RResult<RPaging<Profession>> =
         executeResponse(APIRequest.commonAPI.getProfessionList())
 
-
     /**
      * 检查版本，这里控制超过 24 小时去服务器请求
      */
@@ -115,7 +113,74 @@ class CommonRepository : BaseRepository() {
     }
 
     private suspend fun requestCheckVersion(): RResult<Version> =
-        executeResponse(APIRequest.userInfoAPI.checkVersion())
+        executeResponse(APIRequest.commonAPI.checkVersion())
+
+
+    /**
+     * 获取客户端配置，这里控制超过 24 小时去服务器请求
+     */
+    suspend fun getClientConfig(): RResult<Config> {
+        val time = SPManager.getClientConfigTime()
+        val intervalTime = System.currentTimeMillis() - time
+        if (intervalTime < CConstants.timeDay * 7) {
+            val config = AppDatabase.getInstance().configDao().query("clientConfig")
+            if (config != null) {
+                return RResult.Success("", config)
+            }
+        }
+        val result = safeRequest(call = { requestClientConfig() })
+        if (result is RResult.Success) {
+            SPManager.setClientConfigTime(System.currentTimeMillis())
+        }
+        return result
+    }
+
+    private suspend fun requestClientConfig(): RResult<Config> =
+        executeResponse(APIRequest.commonAPI.getClientConfig())
+
+    /**
+     * 获取隐私政策，这里控制超过 24 小时去服务器请求
+     */
+    suspend fun getPrivacyPolicy(): RResult<Config> {
+        val time = SPManager.getPrivacyPolicyTime()
+        val intervalTime = System.currentTimeMillis() - time
+        if (intervalTime < CConstants.timeDay * 7) {
+            val config = AppDatabase.getInstance().configDao().query("privacyPolicy")
+            if (config != null) {
+                return RResult.Success("", config)
+            }
+        }
+        val result = safeRequest(call = { requestPrivacyPolicy() })
+        if (result is RResult.Success) {
+            SPManager.setPrivacyPolicyTime(System.currentTimeMillis())
+        }
+        return result
+    }
+
+    private suspend fun requestPrivacyPolicy(): RResult<Config> =
+        executeResponse(APIRequest.commonAPI.getPrivacyPolicy())
+
+    /**
+     * 获取用户协议，这里控制超过 24 小时去服务器请求
+     */
+    suspend fun getUserAgreement(): RResult<Config> {
+        val time = SPManager.getUserAgreementTime()
+        val intervalTime = System.currentTimeMillis() - time
+        if (intervalTime < CConstants.timeDay * 7) {
+            val config = AppDatabase.getInstance().configDao().query("userAgreement")
+            if (config != null) {
+                return RResult.Success("", config)
+            }
+        }
+        val result = safeRequest(call = { requestUserAgreement() })
+        if (result is RResult.Success) {
+            SPManager.setUserAgreementTime(System.currentTimeMillis())
+        }
+        return result
+    }
+
+    private suspend fun requestUserAgreement(): RResult<Config> =
+        executeResponse(APIRequest.commonAPI.getUserAgreement())
 
     /**
      * 提交反馈

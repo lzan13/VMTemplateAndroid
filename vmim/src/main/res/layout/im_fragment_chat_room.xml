@@ -22,7 +22,7 @@
 
         <!--语音-->
         <ImageView
-            android:id="@+id/imChatRecordBtn"
+            android:id="@+id/imChatRecordIV"
             android:layout_width="@dimen/vm_dimen_40"
             android:layout_height="@dimen/vm_dimen_40"
             android:layout_marginEnd="@dimen/vm_dimen_8"
@@ -31,12 +31,12 @@
             android:src="@drawable/ic_fire"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/imChatPictureBtn"
+            app:layout_constraintEnd_toStartOf="@+id/imChatPictureIV"
             app:layout_constraintStart_toStartOf="parent" />
 
         <!--图片-->
         <ImageView
-            android:id="@+id/imChatPictureBtn"
+            android:id="@+id/imChatPictureIV"
             android:layout_width="@dimen/vm_dimen_40"
             android:layout_height="@dimen/vm_dimen_40"
             android:layout_marginEnd="@dimen/vm_dimen_8"
@@ -46,7 +46,7 @@
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/imRoomEncourageBtn"
-            app:layout_constraintStart_toEndOf="@+id/imChatRecordBtn" />
+            app:layout_constraintStart_toEndOf="@+id/imChatRecordIV" />
 
         <!--鼓励-->
         <TextView
@@ -60,7 +60,7 @@
             android:textSize="@dimen/vm_size_20"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/imChatMessageET"
-            app:layout_constraintStart_toEndOf="@+id/imChatPictureBtn"
+            app:layout_constraintStart_toEndOf="@+id/imChatPictureIV"
             app:tint="@color/app_icon" />
 
         <!--输入框-->
@@ -72,13 +72,13 @@
             android:hint="@string/im_chat_input_hint"
             app:layout_constrainedWidth="true"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/imChatSendBtn"
+            app:layout_constraintEnd_toStartOf="@+id/imChatSendIV"
             app:layout_constraintStart_toEndOf="@+id/imRoomEncourageBtn"
             app:layout_constraintTop_toTopOf="parent" />
 
         <!--发送按钮-->
         <ImageView
-            android:id="@+id/imChatSendBtn"
+            android:id="@+id/imChatSendIV"
             android:layout_width="@dimen/vm_dimen_40"
             android:layout_height="@dimen/vm_dimen_40"
             android:layout_marginStart="@dimen/vm_dimen_8"

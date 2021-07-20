@@ -1,10 +1,12 @@
 package com.vmloft.develop.app.template.ui.main.home
 
 import androidx.lifecycle.viewModelScope
+import com.vmloft.develop.app.template.request.bean.Match
 import com.vmloft.develop.library.common.base.BViewModel
 import com.vmloft.develop.library.common.request.RResult
 import com.vmloft.develop.app.template.request.repository.MatchRepository
 import com.vmloft.develop.library.common.common.CConstants
+import com.vmloft.develop.library.common.utils.CUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -19,15 +21,17 @@ class MatchViewModel(private val repository: MatchRepository) : BViewModel() {
     /**
      * 提交匹配信息
      */
-    fun submitMatch(content: String, emotion: Int, type: Int = 0) {
+    fun submitMatch(match: Match) {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val result = repository.submitMatch(content, emotion, type)
+            val result = withContext(Dispatchers.IO) {
+                repository.submitMatch(match)
+            }
             if (result is RResult.Success) {
-                emitUIState(isSuccess = true, data = result.data, type = "submitMatch")
+                emitUIState(data = result.data, type = "submitMatch")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }
@@ -40,10 +44,10 @@ class MatchViewModel(private val repository: MatchRepository) : BViewModel() {
             emitUIState(true)
             val result = repository.removeMatch(id)
             if (result is RResult.Success && result.data != null) {
-                emitUIState(isSuccess = true, data = result.data, type = "removeMatch")
+                emitUIState(data = result.data, type = "removeMatch")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }
@@ -56,29 +60,56 @@ class MatchViewModel(private val repository: MatchRepository) : BViewModel() {
             emitUIState(true)
             val result = repository.getMatchList(page, limit)
             if (result is RResult.Success) {
-                emitUIState(isSuccess = true, data = result.data, type = "matchList")
+                emitUIState(data = result.data, type = "matchList")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
+        }
+    }
+
+    /**
+     * 获取缓存在本地的自己的匹配数据
+     */
+    fun getSelfMatch() {
+        viewModelScope.launch(Dispatchers.Main) {
+            emitUIState(true)
+            val result = withContext(Dispatchers.IO) {
+                repository.getSelfMatch()
+            }
+            if (result is RResult.Success && result.data != null) {
+                emitUIState(data = result.data, type = "selfMatch")
+                return@launch
+            } else if (result is RResult.Error) {
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
+            }
+        }
+    }
+
+    /**
+     * 缓存自己的匹配数据到数据库
+     */
+    fun setSelfMatch(match: Match) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.setSelfMatch(match)
         }
     }
 
     /**
      * 随机获取一条匹配
      */
-    fun getMatchOne(type: Int = 0) {
+    fun getOneMatch(type: Int = 0) {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
             val result = withContext(Dispatchers.IO) {
-                Thread.sleep(CConstants.timeSecond)
-                repository.getMatchOne(type)
+                Thread.sleep(CUtils.random(CConstants.timeSecond.toInt() * 5).toLong())
+                repository.getOneMatch(type)
             }
             if (result is RResult.Success && result.data != null) {
-                emitUIState(isSuccess = true, data = result.data, type = "matchOne")
+                emitUIState(data = result.data, type = "oneMatch")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }

@@ -29,10 +29,10 @@ class SignViewModel(private val repository: SignRepository) : BViewModel() {
                 // 注册成功存储下登录信息
                 SignManager.setToken(result.data!!.token)
                 SignManager.setCurrUser(result.data)
-                emitUIState(isSuccess = true, data = result.data, type = "signUpByDevicesId")
+                emitUIState(data = result.data, type = "signUpByDevicesId")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }
@@ -49,10 +49,10 @@ class SignViewModel(private val repository: SignRepository) : BViewModel() {
                 // 注册成功存储下登录信息
                 SignManager.setToken(result.data!!.token)
                 SignManager.setCurrUser(result.data)
-                emitUIState(isSuccess = true, data = result.data, type = "signUpByEmail")
+                emitUIState(data = result.data, type = "signUpByEmail")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }
@@ -69,10 +69,10 @@ class SignViewModel(private val repository: SignRepository) : BViewModel() {
                 // 注册成功存储下登录信息
                 SignManager.setToken(result.data!!.token)
                 SignManager.setCurrUser(result.data)
-                emitUIState(isSuccess = true, data = result.data, type = "signUpByPhone")
+                emitUIState(data = result.data, type = "signUpByPhone")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }
@@ -88,10 +88,10 @@ class SignViewModel(private val repository: SignRepository) : BViewModel() {
                 // 登录成功存储下登录信息
                 SignManager.setToken(result.data!!.token)
                 SignManager.setCurrUser(result.data)
-                emitUIState(isSuccess = true, data = result.data, type = "signIn")
+                emitUIState(data = result.data, type = "signIn")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }
@@ -107,10 +107,10 @@ class SignViewModel(private val repository: SignRepository) : BViewModel() {
                 // 登录成功存储下登录信息
                 SignManager.setToken(result.data!!.token)
                 SignManager.setCurrUser(result.data)
-                emitUIState(isSuccess = true, data = result.data, type = "signInByDevicesId")
+                emitUIState(data = result.data, type = "signInByDevicesId")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error, type ="signInByDevicesId")
+                emitUIState(isSuccess = false, code = result.code, error = result.error, type = "signInByDevicesId")
             }
         }
     }
@@ -126,10 +126,10 @@ class SignViewModel(private val repository: SignRepository) : BViewModel() {
                 // 登录成功存储下登录信息
                 SignManager.setToken(result.data!!.token)
                 SignManager.setCurrUser(result.data)
-                emitUIState(isSuccess = true, data = result.data, type = "signInByCode")
+                emitUIState(data = result.data, type = "signInByCode")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }
@@ -142,10 +142,10 @@ class SignViewModel(private val repository: SignRepository) : BViewModel() {
 //            emitUIState(true)
 //            val result = SMSManager.requestCode("86", phone)
 //            if (result is RResult.Success) {
-//                emitUIState(isSuccess = true, data = result.data, type = "requestCodeBySMS")
+//                emitUIState(data = result.data, type = "requestCodeBySMS")
 //                return@launch
 //            } else if (result is RResult.Error) {
-//                emitUIState(code = result.code, error = result.error)
+//                emitUIState(isSuccess = false, code = result.code, error = result.error)
 //            }
 //        }
     }
@@ -158,10 +158,10 @@ class SignViewModel(private val repository: SignRepository) : BViewModel() {
 //            emitUIState(true)
 //            val result = SMSManager.verifyLocalPhone(phone)
 //            if (result is RResult.Success) {
-//                emitUIState(isSuccess = true, data = result.data, type = "verifyLocalPhone")
+//                emitUIState(data = result.data, type = "verifyLocalPhone")
 //                return@launch
 //            } else if (result is RResult.Error) {
-//                emitUIState(code = result.code, error = result.error)
+//                emitUIState(isSuccess = false, code = result.code, error = result.error)
 //            }
 //        }
     }
@@ -175,10 +175,10 @@ class SignViewModel(private val repository: SignRepository) : BViewModel() {
             emitUIState(true)
             val result = repository.signOut()
             if (result is RResult.Success) {
-                emitUIState(isSuccess = true, type = "signOut")
+                emitUIState(type = "signOut")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }
@@ -192,10 +192,10 @@ class SignViewModel(private val repository: SignRepository) : BViewModel() {
             emitUIState(true)
             val result = IMManager.signIn()
             if (result is RResult.Success) {
-                emitUIState(isSuccess = true, type = "signInIM")
+                emitUIState(type = "signInIM")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }

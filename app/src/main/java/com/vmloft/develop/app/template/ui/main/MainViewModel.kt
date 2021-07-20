@@ -11,13 +11,17 @@ import com.vmloft.develop.library.common.request.RResult
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 /**
  * Create by lzan13 on 2020/4/20 17:28
  * 描述：首页 ViewModel
  */
-class MainViewModel(val repository: MainRepository, val commonRepository: CommonRepository) : BViewModel() {
+class MainViewModel(
+    private val repo: MainRepository,
+    private val commonRepo: CommonRepository,
+) : BViewModel() {
 
     /**
      * 加载当前用户数据
@@ -25,15 +29,15 @@ class MainViewModel(val repository: MainRepository, val commonRepository: Common
     fun getCurrUser() {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val result = repository.loadCurrUser()
+            val result = repo.loadCurrUser()
 
             if (result is RResult.Success) {
                 SignManager.setCurrUser(result.data as User)
 
-                emitUIState(isSuccess = true, data = result.data, type = "userInfo")
+                emitUIState(data = result.data, type = "userInfo")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }
@@ -44,12 +48,14 @@ class MainViewModel(val repository: MainRepository, val commonRepository: Common
     fun checkVersion() {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val result = commonRepository.checkVersion()
+            val result = withContext(Dispatchers.IO) {
+                commonRepo.checkVersion()
+            }
             if (result is RResult.Success) {
-                emitUIState(isSuccess = true, data = result.data, type = "checkVersion")
+                emitUIState(data = result.data, type = "checkVersion")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
         }
     }

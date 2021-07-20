@@ -8,21 +8,13 @@ ext {
             versionCode      : 1,
             versionName      : "0.0.1",
 
-            admobAppId       : "Admob AppId",
-            buglyAppId       : "Bugly AppId",
-            mobAppId         : "Mob AppId",
-            mobAppSecret     : "Mob AppSecret",
-            umengAppId       : "UMeng AppId",
+            // 友盟 AppId
+            umengAppKey      : "UMeng AppKey",
+            // 环信 Appkey 替换成自己的 Appkey
+            easemobAppKey    : "Appkey",
 
             // 声网 AppId 这里需要写入 BuildConfig 只会写入双引号内部字段，所以需要多包一层""
-            agoraAppId       : "Agora AppId",
-
-            // 环信 Appkey 替换成自己的 Appkey
-            emAppkey         : "Appkey",
-
-            // UCloud 数据存储公钥 这里需要写入 BuildConfig 只会写入双引号内部字段，所以需要多包一层""
-            ucloudPublicKey  : "\"UCloud Public Key\"",
-            ucloudBucket : "\"UCloud Bucket\"",
+            agoraAppId       : "\"Agora AppId\"",
 
             // 这里需要写入 BuildConfig 只会写入双引号内部字段，所以需要多包一层""
             // 然后这里地址需要和服务器配置一致，看服务器项目的 default 配置 subSite 字段，如果是二级目录需要带上完整的路径如：https://xxx.com/api/
@@ -33,6 +25,10 @@ ext {
 
             // 访问资源域名地址 这里需要写入 BuildConfig 只会写入双引号内部字段，所以需要多包一层""
             mediaUrl         : "\"资源域名地址\"",
+
+            // UCloud 数据存储公钥 这里需要写入 BuildConfig 只会写入双引号内部字段，所以需要多包一层""
+            ucloudPublicKey  : "\"UCloud Public Key\"",
+            ucloudBucket     : "\"UCloud Bucket\"",
     ]
 
     // 签名文件由 AndroidStudio 生成，然后使用 keytool 命令转换格式

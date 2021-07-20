@@ -43,7 +43,7 @@ open class BViewModel : ViewModel() {
 
     protected fun emitUIState(
         isLoading: Boolean = false,
-        isSuccess: Boolean = false,
+        isSuccess: Boolean = true,
         data: Any? = null,
         code: Int = 0,
         error: String? = null,

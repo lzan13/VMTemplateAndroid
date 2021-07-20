@@ -55,6 +55,8 @@ object IMConstants {
         const val conversationTime = "conversationTime" // 最后时间
         const val conversationTop = "conversationTop" // 置顶
         const val conversationUnread = "conversationUnread" // 会话未读
+        const val conversationMsgSendCount = "conversationMsgSendCount" // 会话消息发送数
+        const val conversationMsgReceiveCount = "conversationMsgReceiveCount" // 会话消息接收数
 
         /**
          * 消息扩展

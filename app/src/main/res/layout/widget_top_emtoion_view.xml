@@ -6,10 +6,10 @@
     android:background="@drawable/shape_fillet_common_bg"
     android:gravity="center"
     android:orientation="horizontal"
-    android:paddingStart="@dimen/vm_dimen_4"
-    android:paddingTop="@dimen/vm_dimen_4"
-    android:paddingEnd="@dimen/vm_dimen_8"
-    android:paddingBottom="@dimen/vm_dimen_4">
+    android:paddingStart="@dimen/vm_dimen_12"
+    android:paddingTop="@dimen/vm_dimen_8"
+    android:paddingEnd="@dimen/vm_dimen_12"
+    android:paddingBottom="@dimen/vm_dimen_8">
 
     <ImageView
         android:id="@+id/emotionIV"

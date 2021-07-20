@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 
 import com.vmloft.develop.library.common.R
+import com.vmloft.develop.library.common.report.ReportManager
 import com.vmloft.develop.library.common.widget.CommonDialog
 import com.vmloft.develop.library.tools.utils.VMDimen
 
@@ -20,6 +21,7 @@ import kotlinx.android.synthetic.main.widget_common_top_bar.*
 abstract class BaseFragment : Fragment() {
     protected var mDialog: CommonDialog? = null
     protected var isLoaded: Boolean = false
+
     // 是否居中显示标题
     open var centerTitle: Boolean = false
 
@@ -38,7 +40,23 @@ abstract class BaseFragment : Fragment() {
             isLoaded = true
             initData()
         }
+        ReportManager.reportPageStart(this.javaClass.simpleName)
     }
+
+    override fun onPause() {
+        super.onPause()
+        ReportManager.reportPageEnd(this.javaClass.simpleName)
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (hidden) {
+            ReportManager.reportPageEnd(this.javaClass.simpleName)
+        } else {
+            ReportManager.reportPageStart(this.javaClass.simpleName)
+        }
+    }
+
     /**
      * 布局资源 id
      */

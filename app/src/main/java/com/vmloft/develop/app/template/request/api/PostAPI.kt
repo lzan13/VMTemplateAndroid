@@ -22,7 +22,6 @@ interface PostAPI {
     @FormUrlEncoded
     @POST("v1/post")
     suspend fun createPost(
-        @Field("title") title: String,
         @Field("content") content: String,
         @Field("category") category: String,
         @Field("attachments") attachments: List<String>,

@@ -80,7 +80,7 @@
             android:layout_marginTop="@dimen/vm_dimen_16"
             android:layout_marginBottom="@dimen/vm_dimen_36"
             android:button="@drawable/ic_check_box_selector"
-            android:text="@string/sign_policy_prefix"
+            android:text="@string/agreement_policy_prefix"
             android:textColor="@color/app_tips"
             android:textSize="@dimen/vm_size_11"
             app:layout_constraintEnd_toStartOf="@+id/signUserAgreementTV"
@@ -94,7 +94,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/vm_dimen_8"
             android:paddingBottom="@dimen/vm_dimen_8"
-            android:text="@string/sign_user_agreement"
+            android:text="@string/user_agreement"
             android:textColor="@color/app_link"
             android:textSize="@dimen/vm_size_11"
             app:layout_constraintBottom_toBottomOf="@+id/signPrivacyPolicyCB"
@@ -108,7 +108,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/vm_dimen_8"
             android:paddingBottom="@dimen/vm_dimen_8"
-            android:text="@string/sign_privacy_policy"
+            android:text="@string/privacy_policy"
             android:textColor="@color/app_link"
             android:textSize="@dimen/vm_size_11"
             app:layout_constraintBottom_toBottomOf="@+id/signUserAgreementTV"
@@ -126,16 +126,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/signPrivacyPolicyTV" />
 
-        <com.vmloft.develop.library.tools.widget.loading.VMLoadingView
-            android:id="@+id/loadingView"
-            android:layout_width="@dimen/vm_dimen_48"
-            android:layout_height="@dimen/vm_dimen_48"
-            android:padding="@dimen/vm_dimen_8"
-            android:visibility="@{viewModel.uiState.isLoading ? View.VISIBLE : View.GONE}"
-            app:layout_constraintBottom_toBottomOf="@+id/signSubmitBtn"
-            app:layout_constraintEnd_toEndOf="@+id/signSubmitBtn"
-            app:layout_constraintTop_toTopOf="@+id/signSubmitBtn"
-            app:vm_loading_color="@color/app_main"
-            app:vm_loading_type="DoubleCircle" />
+<!--        <com.vmloft.develop.library.tools.widget.loading.VMLoadingView-->
+<!--            android:id="@+id/loadingView"-->
+<!--            android:layout_width="@dimen/vm_dimen_48"-->
+<!--            android:layout_height="@dimen/vm_dimen_48"-->
+<!--            android:padding="@dimen/vm_dimen_8"-->
+<!--            android:visibility="@{viewModel.uiState.isLoading ? View.VISIBLE : View.GONE}"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/signSubmitBtn"-->
+<!--            app:layout_constraintEnd_toEndOf="@+id/signSubmitBtn"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/signSubmitBtn"-->
+<!--            app:vm_loading_color="@color/app_main"-->
+<!--            app:vm_loading_type="DoubleCircle" />-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

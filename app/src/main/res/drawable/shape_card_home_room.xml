@@ -4,7 +4,7 @@
     android:shape="rectangle">
     <gradient
         android:angle="315"
-        android:endColor="@color/app_home_card_chat_end"
-        android:startColor="@color/app_home_card_chat_start" />
+        android:endColor="@color/app_home_card_room_end"
+        android:startColor="@color/app_home_card_room_start" />
     <corners android:radius="@dimen/vm_dimen_8" />
 </shape>

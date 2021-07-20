@@ -35,45 +35,24 @@
 -keep public class com.tencent.bugly.**{*;}
 
 
-### JPush 推送混淆
--dontoptimize
--dontpreverify
-
--dontwarn cn.jpush.**
--keep class cn.jpush.** { *; }
--keep class * extends cn.jpush.android.helpers.JPushMessageReceiver { *; }
-
--dontwarn cn.jiguang.**
--keep class cn.jiguang.** { *; }
-
-
-### UMeng 混淆配置
--keep class com.umeng.** {*;}
+### 友盟 SDK 混淆配置
+-keep class com.umeng.** { *; }
+-keep class com.uc.** { *; }
+-keep class com.efs.** { *; }
 -keepclassmembers class * {
-   public <init> (org.json.JSONObject);
+     public<init>(org.json.JSONObject);
 }
-### 您如果使用了稳定性模块可以加入该混淆
-#-keep class com.uc.** {*;}
 -keepclassmembers enum * {
-    public static **[] values();
-    public static ** valueOf(java.lang.String);
+      public static **[] values();
+      public static ** valueOf(java.lang.String);
 }
-
-
-### Mob 混淆配置
--keep class com.mob.**{*;}
--keep class cn.smssdk.**{*;}
--dontwarn com.mob.**
-
-
-### 自己的工具库混淆配置
--keep class com.vmloft.develop.library.**{*;}
 
 
 ### 滚动选择器混淆配置
 -keepattributes InnerClasses,Signature
 -keepattributes *Annotation*
 -keep class cn.addapp.pickers.entity.** { *;}
+
 
 ### 地址日期选择器
 -keep class com.aigestudio.wheelpicker.** { *;}
@@ -83,6 +62,12 @@
 -keep class com.just.agentweb.** {*;}
 -dontwarn com.just.agentweb.**
 
+
 ### UCloud ufile-sdk-java 库混淆配置
 -keep class com.ucloud.ufile.** { *; }
--dontwarn com.just.agentweb.**
+-dontwarn com.ucloud.ufile.**
+
+
+### 自己的工具库混淆配置
+-keep class com.vmloft.develop.library.**{*;}
+

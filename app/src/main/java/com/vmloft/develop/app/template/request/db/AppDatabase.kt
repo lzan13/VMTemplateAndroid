@@ -1,23 +1,24 @@
 package com.vmloft.develop.app.template.request.db
 
+
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 
 import com.tencent.wcdb.database.SQLiteCipherSpec
 import com.tencent.wcdb.room.db.WCDBOpenHelperFactory
 
 import com.vmloft.develop.app.template.app.App
 import com.vmloft.develop.app.template.common.Constants
-import com.vmloft.develop.app.template.request.bean.Category
-import com.vmloft.develop.app.template.request.bean.Profession
-import com.vmloft.develop.app.template.request.bean.Version
+import com.vmloft.develop.app.template.request.bean.*
 
 /**
  * Create by lzan13 on 2020/8/9 14:35
  * 描述：Room 数据库操作类
  */
-@Database(entities = [Category::class, Profession::class, Version::class], version = 1)
+@Database(entities = [Category::class, Config::class, Match::class, Profession::class, Version::class], version = 2)
+@TypeConverters(MatchConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
     companion object {
@@ -41,7 +42,10 @@ abstract class AppDatabase : RoomDatabase() {
             // 实例化数据库
             return Room.databaseBuilder(App.appContext, AppDatabase::class.java, Constants.dbName)
                 .openHelperFactory(factory)
-//                .addMigrations(migration1To2)
+                // 重建数据库
+                .fallbackToDestructiveMigration()
+                // 数据库升级
+//                .addMigrations(migration1To2, migration2To3)
                 .build()
         }
 
@@ -58,13 +62,19 @@ abstract class AppDatabase : RoomDatabase() {
 //        }
     }
 
-    // 获取分类数据操作 Dao
+    // 分类数据操作 Dao
     abstract fun categoryDao(): CategoryDao
 
-    // 获取职业数据操作 Dao
+    // 配置数据操作 Dao
+    abstract fun configDao(): ConfigDao
+
+    // 匹配数据操作 Dao
+    abstract fun matchDao(): MatchDao
+
+    // 职业数据操作 Dao
     abstract fun professionDao(): ProfessionDao
 
-    // 获取版本检查数据操作 Dao
+    // 版本检查数据操作 Dao
     abstract fun versionDao(): VersionDao
 
 }

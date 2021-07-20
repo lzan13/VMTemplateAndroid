@@ -85,9 +85,4 @@ interface UserInfoAPI {
     @GET("v1/info/clock")
     suspend fun clock(): RResponse<Any>
 
-    /**
-     * 检查版本
-     */
-    @GET("v1/info/checkVersion")
-    suspend fun checkVersion(@Query("platform") platform: String = "android"): RResponse<Version>
 }

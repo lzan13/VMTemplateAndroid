@@ -249,153 +249,6 @@ object IMChatManager {
     }
 
     /**
-     * 设置当前会话草稿
-     *
-     * @param conversation 需要设置的会话对象
-     * @param draft        需要设置的草稿内容
-     */
-    fun setConversationDraft(conversation: EMConversation, draft: String?) {
-        try {
-            val extObject = getExtObject(conversation)
-            // 将扩展信息设置给 JSONObject 对象
-            extObject.put(IMConstants.Common.conversationDraft, draft)
-            // 将扩展信息保存到 EMConversation 对象扩展中去
-            conversation.extField = extObject.toString()
-        } catch (e: JSONException) {
-            e.printStackTrace()
-        }
-    }
-
-    /**
-     * 获取当前会话的草稿内容
-     *
-     * @param conversation 当前会话
-     * @return 返回草稿内容
-     */
-    fun getConversationDraft(conversation: EMConversation): String {
-        try {
-            val extObject = getExtObject(conversation)
-            // 根据扩展的key获取扩展的值
-            return extObject.optString(IMConstants.Common.conversationDraft)
-        } catch (e: JSONException) {
-            e.printStackTrace()
-        }
-        return ""
-    }
-
-    /**
-     * 设置会话置顶状态
-     *
-     * @param conversation 要置顶的会话对象
-     * @param top          设置会话是否置顶
-     */
-    fun setConversationTop(conversation: EMConversation, top: Boolean) {
-        try {
-            val extObject = getExtObject(conversation)
-            // 将扩展信息设置给外层的 JSONObject 对象
-            extObject.put(IMConstants.Common.conversationTop, top)
-            // 将扩展信息保存到 Conversation 对象的扩展中去
-            conversation.extField = extObject.toString()
-        } catch (e: JSONException) {
-            e.printStackTrace()
-        }
-    }
-
-    /**
-     * 获取当前会话是否置顶
-     *
-     * @param conversation 需要操作的会话对象
-     * @return 返回当前会话是否置顶
-     */
-    fun getConversationTop(conversation: EMConversation): Boolean {
-        try {
-            val extObject = getExtObject(conversation)
-            return extObject.optBoolean(IMConstants.Common.conversationTop)
-        } catch (e: JSONException) {
-            e.printStackTrace()
-        }
-        return false
-    }
-
-    /**
-     * 标记会话为未读状态
-     *
-     * @param conversation 需要标记的会话
-     * @param unread       设置未读状态
-     */
-    fun setConversationUnread(conversation: EMConversation, unread: Boolean) {
-        // 设置为已读的时候清空下原有未读数据
-        if (!unread) {
-            conversation.markAllMessagesAsRead()
-        }
-        try {
-            val extObject = getExtObject(conversation)
-            // 将扩展信息设置给 JSONObject 对象
-            extObject.put(IMConstants.Common.conversationUnread, unread)
-            // 将扩展信息保存到 EMConversation 对象扩展中去
-            conversation.extField = extObject.toString()
-        } catch (e: JSONException) {
-            e.printStackTrace()
-        }
-    }
-
-    /**
-     * 获取 conversation 对象扩展中的未读状态
-     *
-     * @param conversation 当前会话
-     * @return 返回未读状态
-     */
-    fun getConversationUnread(conversation: EMConversation): Int {
-        var count = conversation.unreadMsgCount
-        if (count > 0) {
-            return count
-        }
-        try {
-            val extObject = getExtObject(conversation)
-            // 根据扩展的key获取扩展的值
-            if (extObject.optBoolean(IMConstants.Common.conversationUnread)) {
-                count = 1
-            }
-        } catch (e: JSONException) {
-            e.printStackTrace()
-        }
-        return count
-    }
-
-    /**
-     * 设置会话的最后时间
-     *
-     * @param conversation 要设置的会话对象
-     */
-    fun setConversationTime(conversation: EMConversation, lastTime: Long) {
-        try {
-            val extObject = getExtObject(conversation)
-            extObject.put(IMConstants.Common.conversationTime, lastTime)
-            // 将扩展信息保存到 Conversation 对象的扩展中去
-            conversation.extField = extObject.toString()
-        } catch (e: JSONException) {
-            e.printStackTrace()
-        }
-    }
-
-    /**
-     * 获取会话的最后时间
-     *
-     * @param conversation 需要获取的会话对象
-     * @return 返回此会话最后的时间
-     */
-    fun getConversationTime(conversation: EMConversation): Long {
-        try {
-            val extObject = getExtObject(conversation)
-            // 根据扩展的key获取扩展的值
-            return extObject.optLong(IMConstants.Common.conversationTime)
-        } catch (e: JSONException) {
-            e.printStackTrace()
-        }
-        return VMDate.currentMilli()
-    }
-
-    /**
      * 设置会话扩展
      */
     fun setConversationExt(conversation: EMConversation, key: String?, value: Any?) {
@@ -424,6 +277,138 @@ object IMChatManager {
         }
         return null
     }
+
+    /**
+     * 设置当前会话草稿
+     *
+     * @param conversation 需要设置的会话对象
+     * @param draft        需要设置的草稿内容
+     */
+    fun setConversationDraft(conversation: EMConversation, draft: String?) {
+        setConversationExt(conversation, IMConstants.Common.conversationDraft, draft)
+    }
+
+    /**
+     * 获取当前会话的草稿内容
+     *
+     * @param conversation 当前会话
+     * @return 返回草稿内容
+     */
+    fun getConversationDraft(conversation: EMConversation): String {
+        return getConversationExt(conversation, IMConstants.Common.conversationDraft) as? String ?: ""
+    }
+
+    /**
+     * 设置会话置顶状态
+     *
+     * @param conversation 要置顶的会话对象
+     * @param top          设置会话是否置顶
+     */
+    fun setConversationTop(conversation: EMConversation, top: Boolean) {
+        setConversationExt(conversation, IMConstants.Common.conversationTop, top)
+    }
+
+    /**
+     * 获取当前会话是否置顶
+     *
+     * @param conversation 需要操作的会话对象
+     * @return 返回当前会话是否置顶
+     */
+    fun getConversationTop(conversation: EMConversation): Boolean {
+        return getConversationExt(conversation, IMConstants.Common.conversationTop) as? Boolean ?: false
+    }
+
+    /**
+     * 标记会话为未读状态
+     *
+     * @param conversation 需要标记的会话
+     * @param unread       设置未读状态
+     */
+    fun setConversationUnread(conversation: EMConversation, unread: Boolean) {
+        // 设置为已读的时候清空下原有未读数据
+        if (!unread) {
+            conversation.markAllMessagesAsRead()
+        }
+        setConversationExt(conversation, IMConstants.Common.conversationUnread, unread)
+    }
+
+    /**
+     * 获取 conversation 对象扩展中的未读状态
+     *
+     * @param conversation 当前会话
+     * @return 返回未读状态
+     */
+    fun getConversationUnread(conversation: EMConversation): Int {
+        var count = conversation.unreadMsgCount
+        if (count > 0) {
+            return count
+        }
+        val unread = getConversationExt(conversation, IMConstants.Common.conversationUnread) as? Boolean ?: false
+        count = if (unread) 1 else 0
+        return count
+    }
+
+    /**
+     * 设置会话的最后时间
+     *
+     * @param conversation 要设置的会话对象
+     */
+    fun setConversationTime(conversation: EMConversation, lastTime: Long) {
+        setConversationExt(conversation, IMConstants.Common.conversationTime, lastTime)
+    }
+
+    /**
+     * 获取会话的最后时间
+     *
+     * @param conversation 需要获取的会话对象
+     * @return 返回此会话最后的时间
+     */
+    fun getConversationTime(conversation: EMConversation): Long {
+        return getConversationExt(conversation, IMConstants.Common.conversationTime) as? Long ?: VMDate.currentMilli()
+    }
+
+    /**
+     * 设置会话发送消息数+1
+     *
+     * @param conversation 要设置的会话对象
+     */
+    fun setConversationMsgSendCountAdd(conversation: EMConversation) {
+        var count = getConversationMsgSendCount(conversation)
+        count++
+        setConversationExt(conversation, IMConstants.Common.conversationMsgSendCount, count)
+    }
+
+    /**
+     * 获取会话发送消息数
+     *
+     * @param conversation 需要获取的会话对象
+     * @return 返回此会话发送消息数
+     */
+    fun getConversationMsgSendCount(conversation: EMConversation): Int {
+        return getConversationExt(conversation, IMConstants.Common.conversationMsgSendCount) as? Int ?: 0
+    }
+
+    /**
+     * 设置会话接收消息数+1
+     *
+     * @param conversation 要设置的会话对象
+     */
+    fun setConversationMsgReceiveCountAdd(conversation: EMConversation) {
+        var count = getConversationMsgReceiveCount(conversation)
+        count++
+        setConversationExt(conversation, IMConstants.Common.conversationMsgReceiveCount, count)
+    }
+
+    /**
+     * 获取会话接收消息数
+     *
+     * @param conversation 需要获取的会话对象
+     * @return 返回此会话发送消息数
+     */
+    fun getConversationMsgReceiveCount(conversation: EMConversation): Int {
+        return getConversationExt(conversation, IMConstants.Common.conversationMsgReceiveCount) as? Int ?: 0
+    }
+
     // ---------------------------------------- 会话扩展结束 ----------------------------------------
 
     /**

@@ -13,6 +13,8 @@ import com.vmloft.develop.app.template.request.bean.Room
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.common.base.BVMActivity
 import com.vmloft.develop.library.common.base.BViewModel
+import com.vmloft.develop.app.template.report.ReportConstants
+import com.vmloft.develop.library.common.report.ReportManager
 import com.vmloft.develop.library.common.utils.errorBar
 import com.vmloft.develop.library.tools.utils.VMReg
 import com.vmloft.develop.library.tools.utils.VMStr
@@ -103,6 +105,9 @@ class RoomCreateActivity : BVMActivity<RoomViewModel>() {
 //        if (!VMReg.isCommonReg(welcome, "^[\\s\\S]{2,16}$")) {
 //            return errorBar("欢迎语长度必须在 2-64 之间")
 //        }
+        // 上报创建房间
+        ReportManager.reportEvent(ReportConstants.eventRoomCreate)
+
         mViewModel.createRoom(title, desc)
     }
 }

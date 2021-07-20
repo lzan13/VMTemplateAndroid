@@ -9,6 +9,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 
 import com.vmloft.develop.library.common.R
+import com.vmloft.develop.library.common.report.ReportManager
 import com.vmloft.develop.library.common.utils.errorBar
 import com.vmloft.develop.library.common.utils.showBar
 import com.vmloft.develop.library.common.widget.CommonDialog
@@ -34,7 +35,7 @@ abstract class BVMFragment<VM : BViewModel> : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         mBinding = DataBindingUtil.inflate(inflater, layoutId(), container, false)
         return mBinding.root
@@ -54,7 +55,23 @@ abstract class BVMFragment<VM : BViewModel> : Fragment() {
             isLoaded = true
             initData()
         }
+        ReportManager.reportPageStart(this.javaClass.simpleName)
     }
+
+    override fun onPause() {
+        super.onPause()
+        ReportManager.reportPageEnd(this.javaClass.simpleName)
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (hidden) {
+            ReportManager.reportPageEnd(this.javaClass.simpleName)
+        } else {
+            ReportManager.reportPageStart(this.javaClass.simpleName)
+        }
+    }
+
 
     /**
      * 布局资源 id
@@ -94,10 +111,10 @@ abstract class BVMFragment<VM : BViewModel> : Fragment() {
         mViewModel.uiState.observe(this, {
             if (it.isSuccess) {
                 onModelRefresh(it)
+            } else {
+                onModelError(it)
             }
             it.toast?.let { message -> showBar(message) }
-
-            onModelError(it)
         })
     }
 

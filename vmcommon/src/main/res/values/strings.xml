@@ -26,6 +26,7 @@
     <string name="btn_publish">发布</string>
     <string name="btn_agree">同意</string>
     <string name="btn_disagree">不同意</string>
+    <string name="btn_i_known">我知道了</string>
 
     <!--输入-->
     <string name="input_hint">请输入...</string>

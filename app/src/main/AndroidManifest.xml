@@ -16,8 +16,8 @@
     <!--录音权限-->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
-    <!--手机状态-->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!--手机状态，统计 SDK 需要，但是属于敏感权限，GooglePlay 一般会拒绝商家，所以这里直接不需要此权限-->
+    <!--    <uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
 
     <application
         android:name=".app.App"
@@ -44,7 +44,7 @@
         <activity
             android:name=".ui.main.MainActivity"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustNothing|stateAlwaysHidden" />
+            android:windowSoftInputMode="adjustNothing|stateHidden" />
 
         <!--引导-->
         <activity
@@ -64,6 +64,19 @@
             android:name=".ui.sign.SignUpActivity"
             android:windowSoftInputMode="adjustNothing|stateHidden" />
 
+        <!--匹配动画过渡界面-->
+        <activity android:name=".ui.main.home.MatchAnimActivity" />
+
+        <!--聊天室列表界面-->
+        <activity
+            android:name=".ui.room.RoomListActivity"
+            android:windowSoftInputMode="adjustNothing|stateHidden" />
+
+        <!--聊天室创建界面-->
+        <activity
+            android:name=".ui.room.RoomCreateActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
         <!--二维码-->
         <activity
             android:name=".ui.qr.QRCodeScanActivity"
@@ -81,27 +94,10 @@
             android:name=".ui.post.PostDetailsActivity"
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
-
         <!--用户信息-->
         <activity
             android:name=".ui.user.UserInfoActivity"
             android:windowSoftInputMode="adjustNothing|stateAlwaysHidden" />
-
-        <!--匹配界面-->
-        <activity android:name=".ui.main.home.MatchActivity" />
-        <!--快速匹配界面-->
-        <activity android:name=".ui.main.home.MatchFastActivity" />
-
-        <!--聊天室列表界面-->
-        <activity
-            android:name=".ui.room.RoomListActivity"
-            android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustNothing|stateHidden" />
-
-        <!--聊天室创建界面-->
-        <activity
-            android:name=".ui.room.RoomCreateActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
 
         <!--个人信息-->
         <activity android:name=".ui.main.mine.info.PersonalInfoActivity" />
@@ -126,6 +122,8 @@
         <activity android:name=".ui.settings.NotifySettingsActivity" />
         <!--关于-->
         <activity android:name=".ui.settings.AboutSettingsActivity" />
+        <!--协议和政策-->
+        <activity android:name=".ui.settings.AgreementPolicyActivity" />
         <!--问题反馈-->
         <activity android:name=".ui.feedback.FeedbackActivity" />
 
