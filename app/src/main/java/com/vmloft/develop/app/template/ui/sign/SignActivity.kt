@@ -40,9 +40,9 @@ class SignActivity : BVMActivity<SignViewModel>() {
         setTopEndIcon(R.drawable.ic_info) { CRouter.go(AppRouter.appSettingsAbout) }
 
         signUserAgreementTV.setOnClickListener { AppRouter.goAgreementPolicy() }
-        signPrivacyPolicyTV.setOnClickListener { AppRouter.goAgreementPolicy("policy") }
+        signPrivatePolicyTV.setOnClickListener { AppRouter.goAgreementPolicy("policy") }
         signByDevicesIdBtn.setOnClickListener {
-            if (signPrivacyPolicyCB.isChecked) {
+            if (signPrivatePolicyCB.isChecked) {
                 mViewModel.signInByDevicesId(devicesId, "123456")
             } else {
                 errorBar(R.string.agreement_policy_hint)

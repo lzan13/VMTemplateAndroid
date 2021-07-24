@@ -80,8 +80,7 @@ class InfoViewModel(
     fun updateInfo(params: Map<String, Any>) {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val body: RequestBody = JsonUtils.map2json(params).toRequestBody("application/json".toMediaType())
-            val result = repo.updateInfo(body)
+            val result = repo.updateInfo(JsonUtils.map2json(params).toRequestBody("application/json".toMediaType()))
 
             if (result is RResult.Success) {
                 emitUIState(data = result.data, type = "updateInfo")

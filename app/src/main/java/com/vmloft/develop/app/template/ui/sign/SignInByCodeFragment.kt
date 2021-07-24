@@ -13,11 +13,10 @@ import com.vmloft.develop.library.tools.utils.VMReg
 
 import kotlinx.android.synthetic.main.fragment_sign_in_by_code.*
 import kotlinx.android.synthetic.main.fragment_sign_in_by_code.signAccountET
-import kotlinx.android.synthetic.main.fragment_sign_in_by_code.signPrivacyPolicyCB
-import kotlinx.android.synthetic.main.fragment_sign_in_by_code.signPrivacyPolicyTV
+import kotlinx.android.synthetic.main.fragment_sign_in_by_code.signPrivatePolicyCB
+import kotlinx.android.synthetic.main.fragment_sign_in_by_code.signPrivatePolicyTV
 import kotlinx.android.synthetic.main.fragment_sign_in_by_code.signSubmitBtn
 import kotlinx.android.synthetic.main.fragment_sign_in_by_code.signUserAgreementTV
-import kotlinx.android.synthetic.main.fragment_sign_in_by_password.*
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -28,8 +27,8 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  */
 class SignInByCodeFragment : BVMFragment<SignViewModel>() {
 
-    private lateinit var mPhone: String
-    private lateinit var mCode: String
+    private var mPhone: String = ""
+    private var mCode: String = ""
 
     override fun initVM(): SignViewModel = getViewModel()
 
@@ -65,11 +64,11 @@ class SignInByCodeFragment : BVMFragment<SignViewModel>() {
         }
 
         signUserAgreementTV.setOnClickListener { AppRouter.goAgreementPolicy() }
-        signPrivacyPolicyTV.setOnClickListener { AppRouter.goAgreementPolicy("policy") }
+        signPrivatePolicyTV.setOnClickListener { AppRouter.goAgreementPolicy("policy") }
         signSubmitBtn.setOnClickListener {
-            if (signPrivacyPolicyCB.isChecked) {
+            if (signPrivatePolicyCB.isChecked) {
                 mViewModel.signInByCode(mPhone, mCode)
-            }else{
+            } else {
                 errorBar(R.string.agreement_policy_hint)
             }
         }

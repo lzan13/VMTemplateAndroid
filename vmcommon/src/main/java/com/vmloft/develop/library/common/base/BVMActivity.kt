@@ -97,10 +97,12 @@ abstract class BVMActivity<VM : BViewModel> : AppCompatActivity() {
      */
     private fun startObserve() {
         mViewModel.uiState.observe(this, {
-            if (it.isSuccess) {
-                onModelRefresh(it)
-            } else {
-                onModelError(it)
+            if (!it.isLoading) {
+                if (it.isSuccess) {
+                    onModelRefresh(it)
+                } else {
+                    onModelError(it)
+                }
             }
             it.toast?.let { message -> showBar(message) }
         })

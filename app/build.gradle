@@ -77,7 +77,6 @@ android {
                     umengAppKey  : configs.umengAppKey,
 
                     easemobAppKey: configs.easemobAppKey
-
             ]
         }
     }

@@ -60,8 +60,8 @@ interface CommonAPI {
     /**
      * 获取隐私zhegn
      */
-    @GET("v1/common/privacyPolicy")
-    suspend fun getPrivacyPolicy(): RResponse<Config>
+    @GET("v1/common/privatePolicy")
+    suspend fun getPrivatePolicy(): RResponse<Config>
 
     /**
      * 获取用户协议

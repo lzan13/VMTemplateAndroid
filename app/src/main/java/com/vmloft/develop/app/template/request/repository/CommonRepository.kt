@@ -141,24 +141,24 @@ class CommonRepository : BaseRepository() {
     /**
      * 获取隐私政策，这里控制超过 24 小时去服务器请求
      */
-    suspend fun getPrivacyPolicy(): RResult<Config> {
-        val time = SPManager.getPrivacyPolicyTime()
+    suspend fun getPrivatePolicy(): RResult<Config> {
+        val time = SPManager.getPrivatePolicyTime()
         val intervalTime = System.currentTimeMillis() - time
         if (intervalTime < CConstants.timeDay * 7) {
-            val config = AppDatabase.getInstance().configDao().query("privacyPolicy")
+            val config = AppDatabase.getInstance().configDao().query("privatePolicy")
             if (config != null) {
                 return RResult.Success("", config)
             }
         }
-        val result = safeRequest(call = { requestPrivacyPolicy() })
+        val result = safeRequest(call = { requestPrivatePolicy() })
         if (result is RResult.Success) {
-            SPManager.setPrivacyPolicyTime(System.currentTimeMillis())
+            SPManager.setPrivatePolicyTime(System.currentTimeMillis())
         }
         return result
     }
 
-    private suspend fun requestPrivacyPolicy(): RResult<Config> =
-        executeResponse(APIRequest.commonAPI.getPrivacyPolicy())
+    private suspend fun requestPrivatePolicy(): RResult<Config> =
+        executeResponse(APIRequest.commonAPI.getPrivatePolicy())
 
     /**
      * 获取用户协议，这里控制超过 24 小时去服务器请求

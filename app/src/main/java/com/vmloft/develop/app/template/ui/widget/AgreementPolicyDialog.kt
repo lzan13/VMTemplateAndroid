@@ -28,7 +28,7 @@ class AgreementPolicyDialog(context: Context) : CommonDialog(context) {
     init {
         val agreementContent = VMStr.byRes(R.string.agreement_policy_dialog_content)
         val userAgreement = VMStr.byRes(R.string.user_agreement)
-        val privacyPolicy = VMStr.byRes(R.string.privacy_policy)
+        val privatePolicy = VMStr.byRes(R.string.private_policy)
         //创建一个 SpannableString对象
         val sp = SpannableString(agreementContent)
         var start = 0
@@ -42,8 +42,8 @@ class AgreementPolicyDialog(context: Context) : CommonDialog(context) {
         sp.setSpan(ForegroundColorSpan(VMColor.byRes(R.color.app_accent)), start, end, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
         //设置高亮样式二
 
-        start = agreementContent.indexOf(privacyPolicy)
-        end = start + privacyPolicy.length
+        start = agreementContent.indexOf(privatePolicy)
+        end = start + privatePolicy.length
         //设置超链接
         sp.setSpan(CustomURLSpan("policy"), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         //设置高亮样式

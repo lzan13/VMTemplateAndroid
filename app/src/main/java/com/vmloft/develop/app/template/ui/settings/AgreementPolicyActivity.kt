@@ -45,7 +45,7 @@ class AgreementPolicyActivity : BVMActivity<SettingsViewModel>() {
     override fun initData() {
         ARouter.getInstance().inject(this)
 
-        setTopTitle(if (type == "agreement") VMStr.byRes(R.string.user_agreement) else VMStr.byRes(R.string.privacy_policy))
+        setTopTitle(if (type == "agreement") VMStr.byRes(R.string.user_agreement) else VMStr.byRes(R.string.private_policy))
 
         mAgentWeb = AgentWeb.with(this)
             .setAgentWebParent(webContainer, LinearLayout.LayoutParams(-1, -1))
@@ -57,12 +57,12 @@ class AgreementPolicyActivity : BVMActivity<SettingsViewModel>() {
         if (type == "agreement") {
             mViewModel.getUserAgreement()
         } else {
-            mViewModel.getPrivacyPolicy()
+            mViewModel.getPrivatePolicy()
         }
     }
 
     override fun onModelRefresh(model: BViewModel.UIModel) {
-        if (model.type == "userAgreement" || model.type == "privacyPolicy") {
+        if (model.type == "userAgreement" || model.type == "privatePolicy") {
             if (model.data == null) {
                 showEmpty()
             } else {

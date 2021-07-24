@@ -70,9 +70,9 @@ class SignInByPasswordFragment : BVMFragment<SignViewModel>() {
         }
 
         signUserAgreementTV.setOnClickListener { AppRouter.goAgreementPolicy() }
-        signPrivacyPolicyTV.setOnClickListener { AppRouter.goAgreementPolicy("policy") }
+        signPrivatePolicyTV.setOnClickListener { AppRouter.goAgreementPolicy("policy") }
         signSubmitBtn.setOnClickListener {
-            if (signPrivacyPolicyCB.isChecked) {
+            if (signPrivatePolicyCB.isChecked) {
                 mViewModel.signIn(mAccount, mPassword)
             } else {
                 errorBar(R.string.agreement_policy_hint)

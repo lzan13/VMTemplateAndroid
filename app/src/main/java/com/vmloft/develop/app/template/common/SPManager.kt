@@ -44,7 +44,7 @@ object SPManager {
     private val professionTimeKey = "categoryTimeKey" // 上次获取职业时间
     private val checkVersionTimeKey = "checkVersionTimeKey" // 上次版本检查时间
     private val clientConfigTimeKey = "clientConfigTimeKey" // 上次请求客户端配置时间
-    private val privacyPolicyTimeKey = "privacyPolicyTimeKey" // 上次请求隐私政策时间
+    private val privatePolicyTimeKey = "privatePolicyTimeKey" // 上次请求隐私政策时间
     private val userAgreementTimeKey = "userAgreementTimeKey" // 上次请求用户协议时间
 
 
@@ -207,9 +207,9 @@ object SPManager {
     /**
      * 获取最近一次请求隐私政策时间
      */
-    fun getPrivacyPolicyTime(): Long = get(timeEntry, privacyPolicyTimeKey, 0L) as Long
-    fun setPrivacyPolicyTime(time: Long) {
-        putAsync(timeEntry, privacyPolicyTimeKey, time)
+    fun getPrivatePolicyTime(): Long = get(timeEntry, privatePolicyTimeKey, 0L) as Long
+    fun setPrivatePolicyTime(time: Long) {
+        putAsync(timeEntry, privatePolicyTimeKey, time)
     }
 
     /**

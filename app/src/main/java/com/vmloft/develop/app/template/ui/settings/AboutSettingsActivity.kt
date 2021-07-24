@@ -3,13 +3,11 @@ package com.vmloft.develop.app.template.ui.settings
 import com.alibaba.android.arouter.facade.annotation.Route
 
 import com.vmloft.develop.app.template.R
-import com.vmloft.develop.app.template.common.Constants
 import com.vmloft.develop.app.template.request.bean.Version
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.app.template.ui.main.mine.info.InfoViewModel
 import com.vmloft.develop.library.common.base.BVMActivity
 import com.vmloft.develop.library.common.base.BViewModel
-import com.vmloft.develop.library.common.base.BaseActivity
 import com.vmloft.develop.library.common.common.CConstants
 import com.vmloft.develop.library.common.router.CRouter
 import com.vmloft.develop.library.common.utils.errorBar
@@ -46,7 +44,7 @@ class AboutSettingsActivity : BVMActivity<InfoViewModel>() {
         // 检查更新
         aboutCheckVersionLV.setOnClickListener { mViewModel.checkVersion(true) }
 
-        aboutPrivacyPolicyTV.setOnClickListener { AppRouter.goAgreementPolicy("policy") }
+        aboutPrivatePolicyTV.setOnClickListener { AppRouter.goAgreementPolicy("policy") }
     }
 
     override fun initData() {
@@ -71,7 +69,7 @@ class AboutSettingsActivity : BVMActivity<InfoViewModel>() {
 
     override fun onModelRefresh(model: BViewModel.UIModel) {
         if (model.type == "checkVersion") {
-            if (model.data == null) return
+            if (model.data == null) return showBar(R.string.version_is_new)
             showVersionDialog(model.data as Version)
         }
     }

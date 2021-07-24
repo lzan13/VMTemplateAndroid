@@ -29,8 +29,8 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 @Route(path = AppRouter.appSignUp)
 class SignUpActivity : BVMActivity<SignViewModel>() {
 
-    private lateinit var mAccount: String
-    private lateinit var mPassword: String
+    private var mAccount: String = ""
+    private var mPassword: String = ""
 
     override fun initVM(): SignViewModel = getViewModel()
 
@@ -75,9 +75,9 @@ class SignUpActivity : BVMActivity<SignViewModel>() {
             }
         }
         signUserAgreementTV.setOnClickListener { AppRouter.goAgreementPolicy() }
-        signPrivacyPolicyTV.setOnClickListener { AppRouter.goAgreementPolicy("policy") }
+        signPrivatePolicyTV.setOnClickListener { AppRouter.goAgreementPolicy("policy") }
         signSubmitBtn.setOnClickListener {
-            if (signPrivacyPolicyCB.isChecked) {
+            if (signPrivatePolicyCB.isChecked) {
                 if (VMReg.isEmail(mAccount)) {
                     mViewModel.signUpByEmail(mAccount, mPassword)
                 } else {

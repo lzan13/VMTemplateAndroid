@@ -19,15 +19,15 @@ class SettingsViewModel(private val repo: CommonRepository) : BViewModel() {
     /**
      * 加载隐私政策
      */
-    fun getPrivacyPolicy() {
+    fun getPrivatePolicy() {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
             val result = withContext(Dispatchers.IO) {
-                repo.getPrivacyPolicy()
+                repo.getPrivatePolicy()
             }
 
             if (result is RResult.Success) {
-                emitUIState(data = result.data, type = "privacyPolicy")
+                emitUIState(data = result.data, type = "privatePolicy")
                 return@launch
             } else if (result is RResult.Error) {
                 emitUIState(isSuccess = false, code = result.code, error = result.error)

@@ -17,7 +17,7 @@ import com.vmloft.develop.app.template.request.bean.*
  * Create by lzan13 on 2020/8/9 14:35
  * 描述：Room 数据库操作类
  */
-@Database(entities = [Category::class, Config::class, Match::class, Profession::class, Version::class], version = 2)
+@Database(entities = [Category::class, Config::class, Match::class, Profession::class, Version::class], version = 1)
 @TypeConverters(MatchConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
