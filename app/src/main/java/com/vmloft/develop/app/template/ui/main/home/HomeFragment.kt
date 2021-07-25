@@ -102,7 +102,7 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
 
 
         homeNextTV.setOnClickListener {
-            mViewModel.getMatchList(selfMatch.filter, mPage)
+            mViewModel.getMatchList(selfMatch.filterGender, mPage)
         }
 
         // 匹配项点击处理
@@ -126,8 +126,6 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
 
         // 获取自己的匹配数据
         mViewModel.getSelfMatch()
-        // 请求匹配数据集
-        mViewModel.getMatchList(selfMatch.filter)
     }
 
     override fun onModelRefresh(model: BViewModel.UIModel) {
@@ -136,10 +134,10 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
                 selfMatch = it as Match
                 setupMatchFilter()
                 setupMatchEmotion()
+
+                // 请求匹配数据集
+                mViewModel.getMatchList(selfMatch.filterGender)
             }
-        }
-        if (model.type == "submitMatch") {
-            selfMatch = model.data as Match
         }
         if (model.type == "matchList") {
             val paging = model.data as RPaging<Match>
@@ -163,16 +161,16 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
      * 加载心情内容
      */
     private fun setupMatchFilter() {
-        homeFilterAllLL.isSelected = selfMatch.filter == -1
-        homeFilterWomanLL.isSelected = selfMatch.filter == 0
-        homeFilterManLL.isSelected = selfMatch.filter == 1
+        homeFilterAllLL.isSelected = selfMatch.filterGender == -1
+        homeFilterWomanLL.isSelected = selfMatch.filterGender == 0
+        homeFilterManLL.isSelected = selfMatch.filterGender == 1
     }
 
     /**
      * 修改匹配过滤设置
      */
     private fun changeMatchFilter(gender: Int) {
-        selfMatch.filter = gender
+        selfMatch.filterGender = gender
         setupMatchFilter()
     }
 
@@ -181,10 +179,11 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
      */
     private fun saveMatchFilter() {
         homeFilterMaskLL.visibility = View.GONE
+        selfMatch.gender = mUser.gender
         mViewModel.setSelfMatch(selfMatch)
 
         val params = mutableMapOf<String, Any>()
-        params["filter"] = selfMatch.filter // 过滤选项 -1-不限 0-女 1-男
+        params["filter"] = selfMatch.filterGender // 过滤选项 -1-不限 0-女 1-男
         ReportManager.reportEvent(ReportConstants.eventChangeFilter, params)
     }
 
@@ -229,6 +228,7 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
      */
     private fun saveMatchEmotion() {
         homeEmotionMaskLL.visibility = View.GONE
+        selfMatch.gender = mUser.gender
         mViewModel.setSelfMatch(selfMatch)
         // 隐藏键盘
         val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -256,7 +256,7 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
     fun startMatch(type: Int = 0) {
         // 首先提交自己的匹配数据
         mViewModel.submitMatch(selfMatch)
-        AppRouter.goMatch(type)
+        AppRouter.goMatch(type, selfMatch.filterGender)
         // 上报匹配
         if (type == 0) {
             ReportManager.reportEvent(ReportConstants.eventDestinyMatch)

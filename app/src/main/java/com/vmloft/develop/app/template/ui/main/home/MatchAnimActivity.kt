@@ -56,11 +56,12 @@ class MatchAnimActivity : BVMActivity<MatchViewModel>() {
 
         (mBinding as ActivityMatchAnimBinding).viewModel = mViewModel
 
-        mViewModel.getOneMatch(gender)
     }
 
     override fun initData() {
         ARouter.getInstance().inject(this)
+
+        mViewModel.getOneMatch(gender)
     }
 
     override fun onModelLoading(model: BViewModel.UIModel) {

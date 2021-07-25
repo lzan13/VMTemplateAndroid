@@ -110,7 +110,7 @@ abstract class BVMFragment<VM : BViewModel> : Fragment() {
      * 开始观察 View 生命周期
      */
     private fun startObserve() {
-        mViewModel.uiState.observe(this, {
+        mViewModel.uiState.observe(viewLifecycleOwner, {
             if (it.isSuccess) {
                 onModelRefresh(it)
             } else {

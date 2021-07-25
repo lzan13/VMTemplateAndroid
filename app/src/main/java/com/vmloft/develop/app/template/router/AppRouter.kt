@@ -65,8 +65,8 @@ object AppRouter {
     /**
      * 跳转匹配过渡动画界面
      */
-    fun goMatch(type: Int = 0) {
-        ARouter.getInstance().build(appMatchAnim).withInt("type", type).navigation()
+    fun goMatch(type: Int, gender: Int) {
+        ARouter.getInstance().build(appMatchAnim).withInt("type", type).withInt("gender", gender).navigation()
     }
 
     /**

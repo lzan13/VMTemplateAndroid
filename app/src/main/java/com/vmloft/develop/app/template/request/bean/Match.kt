@@ -22,6 +22,6 @@ data class Match(
     var content: String = "",
     var createdAt: String = "",
 
-    var filter: Int = -1, // 过滤方式，这个只是自己本地过滤配置
+    var filterGender: Int = -1, // 过滤方式，这个只是自己本地过滤配置
 ) : Parcelable {
 }
