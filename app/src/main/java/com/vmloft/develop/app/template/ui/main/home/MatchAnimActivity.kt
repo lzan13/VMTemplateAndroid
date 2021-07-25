@@ -29,9 +29,15 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 @Route(path = AppRouter.appMatchAnim)
 class MatchAnimActivity : BVMActivity<MatchViewModel>() {
 
+    // 匹配方式
     @Autowired
     @JvmField
     var type: Int = 0
+
+    // 过滤匹配性别
+    @Autowired
+    @JvmField
+    var gender: Int = 0
 
     private var mAnimatorWrapRadar: VMAnimator.AnimatorSetWrap? = null
     private var mAnimatorWrap: VMAnimator.AnimatorSetWrap? = null
@@ -50,19 +56,19 @@ class MatchAnimActivity : BVMActivity<MatchViewModel>() {
 
         (mBinding as ActivityMatchAnimBinding).viewModel = mViewModel
 
-        mViewModel.getOneMatch()
+        mViewModel.getOneMatch(gender)
     }
 
     override fun initData() {
         ARouter.getInstance().inject(this)
     }
 
+    override fun onModelLoading(model: BViewModel.UIModel) {
+        startAnim()
+    }
+
     override fun onModelRefresh(model: BViewModel.UIModel) {
-        if (model.isLoading) {
-            startAnim()
-        } else {
-            stopAnim()
-        }
+        stopAnim()
         if (model.type == "oneMatch") {
             val match = model.data as Match
             CacheManager.putUser(match.user)

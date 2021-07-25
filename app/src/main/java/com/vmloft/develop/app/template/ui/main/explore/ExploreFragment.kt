@@ -21,7 +21,9 @@ import com.vmloft.develop.library.common.widget.StaggeredItemDecoration
 import com.vmloft.develop.library.tools.utils.VMDimen
 
 import kotlinx.android.synthetic.main.fragment_explore.*
-import kotlinx.android.synthetic.main.widget_common_empty_status_view.*
+import kotlinx.android.synthetic.main.fragment_explore.recyclerView
+import kotlinx.android.synthetic.main.fragment_explore.refreshLayout
+import kotlinx.android.synthetic.main.fragment_post_falls.*
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -118,13 +120,14 @@ class ExploreFragment : BVMFragment<ExploreViewModel>() {
      */
     private fun checkEmptyStatus(type: Int = 0) {
         if (type == 0) {
-            emptyStatusIV.setImageResource(R.drawable.ic_empty_data)
-            refreshLayout.visibility = if (mItems.isEmpty()) View.GONE else View.VISIBLE
-            emptyStatusLL.visibility = if (mItems.isEmpty()) View.VISIBLE else View.GONE
+            if (mItems.isEmpty()) {
+                showEmptyNoData()
+            } else {
+                hideEmptyView()
+            }
         } else {
-            emptyStatusIV.setImageResource(R.drawable.ic_empty_failed)
             refreshLayout.visibility = View.GONE
-            emptyStatusLL.visibility = View.VISIBLE
+            showEmptyFailed()
         }
     }
 

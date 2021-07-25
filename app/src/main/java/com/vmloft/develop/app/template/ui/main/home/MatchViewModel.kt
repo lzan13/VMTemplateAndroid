@@ -55,10 +55,10 @@ class MatchViewModel(private val repository: MatchRepository) : BViewModel() {
     /**
      * 获取匹配列表
      */
-    fun getMatchList(page: Int = CConstants.defaultPage, limit: Int = CConstants.defaultLimit, type: Int = 0) {
+    fun getMatchList(gender: Int = -1, page: Int = CConstants.defaultPage, limit: Int = CConstants.defaultLimit, type: Int = 0) {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val result = repository.getMatchList(page, limit)
+            val result = repository.getMatchList(gender, page, limit)
             if (result is RResult.Success) {
                 emitUIState(data = result.data, type = "matchList")
                 return@launch
@@ -98,12 +98,12 @@ class MatchViewModel(private val repository: MatchRepository) : BViewModel() {
     /**
      * 随机获取一条匹配
      */
-    fun getOneMatch(type: Int = 0) {
+    fun getOneMatch(gender: Int = -1) {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
             val result = withContext(Dispatchers.IO) {
-                Thread.sleep(CUtils.random(CConstants.timeSecond.toInt() * 5).toLong())
-                repository.getOneMatch(type)
+                Thread.sleep(CUtils.random(5) * CConstants.timeSecond)
+                repository.getOneMatch(gender)
             }
             if (result is RResult.Success && result.data != null) {
                 emitUIState(data = result.data, type = "oneMatch")

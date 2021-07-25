@@ -49,18 +49,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <com.vmloft.develop.library.tools.widget.loading.VMLoadingView
-            android:id="@+id/loadingView"
-            android:layout_width="@dimen/vm_dimen_48"
-            android:layout_height="@dimen/vm_dimen_48"
-            android:padding="@dimen/vm_dimen_8"
-            android:visibility="@{viewModel.uiState.isLoading ? View.VISIBLE : View.GONE}"
-            app:layout_constraintBottom_toBottomOf="@+id/homeNextTV"
-            app:layout_constraintEnd_toEndOf="@+id/homeNextTV"
-            app:layout_constraintTop_toTopOf="@+id/homeNextTV"
-            app:vm_loading_color="@color/app_main"
-            app:vm_loading_type="DoubleCircle"
-            tools:visibility="visible" />
+        <!--        <com.vmloft.develop.library.tools.widget.loading.VMLoadingView-->
+        <!--            android:id="@+id/loadingView"-->
+        <!--            android:layout_width="@dimen/vm_dimen_48"-->
+        <!--            android:layout_height="@dimen/vm_dimen_48"-->
+        <!--            android:padding="@dimen/vm_dimen_8"-->
+        <!--            android:visibility="@{viewModel.uiState.isLoading ? View.VISIBLE : View.GONE}"-->
+        <!--            app:layout_constraintBottom_toBottomOf="@+id/homeNextTV"-->
+        <!--            app:layout_constraintEnd_toEndOf="@+id/homeNextTV"-->
+        <!--            app:layout_constraintTop_toTopOf="@+id/homeNextTV"-->
+        <!--            app:vm_loading_color="@color/app_main"-->
+        <!--            app:vm_loading_type="DoubleCircle"-->
+        <!--            tools:visibility="visible" />-->
 
         <!--底部匹配按钮-->
         <HorizontalScrollView
@@ -255,7 +255,7 @@
                 </LinearLayout>
             </LinearLayout>
         </HorizontalScrollView>
-
+        <!--设置心情-->
         <LinearLayout
             android:id="@+id/homeEmotionMaskLL"
             android:layout_width="match_parent"
@@ -268,7 +268,8 @@
                 android:id="@+id/homeEmotionCL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/shape_rectangle_bottom_radius_bg">
+                android:background="@drawable/shape_rectangle_bottom_radius_bg"
+                android:paddingTop="@dimen/vm_dimen_24">
 
                 <TextView
                     android:id="@+id/homeEmotionTitleTV"
@@ -404,7 +405,120 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/homeEmotionHappyLL" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+        <!--性别过滤-->
+        <LinearLayout
+            android:id="@+id/homeFilterMaskLL"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/app_bg_transparent_dark"
+            android:visibility="gone"
+            tools:visibility="visible">
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/homeFilterCL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_rectangle_bottom_radius_bg"
+                android:paddingTop="@dimen/vm_dimen_24"
+                android:paddingBottom="@dimen/vm_dimen_16">
+
+                <TextView
+                    android:id="@+id/homeFilterTitleTV"
+                    style="@style/AppText.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/vm_dimen_16"
+                    android:text="@string/filter_gender_title"
+                    android:textSize="@dimen/vm_size_20"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/homeFilterAllLL"
+                    android:layout_width="@dimen/vm_dimen_0"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/vm_dimen_16"
+                    android:layout_marginTop="@dimen/vm_dimen_16"
+                    android:background="@drawable/selector_home_emotion_bg"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/vm_dimen_16"
+                    android:paddingBottom="@dimen/vm_dimen_16"
+                    app:layout_constraintEnd_toStartOf="@+id/homeFilterWomanLL"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/homeFilterTitleTV">
+
+                    <ImageView
+                        android:layout_width="@dimen/vm_dimen_24"
+                        android:layout_height="@dimen/vm_dimen_24"
+                        android:src="@drawable/ic_gender_unknown" />
+
+                    <TextView
+                        style="@style/AppText.Title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/vm_dimen_4"
+                        android:text="@string/filter_gender_all" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/homeFilterWomanLL"
+                    android:layout_width="@dimen/vm_dimen_0"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/vm_dimen_16"
+                    android:background="@drawable/selector_home_emotion_bg"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/vm_dimen_16"
+                    android:paddingBottom="@dimen/vm_dimen_16"
+                    app:layout_constraintBottom_toBottomOf="@+id/homeFilterAllLL"
+                    app:layout_constraintEnd_toStartOf="@+id/homeFilterManLL"
+                    app:layout_constraintStart_toEndOf="@+id/homeFilterAllLL"
+                    app:layout_constraintTop_toTopOf="@+id/homeFilterAllLL">
+
+                    <ImageView
+                        android:layout_width="@dimen/vm_dimen_24"
+                        android:layout_height="@dimen/vm_dimen_24"
+                        android:src="@drawable/ic_gender_woman" />
+
+                    <TextView
+                        style="@style/AppText.Title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/vm_dimen_4"
+                        android:text="@string/filter_gender_woman" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/homeFilterManLL"
+                    android:layout_width="@dimen/vm_dimen_0"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/vm_dimen_16"
+                    android:layout_marginEnd="@dimen/vm_dimen_16"
+                    android:background="@drawable/selector_home_emotion_bg"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/vm_dimen_16"
+                    android:paddingBottom="@dimen/vm_dimen_16"
+                    app:layout_constraintBottom_toBottomOf="@+id/homeFilterWomanLL"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/homeFilterWomanLL"
+                    app:layout_constraintTop_toTopOf="@+id/homeFilterWomanLL">
+
+                    <ImageView
+                        android:layout_width="@dimen/vm_dimen_24"
+                        android:layout_height="@dimen/vm_dimen_24"
+                        android:src="@drawable/ic_gender_man" />
+
+                    <TextView
+                        style="@style/AppText.Title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/vm_dimen_4"
+                        android:text="@string/filter_gender_man" />
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

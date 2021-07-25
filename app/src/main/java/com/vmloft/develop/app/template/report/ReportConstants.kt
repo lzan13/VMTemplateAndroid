@@ -6,6 +6,7 @@ package com.vmloft.develop.app.template.report
  */
 object ReportConstants {
 
+    const val eventChangeFilter = "eventChangeFilter" // 过滤配置变化
     const val eventChangeEmotion = "eventChangeEmotion" // 心情变化
     const val eventDestinyMatch = "eventDestinyMatch" // 缘分匹配
     const val eventFastChat = "eventFastChat" // 快速聊天

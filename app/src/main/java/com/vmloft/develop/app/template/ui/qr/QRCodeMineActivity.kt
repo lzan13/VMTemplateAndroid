@@ -57,7 +57,7 @@ class QRCodeMineActivity : BaseActivity() {
         when (user.gender) {
             1 -> qrGenderIV.setImageResource(R.drawable.ic_gender_man)
             0 -> qrGenderIV.setImageResource(R.drawable.ic_gender_woman)
-            else -> qrGenderIV.setImageResource(R.drawable.ic_gender_man)
+            else -> qrGenderIV.setImageResource(R.drawable.ic_gender_unknown)
         }
 
         qrNameTV.text = user.nickname

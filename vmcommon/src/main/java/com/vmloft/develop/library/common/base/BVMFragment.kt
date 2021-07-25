@@ -14,6 +14,8 @@ import com.vmloft.develop.library.common.utils.errorBar
 import com.vmloft.develop.library.common.utils.showBar
 import com.vmloft.develop.library.common.widget.CommonDialog
 import com.vmloft.develop.library.tools.utils.VMDimen
+import com.vmloft.develop.library.tools.utils.VMNetwork
+import kotlinx.android.synthetic.main.widget_common_empty_status_view.*
 
 import kotlinx.android.synthetic.main.widget_common_top_bar.*
 
@@ -143,6 +145,10 @@ abstract class BVMFragment<VM : BViewModel> : Fragment() {
         commonTopBar?.setIcon(resId)
     }
 
+    protected fun setTopIconListener(listener: View.OnClickListener) {
+        commonTopBar?.setIconListener(listener)
+    }
+
     /**
      * 设置标题
      */
@@ -176,5 +182,32 @@ abstract class BVMFragment<VM : BViewModel> : Fragment() {
      */
     protected fun setTopEndView(view: View?) {
         commonTopBar?.addEndView(view)
+    }
+
+    /**
+     * 隐藏空态
+     */
+    protected fun hideEmptyView() {
+        emptyStatusLL.visibility = View.GONE
+    }
+
+    /**
+     * 显示 zhan
+     */
+    protected fun showEmptyNoData() {
+        emptyStatusIV.setImageResource(R.drawable.ic_empty_data)
+        emptyStatusLL.visibility = View.VISIBLE
+    }
+
+    /**
+     * 显示请求失败
+     */
+    protected fun showEmptyFailed() {
+        if (VMNetwork.hasNetwork()) {
+            emptyStatusIV.setImageResource(R.drawable.ic_empty_failed)
+        } else {
+            emptyStatusIV.setImageResource(R.drawable.ic_empty_network)
+        }
+        emptyStatusLL.visibility = View.VISIBLE
     }
 }

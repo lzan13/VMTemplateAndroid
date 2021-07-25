@@ -124,7 +124,7 @@ class MineFragment : BaseFragment() {
         when (user.gender) {
             1 -> mineGenderIV.setImageResource(R.drawable.ic_gender_man)
             0 -> mineGenderIV.setImageResource(R.drawable.ic_gender_woman)
-            else -> mineGenderIV.setImageResource(R.drawable.ic_gender_man)
+            else -> mineGenderIV.setImageResource(R.drawable.ic_gender_unknown)
         }
         val nickname = if (user.nickname.isNullOrEmpty()) VMStr.byRes(R.string.info_nickname_default) else user.nickname
         setTopTitle(nickname)

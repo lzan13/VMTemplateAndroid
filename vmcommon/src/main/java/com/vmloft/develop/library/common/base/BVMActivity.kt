@@ -16,8 +16,10 @@ import com.vmloft.develop.library.common.widget.CommonDialog
 import com.vmloft.develop.library.tools.utils.VMColor
 
 import com.vmloft.develop.library.tools.utils.VMDimen
+import com.vmloft.develop.library.tools.utils.VMNetwork
 import com.vmloft.develop.library.tools.utils.VMTheme
 import com.vmloft.develop.library.tools.widget.VMTopBar
+import kotlinx.android.synthetic.main.widget_common_empty_status_view.*
 
 import kotlinx.android.synthetic.main.widget_common_top_bar.*
 
@@ -86,6 +88,13 @@ abstract class BVMActivity<VM : BViewModel> : AppCompatActivity() {
     /**
      * 模型变化回调
      */
+    open fun onModelLoading(model: BViewModel.UIModel) {
+
+    }
+
+    /**
+     * 模型变化回调
+     */
     abstract fun onModelRefresh(model: BViewModel.UIModel)
 
     open fun onModelError(model: BViewModel.UIModel) {
@@ -103,6 +112,8 @@ abstract class BVMActivity<VM : BViewModel> : AppCompatActivity() {
                 } else {
                     onModelError(it)
                 }
+            } else {
+                onModelLoading(it)
             }
             it.toast?.let { message -> showBar(message) }
         })
@@ -197,6 +208,34 @@ abstract class BVMActivity<VM : BViewModel> : AppCompatActivity() {
         commonTopBar?.setEndIcon(resId)
         commonTopBar?.setEndIconListener(listener)
     }
+
+    /**
+     * 隐藏空态
+     */
+    protected fun hideEmptyView() {
+        emptyStatusLL.visibility = View.GONE
+    }
+
+    /**
+     * 显示 zhan
+     */
+    protected fun showEmptyNoData() {
+        emptyStatusIV.setImageResource(R.drawable.ic_empty_data)
+        emptyStatusLL.visibility = View.VISIBLE
+    }
+
+    /**
+     * 显示请求失败
+     */
+    protected fun showEmptyFailed() {
+        if (VMNetwork.hasNetwork()) {
+            emptyStatusIV.setImageResource(R.drawable.ic_empty_failed)
+        } else {
+            emptyStatusIV.setImageResource(R.drawable.ic_empty_network)
+        }
+        emptyStatusLL.visibility = View.VISIBLE
+    }
+
 
     override fun onDestroy() {
         mDialog?.dismiss()

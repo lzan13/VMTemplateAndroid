@@ -18,8 +18,10 @@ data class Match(
     var id: String,
     var user: User,
     var emotion: Int = 0, // 心情 0-开心 1-平淡 2-难过 3-愤怒
-    var type: Int = 0,
+    var gender: Int = 2, // 性别 0-女 1-男 2-神秘
     var content: String = "",
     var createdAt: String = "",
+
+    var filter: Int = -1, // 过滤方式，这个只是自己本地过滤配置
 ) : Parcelable {
 }

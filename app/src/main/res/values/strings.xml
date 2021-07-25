@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">社交模板</string>
+    <string name="app_name">忘忧</string>
 
     <!--引导-->
     <string name="guide_prev">上一步</string>
@@ -26,7 +26,7 @@
 
     <!--匹配-->
     <string name="match_next">换一波</string>
-    <string name="match_loading">扫描中...</string>
+    <string name="match_loading">忘忧君扫描中...</string>
 
     <string name="match_destiny">相信缘分</string>
     <string name="match_destiny_desc">缘分有很多\n我只相信这一刻</string>
@@ -34,7 +34,7 @@
     <string name="match_emotion">心情速配</string>
     <string name="match_emotion_desc">情绪有很多\n你是什么心情呢</string>
 
-    <string name="match_fast">实时配对</string>
+    <string name="match_fast">实时聊天</string>
     <string name="match_fast_desc">我正在输入\n你看到了嘛😁</string>
 
     <string name="match_room">解忧房</string>
@@ -45,6 +45,11 @@
 
     <string name="match_wish">愿望古树</string>
     <string name="match_wish_desc">许个愿吧\n万一实现了呢</string>
+
+    <string name="filter_gender_title">匹配过滤</string>
+    <string name="filter_gender_woman">女</string>
+    <string name="filter_gender_man">男</string>
+    <string name="filter_gender_all">不限</string>
 
     <string name="emotion_title">今日心情</string>
     <string name="emotion_hint">你今天心情怎么样？</string>
@@ -87,7 +92,7 @@
     <string name="settings">设置</string>
 
     <string name="settings_about">关于</string>
-    <string name="about_content">一个移动 APP 模板项目，可方便快速的搭建一个移动项目</string>
+    <string name="about_content">忘掉烦恼，解除忧愁，传播正能量😁</string>
     <string name="about_copyright">Copyright &#169; 2020 VMLoft.\nAll Right Reserved.</string>
 
     <string name="settings_feedback">问题及意见反馈</string>
@@ -103,7 +108,7 @@
     <string name="version_check">检查更新</string>
     <string name="version_skip">暂不升级</string>
     <string name="version_upgrade">马上升级</string>
-    <string name="version_check_toast">已经是最新版本</string>
+    <string name="version_is_new">已经是最新版本</string>
 
     <!--媒体相关设置-->
     <string name="settings_media">图片资源</string>
@@ -158,9 +163,9 @@
     <string name="info_profession">职业</string>
     <string name="info_not_set">未设置</string>
 
-    <string name="info_gender_man">男</string>
     <string name="info_gender_woman">女</string>
-    <string name="info_gender_unknow">保密</string>
+    <string name="info_gender_man">男</string>
+    <string name="info_gender_unknow">神秘</string>
 
     <string name="personal_auth">个人认证</string>
     <string name="auth_real_name">真实姓名</string>
@@ -170,6 +175,7 @@
     <string name="auth_hint">个人实名认证仅用作系统验证，不会泄露给任何其他人</string>
 
     <string name="info_perfect_hint">为了提高交流体验，请完善你的个人信息</string>
+    <string name="info_perfect_gender_hint">性别一经设定不可修改！</string>
 
     <!--注册登录-->
     <string name="sign_welcome_to_back">嗨，欢迎回来！</string>
@@ -195,11 +201,11 @@
     <string name="sign_code_hint">请输入验证码</string>
 
     <string name="user_agreement">《用户协议》</string>
-    <string name="privacy_policy">《隐私政策》</string>
+    <string name="private_policy">《隐私政策》</string>
     <string name="agreement_policy_prefix">进入表示你已阅读并同意</string>
     <string name="agreement_policy_hint">请阅读并同意《用户协议》与《隐私政策》</string>
     <string name="agreement_policy_dialog_title">用户协议与隐私政策</string>
-    <string name="agreement_policy_dialog_content">欢迎使用社交模板\n
+    <string name="agreement_policy_dialog_content">欢迎使用忘忧\n
         1.为了向您提供功能服务，我们会根据您使用服务的具体需要，收集必要的信息；\n
         2.未经您授权，我们不会与第三方共享或对外提供您的信息；\n
         3.您可以访问、更正、删除您的个人信息，我们也将提供注销和更正方式。\n

@@ -21,6 +21,7 @@ import com.vmloft.develop.library.common.base.BViewModel
 import com.vmloft.develop.library.common.image.IMGChoose
 import com.vmloft.develop.library.common.image.IMGLoader
 import com.vmloft.develop.library.common.router.CRouter
+import com.vmloft.develop.library.common.utils.showBar
 import com.vmloft.develop.library.common.widget.CommonDialog
 import com.vmloft.develop.library.tools.utils.VMColor
 import com.vmloft.develop.library.tools.utils.VMDimen
@@ -157,6 +158,10 @@ class PersonalInfoActivity : BVMActivity<InfoViewModel>() {
             pickerProfessionView.visibility = View.GONE
         }
         infoGenderLV.setOnClickListener {
+            if (mUser.gender != 2) {
+                showBar(R.string.info_perfect_gender_hint)
+                return@setOnClickListener
+            }
             pickerTitleTV.setText(R.string.info_gender)
             pickerMaskLL.visibility = View.VISIBLE
             pickerBirthdayView.visibility = View.GONE
@@ -185,7 +190,7 @@ class PersonalInfoActivity : BVMActivity<InfoViewModel>() {
         pickerConfirmTV.setOnClickListener {
             when {
                 pickerBirthdayView.isShown -> updateBirthday()
-                pickerGenderView.isShown -> updateGender()
+                pickerGenderView.isShown -> showChangeGenderDialog() // updateGender()
                 pickerAreaView.isShown -> updateAddress()
                 pickerProfessionView.isShown -> updateProfession()
             }
@@ -338,6 +343,20 @@ class PersonalInfoActivity : BVMActivity<InfoViewModel>() {
     }
 
     /**
+     * 修改性别对话框
+     */
+    private fun showChangeGenderDialog() {
+        mDialog = CommonDialog(this)
+        (mDialog as CommonDialog).let { dialog ->
+            dialog.setContent(R.string.info_perfect_gender_hint)
+            dialog.setPositive(listener = {
+                updateGender()
+            })
+            dialog.show()
+        }
+    }
+
+    /**
      * 完善资料对话框
      */
     private fun showDialog() {
@@ -351,7 +370,7 @@ class PersonalInfoActivity : BVMActivity<InfoViewModel>() {
     }
 
     override fun onBackPressed() {
-        if (mUser.avatar.isNullOrEmpty() || mUser.nickname.isNullOrEmpty()) {
+        if (mUser.avatar.isNullOrEmpty() || mUser.nickname.isNullOrEmpty() || mUser.gender == 2) {
             showDialog()
         } else {
             super.onBackPressed()

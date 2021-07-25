@@ -18,11 +18,11 @@ class MatchRepository : BaseRepository() {
      * 获取匹配列表数据
      */
     suspend fun submitMatch(match: Match): RResult<Match> {
-        return safeRequest(call = { requestSubmitMatch(match.content, match.emotion, match.type) })
+        return safeRequest(call = { requestSubmitMatch(match.content, match.emotion, match.gender) })
     }
 
-    private suspend fun requestSubmitMatch(content: String, emotion: Int, type: Int): RResult<Match> =
-        executeResponse(APIRequest.matchAPI.submitMatch(content, emotion, type))
+    private suspend fun requestSubmitMatch(content: String, emotion: Int, gender: Int): RResult<Match> =
+        executeResponse(APIRequest.matchAPI.submitMatch(content, emotion, gender))
 
     /**
      * 删除一条匹配数据
@@ -37,12 +37,12 @@ class MatchRepository : BaseRepository() {
     /**
      * 获取匹配列表数据
      */
-    suspend fun getMatchList(page: Int, limit: Int): RResult<RPaging<Match>> {
-        return safeRequest(call = { requestMatchList(page, limit) })
+    suspend fun getMatchList(gender: Int, page: Int, limit: Int): RResult<RPaging<Match>> {
+        return safeRequest(call = { requestMatchList(gender, page, limit) })
     }
 
-    private suspend fun requestMatchList(page: Int, limit: Int): RResult<RPaging<Match>> =
-        executeResponse(APIRequest.matchAPI.getMatchList(page, limit))
+    private suspend fun requestMatchList(gender: Int, page: Int, limit: Int): RResult<RPaging<Match>> =
+        executeResponse(APIRequest.matchAPI.getMatchList(gender, page, limit))
 
     /**
      * 获取自己的匹配数据
@@ -65,11 +65,11 @@ class MatchRepository : BaseRepository() {
     /**
      * 随机获取一条匹配数据
      */
-    suspend fun getOneMatch(type: Int): RResult<Match> {
-        return safeRequest(call = { requestMatchOne(type) })
+    suspend fun getOneMatch(gender: Int): RResult<Match> {
+        return safeRequest(call = { requestMatchOne(gender) })
     }
 
-    private suspend fun requestMatchOne(type: Int): RResult<Match> =
-        executeResponse(APIRequest.matchAPI.getMatchOne(type))
+    private suspend fun requestMatchOne(gender: Int): RResult<Match> =
+        executeResponse(APIRequest.matchAPI.getMatchOne(gender))
 
 }

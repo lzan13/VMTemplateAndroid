@@ -133,7 +133,7 @@ class UserInfoActivity : BVMActivity<UserInfoViewModel>() {
         when (user.gender) {
             1 -> infoGenderIV.setImageResource(R.drawable.ic_gender_man)
             0 -> infoGenderIV.setImageResource(R.drawable.ic_gender_woman)
-            else -> infoGenderIV.setImageResource(R.drawable.ic_gender_man)
+            else -> infoGenderIV.setImageResource(R.drawable.ic_gender_unknown)
         }
 
         val nickname = if (user.nickname.isNullOrEmpty()) VMStr.byRes(R.string.info_nickname_default) else user.nickname

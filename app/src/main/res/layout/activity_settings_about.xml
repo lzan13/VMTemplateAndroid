@@ -86,11 +86,11 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/aboutPrivacyPolicyTV"
+            android:id="@+id/aboutPrivatePolicyTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/vm_dimen_8"
-            android:text="@string/privacy_policy"
+            android:text="@string/private_policy"
             android:textColor="@color/app_link"
             android:textSize="@dimen/vm_size_12"
             app:layout_constraintBottom_toTopOf="@+id/aboutCopyrightTV"

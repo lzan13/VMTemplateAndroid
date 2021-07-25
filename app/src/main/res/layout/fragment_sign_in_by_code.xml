@@ -76,7 +76,7 @@
             app:vm_timer_time="60" />
 
         <CheckBox
-            android:id="@+id/signPrivacyPolicyCB"
+            android:id="@+id/signPrivatePolicyCB"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/vm_dimen_16"
@@ -98,18 +98,18 @@
             android:text="@string/user_agreement"
             android:textColor="@color/app_link"
             android:textSize="@dimen/vm_size_11"
-            app:layout_constraintBottom_toBottomOf="@+id/signPrivacyPolicyCB"
-            app:layout_constraintEnd_toStartOf="@+id/signPrivacyPolicyTV"
-            app:layout_constraintStart_toEndOf="@+id/signPrivacyPolicyCB"
-            app:layout_constraintTop_toTopOf="@+id/signPrivacyPolicyCB" />
+            app:layout_constraintBottom_toBottomOf="@+id/signPrivatePolicyCB"
+            app:layout_constraintEnd_toStartOf="@+id/signPrivatePolicyTV"
+            app:layout_constraintStart_toEndOf="@+id/signPrivatePolicyCB"
+            app:layout_constraintTop_toTopOf="@+id/signPrivatePolicyCB" />
 
         <TextView
-            android:id="@+id/signPrivacyPolicyTV"
+            android:id="@+id/signPrivatePolicyTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/vm_dimen_8"
             android:paddingBottom="@dimen/vm_dimen_8"
-            android:text="@string/privacy_policy"
+            android:text="@string/private_policy"
             android:textColor="@color/app_link"
             android:textSize="@dimen/vm_size_11"
             app:layout_constraintBottom_toBottomOf="@+id/signUserAgreementTV"
@@ -125,7 +125,7 @@
             android:text="@string/sign_in"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/signPrivacyPolicyCB" />
+            app:layout_constraintTop_toBottomOf="@+id/signPrivatePolicyCB" />
 
         <com.vmloft.develop.library.tools.widget.loading.VMLoadingView
             android:id="@+id/loadingView"

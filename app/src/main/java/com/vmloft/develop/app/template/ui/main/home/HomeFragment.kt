@@ -66,6 +66,13 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
 
         (mBinding as FragmentHomeBinding).viewModel = mViewModel
 
+        setTopIcon(R.drawable.ic_filter)
+        setTopIconListener { homeFilterMaskLL.visibility = View.VISIBLE }
+        homeFilterMaskLL.setOnClickListener { saveMatchFilter() }
+        homeFilterAllLL.setOnClickListener { changeMatchFilter(-1) }
+        homeFilterWomanLL.setOnClickListener { changeMatchFilter(0) }
+        homeFilterManLL.setOnClickListener { changeMatchFilter(1) }
+
         // 顶部心情控件
         val view = LayoutInflater.from(context).inflate(R.layout.widget_top_emtoion_view, null)
         emotionIV = view.findViewById(R.id.emotionIV)
@@ -95,7 +102,7 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
 
 
         homeNextTV.setOnClickListener {
-            mViewModel.getMatchList(mPage)
+            mViewModel.getMatchList(selfMatch.filter, mPage)
         }
 
         // 匹配项点击处理
@@ -112,38 +119,22 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
      */
     override fun initData() {
         mUser = SignManager.getCurrUser() ?: User()
-        selfMatch = Match("selfMatch", mUser, 0, 0, "嗨😉 我是 ${mUser.nickname}")
+        selfMatch = Match("selfMatch", mUser, 0, mUser.gender, "嗨😉 我是 ${mUser.nickname}")
 
+        setupMatchFilter()
         setupMatchEmotion()
 
         // 获取自己的匹配数据
         mViewModel.getSelfMatch()
         // 请求匹配数据集
-        mViewModel.getMatchList()
-    }
-
-    /**
-     * 保存匹配心情数据
-     */
-    private fun saveMatchEmotion() {
-        homeEmotionMaskLL.visibility = View.GONE
-        mViewModel.setSelfMatch(selfMatch)
-        // 隐藏键盘
-        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        // 切换软键盘的显示与隐藏
-        // imm.toggleSoftInputFromWindow(mInputET.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN, InputMethodManager.HIDE_NOT_ALWAYS);
-        // 隐藏软键盘
-        imm.hideSoftInputFromWindow(view?.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
-
-        val params = mutableMapOf<String, Any>()
-        params["emotion"] = selfMatch.emotion // 心情 0-开心 1-平淡 2-难过 3-愤怒
-        ReportManager.reportEvent(ReportConstants.eventChangeEmotion, params)
+        mViewModel.getMatchList(selfMatch.filter)
     }
 
     override fun onModelRefresh(model: BViewModel.UIModel) {
         if (model.type == "selfMatch") {
             model.data?.let {
                 selfMatch = it as Match
+                setupMatchFilter()
                 setupMatchEmotion()
             }
         }
@@ -166,6 +157,35 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
             }
             setupBarrage()
         }
+    }
+
+    /**
+     * 加载心情内容
+     */
+    private fun setupMatchFilter() {
+        homeFilterAllLL.isSelected = selfMatch.filter == -1
+        homeFilterWomanLL.isSelected = selfMatch.filter == 0
+        homeFilterManLL.isSelected = selfMatch.filter == 1
+    }
+
+    /**
+     * 修改匹配过滤设置
+     */
+    private fun changeMatchFilter(gender: Int) {
+        selfMatch.filter = gender
+        setupMatchFilter()
+    }
+
+    /**
+     * 保存匹配过滤设置
+     */
+    private fun saveMatchFilter() {
+        homeFilterMaskLL.visibility = View.GONE
+        mViewModel.setSelfMatch(selfMatch)
+
+        val params = mutableMapOf<String, Any>()
+        params["filter"] = selfMatch.filter // 过滤选项 -1-不限 0-女 1-男
+        ReportManager.reportEvent(ReportConstants.eventChangeFilter, params)
     }
 
     /**
@@ -202,6 +222,24 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
     private fun changeMatchEmotion(emotion: Int) {
         selfMatch.emotion = emotion
         setupMatchEmotion()
+    }
+
+    /**
+     * 保存匹配心情数据
+     */
+    private fun saveMatchEmotion() {
+        homeEmotionMaskLL.visibility = View.GONE
+        mViewModel.setSelfMatch(selfMatch)
+        // 隐藏键盘
+        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        // 切换软键盘的显示与隐藏
+        // imm.toggleSoftInputFromWindow(mInputET.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN, InputMethodManager.HIDE_NOT_ALWAYS);
+        // 隐藏软键盘
+        imm.hideSoftInputFromWindow(view?.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+
+        val params = mutableMapOf<String, Any>()
+        params["emotion"] = selfMatch.emotion // 心情 0-开心 1-平淡 2-难过 3-愤怒
+        ReportManager.reportEvent(ReportConstants.eventChangeEmotion, params)
     }
 
     /**

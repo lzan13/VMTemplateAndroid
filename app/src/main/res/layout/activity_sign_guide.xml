@@ -45,7 +45,7 @@
             android:layout_marginBottom="@dimen/vm_dimen_36"
             android:enabled="@{viewModel.uiState.isLoading ? false : true}"
             android:text="@string/sign_in_by_device_id"
-            app:layout_constraintBottom_toTopOf="@+id/signPrivacyPolicyCB"
+            app:layout_constraintBottom_toTopOf="@+id/signPrivatePolicyCB"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -62,7 +62,7 @@
             app:vm_loading_type="DoubleCircle" />
 
         <CheckBox
-            android:id="@+id/signPrivacyPolicyCB"
+            android:id="@+id/signPrivatePolicyCB"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/vm_dimen_16"
@@ -86,18 +86,18 @@
             android:text="@string/user_agreement"
             android:textColor="@color/app_link"
             android:textSize="@dimen/vm_size_11"
-            app:layout_constraintBottom_toBottomOf="@+id/signPrivacyPolicyCB"
-            app:layout_constraintEnd_toStartOf="@+id/signPrivacyPolicyTV"
-            app:layout_constraintStart_toEndOf="@+id/signPrivacyPolicyCB"
-            app:layout_constraintTop_toTopOf="@+id/signPrivacyPolicyCB" />
+            app:layout_constraintBottom_toBottomOf="@+id/signPrivatePolicyCB"
+            app:layout_constraintEnd_toStartOf="@+id/signPrivatePolicyTV"
+            app:layout_constraintStart_toEndOf="@+id/signPrivatePolicyCB"
+            app:layout_constraintTop_toTopOf="@+id/signPrivatePolicyCB" />
 
         <TextView
-            android:id="@+id/signPrivacyPolicyTV"
+            android:id="@+id/signPrivatePolicyTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/vm_dimen_8"
             android:paddingBottom="@dimen/vm_dimen_8"
-            android:text="@string/privacy_policy"
+            android:text="@string/private_policy"
             android:textColor="@color/app_link"
             android:textSize="@dimen/vm_size_11"
             app:layout_constraintBottom_toBottomOf="@+id/signUserAgreementTV"

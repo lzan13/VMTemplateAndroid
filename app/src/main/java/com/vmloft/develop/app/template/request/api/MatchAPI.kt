@@ -23,7 +23,7 @@ interface MatchAPI {
     suspend fun submitMatch(
         @Field("content") content: String,
         @Field("emotion") emotion: Int,
-        @Field("type") type: Int,
+        @Field("gender") gender: Int,
     ): RResponse<Match>
 
     /**
@@ -37,6 +37,7 @@ interface MatchAPI {
      */
     @GET("v1/match")
     suspend fun getMatchList(
+        @Query("gender") gender: Int,
         @Query("page") page: Int,
         @Query("limit") limit: Int,
     ): RResponse<RPaging<Match>>
@@ -45,6 +46,6 @@ interface MatchAPI {
      * 随机获取一条匹配数据
      */
     @GET("v1/match/one")
-    suspend fun getMatchOne(@Query("type") type: Int): RResponse<Match>
+    suspend fun getMatchOne(@Query("gender") type: Int): RResponse<Match>
 
 }
