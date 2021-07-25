@@ -134,10 +134,10 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
                 selfMatch = it as Match
                 setupMatchFilter()
                 setupMatchEmotion()
-
-                // 请求匹配数据集
-                mViewModel.getMatchList(selfMatch.filterGender)
             }
+
+            // 请求匹配数据集
+            mViewModel.getMatchList(selfMatch.filterGender)
         }
         if (model.type == "matchList") {
             val paging = model.data as RPaging<Match>

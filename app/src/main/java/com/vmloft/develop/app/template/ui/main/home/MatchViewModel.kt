@@ -77,7 +77,7 @@ class MatchViewModel(private val repository: MatchRepository) : BViewModel() {
             val result = withContext(Dispatchers.IO) {
                 repository.getSelfMatch()
             }
-            if (result is RResult.Success && result.data != null) {
+            if (result is RResult.Success) {
                 emitUIState(data = result.data, type = "selfMatch")
                 return@launch
             } else if (result is RResult.Error) {
