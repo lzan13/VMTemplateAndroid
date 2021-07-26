@@ -139,17 +139,15 @@ class UserInfoActivity : BVMActivity<UserInfoViewModel>() {
         val nickname = if (user.nickname.isNullOrEmpty()) VMStr.byRes(R.string.info_nickname_default) else user.nickname
         setTopTitle(nickname)
         infoNameTV.text = nickname
-        infoAddressTV.text = user.address
-        infoSignatureTV.text = user.signature
+        infoAddressTV.text = if (user.address.isNullOrEmpty()) VMStr.byRes(R.string.info_address_default) else user.address
+        infoSignatureTV.text = if (user.signature.isNullOrEmpty()) VMStr.byRes(R.string.info_signature_default) else user.signature
+
 
         infoLikeTV.text = user.likeCount.toString()
         infoFollowTV.text = user.followCount.toString()
         infoFansTV.text = user.fansCount.toString()
 
         setupFollowStatus()
-
-        // VMHeaderLayout 会缓存子 View 布局内容，默认情况下不会重新刷新布局内容，这里主动通知 VMHeaderLayout 子 View 内容有更新
-//        infoHeaderLayout.updateLayout()
     }
 
     private fun setupFollowStatus() {
@@ -159,6 +157,9 @@ class UserInfoActivity : BVMActivity<UserInfoViewModel>() {
             2 -> VMStr.byRes(R.string.follow_status_2)
             else -> VMStr.byRes(R.string.follow)
         }
+
+        // VMHeaderLayout 会缓存子 View 布局内容，默认情况下不会重新刷新布局内容，这里主动通知 VMHeaderLayout 子 View 内容有更新
+        infoHeaderLayout.updateLayout()
     }
 
     /**

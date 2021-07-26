@@ -135,6 +135,8 @@ class MineFragment : BaseFragment() {
         mineLikeTV.text = user.likeCount.toString()
         mineFollowTV.text = user.followCount.toString()
         mineFansTV.text = user.fansCount.toString()
+
+        mineHeaderLayout.updateLayout()
     }
 
 

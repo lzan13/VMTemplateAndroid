@@ -12,6 +12,7 @@ import android.widget.TextView
 
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.common.CacheManager
+import com.vmloft.develop.app.template.common.Constants
 import com.vmloft.develop.app.template.common.SignManager
 import com.vmloft.develop.app.template.databinding.FragmentHomeBinding
 import com.vmloft.develop.app.template.request.bean.Match
@@ -23,6 +24,7 @@ import com.vmloft.develop.library.common.base.BViewModel
 import com.vmloft.develop.library.common.common.CConstants
 import com.vmloft.develop.library.common.image.IMGLoader
 import com.vmloft.develop.app.template.report.ReportConstants
+import com.vmloft.develop.library.common.event.LDEventBus
 import com.vmloft.develop.library.common.report.ReportManager
 import com.vmloft.develop.library.common.router.CRouter
 import com.vmloft.develop.library.common.utils.CUtils
@@ -45,7 +47,7 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
     private lateinit var selfMatch: Match
 
     // 弹幕控件
-    private lateinit var barrageView: VMBarrageView<Match>
+    private var barrageView: VMBarrageView<Match>? = null
 
     // 弹幕数据
     private val dataList: MutableList<Match> = mutableListOf()
@@ -66,44 +68,11 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
 
         (mBinding as FragmentHomeBinding).viewModel = mViewModel
 
-        setTopIcon(R.drawable.ic_filter)
-        setTopIconListener { homeFilterMaskLL.visibility = View.VISIBLE }
-        homeFilterMaskLL.setOnClickListener { saveMatchFilter() }
-        homeFilterAllLL.setOnClickListener { changeMatchFilter(-1) }
-        homeFilterWomanLL.setOnClickListener { changeMatchFilter(0) }
-        homeFilterManLL.setOnClickListener { changeMatchFilter(1) }
+        initFilter()
 
-        // 顶部心情控件
-        val view = LayoutInflater.from(context).inflate(R.layout.widget_top_emtoion_view, null)
-        emotionIV = view.findViewById(R.id.emotionIV)
-        emotionTV = view.findViewById(R.id.emotionTV)
-        setTopEndView(view)
-        view.setOnClickListener { homeEmotionMaskLL.visibility = View.VISIBLE }
-        // 设置表情面板事件
-        homeEmotionMaskLL.setOnClickListener { saveMatchEmotion() }
-        homeEmotionHappyLL.setOnClickListener { changeMatchEmotion(0) }
-        homeEmotionNormalLL.setOnClickListener { changeMatchEmotion(1) }
-        homeEmotionSadLL.setOnClickListener { changeMatchEmotion(2) }
-        homeEmotionAngerLL.setOnClickListener { changeMatchEmotion(3) }
-        homeEmotionET.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+        initEmotion()
 
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-
-            override fun afterTextChanged(s: Editable) {
-                selfMatch.content = s.toString().trim()
-            }
-        })
-
-        // 弹幕控件
-        barrageView = VMBarrageView(activity)
-        val lp: LinearLayout.LayoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT)
-        homeBarrageViewLL.addView(barrageView, lp)
-
-
-        homeNextTV.setOnClickListener {
-            mViewModel.getMatchList(selfMatch.filterGender, mPage)
-        }
+        homeNextTV.setOnClickListener { mViewModel.getMatchList(selfMatch.filterGender, mPage) }
 
         // 匹配项点击处理
         homeDestinyLL.setOnClickListener { startMatch(0) }
@@ -126,6 +95,14 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
 
         // 获取自己的匹配数据
         mViewModel.getSelfMatch()
+
+        LDEventBus.observe(this, Constants.userInfoEvent, User::class.java, {
+            mUser = it
+            selfMatch.gender = mUser.gender
+            selfMatch.content = "嗨😉 我是 ${mUser.nickname}"
+
+            homeEmotionET.setText(selfMatch.content)
+        })
     }
 
     override fun onModelRefresh(model: BViewModel.UIModel) {
@@ -158,6 +135,18 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
     }
 
     /**
+     * 初始化过滤相关
+     */
+    private fun initFilter() {
+        setTopIcon(R.drawable.ic_filter)
+        setTopIconListener { homeFilterMaskLL.visibility = View.VISIBLE }
+        homeFilterMaskLL.setOnClickListener { saveMatchFilter() }
+        homeFilterAllLL.setOnClickListener { changeMatchFilter(-1) }
+        homeFilterWomanLL.setOnClickListener { changeMatchFilter(0) }
+        homeFilterManLL.setOnClickListener { changeMatchFilter(1) }
+    }
+
+    /**
      * 加载心情内容
      */
     private fun setupMatchFilter() {
@@ -172,6 +161,7 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
     private fun changeMatchFilter(gender: Int) {
         selfMatch.filterGender = gender
         setupMatchFilter()
+        saveMatchFilter()
     }
 
     /**
@@ -179,12 +169,37 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
      */
     private fun saveMatchFilter() {
         homeFilterMaskLL.visibility = View.GONE
-        selfMatch.gender = mUser.gender
         mViewModel.setSelfMatch(selfMatch)
 
         val params = mutableMapOf<String, Any>()
         params["filter"] = selfMatch.filterGender // 过滤选项 -1-不限 0-女 1-男
         ReportManager.reportEvent(ReportConstants.eventChangeFilter, params)
+    }
+
+    /**
+     * 初始化心情相关
+     */
+    private fun initEmotion() {
+        val view = LayoutInflater.from(context).inflate(R.layout.widget_top_emtoion_view, null)
+        emotionIV = view.findViewById(R.id.emotionIV)
+        emotionTV = view.findViewById(R.id.emotionTV)
+        setTopEndView(view)
+        view.setOnClickListener { homeEmotionMaskLL.visibility = View.VISIBLE }
+        // 设置表情面板事件
+        homeEmotionMaskLL.setOnClickListener { saveMatchEmotion() }
+        homeEmotionHappyLL.setOnClickListener { changeMatchEmotion(0) }
+        homeEmotionNormalLL.setOnClickListener { changeMatchEmotion(1) }
+        homeEmotionSadLL.setOnClickListener { changeMatchEmotion(2) }
+        homeEmotionAngerLL.setOnClickListener { changeMatchEmotion(3) }
+        homeEmotionET.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable) {
+                selfMatch.content = s.toString().trim()
+            }
+        })
     }
 
     /**
@@ -221,6 +236,7 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
     private fun changeMatchEmotion(emotion: Int) {
         selfMatch.emotion = emotion
         setupMatchEmotion()
+        saveMatchEmotion()
     }
 
     /**
@@ -228,7 +244,6 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
      */
     private fun saveMatchEmotion() {
         homeEmotionMaskLL.visibility = View.GONE
-        selfMatch.gender = mUser.gender
         mViewModel.setSelfMatch(selfMatch)
         // 隐藏键盘
         val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -246,8 +261,18 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
      * 装载弹幕
      */
     fun setupBarrage() {
-        barrageView.stop()
-        barrageView.setCreator(ViewCreator()).setMaxSize(50).create(dataList).start()
+        barrageView?.stop()
+        barrageView = null
+        homeBarrageViewLL.removeAllViews()
+
+        // 重置弹幕控件
+        barrageView = VMBarrageView(activity)
+        val lp: LinearLayout.LayoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT)
+        homeBarrageViewLL.addView(barrageView, lp)
+
+        barrageView?.let {
+            it.setCreator(ViewCreator()).setMaxSize(50).create(dataList).start()
+        }
     }
 
     /**
@@ -268,16 +293,16 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
     override fun onResume() {
         super.onResume()
         activity?.let { CUtils.setDarkMode(it, false) }
-        barrageView.resume()
+        barrageView?.resume()
     }
 
     override fun onPause() {
         super.onPause()
-        barrageView.pause()
+        barrageView?.pause()
     }
 
     override fun onDestroy() {
-        barrageView.stop()
+        barrageView?.stop()
         super.onDestroy()
     }
 
