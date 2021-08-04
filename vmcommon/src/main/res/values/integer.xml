@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="app_activity_enter_time">300</integer>
+    <integer name="app_activity_exit_time">300</integer>
+</resources>

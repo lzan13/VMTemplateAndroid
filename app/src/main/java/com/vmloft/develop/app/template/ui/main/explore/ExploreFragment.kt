@@ -48,7 +48,6 @@ class ExploreFragment : BVMFragment<ExploreViewModel>() {
 
     override fun initUI() {
         super.initUI()
-        CUtils.setDarkMode(requireActivity(), true)
         setTopTitle(R.string.nav_explore)
 
         initRecyclerView()
@@ -163,8 +162,9 @@ class ExploreFragment : BVMFragment<ExploreViewModel>() {
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
-        activity?.let {
-            CUtils.setDarkMode(it, true)
+        if (hidden) {
+            activity?.let {
+            }
         }
     }
 }

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 
 import com.vmloft.develop.library.common.R
 import com.vmloft.develop.library.common.report.ReportManager
+import com.vmloft.develop.library.common.utils.CUtils
 import com.vmloft.develop.library.common.widget.CommonDialog
 import com.vmloft.develop.library.tools.utils.VMDimen
 
@@ -23,7 +24,10 @@ abstract class BaseFragment : Fragment() {
     protected var isLoaded: Boolean = false
 
     // 是否居中显示标题
-    open var centerTitle: Boolean = false
+    open var isCenterTitle: Boolean = false
+
+    // 是否设置黑色状态栏
+    open var isDarkStatusBar: Boolean = true
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(layoutId(), container, false)
@@ -53,6 +57,7 @@ abstract class BaseFragment : Fragment() {
         if (hidden) {
             ReportManager.reportPageEnd(this.javaClass.simpleName)
         } else {
+            CUtils.setDarkMode(requireActivity(), isDarkStatusBar)
             ReportManager.reportPageStart(this.javaClass.simpleName)
         }
     }
@@ -78,10 +83,12 @@ abstract class BaseFragment : Fragment() {
      * 装载 TopBar
      */
     private fun setupTobBar() {
+        CUtils.setDarkMode(requireActivity(), isDarkStatusBar)
+
         // 设置状态栏透明主题时，布局整体会上移，所以给头部 View 设置 StatusBar 的高度
         commonTopSpace?.layoutParams?.height = VMDimen.statusBarHeight
 
-        commonTopBar?.setCenter(centerTitle)
+        commonTopBar?.setCenter(isCenterTitle)
         commonTopBar?.setTitleStyle(R.style.AppText_Title)
     }
 

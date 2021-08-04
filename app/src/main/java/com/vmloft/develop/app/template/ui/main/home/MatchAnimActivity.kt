@@ -29,6 +29,8 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 @Route(path = AppRouter.appMatchAnim)
 class MatchAnimActivity : BVMActivity<MatchViewModel>() {
 
+    override var isDarkStatusBar: Boolean = false
+
     // 匹配方式
     @Autowired
     @JvmField
@@ -49,7 +51,6 @@ class MatchAnimActivity : BVMActivity<MatchViewModel>() {
 
     override fun initUI() {
         super.initUI()
-        CUtils.setDarkMode(mActivity, false)
 
         setTopTitle(R.string.match_loading)
         setTopTitleColor(R.color.app_title_display)

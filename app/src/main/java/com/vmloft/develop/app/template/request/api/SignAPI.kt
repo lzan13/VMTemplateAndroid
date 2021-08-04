@@ -84,6 +84,12 @@ interface SignAPI {
     suspend fun signOut(): RResponse<Any>
 
     /**
+     * 销毁账户
+     */
+    @GET("v1/sign/destroy")
+    suspend fun signDestroy(): RResponse<Any>
+
+    /**
      * 请求邮箱验证码
      */
     @GET("v1/sign/sendCodeEmail")

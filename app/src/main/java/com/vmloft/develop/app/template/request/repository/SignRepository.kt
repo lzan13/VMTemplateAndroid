@@ -83,6 +83,16 @@ class SignRepository : BaseRepository() {
         executeResponse(APIRequest.signAPI.signOut())
 
     /**
+     * 销毁账户
+     */
+    suspend fun signDestroy(): RResult<Any> {
+        return safeRequest(call = { requestSignDestroy() })
+    }
+
+    private suspend fun requestSignDestroy(): RResult<Any> =
+        executeResponse(APIRequest.signAPI.signDestroy())
+
+    /**
      * 请求验证码
      */
     suspend fun sendCodeEmail(email: String): RResult<Any> {

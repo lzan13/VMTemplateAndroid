@@ -8,6 +8,7 @@
     tools:context=".ui.main.mine.MineFragment">
 
     <com.vmloft.develop.library.tools.widget.behavior.VMHeaderLayout
+        android:id="@+id/mineHeaderLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:vm_extend_height="30%">

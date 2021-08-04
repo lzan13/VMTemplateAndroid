@@ -29,7 +29,6 @@ class MsgFragment : BaseFragment() {
 
     override fun initUI() {
         super.initUI()
-        CUtils.setDarkMode(requireActivity(), true)
         setTopTitle(R.string.nav_msg)
 //        setTopEndIcon(R.drawable.ic_add) { showFloatMenu(it) }
 
@@ -48,14 +47,6 @@ class MsgFragment : BaseFragment() {
         val ft: FragmentTransaction = manager.beginTransaction()
         ft.replace(R.id.conversation_container, fragment)
         ft.commit()
-    }
-
-
-    override fun onHiddenChanged(hidden: Boolean) {
-        super.onHiddenChanged(hidden)
-        activity?.let {
-            CUtils.setDarkMode(it, true)
-        }
     }
 
     /**

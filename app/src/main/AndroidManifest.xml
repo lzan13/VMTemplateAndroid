@@ -43,7 +43,7 @@
         <!--主界面-->
         <activity
             android:name=".ui.main.MainActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:windowSoftInputMode="adjustNothing|stateHidden" />
 
         <!--引导-->
@@ -114,6 +114,8 @@
 
         <!--设置-->
         <activity android:name=".ui.settings.SettingsActivity" />
+        <!--账户与安全设置-->
+        <activity android:name=".ui.settings.AccountSecuritySettingsActivity" />
         <!--暗色主题设置-->
         <activity android:name=".ui.settings.DarkSettingsActivity" />
         <!--资源设置-->

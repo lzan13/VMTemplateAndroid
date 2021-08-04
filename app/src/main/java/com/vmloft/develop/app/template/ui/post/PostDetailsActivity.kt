@@ -50,13 +50,13 @@ class PostDetailsActivity : BVMActivity<PostViewModel>() {
     override fun initUI() {
         super.initUI()
 
+        setTopTitle(R.string.post_title)
+
         initRecyclerView()
     }
 
     override fun initData() {
         ARouter.getInstance().inject(this)
-
-        setTopTitle(post.title)
 
         mItems.add(post)
         mAdapter.notifyDataSetChanged()

@@ -44,7 +44,6 @@ class DebugActivity : BaseActivity() {
                 CSPManager.setDebug(!CSPManager.isDebug())
                 debugEnvLV.setCaption(VMStr.byRes(if (CSPManager.isDebug()) R.string.debug_env_debug else R.string.debug_env_release))
                 CRouter.goMain(1)
-
             })
             dialog.show()
         }

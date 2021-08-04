@@ -10,11 +10,22 @@
 
     <include layout="@layout/widget_common_top_bar" />
 
+    <!--账户与安全设置-->
+    <com.vmloft.develop.library.tools.widget.VMLineView
+        android:id="@+id/settingsAccountSecurityLV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/app_bg_item"
+        app:vm_line_caption_color="@color/app_caption"
+        app:vm_line_right_icon="@drawable/ic_arrow_next"
+        app:vm_line_title="@string/settings_account_security" />
+
     <!--暗色主题设置-->
     <com.vmloft.develop.library.tools.widget.VMLineView
         android:id="@+id/settingsDarkLV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/vm_dimen_8"
         android:background="@color/app_bg_item"
         app:vm_line_caption_color="@color/app_caption"
         app:vm_line_right_icon="@drawable/ic_arrow_next"
@@ -25,7 +36,6 @@
         android:id="@+id/settingsNotifyLV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/vm_dimen_8"
         android:background="@color/app_bg_item"
         app:vm_line_caption_color="@color/app_caption"
         app:vm_line_decoration="center"

@@ -30,7 +30,7 @@ val viewModelModule = module {
     viewModel { PostViewModel(get(), get(), get(), get()) }
     viewModel { RoomViewModel(get()) }
     viewModel { SignViewModel(get()) }
-    viewModel { SettingsViewModel(get()) }
+    viewModel { SettingsViewModel(get(), get()) }
     viewModel { UserInfoViewModel(get(), get()) }
 
 }

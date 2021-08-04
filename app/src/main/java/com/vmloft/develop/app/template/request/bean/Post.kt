@@ -13,8 +13,8 @@ data class Post(
     @SerializedName("_id")
     var id: String,
     var owner: User,
-    var title: String = "",
-    var content: String = "",
+    var title: String? = null,
+    var content: String? = null,
     var stick: Int = 0,
     var category: Category,
     var attachments: MutableList<Attachment> = mutableListOf(),

@@ -43,7 +43,7 @@ object CRouter {
     fun goMain(type: Int = 0) {
         ARouter.getInstance().build(appMain)
             .withInt("type", type)
-            .withFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            .withFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
             .navigation()
     }
 

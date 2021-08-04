@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">忘忧</string>
+    <string name="app_name">社交模板</string>
 
     <!--引导-->
     <string name="guide_prev">上一步</string>
@@ -69,6 +69,7 @@
     <string name="publish_title">发布内容</string>
     <string name="publish_success_hint">内容发布成功</string>
     <string name="publish_content_hint">内容须在 1-800 之间，维护健康环境，需要你我同行</string>
+    <string name="post_title">内容详情</string>
 
     <!--房间-->
     <string name="room_list">房间大厅</string>
@@ -110,15 +111,21 @@
     <string name="version_upgrade">马上升级</string>
     <string name="version_is_new">已经是最新版本</string>
 
-    <!--媒体相关设置-->
-    <string name="settings_media">图片资源</string>
-    <string name="media_auto">自动加载</string>
-    <string name="media_save">保存到相册</string>
-    <string name="media_save_hint">应用内拍照的图片将保存到系统相册</string>
-    <string name="media_clear">清空缓存</string>
-    <string name="media_clear_hint">缓存有利于节省流量，清空缓存可释放手机存储空间</string>
-    <string name="media_clear_toast">缓存清空完成</string>
+    <!--深色模式主题设置-->
+    <string name="settings_account_security">账户与安全</string>
+    <string name="account_destroy">销毁账户</string>
+    <string name="account_destroy_desc">销毁账户将清空你所有数据，并且不可恢复，请谨慎操作</string>
+    <string name="account_destroy_hint">销毁账户将清空你所有数据，并且不可恢复，确认销毁账户吗？</string>
+    <string name="account_destroy_success">账户销毁已完成，感谢你的使用，期待再见</string>
 
+    <!--深色模式主题设置-->
+    <string name="settings_dark">深色模式</string>
+    <string name="settings_dark_system">跟随系统</string>
+    <string name="settings_dark_system_hint">开启状态下，会自动跟随系统夜间模式切换应用内主题样式</string>
+    <string name="settings_dark_manual">手动设置</string>
+    <string name="settings_dark_normal">正常模式</string>
+
+    <!--通知相关设置-->
     <string name="settings_notify">通知设置</string>
     <string name="notify_switch">通知开关</string>
     <string name="notify_switch_msg">接收新消息通知</string>
@@ -129,11 +136,14 @@
     <string name="notify_msg_system">新消息系统通知</string>
     <string name="notify_msg_system_hint">前往系统设置修改消息声音与震动</string>
 
-    <string name="settings_dark">深色模式</string>
-    <string name="settings_dark_system">跟随系统</string>
-    <string name="settings_dark_system_hint">开启状态下，会自动跟随系统夜间模式切换应用内主题样式</string>
-    <string name="settings_dark_manual">手动设置</string>
-    <string name="settings_dark_normal">正常模式</string>
+    <!--媒体相关设置-->
+    <string name="settings_media">图片资源</string>
+    <string name="media_auto">自动加载</string>
+    <string name="media_save">保存到相册</string>
+    <string name="media_save_hint">应用内拍照的图片将保存到系统相册</string>
+    <string name="media_clear">清空缓存</string>
+    <string name="media_clear_hint">缓存有利于节省流量，清空缓存可释放手机存储空间</string>
+    <string name="media_clear_toast">缓存清空完成</string>
 
     <!--个人信息-->
     <string name="settings_info">个人信息</string>

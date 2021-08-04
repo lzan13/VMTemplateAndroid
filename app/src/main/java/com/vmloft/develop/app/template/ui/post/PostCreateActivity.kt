@@ -108,6 +108,11 @@ class PostCreateActivity : BVMActivity<PostViewModel>() {
         }
     }
 
+    override fun onModelError(model: BViewModel.UIModel) {
+        super.onModelError(model)
+        setTopEndBtnEnable(true)
+    }
+
     /**
      * 校验输入框内容
      */
@@ -134,7 +139,7 @@ class PostCreateActivity : BVMActivity<PostViewModel>() {
         if (!VMReg.isCommonReg(mContent, "^[\\s\\S]{1,800}\$")) {
             return errorBar(R.string.publish_content_hint)
         }
-//        val title = if (mContent.length > 16) mContent.substring(0, 16) else mContent
+        setTopEndBtnEnable(false)
 
         val list = mutableListOf<String>()
         attachment?.let {
@@ -161,7 +166,6 @@ class PostCreateActivity : BVMActivity<PostViewModel>() {
 
         publishCategorySpinner.adapter = adapter
         publishCategorySpinner.setPopupBackgroundResource(R.drawable.shape_card_common_bg)
-//        publishCategorySpinner.dropDownVerticalOffset = VMDimen.dp2px(36)
         publishCategorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
 

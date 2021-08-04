@@ -3,13 +3,13 @@ package com.vmloft.develop.app.template.ui.settings
 import com.alibaba.android.arouter.facade.annotation.Route
 
 import com.vmloft.develop.app.template.R
-import com.vmloft.develop.app.template.common.SignManager
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.common.base.BaseActivity
 import com.vmloft.develop.library.common.router.CRouter
 import com.vmloft.develop.library.common.widget.CommonDialog
 
 import kotlinx.android.synthetic.main.activity_settings.*
+
 
 
 /**
@@ -19,13 +19,18 @@ import kotlinx.android.synthetic.main.activity_settings.*
 @Route(path = AppRouter.appSettings)
 class SettingsActivity : BaseActivity() {
 
+
     override fun layoutId(): Int = R.layout.activity_settings
 
     override fun initUI() {
         super.initUI()
+
         setTopTitle(R.string.settings)
 
+        settingsAccountSecurityLV.setOnClickListener { CRouter.go(AppRouter.appSettingsAccountSecurity) }
+
         settingsDarkLV.setOnClickListener { CRouter.go(AppRouter.appSettingsDark) }
+
         settingsNotifyLV.setOnClickListener { CRouter.go(AppRouter.appSettingsNotify) }
         settingsPictureLV.setOnClickListener { CRouter.go(AppRouter.appSettingsMedia) }
         settingsAboutLV.setOnClickListener { CRouter.go(AppRouter.appSettingsAbout) }
@@ -50,5 +55,6 @@ class SettingsActivity : BaseActivity() {
             dialog.show()
         }
     }
+
 
 }

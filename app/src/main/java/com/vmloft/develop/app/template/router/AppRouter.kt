@@ -22,6 +22,7 @@ object AppRouter {
 
     // 设置
     const val appSettings = "/App/Settings"
+    const val appSettingsAccountSecurity = "/App/SettingsAccountSecurity"
     const val appSettingsDark = "/App/SettingsDark"
     const val appSettingsMedia = "/App/SettingsMedia"
     const val appSettingsNotify = "/App/SettingsNotify"

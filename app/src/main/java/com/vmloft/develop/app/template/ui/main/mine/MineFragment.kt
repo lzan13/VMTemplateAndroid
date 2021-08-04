@@ -29,6 +29,8 @@ import kotlinx.android.synthetic.main.fragment_mine.*
  */
 class MineFragment : BaseFragment() {
 
+    override var isDarkStatusBar: Boolean = false
+
     private lateinit var user: User
 
     private val fragmentList = arrayListOf<Fragment>()
@@ -42,7 +44,6 @@ class MineFragment : BaseFragment() {
 
     override fun initUI() {
         super.initUI()
-        CUtils.setDarkMode(requireActivity(), false)
 
         tabTopSpaceView.layoutParams.height = VMDimen.dp2px(48) + VMDimen.statusBarHeight
         setTopTitleColor(R.color.app_title_display)
@@ -98,14 +99,6 @@ class MineFragment : BaseFragment() {
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = titles[position]
         }.attach()
-    }
-
-
-    override fun onHiddenChanged(hidden: Boolean) {
-        super.onHiddenChanged(hidden)
-        activity?.let {
-            CUtils.setDarkMode(it, false)
-        }
     }
 
     /**

@@ -41,6 +41,8 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  */
 class HomeFragment : BVMFragment<MatchViewModel>() {
 
+    override var isDarkStatusBar: Boolean = false
+
     private lateinit var mUser: User
 
     // 记录自身匹配数据
@@ -292,7 +294,6 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
 
     override fun onResume() {
         super.onResume()
-        activity?.let { CUtils.setDarkMode(it, false) }
         barrageView?.resume()
     }
 
@@ -323,12 +324,5 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
             view.setOnClickListener { AppRouter.goUserInfo(bean.user) }
         }
 
-    }
-
-    override fun onHiddenChanged(hidden: Boolean) {
-        super.onHiddenChanged(hidden)
-        activity?.let {
-            CUtils.setDarkMode(it, false)
-        }
     }
 }

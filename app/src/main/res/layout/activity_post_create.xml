@@ -18,7 +18,6 @@
 
         <include layout="@layout/widget_common_top_bar" />
 
-
         <ImageView
             android:id="@+id/publishPictureIV"
             android:layout_width="@dimen/vm_dimen_72"
@@ -71,6 +70,9 @@
             android:gravity="center_horizontal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/publishPictureIV" />
+
+        <include layout="@layout/widget_common_loading"
+            app:isLoading="@{viewModel.uiState.loading}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -17,7 +17,6 @@ import com.vmloft.develop.library.tools.utils.VMColor
 
 import com.vmloft.develop.library.tools.utils.VMDimen
 import com.vmloft.develop.library.tools.utils.VMNetwork
-import com.vmloft.develop.library.tools.utils.VMTheme
 import com.vmloft.develop.library.tools.widget.VMTopBar
 import kotlinx.android.synthetic.main.widget_common_empty_status_view.*
 
@@ -31,8 +30,14 @@ abstract class BVMActivity<VM : BViewModel> : AppCompatActivity() {
 
     protected var mDialog: CommonDialog? = null
 
+    // 是否隐藏顶部控件
+    open var isHideTopSpace: Boolean = false
+
     // 是否居中显示标题
-    open var centerTitle: Boolean = false
+    open var isCenterTitle: Boolean = false
+
+    // 是否设置黑色状态栏
+    open var isDarkStatusBar: Boolean = true
 
     protected lateinit var mActivity: Activity
     protected lateinit var mBinding: ViewDataBinding
@@ -76,7 +81,6 @@ abstract class BVMActivity<VM : BViewModel> : AppCompatActivity() {
      */
     open fun initUI() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        CUtils.setDarkMode(mActivity, true)
         setupTobBar()
     }
 
@@ -106,31 +110,31 @@ abstract class BVMActivity<VM : BViewModel> : AppCompatActivity() {
      */
     private fun startObserve() {
         mViewModel.uiState.observe(this, {
-            if (!it.isLoading) {
+            if (it.isLoading) {
+                onModelLoading(it)
+            } else {
                 if (it.isSuccess) {
                     onModelRefresh(it)
                 } else {
                     onModelError(it)
                 }
-            } else {
-                onModelLoading(it)
             }
             it.toast?.let { message -> showBar(message) }
         })
     }
 
-    open fun hideTopSpace() = false
-
     /**
      * 装载 TopBar
      */
     private fun setupTobBar() {
-        if (!hideTopSpace()) {
+        CUtils.setDarkMode(mActivity, isDarkStatusBar)
+
+        if (!isHideTopSpace) {
             // 设置状态栏透明主题时，布局整体会上移，所以给头部 View 设置 StatusBar 的高度
             commonTopSpace?.layoutParams?.height = VMDimen.statusBarHeight
         }
 
-        commonTopBar?.setCenter(centerTitle)
+        commonTopBar?.setCenter(isCenterTitle)
         commonTopBar?.setTitleStyle(R.style.AppText_Title)
         commonTopBar?.setIcon(R.drawable.ic_arrow_back)
         commonTopBar?.setIconListener { onBackPressed() }

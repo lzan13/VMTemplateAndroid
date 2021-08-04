@@ -34,6 +34,8 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  */
 @Route(path = AppRouter.appUserInfo)
 class UserInfoActivity : BVMActivity<UserInfoViewModel>() {
+    
+    override var isDarkStatusBar: Boolean = false
 
     @Autowired
     lateinit var user: User
@@ -50,7 +52,6 @@ class UserInfoActivity : BVMActivity<UserInfoViewModel>() {
 
     override fun initUI() {
         super.initUI()
-        CUtils.setDarkMode(this, false)
 
         tabTopSpaceView.layoutParams.height = VMDimen.dp2px(48) + VMDimen.statusBarHeight
         setTopTitleColor(R.color.app_title_display)

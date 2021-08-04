@@ -15,7 +15,8 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <!--设置状态栏颜色-->
         <item name="android:statusBarColor">@color/app_primary</item>
-
+        <!--设置界面切换动画-->
+        <item name="android:windowAnimationStyle">@style/animActivitySlide</item>
     </style>
 
     <!--Display主题-->
@@ -45,6 +46,30 @@
         <item name="android:backgroundDimEnabled">false</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
+    <!--侧滑动画-->
+    <style name="animActivitySlide" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/activity_slide_open_enter</item>
+        <item name="android:activityOpenExitAnimation">@anim/activity_slide_open_exit</item>
+        <item name="android:activityCloseEnterAnimation">@anim/activity_slide_close_enter</item>
+        <item name="android:activityCloseExitAnimation">@anim/activity_slide_close_exit</item>
+
+        <item name="android:taskOpenEnterAnimation">@anim/activity_slide_open_enter</item>
+        <item name="android:taskOpenExitAnimation">@anim/activity_slide_open_exit</item>
+        <item name="android:taskCloseEnterAnimation">@anim/activity_slide_close_enter</item>
+        <item name="android:taskCloseExitAnimation">@anim/activity_slide_close_exit</item>
+    </style>
+    <!--渐变动画-->
+    <style name="animActivityFade" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/activity_fade_open_enter</item>
+        <item name="android:activityOpenExitAnimation">@anim/activity_fade_open_exit</item>
+        <item name="android:activityCloseEnterAnimation">@anim/activity_fade_close_enter</item>
+        <item name="android:activityCloseExitAnimation">@anim/activity_fade_close_exit</item>
+
+        <item name="android:taskOpenEnterAnimation">@anim/activity_fade_open_enter</item>
+        <item name="android:taskOpenExitAnimation">@anim/activity_fade_open_exit</item>
+        <item name="android:taskCloseEnterAnimation">@anim/activity_fade_close_enter</item>
+        <item name="android:taskCloseExitAnimation">@anim/activity_fade_close_exit</item>
+    </style>
 
     <!--文本样式 start-->
     <!--标题样式-欢迎标题-->
@@ -57,6 +82,7 @@
     <style name="AppText.Title" parent="@style/VMText.Title">
         <item name="android:textColor">@color/app_title</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/vm_size_16</item>
     </style>
 
     <!--标题样式-副标题-->
@@ -123,9 +149,9 @@
         <item name="android:textColor">@color/app_input</item>
         <item name="android:textColorHint">@color/app_input_hint</item>
         <item name="android:paddingStart">@dimen/vm_padding_large</item>
-        <item name="android:paddingEnd">@dimen/vm_padding_large</item>
+        <item name="android:paddingEnd">@dimen/vm_dimen_12</item>
         <item name="android:paddingTop">@dimen/vm_dimen_12</item>
-        <item name="android:paddingBottom">@dimen/vm_dimen_12</item>
+        <item name="android:paddingBottom">@dimen/vm_padding_large</item>
         <item name="android:textStyle">normal</item>
     </style>
 
@@ -162,9 +188,8 @@
     </style>
     <!--按钮样式 end-->
 
-    <!--Spinner样式定义 start-->
     <style name="AppSpinner">
-        <!--设置弹窗背景为 系统设置的 应用主色调 在application 的colorPrimary 中配置的颜色, actionBar toolbar 默认使用这个为背景颜色-->
+        <!--设置弹窗背景为 系统设置的 应用主色调 在application 的colorPrimay 中配置的颜色, actionBar toolbar 默认使用这个为背景颜色-->
         <item name="android:popupBackground">?attr/colorPrimary</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
@@ -191,6 +216,4 @@
         <item name="android:textColor">@color/app_title</item>
         <item name="android:textSize">@dimen/vm_size_14</item>
     </style>
-    <!--Spinner样式定义 end-->
-
 </resources>

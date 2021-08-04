@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 
 import com.vmloft.develop.library.common.R
 import com.vmloft.develop.library.common.report.ReportManager
+import com.vmloft.develop.library.common.utils.CUtils
 import com.vmloft.develop.library.common.utils.errorBar
 import com.vmloft.develop.library.common.utils.showBar
 import com.vmloft.develop.library.common.widget.CommonDialog
@@ -28,7 +29,10 @@ abstract class BVMFragment<VM : BViewModel> : Fragment() {
     protected var mDialog: CommonDialog? = null
 
     // 是否居中显示标题
-    open var centerTitle: Boolean = false
+    open var isCenterTitle: Boolean = false
+
+    // 是否设置黑色状态栏
+    open var isDarkStatusBar: Boolean = true
 
     protected lateinit var mBinding: ViewDataBinding
     protected lateinit var mViewModel: VM
@@ -70,6 +74,7 @@ abstract class BVMFragment<VM : BViewModel> : Fragment() {
         if (hidden) {
             ReportManager.reportPageEnd(this.javaClass.simpleName)
         } else {
+            CUtils.setDarkMode(requireActivity(), isDarkStatusBar)
             ReportManager.reportPageStart(this.javaClass.simpleName)
         }
     }
@@ -124,10 +129,12 @@ abstract class BVMFragment<VM : BViewModel> : Fragment() {
      * 装载 TopBar
      */
     private fun setupTobBar() {
+        CUtils.setDarkMode(requireActivity(), isDarkStatusBar)
+
         // 设置状态栏透明主题时，布局整体会上移，所以给头部 View 设置 StatusBar 的高度
         commonTopSpace?.layoutParams?.height = VMDimen.statusBarHeight
 
-        commonTopBar?.setCenter(centerTitle)
+        commonTopBar?.setCenter(isCenterTitle)
         commonTopBar?.setTitleStyle(R.style.AppText_Title)
     }
 
