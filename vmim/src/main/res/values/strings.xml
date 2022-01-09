@@ -113,7 +113,7 @@
     <string name="im_fast_busy">对方正忙，重新匹配一个试试吧😫</string>
     <string name="im_fast_reject">对方拒绝了你的申请，重新匹配一个试试吧😅</string>
     <string name="im_fast_exit">退出将结束聊天，确定不再聊会了吗？🤔</string>
-    <string name="im_fast_end">聊天已结束，互有好感的话去对方主页打个招呼吧😁</string>
+    <string name="im_fast_end">聊天已结束，对对方有好感的话可以去对方主页看看😁</string>
 
     <!--聊天房-->
     <string name="im_room_destroyed">房间已被房主销毁，请退出选择加入其它房间</string>

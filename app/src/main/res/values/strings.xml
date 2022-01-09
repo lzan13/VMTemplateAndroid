@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">社交模板</string>
+    <string name="app_name">忘忧</string>
 
     <!--引导-->
     <string name="guide_prev">上一步</string>
@@ -40,10 +40,10 @@
     <string name="match_room">解忧房</string>
     <string name="match_room_desc">来房间吹吹水\n和房友聊聊天吧</string>
 
-    <string name="match_secret">秘密枯井</string>
-    <string name="match_secret_desc">内心的秘密\n让它永藏井底吧</string>
+    <string name="match_secret">秘密树洞</string>
+    <string name="match_secret_desc">内心的秘密\n来告诉树洞吧</string>
 
-    <string name="match_wish">愿望古树</string>
+    <string name="match_wish">心愿古树</string>
     <string name="match_wish_desc">许个愿吧\n万一实现了呢</string>
 
     <string name="filter_gender_title">匹配过滤</string>
@@ -66,10 +66,13 @@
     <string name="qr_mine_tips">扫描上面二维码，加我好友</string>
 
     <!--发布-->
-    <string name="publish_title">发布内容</string>
-    <string name="publish_success_hint">内容发布成功</string>
-    <string name="publish_content_hint">内容须在 1-800 之间，维护健康环境，需要你我同行</string>
-    <string name="post_title">内容详情</string>
+    <string name="post_create_title">发布内容</string>
+    <string name="post_success_hint">内容发布成功</string>
+    <string name="post_content_hint">留下一个脚印👣 分享这一刻的心情 ~ </string>
+    <string name="post_content_limit_hint">内容须在 1-800 之间，维护健康环境，需要你我同行 😋</string>
+    <string name="post_detail_title">内容详情</string>
+    <string name="post_comment_hint">喜欢就留下你的脚印 👣 </string>
+    <string name="post_comment_limit_hint">内容须在 1-64 之间，维护健康环境，需要你我同行 😋</string>
 
     <!--房间-->
     <string name="room_list">房间大厅</string>
@@ -102,9 +105,17 @@
     <string name="feedback_contact_hint">留下联系方式更容易解决问题和实现你的功能建议~</string>
     <string name="feedback_content">请输入问题或意见内容~（必填）</string>
     <string name="feedback_content_hint">辛苦详细描述下遇到的问题，或者你这边比较好的建议</string>
-    <string name="feedback_screenshot_hint">截图更方面我们定位问题，如果你这边能抓取到问题截图，辛苦上传给我们</string>
+    <string name="feedback_screenshot_hint">截图更有助于我们解决问题</string>
     <string name="feedback_submit_hint">反馈内容已提交，感谢</string>
 
+    <string name="feedback_type_opinion">意见建议</string>
+    <string name="feedback_type_ads">广告引流</string>
+    <string name="feedback_type_sensitivity">政治敏感</string>
+    <string name="feedback_type_pornVulgar">色情低俗</string>
+    <string name="feedback_type_violence">血腥暴力</string>
+    <string name="feedback_type_uncivilized">不文明</string>
+    <string name="feedback_type_fraud">涉嫌诈骗</string>
+    <string name="feedback_type_other">其它</string>
 
     <string name="version_check">检查更新</string>
     <string name="version_skip">暂不升级</string>
@@ -151,10 +162,10 @@
     <string name="info_cover">封面图</string>
     <string name="info_avatar">头像</string>
     <string name="info_username">用户名</string>
-    <string name="info_username_hint">用户名必须唯一，且只能设置一次，4-16个字符，不能包含除 a-z A-Z 0-9 _ . 外的其它字符</string>
+    <string name="info_username_tips">用户名必须唯一，且只能设置一次，4-16个字符，不能包含除 a-z A-Z 0-9 _ . 外的其它字符</string>
     <string name="info_nickname">昵称</string>
     <string name="info_nickname_default">小透明</string>
-    <string name="info_nickname_hint">4-24字符，不包含特殊字符</string>
+    <string name="info_nickname_tips">昵称长度1-12字符，不能包含特殊字符</string>
     <string name="info_email">邮箱</string>
     <string name="info_bind_email">绑定邮箱</string>
     <string name="info_bind_email_tips">绑定邮箱需要进行验证，请输入正确邮箱，如果你已经绑定邮箱，之前的邮箱将失效</string>
@@ -173,6 +184,8 @@
     <string name="info_profession">职业</string>
     <string name="info_not_set">未设置</string>
 
+    <string name="info_guide_tips">请设置你的个性头像与昵称</string>
+
     <string name="info_gender_woman">女</string>
     <string name="info_gender_man">男</string>
     <string name="info_gender_unknow">神秘</string>
@@ -186,6 +199,51 @@
 
     <string name="info_perfect_hint">为了提高交流体验，请完善你的个人信息</string>
     <string name="info_perfect_gender_hint">性别一经设定不可修改！</string>
+    <string name="info_perfect_username_hint">用户名一经设定不可修改！</string>
+
+    <!--金币相关-->
+    <string name="gold_title">我的忘忧币</string>
+    <string name="gold_clock">签到</string>
+    <string name="gold_clock_count">累计签到 %d 天</string>
+    <string name="gold_clock_continuous_count">已连续签到 %d 天</string>
+    <string name="gold_clock_continuous_1">1天</string>
+    <string name="gold_clock_continuous_2">2天</string>
+    <string name="gold_clock_continuous_3">3天</string>
+    <string name="gold_clock_continuous_4">4天</string>
+    <string name="gold_clock_continuous_5">5天</string>
+    <string name="gold_clock_continuous_6">6天</string>
+    <string name="gold_clock_continuous_tips">连续签到有更多奖励哦~</string>
+    <string name="gold_clock_complete">已签到</string>
+    <string name="gold_recharge_title">忘忧币充值</string>
+    <string name="gold_recharge">去充值</string>
+
+    <string name="gold_desc">须知&amp;反馈</string>
+    <string name="gold_desc_h1">什么是忘忧币</string>
+    <string name="gold_desc_body1">忘忧币是仅限忘忧App内使用的虚拟币。</string>
+    <string name="gold_desc_h2">如何获得忘忧币</string>
+    <string name="gold_desc_body2">忘忧币可以通过每日签到、完成每日任务、充值等方式获取</string>
+    <string name="gold_desc_h3">如何使用忘忧币</string>
+    <string name="gold_desc_body3">忘忧币可用于匹配消耗、发布动态、后续的礼物答谢等虚拟服务或商品。</string>
+    <string name="gold_desc_h4">充值说明</string>
+    <string name="gold_desc_body4">1.当前仅支持微信支付和支付宝支付；\n2.用户确认购买后，将按照所选择的支付方式从对应的第三方支付账户付款扣费；\n3.忘忧币充值成功后，暂时不支持提现或者转赠他人；\n4.请不要通过任何非官方渠道(包括他人代充、店铺代充等)进行会员或忘忧币充值。非官方渠道充值存在账号被盗取、个人信息泄露、会员或忘忧币被官方回收等风险，请认准官方充值渠道，保护账号和财产安全~</string>
+    <string name="gold_desc_h5">支付遇到问题</string>
+    <string name="gold_desc_body5">如果显示充值成功(已经付费成功)，但忘忧币没有到账，可以先杀掉App进程再次进入，查看忘忧币是否有更新(有时候会有延迟哒，不要着急哦~)\n\n如果等了一段时间忘忧币还没有增加，请截图你的充值账单，反馈给我们，我们将尽快核查你的账单处理的哦~\n\n微信：进入【微信】>【我】>【支付】>【钱包】>【账单】> 找到与【忘忧 App】相关的那一条支付记录，进入【账单详情】截图 \n\n支付宝：进入【支付宝】>【我的】>【账单】> 找到与【忘忧 App】相关的那一条支付记录，进入【订单详情】截图    </string>
+    <string name="go_feedback">去反馈</string>
+
+    <!--订单相关-->
+    <string name="order_create">创建订单</string>
+    <string name="order_create_hint">温馨提示，请在自己经济能力范围内理性消费，在此感谢你对本应用的使用与信任</string>
+    <string name="order_detail">订单详情</string>
+    <string name="order_list">订单列表</string>
+    <string name="order_recharge">支付订单</string>
+    <string name="order_recharge_wechat">微信</string>
+    <string name="order_recharge_alipay">支付宝</string>
+    <string name="order_recharge_qr_tips">目前只能通过识别二维码进行付款，需手动截图保存，然后点击支付，会自动跳转到二维码扫描，点击右下角图片打开相册选择刚保存的二维码</string>
+    <string name="order_copy_price">复制金额</string>
+    <string name="order_copy_price_hint">订单金额已复制到剪切板，可在支付时快速输入</string>
+    <string name="order_status_0">待支付</string>
+    <string name="order_status_1">已支付</string>
+    <string name="order_status_2">已关闭</string>
 
     <!--注册登录-->
     <string name="sign_welcome_to_back">嗨，欢迎回来！</string>
@@ -216,17 +274,18 @@
     <string name="agreement_policy_hint">请阅读并同意《用户协议》与《隐私政策》</string>
     <string name="agreement_policy_dialog_title">用户协议与隐私政策</string>
     <string name="agreement_policy_dialog_content">欢迎使用忘忧\n
-        1.为了向您提供功能服务，我们会根据您使用服务的具体需要，收集必要的信息；\n
-        2.未经您授权，我们不会与第三方共享或对外提供您的信息；\n
-        3.您可以访问、更正、删除您的个人信息，我们也将提供注销和更正方式。\n
-        请您阅读完整版《用户协议》和《隐私政策》，点击「同意」即表示您已阅读并同意全部条款。</string>
+        1.为了向你提供功能服务，我们会根据你使用服务的具体需要，收集必要的信息；\n
+        2.未经你授权，我们不会与第三方共享或对外提供你的信息；\n
+        3.你可以访问、更正、删除你的个人信息，我们也将提供注销和更正方式。\n
+        请你阅读完整版《用户协议》和《隐私政策》，点击「同意」即表示你已阅读并同意全部条款。</string>
 
     <!--网络请求-->
     <string name="network_failed">请求失败，请稍后重试</string>
 
     <!--拼接资源-->
-    <string name="comment_count">条评论</string>
+    <string name="comment_count">%d 条评论</string>
     <string name="score">分</string>
+    <string name="money_unit">￥</string>
     <string name="album_count">+</string>
     <string name="publish_time">发布</string>
     <string name="category">分类</string>

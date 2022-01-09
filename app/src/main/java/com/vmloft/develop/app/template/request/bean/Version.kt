@@ -8,7 +8,7 @@ import kotlinx.android.parcel.Parcelize
 
 /**
  * Create by lzan13 on 2020/7/30 16:04
- * 描述：角色对象数据 Bean
+ * 描述：版本对象数据 Bean
  */
 @Parcelize
 @Entity
@@ -16,8 +16,8 @@ data class Version(
     @PrimaryKey
     @SerializedName("_id")
     val id: String = "",
-    val platform: String = "android",
-    val title: String = "暂无更新",
+    val platform: Int = 0,
+    val title: String = "版本升级",
     val desc: String = "暂无更新",
     val url: String = "",
     val versionCode: Int = 1,

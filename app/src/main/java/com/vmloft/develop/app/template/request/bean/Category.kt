@@ -6,8 +6,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 import com.google.gson.annotations.SerializedName
-
 import kotlinx.android.parcel.Parcelize
+
 
 /**
  * Create by lzan13 on 2020/7/30 16:12
@@ -18,7 +18,7 @@ import kotlinx.android.parcel.Parcelize
 data class Category(
     @PrimaryKey
     @SerializedName("_id")
-    val id: String,
+    val id: String = "",
     val title: String = "",
     val desc: String = "",
 ) : Parcelable {

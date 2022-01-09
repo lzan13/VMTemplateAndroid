@@ -3,6 +3,7 @@ package com.vmloft.develop.library.im.router
 import android.content.Intent
 
 import com.alibaba.android.arouter.launcher.ARouter
+import com.vmloft.develop.library.common.router.CRouter
 import com.vmloft.develop.library.im.common.IMConstants
 
 /**
@@ -20,11 +21,12 @@ object IMRouter {
      * 去聊天
      * @param chatType 聊天类型 0-单聊 1-群聊 2-聊天室
      */
-    fun goChat(chatId: String, chatType: Int = IMConstants.ChatType.imChatSingle) {
+    fun goChat(chatId: String, extend: String = "") {
         ARouter.getInstance().build(imChat)
             .withFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             .withString("chatId", chatId)
-            .withInt("chatType", chatType)
+            .withInt("chatType", IMConstants.ChatType.imChatSingle)
+            .withString("chatExtend", extend)
             .navigation()
     }
 
@@ -32,7 +34,7 @@ object IMRouter {
      * 跳转快速聊天
      * @param
      */
-    fun goChatFast(chatId: String, isApply:Boolean = false) {
+    fun goChatFast(chatId: String, isApply: Boolean = false) {
         ARouter.getInstance().build(imChatFast)
             .withFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             .withString("chatId", chatId)
@@ -44,11 +46,12 @@ object IMRouter {
      * 去聊天房间
      * @param type 跳转类型 0-单聊 1-群聊 2-聊天室
      */
-    fun goChatRoom(chatId: String, chatType: Int = IMConstants.ChatType.imChatRoom) {
+    fun goChatRoom(chatId: String, extend: String = "") {
         ARouter.getInstance().build(imChatRoom)
             .withFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             .withString("chatId", chatId)
-            .withInt("chatType", chatType)
+            .withInt("chatType", IMConstants.ChatType.imChatRoom)
+            .withString("chatExtend", extend)
             .navigation()
     }
 

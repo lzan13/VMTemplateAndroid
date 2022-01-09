@@ -1,6 +1,7 @@
 package com.vmloft.develop.app.template.ui.post
 
 import android.content.Context
+import android.net.Uri
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -26,15 +27,17 @@ import com.vmloft.develop.library.common.event.LDEventBus
 import com.vmloft.develop.library.common.image.IMGChoose
 import com.vmloft.develop.library.common.image.IMGLoader
 import com.vmloft.develop.app.template.report.ReportConstants
+import com.vmloft.develop.app.template.request.bean.Post
+import com.vmloft.develop.app.template.request.viewmodel.PostViewModel
+import com.vmloft.develop.library.common.common.PermissionManager
 import com.vmloft.develop.library.common.report.ReportManager
 import com.vmloft.develop.library.common.router.CRouter
+import com.vmloft.develop.library.common.utils.ViewUtils
 import com.vmloft.develop.library.common.utils.errorBar
 import com.vmloft.develop.library.common.utils.showBar
 import com.vmloft.develop.library.tools.utils.VMReg
 import com.vmloft.develop.library.tools.utils.VMStr
 import com.vmloft.develop.library.tools.utils.VMSystem
-
-import kotlinx.android.synthetic.main.activity_post_create.*
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -43,42 +46,43 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  * Create by lzan13 on 2020/8/07 07:10
  * 描述：发布界面
  */
-@Route(path = AppRouter.appPublish)
-class PostCreateActivity : BVMActivity<PostViewModel>() {
+@Route(path = AppRouter.appPostCreate)
+class PostCreateActivity : BVMActivity<ActivityPostCreateBinding, PostViewModel>() {
 
     private lateinit var mContent: String
     private lateinit var mCategory: Category
 
     private var picture: Any? = null
 
-    override fun initVM(): PostViewModel = getViewModel()
+    override fun initVB() = ActivityPostCreateBinding.inflate(layoutInflater)
 
-    override fun layoutId(): Int = R.layout.activity_post_create
+    override fun initVM(): PostViewModel = getViewModel()
 
     override fun initUI() {
         super.initUI()
-        (mBinding as ActivityPostCreateBinding).viewModel = mViewModel
-
-        setTopTitle(R.string.publish_title)
+        setTopTitle(R.string.post_create_title)
         setTopEndBtnEnable(false)
         setTopEndBtnListener(VMStr.byRes(R.string.btn_publish)) { planSubmit() }
 
-        publishPictureBtn.setOnClickListener {
-            IMGChoose.singlePicture(this) {
-                picture = it
-                publishPictureBtn.visibility = View.GONE
-                IMGLoader.loadCover(publishPictureIV, picture, true, 8)
+        mBinding.pictureAddIV.setOnClickListener {
+            // 必须有读写存储权限才能选择图片
+            if (PermissionManager.storagePermission(this)) {
+                IMGChoose.singlePicture(this) {
+                    picture = it
+                    mBinding.pictureAddIV.visibility = View.GONE
+                    IMGLoader.loadCover(mBinding.pictureIV, picture, true, 8)
+                }
             }
         }
-        publishPictureIV.setOnClickListener {
+        mBinding.pictureIV.setOnClickListener {
             CRouter.goDisplaySingle(picture.toString())
         }
-        publishPictureCloseIV.setOnClickListener {
+        mBinding.pictureCloseIV.setOnClickListener {
             picture = null
-            publishPictureBtn.visibility = View.VISIBLE
+            mBinding.pictureAddIV.visibility = View.VISIBLE
         }
         // 监听输入框变化
-        publishContentET.addTextChangedListener(object : TextWatcher {
+        mBinding.publishContentET.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
 
@@ -102,8 +106,9 @@ class PostCreateActivity : BVMActivity<PostViewModel>() {
         } else if (model.type == "uploadPicture") {
             submit(model.data as Attachment)
         } else if (model.type == "createPost") {
-            showBar(R.string.publish_success_hint)
-            LDEventBus.post(Constants.createPostEvent, 0)
+            showBar(R.string.post_success_hint)
+            val post = model.data as Post
+            LDEventBus.post(Constants.createPostEvent, post)
             VMSystem.runInUIThread({ finish() }, CConstants.timeSecond)
         }
     }
@@ -125,6 +130,7 @@ class PostCreateActivity : BVMActivity<PostViewModel>() {
      * 准备
      */
     private fun planSubmit() {
+        ViewUtils.hideKeyboard(this, mBinding.root)
         if (picture == null) {
             submit(null)
         } else {
@@ -137,7 +143,7 @@ class PostCreateActivity : BVMActivity<PostViewModel>() {
      */
     private fun submit(attachment: Attachment?) {
         if (!VMReg.isCommonReg(mContent, "^[\\s\\S]{1,800}\$")) {
-            return errorBar(R.string.publish_content_hint)
+            return errorBar(R.string.post_content_limit_hint)
         }
         setTopEndBtnEnable(false)
 
@@ -164,9 +170,9 @@ class PostCreateActivity : BVMActivity<PostViewModel>() {
 
         val adapter = SpinnerAdapter(this, list)
 
-        publishCategorySpinner.adapter = adapter
-        publishCategorySpinner.setPopupBackgroundResource(R.drawable.shape_card_common_bg)
-        publishCategorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        mBinding.publishCategorySpinner.adapter = adapter
+        mBinding.publishCategorySpinner.setPopupBackgroundResource(R.drawable.shape_card_common_bg)
+        mBinding.publishCategorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

@@ -1,32 +1,34 @@
 package com.vmloft.develop.app.template.ui.post
 
-
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 
 import com.drakeet.multitype.MultiTypeAdapter
 
-import com.vmloft.develop.app.template.R
-import com.vmloft.develop.app.template.databinding.FragmentPostFallsBinding
+import com.vmloft.develop.app.template.databinding.FragmentCommonListBinding
 import com.vmloft.develop.library.common.request.RPaging
 import com.vmloft.develop.app.template.request.bean.Post
+import com.vmloft.develop.app.template.request.viewmodel.PostViewModel
 import com.vmloft.develop.app.template.router.AppRouter
+import com.vmloft.develop.library.common.base.BItemDelegate
 import com.vmloft.develop.library.common.base.BVMFragment
 import com.vmloft.develop.library.common.base.BViewModel
 import com.vmloft.develop.library.common.common.CConstants
-import com.vmloft.develop.library.common.widget.StaggeredItemDecoration
+import com.vmloft.develop.library.common.router.CRouter
+import com.vmloft.develop.library.common.ui.widget.decoration.StaggeredItemDecoration
 import com.vmloft.develop.library.tools.utils.VMDimen
-
-import kotlinx.android.synthetic.main.fragment_post_falls.*
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 /**
  * Create by lzan13 on 2020/05/02 11:54
- * 描述：展示指定用户发布的内容
+ * 描述：展示指定用户发布的帖子
  */
-class PostFallsFragment : BVMFragment<PostViewModel>() {
+class PostFallsFragment : BVMFragment<FragmentCommonListBinding, PostViewModel>() {
 
     private var page = CConstants.defaultPage
 
@@ -52,14 +54,12 @@ class PostFallsFragment : BVMFragment<PostViewModel>() {
         }
     }
 
-    override fun initVM(): PostViewModel = getViewModel()
+    override fun initVB(inflater: LayoutInflater, parent: ViewGroup?) = FragmentCommonListBinding.inflate(inflater, parent, false)
 
-    override fun layoutId() = R.layout.fragment_post_falls
+    override fun initVM(): PostViewModel = getViewModel()
 
     override fun initUI() {
         super.initUI()
-
-        (mBinding as FragmentPostFallsBinding).viewModel = mViewModel
 
         initRecyclerView()
     }
@@ -67,7 +67,7 @@ class PostFallsFragment : BVMFragment<PostViewModel>() {
     override fun initData() {
         userId = requireArguments().getString(argUserId) ?: ""
 
-        mViewModel.getPostList(userId)
+        mViewModel.postList(userId)
     }
 
     /**
@@ -76,27 +76,27 @@ class PostFallsFragment : BVMFragment<PostViewModel>() {
     private fun initRecyclerView() {
         mAdapter.register(ItemPostDelegate(object : ItemPostDelegate.PostItemListener {
             override fun onClick(v: View, data: Post, position: Int) {
-                AppRouter.goPostDetail(data)
+                CRouter.go(AppRouter.appPostDetails, obj0 =  data)
             }
 
             override fun onLikeClick(item: Post, position: Int) {
-                clickLike(item, position)
+                clickLikePost(item, position)
             }
         }))
 
         mAdapter.items = mItems
 
-        recyclerView.layoutManager = mLayoutManager
-        recyclerView.addItemDecoration(StaggeredItemDecoration(VMDimen.dp2px(8)))
-        recyclerView.adapter = mAdapter
+        mBinding.recyclerView.layoutManager = mLayoutManager
+        mBinding.recyclerView.addItemDecoration(StaggeredItemDecoration(VMDimen.dp2px(8)))
+        mBinding.recyclerView.adapter = mAdapter
         // 设置下拉刷新
-        refreshLayout.setOnRefreshListener {
-            refreshLayout.setNoMoreData(false)
+        mBinding.refreshLayout.setOnRefreshListener {
+            mBinding.refreshLayout.setNoMoreData(false)
             page = CConstants.defaultPage
-            mViewModel.getPostList(userId)
+            mViewModel.postList(userId)
         }
-        refreshLayout.setOnLoadMoreListener {
-            mViewModel.getPostList(userId, page++)
+        mBinding.refreshLayout.setOnLoadMoreListener {
+            mViewModel.postList(userId, page++)
         }
     }
 
@@ -112,7 +112,7 @@ class PostFallsFragment : BVMFragment<PostViewModel>() {
             mAdapter.notifyItemRangeInserted(position, count)
         }
         if (paging.currentCount + paging.page * paging.limit >= paging.totalCount) {
-            refreshLayout.setNoMoreData(true)
+            mBinding.refreshLayout.setNoMoreData(true)
         }
 
         // 空态检查
@@ -131,8 +131,15 @@ class PostFallsFragment : BVMFragment<PostViewModel>() {
                 hideEmptyView()
             }
         } else {
-            refreshLayout.visibility = View.GONE
+            mBinding.refreshLayout.visibility = View.GONE
             showEmptyFailed()
+        }
+    }
+
+    override fun onModelLoading(model: BViewModel.UIModel) {
+        if (!model.isLoading) {
+            mBinding.refreshLayout.finishRefresh()
+            mBinding.refreshLayout.finishLoadMore()
         }
     }
 
@@ -140,10 +147,6 @@ class PostFallsFragment : BVMFragment<PostViewModel>() {
      * 结果刷新
      */
     override fun onModelRefresh(model: BViewModel.UIModel) {
-        if (!model.isLoading) {
-            refreshLayout.finishRefresh()
-            refreshLayout.finishLoadMore()
-        }
         if (model.type == "postList") {
             refresh(model.data as RPaging<Post>)
         }
@@ -155,9 +158,9 @@ class PostFallsFragment : BVMFragment<PostViewModel>() {
     }
 
     /**
-     * 处理喜欢点击
+     * 处理点击喜欢帖子事件
      */
-    private fun clickLike(post: Post, position: Int) {
+    private fun clickLikePost(post: Post, position: Int) {
         post.isLike = !post.isLike
         if (post.isLike) {
             post.likeCount++

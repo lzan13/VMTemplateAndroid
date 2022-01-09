@@ -15,7 +15,7 @@ import kotlinx.android.parcel.Parcelize
 data class Profession(
     @PrimaryKey
     @SerializedName("_id")
-    val id: String,
+    val id: String="",
     val title: String = "",
     val desc: String = ""
 ) : Parcelable {

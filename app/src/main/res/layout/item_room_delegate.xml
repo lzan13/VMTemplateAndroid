@@ -1,121 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_card_common_bg"
+    tools:context="com.vmloft.develop.app.template.ui.room.ItemRoomDelegate">
 
-    <data>
-
-        <variable
-            name="data"
-            type="com.vmloft.develop.app.template.request.bean.Room" />
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.vmloft.develop.library.tools.widget.VMRatioLayout
+        android:id="@+id/itemRatioLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/shape_card_common_bg"
-        tools:context="com.vmloft.develop.library.im.com.vmloft.develop.app.template.ui.room.IMItemChatRoomDelegate">
+        android:layout_height="match_parent"
+        app:vm_layout_ratio="1">
 
-        <com.vmloft.develop.library.tools.widget.VMRatioLayout
-            android:id="@+id/itemRatioLayout"
+        <ImageView
+            android:id="@+id/roomCoverIV"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:vm_layout_ratio="1">
+            android:scaleType="centerCrop" />
 
-            <ImageView
-                android:id="@+id/roomCoverIV"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop" />
+        <View
+            android:id="@+id/roomCoverMask"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_card_common_bg" />
+    </com.vmloft.develop.library.tools.widget.VMRatioLayout>
 
-            <View
-                android:id="@+id/roomCoverMask"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/shape_card_common_bg" />
-        </com.vmloft.develop.library.tools.widget.VMRatioLayout>
+    <TextView
+        android:id="@+id/roomNameTV"
+        style="@style/AppText.Title"
+        android:layout_width="@dimen/vm_dimen_0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/vm_dimen_8"
+        android:layout_marginEnd="@dimen/vm_dimen_8"
+        android:layout_marginBottom="@dimen/vm_dimen_4"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textSize="@dimen/vm_size_14"
+        app:layout_constraintBottom_toTopOf="@+id/roomDescTV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="房间名称" />
 
-        <TextView
-            android:id="@+id/roomNameTV"
-            style="@style/AppText.Title"
-            android:layout_width="@dimen/vm_dimen_0"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/vm_dimen_8"
-            android:layout_marginEnd="@dimen/vm_dimen_8"
-            android:layout_marginBottom="@dimen/vm_dimen_4"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="@{data.title}"
-            android:textSize="@dimen/vm_size_14"
-            app:layout_constraintBottom_toTopOf="@+id/roomDescTV"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:text="房间名称" />
+    <TextView
+        android:id="@+id/roomDescTV"
+        style="@style/AppText.Subtitle"
+        android:layout_width="@dimen/vm_dimen_0"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/vm_dimen_8"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:textColor="@color/app_title"
+        android:textSize="@dimen/vm_size_12"
+        app:layout_constraintBottom_toTopOf="@+id/roomOwnerAvatarIV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="房间描述内容，最多两行" />
 
-        <TextView
-            android:id="@+id/roomDescTV"
-            style="@style/AppText.Subtitle"
-            android:layout_width="@dimen/vm_dimen_0"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/vm_dimen_8"
-            android:ellipsize="end"
-            android:maxLines="3"
-            android:text="@{data.desc}"
-            android:textColor="@color/app_title"
-            android:textSize="@dimen/vm_size_12"
-            app:layout_constraintBottom_toTopOf="@+id/roomOwnerAvatarIV"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:text="房间描述内容，最多两行" />
+    <ImageView
+        android:id="@+id/roomOwnerAvatarIV"
+        android:layout_width="@dimen/vm_dimen_36"
+        android:layout_height="@dimen/vm_dimen_36"
+        android:padding="@dimen/vm_dimen_8"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <ImageView
-            android:id="@+id/roomOwnerAvatarIV"
-            android:layout_width="@dimen/vm_dimen_36"
-            android:layout_height="@dimen/vm_dimen_36"
-            android:padding="@dimen/vm_dimen_8"
-            android:scaleType="centerCrop"
-            app:avatarUrl="@{data.owner.avatar}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+    <TextView
+        android:id="@+id/roomOwnerNameTV"
+        style="@style/AppText.Tips"
+        android:layout_width="@dimen/vm_dimen_0"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/app_title"
+        android:textSize="@dimen/vm_size_12"
+        app:layout_constraintBottom_toBottomOf="@+id/roomOwnerAvatarIV"
+        app:layout_constraintEnd_toStartOf="@+id/roomMemberIV"
+        app:layout_constraintStart_toEndOf="@+id/roomOwnerAvatarIV"
+        app:layout_constraintTop_toTopOf="@+id/roomOwnerAvatarIV"
+        tools:text="用户昵称" />
 
-        <TextView
-            android:id="@+id/roomOwnerNameTV"
-            style="@style/AppText.Tips"
-            android:layout_width="@dimen/vm_dimen_0"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="@{data.owner.nickname}"
-            android:textColor="@color/app_title"
-            android:textSize="@dimen/vm_size_12"
-            app:layout_constraintBottom_toBottomOf="@+id/roomOwnerAvatarIV"
-            app:layout_constraintEnd_toStartOf="@+id/roomMemberIV"
-            app:layout_constraintStart_toEndOf="@+id/roomOwnerAvatarIV"
-            app:layout_constraintTop_toTopOf="@+id/roomOwnerAvatarIV"
-            tools:text="用户昵称" />
+    <ImageView
+        android:id="@+id/roomMemberIV"
+        android:layout_width="@dimen/vm_dimen_36"
+        android:layout_height="@dimen/vm_dimen_36"
+        android:padding="@dimen/vm_dimen_10"
+        android:src="@drawable/ic_fire"
+        app:layout_constraintBottom_toBottomOf="@+id/roomOwnerAvatarIV"
+        app:layout_constraintEnd_toStartOf="@+id/roomMemberTV"
+        app:layout_constraintTop_toTopOf="@+id/roomOwnerAvatarIV" />
 
-        <ImageView
-            android:id="@+id/roomMemberIV"
-            android:layout_width="@dimen/vm_dimen_36"
-            android:layout_height="@dimen/vm_dimen_36"
-            android:padding="@dimen/vm_dimen_10"
-            android:src="@drawable/ic_fire"
-            app:layout_constraintBottom_toBottomOf="@+id/roomOwnerAvatarIV"
-            app:layout_constraintEnd_toStartOf="@+id/roomMemberTV"
-            app:layout_constraintTop_toTopOf="@+id/roomOwnerAvatarIV" />
-
-        <TextView
-            android:id="@+id/roomMemberTV"
-            style="@style/AppText.Tips"
-            android:layout_width="@dimen/vm_dimen_0"
-            android:layout_marginEnd="@dimen/vm_dimen_8"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text='@{data.count + ""}'
-            android:textColor="@color/app_title"
-            app:layout_constraintBottom_toBottomOf="@+id/roomOwnerAvatarIV"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/roomOwnerAvatarIV"
-            tools:text="23" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</layout>
+    <TextView
+        android:id="@+id/roomMemberTV"
+        style="@style/AppText.Tips"
+        android:layout_width="@dimen/vm_dimen_0"
+        android:layout_marginEnd="@dimen/vm_dimen_8"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/app_title"
+        app:layout_constraintBottom_toBottomOf="@+id/roomOwnerAvatarIV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/roomOwnerAvatarIV"
+        tools:text="23" />
+</androidx.constraintlayout.widget.ConstraintLayout>

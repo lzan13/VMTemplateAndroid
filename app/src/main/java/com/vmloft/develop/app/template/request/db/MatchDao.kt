@@ -10,18 +10,20 @@ import com.vmloft.develop.app.template.request.bean.Match
  */
 @Dao
 interface MatchDao {
-
-    @Insert
+    /**
+     * 插入数据，如果已存在则会覆盖
+     */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(vararg match: Match)
 
     @Delete
     suspend fun delete(match: Match)
 
     @Query("DELETE FROM match")
-    fun delete()
+    suspend fun delete()
 
-    @Update
-    suspend fun update(match: Match)
+//    @Update
+//    suspend fun update(match: Match)
 
     @Query("SELECT * FROM match WHERE id = :id")
     suspend fun query(id: String): Match?

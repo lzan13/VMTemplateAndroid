@@ -6,14 +6,13 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 
-import com.vmloft.develop.library.common.base.BaseActivity
-import com.vmloft.develop.library.common.event.LDEventBus
-import com.vmloft.develop.library.common.widget.CommonDialog
+import com.vmloft.develop.library.common.base.BActivity
+import com.vmloft.develop.library.common.ui.widget.CommonDialog
 import com.vmloft.develop.library.im.IM
 import com.vmloft.develop.library.im.R
 import com.vmloft.develop.library.im.bean.IMRoom
-import com.vmloft.develop.library.im.chat.IMChatManager
 import com.vmloft.develop.library.im.common.IMConstants
+import com.vmloft.develop.library.im.databinding.ImActivityChatRoomBinding
 import com.vmloft.develop.library.im.router.IMRouter
 import com.vmloft.develop.library.tools.utils.VMSystem
 
@@ -23,7 +22,7 @@ import com.vmloft.develop.library.tools.utils.VMSystem
  * 聊天房间界面
  */
 @Route(path = IMRouter.imChatRoom)
-class IMChatRoomActivity : BaseActivity() {
+class IMChatRoomActivity : BActivity<ImActivityChatRoomBinding>() {
 
     @Autowired
     lateinit var chatId: String
@@ -37,7 +36,9 @@ class IMChatRoomActivity : BaseActivity() {
     lateinit var chatFragment: IMChatRoomFragment
     lateinit var roomFragment: IMRoomCallFragment
 
-    override fun layoutId() = R.layout.im_activity_chat_room
+    override var isHideTopSpace = true
+
+    override fun initVB()=ImActivityChatRoomBinding.inflate(layoutInflater)
 
     override fun initData() {
         ARouter.getInstance().inject(this)
@@ -81,8 +82,8 @@ class IMChatRoomActivity : BaseActivity() {
             dialog.setContent(R.string.im_room_not_exist_hint)
             dialog.setNegative("")
             dialog.setPositive(listener = {
-                // 退出聊天室
-                IMChatRoomManager.exitRoom(chatId)
+                // 聊天室销毁处理
+                IMChatRoomManager.roomDestroyed(chatId)
                 finish()
             })
             dialog.show()
@@ -104,8 +105,6 @@ class IMChatRoomActivity : BaseActivity() {
             dialog.show()
         }
     }
-
-    override fun hideTopSpace() = true
 
     /**
      * 重写父类的onNewIntent方法，防止打开两个聊天界面

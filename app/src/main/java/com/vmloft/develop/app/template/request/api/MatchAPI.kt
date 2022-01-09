@@ -13,9 +13,6 @@ import retrofit2.http.*
 interface MatchAPI {
 
     /**
-     * ------------------------------------ 匹配接口  ------------------------------------
-     */
-    /**
      * 提交匹配数据
      */
     @FormUrlEncoded
@@ -36,8 +33,9 @@ interface MatchAPI {
      * 获取匹配列表
      */
     @GET("v1/match")
-    suspend fun getMatchList(
+    suspend fun matchList(
         @Query("gender") gender: Int,
+        @Query("type") type: Int,
         @Query("page") page: Int,
         @Query("limit") limit: Int,
     ): RResponse<RPaging<Match>>
@@ -45,7 +43,10 @@ interface MatchAPI {
     /**
      * 随机获取一条匹配数据
      */
-    @GET("v1/match/one")
-    suspend fun getMatchOne(@Query("gender") type: Int): RResponse<Match>
+    @GET("v1/match/random")
+    suspend fun randomMatch(
+        @Query("gender") gender: Int,
+        @Query("type") type: Int,
+    ): RResponse<Match>
 
 }

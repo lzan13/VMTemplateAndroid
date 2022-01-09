@@ -126,8 +126,9 @@ object IMGLoader {
         isCircle: Boolean = true,
         isRadius: Boolean = false,
         radiusSize: Int = 4,
+        thumbExt: String = "!vt192",
     ) {
-        val options = Options(avatar, R.drawable.img_default_avatar, isCircle, isRadius, radiusSize)
+        val options = Options(avatar, R.drawable.img_default_avatar, isCircle, isRadius, radiusSize, thumbExt = thumbExt)
         load(options, iv)
     }
 
@@ -151,6 +152,7 @@ object IMGLoader {
         radiusBR: Int = 0,
         isBlur: Boolean = false,
         thumbnailUrl: String = "",
+        thumbExt: String = "!vt256",
         defaultResId: Int = R.drawable.img_default,
     ) {
         val options = Options(
@@ -163,7 +165,8 @@ object IMGLoader {
             radiusBL = radiusBL,
             radiusBR = radiusBR,
             isBlur = isBlur,
-            thumbnailUrl = thumbnailUrl
+            thumbnailUrl = thumbnailUrl,
+            thumbExt = thumbExt
         )
         load(options, iv)
     }
@@ -290,13 +293,11 @@ object IMGLoader {
      * 包装下图片加载属性
      */
     private fun wrapOptions(options: Options): Options {
-        if (options.res is String) {
-            if ((options.res as String).indexOf("/uploads/") == 0) {
-                options.res = CConstants.mediaHost() + options.res
-            } else if ((options.res as String).indexOf("file:///") == 0 || (options.res as String).indexOf("content:///") == 0) {
+        if (options.res is String && (options.res as String).indexOf("http") != 0) {
+            if ((options.res as String).indexOf("file:///") == 0 || (options.res as String).indexOf("content:///") == 0) {
                 options.res = Uri.parse(options.res as String)
-            }else if ((options.res as String).indexOf("/storage") == 0) {
-                options.res = Uri.parse(options.res as String)
+            } else if ((options.res as String).indexOf("/storage") != 0) {
+                options.res = CConstants.mediaHost() + options.res + options.thumbExt
             }
         }
         return options
@@ -307,7 +308,7 @@ object IMGLoader {
      */
     private fun wrapUrl(url: String): String {
         var wrapUrl = url
-        if (url.indexOf("/uploads/") == 0) {
+        if (url.indexOf("http") != 0) {
             wrapUrl = CConstants.mediaHost() + url
         }
         return wrapUrl
@@ -339,6 +340,8 @@ object IMGLoader {
 
         // 参考参数，防盗链使用
         var referer: String = "",
+        // 缩略图扩展，这里是通过图片服务器CDN进行处理的，需要和服务器对应
+        var thumbExt: String = "",
     )
 
 }

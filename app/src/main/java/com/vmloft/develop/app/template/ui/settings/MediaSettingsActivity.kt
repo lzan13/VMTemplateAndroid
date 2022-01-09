@@ -1,14 +1,16 @@
 package com.vmloft.develop.app.template.ui.settings
 
 import com.alibaba.android.arouter.facade.annotation.Route
+
 import com.vmloft.develop.app.template.R
+import com.vmloft.develop.app.template.databinding.ActivitySettingsMediaBinding
 import com.vmloft.develop.app.template.router.AppRouter
-import com.vmloft.develop.library.common.base.BaseActivity
+import com.vmloft.develop.library.common.base.BActivity
 import com.vmloft.develop.library.common.common.CConstants
 import com.vmloft.develop.library.common.common.CSPManager
 import com.vmloft.develop.library.common.utils.showBar
 import com.vmloft.develop.library.tools.utils.VMFile
-import kotlinx.android.synthetic.main.activity_settings_media.*
+
 import java.io.File
 
 /**
@@ -16,26 +18,26 @@ import java.io.File
  * 描述：图片资源设置
  */
 @Route(path = AppRouter.appSettingsMedia)
-class MediaSettingsActivity : BaseActivity() {
+class MediaSettingsActivity : BActivity<ActivitySettingsMediaBinding>() {
     // 缓存地址
     private val cachePath = "${VMFile.cachePath}${CConstants.cacheImageDir}"
 
-    override fun layoutId(): Int = R.layout.activity_settings_media
+    override fun initVB()=ActivitySettingsMediaBinding.inflate(layoutInflater)
 
     override fun initUI() {
         super.initUI()
         setTopTitle(R.string.settings_media)
 
-        pictureAutoLoadLV.setOnClickListener {
+        mBinding.pictureAutoLoadLV.setOnClickListener {
             CSPManager.setAutoLoad(!CSPManager.isAutoLoad())
-            pictureAutoLoadLV.isActivated = CSPManager.isAutoLoad()
+            mBinding.pictureAutoLoadLV.isActivated = CSPManager.isAutoLoad()
         }
 
-        pictureSaveDICMLV.setOnClickListener {
+        mBinding.pictureSaveDICMLV.setOnClickListener {
             CSPManager.setSaveDICM(!CSPManager.isSaveDICM())
-            pictureSaveDICMLV.isActivated = CSPManager.isSaveDICM()
+            mBinding.pictureSaveDICMLV.isActivated = CSPManager.isSaveDICM()
         }
-        pictureClearCacheLV.setOnClickListener {
+        mBinding.pictureClearCacheLV.setOnClickListener {
             VMFile.deleteFolder(cachePath, false)
             showBar(R.string.media_clear_toast)
             bindCache()
@@ -44,8 +46,8 @@ class MediaSettingsActivity : BaseActivity() {
     }
 
     override fun initData() {
-        pictureAutoLoadLV.isActivated = CSPManager.isAutoLoad()
-        pictureSaveDICMLV.isActivated = CSPManager.isSaveDICM()
+        mBinding.pictureAutoLoadLV.isActivated = CSPManager.isAutoLoad()
+        mBinding.pictureSaveDICMLV.isActivated = CSPManager.isSaveDICM()
 
         bindCache()
     }
@@ -53,7 +55,7 @@ class MediaSettingsActivity : BaseActivity() {
     private fun bindCache() {
         // 缓存大小
         var cacheStr = VMFile.formatSize(VMFile.getFolderSize(File(cachePath)))
-        pictureClearCacheLV.setCaption(cacheStr)
+        mBinding.pictureClearCacheLV.setCaption(cacheStr)
     }
 
 }

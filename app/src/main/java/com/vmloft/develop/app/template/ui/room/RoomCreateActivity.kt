@@ -14,12 +14,11 @@ import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.common.base.BVMActivity
 import com.vmloft.develop.library.common.base.BViewModel
 import com.vmloft.develop.app.template.report.ReportConstants
+import com.vmloft.develop.app.template.request.viewmodel.RoomViewModel
 import com.vmloft.develop.library.common.report.ReportManager
 import com.vmloft.develop.library.common.utils.errorBar
 import com.vmloft.develop.library.tools.utils.VMReg
 import com.vmloft.develop.library.tools.utils.VMStr
-
-import kotlinx.android.synthetic.main.activity_room_create.*
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -28,42 +27,41 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  * 描述：创建房间
  */
 @Route(path = AppRouter.appRoomCreate)
-class RoomCreateActivity : BVMActivity<RoomViewModel>() {
+class RoomCreateActivity : BVMActivity<ActivityRoomCreateBinding, RoomViewModel>() {
 
     var title: String = ""
     var desc: String = ""
 //    var welcome: String = ""
 
+    override fun initVB() = ActivityRoomCreateBinding.inflate(layoutInflater)
+
     override fun initVM(): RoomViewModel = getViewModel()
 
-    override fun layoutId(): Int = R.layout.activity_room_create
 
     override fun initUI() {
         super.initUI()
-        (mBinding as ActivityRoomCreateBinding).viewModel = mViewModel
-
         setTopTitle(R.string.room_create)
 
         setTopEndBtnEnable(false)
         setTopEndBtnListener(VMStr.byRes(R.string.btn_confirm)) { submit() }
 
-        roomTitleET.addTextChangedListener(object : TextWatcher {
+        mBinding.roomTitleET.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
 
             override fun afterTextChanged(s: Editable) {
                 title = s.toString().trim()
-                roomTitleCountTV.text = title.length.toString()
+                mBinding.roomTitleCountTV.text = title.length.toString()
                 verifyInputBox()
             }
         })
-        roomDescET.addTextChangedListener(object : TextWatcher {
+        mBinding.roomDescET.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
 
             override fun afterTextChanged(s: Editable) {
                 desc = s.toString().trim()
-                roomDescCountTV.text = desc.length.toString()
+                mBinding.roomDescCountTV.text = desc.length.toString()
                 verifyInputBox()
             }
         })

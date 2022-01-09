@@ -2,38 +2,34 @@ package com.vmloft.develop.library.im.fast
 
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.KeyEvent
+import android.text.method.ScrollingMovementMethod
 
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 
 import com.hyphenate.chat.EMMessage
+import com.vmloft.develop.library.common.base.BActivity
 
-import com.vmloft.develop.library.common.base.BaseActivity
-import com.vmloft.develop.library.common.base.BaseFragment
 import com.vmloft.develop.library.common.event.LDEventBus
 import com.vmloft.develop.library.common.image.IMGLoader
+import com.vmloft.develop.library.common.ui.widget.CommonDialog
 import com.vmloft.develop.library.common.utils.showBar
-import com.vmloft.develop.library.common.widget.CommonDialog
 import com.vmloft.develop.library.im.IM
 import com.vmloft.develop.library.im.R
 import com.vmloft.develop.library.im.bean.IMUser
 import com.vmloft.develop.library.im.common.IMConstants
+import com.vmloft.develop.library.im.databinding.ImActivityChatFastBinding
 import com.vmloft.develop.library.im.router.IMRouter
 import com.vmloft.develop.library.tools.utils.VMStr
 import com.vmloft.develop.library.tools.utils.logger.VMLog
 
-import kotlinx.android.synthetic.main.im_activity_chat_fast.*
-
-
 /**
  * Create on lzan13 on 2021/05/31 10:10
- *
- * 实时快速聊天界面，输入内容直接看到
+ * 描述：实时快速聊天界面，输入内容直接看到
  */
 @Route(path = IMRouter.imChatFast)
-class IMChatFastActivity : BaseActivity() {
+class IMChatFastActivity : BActivity<ImActivityChatFastBinding>() {
 
     @Autowired
     lateinit var chatId: String
@@ -45,9 +41,9 @@ class IMChatFastActivity : BaseActivity() {
     lateinit var mUser: IMUser
     lateinit var mSelfUser: IMUser
 
-    lateinit var chatFragment: BaseFragment
+    override var isHideTopSpace = true
 
-    override fun layoutId() = R.layout.im_activity_chat_fast
+    override fun initVB() = ImActivityChatFastBinding.inflate(layoutInflater)
 
     override fun initUI() {
         super.initUI()
@@ -63,7 +59,7 @@ class IMChatFastActivity : BaseActivity() {
                 // TODO 邀请的申请过不来这里的，通过入参判断是否显示申请对话框
             } else if (status == IMConstants.ChatFast.fastInputStatusAgree) {
                 showBar(R.string.im_fast_agree)
-                imChatFastContentET.isEnabled = true
+                mBinding.imChatFastContentET.isEnabled = true
             } else if (status == IMConstants.ChatFast.fastInputStatusReject || status == IMConstants.ChatFast.fastInputStatusBusy) {
                 showRejectOrBusyDialog(status)
             } else if (status == IMConstants.ChatFast.fastInputStatusContent) {
@@ -79,9 +75,10 @@ class IMChatFastActivity : BaseActivity() {
      * 设置输入框内容的监听
      */
     private fun initInputWatcher() {
-        imChatFastContentET.addTextChangedListener(object : TextWatcher {
+        mBinding.imChatFastContent1TV.movementMethod = ScrollingMovementMethod.getInstance()
+        mBinding.imChatFastContentET.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                VMLog.e("输入内容变化 $s start-$start count-$count after-$after")
+                VMLog.i("输入内容变化 $s start-$start count-$count after-$after")
             }
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
@@ -92,22 +89,20 @@ class IMChatFastActivity : BaseActivity() {
                 } else {
                     len = before
                 }
-                VMLog.e("输入内容变化 $s content-$content start-$start before-$before count-$count")
+                VMLog.i("输入内容变化 $s content-$content start-$start before-$before count-$count")
                 IMChatFastManager.sendFastSignal(chatId, IMConstants.ChatFast.fastInputStatusContent, content, len)
             }
 
-            override fun afterTextChanged(s: Editable) {
-                VMLog.e("输入内容变化 $s")
-            }
+            override fun afterTextChanged(s: Editable) {}
         })
-        imChatFastContentET.isFocusable = true
-        imChatFastContentET.isFocusableInTouchMode = true
-        imChatFastContentET.requestFocus()
-        imChatFastContentET.setOnClickListener {
-            if (imChatFastContentET.isEnabled) {
-                imChatFastContentET.requestFocus()
-                imChatFastContentET.text?.let { content -> imChatFastContentET.setSelection(content.length) }
-            }else{
+        mBinding.imChatFastContentET.isFocusable = true
+        mBinding.imChatFastContentET.isFocusableInTouchMode = true
+        mBinding.imChatFastContentET.requestFocus()
+        mBinding.imChatFastContentET.setOnClickListener {
+            if (mBinding.imChatFastContentET.isEnabled) {
+                mBinding.imChatFastContentET.requestFocus()
+                mBinding.imChatFastContentET.text?.let { content -> mBinding.imChatFastContentET.setSelection(content.length) }
+            } else {
                 showBar(R.string.im_fast_wait)
             }
         }
@@ -126,29 +121,27 @@ class IMChatFastActivity : BaseActivity() {
             showApplyDialog()
         } else {
             // 对方没有同意时不能发送消息
-            imChatFastContentET.isEnabled = false
+            mBinding.imChatFastContentET.isEnabled = false
             IMChatFastManager.sendFastSignal(chatId, IMConstants.ChatFast.fastInputStatusApply)
             showBar(R.string.im_fast_wait)
         }
     }
 
-    override fun hideTopSpace() = true
-
     private fun bindInfo() {
-        IMGLoader.loadAvatar(imChatFastAvatar1IV, mUser.avatar)
-        imChatFastName1TV.text = mUser.nickname ?: "小透明"
+        IMGLoader.loadAvatar(mBinding.imChatFastAvatar1IV, mUser.avatar)
+        mBinding.imChatFastName1TV.text = mUser.nickname ?: "小透明"
         when (mUser.gender) {
-            1 -> imChatFastGender1IV.setImageResource(R.drawable.ic_gender_man)
-            0 -> imChatFastGender1IV.setImageResource(R.drawable.ic_gender_woman)
-            else -> imChatFastGender1IV.setImageResource(R.drawable.ic_gender_man)
+            1 -> mBinding.imChatFastGender1IV.setImageResource(R.drawable.ic_gender_man)
+            0 -> mBinding.imChatFastGender1IV.setImageResource(R.drawable.ic_gender_woman)
+            else -> mBinding.imChatFastGender1IV.setImageResource(R.drawable.ic_gender_man)
         }
 
-        IMGLoader.loadAvatar(imChatFastAvatar2IV, mSelfUser.avatar)
-        imChatFastName2TV.text = mSelfUser.nickname ?: "小透明"
+        IMGLoader.loadAvatar(mBinding.imChatFastAvatar2IV, mSelfUser.avatar)
+        mBinding.imChatFastName2TV.text = mSelfUser.nickname ?: "小透明"
         when (mSelfUser.gender) {
-            1 -> imChatFastGender2IV.setImageResource(R.drawable.ic_gender_man)
-            0 -> imChatFastGender2IV.setImageResource(R.drawable.ic_gender_woman)
-            else -> imChatFastGender2IV.setImageResource(R.drawable.ic_gender_man)
+            1 -> mBinding.imChatFastGender2IV.setImageResource(R.drawable.ic_gender_man)
+            0 -> mBinding.imChatFastGender2IV.setImageResource(R.drawable.ic_gender_woman)
+            else -> mBinding.imChatFastGender2IV.setImageResource(R.drawable.ic_gender_man)
         }
     }
 
@@ -159,9 +152,9 @@ class IMChatFastActivity : BaseActivity() {
         val content = msg.getStringAttribute(IMConstants.ChatFast.msgAttrFastInputContent, "")
         val len = msg.getIntAttribute(IMConstants.ChatFast.msgAttrFastInputLen, 0)
         if (content.isNullOrEmpty()) {
-            imChatFastContent1TV.text = imChatFastContent1TV.text.substring(0, imChatFastContent1TV.text.length - len)
+            mBinding.imChatFastContent1TV.text = mBinding.imChatFastContent1TV.text.substring(0, mBinding.imChatFastContent1TV.text.length - len)
         } else {
-            imChatFastContent1TV.text = "${imChatFastContent1TV.text}$content"
+            mBinding.imChatFastContent1TV.text = "${mBinding.imChatFastContent1TV.text}$content"
         }
     }
 

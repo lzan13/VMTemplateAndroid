@@ -1,34 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
 
-    <data>
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg"
+    android:orientation="vertical"
+    tools:context=".ui.settings.SettingsActivity">
 
-        <variable
-            name="viewModel"
-            type="com.vmloft.develop.app.template.ui.settings.SettingsViewModel" />
-    </data>
+    <include layout="@layout/widget_common_top_bar" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/app_bg"
-        android:orientation="vertical"
-        tools:context=".ui.settings.SettingsActivity">
 
-        <include layout="@layout/widget_common_top_bar" />
-
-        <!--销毁账户-->
-        <com.vmloft.develop.library.tools.widget.VMLineView
-            android:id="@+id/settingsSignDestroyLV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/vm_dimen_8"
-            android:background="@color/app_bg_item"
-            app:vm_line_caption_color="@color/app_caption"
-            app:vm_line_description="@string/account_destroy_desc"
-            app:vm_line_title="@string/account_destroy"
-            app:vm_line_title_color="@color/app_main" />
-    </LinearLayout>
-</layout>
+    <!--销毁账户-->
+    <com.vmloft.develop.library.tools.widget.VMLineView
+        android:id="@+id/settingsSignDestroyLV"
+        style="@style/AppLVStyle.NoDecoration"
+        android:layout_marginTop="@dimen/vm_dimen_8"
+        app:vm_line_description="@string/account_destroy_desc"
+        app:vm_line_title="@string/account_destroy"
+        app:vm_line_title_color="@color/app_main" />
+</LinearLayout>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".ui.order.ItemOrderDelegate">
+
+    <TextView
+        android:id="@+id/orderTitleTV"
+        style="@style/AppText.Title"
+        android:layout_margin="@dimen/vm_dimen_16"
+        android:layout_marginStart="@dimen/vm_dimen_16"
+        android:layout_marginEnd="@dimen/vm_dimen_16"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="名字十二个字名字十二个字" />
+
+    <!--订单价格-->
+    <TextView
+        android:id="@+id/orderPriceTV"
+        style="@style/AppText.Body"
+        android:layout_marginTop="@dimen/vm_dimen_4"
+        android:layout_marginBottom="@dimen/vm_dimen_16"
+        android:textColor="@color/app_main"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/orderTitleTV"
+        app:layout_constraintTop_toBottomOf="@+id/orderTitleTV"
+        tools:text="￥128" />
+
+    <!--订单状态-->
+    <TextView
+        android:id="@+id/orderStatusTV"
+        style="@style/AppText.Tips"
+        android:layout_marginStart="@dimen/vm_dimen_8"
+        android:layout_marginEnd="@dimen/vm_dimen_16"
+        android:background="@drawable/shape_fillet_tips_bg"
+        android:paddingStart="@dimen/vm_dimen_8"
+        android:paddingTop="@dimen/vm_dimen_2"
+        android:paddingEnd="@dimen/vm_dimen_8"
+        android:paddingBottom="@dimen/vm_dimen_2"
+        app:layout_constraintBottom_toBottomOf="@+id/orderPriceTV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/orderPriceTV"
+        tools:text="待支付" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

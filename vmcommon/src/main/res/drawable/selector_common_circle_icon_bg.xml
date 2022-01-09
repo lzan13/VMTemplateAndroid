@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape android:dither="true" android:shape="oval">
+            <!--填充背景色-->
+            <solid android:color="@color/app_bg_transparent_dark" />
+        </shape>
+    </item>
+    <item>
+        <shape android:dither="true" android:shape="oval">
+            <!--填充背景色-->
+            <solid android:color="@color/app_bg_transparent_light" />
+        </shape>
+    </item>
+</selector>

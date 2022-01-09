@@ -13,7 +13,7 @@ import java.net.SocketTimeoutException
  * Create by lzan13 on 2020/02/14 15:35
  * 描述：数据请求基类
  */
-open abstract class BaseRepository {
+abstract class BaseRepository {
 
     suspend fun <T : Any> apiCall(call: suspend () -> RResponse<T>): RResponse<T> {
         return call.invoke()
@@ -34,7 +34,7 @@ open abstract class BaseRepository {
     ): RResult<T> {
         return coroutineScope {
             if (response.code != 0) {
-                if (response.code === 401) {
+                if (response.code == 401) {
                     // 401 错误表示未认证，或者 token 过期，需要重新登录
                     CRouter.goMain(1)
                 }

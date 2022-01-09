@@ -16,7 +16,7 @@ import kotlinx.android.parcel.Parcelize
 data class Clock(
     @PrimaryKey
     @SerializedName("_id")
-    val id: String,
+    val id: String ="",
     val userId: String = "",
     val createdAt: String = "",
 ) : Parcelable {

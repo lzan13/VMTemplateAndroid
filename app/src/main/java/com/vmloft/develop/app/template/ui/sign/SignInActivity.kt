@@ -8,6 +8,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.databinding.ActivitySignInBinding
+import com.vmloft.develop.app.template.request.viewmodel.SignViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.common.base.BVMActivity
 import com.vmloft.develop.library.common.base.BViewModel
@@ -22,7 +23,7 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  * 描述：登录界面
  */
 @Route(path = AppRouter.appSignIn)
-class SignInActivity : BVMActivity<SignViewModel>() {
+class SignInActivity : BVMActivity<ActivitySignInBinding, SignViewModel>() {
 
     private val fragmentKeys = arrayListOf("signInByPassword", "signInBySMS")
     private var currentIndex = 0
@@ -32,14 +33,12 @@ class SignInActivity : BVMActivity<SignViewModel>() {
     private lateinit var byPasswordFragment: SignInByPasswordFragment
     private lateinit var byCodeFragment: SignInByCodeFragment
 
-    override fun initVM(): SignViewModel = getViewModel()
+    override fun initVB() = ActivitySignInBinding.inflate(layoutInflater)
 
-    override fun layoutId(): Int = R.layout.activity_sign_in
+    override fun initVM(): SignViewModel = getViewModel()
 
     override fun initUI() {
         super.initUI()
-        (mBinding as ActivitySignInBinding).viewModel = mViewModel
-
         setTopTitle(R.string.sign_in)
         setTopEndBtnListener(VMStr.byRes(R.string.sign_to_sign_up)) { CRouter.go(AppRouter.appSignUp) }
 //        setTopEndBtnListener("验证码登录") {

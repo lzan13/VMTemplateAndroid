@@ -15,13 +15,14 @@ import kotlinx.android.parcel.Parcelize
 data class Match(
     @PrimaryKey
     @SerializedName("_id")
-    var id: String,
-    var user: User,
+    var id: String = "",
+    var user: User = User(),
+    var content: String = "", // 匹配内容
     var emotion: Int = 0, // 心情 0-开心 1-平淡 2-难过 3-愤怒
     var gender: Int = 2, // 性别 0-女 1-男 2-神秘
-    var content: String = "",
+    var type: Int = 0, // 类型 0-普通 1-急速聊天 2-心情树洞
     var createdAt: String = "",
 
-    var filterGender: Int = -1, // 过滤方式，这个只是自己本地过滤配置
+    var filterGender: Int = 2, // 过滤方式，这个只是自己本地过滤配置
 ) : Parcelable {
 }

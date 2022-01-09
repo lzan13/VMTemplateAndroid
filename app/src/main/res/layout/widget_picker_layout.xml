@@ -72,7 +72,7 @@
             app:wheel_item_text_size="@dimen/vm_size_18"
             app:wheel_selected_item_text_color="@color/app_main" />
 
-        <com.vmloft.develop.library.common.widget.CAreaPicker
+        <com.vmloft.develop.library.common.ui.widget.CAreaPicker
             android:id="@+id/pickerAreaView"
             android:layout_width="match_parent"
             android:layout_height="@dimen/vm_dimen_256"

@@ -3,39 +3,35 @@ package com.vmloft.develop.app.template.ui.settings
 import com.alibaba.android.arouter.facade.annotation.Route
 
 import com.vmloft.develop.app.template.R
+import com.vmloft.develop.app.template.databinding.ActivitySettingsBinding
 import com.vmloft.develop.app.template.router.AppRouter
-import com.vmloft.develop.library.common.base.BaseActivity
+import com.vmloft.develop.library.common.base.BActivity
 import com.vmloft.develop.library.common.router.CRouter
-import com.vmloft.develop.library.common.widget.CommonDialog
-
-import kotlinx.android.synthetic.main.activity_settings.*
-
-
+import com.vmloft.develop.library.common.ui.widget.CommonDialog
 
 /**
  * Create by lzan13 on 2020/06/07 21:06
  * 描述：设置
  */
 @Route(path = AppRouter.appSettings)
-class SettingsActivity : BaseActivity() {
+class SettingsActivity : BActivity<ActivitySettingsBinding>() {
 
-
-    override fun layoutId(): Int = R.layout.activity_settings
+    override fun initVB()=ActivitySettingsBinding.inflate(layoutInflater)
 
     override fun initUI() {
         super.initUI()
 
         setTopTitle(R.string.settings)
 
-        settingsAccountSecurityLV.setOnClickListener { CRouter.go(AppRouter.appSettingsAccountSecurity) }
+        mBinding.settingsAccountSecurityLV.setOnClickListener { CRouter.go(AppRouter.appSettingsAccountSecurity) }
 
-        settingsDarkLV.setOnClickListener { CRouter.go(AppRouter.appSettingsDark) }
+        mBinding.settingsDarkLV.setOnClickListener { CRouter.go(AppRouter.appSettingsDark) }
 
-        settingsNotifyLV.setOnClickListener { CRouter.go(AppRouter.appSettingsNotify) }
-        settingsPictureLV.setOnClickListener { CRouter.go(AppRouter.appSettingsMedia) }
-        settingsAboutLV.setOnClickListener { CRouter.go(AppRouter.appSettingsAbout) }
+        mBinding.settingsNotifyLV.setOnClickListener { CRouter.go(AppRouter.appSettingsNotify) }
+        mBinding.settingsPictureLV.setOnClickListener { CRouter.go(AppRouter.appSettingsMedia) }
+        mBinding.settingsAboutLV.setOnClickListener { CRouter.go(AppRouter.appSettingsAbout) }
 
-        settingsSignOutLV.setOnClickListener { showSignOut() }
+        mBinding.settingsSignOutLV.setOnClickListener { showSignOut() }
     }
 
     override fun initData() {

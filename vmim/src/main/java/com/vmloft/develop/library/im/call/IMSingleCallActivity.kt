@@ -8,7 +8,7 @@ import com.alibaba.android.arouter.launcher.ARouter
 
 import com.hyphenate.chat.EMMessage
 
-import com.vmloft.develop.library.common.base.BaseActivity
+import com.vmloft.develop.library.common.base.BActivity
 import com.vmloft.develop.library.common.event.LDEventBus
 import com.vmloft.develop.library.common.image.IMGLoader
 import com.vmloft.develop.library.common.utils.showBar
@@ -16,6 +16,7 @@ import com.vmloft.develop.library.im.IM
 import com.vmloft.develop.library.im.R
 import com.vmloft.develop.library.im.bean.IMUser
 import com.vmloft.develop.library.im.common.IMConstants
+import com.vmloft.develop.library.im.databinding.ImActivitySingleCallBinding
 import com.vmloft.develop.library.im.router.IMRouter
 import com.vmloft.develop.library.tools.utils.logger.VMLog
 
@@ -23,16 +24,12 @@ import io.agora.rtc.Constants
 import io.agora.rtc.IRtcEngineEventHandler
 import io.agora.rtc.RtcEngine
 
-import kotlinx.android.synthetic.main.im_activity_single_call.*
-
-
 /**
  * Create on lzan13 on 2021/05/23 10:10
- *
  * 描述：1V1通话界面
  */
 @Route(path = IMRouter.imSingleCall)
-class IMSingleCallActivity : BaseActivity() {
+class IMSingleCallActivity : BActivity<ImActivitySingleCallBinding>() {
 
     @Autowired
     lateinit var callId: String
@@ -51,7 +48,7 @@ class IMSingleCallActivity : BaseActivity() {
     // 通话对方用户信息
     lateinit var user: IMUser
 
-    override fun layoutId() = R.layout.im_activity_single_call
+    override fun initVB() = ImActivitySingleCallBinding.inflate(layoutInflater)
 
     override fun initUI() {
         super.initUI()
@@ -59,37 +56,37 @@ class IMSingleCallActivity : BaseActivity() {
         initRtcEngine()
 
         // 变声彩蛋
-        imCallMicBtn.setOnLongClickListener {
-            imCallVoiceEffectLL.visibility = View.VISIBLE
+        mBinding.imCallMicBtn.setOnLongClickListener {
+            mBinding.imCallVoiceEffectLL.visibility = View.VISIBLE
             true
         }
         // 设置人声变声效果
-        imCallVoiceEffectIV0.setOnClickListener { view -> setVoiceEffect(view, 0) }
-        imCallVoiceEffectIV1.setOnClickListener { view -> setVoiceEffect(view, 1) }
-        imCallVoiceEffectIV2.setOnClickListener { view -> setVoiceEffect(view, 2) }
-        imCallVoiceEffectIV3.setOnClickListener { view -> setVoiceEffect(view, 3) }
-        imCallVoiceEffectIV4.setOnClickListener { view -> setVoiceEffect(view, 4) }
+        mBinding.imCallVoiceEffectIV0.setOnClickListener { view -> setVoiceEffect(view, 0) }
+        mBinding.imCallVoiceEffectIV1.setOnClickListener { view -> setVoiceEffect(view, 1) }
+        mBinding.imCallVoiceEffectIV2.setOnClickListener { view -> setVoiceEffect(view, 2) }
+        mBinding.imCallVoiceEffectIV3.setOnClickListener { view -> setVoiceEffect(view, 3) }
+        mBinding.imCallVoiceEffectIV4.setOnClickListener { view -> setVoiceEffect(view, 4) }
 
         // 设置麦克风点击事件
-        imCallMicBtn.setOnClickListener {
-            imCallMicBtn.isSelected = !imCallMicBtn.isSelected
-            IMCallManager.setMuteEnable(rtcEngine, !imCallMicBtn.isSelected)
+        mBinding.imCallMicBtn.setOnClickListener {
+            mBinding.imCallMicBtn.isSelected = !mBinding.imCallMicBtn.isSelected
+            IMCallManager.setMuteEnable(rtcEngine, !mBinding.imCallMicBtn.isSelected)
         }
         // 设置扬声器点击事件
-        imCallSpeakerBtn.setOnClickListener {
-            imCallSpeakerBtn.isSelected = !imCallSpeakerBtn.isSelected
-            IMCallManager.setMuteEnable(rtcEngine, imCallSpeakerBtn.isSelected)
+        mBinding.imCallSpeakerBtn.setOnClickListener {
+            mBinding.imCallSpeakerBtn.isSelected = !mBinding.imCallSpeakerBtn.isSelected
+            IMCallManager.setMuteEnable(rtcEngine, mBinding.imCallSpeakerBtn.isSelected)
         }
 
         // 自己点击接听，然后加入频道
-        imCallAnswerBtn.setOnClickListener {
-            imCallAnswerBtn.visibility = View.GONE
-            imCallStatusTV.setText(R.string.im_call_accepted)
+        mBinding.imCallAnswerBtn.setOnClickListener {
+            mBinding.imCallAnswerBtn.visibility = View.GONE
+            mBinding.imCallStatusTV.setText(R.string.im_call_accepted)
             IMCallManager.sendCallSignal(callId, IMConstants.Call.callStatusAgree)
             joinChannel()
         }
         // 挂断按钮，根据通话状态调用不同操作
-        imCallEndBtn.setOnClickListener {
+        mBinding.imCallEndBtn.setOnClickListener {
             if (IMCallManager.callStatus == IMConstants.Call.callStatusApply) {
                 IMCallManager.sendCallSignal(callId, IMConstants.Call.callStatusReject)
                 finish()
@@ -101,17 +98,17 @@ class IMSingleCallActivity : BaseActivity() {
         }
 
         // 默认开启麦克风和扬声器
-        imCallMicBtn.isSelected = !IMCallManager.isMute
-        imCallSpeakerBtn.isSelected = IMCallManager.isSpeaker
+        mBinding.imCallMicBtn.isSelected = !IMCallManager.isMute
+        mBinding.imCallSpeakerBtn.isSelected = IMCallManager.isSpeaker
 
-        IMCallManager.setMuteEnable(rtcEngine, !imCallMicBtn.isSelected)
-        IMCallManager.setSpeakerEnable(rtcEngine, imCallSpeakerBtn.isSelected)
+        IMCallManager.setMuteEnable(rtcEngine, !mBinding.imCallMicBtn.isSelected)
+        IMCallManager.setSpeakerEnable(rtcEngine, mBinding.imCallSpeakerBtn.isSelected)
 
         // 监听通话信令
         LDEventBus.observe(this, IMConstants.Call.cmdCallStatusEvent, EMMessage::class.java) {
             val status = it.getIntAttribute(IMConstants.Call.msgAttrCallStatus)
             if (status == IMConstants.Call.callStatusAgree) {
-                imCallStatusTV.setText(R.string.im_call_accepted)
+                mBinding.imCallStatusTV.setText(R.string.im_call_accepted)
                 // 对方接听后，这边同步加入频道
                 joinChannel()
             } else if (status == IMConstants.Call.callStatusReject || status == IMConstants.Call.callStatusBusy) {
@@ -122,7 +119,7 @@ class IMSingleCallActivity : BaseActivity() {
             }
         }
         LDEventBus.observe(this, IMConstants.Call.callTimeEvent, Int::class.java) {
-            imCallTimeTV.text = IMCallManager.getCallTime()
+            mBinding.imCallTimeTV.text = IMCallManager.getCallTime()
         }
     }
 
@@ -152,15 +149,15 @@ class IMSingleCallActivity : BaseActivity() {
      */
     private fun bindInfo() {
         // 加载用户信息
-        IMGLoader.loadCover(imCallCoverIV, user.avatar, isBlur = true)
-        IMGLoader.loadAvatar(imCallAvatarIV, user.avatar)
-        imCallNameTV.text = if (user.nickname.isNullOrEmpty()) "小透明" else user.nickname
+        IMGLoader.loadCover(mBinding.imCallCoverIV, user.avatar, isBlur = true)
+        IMGLoader.loadAvatar(mBinding.imCallAvatarIV, user.avatar)
+        mBinding.imCallNameTV.text = if (user.nickname.isNullOrEmpty()) "小透明" else user.nickname
 
-        imCallAnswerBtn.visibility = if (isInComingCall) View.VISIBLE else View.GONE
+        mBinding.imCallAnswerBtn.visibility = if (isInComingCall) View.VISIBLE else View.GONE
         if (isInComingCall) {
-            imCallStatusTV.setText(R.string.im_call_incoming)
+            mBinding.imCallStatusTV.setText(R.string.im_call_incoming)
         } else {
-            imCallStatusTV.setText(R.string.im_call_out_wait)
+            mBinding.imCallStatusTV.setText(R.string.im_call_out_wait)
         }
     }
 

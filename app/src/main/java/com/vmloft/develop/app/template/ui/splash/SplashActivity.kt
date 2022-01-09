@@ -1,21 +1,22 @@
 package com.vmloft.develop.app.template.ui.splash
 
-import com.vmloft.develop.app.template.R
+import com.vmloft.develop.app.template.app.App
 import com.vmloft.develop.app.template.common.SPManager
 import com.vmloft.develop.app.template.common.SignManager
+import com.vmloft.develop.app.template.databinding.ActivitySplashBinding
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.app.template.ui.widget.AgreementPolicyDialog
-import com.vmloft.develop.library.common.base.BaseActivity
+import com.vmloft.develop.library.common.base.BActivity
+import com.vmloft.develop.library.common.report.ReportManager
 import com.vmloft.develop.library.common.router.CRouter
-import kotlin.system.exitProcess
 
 /**
  * Create by lzan13 2021/5/17
  * 描述：闪屏页，做承接调整用
  */
-class SplashActivity : BaseActivity() {
+class SplashActivity : BActivity<ActivitySplashBinding>() {
 
-    override fun layoutId(): Int = R.layout.activity_splash
+    override fun initVB() = ActivitySplashBinding.inflate(layoutInflater)
 
     override fun initUI() {
         super.initUI()
@@ -49,6 +50,7 @@ class SplashActivity : BaseActivity() {
             }
             dialog.setPositive("同意") {
                 SPManager.setAgreementPolicy()
+                ReportManager.init(App.appContext)
                 jump()
             }
             dialog.show()

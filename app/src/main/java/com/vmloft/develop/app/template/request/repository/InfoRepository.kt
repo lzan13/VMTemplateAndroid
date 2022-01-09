@@ -18,101 +18,84 @@ class InfoRepository : BaseRepository() {
      * 更新用户名
      */
     suspend fun updateUsername(username: String): RResult<User> {
-        return safeRequest(call = { requestUpdateUsername(username) })
+        return safeRequest { executeResponse(APIRequest.userInfoAPI.updateUsername(username)) }
     }
 
-    private suspend fun requestUpdateUsername(username: String): RResult<User> =
-        executeResponse(APIRequest.userInfoAPI.updateUsername(username))
+    /**
+     * 更新头像
+     */
+    suspend fun updateAvatar(body: MultipartBody): RResult<User> {
+        return safeRequest { executeResponse(APIRequest.userInfoAPI.updateAvatar(body)) }
+    }
+
+    /**
+     * 更新封面
+     */
+    suspend fun updateCover(body: MultipartBody): RResult<User> {
+        return safeRequest { executeResponse(APIRequest.userInfoAPI.updateCover(body)) }
+    }
 
     /**
      * 更新用户信息
      */
     suspend fun updateInfo(body: RequestBody): RResult<User> {
-        return safeRequest(call = { requestUpdateInfo(body) })
+        return safeRequest { executeResponse(APIRequest.userInfoAPI.updateInfo(body)) }
     }
-
-    private suspend fun requestUpdateInfo(body: RequestBody): RResult<User> =
-        executeResponse(APIRequest.userInfoAPI.updateInfo(body))
 
     /**
      * 绑定邮箱
      */
     suspend fun bindEmail(email: String, code: String): RResult<User> {
-        return safeRequest(call = { requestBindEmail(email, code) })
+        return safeRequest { executeResponse(APIRequest.userInfoAPI.bindEmail(email, code)) }
     }
-
-    private suspend fun requestBindEmail(email: String, code: String): RResult<User> =
-        executeResponse(APIRequest.userInfoAPI.bindEmail(email, code))
 
     /**
      * 更新密码
      */
     suspend fun updatePassword(password: String, oldPassword: String): RResult<Any> {
-        return safeRequest(call = { requestUpdatePassword(password, oldPassword) })
+        return safeRequest { executeResponse(APIRequest.userInfoAPI.updatePassword(password, oldPassword)) }
     }
-
-    private suspend fun requestUpdatePassword(password: String, oldPassword: String): RResult<Any> =
-        executeResponse(APIRequest.userInfoAPI.updatePassword(password, oldPassword))
 
     /**
      * 个人认证
      */
     suspend fun personalAuth(realName: String, idCardNumber: String): RResult<Any> {
-        return safeRequest(call = { requestPersonalAuth(realName, idCardNumber) })
+        return safeRequest { executeResponse(APIRequest.userInfoAPI.personalAuth(realName, idCardNumber)) }
     }
-
-    private suspend fun requestPersonalAuth(realName: String, idCardNumber: String): RResult<Any> =
-        executeResponse(APIRequest.userInfoAPI.personalAuth(realName, idCardNumber))
 
     /**
      * 获取当前用户信息
      */
     suspend fun current(): RResult<User> {
-        return safeRequest(call = { requestCurrentUser() })
+        return safeRequest { executeResponse(APIRequest.userInfoAPI.current()) }
     }
-
-    private suspend fun requestCurrentUser(): RResult<User> =
-        executeResponse(APIRequest.userInfoAPI.current())
 
     /**
      * 获取其他用户信息
      */
     suspend fun other(id: String): RResult<User> {
-        return safeRequest(call = { requestOtherUser(id) })
+        return safeRequest { executeResponse(APIRequest.userInfoAPI.other(id)) }
     }
-
-    private suspend fun requestOtherUser(id: String): RResult<User> =
-        executeResponse(APIRequest.userInfoAPI.other(id))
 
     /**
      * 根据指定用户 id 集合的用户信息
      */
     suspend fun getUserList(ids: List<String>): RResult<List<User>> {
-        return safeRequest(call = { requestUserList(ids) })
+        return safeRequest { executeResponse(APIRequest.userInfoAPI.getUserList(ids)) }
     }
-
-    private suspend fun requestUserList(ids: List<String>): RResult<List<User>> =
-        executeResponse(APIRequest.userInfoAPI.getUserList(ids))
 
     /**
      * 签到
      */
     suspend fun clock(): RResult<Any> {
-        return safeRequest(call = { requestClock() })
+        return safeRequest { executeResponse(APIRequest.userInfoAPI.clock()) }
     }
-
-    private suspend fun requestClock(): RResult<Any> =
-        executeResponse(APIRequest.userInfoAPI.clock())
 
     /**
      * 请求验证码
      */
     suspend fun sendCodeEmail(email: String): RResult<Any> {
-        return safeRequest(call = { requestSendCodeEmail(email) })
+        return safeRequest({ executeResponse(APIRequest.signAPI.sendCodeEmail(email)) })
     }
-
-    private suspend fun requestSendCodeEmail(email: String): RResult<Any> =
-        executeResponse(APIRequest.signAPI.sendCodeEmail(email))
-
 
 }

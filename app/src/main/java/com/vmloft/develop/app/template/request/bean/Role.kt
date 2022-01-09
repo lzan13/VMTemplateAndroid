@@ -11,7 +11,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Role(
     @SerializedName("_id")
-    val id: String,
+    val id: String ="",
     val title: String = "",
     val desc: String = "",
     val identity: Int = 0,

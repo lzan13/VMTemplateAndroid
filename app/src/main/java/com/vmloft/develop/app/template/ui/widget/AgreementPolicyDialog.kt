@@ -10,13 +10,13 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.URLSpan
 import android.view.View
 import android.widget.TextView
+
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.router.AppRouter
-
-import com.vmloft.develop.library.common.widget.CommonDialog
+import com.vmloft.develop.library.common.router.CRouter
+import com.vmloft.develop.library.common.ui.widget.CommonDialog
 import com.vmloft.develop.library.tools.utils.VMColor
 import com.vmloft.develop.library.tools.utils.VMStr
-import kotlinx.android.synthetic.main.widget_agreement_policy_dialog.*
 
 
 /**
@@ -24,6 +24,8 @@ import kotlinx.android.synthetic.main.widget_agreement_policy_dialog.*
  * 描述：用户政策与隐私协议对话框
  */
 class AgreementPolicyDialog(context: Context) : CommonDialog(context) {
+    override var touchDismissSwitch: Boolean = false
+    override var backDismissSwitch: Boolean = false
 
     init {
         val agreementContent = VMStr.byRes(R.string.agreement_policy_dialog_content)
@@ -53,18 +55,12 @@ class AgreementPolicyDialog(context: Context) : CommonDialog(context) {
 //        sp.setSpan(StyleSpan(android.graphics.Typeface.BOLD_ITALIC), 19, 21, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
         //设置下划线
 //        sp.setSpan(UnderlineSpan(), 22, 25, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        dialogContentTV.text = sp
-        dialogContentTV.movementMethod = LinkMovementMethod.getInstance()
+        // 去除点击后字体出现的背景色
 
+        setContent(sp)
+        getContentTV()?.highlightColor = VMColor.byRes(R.color.vm_transparent)
+        getContentTV()?.movementMethod = LinkMovementMethod.getInstance()
     }
-
-    override fun layoutId() = R.layout.widget_agreement_policy_dialog
-
-
-    override fun getNegativeTV(): TextView? = dialogNegativeTV
-
-    override fun getPositiveTV(): TextView? = dialogPositiveTV
-
 
     class CustomURLSpan(val type: String) : URLSpan(type) {
         override fun updateDrawState(ds: TextPaint) {
@@ -76,9 +72,8 @@ class AgreementPolicyDialog(context: Context) : CommonDialog(context) {
         }
 
         override fun onClick(widget: View) {
-            //去除点击后字体出现的背景色
-            (widget as? TextView)?.highlightColor = VMColor.byRes(R.color.vm_transparent)
-            AppRouter.goAgreementPolicy(type)
+            CRouter.go(AppRouter.appSettingsAgreementPolicy, str0 = type)
         }
     }
+
 }

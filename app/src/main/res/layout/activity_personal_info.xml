@@ -1,179 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg"
+    tools:context=".ui.main.mine.info.PersonalInfoActivity">
 
-    <data>
+    <include layout="@layout/widget_common_top_bar" />
 
-        <variable
-            name="viewModel"
-            type="com.vmloft.develop.app.template.ui.main.mine.info.InfoViewModel" />
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/app_bg"
-        tools:context=".ui.main.mine.info.PersonalInfoActivity">
+        android:layout_height="@dimen/vm_dimen_0"
+        app:layout_constraintBottom_toTopOf="@+id/infoSaveBtn"
+        app:layout_constraintTop_toBottomOf="@+id/commonTopLL">
 
-        <include layout="@layout/widget_common_top_bar" />
-
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/vm_dimen_0"
-            app:layout_constraintBottom_toTopOf="@+id/infoSaveBtn"
-            app:layout_constraintTop_toBottomOf="@+id/commonTopLL">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <!--封面-->
+            <com.vmloft.develop.library.tools.widget.VMLineView
+                android:id="@+id/infoCoverLV"
+                style="@style/AppLVStyle"
+                app:vm_line_title="@string/info_cover" />
+            <!--头像-->
+            <com.vmloft.develop.library.tools.widget.VMLineView
+                android:id="@+id/infoAvatarLV"
+                style="@style/AppLVStyle"
+                app:vm_line_title="@string/info_avatar" />
+            <!--用户名-->
+            <com.vmloft.develop.library.tools.widget.VMLineView
+                android:id="@+id/infoUsernameLV"
+                style="@style/AppLVStyle"
+                app:vm_line_title="@string/info_username" />
+            <!--昵称-->
+            <com.vmloft.develop.library.tools.widget.VMLineView
+                android:id="@+id/infoNicknameLV"
+                style="@style/AppLVStyle"
+                app:vm_line_title="@string/info_nickname" />
+            <!--签名-->
+            <com.vmloft.develop.library.tools.widget.VMLineView
+                android:id="@+id/infoSignatureLV"
+                style="@style/AppLVStyle"
+                app:vm_line_title="@string/info_signature" />
+            <!--生日-->
+            <com.vmloft.develop.library.tools.widget.VMLineView
+                android:id="@+id/infoBirthdayLV"
+                style="@style/AppLVStyle"
+                app:vm_line_title="@string/info_birthday" />
+            <!--性别-->
+            <com.vmloft.develop.library.tools.widget.VMLineView
+                android:id="@+id/infoGenderLV"
+                style="@style/AppLVStyle"
+                app:vm_line_title="@string/info_gender" />
+            <!--手机-->
+            <com.vmloft.develop.library.tools.widget.VMLineView
+                android:id="@+id/infoPhoneLV"
+                style="@style/AppLVStyle"
+                android:visibility="gone"
+                app:vm_line_title="@string/info_phone" />
+            <!--邮箱-->
+            <com.vmloft.develop.library.tools.widget.VMLineView
+                android:id="@+id/infoEmailLV"
+                style="@style/AppLVStyle"
+                app:vm_line_title="@string/info_email" />
+            <!--认证状态-->
+            <com.vmloft.develop.library.tools.widget.VMLineView
+                android:id="@+id/infoAuthStatusLV"
+                style="@style/AppLVStyle"
+                android:visibility="gone"
+                app:vm_line_title="@string/info_auth" />
+            <!--地址-->
+            <com.vmloft.develop.library.tools.widget.VMLineView
+                android:id="@+id/infoAddressLV"
+                style="@style/AppLVStyle"
+                app:vm_line_title="@string/info_address" />
+            <!--职业-->
+            <com.vmloft.develop.library.tools.widget.VMLineView
+                android:id="@+id/infoProfessionLV"
+                style="@style/AppLVStyle.NoDecoration"
+                app:vm_line_title="@string/info_profession" />
+        </LinearLayout>
+    </ScrollView>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <!--封面-->
-                <com.vmloft.develop.library.tools.widget.VMLineView
-                    android:id="@+id/infoCoverLV"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/app_bg_item"
-                    app:vm_line_caption_color="@color/app_caption"
-                    app:vm_line_decoration="center"
-                    app:vm_line_decoration_color="@color/app_decoration"
-                    app:vm_line_right_icon="@drawable/ic_arrow_next"
-                    app:vm_line_title="@string/info_cover" />
-                <!--头像-->
-                <com.vmloft.develop.library.tools.widget.VMLineView
-                    android:id="@+id/infoAvatarLV"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/app_bg_item"
-                    app:vm_line_caption_color="@color/app_caption"
-                    app:vm_line_decoration="center"
-                    app:vm_line_decoration_color="@color/app_decoration"
-                    app:vm_line_right_icon="@drawable/ic_arrow_next"
-                    app:vm_line_title="@string/info_avatar" />
-                <!--用户名-->
-                <com.vmloft.develop.library.tools.widget.VMLineView
-                    android:id="@+id/infoUsernameLV"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/app_bg_item"
-                    app:vm_line_caption_color="@color/app_caption"
-                    app:vm_line_decoration="center"
-                    app:vm_line_decoration_color="@color/app_decoration"
-                    app:vm_line_right_icon="@drawable/ic_arrow_next"
-                    app:vm_line_title="@string/info_username" />
-                <!--昵称-->
-                <com.vmloft.develop.library.tools.widget.VMLineView
-                    android:id="@+id/infoNicknameLV"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/app_bg_item"
-                    app:vm_line_caption_color="@color/app_caption"
-                    app:vm_line_decoration="center"
-                    app:vm_line_decoration_color="@color/app_decoration"
-                    app:vm_line_right_icon="@drawable/ic_arrow_next"
-                    app:vm_line_title="@string/info_nickname" />
-                <!--签名-->
-                <com.vmloft.develop.library.tools.widget.VMLineView
-                    android:id="@+id/infoSignatureLV"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/app_bg_item"
-                    app:vm_line_caption_color="@color/app_caption"
-                    app:vm_line_decoration="center"
-                    app:vm_line_decoration_color="@color/app_decoration"
-                    app:vm_line_right_icon="@drawable/ic_arrow_next"
-                    app:vm_line_title="@string/info_signature" />
-                <!--生日-->
-                <com.vmloft.develop.library.tools.widget.VMLineView
-                    android:id="@+id/infoBirthdayLV"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/app_bg_item"
-                    app:vm_line_caption_color="@color/app_caption"
-                    app:vm_line_decoration="center"
-                    app:vm_line_decoration_color="@color/app_decoration"
-                    app:vm_line_right_icon="@drawable/ic_arrow_next"
-                    app:vm_line_title="@string/info_birthday" />
-                <!--性别-->
-                <com.vmloft.develop.library.tools.widget.VMLineView
-                    android:id="@+id/infoGenderLV"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/app_bg_item"
-                    app:vm_line_caption_color="@color/app_caption"
-                    app:vm_line_decoration="center"
-                    app:vm_line_decoration_color="@color/app_decoration"
-                    app:vm_line_right_icon="@drawable/ic_arrow_next"
-                    app:vm_line_title="@string/info_gender" />
-                <!--手机-->
-                <com.vmloft.develop.library.tools.widget.VMLineView
-                    android:id="@+id/infoPhoneLV"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/app_bg_item"
-                    android:visibility="gone"
-                    app:vm_line_caption_color="@color/app_caption"
-                    app:vm_line_decoration="center"
-                    app:vm_line_decoration_color="@color/app_decoration"
-                    app:vm_line_right_icon="@drawable/ic_arrow_next"
-                    app:vm_line_title="@string/info_phone" />
-                <!--邮箱-->
-                <com.vmloft.develop.library.tools.widget.VMLineView
-                    android:id="@+id/infoEmailLV"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/app_bg_item"
-                    android:visibility="visible"
-                    app:vm_line_caption_color="@color/app_caption"
-                    app:vm_line_decoration="center"
-                    app:vm_line_decoration_color="@color/app_decoration"
-                    app:vm_line_right_icon="@drawable/ic_arrow_next"
-                    app:vm_line_title="@string/info_email" />
-                <!--认证状态-->
-                <com.vmloft.develop.library.tools.widget.VMLineView
-                    android:id="@+id/infoAuthStatusLV"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/app_bg_item"
-                    android:visibility="gone"
-                    app:vm_line_decoration="center"
-                    app:vm_line_decoration_color="@color/app_decoration"
-                    app:vm_line_right_icon="@drawable/ic_arrow_next"
-                    app:vm_line_title="@string/info_auth" />
-                <!--地址-->
-                <com.vmloft.develop.library.tools.widget.VMLineView
-                    android:id="@+id/infoAddressLV"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/app_bg_item"
-                    app:vm_line_caption_color="@color/app_caption"
-                    app:vm_line_decoration="center"
-                    app:vm_line_decoration_color="@color/app_decoration"
-                    app:vm_line_right_icon="@drawable/ic_arrow_next"
-                    app:vm_line_title="@string/info_address" />
-                <!--职业-->
-                <com.vmloft.develop.library.tools.widget.VMLineView
-                    android:id="@+id/infoProfessionLV"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/app_bg_item"
-                    app:vm_line_caption_color="@color/app_caption"
-                    app:vm_line_right_icon="@drawable/ic_arrow_next"
-                    app:vm_line_title="@string/info_profession" />
-            </LinearLayout>
-        </ScrollView>
+    <!--引入选择器布局-->
+    <include
+        android:id="@+id/pickerLayout"
+        layout="@layout/widget_picker_layout" />
 
-        <!--引入选择器布局-->
-        <include layout="@layout/widget_picker_layout" />
-
-        <!--引入加载视图-->
-        <include
-            layout="@layout/widget_common_loading"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/vm_dimen_0"
-            android:elevation="@dimen/vm_elevation_high"
-            app:isLoading="@{viewModel.uiState.isLoading}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+    <!--引入加载视图-->
+    <include
+        layout="@layout/widget_common_loading"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/vm_dimen_0"
+        android:elevation="@dimen/vm_elevation_high"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

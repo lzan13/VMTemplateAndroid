@@ -9,7 +9,7 @@ import kotlin.collections.ArrayList
 /**
  * Create by lzan13 on 2019/5/21 15:00
  *
- * 自定义 IMConversation 会话对象
+ * 描述：会话对象
  */
 class IMConversation constructor(chatId: String, chatType: Int) {
 

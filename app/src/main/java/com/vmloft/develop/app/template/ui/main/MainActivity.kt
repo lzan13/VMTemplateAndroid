@@ -8,12 +8,14 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.android.material.bottomnavigation.BottomNavigationView
+
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.common.Constants
 import com.vmloft.develop.app.template.common.SignManager
 import com.vmloft.develop.app.template.databinding.ActivityMainBinding
 import com.vmloft.develop.app.template.request.bean.User
 import com.vmloft.develop.app.template.request.bean.Version
+import com.vmloft.develop.app.template.request.viewmodel.MainViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.app.template.ui.main.explore.ExploreFragment
 import com.vmloft.develop.app.template.ui.main.home.HomeFragment
@@ -25,11 +27,10 @@ import com.vmloft.develop.library.common.common.PermissionManager
 import com.vmloft.develop.library.common.event.LDEventBus
 import com.vmloft.develop.library.common.router.CRouter
 import com.vmloft.develop.library.common.utils.errorBar
-import com.vmloft.develop.library.common.utils.showBar
-import com.vmloft.develop.library.common.widget.CommonDialog
+import com.vmloft.develop.library.common.ui.widget.CommonDialog
 import com.vmloft.develop.library.tools.utils.VMStr
 import com.vmloft.develop.library.tools.utils.VMSystem
-import kotlinx.android.synthetic.main.activity_main.*
+
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 /**
@@ -37,7 +38,7 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  * 描述：主界面
  */
 @Route(path = CRouter.appMain)
-class MainActivity : BVMActivity<MainViewModel>() {
+class MainActivity : BVMActivity<ActivityMainBinding, MainViewModel>() {
 
     private val currentTabKey = "currentTabKey"
     private val fragmentKeys = arrayListOf("homeKey", "exploreKey", "msgKey", "mineKey")
@@ -54,8 +55,9 @@ class MainActivity : BVMActivity<MainViewModel>() {
     @Autowired
     var type: Int = 0
 
-    override fun initVM(): MainViewModel = getViewModel()
+    override fun initVB() = ActivityMainBinding.inflate(layoutInflater)
 
+    override fun initVM(): MainViewModel = getViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,17 +88,12 @@ class MainActivity : BVMActivity<MainViewModel>() {
         switchFragment(currentTab)
     }
 
-    override fun layoutId(): Int = R.layout.activity_main
-
     override fun initUI() {
         super.initUI()
-        (mBinding as ActivityMainBinding).viewModel = mViewModel
 
         if (!SignManager.isSingIn()) return
 
         initBottomNav()
-
-        PermissionManager.requestPermissions(this)
     }
 
     override fun initData() {
@@ -128,7 +125,7 @@ class MainActivity : BVMActivity<MainViewModel>() {
     private fun initBottomNav() {
         // 如果导航是多色图标，需要取消 BottomNavigationView 的着色效果，自己去设置 selector
         // mainNav.itemIconTintList = null
-        mainNav.setOnNavigationItemSelectedListener(onNavigationItemSelected)
+        mBinding.mainNav.setOnNavigationItemSelectedListener(onNavigationItemSelected)
     }
 
     /**
@@ -193,7 +190,7 @@ class MainActivity : BVMActivity<MainViewModel>() {
             (model.data as? User)?.let {
                 if (it.avatar.isNullOrEmpty() || it.nickname.isNullOrEmpty()) {
                     // 去设置用户信息
-                    CRouter.go(AppRouter.appPersonalInfo)
+                    CRouter.go(AppRouter.appPersonalInfoGuide)
                 } else {
                     // 这里放在用户信息成功后检查版本
                     mViewModel.checkVersion()
@@ -233,5 +230,9 @@ class MainActivity : BVMActivity<MainViewModel>() {
             }
             dialog.show()
         }
+    }
+
+    override fun onBackPressed() {
+        CRouter.goHome()
     }
 }

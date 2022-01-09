@@ -12,8 +12,11 @@ import kotlinx.android.parcel.Parcelize
 data class Attachment(
     @SerializedName("_id")
     val id: String = "", // 附件 id
+    val desc: String = "", // 附件描述
+    val duration: Int = 0, // 附件时长，video/voice 有值
     val extname: String = "", // 附件扩展名
-    val filename: String = "", // 附件文件名
     val path: String = "", // 附件地址
+    val width: Int = 0, // 附件宽
+    val height: Int = 0, // 附件高
 ) : Parcelable {
 }

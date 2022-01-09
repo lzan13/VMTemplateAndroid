@@ -1,5 +1,9 @@
 package com.vmloft.develop.app.template.ui.post
 
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.databinding.ItemPostDetailsHeaderDelegateBinding
 import com.vmloft.develop.app.template.request.bean.Post
@@ -7,6 +11,8 @@ import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.common.base.BItemDelegate
 import com.vmloft.develop.library.common.image.IMGLoader
 import com.vmloft.develop.library.common.router.CRouter
+import com.vmloft.develop.library.common.utils.FormatUtils
+import com.vmloft.develop.library.tools.utils.VMStr
 
 /**
  * Create by lzan13 on 2021/05/05 17:56
@@ -14,19 +20,35 @@ import com.vmloft.develop.library.common.router.CRouter
  */
 class ItemPostDetailsHeaderDelegate(listener: PostItemListener) : BItemDelegate<Post, ItemPostDetailsHeaderDelegateBinding>(listener) {
 
-    override fun layoutId(): Int = R.layout.item_post_details_header_delegate
+    override fun initVB(inflater: LayoutInflater, parent: ViewGroup) = ItemPostDetailsHeaderDelegateBinding.inflate(inflater, parent, false)
 
     override fun onBindView(holder: BItemHolder<ItemPostDetailsHeaderDelegateBinding>, item: Post) {
-        holder.binding.data = item
-
+        holder.binding.coverIV.visibility = if (item.attachments.size > 0) View.VISIBLE else View.GONE
         if (item.attachments.size > 0) {
-            IMGLoader.loadCover(holder.binding.postCoverIV, item.attachments[0].path)
-            holder.binding.postCoverIV.setOnClickListener { CRouter.goDisplaySingle(item.attachments[0].path) }
+            IMGLoader.loadCover(holder.binding.coverIV, item.attachments[0].path)
+            holder.binding.coverIV.setOnClickListener { CRouter.goDisplaySingle(item.attachments[0].path) }
         }
-        holder.binding.postAvatarIV.setOnClickListener { AppRouter.goUserInfo(item.owner) }
-        holder.binding.postLikeIV.setOnClickListener { (mItemListener as PostItemListener).onLikeClick(item, getPosition(holder)) }
 
-        holder.binding.executePendingBindings()
+        IMGLoader.loadAvatar(holder.binding.avatarIV, item.owner.avatar)
+        holder.binding.avatarIV.setOnClickListener { CRouter.go(AppRouter.appUserInfo, obj0 =  item.owner) }
+
+        // 性别
+        when (item.owner.gender) {
+            1 -> holder.binding.genderIV.setImageResource(R.drawable.ic_gender_man)
+            0 -> holder.binding.genderIV.setImageResource(R.drawable.ic_gender_woman)
+            else -> holder.binding.genderIV.setImageResource(R.drawable.ic_gender_unknown)
+        }
+        holder.binding.nameTV.text = item.owner.nickname
+        holder.binding.categoryTV.text = item.category.title
+        holder.binding.timeTV.text = FormatUtils.relativeTime(item.createdAt)
+
+        holder.binding.likeIV.setImageResource(if (item.isLike) R.drawable.ic_like_fill else R.drawable.ic_like_line)
+        holder.binding.likeIV.setOnClickListener { (mItemListener as PostItemListener).onLikeClick(item, getPosition(holder)) }
+        holder.binding.likeTV.text = item.likeCount.toString()
+
+        holder.binding.contentTV.text = item.content
+        holder.binding.commentTitleTV.text = VMStr.byResArgs(R.string.comment_count, item.commentCount)
+
     }
 
     /**

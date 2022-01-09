@@ -18,31 +18,22 @@ class MatchRepository : BaseRepository() {
      * 获取匹配列表数据
      */
     suspend fun submitMatch(match: Match): RResult<Match> {
-        return safeRequest(call = { requestSubmitMatch(match.content, match.emotion, match.gender) })
+        return safeRequest { executeResponse(APIRequest.matchAPI.submitMatch(match.content, match.emotion, match.gender)) }
     }
-
-    private suspend fun requestSubmitMatch(content: String, emotion: Int, gender: Int): RResult<Match> =
-        executeResponse(APIRequest.matchAPI.submitMatch(content, emotion, gender))
 
     /**
      * 删除一条匹配数据
      */
     suspend fun removeMatch(id: String): RResult<Any> {
-        return safeRequest(call = { requestRemoveMatch(id) })
+        return safeRequest { executeResponse(APIRequest.matchAPI.removeMatch(id)) }
     }
-
-    private suspend fun requestRemoveMatch(id: String): RResult<Any> =
-        executeResponse(APIRequest.matchAPI.removeMatch(id))
 
     /**
      * 获取匹配列表数据
      */
-    suspend fun getMatchList(gender: Int, page: Int, limit: Int): RResult<RPaging<Match>> {
-        return safeRequest(call = { requestMatchList(gender, page, limit) })
+    suspend fun matchList(gender: Int, type: Int, page: Int, limit: Int): RResult<RPaging<Match>> {
+        return safeRequest { executeResponse(APIRequest.matchAPI.matchList(gender, type, page, limit)) }
     }
-
-    private suspend fun requestMatchList(gender: Int, page: Int, limit: Int): RResult<RPaging<Match>> =
-        executeResponse(APIRequest.matchAPI.getMatchList(gender, page, limit))
 
     /**
      * 获取自己的匹配数据
@@ -65,11 +56,8 @@ class MatchRepository : BaseRepository() {
     /**
      * 随机获取一条匹配数据
      */
-    suspend fun getOneMatch(gender: Int): RResult<Match> {
-        return safeRequest(call = { requestMatchOne(gender) })
+    suspend fun randomMatch(gender: Int, type: Int): RResult<Match> {
+        return safeRequest { executeResponse(APIRequest.matchAPI.randomMatch(gender, type)) }
     }
-
-    private suspend fun requestMatchOne(gender: Int): RResult<Match> =
-        executeResponse(APIRequest.matchAPI.getMatchOne(gender))
 
 }

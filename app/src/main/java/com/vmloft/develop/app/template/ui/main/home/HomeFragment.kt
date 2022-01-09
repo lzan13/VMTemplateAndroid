@@ -5,6 +5,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -24,14 +25,13 @@ import com.vmloft.develop.library.common.base.BViewModel
 import com.vmloft.develop.library.common.common.CConstants
 import com.vmloft.develop.library.common.image.IMGLoader
 import com.vmloft.develop.app.template.report.ReportConstants
+import com.vmloft.develop.app.template.request.viewmodel.MatchViewModel
 import com.vmloft.develop.library.common.event.LDEventBus
 import com.vmloft.develop.library.common.report.ReportManager
 import com.vmloft.develop.library.common.router.CRouter
-import com.vmloft.develop.library.common.utils.CUtils
+import com.vmloft.develop.library.tools.utils.logger.VMLog
 import com.vmloft.develop.library.tools.widget.barrage.VMBarrageView
 import com.vmloft.develop.library.tools.widget.barrage.VMViewCreator
-
-import kotlinx.android.synthetic.main.fragment_home.*
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -39,7 +39,7 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  * Create by lzan13 on 2020/05/02 11:54
  * 描述：主页
  */
-class HomeFragment : BVMFragment<MatchViewModel>() {
+class HomeFragment : BVMFragment<FragmentHomeBinding, MatchViewModel>() {
 
     override var isDarkStatusBar: Boolean = false
 
@@ -60,29 +60,31 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
     private lateinit var emotionIV: ImageView
     private lateinit var emotionTV: TextView
 
+    override fun initVB(inflater: LayoutInflater, parent: ViewGroup?) = FragmentHomeBinding.inflate(inflater, parent, false)
 
     override fun initVM(): MatchViewModel = getViewModel()
 
-    override fun layoutId() = R.layout.fragment_home
-
     override fun initUI() {
         super.initUI()
-
-        (mBinding as FragmentHomeBinding).viewModel = mViewModel
 
         initFilter()
 
         initEmotion()
 
-        homeNextTV.setOnClickListener { mViewModel.getMatchList(selfMatch.filterGender, mPage) }
+        // 下一波
+        mBinding.homeNextTV.setOnClickListener { mViewModel.matchList(selfMatch.filterGender, selfMatch.type, mPage) }
 
         // 匹配项点击处理
-        homeDestinyLL.setOnClickListener { startMatch(0) }
-        homeEmotionLL.setOnClickListener { startMatch(1) }
-        homeFastLL.setOnClickListener { startMatch(2) }
-        homeChatRoomLL.setOnClickListener { CRouter.go(AppRouter.appRoomList) }
-        homeSecretLL.setOnClickListener { }
-        homeWishLL.setOnClickListener { }
+        // 缘分匹配
+        mBinding.homeDestinyLL.setOnClickListener { startMatch(0) }
+        // 快速聊天
+        mBinding.homeFastLL.setOnClickListener { startMatch(1) }
+        // 解忧房
+        mBinding.homeChatRoomLL.setOnClickListener { CRouter.go(AppRouter.appRoomList) }
+        // 秘密枯井
+        mBinding.homeSecretLL.setOnClickListener { CRouter.go(AppRouter.appMatchSecret) }
+        // 心愿古树
+        mBinding.homeWishLL.setOnClickListener { }
     }
 
     /**
@@ -90,20 +92,22 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
      */
     override fun initData() {
         mUser = SignManager.getCurrUser() ?: User()
-        selfMatch = Match("selfMatch", mUser, 0, mUser.gender, "嗨😉 我是 ${mUser.nickname}")
+        selfMatch = Match("selfMatch", mUser, gender = mUser.gender, filterGender = -1)
 
         setupMatchFilter()
         setupMatchEmotion()
 
         // 获取自己的匹配数据
-        mViewModel.getSelfMatch()
+        mViewModel.selfMatch()
 
         LDEventBus.observe(this, Constants.userInfoEvent, User::class.java, {
             mUser = it
             selfMatch.gender = mUser.gender
-            selfMatch.content = "嗨😉 我是 ${mUser.nickname}"
+            if (selfMatch.content.isNullOrEmpty() && mUser.nickname.isNotEmpty()) {
+                selfMatch.content = "嗨😉 我是 ${mUser.nickname}"
+            }
 
-            homeEmotionET.setText(selfMatch.content)
+            mBinding.homeEmotionET.setText(selfMatch.content)
         })
     }
 
@@ -116,7 +120,7 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
             }
 
             // 请求匹配数据集
-            mViewModel.getMatchList(selfMatch.filterGender)
+            mViewModel.matchList(selfMatch.filterGender)
         }
         if (model.type == "matchList") {
             val paging = model.data as RPaging<Match>
@@ -126,10 +130,13 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
                 mPage++
             }
             dataList.clear()
-            dataList.addAll(paging.data)
-            dataList.forEach {
-                if (it.user.id != mUser.id) {
-                    CacheManager.putUser(it.user)
+            paging.data.map {
+                // 因为有注销功能，查询到的匹配信息可能没有用户信息，前端这里做下保护
+                if (it.user != null && it.user.id.isNullOrEmpty()) {
+                    dataList.add(it)
+                    if (it.user.id != mUser.id) {
+                        CacheManager.putUser(it.user)
+                    }
                 }
             }
             setupBarrage()
@@ -141,20 +148,20 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
      */
     private fun initFilter() {
         setTopIcon(R.drawable.ic_filter)
-        setTopIconListener { homeFilterMaskLL.visibility = View.VISIBLE }
-        homeFilterMaskLL.setOnClickListener { saveMatchFilter() }
-        homeFilterAllLL.setOnClickListener { changeMatchFilter(-1) }
-        homeFilterWomanLL.setOnClickListener { changeMatchFilter(0) }
-        homeFilterManLL.setOnClickListener { changeMatchFilter(1) }
+        setTopIconListener { mBinding.homeFilterMaskLL.visibility = View.VISIBLE }
+        mBinding.homeFilterMaskLL.setOnClickListener { saveMatchFilter() }
+        mBinding.homeFilterAllLL.setOnClickListener { changeMatchFilter(-1) }
+        mBinding.homeFilterWomanLL.setOnClickListener { changeMatchFilter(0) }
+        mBinding.homeFilterManLL.setOnClickListener { changeMatchFilter(1) }
     }
 
     /**
      * 加载心情内容
      */
     private fun setupMatchFilter() {
-        homeFilterAllLL.isSelected = selfMatch.filterGender == -1
-        homeFilterWomanLL.isSelected = selfMatch.filterGender == 0
-        homeFilterManLL.isSelected = selfMatch.filterGender == 1
+        mBinding.homeFilterAllLL.isSelected = selfMatch.filterGender == -1
+        mBinding.homeFilterWomanLL.isSelected = selfMatch.filterGender == 0
+        mBinding.homeFilterManLL.isSelected = selfMatch.filterGender == 1
     }
 
     /**
@@ -170,11 +177,11 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
      * 保存匹配过滤设置
      */
     private fun saveMatchFilter() {
-        homeFilterMaskLL.visibility = View.GONE
+        mBinding.homeFilterMaskLL.visibility = View.GONE
         mViewModel.setSelfMatch(selfMatch)
 
         val params = mutableMapOf<String, Any>()
-        params["filter"] = selfMatch.filterGender // 过滤选项 -1-不限 0-女 1-男
+        params["filter"] = selfMatch.filterGender // 过滤选项 0-女 1-男 2-不限
         ReportManager.reportEvent(ReportConstants.eventChangeFilter, params)
     }
 
@@ -186,14 +193,14 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
         emotionIV = view.findViewById(R.id.emotionIV)
         emotionTV = view.findViewById(R.id.emotionTV)
         setTopEndView(view)
-        view.setOnClickListener { homeEmotionMaskLL.visibility = View.VISIBLE }
+        view.setOnClickListener { mBinding.homeEmotionMaskLL.visibility = View.VISIBLE }
         // 设置表情面板事件
-        homeEmotionMaskLL.setOnClickListener { saveMatchEmotion() }
-        homeEmotionHappyLL.setOnClickListener { changeMatchEmotion(0) }
-        homeEmotionNormalLL.setOnClickListener { changeMatchEmotion(1) }
-        homeEmotionSadLL.setOnClickListener { changeMatchEmotion(2) }
-        homeEmotionAngerLL.setOnClickListener { changeMatchEmotion(3) }
-        homeEmotionET.addTextChangedListener(object : TextWatcher {
+        mBinding.homeEmotionMaskLL.setOnClickListener { saveMatchEmotion() }
+        mBinding.homeEmotionHappyLL.setOnClickListener { changeMatchEmotion(0) }
+        mBinding.homeEmotionNormalLL.setOnClickListener { changeMatchEmotion(1) }
+        mBinding.homeEmotionSadLL.setOnClickListener { changeMatchEmotion(2) }
+        mBinding.homeEmotionAngerLL.setOnClickListener { changeMatchEmotion(3) }
+        mBinding.homeEmotionET.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
@@ -225,11 +232,11 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
         }
         emotionTV.setText(emotionStr)
 
-        homeEmotionHappyLL.isSelected = selfMatch.emotion == 0
-        homeEmotionNormalLL.isSelected = selfMatch.emotion == 1
-        homeEmotionSadLL.isSelected = selfMatch.emotion == 2
-        homeEmotionAngerLL.isSelected = selfMatch.emotion == 3
-        homeEmotionET.setText(selfMatch.content)
+        mBinding.homeEmotionHappyLL.isSelected = selfMatch.emotion == 0
+        mBinding.homeEmotionNormalLL.isSelected = selfMatch.emotion == 1
+        mBinding.homeEmotionSadLL.isSelected = selfMatch.emotion == 2
+        mBinding.homeEmotionAngerLL.isSelected = selfMatch.emotion == 3
+        mBinding.homeEmotionET.setText(selfMatch.content)
     }
 
     /**
@@ -245,7 +252,7 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
      * 保存匹配心情数据
      */
     private fun saveMatchEmotion() {
-        homeEmotionMaskLL.visibility = View.GONE
+        mBinding.homeEmotionMaskLL.visibility = View.GONE
         mViewModel.setSelfMatch(selfMatch)
         // 隐藏键盘
         val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -265,12 +272,12 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
     fun setupBarrage() {
         barrageView?.stop()
         barrageView = null
-        homeBarrageViewLL.removeAllViews()
+        mBinding.homeBarrageViewLL.removeAllViews()
 
         // 重置弹幕控件
         barrageView = VMBarrageView(activity)
         val lp: LinearLayout.LayoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT)
-        homeBarrageViewLL.addView(barrageView, lp)
+        mBinding.homeBarrageViewLL.addView(barrageView, lp)
 
         barrageView?.let {
             it.setCreator(ViewCreator()).setMaxSize(50).create(dataList).start()
@@ -280,14 +287,16 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
     /**
      * 开始随机获取一个匹配对象
      */
-    fun startMatch(type: Int = 0) {
-        // 首先提交自己的匹配数据
-        mViewModel.submitMatch(selfMatch)
-        AppRouter.goMatch(type, selfMatch.filterGender)
+    private fun startMatch(type: Int = 0) {
+        if (mUser.avatar.isNullOrEmpty() || mUser.nickname.isNullOrEmpty()) {
+            return CRouter.go(AppRouter.appPersonalInfoGuide)
+        }
+        // 跳转动画匹配界面
+        CRouter.go(AppRouter.appMatchAnim, type, obj0 =  selfMatch)
         // 上报匹配
         if (type == 0) {
             ReportManager.reportEvent(ReportConstants.eventDestinyMatch)
-        } else if (type == 2) {
+        } else if (type == 1) {
             ReportManager.reportEvent(ReportConstants.eventFastChat)
         }
     }
@@ -321,8 +330,7 @@ class HomeFragment : BVMFragment<MatchViewModel>() {
             IMGLoader.loadAvatar(barrageItemIV, bean.user.avatar)
             barrageItemTV.text = bean.content
 
-            view.setOnClickListener { AppRouter.goUserInfo(bean.user) }
+            view.setOnClickListener { CRouter.go(AppRouter.appUserInfo, obj0 =  bean.user) }
         }
-
     }
 }

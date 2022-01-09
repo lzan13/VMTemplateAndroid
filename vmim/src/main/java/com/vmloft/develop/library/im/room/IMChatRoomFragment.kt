@@ -3,7 +3,9 @@ package com.vmloft.develop.library.im.room
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,9 +15,7 @@ import com.drakeet.multitype.MultiTypeAdapter
 import com.hyphenate.chat.EMConversation
 import com.hyphenate.chat.EMMessage
 
-import com.scwang.smart.refresh.header.ClassicsHeader
-
-import com.vmloft.develop.library.common.base.BaseFragment
+import com.vmloft.develop.library.common.base.BFragment
 import com.vmloft.develop.library.common.common.CConstants
 import com.vmloft.develop.library.common.event.LDEventBus
 import com.vmloft.develop.library.common.utils.CUtils
@@ -24,22 +24,19 @@ import com.vmloft.develop.library.im.R
 import com.vmloft.develop.library.im.chat.IMChatManager
 import com.vmloft.develop.library.im.chat.msg.*
 import com.vmloft.develop.library.im.common.IMConstants
+import com.vmloft.develop.library.im.databinding.ImFragmentChatRoomBinding
 import com.vmloft.develop.library.tools.animator.VMAnimator
 import com.vmloft.develop.library.tools.utils.VMDimen
-import com.vmloft.develop.library.tools.utils.VMStr
 import com.vmloft.develop.library.tools.utils.VMSystem
 import com.vmloft.develop.library.tools.utils.VMUtils
-
-import kotlinx.android.synthetic.main.im_fragment_chat_room.*
 
 import java.util.*
 
 /**
  * Create by lzan13 on 2019/05/09 10:11
- *
  * IM 可自定义加载的聊天界面
  */
-class IMChatRoomFragment : BaseFragment() {
+class IMChatRoomFragment : BFragment<ImFragmentChatRoomBinding>() {
 
     private val limit = CConstants.defaultLimit
 
@@ -56,7 +53,6 @@ class IMChatRoomFragment : BaseFragment() {
     lateinit var channel: String // 频道名
 
     private lateinit var conversation: EMConversation
-
 
     companion object {
         private val argChatId = "argChatId"
@@ -75,18 +71,15 @@ class IMChatRoomFragment : BaseFragment() {
         }
     }
 
-    /**
-     * 加载布局
-     */
-    override fun layoutId(): Int = R.layout.im_fragment_chat_room
+    override fun initVB(inflater: LayoutInflater, parent: ViewGroup?) = ImFragmentChatRoomBinding.inflate(inflater, parent, false)
 
     override fun initUI() {
         super.initUI()
 
         // 发送鼓励
-        imRoomEncourageBtn.setOnClickListener { sendEncourage() }
+        mBinding.imRoomEncourageBtn.setOnClickListener { sendEncourage() }
         // 点击发送
-        imChatSendIV.setOnClickListener { sendText() }
+        mBinding.imChatSendIV.setOnClickListener { sendText() }
 
         // 初始化输入框监听
         initInputWatcher()
@@ -109,8 +102,8 @@ class IMChatRoomFragment : BaseFragment() {
     }
 
     override fun initData() {
-        chatId = arguments!!.getString(argChatId) ?: ""
-        chatType = arguments!!.getInt(argChatType, IMConstants.ChatType.imChatRoom)
+        chatId = requireArguments().getString(argChatId) ?: ""
+        chatType = requireArguments().getInt(argChatType, IMConstants.ChatType.imChatRoom)
 
         token = ""
         channel = chatId
@@ -150,17 +143,7 @@ class IMChatRoomFragment : BaseFragment() {
     }
 
     private fun initRecyclerView() {
-        // 下拉监听
-        ClassicsHeader.REFRESH_HEADER_PULLING = VMStr.byRes(R.string.im_chat_load_more_header_pulling);//"下拉加载更多";
-        ClassicsHeader.REFRESH_HEADER_REFRESHING = VMStr.byRes(R.string.im_chat_load_more_header_refreshing);//"正在刷新...";
-        ClassicsHeader.REFRESH_HEADER_LOADING = VMStr.byRes(R.string.im_chat_load_more_header_loading);//"正在加载...";
-        ClassicsHeader.REFRESH_HEADER_RELEASE = VMStr.byRes(R.string.im_chat_load_more_header_release);//"释放立即加载";
-        ClassicsHeader.REFRESH_HEADER_FINISH = VMStr.byRes(R.string.im_chat_load_more_header_finish);//"加载完成";
-        ClassicsHeader.REFRESH_HEADER_FAILED = VMStr.byRes(R.string.im_chat_load_more_header_failed);//"加载失败";
-        ClassicsHeader.REFRESH_HEADER_SECONDARY = VMStr.byRes(R.string.im_chat_load_more_header_secondary);//"释放进入二楼";
-        ClassicsHeader.REFRESH_HEADER_UPDATE = VMStr.byRes(R.string.im_chat_load_more_header_update);//"上次加载 M-d HH:mm";
-
-        imChatRefreshLayout.setOnRefreshListener { loadMoreMsg() }
+        mBinding.imChatRefreshLayout.setOnRefreshListener { loadMoreMsg() }
 
         // 注册各类消息
         mAdapter.register(EMMessage::class).to(
@@ -180,19 +163,19 @@ class IMChatRoomFragment : BaseFragment() {
         mAdapter.notifyDataSetChanged()
         layoutManager = LinearLayoutManager(context)
         layoutManager.stackFromEnd = true
-        imChatRecyclerView.layoutManager = layoutManager
-        imChatRecyclerView.adapter = mAdapter
+        mBinding.imChatRecyclerView.layoutManager = layoutManager
+        mBinding.imChatRecyclerView.adapter = mAdapter
     }
 
     /**
      * 设置输入框内容的监听
      */
     private fun initInputWatcher() {
-        imChatMessageET.addTextChangedListener(object : TextWatcher {
+        mBinding.imChatMessageET.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable) {
-                imChatSendIV.visibility = if (s.toString().isNullOrEmpty()) View.GONE else View.VISIBLE
+                mBinding.imChatSendIV.visibility = if (s.toString().isNullOrEmpty()) View.GONE else View.VISIBLE
             }
         })
     }
@@ -203,7 +186,7 @@ class IMChatRoomFragment : BaseFragment() {
     private fun refreshNewMsg(msg: EMMessage) {
         mItems.add(msg)
         mAdapter.notifyItemInserted(mAdapter.itemCount)
-        imChatRecyclerView.post { scrollToBottom() }
+        mBinding.imChatRecyclerView.post { scrollToBottom() }
     }
 
     /**
@@ -218,7 +201,7 @@ class IMChatRoomFragment : BaseFragment() {
      * 加载更多消息
      */
     private fun loadMoreMsg() {
-        imChatRefreshLayout.finishRefresh()
+        mBinding.imChatRefreshLayout.finishRefresh()
 
         val list = IMChatManager.loadMoreMessages(conversation, limit)
         mItems.addAll(0, list)
@@ -239,11 +222,11 @@ class IMChatRoomFragment : BaseFragment() {
      * 发送文本消息
      */
     private fun sendText() {
-        val content: String = imChatMessageET.text.toString().trim()
+        val content: String = mBinding.imChatMessageET.text.toString().trim()
         if (content.isNullOrEmpty()) {
             return errorBar(R.string.im_chat_send_notnull)
         }
-        imChatMessageET.setText("")
+        mBinding.imChatMessageET.setText("")
         // 发送消息
         sendMessage(IMChatManager.createTextMessage(content, chatId))
     }
@@ -264,7 +247,7 @@ class IMChatRoomFragment : BaseFragment() {
      * 滚动到底部
      */
     private fun scrollToBottom() {
-        imChatRecyclerView.smoothScrollToPosition(mAdapter.itemCount - 1)
+        mBinding.imChatRecyclerView.smoothScrollToPosition(mAdapter.itemCount - 1)
     }
 
     /**
@@ -277,19 +260,19 @@ class IMChatRoomFragment : BaseFragment() {
         val imageView = ImageView(context)
         imageView.scaleType = ImageView.ScaleType.CENTER_CROP
         val lp = FrameLayout.LayoutParams(randomSize, randomSize)
-        val x: Int = CUtils.random(imRoomEncourageFL.width - randomSize)
-        val y: Int = CUtils.random(imRoomEncourageFL.height - randomSize)
+        val x: Int = CUtils.random(mBinding.imRoomEncourageFL.width - randomSize)
+        val y: Int = CUtils.random(mBinding.imRoomEncourageFL.height - randomSize)
         imageView.x = x.toFloat()
         imageView.y = y.toFloat()
         imageView.alpha = 0.0f
         imageView.setImageResource(R.drawable.im_ic_emotion_applaud)
-        imRoomEncourageFL.addView(imageView, lp)
+        mBinding.imRoomEncourageFL.addView(imageView, lp)
 
         // 动画出现
         val options = VMAnimator.AnimOptions(imageView, floatArrayOf(0.0f, 1.0f), VMAnimator.alpha, 1000, 3)
         VMAnimator.createAnimator().play(options).start()
         VMSystem.runInUIThread({
-            imRoomEncourageFL.removeView(imageView)
+            mBinding.imRoomEncourageFL.removeView(imageView)
         }, 3000)
     }
 }

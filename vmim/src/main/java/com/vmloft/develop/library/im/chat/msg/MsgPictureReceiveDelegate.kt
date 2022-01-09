@@ -1,20 +1,22 @@
 package com.vmloft.develop.library.im.chat.msg
 
 import android.net.Uri
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
+
 import com.hyphenate.chat.EMImageMessageBody
 import com.hyphenate.chat.EMMessage
 
 import com.vmloft.develop.library.common.base.BItemDelegate
 import com.vmloft.develop.library.common.image.IMGLoader
-import com.vmloft.develop.library.common.router.CRouter
 import com.vmloft.develop.library.common.utils.CUtils
+import com.vmloft.develop.library.common.utils.FormatUtils
 import com.vmloft.develop.library.im.IM
 import com.vmloft.develop.library.im.R
 import com.vmloft.develop.library.im.chat.IMChatManager
 import com.vmloft.develop.library.im.databinding.ImItemMsgPictureReceiveDelegateBinding
-import com.vmloft.develop.library.im.databinding.ImItemMsgPictureSendDelegateBinding
 import com.vmloft.develop.library.tools.utils.VMDimen
 import com.vmloft.develop.library.tools.utils.bitmap.VMBitmap
 
@@ -25,7 +27,7 @@ import com.vmloft.develop.library.tools.utils.bitmap.VMBitmap
 class MsgPictureReceiveDelegate(listener: BItemListener<EMMessage>, longListener: BItemLongListener<EMMessage>) :
     BItemDelegate<EMMessage, ImItemMsgPictureReceiveDelegateBinding>(listener, longListener) {
 
-    override fun layoutId(): Int = R.layout.im_item_msg_picture_receive_delegate
+    override fun initVB(inflater: LayoutInflater, parent: ViewGroup) = ImItemMsgPictureReceiveDelegateBinding.inflate(inflater, parent, false)
 
     override fun onBindView(holder: BItemHolder<ImItemMsgPictureReceiveDelegateBinding>, item: EMMessage) {
         holder.binding.imMsgTimeTV.visibility = if (IMChatManager.isShowTime(getPosition(holder), item)) View.VISIBLE else View.GONE
@@ -33,9 +35,7 @@ class MsgPictureReceiveDelegate(listener: BItemListener<EMMessage>, longListener
         val user = IM.imListener.getUser(item.from)
         IMGLoader.loadAvatar(holder.binding.imMsgAvatarIV, user?.avatar ?: "")
 
-        holder.binding.time = item.localTime()
-
-        holder.binding.executePendingBindings()
+        holder.binding.imMsgTimeTV.text = FormatUtils.relativeTime(item.localTime())
 
         val body = item.body as EMImageMessageBody
 

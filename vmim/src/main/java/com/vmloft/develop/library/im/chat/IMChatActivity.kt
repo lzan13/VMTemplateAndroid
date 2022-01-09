@@ -3,18 +3,20 @@ package com.vmloft.develop.library.im.chat
 import android.content.Intent
 import android.os.Handler
 import android.os.Message
+
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+
 import com.hyphenate.chat.EMMessage
-import com.vmloft.develop.library.common.base.BaseActivity
-import com.vmloft.develop.library.common.base.BaseFragment
+
+import com.vmloft.develop.library.common.base.BActivity
 import com.vmloft.develop.library.common.event.LDEventBus
 import com.vmloft.develop.library.im.IM
 import com.vmloft.develop.library.im.R
 import com.vmloft.develop.library.im.bean.IMUser
 import com.vmloft.develop.library.im.common.IMConstants
-import com.vmloft.develop.library.im.room.IMChatRoomFragment
+import com.vmloft.develop.library.im.databinding.ImActivityChatBinding
 import com.vmloft.develop.library.im.router.IMRouter
 import com.vmloft.develop.library.tools.utils.VMStr
 
@@ -24,7 +26,7 @@ import com.vmloft.develop.library.tools.utils.VMStr
  * IM 默认提供的聊天界面，可直接打开使用
  */
 @Route(path = IMRouter.imChat)
-class IMChatActivity : BaseActivity() {
+class IMChatActivity : BActivity<ImActivityChatBinding>() {
 
     @Autowired
     lateinit var chatId: String
@@ -33,9 +35,14 @@ class IMChatActivity : BaseActivity() {
     @Autowired
     var chatType: Int = IMConstants.ChatType.imChatSingle
 
+    @Autowired
+    lateinit var chatExtend: String
+
     lateinit var mUser: IMUser
 
-    lateinit var chatFragment: BaseFragment
+    lateinit var chatFragment: IMChatFragment
+
+    override var isHideTopSpace = true
 
     val handler = object : Handler() {
         override fun handleMessage(msg: Message) {
@@ -43,7 +50,7 @@ class IMChatActivity : BaseActivity() {
         }
     }
 
-    override fun layoutId() = R.layout.im_activity_chat
+    override fun initVB() = ImActivityChatBinding.inflate(layoutInflater)
 
     override fun initUI() {
         super.initUI()
@@ -75,13 +82,11 @@ class IMChatActivity : BaseActivity() {
      * 加载聊天界面
      */
     private fun setupFragment() {
-        chatFragment = IMChatFragment.newInstance(chatId, chatType)
+        chatFragment = IMChatFragment.newInstance(chatId, chatType, chatExtend)
         val ft = supportFragmentManager.beginTransaction()
         ft.replace(R.id.imChatContainer, chatFragment)
         ft.commit()
     }
-
-    override fun hideTopSpace() = true
 
     /**
      * 重写父类的onNewIntent方法，防止打开两个聊天界面

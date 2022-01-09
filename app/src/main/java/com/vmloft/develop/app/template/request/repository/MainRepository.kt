@@ -20,10 +20,7 @@ class MainRepository : BaseRepository() {
      * 获取当前用户信息
      */
     suspend fun loadCurrUser(): RResult<User> {
-        return safeRequest(call = { requestLoadCurrUser() })
+        return safeRequest { executeResponse(APIRequest.userInfoAPI.current()) }
     }
-
-    private suspend fun requestLoadCurrUser(): RResult<User> =
-        executeResponse(APIRequest.userInfoAPI.current())
 
 }

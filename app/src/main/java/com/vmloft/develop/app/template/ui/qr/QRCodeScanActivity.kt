@@ -5,8 +5,9 @@ import cn.bingoogolapple.qrcode.core.QRCodeView
 import com.alibaba.android.arouter.facade.annotation.Route
 
 import com.vmloft.develop.app.template.R
+import com.vmloft.develop.app.template.databinding.ActivityQrCodeScanBinding
 import com.vmloft.develop.app.template.router.AppRouter
-import com.vmloft.develop.library.common.base.BaseActivity
+import com.vmloft.develop.library.common.base.BActivity
 import com.vmloft.develop.library.common.image.IMGChoose
 import com.vmloft.develop.library.common.router.CRouter
 import com.vmloft.develop.library.common.utils.errorBar
@@ -14,17 +15,14 @@ import com.vmloft.develop.library.common.utils.showBar
 import com.vmloft.develop.library.tools.utils.bitmap.VMBitmap
 import com.vmloft.develop.library.tools.utils.logger.VMLog
 
-import kotlinx.android.synthetic.main.activity_qr_code_scan.*
-
 /**
  * Create by lzan13 on 2021/6/6
  * 描述：二维码扫描界面
  */
 @Route(path = AppRouter.appQRScan)
-class QRCodeScanActivity : BaseActivity(), QRCodeView.Delegate {
+class QRCodeScanActivity : BActivity<ActivityQrCodeScanBinding>(), QRCodeView.Delegate {
 
-    override fun layoutId(): Int = R.layout.activity_qr_code_scan
-
+    override fun initVB() = ActivityQrCodeScanBinding.inflate(layoutInflater)
 
     override fun initUI() {
         super.initUI()
@@ -33,8 +31,8 @@ class QRCodeScanActivity : BaseActivity(), QRCodeView.Delegate {
 
         initQRCodeScan()
 
-        qrMineIV.setOnClickListener { CRouter.go(AppRouter.appQRMine) }
-        qrAlbumIV.setOnClickListener { openAlbum() }
+        mBinding.qrMineIV.setOnClickListener { CRouter.go(AppRouter.appQRMine) }
+        mBinding.qrAlbumIV.setOnClickListener { openAlbum() }
     }
 
     override fun initData() {
@@ -43,10 +41,10 @@ class QRCodeScanActivity : BaseActivity(), QRCodeView.Delegate {
 
     private fun initQRCodeScan() {
         // 设置识别结果代理
-        qrCodeView.setDelegate(this)
-        qrCodeView.startCamera() // 打开后置摄像头开始预览，但是并未开始识别
-//        qrCodeView.startCamera(Camera.CameraInfo.CAMERA_FACING_FRONT); // 打开前置摄像头开始预览，但是并未开始识别
-        qrCodeView.startSpotAndShowRect() // 显示扫描框，并开始识别
+        mBinding.qrCodeView.setDelegate(this)
+        mBinding.qrCodeView.startCamera() // 打开后置摄像头开始预览，但是并未开始识别
+//        mBinding.qrCodeView.startCamera(Camera.CameraInfo.CAMERA_FACING_FRONT); // 打开前置摄像头开始预览，但是并未开始识别
+        mBinding.qrCodeView.startSpotAndShowRect() // 显示扫描框，并开始识别
     }
 
     /**
@@ -56,7 +54,7 @@ class QRCodeScanActivity : BaseActivity(), QRCodeView.Delegate {
         IMGChoose.singlePicture(this) {
             val bitmap = VMBitmap.loadBitmapByFile(it)
             bitmap?.let {
-                qrCodeView.decodeQRCode(bitmap)
+                mBinding.qrCodeView.decodeQRCode(bitmap)
             }
         }
     }
@@ -93,18 +91,18 @@ class QRCodeScanActivity : BaseActivity(), QRCodeView.Delegate {
     }
 
     override fun onRestart() {
-        qrCodeView.startCamera()
-        qrCodeView.startSpotAndShowRect()
+        mBinding.qrCodeView.startCamera()
+        mBinding.qrCodeView.startSpotAndShowRect()
         super.onRestart()
     }
 
     override fun onStop() {
-        qrCodeView.stopCamera()
+        mBinding.qrCodeView.stopCamera()
         super.onStop()
     }
 
     override fun onDestroy() {
-        qrCodeView.onDestroy()
+        mBinding.qrCodeView.onDestroy()
         super.onDestroy()
     }
 }

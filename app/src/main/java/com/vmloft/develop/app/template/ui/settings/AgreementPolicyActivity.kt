@@ -12,12 +12,13 @@ import com.just.agentweb.AgentWeb
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.databinding.ActivitySettingsAgreementPolicyBinding
 import com.vmloft.develop.app.template.request.bean.Config
+import com.vmloft.develop.app.template.request.viewmodel.SettingsViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.common.base.BVMActivity
 import com.vmloft.develop.library.common.base.BViewModel
+import com.vmloft.develop.library.common.router.CRouter
+import com.vmloft.develop.library.tools.utils.VMColor
 import com.vmloft.develop.library.tools.utils.VMStr
-
-import kotlinx.android.synthetic.main.activity_settings_agreement_policy.*
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -26,20 +27,21 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  * 描述：展示用户政策及隐私协议
  */
 @Route(path = AppRouter.appSettingsAgreementPolicy)
-class AgreementPolicyActivity : BVMActivity<SettingsViewModel>() {
+class AgreementPolicyActivity : BVMActivity<ActivitySettingsAgreementPolicyBinding, SettingsViewModel>() {
 
-    @Autowired
+    @Autowired(name = CRouter.paramsStr0)
     lateinit var type: String
 
     private lateinit var mAgentWeb: AgentWeb
 
-    override fun initVM(): SettingsViewModel = getViewModel()
+    override fun initVB() = ActivitySettingsAgreementPolicyBinding.inflate(layoutInflater)
 
-    override fun layoutId(): Int = R.layout.activity_settings_agreement_policy
+    override fun initVM(): SettingsViewModel = getViewModel()
 
     override fun initUI() {
         super.initUI()
-        (mBinding as ActivitySettingsAgreementPolicyBinding).viewModel = mViewModel
+
+        initWebView()
     }
 
     override fun initData() {
@@ -47,18 +49,21 @@ class AgreementPolicyActivity : BVMActivity<SettingsViewModel>() {
 
         setTopTitle(if (type == "agreement") VMStr.byRes(R.string.user_agreement) else VMStr.byRes(R.string.private_policy))
 
+        if (type == "agreement") {
+            mViewModel.userAgreement()
+        } else {
+            mViewModel.privatePolicy()
+        }
+    }
+
+    private fun initWebView() {
         mAgentWeb = AgentWeb.with(this)
-            .setAgentWebParent(webContainer, LinearLayout.LayoutParams(-1, -1))
-            .useDefaultIndicator()
-//            .setWebChromeClient(chromeClient)
+            .setAgentWebParent(mBinding.webContainer, LinearLayout.LayoutParams(-1, -1))
+            .useDefaultIndicator(VMColor.byRes(com.vmloft.develop.library.common.R.color.app_main), 1)
             .createAgentWeb()
             .ready()
             .go("")
-        if (type == "agreement") {
-            mViewModel.getUserAgreement()
-        } else {
-            mViewModel.getPrivatePolicy()
-        }
+        mAgentWeb.webCreator.webParentLayout.setBackgroundResource(R.color.app_bg)
     }
 
     override fun onModelRefresh(model: BViewModel.UIModel) {
@@ -76,8 +81,8 @@ class AgreementPolicyActivity : BVMActivity<SettingsViewModel>() {
      * 协议与政策内容
      */
     private fun showContent(content: String) {
-        webEmptyIV.visibility = View.GONE
-        webContainer.visibility = View.VISIBLE
+        mBinding.webEmptyIV.visibility = View.GONE
+        mBinding.webContainer.visibility = View.VISIBLE
         if (content.indexOf("http") == 0) {
             mAgentWeb.urlLoader.loadUrl(content)
         } else {
@@ -89,8 +94,8 @@ class AgreementPolicyActivity : BVMActivity<SettingsViewModel>() {
      * 显示空视图
      */
     private fun showEmpty() {
-        webEmptyIV.visibility = View.VISIBLE
-        webContainer.visibility = View.GONE
+        mBinding.webEmptyIV.visibility = View.VISIBLE
+        mBinding.webContainer.visibility = View.GONE
     }
 
     /**

@@ -1,19 +1,20 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+}
 
 // 获取配置信息
 def configs = rootProject.ext.configs
 
 android {
     compileSdkVersion configs.compileSdkVersion
+    buildToolsVersion configs.buildToolsVersion
 
     defaultConfig {
         minSdkVersion configs.minSdkVersion
         targetSdkVersion configs.targetSdkVersion
-        versionCode configs.versionCode
-        versionName configs.versionName
 
         // 这里通过配置文件设置声网 AppId
         buildConfigField("String", "agoraAppId", configs.agoraAppId)
@@ -27,20 +28,21 @@ android {
         }
     }
 
-    // 使用 Java 8 编译
+    // 配置 Java 编译版本
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 
-    // 开启数据绑定
-//    dataBinding {
-//        enabled true
+//    // 开启数据绑定
+//    buildFeatures {
+//        dataBinding {
+//            enabled true
+//        }
 //    }
+    // 开启 ViewBinding
     buildFeatures {
-        dataBinding {
-            enabled true
-        }
+        viewBinding true
     }
 
     // 编译忽略错误配置
@@ -49,7 +51,7 @@ android {
     }
     // kotlin 配置
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8
+        jvmTarget = JavaVersion.VERSION_11
     }
 
     kapt {
@@ -63,7 +65,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    kapt 'com.alibaba:arouter-compiler:1.2.2'
+    kapt 'com.alibaba:arouter-compiler:1.5.2'
 
     // 环信聊天 IM 库 Easemob http://www.easemob.com
     api 'io.hyphenate:hyphenate-chat:3.8.1'

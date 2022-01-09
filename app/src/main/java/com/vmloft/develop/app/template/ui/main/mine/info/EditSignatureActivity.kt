@@ -13,13 +13,14 @@ import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.common.SignManager
 import com.vmloft.develop.app.template.databinding.ActivityPersonalInfoEditBinding
 import com.vmloft.develop.app.template.request.bean.User
+import com.vmloft.develop.app.template.request.viewmodel.UserViewModel
 import com.vmloft.develop.app.template.router.AppRouter
+import com.vmloft.develop.library.common.base.BVMActivity
 import com.vmloft.develop.library.common.base.BViewModel
+import com.vmloft.develop.library.common.router.CRouter
 import com.vmloft.develop.library.common.utils.errorBar
 import com.vmloft.develop.library.tools.utils.VMReg
 import com.vmloft.develop.library.tools.utils.VMStr
-
-import kotlinx.android.synthetic.main.activity_personal_info_edit.*
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -28,27 +29,25 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  * 描述：编辑签名
  */
 @Route(path = AppRouter.appEditSignature)
-class EditSignatureActivity : com.vmloft.develop.library.common.base.BVMActivity<InfoViewModel>() {
+class EditSignatureActivity : BVMActivity<ActivityPersonalInfoEditBinding, UserViewModel>() {
 
-    @Autowired
+    @Autowired(name = CRouter.paramsStr0)
     lateinit var signature: String
 
-    override fun initVM(): InfoViewModel = getViewModel()
+    override fun initVB() = ActivityPersonalInfoEditBinding.inflate(layoutInflater)
 
-    override fun layoutId(): Int = R.layout.activity_personal_info_edit
+    override fun initVM(): UserViewModel = getViewModel()
 
     override fun initUI() {
         super.initUI()
-        (mBinding as ActivityPersonalInfoEditBinding).viewModel = mViewModel
-
         setTopTitle(R.string.info_signature)
 
         setTopEndBtnEnable(false)
         setTopEndBtnListener(VMStr.byRes(R.string.btn_save)) { save() }
 
-        infoSingleET.visibility = View.GONE
-        infoMultiLineET.visibility = View.VISIBLE
-        infoMultiLineET.addTextChangedListener(object : TextWatcher {
+        mBinding.infoSingleET.visibility = View.GONE
+        mBinding.infoMultiLineET.visibility = View.VISIBLE
+        mBinding.infoMultiLineET.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
 
@@ -62,7 +61,7 @@ class EditSignatureActivity : com.vmloft.develop.library.common.base.BVMActivity
     override fun initData() {
         ARouter.getInstance().inject(this)
 
-        infoMultiLineET.setText(signature)
+        mBinding.infoMultiLineET.setText(signature)
     }
 
     override fun onModelRefresh(model: BViewModel.UIModel) {

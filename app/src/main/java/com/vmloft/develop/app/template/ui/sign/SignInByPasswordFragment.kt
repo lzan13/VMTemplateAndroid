@@ -4,18 +4,19 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
+import android.view.LayoutInflater
+import android.view.ViewGroup
 
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.common.SignManager
 import com.vmloft.develop.app.template.databinding.FragmentSignInByPasswordBinding
+import com.vmloft.develop.app.template.request.viewmodel.SignViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.common.base.BVMFragment
 import com.vmloft.develop.library.common.base.BViewModel
 import com.vmloft.develop.library.common.router.CRouter
 import com.vmloft.develop.library.common.utils.errorBar
 import com.vmloft.develop.library.tools.utils.VMReg
-
-import kotlinx.android.synthetic.main.fragment_sign_in_by_password.*
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -24,21 +25,19 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  * Create by lzan13 2020/12/12
  * 通过密码登录
  */
-class SignInByPasswordFragment : BVMFragment<SignViewModel>() {
+class SignInByPasswordFragment : BVMFragment<FragmentSignInByPasswordBinding, SignViewModel>() {
 
     private var mAccount: String = ""
     private var mPassword: String = ""
 
     override fun initVM(): SignViewModel = getViewModel()
 
-    override fun layoutId(): Int = R.layout.fragment_sign_in_by_password
+    override fun initVB(inflater: LayoutInflater, parent: ViewGroup?) = FragmentSignInByPasswordBinding.inflate(inflater, parent, false)
 
     override fun initUI() {
         super.initUI()
-        (mBinding as FragmentSignInByPasswordBinding).viewModel = mViewModel
-
         // 监听输入框变化
-        signAccountET.addTextChangedListener(object : TextWatcher {
+        mBinding.signAccountET.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
 
@@ -47,7 +46,7 @@ class SignInByPasswordFragment : BVMFragment<SignViewModel>() {
                 verifyInputBox()
             }
         })
-        signPasswordET.addTextChangedListener(object : TextWatcher {
+        mBinding.signPasswordET.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
 
@@ -57,22 +56,22 @@ class SignInByPasswordFragment : BVMFragment<SignViewModel>() {
             }
         })
         // 设置密码隐藏与显示
-        signPasswordIcon.setOnClickListener {
-            if (signPasswordIcon.isSelected) {
+        mBinding.signPasswordIcon.setOnClickListener {
+            if (mBinding.signPasswordIcon.isSelected) {
                 // 隐藏密码
-                signPasswordET.transformationMethod = PasswordTransformationMethod.getInstance()
-                signPasswordIcon.isSelected = false
+                mBinding.signPasswordET.transformationMethod = PasswordTransformationMethod.getInstance()
+                mBinding.signPasswordIcon.isSelected = false
             } else {
                 // 显示密码
-                signPasswordET.transformationMethod = HideReturnsTransformationMethod.getInstance()
-                signPasswordIcon.isSelected = true
+                mBinding.signPasswordET.transformationMethod = HideReturnsTransformationMethod.getInstance()
+                mBinding.signPasswordIcon.isSelected = true
             }
         }
 
-        signUserAgreementTV.setOnClickListener { AppRouter.goAgreementPolicy() }
-        signPrivatePolicyTV.setOnClickListener { AppRouter.goAgreementPolicy("policy") }
-        signSubmitBtn.setOnClickListener {
-            if (signPrivatePolicyCB.isChecked) {
+        mBinding.signUserAgreementTV.setOnClickListener { CRouter.go(AppRouter.appSettingsAgreementPolicy, str0 = "agreement") }
+        mBinding.signPrivatePolicyTV.setOnClickListener { CRouter.go(AppRouter.appSettingsAgreementPolicy, str0 = "policy") }
+        mBinding.signSubmitBtn.setOnClickListener {
+            if (mBinding.signPrivatePolicyCB.isChecked) {
                 mViewModel.signIn(mAccount, mPassword)
             } else {
                 errorBar(R.string.agreement_policy_hint)
@@ -83,11 +82,11 @@ class SignInByPasswordFragment : BVMFragment<SignViewModel>() {
     override fun initData() {
         val user = SignManager.getPrevUser()
         if (user?.username.isNullOrEmpty()) {
-            signAccountET.setText(user?.username)
+            mBinding.signAccountET.setText(user?.username)
         } else if (user?.phone.isNullOrEmpty()) {
-            signAccountET.setText(user?.phone)
+            mBinding.signAccountET.setText(user?.phone)
         } else if (user?.email.isNullOrEmpty()) {
-            signAccountET.setText(user?.email)
+            mBinding.signAccountET.setText(user?.email)
         }
     }
 
@@ -104,6 +103,6 @@ class SignInByPasswordFragment : BVMFragment<SignViewModel>() {
      */
     private fun verifyInputBox() {
         // 检查输入框
-        signSubmitBtn.isEnabled = VMReg.isCommonReg(mAccount, "^[0-9a-zA-Z_.@]{6,16}$") && mPassword.isNotEmpty()
+        mBinding.signSubmitBtn.isEnabled = VMReg.isCommonReg(mAccount, "^[0-9a-zA-Z_.@]{6,16}$") && mPassword.isNotEmpty()
     }
 }

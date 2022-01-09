@@ -12,32 +12,33 @@ import kotlinx.android.parcel.Parcelize
 data class User(
     @SerializedName("_id")
     var id: String = "",
-    var devicesId: String = "",
-    var username: String = "",
-    var email: String = "",
-    var password: String = "",
+    var devicesId: String = "", // 设备Id
+    var username: String = "", // 用户名
+    var email: String = "", // 邮箱
+    var password: String = "", // 密码
     var emailVerify: Boolean = false,
-    var phone: String = "",
+    var phone: String = "", // 手机号
     var phoneVerify: Boolean = false,
-    var avatar: String = "",
-    var cover: String = "",
-    var birthday: String = "",
-    var gender: Int = 2,
-    var nickname: String = "",
-    var signature: String = "",
-    var address: String = "",
-    var hobby: String = "",
-    var score: Int = 0,
-    var clockContinuousCount: Int = 0,
-    var clockTotalCount: Int = 0,
-    var clockTime: String = "",
-    var fansCount: Int = 0,
-    var followCount: Int = 0,
-    var likeCount: Int = 0,
-    var postCount: Int = 0,
-    var relation: Int = -1,
-    var profession: Profession? = null,
-    var role: Role? = null,
+    var avatar: String = "", // 头像
+    var cover: String = "", // 封面
+    var birthday: String = "", // 生日
+    var gender: Int = 2, // 性别
+    var nickname: String = "", // 昵称
+    var signature: String = "", // 签名
+    var address: String = "", // 地址
+    var hobby: String = "", // 爱好
+    var score: Int = 0, // 积分
+    var clockContinuousCount: Int = 0, // 连续签到次数
+    var clockTotalCount: Int = 0, // 总签到次数
+    var clockTime: String = "", // 签到时间
+    var fansCount: Int = 0, // 粉丝数
+    var followCount: Int = 0, // 关注数
+    var likeCount: Int = 0, // 喜欢数
+    var postCount: Int = 0, // 帖子数
+    var relation: Int = -1, // 当前用户与他人关系
+    var profession: Profession = Profession(), // 职业
+    var role: Role = Role(), // 身份
+    var roleExpired: String="", // 身份过期时间，主要是判断会员到期
     var token: String = "",
     var idCardNumber: String = "",
     var realName: String = "",
@@ -47,41 +48,5 @@ data class User(
     var createdAt: String = "",
     var updatedAt: String = "",
 ) : Parcelable {
-    /**
-     * _id
-     * devicesId
-     * username
-     * email
-     * password
-     * emailVerify
-     * phone
-     * phoneVerify
-     * password
-     * avatar
-     * cover
-     * birthday
-     * gender 性别：0 女，1 男，2 神秘
-     * nickname
-     * signature
-     * hobby
-     * address
-     * clockContinuousCount
-     * clockTotalCount
-     * clockTime
-     * fansCount
-     * followCount
-     * likeCount
-     * postCount
-     * relation
-     * profession
-     * role
-     * token
-     * idCardNumber
-     * realName
-     * deleted
-     * deletedReason
-     * deletedAt
-     * createdAt
-     * updatedAt
-     */
+
 }

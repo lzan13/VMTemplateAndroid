@@ -3,20 +3,21 @@ package com.vmloft.develop.app.template.ui.settings
 import com.alibaba.android.arouter.facade.annotation.Route
 
 import com.vmloft.develop.app.template.R
+import com.vmloft.develop.app.template.common.Constants
+import com.vmloft.develop.app.template.databinding.ActivitySettingsAboutBinding
 import com.vmloft.develop.app.template.request.bean.Version
 import com.vmloft.develop.app.template.router.AppRouter
-import com.vmloft.develop.app.template.ui.main.mine.info.InfoViewModel
+import com.vmloft.develop.app.template.request.viewmodel.CommonViewModel
 import com.vmloft.develop.library.common.base.BVMActivity
 import com.vmloft.develop.library.common.base.BViewModel
 import com.vmloft.develop.library.common.common.CConstants
 import com.vmloft.develop.library.common.router.CRouter
 import com.vmloft.develop.library.common.utils.errorBar
 import com.vmloft.develop.library.common.utils.showBar
-import com.vmloft.develop.library.common.widget.CommonDialog
+import com.vmloft.develop.library.common.ui.widget.CommonDialog
 import com.vmloft.develop.library.tools.utils.VMStr
 import com.vmloft.develop.library.tools.utils.VMSystem
 
-import kotlinx.android.synthetic.main.activity_settings_about.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 /**
@@ -24,7 +25,7 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  * 描述：关于
  */
 @Route(path = AppRouter.appSettingsAbout)
-class AboutSettingsActivity : BVMActivity<InfoViewModel>() {
+class AboutSettingsActivity : BVMActivity<ActivitySettingsAboutBinding, CommonViewModel>() {
 
     private val maxCount = 5
     private val maxInterval = CConstants.timeSecond
@@ -32,23 +33,26 @@ class AboutSettingsActivity : BVMActivity<InfoViewModel>() {
     private var mTime: Long = 0L
 
 
-    override fun initVM(): InfoViewModel = getViewModel()
+    override fun initVB() = ActivitySettingsAboutBinding.inflate(layoutInflater)
 
-    override fun layoutId(): Int = R.layout.activity_settings_about
+    override fun initVM(): CommonViewModel = getViewModel()
+
 
     override fun initUI() {
         super.initUI()
 
-        aboutIconIV.setOnClickListener { goDebug() }
-        aboutFeedbackLV.setOnClickListener { CRouter.go(AppRouter.appFeedback) }
+        mBinding.aboutIconIV.setOnClickListener { goDebug() }
+        // 反馈
+        mBinding.aboutFeedbackLV.setOnClickListener { CRouter.go(AppRouter.appFeedback, Constants.FeedbackType.opinion) }
         // 检查更新
-        aboutCheckVersionLV.setOnClickListener { mViewModel.checkVersion(true) }
+        mBinding.checkVersionLV.setOnClickListener { mViewModel.checkVersion(true) }
 
-        aboutPrivatePolicyTV.setOnClickListener { AppRouter.goAgreementPolicy("policy") }
+        mBinding.userAgreementTV.setOnClickListener { CRouter.go(AppRouter.appSettingsAgreementPolicy, str0 = "agreement") }
+        mBinding.privatePolicyTV.setOnClickListener { CRouter.go(AppRouter.appSettingsAgreementPolicy, str0 = "policy") }
     }
 
     override fun initData() {
-        aboutVersionTV.text = "Version ${VMSystem.versionName}"
+        mBinding.aboutVersionTV.text = "Version ${VMSystem.versionName}"
     }
 
     /**
@@ -62,7 +66,7 @@ class AboutSettingsActivity : BVMActivity<InfoViewModel>() {
         if (mCount < maxCount) {
             mCount++
         } else {
-            CRouter.goDebug()
+            CRouter.go(CRouter.commonDebug)
         }
         mTime = System.currentTimeMillis()
     }
@@ -78,12 +82,14 @@ class AboutSettingsActivity : BVMActivity<InfoViewModel>() {
      * 显示版本更新弹窗
      */
     private fun showVersionDialog(version: Version) {
-        if (version.versionCode <= VMSystem.versionCode) return
+        if (version.versionCode <= VMSystem.versionCode) {
+            return showBar(R.string.version_is_new)
+        }
 
         mDialog = CommonDialog(this)
         (mDialog as CommonDialog).let { dialog ->
             // 判断是否需要强制更新，如果强制更新，则不能关闭对话框
-            val force = version.force or (version.versionCode - VMSystem.versionCode > 10)
+            val force = version.force or (version.versionCode - VMSystem.versionCode > 3)
             dialog.backDismissSwitch = !force
             dialog.touchDismissSwitch = !force
 
@@ -92,7 +98,7 @@ class AboutSettingsActivity : BVMActivity<InfoViewModel>() {
             dialog.setNegative(if (force) "" else VMStr.byRes(R.string.version_skip))
             dialog.setPositive(VMStr.byRes(R.string.version_upgrade)) {
                 if (version.url.isNullOrEmpty()) {
-                    errorBar("无法打开升级地址")
+                    errorBar("升级地址出错，请联系管理员")
                 } else {
                     CRouter.goWeb(version.url, true)
                 }

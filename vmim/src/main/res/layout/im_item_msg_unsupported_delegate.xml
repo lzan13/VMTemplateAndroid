@@ -1,61 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="@dimen/vm_dimen_16"
+    android:paddingTop="@dimen/vm_dimen_8"
+    android:paddingEnd="@dimen/vm_dimen_16"
+    tools:context="com.vmloft.develop.library.im.chat.msg.MsgUnsupportedDelegate">
 
-    <data>
-
-        <import type="com.vmloft.develop.library.common.utils.FormatUtils" />
-
-        <variable
-            name="time"
-            type="long" />
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/imMsgTimeTV"
+        style="@style/IMText.Tips"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/im_shape_msg_tips_bg"
+        android:paddingStart="@dimen/vm_dimen_8"
+        android:paddingTop="@dimen/vm_dimen_2"
+        android:paddingEnd="@dimen/vm_dimen_8"
+        android:paddingBottom="@dimen/vm_dimen_2"
+        app:layout_constraintBottom_toTopOf="@+id/imMsgContentTV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="2021/05/22 11:05" />
+
+    <TextView
+        android:id="@+id/imMsgContentTV"
+        style="@style/IMText.Msg.System"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/vm_dimen_40"
+        android:layout_marginTop="@dimen/vm_dimen_8"
+        android:layout_marginEnd="@dimen/vm_dimen_40"
+        android:background="@drawable/im_shape_msg_tips_bg"
+        android:includeFontPadding="false"
         android:paddingStart="@dimen/vm_dimen_16"
         android:paddingTop="@dimen/vm_dimen_8"
         android:paddingEnd="@dimen/vm_dimen_16"
-        tools:context="com.vmloft.develop.library.im.chat.msg.MsgUnsupportedDelegate">
-
-        <TextView
-            android:id="@+id/imMsgTimeTV"
-            style="@style/IMText.Tips"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/im_shape_msg_tips_bg"
-            android:paddingStart="@dimen/vm_dimen_8"
-            android:paddingTop="@dimen/vm_dimen_2"
-            android:paddingEnd="@dimen/vm_dimen_8"
-            android:paddingBottom="@dimen/vm_dimen_2"
-            android:text="@{FormatUtils.relativeTime(time)}"
-            app:layout_constraintBottom_toTopOf="@+id/imMsgContentTV"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="2021/05/22 11:05" />
-
-        <TextView
-            android:id="@+id/imMsgContentTV"
-            style="@style/IMText.Msg.System"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/vm_dimen_40"
-            android:layout_marginTop="@dimen/vm_dimen_8"
-            android:layout_marginEnd="@dimen/vm_dimen_40"
-            android:background="@drawable/im_shape_msg_tips_bg"
-            android:includeFontPadding="false"
-            android:paddingStart="@dimen/vm_dimen_16"
-            android:paddingTop="@dimen/vm_dimen_8"
-            android:paddingEnd="@dimen/vm_dimen_16"
-            android:paddingBottom="@dimen/vm_dimen_8"
-            app:layout_constrainedWidth="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imMsgTimeTV"
-            tools:text="暂不支持的消息类型，请升级查看请升级查看请升级查看请升级查看" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+        android:paddingBottom="@dimen/vm_dimen_8"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imMsgTimeTV"
+        tools:text="暂不支持的消息类型，请升级查看请升级查看请升级查看请升级查看" />
+</androidx.constraintlayout.widget.ConstraintLayout>

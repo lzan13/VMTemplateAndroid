@@ -16,30 +16,21 @@ class FollowRepository : BaseRepository() {
      * 关注
      */
     suspend fun follow(id: String): RResult<Any> {
-        return safeRequest(call = { requestFollow(id) })
+        return safeRequest { executeResponse(APIRequest.followAPI.follow(id)) }
     }
-
-    private suspend fun requestFollow(id: String): RResult<Any> =
-        executeResponse(APIRequest.followAPI.follow(id))
 
     /**
      * 取消关注
      */
     suspend fun cancelFollow(id: String): RResult<Any> {
-        return safeRequest(call = { requestCancelFollow(id) })
+        return safeRequest { executeResponse(APIRequest.followAPI.cancelFollow(id)) }
     }
-
-    private suspend fun requestCancelFollow(id: String): RResult<Any> =
-        executeResponse(APIRequest.followAPI.cancelFollow(id))
 
     /**
      * 获取关注列表
      */
     suspend fun getFollowList(userId: String, type: Int, page: Int, limit: Int): RResult<RPaging<User>> {
-        return safeRequest(call = { requestFollowList(userId, type, page, limit) })
+        return safeRequest { executeResponse(APIRequest.followAPI.getFollowList(userId, type, page, limit)) }
     }
-
-    private suspend fun requestFollowList(userId: String, type: Int, page: Int, limit: Int): RResult<RPaging<User>> =
-        executeResponse(APIRequest.followAPI.getFollowList(userId, type, page, limit))
 
 }

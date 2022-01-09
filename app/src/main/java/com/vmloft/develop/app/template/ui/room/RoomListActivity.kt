@@ -14,6 +14,7 @@ import com.vmloft.develop.app.template.common.SignManager
 import com.vmloft.develop.app.template.databinding.ActivityRoomListBinding
 import com.vmloft.develop.app.template.im.IMManager
 import com.vmloft.develop.app.template.request.bean.Room
+import com.vmloft.develop.app.template.request.viewmodel.RoomViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.common.base.BItemDelegate
 import com.vmloft.develop.library.common.base.BVMActivity
@@ -21,14 +22,9 @@ import com.vmloft.develop.library.common.base.BViewModel
 import com.vmloft.develop.library.common.common.CConstants
 import com.vmloft.develop.library.common.request.RPaging
 import com.vmloft.develop.library.common.router.CRouter
-import com.vmloft.develop.library.common.widget.CommonDialog
-import com.vmloft.develop.library.common.widget.StaggeredItemDecoration
+import com.vmloft.develop.library.common.ui.widget.CommonDialog
+import com.vmloft.develop.library.common.ui.widget.decoration.StaggeredItemDecoration
 import com.vmloft.develop.library.tools.utils.VMDimen
-
-import kotlinx.android.synthetic.main.activity_room_list.*
-import kotlinx.android.synthetic.main.activity_room_list.recyclerView
-import kotlinx.android.synthetic.main.activity_room_list.refreshLayout
-import kotlinx.android.synthetic.main.fragment_post_falls.*
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -37,7 +33,7 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  * 房间列表
  */
 @Route(path = AppRouter.appRoomList)
-class RoomListActivity : BVMActivity<RoomViewModel>() {
+class RoomListActivity : BVMActivity<ActivityRoomListBinding, RoomViewModel>() {
 
     private var page: Int = CConstants.defaultPage
     private var limit: Int = CConstants.defaultLimit
@@ -47,22 +43,21 @@ class RoomListActivity : BVMActivity<RoomViewModel>() {
     private val mItems = ArrayList<Any>()
     private val mLayoutManager by lazy { StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL) }
 
-    override fun initVM(): RoomViewModel = getViewModel()
+    override fun initVB() = ActivityRoomListBinding.inflate(layoutInflater)
 
-    override fun layoutId() = R.layout.activity_room_list
+    override fun initVM(): RoomViewModel = getViewModel()
 
     override fun initUI() {
         super.initUI()
-        (mBinding as ActivityRoomListBinding).viewModel = mViewModel
+        setTopTitle(R.string.room_list)
 
-        roomListAddIV.setOnClickListener { CRouter.go(AppRouter.appRoomCreate) }
+        mBinding.roomListAddIV.setOnClickListener { CRouter.go(AppRouter.appRoomCreate) }
 
         initRecyclerView()
     }
 
     override fun initData() {
         ARouter.getInstance().inject(this)
-        setTopTitle(R.string.room_list)
 
         mViewModel.getRoomList()
     }
@@ -81,16 +76,16 @@ class RoomListActivity : BVMActivity<RoomViewModel>() {
 
         mAdapter.items = mItems
 
-        recyclerView.layoutManager = mLayoutManager
-        recyclerView.addItemDecoration(StaggeredItemDecoration(VMDimen.dp2px(8)))
-        recyclerView.adapter = mAdapter
+        mBinding.recyclerView.layoutManager = mLayoutManager
+        mBinding.recyclerView.addItemDecoration(StaggeredItemDecoration(VMDimen.dp2px(8)))
+        mBinding.recyclerView.adapter = mAdapter
         // 设置下拉刷新
-        refreshLayout.setOnRefreshListener {
-            refreshLayout.setNoMoreData(false)
+        mBinding.refreshLayout.setOnRefreshListener {
+            mBinding.refreshLayout.setNoMoreData(false)
             mViewModel.getRoomList()
         }
         // 设置加载更多
-        refreshLayout.setOnLoadMoreListener {
+        mBinding.refreshLayout.setOnLoadMoreListener {
             page++
             mViewModel.getRoomList(page)
         }
@@ -119,7 +114,7 @@ class RoomListActivity : BVMActivity<RoomViewModel>() {
             mAdapter.notifyItemRangeInserted(position, count)
         }
         if (paging.currentCount + paging.page * paging.limit >= paging.totalCount) {
-            refreshLayout.setNoMoreData(true)
+            mBinding.refreshLayout.setNoMoreData(true)
         }
         // 空态检查
         checkEmptyStatus()
@@ -137,8 +132,15 @@ class RoomListActivity : BVMActivity<RoomViewModel>() {
                 hideEmptyView()
             }
         } else {
-            refreshLayout.visibility = View.GONE
+            mBinding.refreshLayout.visibility = View.GONE
             showEmptyFailed()
+        }
+    }
+
+    override fun onModelLoading(model: BViewModel.UIModel) {
+        if (!model.isLoading) {
+            mBinding.refreshLayout.finishRefresh()
+            mBinding.refreshLayout.finishLoadMore()
         }
     }
 
@@ -146,10 +148,6 @@ class RoomListActivity : BVMActivity<RoomViewModel>() {
      * 结果刷新
      */
     override fun onModelRefresh(model: BViewModel.UIModel) {
-        if (!model.isLoading) {
-            refreshLayout.finishRefresh()
-            refreshLayout.finishLoadMore()
-        }
         if (model.type == "destroyRoom") {
             // 1.销毁的话把缓存里的房间信息也要删掉
             CacheManager.setLastRoom(null, true)

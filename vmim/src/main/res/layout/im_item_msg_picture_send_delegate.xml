@@ -1,123 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="@dimen/vm_dimen_16"
+    android:paddingTop="@dimen/vm_dimen_8"
+    android:paddingEnd="@dimen/vm_dimen_16"
+    tools:context="com.vmloft.develop.library.im.chat.msg.MsgTextSendDelegate">
 
-    <data>
-
-        <import type="android.view.View" />
-
-        <import type="com.vmloft.develop.library.common.utils.FormatUtils" />
-
-        <variable
-            name="status"
-            type="int" />
-
-        <variable
-            name="time"
-            type="long" />
-    </data>
+    <TextView
+        android:id="@+id/imMsgTimeTV"
+        style="@style/IMText.Tips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/im_shape_msg_tips_bg"
+        android:paddingStart="@dimen/vm_dimen_8"
+        android:paddingTop="@dimen/vm_dimen_2"
+        android:paddingEnd="@dimen/vm_dimen_8"
+        android:paddingBottom="@dimen/vm_dimen_2"
+        android:text="@{FormatUtils.relativeTime(time)}"
+        app:layout_constraintBottom_toTopOf="@+id/imMsgContainerCL"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="2021/05/22 11:05" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+        android:id="@+id/imMsgContainerCL"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/vm_dimen_16"
-        android:paddingTop="@dimen/vm_dimen_8"
-        android:paddingEnd="@dimen/vm_dimen_16"
-        tools:context="com.vmloft.develop.library.im.chat.msg.MsgTextSendDelegate">
+        android:layout_marginTop="@dimen/vm_dimen_8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imMsgTimeTV">
+        <!--头像-->
+        <ImageView
+            android:id="@+id/imMsgAvatarIV"
+            android:layout_width="@dimen/vm_dimen_32"
+            android:layout_height="@dimen/vm_dimen_32"
+            android:src="@drawable/img_default_avatar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+        <!--三角-->
+        <View
+            android:id="@+id/imMsgBubbleTriangleView"
+            android:layout_width="@dimen/vm_dimen_16"
+            android:layout_height="@dimen/vm_dimen_16"
+            android:background="@drawable/im_msg_bubble_triangle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imMsgAvatarIV" />
+        <!--背景-->
+        <View
+            android:id="@+id/imMsgBubbleView"
+            android:layout_width="@dimen/vm_dimen_0"
+            android:layout_height="@dimen/vm_dimen_0"
+            android:background="@drawable/im_msg_bubble_send_bg"
+            app:layout_constraintBottom_toBottomOf="@+id/imMsgPictureIV"
+            app:layout_constraintEnd_toEndOf="@+id/imMsgPictureIV"
+            app:layout_constraintStart_toStartOf="@+id/imMsgPictureIV"
+            app:layout_constraintTop_toTopOf="@+id/imMsgPictureIV" />
 
-        <TextView
-            android:id="@+id/imMsgTimeTV"
-            style="@style/IMText.Tips"
+        <View
+            android:id="@+id/imMsgBubbleEndView"
+            android:layout_width="@dimen/vm_dimen_40"
+            android:layout_height="@dimen/vm_dimen_32"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imMsgPictureIV"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!--发送状态-->
+        <com.vmloft.develop.library.tools.widget.loading.VMLoadingView
+            android:id="@+id/imMsgLoadingView"
+            android:layout_width="@dimen/vm_dimen_32"
+            android:layout_height="@dimen/vm_dimen_32"
+            android:padding="@dimen/vm_dimen_8"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/imMsgPictureIV"
+            app:layout_constraintEnd_toStartOf="@+id/imMsgPictureIV"
+            app:vm_loading_color="@color/app_main" />
+        <!--发送失败-->
+        <ImageView
+            android:id="@+id/imMsgFailedIV"
+            android:layout_width="@dimen/vm_dimen_32"
+            android:layout_height="@dimen/vm_dimen_32"
+            android:padding="@dimen/vm_dimen_8"
+            android:src="@drawable/ic_alert"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/imMsgPictureIV"
+            app:layout_constraintEnd_toStartOf="@+id/imMsgPictureIV"
+            app:tint="@color/app_error" />
+
+        <!--内容-->
+        <ImageView
+            android:id="@+id/imMsgPictureIV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/im_shape_msg_tips_bg"
-            android:paddingStart="@dimen/vm_dimen_8"
-            android:paddingTop="@dimen/vm_dimen_2"
-            android:paddingEnd="@dimen/vm_dimen_8"
-            android:paddingBottom="@dimen/vm_dimen_2"
-            android:text="@{FormatUtils.relativeTime(time)}"
-            app:layout_constraintBottom_toTopOf="@+id/imMsgContainerCL"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="2021/05/22 11:05" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/imMsgContainerCL"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/vm_dimen_8"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imMsgTimeTV">
-            <!--头像-->
-            <ImageView
-                android:id="@+id/imMsgAvatarIV"
-                android:layout_width="@dimen/vm_dimen_32"
-                android:layout_height="@dimen/vm_dimen_32"
-                android:src="@drawable/img_default_avatar"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-            <!--三角-->
-            <View
-                android:id="@+id/imMsgBubbleTriangleView"
-                android:layout_width="@dimen/vm_dimen_16"
-                android:layout_height="@dimen/vm_dimen_16"
-                android:background="@drawable/im_msg_bubble_triangle"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/imMsgAvatarIV" />
-            <!--背景-->
-            <View
-                android:id="@+id/imMsgBubbleView"
-                android:layout_width="@dimen/vm_dimen_0"
-                android:layout_height="@dimen/vm_dimen_0"
-                android:background="@drawable/im_msg_bubble_send_bg"
-                app:layout_constraintBottom_toBottomOf="@+id/imMsgPictureIV"
-                app:layout_constraintEnd_toEndOf="@+id/imMsgPictureIV"
-                app:layout_constraintStart_toStartOf="@+id/imMsgPictureIV"
-                app:layout_constraintTop_toTopOf="@+id/imMsgPictureIV" />
-
-            <View
-                android:id="@+id/imMsgBubbleEndView"
-                android:layout_width="@dimen/vm_dimen_40"
-                android:layout_height="@dimen/vm_dimen_32"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/imMsgPictureIV"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <!--发送状态-->
-            <com.vmloft.develop.library.tools.widget.loading.VMLoadingView
-                android:layout_width="@dimen/vm_dimen_32"
-                android:layout_height="@dimen/vm_dimen_32"
-                android:padding="@dimen/vm_dimen_8"
-                android:visibility="@{status > 1 ? View.VISIBLE : View.GONE}"
-                app:layout_constraintBottom_toBottomOf="@+id/imMsgPictureIV"
-                app:layout_constraintEnd_toStartOf="@+id/imMsgPictureIV"
-                app:vm_loading_color="@color/app_main" />
-            <!--发送失败-->
-            <ImageView
-                android:layout_width="@dimen/vm_dimen_32"
-                android:layout_height="@dimen/vm_dimen_32"
-                android:padding="@dimen/vm_dimen_8"
-                android:src="@drawable/ic_alert"
-                android:visibility="@{status == 1 ? View.VISIBLE : View.GONE}"
-                app:layout_constraintBottom_toBottomOf="@+id/imMsgPictureIV"
-                app:layout_constraintEnd_toStartOf="@+id/imMsgPictureIV"
-                app:tint="@color/app_error" />
-
-            <!--内容-->
-            <ImageView
-                android:id="@+id/imMsgPictureIV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/vm_dimen_8"
-                android:minWidth="@dimen/vm_dimen_32"
-                android:minHeight="@dimen/vm_dimen_32"
-                app:layout_constrainedWidth="true"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/imMsgAvatarIV"
-                app:layout_constraintStart_toEndOf="@+id/imMsgBubbleEndView"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_marginEnd="@dimen/vm_dimen_8"
+            android:minWidth="@dimen/vm_dimen_32"
+            android:minHeight="@dimen/vm_dimen_32"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imMsgAvatarIV"
+            app:layout_constraintStart_toEndOf="@+id/imMsgBubbleEndView"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

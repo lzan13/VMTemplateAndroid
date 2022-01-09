@@ -6,7 +6,6 @@ import android.media.AudioManager
 import android.media.SoundPool
 import com.hyphenate.chat.EMMessage
 
-import com.vmloft.develop.library.common.common.CConstants
 import com.vmloft.develop.library.common.event.LDEventBus
 import com.vmloft.develop.library.im.IM
 import com.vmloft.develop.library.im.R
@@ -14,9 +13,7 @@ import com.vmloft.develop.library.im.chat.IMChatManager
 import com.vmloft.develop.library.im.common.IMConstants
 import com.vmloft.develop.library.im.router.IMRouter
 import com.vmloft.develop.library.tools.utils.logger.VMLog
-import io.agora.rtc.Constants
 
-import io.agora.rtc.IRtcEngineEventHandler
 import io.agora.rtc.RtcEngine
 
 import java.util.*
@@ -143,12 +140,6 @@ object IMCallManager {
         message.setStatus(EMMessage.Status.SUCCESS)
         message.setAttribute(IMConstants.Common.msgAttrExtType, IMConstants.MsgType.imCall)
         message.setAttribute(IMConstants.Call.msgAttrCallType, IMConstants.Call.callTypeVoice)
-
-        if (isInComingCall) {
-            message.from = id
-        } else {
-            message.to = id
-        }
 
         IMChatManager.saveMessage(message)
     }

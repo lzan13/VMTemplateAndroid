@@ -11,10 +11,10 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Comment(
     @SerializedName("_id")
-    var id: String,
-    var owner: User,
-    var user: User? = null,
-    var post: Post? = null,
+    var id: String = "",
+    var owner: User = User(),
+    var user: User = User(),
+    var post: Post = Post(),
     var content: String = "",
     var likeCount: Int = 0,
     var createdAt: String = "",

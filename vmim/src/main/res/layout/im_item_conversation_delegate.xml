@@ -1,117 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/vm_dimen_72"
+    android:background="@drawable/shape_fill_common_bg"
+    tools:context="com.vmloft.develop.library.im.conversation.IMItemConversationDelegate">
 
-    <data>
-
-        <import type="android.view.View" />
-
-        <import type="com.vmloft.develop.library.common.utils.FormatUtils" />
-
-        <variable
-            name="top"
-            type="boolean" />
-
-        <variable
-            name="unread"
-            type="int" />
-
-        <variable
-            name="time"
-            type="long" />
-
-        <variable
-            name="title"
-            type="String" />
-
-        <variable
-            name="content"
-            type="String" />
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/vm_dimen_72"
-        android:background="@drawable/shape_fill_common_bg"
-        tools:context="com.vmloft.develop.library.im.conversation.IMItemConversationDelegate">
-
-        <ImageView
-            android:id="@+id/imConversationTopIV"
-            android:layout_width="@dimen/vm_dimen_20"
-            android:layout_height="@dimen/vm_dimen_20"
-            android:src="@drawable/ic_top"
-            android:visibility="@{top ? View.VISIBLE : View.GONE}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible" />
-        <!--头像-->
-        <ImageView
-            android:id="@+id/imConversationAvatarIV"
-            android:layout_width="@dimen/vm_dimen_40"
-            android:layout_height="@dimen/vm_dimen_40"
-            android:layout_marginStart="@dimen/vm_margin_large"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/img_default_avatar" />
-        <!--未读数-->
-        <TextView
-            android:id="@+id/imConversationUnreadTV"
-            style="@style/IMText.Unread"
-            android:gravity="center"
-            android:minWidth="@dimen/vm_dimen_16"
-            android:minHeight="@dimen/vm_dimen_16"
-            android:paddingLeft="@dimen/vm_dimen_4"
-            android:paddingRight="@dimen/vm_dimen_4"
-            android:text="@{FormatUtils.wrapUnread(unread)}"
-            android:visibility="@{unread>0 ? View.VISIBLE : View.GONE}"
-            app:layout_constraintEnd_toEndOf="@+id/imConversationAvatarIV"
-            app:layout_constraintTop_toTopOf="@+id/imConversationAvatarIV"
-            tools:text="99"
-            tools:visibility="visible" />
-        <!--标题-->
-        <TextView
-            android:id="@+id/imConversationTitleTV"
-            style="@style/IMText.Title"
-            android:layout_marginStart="@dimen/vm_margin_normal"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="@{title}"
-            android:textSize="@dimen/vm_size_16"
-            app:layout_constraintBottom_toTopOf="@+id/imConversationContentTV"
-            app:layout_constraintStart_toEndOf="@+id/imConversationAvatarIV"
-            app:layout_constraintTop_toTopOf="@+id/imConversationAvatarIV"
-            app:layout_constraintVertical_chainStyle="packed"
-            tools:text="小不点小不点小不点小不点" />
-        <!--时间-->
-        <TextView
-            android:id="@+id/imConversationTimeTV"
-            style="@style/IMText.Tips"
-            android:layout_width="@dimen/vm_dimen_0"
-            android:layout_marginStart="@dimen/vm_margin_normal"
-            android:layout_marginEnd="@dimen/vm_margin_large"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="@{FormatUtils.relativeTime(time)}"
-            android:textSize="@dimen/vm_size_8"
-            app:layout_constraintBottom_toBottomOf="@+id/imConversationTitleTV"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imConversationTitleTV"
-            tools:text="2019年4月5日" />
-        <!--内容-->
-        <TextView
-            android:id="@+id/imConversationContentTV"
-            style="@style/IMText.Subtitle"
-            android:layout_width="@dimen/vm_dimen_0"
-            android:layout_marginEnd="@dimen/vm_dimen_16"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text='@{ content == "" ? @string/im_empty : content}'
-            app:layout_constraintBottom_toBottomOf="@+id/imConversationAvatarIV"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/imConversationTitleTV"
-            app:layout_constraintTop_toBottomOf="@+id/imConversationTitleTV"
-            tools:text="你什么时候出来啊，我等你你什么时候出来啊，我等你你什么时候出来啊，我等你" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+    <ImageView
+        android:id="@+id/imConversationTopIV"
+        android:layout_width="@dimen/vm_dimen_20"
+        android:layout_height="@dimen/vm_dimen_20"
+        android:src="@drawable/ic_top"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+    <!--头像-->
+    <ImageView
+        android:id="@+id/imConversationAvatarIV"
+        android:layout_width="@dimen/vm_dimen_40"
+        android:layout_height="@dimen/vm_dimen_40"
+        android:layout_marginStart="@dimen/vm_margin_large"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/img_default_avatar" />
+    <!--未读数-->
+    <TextView
+        android:id="@+id/imConversationUnreadTV"
+        style="@style/IMText.Unread"
+        android:gravity="center"
+        android:minWidth="@dimen/vm_dimen_16"
+        android:minHeight="@dimen/vm_dimen_16"
+        android:paddingLeft="@dimen/vm_dimen_4"
+        android:paddingRight="@dimen/vm_dimen_4"
+        android:text="@{FormatUtils.wrapUnread(unread)}"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/imConversationAvatarIV"
+        app:layout_constraintTop_toTopOf="@+id/imConversationAvatarIV"
+        tools:text="99"
+        tools:visibility="visible" />
+    <!--标题-->
+    <TextView
+        android:id="@+id/imConversationTitleTV"
+        style="@style/IMText.Title"
+        android:layout_marginStart="@dimen/vm_margin_normal"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textSize="@dimen/vm_size_16"
+        app:layout_constraintBottom_toTopOf="@+id/imConversationContentTV"
+        app:layout_constraintStart_toEndOf="@+id/imConversationAvatarIV"
+        app:layout_constraintTop_toTopOf="@+id/imConversationAvatarIV"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="小不点小不点小不点小不点" />
+    <!--时间-->
+    <TextView
+        android:id="@+id/imConversationTimeTV"
+        style="@style/IMText.Tips"
+        android:layout_width="@dimen/vm_dimen_0"
+        android:layout_marginStart="@dimen/vm_margin_normal"
+        android:layout_marginEnd="@dimen/vm_margin_large"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textSize="@dimen/vm_size_8"
+        app:layout_constraintBottom_toBottomOf="@+id/imConversationTitleTV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imConversationTitleTV"
+        tools:text="2019年4月5日" />
+    <!--内容-->
+    <TextView
+        android:id="@+id/imConversationContentTV"
+        style="@style/IMText.Subtitle"
+        android:layout_width="@dimen/vm_dimen_0"
+        android:layout_marginEnd="@dimen/vm_dimen_16"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text='@string/im_empty'
+        app:layout_constraintBottom_toBottomOf="@+id/imConversationAvatarIV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/imConversationTitleTV"
+        app:layout_constraintTop_toBottomOf="@+id/imConversationTitleTV"
+        tools:text="你什么时候出来啊，我等你你什么时候出来啊，我等你你什么时候出来啊，我等你" />
+</androidx.constraintlayout.widget.ConstraintLayout>

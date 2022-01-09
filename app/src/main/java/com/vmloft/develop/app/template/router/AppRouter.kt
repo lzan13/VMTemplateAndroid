@@ -1,5 +1,6 @@
 package com.vmloft.develop.app.template.router
 
+import android.os.Parcelable
 import com.alibaba.android.arouter.launcher.ARouter
 import com.vmloft.develop.app.template.request.bean.Match
 import com.vmloft.develop.app.template.request.bean.Post
@@ -37,8 +38,17 @@ object AppRouter {
     const val appQRScan = "/App/QRScan"
     const val appQRMine = "/App/QRMine"
 
-    // 个人资料编辑
+    // 金币信息
+    const val appGold = "/App/Gold"
+    const val appGoldDesc = "/App/GoldDesc"
+
+    // 订单
+    const val appOrderDetail = "/App/OrderDetail"
+    const val appOrderList = "/App/OrderList"
+
+    // 个人资料
     const val appPersonalInfo = "/App/PersonalInfo"
+    const val appPersonalInfoGuide = "/App/PersonalInfoGuide"
     const val appPersonalAuth = "/App/PersonalAuth"
     const val appEditUsername = "/App/EditUsername"
     const val appEditNickname = "/App/EditNickname"
@@ -49,60 +59,20 @@ object AppRouter {
 
 
     // 内容
-    const val appPublish = "/App/PublishPost"
+    const val appPostCreate = "/App/PostCreate"
     const val appPostDetails = "/App/PostDetail"
-
-    // 匹配
-    const val appMatchAnim = "/App/MatchFast"
+    const val appPostComment = "/App/appPostComment"
 
     // 用户信息
     const val appUserInfo = "/App/UserInfo"
+
+    // 匹配
+    const val appMatchAnim = "/App/MatchAnim"
+    const val appMatchSecret = "/App/MatchSecret"
 
     // 房间信息
     const val appRoomList = "/App/RoomList"
     const val appRoomCreate = "/App/RoomCreate"
 
-
-    /**
-     * 跳转匹配过渡动画界面
-     */
-    fun goMatch(type: Int, gender: Int) {
-        ARouter.getInstance().build(appMatchAnim).withInt("type", type).withInt("gender", gender).navigation()
-    }
-
-    /**
-     * 用户信息
-     */
-    fun goUserInfo(user: User) {
-        ARouter.getInstance().build(appUserInfo).withParcelable("user", user).navigation()
-    }
-
-    /**
-     * 帖子详情
-     */
-    fun goPostDetail(post: Post) {
-        ARouter.getInstance().build(appPostDetails).withParcelable("post", post).navigation()
-    }
-
-    /**
-     * 个人信息昵称设置[EditNicknameActivity]
-     */
-    fun goEditNickname(nickname: String?) {
-        ARouter.getInstance().build(appEditNickname).withString("nickname", nickname).navigation()
-    }
-
-    /**
-     * 个人信息签名设置[EditSignatureActivity]
-     */
-    fun goEditSignature(signature: String?) {
-        ARouter.getInstance().build(appEditSignature).withString("signature", signature).navigation()
-    }
-
-    /**
-     * 协议和政策[AgreementPolicyActivity]
-     */
-    fun goAgreementPolicy(type: String = "agreement") {
-        ARouter.getInstance().build(appSettingsAgreementPolicy).withString("type", type).navigation()
-    }
 
 }

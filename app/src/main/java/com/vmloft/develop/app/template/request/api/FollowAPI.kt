@@ -13,19 +13,18 @@ import retrofit2.http.*
 interface FollowAPI {
 
     /**
-     * ------------------------------------ 关注接口  ------------------------------------
-     */
-    /**
      * 关注
      */
-    @POST("v1/follow/{id}")
-    suspend fun follow(@Path("id") id: String): RResponse<Any>
+    @FormUrlEncoded
+    @POST("v1/follow")
+    suspend fun follow(@Field("id") id: String): RResponse<Any>
 
     /**
      * 取消关注
      */
-    @DELETE("v1/follow/{id}")
-    suspend fun cancelFollow(@Path("id") id: String): RResponse<Any>
+    @FormUrlEncoded
+    @POST("v1/follow/cancel")
+    suspend fun cancelFollow(@Field("id") id: String): RResponse<Any>
 
     /**
      * 获取关注列表

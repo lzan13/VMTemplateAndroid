@@ -18,7 +18,7 @@ import kotlinx.android.parcel.Parcelize
 data class Config(
     @PrimaryKey
     @SerializedName("_id")
-    val id: String,
+    val id: String = "",
     val alias: String = "",
     val title: String = "",
     val desc: String = "",

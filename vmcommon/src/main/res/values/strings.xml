@@ -16,17 +16,19 @@
     <!--通用-->
     <string name="common_loading">加载中...</string>
     <string name="common_wait">请稍等...</string>
-    <string name="common_not_more">无更多数据</string>
+    <string name="common_not_more">~ 无更多数据 ~</string>
 
     <!--按钮-->
     <string name="btn_save">保存</string>
     <string name="btn_submit">提交</string>
     <string name="btn_cancel">取消</string>
     <string name="btn_confirm">确定</string>
+    <string name="btn_complete">完成</string>
     <string name="btn_publish">发布</string>
     <string name="btn_agree">同意</string>
     <string name="btn_disagree">不同意</string>
     <string name="btn_i_known">我知道了</string>
+    <string name="btn_skip">跳过</string>
 
     <!--输入-->
     <string name="input_hint">请输入...</string>

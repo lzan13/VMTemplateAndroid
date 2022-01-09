@@ -32,8 +32,7 @@
         <!--闪屏页-->
         <activity
             android:name=".ui.splash.SplashActivity"
-            android:theme="@style/AppTheme.Launcher"
-            android:windowSoftInputMode="adjustNothing|stateAlwaysHidden">
+            android:theme="@style/AppTheme.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -43,64 +42,57 @@
         <!--主界面-->
         <activity
             android:name=".ui.main.MainActivity"
-            android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustNothing|stateHidden" />
+            android:launchMode="singleTop" />
 
         <!--引导-->
-        <activity
-            android:name=".ui.guide.GuideActivity"
-            android:windowSoftInputMode="adjustNothing|stateAlwaysHidden" />
+        <activity android:name=".ui.guide.GuideActivity" />
 
         <!--登录引导-->
-        <activity
-            android:name=".ui.sign.SignActivity"
-            android:windowSoftInputMode="adjustNothing|stateAlwaysHidden" />
+        <activity android:name=".ui.sign.SignGuideActivity" />
         <!--登录-->
-        <activity
-            android:name=".ui.sign.SignInActivity"
-            android:windowSoftInputMode="adjustNothing|stateHidden" />
+        <activity android:name=".ui.sign.SignInActivity" />
         <!--注册-->
-        <activity
-            android:name=".ui.sign.SignUpActivity"
-            android:windowSoftInputMode="adjustNothing|stateHidden" />
+        <activity android:name=".ui.sign.SignUpActivity" />
 
         <!--匹配动画过渡界面-->
         <activity android:name=".ui.main.home.MatchAnimActivity" />
 
         <!--聊天室列表界面-->
-        <activity
-            android:name=".ui.room.RoomListActivity"
-            android:windowSoftInputMode="adjustNothing|stateHidden" />
+        <activity android:name=".ui.room.RoomListActivity" />
 
         <!--聊天室创建界面-->
         <activity
             android:name=".ui.room.RoomCreateActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustResize|stateVisible" />
 
         <!--二维码-->
-        <activity
-            android:name=".ui.qr.QRCodeScanActivity"
-            android:windowSoftInputMode="adjustNothing|stateHidden" />
-        <activity
-            android:name=".ui.qr.QRCodeMineActivity"
-            android:windowSoftInputMode="adjustNothing|stateHidden" />
+        <activity android:name=".ui.qr.QRCodeScanActivity" />
+        <activity android:name=".ui.qr.QRCodeMineActivity" />
 
         <!--发布-->
         <activity
             android:name=".ui.post.PostCreateActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustResize|stateVisible" />
         <!--详情-->
+        <activity android:name=".ui.post.PostDetailsActivity" />
+        <!--发表评论-->
         <activity
-            android:name=".ui.post.PostDetailsActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:name=".ui.post.PostCommentActivity"
+            android:theme="@style/AppTheme.Transparent"
+            android:windowSoftInputMode="adjustResize|stateAlwaysVisible" />
 
         <!--用户信息-->
-        <activity
-            android:name=".ui.user.UserInfoActivity"
-            android:windowSoftInputMode="adjustNothing|stateAlwaysHidden" />
+        <activity android:name=".ui.user.UserInfoActivity" />
 
+        <!--金币-->
+        <activity android:name=".ui.main.mine.gold.GoldActivity" />
+        <activity android:name=".ui.main.mine.gold.GoldDescActivity" />
+        <!--订单-->
+        <activity android:name=".ui.order.OrderDetailActivity" />
+        <activity android:name=".ui.order.OrderListActivity" />
         <!--个人信息-->
         <activity android:name=".ui.main.mine.info.PersonalInfoActivity" />
+        <activity android:name=".ui.main.mine.info.PersonalInfoGuideActivity" />
         <!--个人信息绑定邮箱-->
         <activity android:name=".ui.main.mine.info.BindEmailActivity" />
         <!--个人信息用户名设置-->

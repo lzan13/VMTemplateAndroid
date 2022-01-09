@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:dither="true"
+    android:shape="rectangle">
+    <corners android:radius="@dimen/vm_dimen_8" />
+    <!--填充背景色-->
+    <solid android:color="@color/app_common_gray_shape" />
+</shape>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center">
+
+    <com.vmloft.develop.library.tools.widget.loading.VMLoadingView
+        android:id="@+id/loadingView"
+        android:layout_width="@dimen/vm_dimen_36"
+        android:layout_height="@dimen/vm_dimen_36"
+        android:layout_margin="@dimen/vm_dimen_16"
+        app:vm_loading_color="@color/app_accent"
+        app:vm_loading_type="DoubleCircle" />
+
+</LinearLayout>

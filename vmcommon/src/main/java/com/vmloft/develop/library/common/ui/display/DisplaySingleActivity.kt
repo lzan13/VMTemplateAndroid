@@ -1,6 +1,5 @@
 package com.vmloft.develop.library.common.ui.display
 
-
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -8,12 +7,10 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.vmloft.develop.library.common.R
 import com.vmloft.develop.library.common.base.BVMActivity
 import com.vmloft.develop.library.common.base.BViewModel
+import com.vmloft.develop.library.common.databinding.ActivityDisplaySingleBinding
 import com.vmloft.develop.library.common.image.IMGLoader
 import com.vmloft.develop.library.common.router.CRouter
 import com.vmloft.develop.library.tools.utils.VMColor
-
-import kotlinx.android.synthetic.main.activity_display_single.*
-import kotlinx.android.synthetic.main.widget_common_top_bar.*
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -22,28 +19,28 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  * 描述：展示单图
  */
 @Route(path = CRouter.commonDisplaySingle)
-class DisplaySingleActivity : BVMActivity<DisplayViewModel>() {
+class DisplaySingleActivity : BVMActivity<ActivityDisplaySingleBinding, DisplayViewModel>() {
 
     @Autowired
     lateinit var url: String
 
-    override fun initVM(): DisplayViewModel = getViewModel()
+    override fun initVB() = ActivityDisplaySingleBinding.inflate(layoutInflater)
 
-    override fun layoutId(): Int = R.layout.activity_display_single
+    override fun initVM(): DisplayViewModel = getViewModel()
 
     override fun initUI() {
         super.initUI()
-        commonTopBar.setIconColor(VMColor.byRes(R.color.app_title_display))
-        commonTopBar.setBackgroundColor(VMColor.byRes(R.color.app_bg_transparent_dark))
-        commonTopBar.setEndIcon(R.drawable.ic_download_picture)
-        commonTopBar.setEndIconListener { savePicture() }
+
+        setTopIconColor(VMColor.byRes(R.color.app_title_display))
+        setTopBGColor(VMColor.byRes(R.color.app_bg_transparent_dark))
+        setTopEndIcon(R.drawable.ic_download_picture) { savePicture() }
 
     }
 
     override fun initData() {
         ARouter.getInstance().inject(this)
 
-        IMGLoader.loadCover(displayIV, url)
+        IMGLoader.loadCover(mBinding.displayIV, url,thumbExt = "")
 
 //        ADSManager.loadBannerADS(ADSManager.adsBannerId, adsContainer)
     }

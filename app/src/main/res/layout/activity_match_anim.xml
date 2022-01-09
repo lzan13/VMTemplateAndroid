@@ -1,57 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.main.home.MatchAnimActivity">
 
-    <data>
-
-        <import type="android.view.View" />
-
-        <variable
-            name="viewModel"
-            type="com.vmloft.develop.app.template.ui.main.home.MatchViewModel" />
-    </data>
-
-    <RelativeLayout
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.main.home.MatchAnimActivity">
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_match_bg" />
+    <!--匹配背景1-->
+    <View
+        android:id="@+id/matchAnimView1"
+        android:layout_width="@dimen/vm_avatar_normal"
+        android:layout_height="@dimen/vm_avatar_normal"
+        android:layout_centerInParent="true"
+        android:background="@drawable/shape_circle_common_bg"
+        android:backgroundTint="@color/app_accent" />
+    <!--匹配背景2-->
+    <View
+        android:id="@+id/matchAnimView2"
+        android:layout_width="@dimen/vm_avatar_normal"
+        android:layout_height="@dimen/vm_avatar_normal"
+        android:layout_centerInParent="true"
+        android:background="@drawable/shape_circle_common_bg"
+        android:backgroundTint="@color/app_accent" />
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/img_match_bg" />
-        <!--匹配背景1-->
-        <View
-            android:id="@+id/matchAnimView1"
-            android:layout_width="@dimen/vm_avatar_normal"
-            android:layout_height="@dimen/vm_avatar_normal"
-            android:layout_centerInParent="true"
-            android:background="@drawable/shape_circle_common_bg"
-            android:backgroundTint="@color/app_accent" />
-        <!--匹配背景2-->
-        <View
-            android:id="@+id/matchAnimView2"
-            android:layout_width="@dimen/vm_avatar_normal"
-            android:layout_height="@dimen/vm_avatar_normal"
-            android:layout_centerInParent="true"
-            android:background="@drawable/shape_circle_common_bg"
-            android:backgroundTint="@color/app_accent" />
+    <ImageView
+        android:id="@+id/matchRadarIV"
+        android:layout_width="@dimen/vm_avatar_normal"
+        android:layout_height="@dimen/vm_avatar_normal"
+        android:layout_centerInParent="true"
+        android:background="@drawable/shape_circle_common_bg"
+        android:backgroundTint="@color/app_accent"
+        android:padding="@dimen/vm_dimen_16"
+        android:rotation="-45"
+        android:src="@drawable/ic_radar"
+        app:tint="@color/app_icon_light" />
 
-        <ImageView
-            android:id="@+id/matchRadarIV"
-            android:layout_width="@dimen/vm_avatar_normal"
-            android:layout_height="@dimen/vm_avatar_normal"
-            android:layout_centerInParent="true"
-            android:background="@drawable/shape_circle_common_bg"
-            android:backgroundTint="@color/app_accent"
-            android:padding="@dimen/vm_dimen_16"
-            android:rotation="-45"
-            android:src="@drawable/ic_radar"
-            app:tint="@color/app_icon_light" />
-
-        <!--定义顶部 TopBar-->
-        <include layout="@layout/widget_common_top_bar" />
-    </RelativeLayout>
-</layout>
+    <!--定义顶部 TopBar-->
+    <include layout="@layout/widget_common_top_bar" />
+</RelativeLayout>

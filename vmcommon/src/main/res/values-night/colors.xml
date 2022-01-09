@@ -4,13 +4,13 @@
     <color name="app_primary">#ff222222</color>
     <color name="app_primary_dark">#ff222222</color>
     <!--强调色-->
-    <color name="app_accent">#e6e63f3f</color>
+    <color name="app_accent">#e6fc455d</color>
     <!--主色-->
-    <color name="app_main">#e6e63f3f</color>
-    <color name="app_main_87">#dde63f3f</color>
-    <color name="app_main_54">#89e63f3f</color>
-    <color name="app_main_38">#61e63f3f</color>
-    <color name="app_main_12">#1ee63f3f</color>
+    <color name="app_main">#e6fc455d</color>
+    <color name="app_main_87">#ddfc455d</color>
+    <color name="app_main_54">#89fc455d</color>
+    <color name="app_main_38">#61fc455d</color>
+    <color name="app_main_12">#1efc455d</color>
 
     <!--背景色-->
     <color name="app_bg">#ff000000</color>
@@ -18,7 +18,7 @@
     <color name="app_bg_display">#ff000000</color>
     <color name="app_bg_input">#ff2a2a2a</color>
     <color name="app_bg_icon">@color/vm_gray_white_54</color>
-    <color name="app_bg_item">@color/vm_gray_black_12</color>
+    <color name="app_bg_item">@color/vm_gray_12</color>
     <color name="app_bg_mask">@color/vm_black_38</color>
     <color name="app_bg_tag">@color/vm_gray_white_12</color>
     <color name="app_bg_transparent_dark">@color/vm_black_12</color>
@@ -84,8 +84,9 @@
 
     <!--通用 shape 颜色-->
     <color name="app_common_shape">#ff2a2a2a</color>
+    <color name="app_common_gray_shape">#ff222222</color>
     <color name="app_common_shape_press">#ff000000</color>
-    <color name="app_common_border">#ff898989</color>
+    <color name="app_common_border">#ff363636</color>
 
 
     <!--分割线-->

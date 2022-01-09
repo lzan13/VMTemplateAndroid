@@ -1,32 +1,34 @@
 package com.vmloft.develop.library.im.conversation
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
+
 import com.drakeet.multitype.MultiTypeAdapter
+
 import com.hyphenate.chat.EMConversation
 import com.hyphenate.chat.EMMessage
-import com.vmloft.develop.library.common.base.BItemDelegate
-import com.vmloft.develop.library.common.base.BaseFragment
 
+import com.vmloft.develop.library.common.base.BFragment
+import com.vmloft.develop.library.common.base.BItemDelegate
 import com.vmloft.develop.library.common.event.LDEventBus
 import com.vmloft.develop.library.im.IM
 import com.vmloft.develop.library.im.R
 import com.vmloft.develop.library.im.chat.IMChatManager
 import com.vmloft.develop.library.im.common.IMConstants
+import com.vmloft.develop.library.im.databinding.ImFragmentConversationBinding
 import com.vmloft.develop.library.im.router.IMRouter
 import com.vmloft.develop.library.tools.utils.VMStr
 import com.vmloft.develop.library.tools.utils.logger.VMLog
 import com.vmloft.develop.library.tools.widget.VMFloatMenu
 
-import kotlinx.android.synthetic.main.im_fragment_conversation.*
-
 /**
  * Create by lzan13 on 2019/5/9 10:34
- *
  * IM 最近会话界面，可加载到自己的容器
  */
-class IMConversationFragment : BaseFragment() {
+class IMConversationFragment : BFragment<ImFragmentConversationBinding>() {
 
     // 列表适配器
     private val mAdapter by lazy { MultiTypeAdapter() }
@@ -49,7 +51,7 @@ class IMConversationFragment : BaseFragment() {
         }
     }
 
-    override fun layoutId(): Int = R.layout.im_fragment_conversation
+    override fun initVB(inflater: LayoutInflater, parent: ViewGroup?) = ImFragmentConversationBinding.inflate(inflater, parent, false)
 
     override fun initUI() {
         super.initUI()
@@ -60,7 +62,7 @@ class IMConversationFragment : BaseFragment() {
 
         // 监听链接状态变化
         LDEventBus.observe(this, IMConstants.ConnectStatus.connectStatusEvent, Int::class.java, {
-            imConversationConnectionLL.visibility = if (it == IMConstants.ConnectStatus.connected) View.GONE else View.VISIBLE
+            mBinding.imConversationConnectionLL.visibility = if (it == IMConstants.ConnectStatus.connected) View.GONE else View.VISIBLE
         })
         // 监听新消息
         LDEventBus.observe(this, IMConstants.Common.newMsgEvent, EMMessage::class.java, {
@@ -81,7 +83,7 @@ class IMConversationFragment : BaseFragment() {
      */
     private fun initRecyclerView() {
         // 刷新监听
-        imConversationRefreshLayout.setOnRefreshListener {
+        mBinding.imConversationRefreshLayout.setOnRefreshListener {
             loadConversation()
         }
 
@@ -91,7 +93,7 @@ class IMConversationFragment : BaseFragment() {
                 object : BItemDelegate.BItemListener<EMConversation> {
                     override fun onClick(v: View, data: EMConversation, position: Int) {
                         // 点击去聊天
-                        IMRouter.goChat(data.conversationId(), data.type.ordinal)
+                        IMRouter.goChat(data.conversationId())
                     }
                 },
                 object : BItemDelegate.BItemLongListener<EMConversation> {
@@ -106,7 +108,7 @@ class IMConversationFragment : BaseFragment() {
         mAdapter.items = mItems
         mAdapter.notifyDataSetChanged()
 
-        imConversationRecyclerView.adapter = mAdapter
+        mBinding.imConversationRecyclerView.adapter = mAdapter
     }
 
     /**
@@ -198,7 +200,7 @@ class IMConversationFragment : BaseFragment() {
         VMLog.d("-lz-0 获取指定用户信息")
         IM.imListener.getUserList(ids) {
             // 刷新结束
-            imConversationRefreshLayout.finishRefresh()
+            mBinding.imConversationRefreshLayout.finishRefresh()
             VMLog.d("-lz-5 获取指定用户信息")
             refresh()
         }

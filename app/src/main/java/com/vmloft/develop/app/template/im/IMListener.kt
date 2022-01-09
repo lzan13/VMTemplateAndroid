@@ -9,6 +9,7 @@ import com.vmloft.develop.app.template.request.repository.InfoRepository
 import com.vmloft.develop.app.template.request.repository.RoomRepository
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.common.request.RResult
+import com.vmloft.develop.library.common.router.CRouter
 import com.vmloft.develop.library.im.IIMListener
 import com.vmloft.develop.library.im.bean.IMRoom
 import com.vmloft.develop.library.im.bean.IMUser
@@ -143,7 +144,8 @@ class IMListener : IIMListener {
      */
     override fun onHeadClick(id: String) {
         val user = CacheManager.getUser(id) ?: User(id)
-        AppRouter.goUserInfo(user)
+//        AppRouter.goUserInfo(user)
+        CRouter.go(AppRouter.appUserInfo, obj0 =  user)
     }
 
     override fun getMsgType(msg: EMMessage): Int {

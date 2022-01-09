@@ -19,10 +19,10 @@ interface CommonAPI {
      * --------------------------------- 附件件接口 ---------------------------------
      */
     /**
-     * UCloud 上传附件回调接口
+     * 上传单附件
      */
-    @POST("v1/third/ucloud/callbackObj")
-    suspend fun ucloudCallbackObj(@Body body: RequestBody): RResponse<Attachment>
+    @POST("v1/attachment")
+    suspend fun upload(@Body body: MultipartBody): RResponse<Attachment>
 
     /**
      * ------------------------------------ 通用接口  ------------------------------------
@@ -49,7 +49,7 @@ interface CommonAPI {
      * 检查版本
      */
     @GET("v1/common/checkVersion")
-    suspend fun checkVersion(@Query("platform") platform: String = "android"): RResponse<Version>
+    suspend fun checkVersion(@Query("platform") platform: Int = 0): RResponse<Version>
 
     /**
      * 获取客户端配置
@@ -58,7 +58,7 @@ interface CommonAPI {
     suspend fun getClientConfig(): RResponse<Config>
 
     /**
-     * 获取隐私zhegn
+     * 获取隐私政策
      */
     @GET("v1/common/privatePolicy")
     suspend fun getPrivatePolicy(): RResponse<Config>
@@ -75,13 +75,41 @@ interface CommonAPI {
      */
     /**
      * 提交反馈
+     * @param contact 联系方式
+     * @param content 反馈内容
+     * @param user 相关用户
+     * @param post 相关帖子
+     * @param attachments 附件
+     * @param type 反馈类型 0-意见建议 1-广告 2-政治敏感 3-色情低俗 4-血腥暴力 5-不文明 6-涉嫌诈骗 7-其他
      */
     @FormUrlEncoded
-    @POST("v1/feedback")
+    @POST("v1/common/feedback")
     suspend fun feedback(
         @Field("contact") contact: String,
         @Field("content") content: String,
-        @Field("attachment") attachment: String,
+        @Field("user") user: String,
+        @Field("post") post: String,
+        @Field("attachments") attachments: List<String>,
+        @Field("type") type: Int,
     ): RResponse<Any>
+
+    /**
+     * 查询我提交的反馈
+     */
+    @GET("v1/common/feedbackList")
+    suspend fun feedbackList(@Query("page") page: Int, @Query("limit") limit: Int): RResponse<RPaging<Feedback>>
+
+    /**
+     * 商品相关
+     */
+    /**
+     * 查询商品列表
+     */
+    @GET("v1/common/commodityList")
+    suspend fun commodityList(
+        @Query("page") page: Int,
+        @Query("limit") limit: Int,
+        @Query("type") type: Int
+    ): RResponse<RPaging<Commodity>>
 
 }

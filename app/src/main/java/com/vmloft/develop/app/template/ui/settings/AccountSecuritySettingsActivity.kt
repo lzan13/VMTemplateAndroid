@@ -3,22 +3,19 @@ package com.vmloft.develop.app.template.ui.settings
 import com.alibaba.android.arouter.facade.annotation.Route
 
 import com.vmloft.develop.app.template.R
-import com.vmloft.develop.app.template.common.SignManager
 import com.vmloft.develop.app.template.databinding.ActivitySettingsAccountSecurityBinding
+import com.vmloft.develop.app.template.request.viewmodel.SettingsViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.common.base.BVMActivity
 import com.vmloft.develop.library.common.base.BViewModel
 import com.vmloft.develop.library.common.common.CConstants
 import com.vmloft.develop.library.common.router.CRouter
 import com.vmloft.develop.library.common.utils.showBar
-import com.vmloft.develop.library.common.widget.CommonDialog
+import com.vmloft.develop.library.common.ui.widget.CommonDialog
 import com.vmloft.develop.library.tools.utils.VMSystem
-import kotlinx.android.synthetic.main.activity_settings_account_security.*
 
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
-
-import kotlin.system.exitProcess
 
 
 /**
@@ -26,19 +23,18 @@ import kotlin.system.exitProcess
  * 描述：账户与安全设置页
  */
 @Route(path = AppRouter.appSettingsAccountSecurity)
-class AccountSecuritySettingsActivity : BVMActivity<SettingsViewModel>() {
+class AccountSecuritySettingsActivity : BVMActivity<ActivitySettingsAccountSecurityBinding, SettingsViewModel>() {
 
     override fun initVM(): SettingsViewModel = getViewModel()
 
-    override fun layoutId(): Int = R.layout.activity_settings_account_security
+    override fun initVB() = ActivitySettingsAccountSecurityBinding.inflate(layoutInflater)
 
     override fun initUI() {
         super.initUI()
-        (mBinding as ActivitySettingsAccountSecurityBinding).viewModel = mViewModel
 
         setTopTitle(R.string.settings_account_security)
 
-        settingsSignDestroyLV.setOnClickListener { showSignDestroy() }
+        mBinding.settingsSignDestroyLV.setOnClickListener { showSignDestroy() }
     }
 
     override fun initData() {

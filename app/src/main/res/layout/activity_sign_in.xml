@@ -1,75 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg"
+    tools:context=".ui.sign.SignInActivity">
 
-    <data>
+    <include layout="@layout/widget_common_top_bar" />
 
-        <variable
-            name="viewModel"
-            type="com.vmloft.develop.app.template.ui.sign.SignViewModel" />
-    </data>
+    <TextView
+        android:id="@+id/signWelcomeTV"
+        style="@style/AppText.Headline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/vm_dimen_48"
+        android:text="@string/sign_welcome_to_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/commonTopLL" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
+        android:id="@+id/signContainerFL"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/app_bg"
-        tools:context=".ui.sign.SignInActivity">
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signWelcomeTV" />
 
-        <include layout="@layout/widget_common_top_bar" />
+    <ImageView
+        android:id="@+id/signQQIV"
+        android:layout_width="@dimen/vm_dimen_48"
+        android:layout_height="@dimen/vm_dimen_48"
+        android:layout_marginBottom="@dimen/vm_dimen_36"
+        android:padding="@dimen/vm_dimen_8"
+        android:src="@drawable/ic_me"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/signWeiboIV"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible" />
 
-        <TextView
-            android:id="@+id/signWelcomeTV"
-            style="@style/AppText.Headline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/vm_dimen_48"
-            android:text="@string/sign_welcome_to_back"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/commonTopLL" />
+    <ImageView
+        android:id="@+id/signWeiboIV"
+        android:layout_width="@dimen/vm_dimen_48"
+        android:layout_height="@dimen/vm_dimen_48"
+        android:layout_marginBottom="@dimen/vm_dimen_36"
+        android:padding="@dimen/vm_dimen_8"
+        android:src="@drawable/ic_me"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/signQQIV"
+        tools:visibility="visible" />
 
-        <FrameLayout
-            android:id="@+id/signContainerFL"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/signWelcomeTV" />
-
-        <ImageView
-            android:id="@+id/signQQIV"
-            android:layout_width="@dimen/vm_dimen_48"
-            android:layout_height="@dimen/vm_dimen_48"
-            android:layout_marginBottom="@dimen/vm_dimen_36"
-            android:padding="@dimen/vm_dimen_8"
-            android:src="@drawable/ic_me"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/signWeiboIV"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:visibility="visible" />
-
-        <ImageView
-            android:id="@+id/signWeiboIV"
-            android:layout_width="@dimen/vm_dimen_48"
-            android:layout_height="@dimen/vm_dimen_48"
-            android:layout_marginBottom="@dimen/vm_dimen_36"
-            android:padding="@dimen/vm_dimen_8"
-            android:src="@drawable/ic_me"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/signQQIV"
-            tools:visibility="visible" />
-
-        <!--引入加载视图-->
-<!--        <include-->
-<!--            layout="@layout/widget_common_loading"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="@dimen/vm_dimen_0"-->
-<!--            app:isLoading="@{viewModel.uiState.isLoading}"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

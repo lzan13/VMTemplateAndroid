@@ -1,14 +1,19 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+}
 
 // 获取配置信息
 def configs = rootProject.ext.configs
 def signings = rootProject.ext.signings
-
+ext {
+    isDebug = true
+}
 android {
     compileSdkVersion configs.compileSdkVersion
+    buildToolsVersion configs.buildToolsVersion
 
     defaultConfig {
         applicationId configs.applicationId
@@ -39,6 +44,8 @@ android {
     // 编译配置
     buildTypes {
         debug {
+            // 添加参数表示 debug 环境，这里使用测试环境
+            isDebug = true
             // 是否开启压缩
             zipAlignEnabled false
             // 是否开启混淆
@@ -47,6 +54,8 @@ android {
             signingConfig signingConfigs.release
         }
         release {
+            // 添加参数表示 debug 环境，这里使用测试环境
+            isDebug = false
             // 是否开启压缩
             zipAlignEnabled false
             // 是否开启混淆
@@ -57,7 +66,6 @@ android {
             signingConfig signingConfigs.release
             // 混淆文件
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            consumerProguardFiles 'consumer-rules.pro'
 
             // 修改生成的 apk 名字，格式为:项目-版本-时间-渠道名.apk
             android.applicationVariants.all { variant ->
@@ -74,27 +82,36 @@ android {
         Develop {
             dimension = "default"
             manifestPlaceholders = [
-                    appChannel   : "Develop",
-                    umengAppKey  : configs.umengAppKey,
-
-                    easemobAppKey: configs.easemobAppKey
+                    appChannel    : "Develop",
+                    appVersionName: configs.versionName,
+                    buglyAppId    : configs.buglyAppId,
+                    easemobAppKey : configs.easemobAppKey,
+                    umengAppKey   : configs.umengAppKey,
+                    isDebug       : isDebug
+            ]
+        }
+        GooglePlay {
+            dimension = "default"
+            manifestPlaceholders = [
+                    appChannel    : "GooglePlay",
+                    appVersionName: configs.versionName,
+                    buglyAppId    : configs.buglyAppId,
+                    easemobAppKey : configs.easemobAppKey,
+                    umengAppKey   : configs.umengAppKey,
+                    isDebug       : isDebug
             ]
         }
     }
 
-    // 使用 Java 8 编译
+    // 配置 Java 编译版本
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
-    // 开启数据绑定
-//    dataBinding {
-//        enabled true
-//    }
+
+    // 开启 ViewBinding
     buildFeatures {
-        dataBinding {
-            enabled true
-        }
+        viewBinding true
     }
     // 编译忽略错误配置
     lintOptions {
@@ -102,7 +119,7 @@ android {
     }
     // kotlin 配置
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8
+        jvmTarget = JavaVersion.VERSION_11
     }
     // 阿里巴巴 ARouter Kotlin 下的配置
     kapt {
@@ -120,7 +137,12 @@ dependencies {
 
     kapt "androidx.room:room-compiler:2.3.0"
 
-    kapt 'com.alibaba:arouter-compiler:1.2.2'
+    /**
+     * ARouter 编译器，这里有个问题，就是当代码中有一些自己没看到的错误的时候，
+     * ARouter 会拦截错误信息，让人以为是 ARouter 的报错，
+     * 但是又找不到错误位置，把这行注释掉，重新编译
+     */
+    kapt 'com.alibaba:arouter-compiler:1.5.2'
 
     // 引入统一管理库
     api project(':vmcommon')

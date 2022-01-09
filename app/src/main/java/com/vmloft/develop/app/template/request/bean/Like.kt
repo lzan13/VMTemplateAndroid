@@ -11,12 +11,12 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Like(
     @SerializedName("_id")
-    var id: String,
+    var id: String = "",
     var owner: String = "",
-    var user: User? = null,
-    var post: Post? = null,
-    var comment: Comment? = null,
+    var user: User = User(),
+    var post: Post = Post(),
+    var comment: Comment = Comment(),
     var type: Int = 0,
-    var createdAt: String = ""
+    var createdAt: String = "",
 ) : Parcelable {
 }

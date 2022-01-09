@@ -1,7 +1,9 @@
 package com.vmloft.develop.library.im.room
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.drakeet.multitype.MultiTypeAdapter
@@ -10,20 +12,21 @@ import com.hyphenate.EMChatRoomChangeListener
 import com.hyphenate.chat.EMClient
 import com.hyphenate.chat.EMMessage
 
+import com.vmloft.develop.library.common.base.BFragment
 import com.vmloft.develop.library.common.base.BItemDelegate
-import com.vmloft.develop.library.common.base.BaseFragment
 import com.vmloft.develop.library.common.event.LDEventBus
 import com.vmloft.develop.library.common.image.IMGLoader
-import com.vmloft.develop.library.common.utils.JsonUtils
+import com.vmloft.develop.library.common.utils.json.JsonUtils
 import com.vmloft.develop.library.common.utils.errorBar
 import com.vmloft.develop.library.common.utils.showBar
-import com.vmloft.develop.library.common.widget.CommonDialog
+import com.vmloft.develop.library.common.ui.widget.CommonDialog
 import com.vmloft.develop.library.im.IM
 import com.vmloft.develop.library.im.R
 import com.vmloft.develop.library.im.bean.IMRoom
 import com.vmloft.develop.library.im.bean.IMUser
 import com.vmloft.develop.library.im.chat.IMChatManager
 import com.vmloft.develop.library.im.common.IMConstants
+import com.vmloft.develop.library.im.databinding.ImFragmentRoomCallBinding
 import com.vmloft.develop.library.tools.utils.VMStr
 import com.vmloft.develop.library.tools.utils.VMSystem
 import com.vmloft.develop.library.tools.utils.logger.VMLog
@@ -33,14 +36,11 @@ import io.agora.rtc.IRtcEngineEventHandler
 import io.agora.rtc.RtcEngine
 import io.agora.rtc.models.ClientRoleOptions
 
-import kotlinx.android.synthetic.main.im_fragment_room_call.*
-
-
 /**
  * Create by lzan13 2021/05/27
  * 描述：资讯房间
  */
-class IMRoomCallFragment : BaseFragment() {
+class IMRoomCallFragment : BFragment<ImFragmentRoomCallBinding>() {
 
     // 会话相关
     private lateinit var chatId: String
@@ -86,33 +86,33 @@ class IMRoomCallFragment : BaseFragment() {
         }
     }
 
-    override fun layoutId(): Int = R.layout.im_fragment_room_call
+    override fun initVB(inflater: LayoutInflater, parent: ViewGroup?) = ImFragmentRoomCallBinding.inflate(inflater, parent, false)
 
     override fun initUI() {
         super.initUI()
 
         // 变声彩蛋
-        imRoomOwnerAvatarIV.setOnLongClickListener {
-            if (isOwner) imVoiceEffectLL.visibility = View.VISIBLE
+        mBinding.imRoomOwnerAvatarIV.setOnLongClickListener {
+            if (isOwner) mBinding.imVoiceEffectLL.visibility = View.VISIBLE
             true
         }
-        imRoomGuestAvatarIV.setOnLongClickListener {
-            if (currMicUser?.id == selfId) imVoiceEffectLL.visibility = View.VISIBLE
+        mBinding.imRoomGuestAvatarIV.setOnLongClickListener {
+            if (currMicUser?.id == selfId) mBinding.imVoiceEffectLL.visibility = View.VISIBLE
             true
         }
         // 设置人声变声效果
-        imVoiceEffectIV0.setOnClickListener { view -> setVoiceEffect(view, 0) }
-        imVoiceEffectIV1.setOnClickListener { view -> setVoiceEffect(view, 1) }
-        imVoiceEffectIV2.setOnClickListener { view -> setVoiceEffect(view, 2) }
-        imVoiceEffectIV3.setOnClickListener { view -> setVoiceEffect(view, 3) }
-        imVoiceEffectIV4.setOnClickListener { view -> setVoiceEffect(view, 4) }
+        mBinding.imVoiceEffectIV0.setOnClickListener { view -> setVoiceEffect(view, 0) }
+        mBinding.imVoiceEffectIV1.setOnClickListener { view -> setVoiceEffect(view, 1) }
+        mBinding.imVoiceEffectIV2.setOnClickListener { view -> setVoiceEffect(view, 2) }
+        mBinding.imVoiceEffectIV3.setOnClickListener { view -> setVoiceEffect(view, 3) }
+        mBinding.imVoiceEffectIV4.setOnClickListener { view -> setVoiceEffect(view, 4) }
 
-        imRoomGuestApplyBtn.setOnClickListener {
+        mBinding.imRoomGuestApplyBtn.setOnClickListener {
             if (isOwner) return@setOnClickListener
             sendApplyMicMsg(IMConstants.Call.roomApplyMicStatusApply)
             showBar(R.string.im_room_apply_hint)
         }
-        imRoomGuestAvatarIV.setOnClickListener {
+        mBinding.imRoomGuestAvatarIV.setOnClickListener {
             // TODO 房主，以及其他人不能点击用户头像下麦，后续会完善头像点击事件
             if (isOwner) {
                 kickUserMic()
@@ -129,7 +129,7 @@ class IMRoomCallFragment : BaseFragment() {
     }
 
     override fun initData() {
-        chatId = arguments!!.getString(argChatId) ?: ""
+        chatId = requireArguments().getString(argChatId) ?: ""
 
         token = ""
         channel = chatId
@@ -161,33 +161,33 @@ class IMRoomCallFragment : BaseFragment() {
         mAdapter.notifyDataSetChanged()
         layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
-        imRoomApplyRecyclerView.layoutManager = layoutManager
-        imRoomApplyRecyclerView.adapter = mAdapter
+        mBinding.imRoomApplyRecyclerView.layoutManager = layoutManager
+        mBinding.imRoomApplyRecyclerView.adapter = mAdapter
     }
 
     /**
      * 绑定房主信息
      */
     private fun bindOwner() {
-        IMGLoader.loadAvatar(imRoomOwnerAvatarIV, mRoom.owner.avatar)
-        imRoomOwnerNameTV.text = mRoom.owner.nickname ?: "小透明"
-        imRoomCountTV.text = mRoom.count.toString()
+        IMGLoader.loadAvatar(mBinding.imRoomOwnerAvatarIV, mRoom.owner.avatar)
+        mBinding.imRoomOwnerNameTV.text = mRoom.owner.nickname ?: "小透明"
+        mBinding.imRoomCountTV.text = mRoom.count.toString()
 
         when (mRoom.owner.gender) {
-            1 -> imRoomOwnerGenderIV.setImageResource(R.drawable.ic_gender_man)
-            0 -> imRoomOwnerGenderIV.setImageResource(R.drawable.ic_gender_woman)
-            else -> imRoomOwnerGenderIV.setImageResource(R.drawable.ic_gender_man)
+            1 -> mBinding.imRoomOwnerGenderIV.setImageResource(R.drawable.ic_gender_man)
+            0 -> mBinding.imRoomOwnerGenderIV.setImageResource(R.drawable.ic_gender_woman)
+            else -> mBinding.imRoomOwnerGenderIV.setImageResource(R.drawable.ic_gender_man)
         }
 
-        imRoomDescTV.text = mRoom.desc
+        mBinding.imRoomDescTV.text = mRoom.desc
     }
 
     /**
      * 绑定上麦者信息
      */
     private fun bindGuest() {
-        imRoomGuestAvatarIV.visibility = if (currMicUser == null) View.GONE else View.VISIBLE
-        IMGLoader.loadAvatar(imRoomGuestAvatarIV, currMicUser?.avatar ?: "")
+        mBinding.imRoomGuestAvatarIV.visibility = if (currMicUser == null) View.GONE else View.VISIBLE
+        IMGLoader.loadAvatar(mBinding.imRoomGuestAvatarIV, currMicUser?.avatar ?: "")
     }
 
     /**
@@ -221,7 +221,7 @@ class IMRoomCallFragment : BaseFragment() {
             if (!isOwner) {
                 currMicUser = IM.imListener.getUser(selfId)
             }
-            val info = JsonUtils.toJson(currMicUser, IMUser::class.java)
+            val info = JsonUtils.toJson(currMicUser)
             msg.setAttribute(IMConstants.Call.msgAttrApplyMicInfo, info)
             bindGuest()
             upMic()
@@ -261,7 +261,7 @@ class IMRoomCallFragment : BaseFragment() {
         } else if (status == IMConstants.Call.roomApplyMicStatusUp) {
             // 收到用户上麦信息，保存下上麦用户的信息，并刷新 UI
             val info = msg.getStringAttribute(IMConstants.Call.msgAttrApplyMicInfo, "")
-            currMicUser = JsonUtils.formJson(info, IMUser::class.java)
+            currMicUser = JsonUtils.fromJson(info, IMUser::class.java)
             bindGuest()
         } else if (status == IMConstants.Call.roomApplyMicStatusDown) {
             // 收到用户下麦信息，清空当前上麦者信息
@@ -337,7 +337,7 @@ class IMRoomCallFragment : BaseFragment() {
             override fun onMemberJoined(roomId: String?, participant: String?) {
                 VMSystem.runInUIThread({
                     mRoom.count++
-                    imRoomCountTV.text = mRoom.count.toString()
+                    mBinding.imRoomCountTV.text = mRoom.count.toString()
                 })
             }
 
@@ -347,7 +347,7 @@ class IMRoomCallFragment : BaseFragment() {
                     if (mRoom.count <= 0) {
                         mRoom.count = 1
                     }
-                    imRoomCountTV.text = mRoom.count.toString()
+                    mBinding.imRoomCountTV.text = mRoom.count.toString()
                 })
             }
 
@@ -417,7 +417,7 @@ class IMRoomCallFragment : BaseFragment() {
      * 设置声音音效
      */
     private fun setVoiceEffect(view: View, effect: Int) {
-        imVoiceEffectLL.visibility = View.GONE
+        mBinding.imVoiceEffectLL.visibility = View.GONE
 
         lastEffectView?.isSelected = false
         lastEffectView = view

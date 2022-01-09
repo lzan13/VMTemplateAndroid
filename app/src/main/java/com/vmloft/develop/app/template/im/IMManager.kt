@@ -38,8 +38,8 @@ object IMManager {
     /**
      * 跳转到单聊
      */
-    fun goChat(chatId: String) {
-        IMRouter.goChat(chatId)
+    fun goChat(chatId: String, extend: String = "") {
+        IMRouter.goChat(chatId, extend)
     }
 
     /**
@@ -52,8 +52,8 @@ object IMManager {
     /**
      * 跳转到聊天室界面
      */
-    fun goChatRoom(chatId: String) {
-        IMRouter.goChatRoom(chatId)
+    fun goChatRoom(chatId: String, extend: String = "") {
+        IMRouter.goChatRoom(chatId, extend)
     }
 
     /**

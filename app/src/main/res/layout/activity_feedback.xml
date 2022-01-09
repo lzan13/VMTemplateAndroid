@@ -1,111 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg"
+    android:orientation="vertical"
+    tools:context=".ui.feedback.FeedbackActivity">
 
-    <data>
+    <include layout="@layout/widget_common_top_bar" />
 
-        <variable
-            name="viewModel"
-            type="com.vmloft.develop.app.template.ui.main.mine.info.InfoViewModel" />
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <!--内容描述-->
+    <EditText
+        android:id="@+id/feedbackContentET"
+        style="@style/AppEdit.MultiLine"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/app_bg"
-        android:orientation="vertical"
-        tools:context=".ui.feedback.FeedbackActivity">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/vm_dimen_16"
+        android:layout_marginTop="@dimen/vm_dimen_16"
+        android:layout_marginEnd="@dimen/vm_dimen_16"
+        android:hint="@string/feedback_content"
+        app:layout_constraintTop_toBottomOf="@+id/commonTopLL" />
 
-        <include layout="@layout/widget_common_top_bar" />
+    <TextView
+        style="@style/AppText.Tips"
+        android:layout_width="@dimen/vm_dimen_0"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/vm_dimen_4"
+        android:text="@string/feedback_content_hint"
+        app:layout_constraintEnd_toEndOf="@+id/feedbackContentET"
+        app:layout_constraintStart_toStartOf="@id/feedbackContentET"
+        app:layout_constraintTop_toBottomOf="@+id/feedbackContentET" />
 
-        <!--内容描述-->
-        <EditText
-            android:id="@+id/feedbackContentET"
-            style="@style/AppEdit.MultiLine"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/vm_dimen_16"
-            android:layout_marginTop="@dimen/vm_dimen_16"
-            android:layout_marginEnd="@dimen/vm_dimen_16"
-            android:hint="@string/feedback_content"
-            app:layout_constraintTop_toBottomOf="@+id/commonTopLL" />
+    <!--反馈图片-->
+    <ImageView
+        android:id="@+id/feedbackPictureIV"
+        android:layout_width="@dimen/vm_dimen_72"
+        android:layout_height="@dimen/vm_dimen_96"
+        android:layout_marginStart="@dimen/vm_dimen_16"
+        android:layout_marginTop="@dimen/vm_dimen_32"
+        android:layout_marginEnd="@dimen/vm_dimen_16"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/feedbackContentET" />
 
-        <TextView
-            style="@style/AppText.Tips"
-            android:layout_width="@dimen/vm_dimen_0"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/vm_dimen_4"
-            android:text="@string/feedback_content_hint"
-            app:layout_constraintEnd_toEndOf="@+id/feedbackContentET"
-            app:layout_constraintStart_toStartOf="@id/feedbackContentET"
-            app:layout_constraintTop_toBottomOf="@+id/feedbackContentET" />
+    <ImageView
+        android:id="@+id/feedbackPictureCloseIV"
+        android:layout_width="@dimen/vm_dimen_32"
+        android:layout_height="@dimen/vm_dimen_32"
+        android:background="@drawable/shape_card_common_translucent_bg"
+        android:padding="@dimen/vm_dimen_8"
+        android:src="@drawable/ic_close"
+        app:layout_constraintEnd_toEndOf="@+id/feedbackPictureIV"
+        app:layout_constraintTop_toTopOf="@+id/feedbackPictureIV" />
 
-        <!--反馈图片-->
-        <ImageView
-            android:id="@+id/feedbackPictureIV"
-            android:layout_width="@dimen/vm_dimen_72"
-            android:layout_height="@dimen/vm_dimen_96"
-            android:layout_marginStart="@dimen/vm_dimen_16"
-            android:layout_marginTop="@dimen/vm_dimen_32"
-            android:layout_marginEnd="@dimen/vm_dimen_16"
-            android:scaleType="centerCrop"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/feedbackContentET" />
+    <ImageView
+        android:id="@+id/feedbackPictureBtn"
+        android:layout_width="@dimen/vm_dimen_72"
+        android:layout_height="@dimen/vm_dimen_96"
+        android:background="@drawable/shape_card_common_bg"
+        android:scaleType="center"
+        android:src="@drawable/ic_add"
+        app:layout_constraintStart_toStartOf="@+id/feedbackPictureIV"
+        app:layout_constraintTop_toTopOf="@+id/feedbackPictureIV"
+        tools:visibility="visible" />
 
-        <ImageView
-            android:id="@+id/feedbackPictureCloseIV"
-            android:layout_width="@dimen/vm_dimen_32"
-            android:layout_height="@dimen/vm_dimen_32"
-            android:background="@drawable/shape_card_common_translucent_bg"
-            android:padding="@dimen/vm_dimen_8"
-            android:src="@drawable/ic_close"
-            app:layout_constraintEnd_toEndOf="@+id/feedbackPictureIV"
-            app:layout_constraintTop_toTopOf="@+id/feedbackPictureIV" />
-
-        <ImageView
-            android:id="@+id/feedbackPictureBtn"
-            android:layout_width="@dimen/vm_dimen_72"
-            android:layout_height="@dimen/vm_dimen_96"
-            android:background="@drawable/shape_card_common_bg"
-            android:scaleType="center"
-            android:src="@drawable/ic_add"
-            app:layout_constraintStart_toStartOf="@+id/feedbackPictureIV"
-            app:layout_constraintTop_toTopOf="@+id/feedbackPictureIV"
-            tools:visibility="visible" />
-
-        <TextView
-            style="@style/AppText.Tips"
-            android:layout_width="@dimen/vm_dimen_0"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/vm_dimen_4"
-            android:text="@string/feedback_screenshot_hint"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/feedbackPictureIV"
-            app:layout_constraintTop_toBottomOf="@+id/feedbackPictureIV" />
+    <TextView
+        style="@style/AppText.Tips"
+        android:layout_width="@dimen/vm_dimen_0"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/vm_dimen_4"
+        android:text="@string/feedback_screenshot_hint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/feedbackPictureIV"
+        app:layout_constraintTop_toBottomOf="@+id/feedbackPictureIV" />
 
 
-        <!--联系方式-->
-        <EditText
-            android:id="@+id/feedbackContactET"
-            style="@style/AppEdit.Single"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/vm_dimen_16"
-            android:layout_marginTop="@dimen/vm_dimen_32"
-            android:layout_marginEnd="@dimen/vm_dimen_16"
-            android:hint="@string/feedback_contact"
-            app:layout_constraintTop_toBottomOf="@+id/feedbackPictureIV" />
+    <!--联系方式-->
+    <EditText
+        android:id="@+id/feedbackContactET"
+        style="@style/AppEdit.Single"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/vm_dimen_16"
+        android:layout_marginTop="@dimen/vm_dimen_32"
+        android:layout_marginEnd="@dimen/vm_dimen_16"
+        android:hint="@string/feedback_contact"
+        app:layout_constraintTop_toBottomOf="@+id/feedbackPictureIV" />
 
-        <TextView
-            style="@style/AppText.Tips"
-            android:layout_width="@dimen/vm_dimen_0"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/vm_dimen_4"
-            android:text="@string/feedback_contact_hint"
-            app:layout_constraintEnd_toEndOf="@+id/feedbackContactET"
-            app:layout_constraintStart_toStartOf="@id/feedbackContactET"
-            app:layout_constraintTop_toBottomOf="@+id/feedbackContactET" />
+    <TextView
+        style="@style/AppText.Tips"
+        android:layout_width="@dimen/vm_dimen_0"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/vm_dimen_4"
+        android:text="@string/feedback_contact_hint"
+        app:layout_constraintEnd_toEndOf="@+id/feedbackContactET"
+        app:layout_constraintStart_toStartOf="@id/feedbackContactET"
+        app:layout_constraintTop_toBottomOf="@+id/feedbackContactET" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+    <include layout="@layout/widget_common_loading" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

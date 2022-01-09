@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg"
+    tools:context=".ui.main.mine.info.PersonalInfoActivity">
+
+    <include layout="@layout/widget_common_top_bar" />
+
+    <TextView
+        style="@style/AppText.Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/vm_dimen_16"
+        android:gravity="center"
+        android:text="@string/info_guide_tips"
+        app:layout_constraintTop_toBottomOf="@+id/commonTopLL" />
+
+    <!--头像-->
+    <ImageView
+        android:id="@+id/avatarIV"
+        android:layout_width="@dimen/vm_dimen_96"
+        android:layout_height="@dimen/vm_dimen_96"
+        android:layout_marginTop="@dimen/vm_dimen_72"
+        android:src="@drawable/img_default_avatar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/commonTopLL" />
+
+    <!--昵称-->
+    <EditText
+        android:id="@+id/nicknameET"
+        style="@style/AppEdit.Single"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/vm_dimen_32"
+        android:hint="@string/input_hint"
+        app:layout_constraintTop_toBottomOf="@+id/avatarIV" />
+
+    <TextView
+        style="@style/AppText.Tips"
+        android:layout_width="@dimen/vm_dimen_0"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/vm_dimen_4"
+        android:text="@string/info_nickname_tips"
+        app:layout_constraintEnd_toEndOf="@+id/nicknameET"
+        app:layout_constraintStart_toStartOf="@+id/nicknameET"
+        app:layout_constraintTop_toBottomOf="@+id/nicknameET" />
+
+    <TextView
+        android:id="@+id/submitTV"
+        style="@style/AppBtn.Confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/vm_dimen_32"
+        android:enabled="false"
+        android:text="@string/btn_complete"
+        app:layout_constraintTop_toBottomOf="@+id/nicknameET" />
+    <!--引入加载视图-->
+    <!--    <include layout="@layout/widget_common_loading" />-->
+</androidx.constraintlayout.widget.ConstraintLayout>

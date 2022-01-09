@@ -11,8 +11,8 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Room(
     @SerializedName("_id")
-    var id: String,
-    var owner: User,
+    var id: String="",
+    var owner: User=User(),
     var managers: MutableList<User> = mutableListOf(),
     var members: MutableList<User> = mutableListOf(),
     var title: String = "",

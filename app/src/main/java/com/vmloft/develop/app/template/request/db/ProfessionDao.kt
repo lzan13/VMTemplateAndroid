@@ -10,18 +10,20 @@ import com.vmloft.develop.app.template.request.bean.Profession
  */
 @Dao
 interface ProfessionDao {
-
-    @Insert
+    /**
+     * 插入数据，如果已存在则会覆盖
+     */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(vararg profession: Profession)
 
     @Delete
     suspend fun delete(profession: Profession)
 
     @Query("DELETE FROM profession")
-    fun delete()
+    suspend fun delete()
 
-    @Update
-    suspend fun update(profession: Profession)
+//    @Update
+//    suspend fun update(profession: Profession)
 
     @Query("SELECT * FROM profession WHERE id = :id")
     suspend fun query(id: String): Profession?

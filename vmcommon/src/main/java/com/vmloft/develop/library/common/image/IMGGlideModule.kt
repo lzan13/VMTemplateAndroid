@@ -11,7 +11,7 @@ import com.vmloft.develop.library.common.common.CConstants
 
 /**
  * Create by lzan13 on 2020/04/06 17:56
- * 描述：使用 RenderScript 模糊图片
+ * 描述：GlideModele 实现
  */
 @GlideModule
 class IMGGlideModule : AppGlideModule() {

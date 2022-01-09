@@ -7,17 +7,14 @@ import android.text.TextWatcher
 import com.alibaba.android.arouter.facade.annotation.Route
 
 import com.vmloft.develop.app.template.R
-import com.vmloft.develop.app.template.common.SignManager
 import com.vmloft.develop.app.template.databinding.ActivityPersonalAuthBinding
-import com.vmloft.develop.app.template.request.bean.User
+import com.vmloft.develop.app.template.request.viewmodel.UserViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.common.base.BVMActivity
 import com.vmloft.develop.library.common.base.BViewModel
 import com.vmloft.develop.library.common.utils.errorBar
 import com.vmloft.develop.library.tools.utils.VMReg
 import com.vmloft.develop.library.tools.utils.VMStr
-
-import kotlinx.android.synthetic.main.activity_personal_auth.*
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -26,24 +23,22 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  * 描述：个人实名认证
  */
 @Route(path = AppRouter.appPersonalAuth)
-class PersonalAuthActivity : BVMActivity<InfoViewModel>() {
+class PersonalAuthActivity : BVMActivity<ActivityPersonalAuthBinding, UserViewModel>() {
 
     var realName: String? = null
     var idCardNumber: String? = null
 
-    override fun initVM(): InfoViewModel = getViewModel()
+    override fun initVM(): UserViewModel = getViewModel()
 
-    override fun layoutId(): Int = R.layout.activity_personal_auth
+    override fun initVB() = ActivityPersonalAuthBinding.inflate(layoutInflater)
 
     override fun initUI() {
         super.initUI()
-        (mBinding as ActivityPersonalAuthBinding).viewModel = mViewModel
-
         setTopTitle(R.string.personal_auth)
 
         setTopEndBtnEnable(false)
         setTopEndBtnListener(VMStr.byRes(R.string.btn_submit)) { submit() }
-        authRealNameET.addTextChangedListener(object : TextWatcher {
+        mBinding.authRealNameET.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
 
@@ -52,7 +47,7 @@ class PersonalAuthActivity : BVMActivity<InfoViewModel>() {
                 verifyInputBox()
             }
         })
-        authIDCardNumberET.addTextChangedListener(object : TextWatcher {
+        mBinding.authIDCardNumberET.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
 

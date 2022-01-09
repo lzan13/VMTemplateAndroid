@@ -1,0 +1,544 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg"
+    android:orientation="vertical"
+    tools:context=".ui.main.mine.gold.GoldActivity">
+
+    <include layout="@layout/widget_common_top_bar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!--顶部信息-->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/goldInfoCL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/vm_dimen_16"
+                android:background="@drawable/shape_card_common_bg"
+                android:padding="@dimen/vm_dimen_16"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/goldIconIV"
+                    android:layout_width="@dimen/vm_dimen_36"
+                    android:layout_height="@dimen/vm_dimen_36"
+                    android:src="@drawable/ic_gold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/goldCountTV"
+                    style="@style/AppText.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/vm_dimen_4"
+                    android:textSize="@dimen/vm_size_24"
+                    android:textStyle="normal"
+                    app:layout_constraintBottom_toBottomOf="@+id/goldIconIV"
+                    app:layout_constraintStart_toEndOf="@+id/goldIconIV"
+                    app:layout_constraintTop_toTopOf="@+id/goldIconIV"
+                    tools:text="200" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--签到描述信息-->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/goldClockCL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/vm_dimen_16"
+                android:background="@drawable/shape_card_common_bg"
+                android:padding="@dimen/vm_dimen_16"
+                app:layout_constraintTop_toBottomOf="@+id/goldInfoCL">
+
+                <TextView
+                    android:id="@+id/goldClockTitleTV"
+                    style="@style/AppText.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gold_clock_count"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/goldClockContinuousCountTV"
+                    style="@style/AppText.Body"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/vm_dimen_16"
+                    android:text="@string/gold_clock_continuous_count"
+                    app:layout_constraintStart_toStartOf="@+id/goldClockTitleTV"
+                    app:layout_constraintTop_toBottomOf="@+id/goldClockTitleTV" />
+
+                <TextView
+                    android:id="@+id/goldClockGoTV"
+                    style="@style/AppBtn.Confirm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gold_clock"
+                    app:layout_constraintBottom_toBottomOf="@+id/goldClockContinuousCountTV"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/goldClockContinuousCountTV" />
+                <!--连续签到打标 UI-->
+                <LinearLayout
+                    android:id="@+id/goldClockContinuousLL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/vm_dimen_24"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@+id/goldClockContinuousCountTV">
+                    <!--第一天-->
+                    <LinearLayout
+                        android:id="@+id/goldClockContinuousLL1"
+                        android:layout_width="@dimen/vm_dimen_0"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/vm_dimen_4"
+                        android:layout_weight="1"
+                        android:background="@drawable/selector_common_border_bg"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/vm_dimen_4">
+
+                        <ImageView
+                            android:id="@+id/goldClockContinuousIV1"
+                            android:layout_width="@dimen/vm_dimen_24"
+                            android:layout_height="@dimen/vm_dimen_24"
+                            android:src="@drawable/ic_gold" />
+
+                        <TextView
+                            style="@style/AppText.Tips"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/gold_clock_continuous_1" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/goldClockContinuousLL2"
+                        android:layout_width="@dimen/vm_dimen_0"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/vm_dimen_4"
+                        android:layout_weight="1"
+                        android:background="@drawable/selector_common_border_bg"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/vm_dimen_4">
+
+                        <ImageView
+                            android:id="@+id/goldClockContinuousIV2"
+                            android:layout_width="@dimen/vm_dimen_24"
+                            android:layout_height="@dimen/vm_dimen_24"
+                            android:src="@drawable/ic_gold" />
+
+                        <TextView
+                            style="@style/AppText.Tips"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/gold_clock_continuous_2" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/goldClockContinuousLL3"
+                        android:layout_width="@dimen/vm_dimen_0"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/vm_dimen_4"
+                        android:layout_weight="1"
+                        android:background="@drawable/selector_common_border_bg"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/vm_dimen_4">
+
+                        <ImageView
+                            android:id="@+id/goldClockContinuousIV3"
+                            android:layout_width="@dimen/vm_dimen_24"
+                            android:layout_height="@dimen/vm_dimen_24"
+                            android:src="@drawable/ic_gold" />
+
+                        <TextView
+                            style="@style/AppText.Tips"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/gold_clock_continuous_3" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/goldClockContinuousLL4"
+                        android:layout_width="@dimen/vm_dimen_0"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/vm_dimen_4"
+                        android:layout_weight="1"
+                        android:background="@drawable/selector_common_border_bg"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/vm_dimen_4">
+
+                        <ImageView
+                            android:id="@+id/goldClockContinuousIV4"
+                            android:layout_width="@dimen/vm_dimen_24"
+                            android:layout_height="@dimen/vm_dimen_24"
+                            android:src="@drawable/ic_gold" />
+
+                        <TextView
+                            style="@style/AppText.Tips"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/gold_clock_continuous_4" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/goldClockContinuousLL5"
+                        android:layout_width="@dimen/vm_dimen_0"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/vm_dimen_4"
+                        android:layout_weight="1"
+                        android:background="@drawable/selector_common_border_bg"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/vm_dimen_4">
+
+                        <ImageView
+                            android:id="@+id/goldClockContinuousIV5"
+                            android:layout_width="@dimen/vm_dimen_24"
+                            android:layout_height="@dimen/vm_dimen_24"
+                            android:src="@drawable/ic_gold" />
+
+                        <TextView
+                            style="@style/AppText.Tips"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/gold_clock_continuous_5" />
+                    </LinearLayout>
+
+                    <!--第6天，这里要根据连续签到天数改变-->
+                    <LinearLayout
+                        android:id="@+id/goldClockContinuousLL6"
+                        android:layout_width="@dimen/vm_dimen_0"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/vm_dimen_4"
+                        android:layout_weight="1"
+                        android:background="@drawable/selector_common_border_bg"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/vm_dimen_4">
+
+                        <ImageView
+                            android:id="@+id/goldClockContinuousIV6"
+                            android:layout_width="@dimen/vm_dimen_24"
+                            android:layout_height="@dimen/vm_dimen_24"
+                            android:src="@drawable/ic_gold" />
+
+                        <TextView
+                            android:id="@+id/goldClockContinuousTV6"
+                            style="@style/AppText.Tips"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/gold_clock_continuous_6" />
+                    </LinearLayout>
+                    <!--第7天，这里要根据连续签到天数改变-->
+                    <LinearLayout
+                        android:id="@+id/goldClockContinuousLL7"
+                        android:layout_width="@dimen/vm_dimen_0"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/vm_dimen_4"
+                        android:layout_weight="1"
+                        android:background="@drawable/selector_common_border_bg"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/vm_dimen_4">
+
+                        <ImageView
+                            android:id="@+id/goldClockContinuousIV7"
+                            android:layout_width="@dimen/vm_dimen_24"
+                            android:layout_height="@dimen/vm_dimen_24"
+                            android:src="@drawable/ic_gold" />
+
+                        <TextView
+                            android:id="@+id/goldClockContinuousTV7"
+                            style="@style/AppText.Tips"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/gold_clock_continuous_6" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/goldClockContinuousTipsTV"
+                    style="@style/AppText.Tips"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/vm_dimen_8"
+                    android:text="@string/gold_clock_continuous_tips"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/goldClockContinuousLL" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--充值-->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/goldRechargeCL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/vm_dimen_16"
+                android:background="@drawable/shape_card_common_bg"
+                android:padding="@dimen/vm_dimen_16"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/goldClockCL"
+                tools:visibility="visible">
+
+                <TextView
+                    android:id="@+id/goldRechargeTitleTV"
+                    style="@style/AppText.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gold_recharge_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/goldRechargeLL1"
+                    android:layout_width="@dimen/vm_dimen_0"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/vm_dimen_16"
+                    android:background="@drawable/selector_common_border_bg"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingTop="@dimen/vm_dimen_16"
+                    android:paddingBottom="@dimen/vm_dimen_16"
+                    app:layout_constraintEnd_toStartOf="@+id/goldRechargeLL2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/goldRechargeTitleTV">
+
+                    <ImageView
+                        android:layout_width="@dimen/vm_dimen_36"
+                        android:layout_height="@dimen/vm_dimen_36"
+                        android:src="@drawable/ic_gold" />
+
+                    <TextView
+                        style="@style/AppText.Body"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/vm_dimen_4"
+                        android:text="800 币" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/goldRechargeLL2"
+                    android:layout_width="@dimen/vm_dimen_0"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/vm_dimen_8"
+                    android:background="@drawable/selector_common_border_bg"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingTop="@dimen/vm_dimen_16"
+                    android:paddingBottom="@dimen/vm_dimen_16"
+                    app:layout_constraintEnd_toStartOf="@+id/goldRechargeLL3"
+                    app:layout_constraintStart_toEndOf="@+id/goldRechargeLL1"
+                    app:layout_constraintTop_toTopOf="@+id/goldRechargeLL1">
+
+                    <ImageView
+                        android:layout_width="@dimen/vm_dimen_36"
+                        android:layout_height="@dimen/vm_dimen_36"
+                        android:src="@drawable/ic_gold" />
+
+                    <TextView
+                        style="@style/AppText.Body"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/vm_dimen_4"
+                        android:text="1600 币" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/goldRechargeLL3"
+                    android:layout_width="@dimen/vm_dimen_0"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/vm_dimen_8"
+                    android:background="@drawable/selector_common_border_bg"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingTop="@dimen/vm_dimen_16"
+                    android:paddingBottom="@dimen/vm_dimen_16"
+                    app:layout_constraintEnd_toStartOf="@+id/goldRechargeLL4"
+                    app:layout_constraintStart_toEndOf="@+id/goldRechargeLL2"
+                    app:layout_constraintTop_toTopOf="@+id/goldRechargeLL1">
+
+                    <ImageView
+                        android:layout_width="@dimen/vm_dimen_36"
+                        android:layout_height="@dimen/vm_dimen_36"
+                        android:src="@drawable/ic_gold" />
+
+                    <TextView
+                        style="@style/AppText.Body"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/vm_dimen_4"
+                        android:text="3200 币" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/goldRechargeLL4"
+                    android:layout_width="@dimen/vm_dimen_0"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/vm_dimen_8"
+                    android:background="@drawable/selector_common_border_bg"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingTop="@dimen/vm_dimen_16"
+                    android:paddingBottom="@dimen/vm_dimen_16"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/goldRechargeLL3"
+                    app:layout_constraintTop_toTopOf="@+id/goldRechargeLL1">
+
+                    <ImageView
+                        android:layout_width="@dimen/vm_dimen_36"
+                        android:layout_height="@dimen/vm_dimen_36"
+                        android:src="@drawable/ic_gold" />
+
+                    <TextView
+                        style="@style/AppText.Body"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/vm_dimen_4"
+                        android:text="6400 币" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/goldRechargeLL5"
+                    android:layout_width="@dimen/vm_dimen_0"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/vm_dimen_16"
+                    android:background="@drawable/selector_common_border_bg"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingTop="@dimen/vm_dimen_16"
+                    android:paddingBottom="@dimen/vm_dimen_16"
+                    app:layout_constraintEnd_toStartOf="@+id/goldRechargeLL6"
+                    app:layout_constraintStart_toStartOf="@+id/goldRechargeLL1"
+                    app:layout_constraintTop_toBottomOf="@+id/goldRechargeLL1">
+
+                    <ImageView
+                        android:layout_width="@dimen/vm_dimen_36"
+                        android:layout_height="@dimen/vm_dimen_36"
+                        android:src="@drawable/ic_gold" />
+
+                    <TextView
+                        style="@style/AppText.Body"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/vm_dimen_4"
+                        android:text="12800 币" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/goldRechargeLL6"
+                    android:layout_width="@dimen/vm_dimen_0"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/vm_dimen_8"
+                    android:background="@drawable/selector_common_border_bg"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingTop="@dimen/vm_dimen_16"
+                    android:paddingBottom="@dimen/vm_dimen_16"
+                    app:layout_constraintEnd_toStartOf="@+id/goldRechargeLL7"
+                    app:layout_constraintStart_toEndOf="@+id/goldRechargeLL5"
+                    app:layout_constraintTop_toTopOf="@+id/goldRechargeLL5">
+
+                    <ImageView
+                        android:layout_width="@dimen/vm_dimen_36"
+                        android:layout_height="@dimen/vm_dimen_36"
+                        android:src="@drawable/ic_gold" />
+
+                    <TextView
+                        style="@style/AppText.Body"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/vm_dimen_4"
+                        android:text="25600 币" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/goldRechargeLL7"
+                    android:layout_width="@dimen/vm_dimen_0"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/vm_dimen_8"
+                    android:background="@drawable/selector_common_border_bg"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingTop="@dimen/vm_dimen_16"
+                    android:paddingBottom="@dimen/vm_dimen_16"
+                    app:layout_constraintEnd_toStartOf="@+id/goldRechargeLL8"
+                    app:layout_constraintStart_toEndOf="@+id/goldRechargeLL6"
+                    app:layout_constraintTop_toTopOf="@+id/goldRechargeLL5">
+
+                    <ImageView
+                        android:layout_width="@dimen/vm_dimen_36"
+                        android:layout_height="@dimen/vm_dimen_36"
+                        android:src="@drawable/ic_gold" />
+
+                    <TextView
+                        style="@style/AppText.Body"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/vm_dimen_4"
+                        android:text="51200 币" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/goldRechargeLL8"
+                    android:layout_width="@dimen/vm_dimen_0"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/vm_dimen_8"
+                    android:background="@drawable/selector_common_border_bg"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingTop="@dimen/vm_dimen_16"
+                    android:paddingBottom="@dimen/vm_dimen_16"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/goldRechargeLL7"
+                    app:layout_constraintTop_toTopOf="@+id/goldRechargeLL5">
+
+                    <ImageView
+                        android:layout_width="@dimen/vm_dimen_36"
+                        android:layout_height="@dimen/vm_dimen_36"
+                        android:src="@drawable/ic_gold" />
+
+                    <TextView
+                        style="@style/AppText.Body"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/vm_dimen_4"
+                        android:text="102400 币" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/goldRechargeGoTV"
+                    style="@style/AppBtn.Confirm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/vm_dimen_16"
+                    android:text="@string/gold_recharge"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/goldRechargeLL5" />
+
+                <TextView
+                    android:id="@+id/goldGoOrderTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_arrow_next"
+                    android:gravity="center"
+                    android:text="@string/order_list"
+                    app:layout_constraintBottom_toBottomOf="@+id/goldRechargeGoTV"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/goldRechargeGoTV" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</LinearLayout>

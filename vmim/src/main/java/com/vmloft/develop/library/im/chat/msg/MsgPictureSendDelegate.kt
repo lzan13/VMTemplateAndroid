@@ -1,28 +1,24 @@
 package com.vmloft.develop.library.im.chat.msg
 
 import android.net.Uri
-import android.os.ParcelFileDescriptor
-import android.provider.DocumentsContract
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.documentfile.provider.DocumentFile
-import com.hyphenate.chat.EMConversation
+
 import com.hyphenate.chat.EMImageMessageBody
 import com.hyphenate.chat.EMMessage
 
 import com.vmloft.develop.library.common.base.BItemDelegate
 import com.vmloft.develop.library.common.image.IMGLoader
-import com.vmloft.develop.library.common.router.CRouter
 import com.vmloft.develop.library.common.utils.CUtils
+import com.vmloft.develop.library.common.utils.FormatUtils
 import com.vmloft.develop.library.im.IM
 import com.vmloft.develop.library.im.R
 import com.vmloft.develop.library.im.chat.IMChatManager
 import com.vmloft.develop.library.im.databinding.ImItemMsgPictureSendDelegateBinding
-import com.vmloft.develop.library.tools.VMTools
 import com.vmloft.develop.library.tools.utils.VMDimen
 import com.vmloft.develop.library.tools.utils.bitmap.VMBitmap
-import java.io.File
-import java.net.URI
 
 /**
  * Create by lzan13 on 2021/01/05 17:56
@@ -30,20 +26,19 @@ import java.net.URI
  */
 class MsgPictureSendDelegate(listener: BItemListener<EMMessage>, longListener: BItemLongListener<EMMessage>) : BItemDelegate<EMMessage, ImItemMsgPictureSendDelegateBinding>(listener, longListener) {
 
-    override fun layoutId(): Int = R.layout.im_item_msg_picture_send_delegate
+    override fun initVB(inflater: LayoutInflater, parent: ViewGroup) = ImItemMsgPictureSendDelegateBinding.inflate(inflater, parent, false)
 
     override fun onBindView(holder: BItemHolder<ImItemMsgPictureSendDelegateBinding>, item: EMMessage) {
         holder.binding.imMsgTimeTV.visibility = if (IMChatManager.isShowTime(getPosition(holder), item)) View.VISIBLE else View.GONE
+        holder.binding.imMsgTimeTV.text = FormatUtils.relativeTime(item.localTime())
 
         val user = IM.imListener.getUser(item.from)
         IMGLoader.loadAvatar(holder.binding.imMsgAvatarIV, user?.avatar ?: "")
 
-        holder.binding.time = item.localTime()
-
-        holder.binding.executePendingBindings()
+        holder.binding.imMsgLoadingView.visibility = if (item.status().ordinal > 1) View.VISIBLE else View.GONE
+        holder.binding.imMsgFailedIV.visibility = if (item.status().ordinal == 1) View.VISIBLE else View.GONE
 
         val body = item.body as EMImageMessageBody
-
         bindPictureSize(body, holder.binding.imMsgPictureIV)
 
         // 图片路径

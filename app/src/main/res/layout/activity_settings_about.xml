@@ -1,114 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg"
+    tools:context=".ui.settings.AboutSettingsActivity">
 
-    <data>
+    <include layout="@layout/widget_common_top_bar" />
 
-        <variable
-            name="viewModel"
-            type="com.vmloft.develop.app.template.ui.main.mine.info.InfoViewModel" />
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/app_bg"
-        tools:context=".ui.settings.AboutSettingsActivity">
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/commonTopLL">
 
-        <include layout="@layout/widget_common_top_bar" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@+id/commonTopLL">
-
-            <ImageView
-                android:id="@+id/aboutIconIV"
-                android:layout_width="@dimen/vm_dimen_72"
-                android:layout_height="@dimen/vm_dimen_72"
-                android:layout_marginTop="@dimen/vm_dimen_36"
-                android:src="@drawable/logo" />
-
-            <TextView
-                android:id="@+id/aboutNameTV"
-                style="@style/AppText.Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/vm_dimen_16"
-                android:gravity="center"
-                android:text="@string/app_name" />
-
-            <TextView
-                android:id="@+id/aboutVersionTV"
-                style="@style/AppText.Subtitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/vm_dimen_8"
-                android:textStyle="normal"
-                tools:text="Version 1.0.0" />
-
-            <TextView
-                android:id="@+id/aboutDescTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/vm_dimen_16"
-                android:layout_marginTop="@dimen/vm_dimen_8"
-                android:layout_marginEnd="@dimen/vm_dimen_16"
-                android:gravity="center"
-                android:text="@string/about_content" />
-
-            <!--检查更新-->
-            <com.vmloft.develop.library.tools.widget.VMLineView
-                android:id="@+id/aboutCheckVersionLV"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/vm_dimen_24"
-                android:background="@color/app_bg_item"
-                app:vm_line_caption_color="@color/app_caption"
-                app:vm_line_decoration="center"
-                app:vm_line_decoration_color="@color/app_decoration"
-                app:vm_line_right_icon="@drawable/ic_arrow_next"
-                app:vm_line_title="@string/version_check" />
-
-            <!--反馈-->
-            <com.vmloft.develop.library.tools.widget.VMLineView
-                android:id="@+id/aboutFeedbackLV"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/app_bg_item"
-                app:vm_line_caption_color="@color/app_caption"
-                app:vm_line_description="@string/settings_feedback_hint"
-                app:vm_line_right_icon="@drawable/ic_arrow_next"
-                app:vm_line_title="@string/settings_feedback" />
-        </LinearLayout>
+        <ImageView
+            android:id="@+id/aboutIconIV"
+            android:layout_width="@dimen/vm_dimen_72"
+            android:layout_height="@dimen/vm_dimen_72"
+            android:layout_marginTop="@dimen/vm_dimen_36"
+            android:src="@drawable/logo" />
 
         <TextView
-            android:id="@+id/aboutPrivatePolicyTV"
+            android:id="@+id/aboutNameTV"
+            style="@style/AppText.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/vm_dimen_8"
-            android:text="@string/private_policy"
-            android:textColor="@color/app_link"
-            android:textSize="@dimen/vm_size_12"
-            app:layout_constraintBottom_toTopOf="@+id/aboutCopyrightTV"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:layout_marginTop="@dimen/vm_dimen_16"
+            android:gravity="center"
+            android:text="@string/app_name" />
 
         <TextView
-            android:id="@+id/aboutCopyrightTV"
+            android:id="@+id/aboutVersionTV"
+            style="@style/AppText.Subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/vm_dimen_24"
-            android:gravity="center"
-            android:text="@string/about_copyright"
-            android:textColor="@color/app_tips"
-            android:textSize="@dimen/vm_size_12"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:layout_marginTop="@dimen/vm_dimen_8"
+            android:textStyle="normal"
+            tools:text="Version 1.0.0" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+        <TextView
+            android:id="@+id/aboutDescTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/vm_dimen_16"
+            android:layout_marginTop="@dimen/vm_dimen_8"
+            android:layout_marginEnd="@dimen/vm_dimen_16"
+            android:gravity="center"
+            android:text="@string/about_content" />
+
+        <!--检查更新-->
+        <com.vmloft.develop.library.tools.widget.VMLineView
+            android:id="@+id/checkVersionLV"
+            style="@style/AppLVStyle"
+            android:layout_marginTop="@dimen/vm_dimen_24"
+            app:vm_line_title="@string/version_check" />
+
+        <!--反馈-->
+        <com.vmloft.develop.library.tools.widget.VMLineView
+            android:id="@+id/aboutFeedbackLV"
+            style="@style/AppLVStyle.NoDecoration"
+            app:vm_line_description="@string/settings_feedback_hint"
+            app:vm_line_title="@string/settings_feedback" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/userAgreementTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/vm_dimen_8"
+        android:text="@string/user_agreement"
+        android:textColor="@color/app_link"
+        android:textSize="@dimen/vm_size_12"
+        app:layout_constraintBottom_toTopOf="@+id/copyrightTV"
+        app:layout_constraintEnd_toStartOf="@+id/privatePolicyTV"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/privatePolicyTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/vm_dimen_8"
+        android:text="@string/private_policy"
+        android:textColor="@color/app_link"
+        android:textSize="@dimen/vm_size_12"
+        app:layout_constraintBottom_toTopOf="@+id/copyrightTV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/userAgreementTV" />
+
+    <TextView
+        android:id="@+id/copyrightTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/vm_dimen_24"
+        android:gravity="center"
+        android:text="@string/about_copyright"
+        android:textColor="@color/app_tips"
+        android:textSize="@dimen/vm_size_12"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

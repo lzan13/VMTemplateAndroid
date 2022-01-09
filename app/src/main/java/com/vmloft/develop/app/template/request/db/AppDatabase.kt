@@ -17,7 +17,14 @@ import com.vmloft.develop.app.template.request.bean.*
  * Create by lzan13 on 2020/8/9 14:35
  * 描述：Room 数据库操作类
  */
-@Database(entities = [Category::class, Config::class, Match::class, Profession::class, Version::class], version = 1)
+@Database(entities = [
+    Category::class,
+    Config::class,
+    Match::class,
+    Post::class,
+    Profession::class,
+    Version::class
+], version = 5)
 @TypeConverters(MatchConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
@@ -70,6 +77,9 @@ abstract class AppDatabase : RoomDatabase() {
 
     // 匹配数据操作 Dao
     abstract fun matchDao(): MatchDao
+
+    // 帖子数据操作 Dao
+    abstract fun postDao(): PostDao
 
     // 职业数据操作 Dao
     abstract fun professionDao(): ProfessionDao

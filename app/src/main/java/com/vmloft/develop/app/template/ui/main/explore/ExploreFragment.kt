@@ -1,29 +1,30 @@
 package com.vmloft.develop.app.template.ui.main.explore
 
+import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 
 import com.drakeet.multitype.MultiTypeAdapter
 
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.common.Constants
+import com.vmloft.develop.app.template.databinding.FragmentExploreBinding
 import com.vmloft.develop.library.common.request.RPaging
 import com.vmloft.develop.app.template.request.bean.Post
+import com.vmloft.develop.app.template.request.viewmodel.ExploreViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.app.template.ui.post.ItemPostDelegate
+import com.vmloft.develop.library.common.base.BItemDelegate
 import com.vmloft.develop.library.common.base.BVMFragment
 import com.vmloft.develop.library.common.base.BViewModel
 import com.vmloft.develop.library.common.common.CConstants
 import com.vmloft.develop.library.common.event.LDEventBus
 import com.vmloft.develop.library.common.router.CRouter
-import com.vmloft.develop.library.common.utils.CUtils
-import com.vmloft.develop.library.common.widget.StaggeredItemDecoration
+import com.vmloft.develop.library.common.ui.widget.decoration.StaggeredItemDecoration
+import com.vmloft.develop.library.common.utils.showBar
 import com.vmloft.develop.library.tools.utils.VMDimen
-
-import kotlinx.android.synthetic.main.fragment_explore.*
-import kotlinx.android.synthetic.main.fragment_explore.recyclerView
-import kotlinx.android.synthetic.main.fragment_explore.refreshLayout
-import kotlinx.android.synthetic.main.fragment_post_falls.*
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -32,7 +33,7 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  * Create by lzan13 on 2020/05/02 11:54
  * 描述：发现
  */
-class ExploreFragment : BVMFragment<ExploreViewModel>() {
+class ExploreFragment : BVMFragment<FragmentExploreBinding, ExploreViewModel>() {
 
     private var page = CConstants.defaultPage
 
@@ -41,10 +42,9 @@ class ExploreFragment : BVMFragment<ExploreViewModel>() {
     private val mItems = ArrayList<Any>()
     private val mLayoutManager by lazy { StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL) }
 
+    override fun initVB(inflater: LayoutInflater, parent: ViewGroup?) = FragmentExploreBinding.inflate(layoutInflater)
 
     override fun initVM(): ExploreViewModel = getViewModel()
-
-    override fun layoutId() = R.layout.fragment_explore
 
     override fun initUI() {
         super.initUI()
@@ -52,17 +52,19 @@ class ExploreFragment : BVMFragment<ExploreViewModel>() {
 
         initRecyclerView()
 
-        publishIV.setOnClickListener { CRouter.go(AppRouter.appPublish) }
-
-        LDEventBus.observe(this, Constants.createPostEvent, Int::class.java) {
-            page = CConstants.defaultPage
-            mViewModel.getPostList()
-        }
+        mBinding.postAddIV.setOnClickListener { CRouter.go(AppRouter.appPostCreate) }
     }
 
     override fun initData() {
-
         mViewModel.getPostList()
+
+        LDEventBus.observe(this, Constants.createPostEvent, Post::class.java) {
+            mItems.add(0, it)
+            mAdapter.notifyItemInserted(0)
+            mBinding.recyclerView.post {
+                mBinding.recyclerView.invalidateItemDecorations();
+            }
+        }
     }
 
     /**
@@ -71,27 +73,32 @@ class ExploreFragment : BVMFragment<ExploreViewModel>() {
     private fun initRecyclerView() {
         mAdapter.register(ItemPostDelegate(object : ItemPostDelegate.PostItemListener {
             override fun onClick(v: View, data: Post, position: Int) {
-                AppRouter.goPostDetail(data)
+                CRouter.go(AppRouter.appPostDetails, obj0 =  data)
             }
 
             override fun onLikeClick(item: Post, position: Int) {
                 clickLike(item, position)
             }
+        }, object : BItemDelegate.BItemLongListener<Post> {
+            override fun onLongClick(v: View, event: MotionEvent, data: Post, position: Int): Boolean {
+                showBar("长按了 $data")
+                return true
+            }
         }))
 
         mAdapter.items = mItems
 
-        recyclerView.layoutManager = mLayoutManager
-        recyclerView.addItemDecoration(StaggeredItemDecoration(VMDimen.dp2px(8)))
-        recyclerView.adapter = mAdapter
+        mBinding.recyclerView.layoutManager = mLayoutManager
+        mBinding.recyclerView.addItemDecoration(StaggeredItemDecoration(VMDimen.dp2px(8)))
+        mBinding.recyclerView.adapter = mAdapter
 
         // 刷新监听
-        refreshLayout.setOnRefreshListener {
-            refreshLayout.setNoMoreData(false)
+        mBinding.refreshLayout.setOnRefreshListener {
+            mBinding.refreshLayout.setNoMoreData(false)
             page = CConstants.defaultPage
             mViewModel.getPostList()
         }
-        refreshLayout.setOnLoadMoreListener { mViewModel.getPostList(page++) }
+        mBinding.refreshLayout.setOnLoadMoreListener { mViewModel.getPostList(page++) }
     }
 
     private fun refresh(paging: RPaging<Post>) {
@@ -106,7 +113,7 @@ class ExploreFragment : BVMFragment<ExploreViewModel>() {
             mAdapter.notifyItemRangeInserted(position, count)
         }
         if (paging.currentCount + paging.page * paging.limit >= paging.totalCount) {
-            refreshLayout.setNoMoreData(true)
+            mBinding.refreshLayout.setNoMoreData(true)
         }
 
         // 空态检查
@@ -125,16 +132,19 @@ class ExploreFragment : BVMFragment<ExploreViewModel>() {
                 hideEmptyView()
             }
         } else {
-            refreshLayout.visibility = View.GONE
+            mBinding.refreshLayout.visibility = View.GONE
             showEmptyFailed()
         }
     }
 
-    override fun onModelRefresh(model: BViewModel.UIModel) {
+    override fun onModelLoading(model: BViewModel.UIModel) {
         if (!model.isLoading) {
-            refreshLayout.finishRefresh()
-            refreshLayout.finishLoadMore()
+            mBinding.refreshLayout.finishRefresh()
+            mBinding.refreshLayout.finishLoadMore()
         }
+    }
+
+    override fun onModelRefresh(model: BViewModel.UIModel) {
         if (model.type == "postList") {
             refresh(model.data as RPaging<Post>)
         }
@@ -160,11 +170,4 @@ class ExploreFragment : BVMFragment<ExploreViewModel>() {
         mAdapter.notifyItemChanged(position)
     }
 
-    override fun onHiddenChanged(hidden: Boolean) {
-        super.onHiddenChanged(hidden)
-        if (hidden) {
-            activity?.let {
-            }
-        }
-    }
 }

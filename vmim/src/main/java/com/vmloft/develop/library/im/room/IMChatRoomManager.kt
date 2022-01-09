@@ -38,4 +38,15 @@ object IMChatRoomManager {
         // 回调退出房间接口，通知外层销毁或者清除缓存数据
         IM.imListener.exitRoom(roomId)
     }
+
+
+    /**
+     * 聊天室被销毁
+     */
+    fun roomDestroyed(roomId: String) {
+        // 聊天室会话不保存，退出就删除
+        IMChatManager.deleteConversation(roomId)
+        // 回调退出房间接口，通知外层销毁或者清除缓存数据
+        IM.imListener.exitRoom(roomId)
+    }
 }

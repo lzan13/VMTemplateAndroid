@@ -1,39 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.main.MainActivity">
 
-    <data>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/mainNav"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottom_nav_height"
+        android:layout_alignParentBottom="true"
+        android:background="@color/app_bg_nav"
+        app:itemBackground="@color/app_bg_nav"
+        app:itemHorizontalTranslationEnabled="false"
+        app:itemIconTint="@color/selector_bottom_nav"
+        app:itemTextAppearanceActive="@style/AppText.BNV.Active"
+        app:itemTextAppearanceInactive="@style/AppText.BNV.Inactive"
+        app:itemTextColor="@color/selector_bottom_nav"
+        app:labelVisibilityMode="unlabeled"
+        app:menu="@menu/main_nav_menu" />
 
-        <variable
-            name="viewModel"
-            type="com.vmloft.develop.app.template.ui.main.MainViewModel" />
-    </data>
-
-    <RelativeLayout
+    <FrameLayout
+        android:id="@+id/mainContainerFL"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.main.MainActivity">
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/mainNav"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/bottom_nav_height"
-            android:layout_alignParentBottom="true"
-            android:background="@color/app_bg_nav"
-            app:itemBackground="@color/app_bg_nav"
-            app:itemHorizontalTranslationEnabled="false"
-            app:itemIconTint="@color/selector_bottom_nav"
-            app:itemTextAppearanceActive="@style/AppText.BNV.Active"
-            app:itemTextAppearanceInactive="@style/AppText.BNV.Inactive"
-            app:itemTextColor="@color/selector_bottom_nav"
-            app:labelVisibilityMode="unlabeled"
-            app:menu="@menu/main_nav_menu" />
-
-        <FrameLayout
-            android:id="@+id/mainContainerFL"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/mainNav" />
-    </RelativeLayout>
-</layout>
+        android:layout_above="@+id/mainNav" />
+</RelativeLayout>

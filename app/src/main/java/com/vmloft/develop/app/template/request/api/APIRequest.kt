@@ -22,6 +22,7 @@ object APIRequest : BaseRequest() {
     val followAPI by lazy { getAPI(FollowAPI::class.java, CConstants.baseHost()) }
     val likeAPI by lazy { getAPI(LikeAPI::class.java, CConstants.baseHost()) }
     val matchAPI by lazy { getAPI(MatchAPI::class.java, CConstants.baseHost()) }
+    val orderAPI by lazy { getAPI(OrderAPI::class.java, CConstants.baseHost()) }
     val postAPI by lazy { getAPI(PostAPI::class.java, CConstants.baseHost()) }
     val roomAPI by lazy { getAPI(RoomAPI::class.java, CConstants.baseHost()) }
     val signAPI by lazy { getAPI(SignAPI::class.java, CConstants.baseHost()) }

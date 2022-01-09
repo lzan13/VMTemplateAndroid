@@ -24,21 +24,6 @@ object CConstants {
     const val timeHour: Long = 60 * timeMinute
     const val timeDay = 24 * timeHour // 天
 
-
-    /**
-     * 获取 UCloud 公钥
-     */
-    fun ucloudPublicKey(): String {
-        return BuildConfig.ucloudPublicKey
-    }
-
-    /**
-     * 获取 UCloud 存储桶
-     */
-    fun ucloudBucket(): String {
-        return BuildConfig.ucloudBucket
-    }
-
     /**
      * 获取接口 host 地址，根据 debug 状态返回不同地址
      */
@@ -48,6 +33,13 @@ object CConstants {
         } else {
             BuildConfig.baseReleaseUrl
         }
+    }
+
+    /**
+     * 获取支付宝Id
+     */
+    fun alipayAppId(): String {
+        return BuildConfig.alipayAppId
     }
 
     /**

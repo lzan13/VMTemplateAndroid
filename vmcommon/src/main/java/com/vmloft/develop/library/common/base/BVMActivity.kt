@@ -4,29 +4,35 @@ import android.app.Activity
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
+import androidx.viewbinding.ViewBinding
 
 import com.vmloft.develop.library.common.R
 import com.vmloft.develop.library.common.utils.CUtils
 import com.vmloft.develop.library.common.utils.showBar
 import com.vmloft.develop.library.common.utils.errorBar
-import com.vmloft.develop.library.common.widget.CommonDialog
+import com.vmloft.develop.library.common.ui.widget.CommonDialog
 import com.vmloft.develop.library.tools.utils.VMColor
-
 import com.vmloft.develop.library.tools.utils.VMDimen
 import com.vmloft.develop.library.tools.utils.VMNetwork
 import com.vmloft.develop.library.tools.widget.VMTopBar
-import kotlinx.android.synthetic.main.widget_common_empty_status_view.*
-
-import kotlinx.android.synthetic.main.widget_common_top_bar.*
 
 /**
  * Created by lzan13 on 2020/02/15 11:16
  * 描述：Activity MVVM 框架基类
  */
-abstract class BVMActivity<VM : BViewModel> : AppCompatActivity() {
+abstract class BVMActivity<VB : ViewBinding, VM : BViewModel> : AppCompatActivity() {
+
+    // 公共控件
+    protected var commonTopLL: View? = null
+    protected var commonTopSpace: View? = null
+    protected var commonTopBar: VMTopBar? = null
+
+    protected var commonLoadingLL: View? = null
+
+    protected var emptyStatusLL: View? = null
+    protected var emptyStatusIV: ImageView? = null
 
     protected var mDialog: CommonDialog? = null
 
@@ -40,23 +46,19 @@ abstract class BVMActivity<VM : BViewModel> : AppCompatActivity() {
     open var isDarkStatusBar: Boolean = true
 
     protected lateinit var mActivity: Activity
-    protected lateinit var mBinding: ViewDataBinding
     protected lateinit var mViewModel: VM
 
-    // 统一的 TopBar
-    private var topBar: VMTopBar? = null
-    private var spaceView: View? = null
-
+    private lateinit var _binding: VB
+    protected val mBinding get() = _binding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        _binding = initVB()
+        setContentView(_binding.root)
 
         mActivity = this
 
         mViewModel = initVM()
-
-        mBinding = DataBindingUtil.setContentView(this, layoutId())
-        mBinding.lifecycleOwner = this
 
         initUI()
 
@@ -67,9 +69,9 @@ abstract class BVMActivity<VM : BViewModel> : AppCompatActivity() {
     }
 
     /**
-     * 布局资源 id
+     * 初始化 ViewBinding
      */
-    abstract fun layoutId(): Int
+    abstract fun initVB(): VB
 
     /**
      * 初始化 ViewModel
@@ -80,8 +82,7 @@ abstract class BVMActivity<VM : BViewModel> : AppCompatActivity() {
      * 初始化 UI
      */
     open fun initUI() {
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        setupTobBar()
+        setupTopBar()
     }
 
     /**
@@ -93,7 +94,11 @@ abstract class BVMActivity<VM : BViewModel> : AppCompatActivity() {
      * 模型变化回调
      */
     open fun onModelLoading(model: BViewModel.UIModel) {
-
+        if (model.isLoading) {
+            showLoading()
+        } else {
+            hideLoading()
+        }
     }
 
     /**
@@ -110,25 +115,33 @@ abstract class BVMActivity<VM : BViewModel> : AppCompatActivity() {
      */
     private fun startObserve() {
         mViewModel.uiState.observe(this, {
-            if (it.isLoading) {
-                onModelLoading(it)
-            } else {
+            onModelLoading(it)
+            if (!it.isLoading) {
                 if (it.isSuccess) {
                     onModelRefresh(it)
                 } else {
                     onModelError(it)
                 }
+                it.toast?.let { message -> showBar(message) }
             }
-            it.toast?.let { message -> showBar(message) }
         })
     }
 
     /**
      * 装载 TopBar
      */
-    private fun setupTobBar() {
+    private fun setupTopBar() {
         CUtils.setDarkMode(mActivity, isDarkStatusBar)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
+        commonTopLL = mBinding.root.findViewById(R.id.commonTopLL)
+        commonTopBar = mBinding.root.findViewById(R.id.commonTopBar)
+        commonTopSpace = mBinding.root.findViewById(R.id.commonTopSpace)
+
+        commonLoadingLL = mBinding.root.findViewById(R.id.commonLoadingLL)
+
+        emptyStatusLL = mBinding.root.findViewById(R.id.emptyStatusLL)
+        emptyStatusIV = mBinding.root.findViewById(R.id.emptyStatusIV)
         if (!isHideTopSpace) {
             // 设置状态栏透明主题时，布局整体会上移，所以给头部 View 设置 StatusBar 的高度
             commonTopSpace?.layoutParams?.height = VMDimen.statusBarHeight
@@ -153,6 +166,13 @@ abstract class BVMActivity<VM : BViewModel> : AppCompatActivity() {
      */
     protected fun setTopIcon(resId: Int) {
         commonTopBar?.setIcon(resId)
+    }
+
+    /**
+     * 设置图标颜色
+     */
+    protected fun setTopIconColor(color: Int) {
+        commonTopBar?.setIconColor(color)
     }
 
     /**
@@ -214,18 +234,32 @@ abstract class BVMActivity<VM : BViewModel> : AppCompatActivity() {
     }
 
     /**
-     * 隐藏空态
+     * 显示 loading
      */
-    protected fun hideEmptyView() {
-        emptyStatusLL.visibility = View.GONE
+    protected fun showLoading() {
+        commonLoadingLL?.visibility = View.VISIBLE
     }
 
     /**
-     * 显示 zhan
+     * 隐藏 loading
+     */
+    protected fun hideLoading() {
+        commonLoadingLL?.visibility = View.GONE
+    }
+
+    /**
+     * 隐藏空态
+     */
+    protected fun hideEmptyView() {
+        emptyStatusLL?.visibility = View.GONE
+    }
+
+    /**
+     * 显示没有数据
      */
     protected fun showEmptyNoData() {
-        emptyStatusIV.setImageResource(R.drawable.ic_empty_data)
-        emptyStatusLL.visibility = View.VISIBLE
+        emptyStatusIV?.setImageResource(R.drawable.ic_empty_data)
+        emptyStatusLL?.visibility = View.VISIBLE
     }
 
     /**
@@ -233,11 +267,11 @@ abstract class BVMActivity<VM : BViewModel> : AppCompatActivity() {
      */
     protected fun showEmptyFailed() {
         if (VMNetwork.hasNetwork()) {
-            emptyStatusIV.setImageResource(R.drawable.ic_empty_failed)
+            emptyStatusIV?.setImageResource(R.drawable.ic_empty_failed)
         } else {
-            emptyStatusIV.setImageResource(R.drawable.ic_empty_network)
+            emptyStatusIV?.setImageResource(R.drawable.ic_empty_network)
         }
-        emptyStatusLL.visibility = View.VISIBLE
+        emptyStatusLL?.visibility = View.VISIBLE
     }
 
 

@@ -9,7 +9,7 @@ import org.json.JSONObject
 /**
  * Create by lzan13 on 2019/5/21 15:11
  *
- * 自定义 IMMessage 消息对象
+ * 描述：消息对象
  */
 class IMMessage {
     // 内部消息对象

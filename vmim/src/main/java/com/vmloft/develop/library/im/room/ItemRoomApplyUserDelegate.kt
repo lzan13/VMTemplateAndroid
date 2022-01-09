@@ -1,7 +1,10 @@
 package com.vmloft.develop.library.im.room
 
+import android.view.LayoutInflater
+import android.view.ViewGroup
+
 import com.vmloft.develop.library.common.base.BItemDelegate
-import com.vmloft.develop.library.im.R
+import com.vmloft.develop.library.common.image.IMGLoader
 import com.vmloft.develop.library.im.bean.IMUser
 import com.vmloft.develop.library.im.databinding.ImItemRoomApplyUserDelegateBinding
 
@@ -11,11 +14,9 @@ import com.vmloft.develop.library.im.databinding.ImItemRoomApplyUserDelegateBind
  */
 class ItemRoomApplyUserDelegate(listener: BItemListener<IMUser>) : BItemDelegate<IMUser, ImItemRoomApplyUserDelegateBinding>(listener) {
 
-    override fun layoutId(): Int = R.layout.im_item_room_apply_user_delegate
+    override fun initVB(inflater: LayoutInflater, parent: ViewGroup) = ImItemRoomApplyUserDelegateBinding.inflate(inflater, parent, false)
 
     override fun onBindView(holder: BItemHolder<ImItemRoomApplyUserDelegateBinding>, item: IMUser) {
-        holder.binding.data = item
-
-        holder.binding.executePendingBindings()
+        IMGLoader.loadAvatar(holder.binding.imApplyAvatarIV, item.avatar)
     }
 }

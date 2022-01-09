@@ -9,18 +9,20 @@ import com.vmloft.develop.app.template.request.bean.Config
  */
 @Dao
 interface ConfigDao {
-
-    @Insert
+    /**
+     * 插入数据，如果已存在则会覆盖
+     */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(vararg config: Config)
 
     @Delete
     suspend fun delete(config: Config)
 
     @Query("DELETE FROM config")
-    fun delete()
+    suspend fun delete()
 
-    @Update
-    suspend fun update(match: Config)
+//    @Update
+//    suspend fun update(match: Config)
 
     @Query("SELECT * FROM config WHERE alias = :alias")
     suspend fun query(alias: String): Config?

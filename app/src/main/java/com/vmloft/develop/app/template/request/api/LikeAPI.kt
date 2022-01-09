@@ -14,9 +14,6 @@ import retrofit2.http.*
 interface LikeAPI {
 
     /**
-     * ------------------------------------ 喜欢接口  ------------------------------------
-     */
-    /**
      * 喜欢
      * @param type 喜欢类型 0-用户 1-帖子 2-评论
      * @param id 喜欢的数据 id
@@ -31,10 +28,11 @@ interface LikeAPI {
     /**
      * 取消关注
      */
-    @DELETE("v1/like")
+    @FormUrlEncoded
+    @POST("v1/like/cancel")
     suspend fun cancelLike(
-        @Query("type") type: Int,
-        @Query("id") id: String,
+        @Field("type") type: Int,
+        @Field("id") id: String,
     ): RResponse<Any>
 
     /**

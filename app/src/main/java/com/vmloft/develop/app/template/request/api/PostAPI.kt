@@ -17,7 +17,7 @@ interface PostAPI {
      * ------------------------------------ 帖子接口  ------------------------------------
      */
     /**
-     * 发布
+     * 创建帖子
      */
     @FormUrlEncoded
     @POST("v1/post")
@@ -27,7 +27,7 @@ interface PostAPI {
         @Field("attachments") attachments: List<String>,
         @Field("stick") stick: Int = 0,
         @Field("extension") extension: String = "",
-    ): RResponse<Any>
+    ): RResponse<Post>
 
     /**
      * 删除
@@ -40,6 +40,12 @@ interface PostAPI {
      */
     @PUT("v1/post/{id}")
     suspend fun updatePost(@Field("id") id: String, @Body body: RequestBody): RResponse<Post>
+
+    /**
+     * 获取帖子信息
+     */
+    @GET("v1/post/{id}")
+    suspend fun postInfo(@Path("id") id: String): RResponse<Post>
 
     /**
      * 获取

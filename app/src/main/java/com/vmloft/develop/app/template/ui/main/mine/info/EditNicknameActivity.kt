@@ -12,14 +12,14 @@ import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.common.SignManager
 import com.vmloft.develop.app.template.databinding.ActivityPersonalInfoEditBinding
 import com.vmloft.develop.app.template.request.bean.User
+import com.vmloft.develop.app.template.request.viewmodel.UserViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.common.base.BVMActivity
 import com.vmloft.develop.library.common.base.BViewModel
+import com.vmloft.develop.library.common.router.CRouter
 import com.vmloft.develop.library.common.utils.errorBar
 import com.vmloft.develop.library.tools.utils.VMReg
 import com.vmloft.develop.library.tools.utils.VMStr
-
-import kotlinx.android.synthetic.main.activity_personal_info_edit.*
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -28,24 +28,22 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  * 描述：编辑昵称
  */
 @Route(path = AppRouter.appEditNickname)
-class EditNicknameActivity : BVMActivity<InfoViewModel>() {
+class EditNicknameActivity : BVMActivity<ActivityPersonalInfoEditBinding, UserViewModel>() {
 
-    @Autowired
+    @Autowired(name = CRouter.paramsStr0)
     lateinit var nickname: String
 
-    override fun initVM(): InfoViewModel = getViewModel()
+    override fun initVB() = ActivityPersonalInfoEditBinding.inflate(layoutInflater)
 
-    override fun layoutId(): Int = R.layout.activity_personal_info_edit
+    override fun initVM(): UserViewModel = getViewModel()
 
     override fun initUI() {
         super.initUI()
-        (mBinding as ActivityPersonalInfoEditBinding).viewModel = mViewModel
-
         setTopTitle(R.string.info_nickname)
 
         setTopEndBtnEnable(false)
         setTopEndBtnListener(VMStr.byRes(R.string.btn_save)) { save() }
-        infoSingleET.addTextChangedListener(object : TextWatcher {
+        mBinding.infoSingleET.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
 
@@ -54,13 +52,13 @@ class EditNicknameActivity : BVMActivity<InfoViewModel>() {
                 verifyInputBox()
             }
         })
-        infoDescTV.text = VMStr.byRes(R.string.info_nickname_hint)
+        mBinding.infoDescTV.text = VMStr.byRes(R.string.info_nickname_tips)
     }
 
     override fun initData() {
         ARouter.getInstance().inject(this)
 
-        infoSingleET.setText(nickname)
+        mBinding.infoSingleET.setText(nickname)
 
     }
 
@@ -81,9 +79,9 @@ class EditNicknameActivity : BVMActivity<InfoViewModel>() {
      * 保存昵称
      */
     private fun save() {
-        if (!VMReg.isCommonReg(nickname, "^[\\s\\S]{2,16}$")) {
-        return errorBar("昵称长度必须在 2-32 之间")
-    }
+        if (!VMReg.isCommonReg(nickname, "^[\\s\\S]{1,12}$")) {
+            return errorBar(R.string.info_nickname_tips)
+        }
         val params: MutableMap<String, Any> = mutableMapOf()
         params["nickname"] = nickname
         mViewModel.updateInfo(params)

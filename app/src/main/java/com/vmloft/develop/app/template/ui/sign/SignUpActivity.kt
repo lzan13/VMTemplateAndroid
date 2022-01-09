@@ -10,14 +10,13 @@ import com.alibaba.android.arouter.facade.annotation.Route
 
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.databinding.ActivitySignUpBinding
+import com.vmloft.develop.app.template.request.viewmodel.SignViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.common.base.BVMActivity
 import com.vmloft.develop.library.common.base.BViewModel
 import com.vmloft.develop.library.common.router.CRouter
 import com.vmloft.develop.library.common.utils.errorBar
 import com.vmloft.develop.library.tools.utils.VMReg
-
-import kotlinx.android.synthetic.main.activity_sign_up.*
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -27,22 +26,21 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  * 描述：注册界面
  */
 @Route(path = AppRouter.appSignUp)
-class SignUpActivity : BVMActivity<SignViewModel>() {
+class SignUpActivity : BVMActivity<ActivitySignUpBinding, SignViewModel>() {
 
     private var mAccount: String = ""
     private var mPassword: String = ""
 
     override fun initVM(): SignViewModel = getViewModel()
 
-    override fun layoutId(): Int = R.layout.activity_sign_up
+    override fun initVB() = ActivitySignUpBinding.inflate(layoutInflater)
 
     override fun initUI() {
         super.initUI()
-        (mBinding as ActivitySignUpBinding).viewModel = mViewModel
         setTopTitle(R.string.sign_up)
 
         // 监听输入框变化
-        signAccountET.addTextChangedListener(object : TextWatcher {
+        mBinding.signAccountET.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
 
@@ -51,7 +49,7 @@ class SignUpActivity : BVMActivity<SignViewModel>() {
                 verifyInputBox()
             }
         })
-        signPasswordET.addTextChangedListener(object : TextWatcher {
+        mBinding.signPasswordET.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
             }
@@ -63,21 +61,21 @@ class SignUpActivity : BVMActivity<SignViewModel>() {
         })
 
         // 设置密码隐藏与显示
-        signPasswordIcon.setOnClickListener {
-            if (signPasswordIcon.isSelected) {
+        mBinding.signPasswordIcon.setOnClickListener {
+            if (mBinding.signPasswordIcon.isSelected) {
                 // 隐藏密码
-                signPasswordET.transformationMethod = PasswordTransformationMethod.getInstance()
-                signPasswordIcon.isSelected = false
+                mBinding.signPasswordET.transformationMethod = PasswordTransformationMethod.getInstance()
+                mBinding.signPasswordIcon.isSelected = false
             } else {
                 // 显示密码
-                signPasswordET.transformationMethod = HideReturnsTransformationMethod.getInstance()
-                signPasswordIcon.isSelected = true
+                mBinding.signPasswordET.transformationMethod = HideReturnsTransformationMethod.getInstance()
+                mBinding.signPasswordIcon.isSelected = true
             }
         }
-        signUserAgreementTV.setOnClickListener { AppRouter.goAgreementPolicy() }
-        signPrivatePolicyTV.setOnClickListener { AppRouter.goAgreementPolicy("policy") }
-        signSubmitBtn.setOnClickListener {
-            if (signPrivatePolicyCB.isChecked) {
+        mBinding.signUserAgreementTV.setOnClickListener { CRouter.go(AppRouter.appSettingsAgreementPolicy, str0 = "agreement") }
+        mBinding.signPrivatePolicyTV.setOnClickListener { CRouter.go(AppRouter.appSettingsAgreementPolicy, str0 = "policy") }
+        mBinding.signSubmitBtn.setOnClickListener {
+            if (mBinding.signPrivatePolicyCB.isChecked) {
                 if (VMReg.isEmail(mAccount)) {
                     mViewModel.signUpByEmail(mAccount, mPassword)
                 } else {
@@ -115,7 +113,7 @@ class SignUpActivity : BVMActivity<SignViewModel>() {
      * 校验输入框内容
      */
     private fun verifyInputBox() {
-        signSubmitBtn.isEnabled = VMReg.isEmail(mAccount) && mPassword.isNotEmpty()
+        mBinding.signSubmitBtn.isEnabled = VMReg.isEmail(mAccount) && mPassword.isNotEmpty()
     }
 
 }

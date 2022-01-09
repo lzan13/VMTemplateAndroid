@@ -17,50 +17,38 @@ class RoomRepository : BaseRepository() {
      * 创建
      */
     suspend fun createRoom(title: String, desc: String, owner: String = ""): RResult<Room> {
-        return safeRequest(call = { requestCreateRoom(title, desc, owner) })
+        return safeRequest { executeResponse(APIRequest.roomAPI.createRoom(title, desc, owner)) }
     }
-
-    private suspend fun requestCreateRoom(title: String, desc: String, owner: String): RResult<Room> =
-        executeResponse(APIRequest.roomAPI.createRoom(title, desc, owner))
 
     /**
      * 销毁
      */
     suspend fun destroyRoom(roomId: String): RResult<Any> {
-        return safeRequest(call = { requestDestroyRoom(roomId) })
+        return safeRequest { executeResponse(APIRequest.roomAPI.destroyRoom(roomId)) }
     }
 
-    private suspend fun requestDestroyRoom(roomId: String): RResult<Any> =
-        executeResponse(APIRequest.roomAPI.destroyRoom(roomId))
 
     /**
      * 修改
      */
     suspend fun updateRoom(id: String, title: String, desc: String): RResult<Room> {
-        return safeRequest(call = { requestUpdateRoom(id, title, desc) })
+        return safeRequest { executeResponse(APIRequest.roomAPI.updateRoom(id, title, desc)) }
     }
 
-    private suspend fun requestUpdateRoom(id: String, title: String, desc: String): RResult<Room> =
-        executeResponse(APIRequest.roomAPI.updateRoom(id, title, desc))
 
     /**
      * 获取房间列表
      */
     suspend fun getRoomList(page: Int, limit: Int, owner: String = ""): RResult<RPaging<Room>> {
-        return safeRequest(call = { requestRoomList(page, limit, owner) })
+        return safeRequest { executeResponse(APIRequest.roomAPI.getRoomList(page, limit, owner)) }
     }
 
-    private suspend fun requestRoomList(page: Int, limit: Int, owner: String): RResult<RPaging<Room>> =
-        executeResponse(APIRequest.roomAPI.getRoomList(page, limit, owner))
 
     /**
      * 获取房间列表
      */
     suspend fun getRoomInfo(id: String): RResult<Room> {
-        return safeRequest(call = { requestRoomInfo(id) })
+        return safeRequest { executeResponse(APIRequest.roomAPI.getRoomInfo(id)) }
     }
-
-    private suspend fun requestRoomInfo(id: String): RResult<Room> =
-        executeResponse(APIRequest.roomAPI.getRoomInfo(id))
 
 }

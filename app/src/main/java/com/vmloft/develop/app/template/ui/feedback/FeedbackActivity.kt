@@ -3,27 +3,27 @@ package com.vmloft.develop.app.template.ui.feedback
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import com.alibaba.android.arouter.facade.annotation.Autowired
 
 import com.alibaba.android.arouter.facade.annotation.Route
 
 import com.vmloft.develop.app.template.R
+import com.vmloft.develop.app.template.databinding.ActivityFeedbackBinding
 import com.vmloft.develop.app.template.request.bean.Attachment
-import com.vmloft.develop.app.template.request.bean.Category
+import com.vmloft.develop.app.template.request.bean.Post
+import com.vmloft.develop.app.template.request.viewmodel.FeedbackViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.common.base.BVMActivity
 import com.vmloft.develop.library.common.base.BViewModel
 import com.vmloft.develop.library.common.common.CConstants
 import com.vmloft.develop.library.common.image.IMGChoose
 import com.vmloft.develop.library.common.image.IMGLoader
-import com.vmloft.develop.library.common.request.RPaging
 import com.vmloft.develop.library.common.router.CRouter
 import com.vmloft.develop.library.common.utils.errorBar
 import com.vmloft.develop.library.common.utils.showBar
 import com.vmloft.develop.library.tools.utils.VMReg
 import com.vmloft.develop.library.tools.utils.VMStr
 import com.vmloft.develop.library.tools.utils.VMSystem
-
-import kotlinx.android.synthetic.main.activity_feedback.*
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -32,7 +32,15 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  * 描述：问题反馈
  */
 @Route(path = AppRouter.appFeedback)
-class FeedbackActivity : BVMActivity<FeedbackViewModel>() {
+class FeedbackActivity : BVMActivity<ActivityFeedbackBinding, FeedbackViewModel>() {
+
+    @Autowired(name = CRouter.paramsWhat)
+    @JvmField
+    var type: Int = 0
+
+    @Autowired(name = CRouter.paramsObj0)
+    @JvmField
+    var post: Post? = null
 
     // 内容
     private lateinit var mContent: String
@@ -43,9 +51,9 @@ class FeedbackActivity : BVMActivity<FeedbackViewModel>() {
     // 截图
     private var picture: Any? = null
 
-    override fun initVM(): FeedbackViewModel = getViewModel()
+    override fun initVB() = ActivityFeedbackBinding.inflate(layoutInflater)
 
-    override fun layoutId(): Int = R.layout.activity_feedback
+    override fun initVM(): FeedbackViewModel = getViewModel()
 
     override fun initUI() {
         super.initUI()
@@ -55,22 +63,22 @@ class FeedbackActivity : BVMActivity<FeedbackViewModel>() {
         setTopEndBtnListener(VMStr.byRes(R.string.btn_submit)) { planSubmit() }
 
         // 选择图片
-        feedbackPictureBtn.setOnClickListener {
+        mBinding.feedbackPictureBtn.setOnClickListener {
             IMGChoose.singlePicture(this) {
                 picture = it
-                feedbackPictureBtn.visibility = View.GONE
-                IMGLoader.loadCover(feedbackPictureIV, picture, true, 8)
+                mBinding.feedbackPictureBtn.visibility = View.GONE
+                IMGLoader.loadCover(mBinding.feedbackPictureIV, picture, true, 8)
             }
         }
-        feedbackPictureIV.setOnClickListener {
+        mBinding.feedbackPictureIV.setOnClickListener {
             CRouter.goDisplaySingle(picture.toString())
         }
-        feedbackPictureCloseIV.setOnClickListener {
+        mBinding.feedbackPictureCloseIV.setOnClickListener {
             picture = null
-            feedbackPictureBtn.visibility = View.VISIBLE
+            mBinding.feedbackPictureBtn.visibility = View.VISIBLE
         }
         // 监听输入框变化
-        feedbackContentET.addTextChangedListener(object : TextWatcher {
+        mBinding.feedbackContentET.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
 
@@ -79,6 +87,15 @@ class FeedbackActivity : BVMActivity<FeedbackViewModel>() {
                 verifyInputBox()
             }
         })
+        mBinding.feedbackContactET.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable) {
+                mContact = s.toString().trim()
+            }
+        })
+
 
     }
 
@@ -121,9 +138,12 @@ class FeedbackActivity : BVMActivity<FeedbackViewModel>() {
         if (!VMReg.isCommonReg(mContent, "^[\\s\\S]{1,800}\$")) {
             return errorBar(R.string.input_not_null)
         }
-        val title = mContent.substring(0, if (mContent.length > 10) 10 else mContent.length - 1)
 
-        mViewModel.feedback(title, mContent, attachment?.id ?: "")
+        val list = mutableListOf<String>()
+        attachment?.let {
+            list.add(it.id)
+        }
+        mViewModel.feedback(mContact, mContent, post?.owner?.id ?: "", post?.id ?: "", list, type)
     }
 
 

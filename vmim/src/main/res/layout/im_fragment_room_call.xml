@@ -130,7 +130,7 @@
             android:layout_width="@dimen/vm_dimen_36"
             android:layout_height="@dimen/vm_dimen_36"
             android:layout_margin="@dimen/vm_dimen_4"
-            android:background="@drawable/im_shape_call_icon_effect_bg"
+            android:background="@drawable/im_selector_call_icon_effect_bg"
             android:padding="@dimen/vm_dimen_8"
             android:src="@drawable/im_ic_avatar_oldman" />
 
@@ -139,7 +139,7 @@
             android:layout_width="@dimen/vm_dimen_36"
             android:layout_height="@dimen/vm_dimen_36"
             android:layout_margin="@dimen/vm_dimen_4"
-            android:background="@drawable/im_shape_call_icon_effect_bg"
+            android:background="@drawable/im_selector_call_icon_effect_bg"
             android:padding="@dimen/vm_dimen_8"
             android:src="@drawable/im_ic_avatar_midlife" />
 
@@ -148,7 +148,7 @@
             android:layout_width="@dimen/vm_dimen_36"
             android:layout_height="@dimen/vm_dimen_36"
             android:layout_margin="@dimen/vm_dimen_4"
-            android:background="@drawable/im_shape_call_icon_effect_bg"
+            android:background="@drawable/im_selector_call_icon_effect_bg"
             android:padding="@dimen/vm_dimen_8"
             android:src="@drawable/im_ic_avatar_boy" />
 
@@ -157,7 +157,7 @@
             android:layout_width="@dimen/vm_dimen_36"
             android:layout_height="@dimen/vm_dimen_36"
             android:layout_margin="@dimen/vm_dimen_4"
-            android:background="@drawable/im_shape_call_icon_effect_bg"
+            android:background="@drawable/im_selector_call_icon_effect_bg"
             android:padding="@dimen/vm_dimen_8"
             android:src="@drawable/im_ic_avatar_girl" />
 
@@ -166,7 +166,7 @@
             android:layout_width="@dimen/vm_dimen_36"
             android:layout_height="@dimen/vm_dimen_36"
             android:layout_margin="@dimen/vm_dimen_4"
-            android:background="@drawable/im_shape_call_icon_effect_bg"
+            android:background="@drawable/im_selector_call_icon_effect_bg"
             android:padding="@dimen/vm_dimen_8"
             android:src="@drawable/im_ic_avatar_loli" />
     </LinearLayout>

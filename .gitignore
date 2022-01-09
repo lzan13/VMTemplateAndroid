@@ -2,6 +2,7 @@
 *.apk
 *.ap_
 *.aab
+*.aar
 
 # Files for the ART/Dalvik VM
 *.dex
@@ -40,7 +41,7 @@ captures/
 
 # Keystore files
 # Uncomment the following lines if you do not want to check your keystore files in.
-vmloft.release.*
+#vmloft.release.*
 
 # External native build folder generated in Android Studio 2.2 and later
 .externalNativeBuild
@@ -74,3 +75,5 @@ lint/tmp/
 
 # 敏感信息配置文件
 config.gradle
+vmloft.release.jks
+vmloft.release.keystore

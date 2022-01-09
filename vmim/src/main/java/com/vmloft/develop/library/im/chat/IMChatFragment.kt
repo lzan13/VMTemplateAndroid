@@ -4,8 +4,10 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.drakeet.multitype.MultiTypeAdapter
@@ -15,21 +17,20 @@ import com.hyphenate.chat.EMImageMessageBody
 import com.hyphenate.chat.EMMessage
 import com.hyphenate.chat.EMTextMessageBody
 
-import com.scwang.smart.refresh.header.ClassicsHeader
-
+import com.vmloft.develop.library.common.base.BFragment
 import com.vmloft.develop.library.common.base.BItemDelegate
-import com.vmloft.develop.library.common.base.BaseFragment
 import com.vmloft.develop.library.common.common.CConstants
 import com.vmloft.develop.library.common.common.PermissionManager
 import com.vmloft.develop.library.common.event.LDEventBus
 import com.vmloft.develop.library.common.image.IMGChoose
 import com.vmloft.develop.library.common.router.CRouter
+import com.vmloft.develop.library.common.ui.widget.CommonDialog
 import com.vmloft.develop.library.common.utils.errorBar
 import com.vmloft.develop.library.common.utils.showBar
-import com.vmloft.develop.library.common.widget.CommonDialog
 import com.vmloft.develop.library.im.R
 import com.vmloft.develop.library.im.chat.msg.*
 import com.vmloft.develop.library.im.common.IMConstants
+import com.vmloft.develop.library.im.databinding.ImFragmentChatBinding
 import com.vmloft.develop.library.im.router.IMRouter
 import com.vmloft.develop.library.tools.utils.VMDate
 import com.vmloft.develop.library.tools.utils.VMStr
@@ -37,15 +38,13 @@ import com.vmloft.develop.library.tools.utils.VMSystem
 import com.vmloft.develop.library.tools.utils.bitmap.VMBitmap
 import com.vmloft.develop.library.tools.widget.VMFloatMenu
 
-import kotlinx.android.synthetic.main.im_fragment_chat.*
-
 
 /**
  * Create by lzan13 on 2019/05/09 10:11
  *
  * IM 可自定义加载的聊天界面
  */
-class IMChatFragment : BaseFragment() {
+class IMChatFragment : BFragment<ImFragmentChatBinding>() {
 
     private val limit = CConstants.defaultLimit
 
@@ -65,6 +64,7 @@ class IMChatFragment : BaseFragment() {
     // 会话相关
     private lateinit var chatId: String
     private var chatType: Int = 0
+    private lateinit var chatExtend: String
     private lateinit var conversation: EMConversation
 
     private var receiveMsgCount = 0
@@ -73,36 +73,33 @@ class IMChatFragment : BaseFragment() {
     companion object {
         private val argChatId = "argChatId"
         private val argChatType = "argChatType"
+        private val argChatExtend = "argChatExtend"
 
         /**
          * Fragment 的工厂方法，方便创建并设置参数
          */
-        fun newInstance(chatId: String, chatType: Int): IMChatFragment {
+        fun newInstance(chatId: String, chatType: Int, extend: String): IMChatFragment {
             val fragment = IMChatFragment()
             val args = Bundle()
             args.putString(argChatId, chatId)
             args.putInt(argChatType, chatType)
+            args.putString(argChatExtend, extend)
             fragment.arguments = args
             return fragment
         }
     }
 
-    /**
-     * 加载布局
-     */
-    override fun layoutId(): Int = R.layout.im_fragment_chat
+    override fun initVB(inflater: LayoutInflater, parent: ViewGroup?) = ImFragmentChatBinding.inflate(inflater, parent, false)
 
     override fun initUI() {
         super.initUI()
 
         // 选择图片
-        imChatPictureIV.setOnClickListener { openAlbum() }
-        imChatPictureLockIV.setOnClickListener { showPictureLimitDialog() }
+        mBinding.imChatPictureIV.setOnClickListener { openAlbum() }
         // 开启通话申请
-        imChatCallIV.setOnClickListener { requestCall() }
-        imChatCallLockIV.setOnClickListener { showCallLimitDialog() }
+        mBinding.imChatCallIV.setOnClickListener { requestCall() }
         // 点击发送
-        imChatSendIV.setOnClickListener { sendText() }
+        mBinding.imChatSendIV.setOnClickListener { sendText() }
 
         // 初始化输入框监听
         initInputWatcher()
@@ -113,7 +110,7 @@ class IMChatFragment : BaseFragment() {
 
         // 监听新消息过来，这里肯定是发给自己的消息，在发送事件时已经过滤
         LDEventBus.observe(this, IMConstants.Common.newMsgEvent, EMMessage::class.java) {
-            checkLockStatus()
+            checkLockStatus(it)
             refreshNewMsg(it)
         }
 
@@ -132,6 +129,7 @@ class IMChatFragment : BaseFragment() {
     override fun initData() {
         chatId = requireArguments().getString(argChatId) ?: ""
         chatType = requireArguments().getInt(argChatType, 0)
+        chatExtend = requireArguments().getString(argChatExtend, "")
 
         initConversation()
 
@@ -144,6 +142,9 @@ class IMChatFragment : BaseFragment() {
     private fun initConversation() {
         // 获取会话对象
         conversation = IMChatManager.getConversation(chatId, chatType)
+
+        // 保存扩展信息
+        saveExtendMsg()
 
         receiveMsgCount = IMChatManager.getConversationMsgReceiveCount(conversation)
         sendMsgCount = IMChatManager.getConversationMsgSendCount(conversation)
@@ -161,6 +162,22 @@ class IMChatFragment : BaseFragment() {
         mAdapter.notifyDataSetChanged()
     }
 
+    /**
+     * 根据传入参数判断需不需要保存扩展信息
+     */
+    private fun saveExtendMsg() {
+        if (chatExtend.isNullOrEmpty()) return
+
+        val message = IMChatManager.createTextMessage(chatExtend, chatId, false)
+        message.chatType = EMMessage.ChatType.Chat
+        message.setStatus(EMMessage.Status.SUCCESS)
+
+        IMChatManager.saveMessage(message)
+
+        // 通知有新消息，这里主要是通知会话列表刷新
+        LDEventBus.post(IMConstants.Common.newMsgEvent, message)
+    }
+
 
     override fun onResume() {
         super.onResume()
@@ -170,7 +187,7 @@ class IMChatFragment : BaseFragment() {
         // 检查是否有草稿没有发出
         val draft = IMChatManager.getConversationDraft(conversation)
         if (!draft.isNullOrEmpty()) {
-            imChatMessageET.setText(draft)
+            mBinding.imChatMessageET.setText(draft)
         }
     }
 
@@ -183,23 +200,13 @@ class IMChatFragment : BaseFragment() {
          * 判断聊天输入框内容是否为空，不为空就保存输入框内容到[EMConversation]的扩展中
          * 调用[IMChatManager.setConversationDraft]方法
          */
-        val draft = imChatMessageET.text.toString().trim()
+        val draft = mBinding.imChatMessageET.text.toString().trim()
         // 将输入框的内容保存为草稿
         IMChatManager.setConversationDraft(conversation, draft)
     }
 
     private fun initRecyclerView() {
-        // 下拉监听
-        ClassicsHeader.REFRESH_HEADER_PULLING = VMStr.byRes(R.string.im_chat_load_more_header_pulling);//"下拉加载更多";
-        ClassicsHeader.REFRESH_HEADER_REFRESHING = VMStr.byRes(R.string.im_chat_load_more_header_refreshing);//"正在刷新...";
-        ClassicsHeader.REFRESH_HEADER_LOADING = VMStr.byRes(R.string.im_chat_load_more_header_loading);//"正在加载...";
-        ClassicsHeader.REFRESH_HEADER_RELEASE = VMStr.byRes(R.string.im_chat_load_more_header_release);//"释放立即加载";
-        ClassicsHeader.REFRESH_HEADER_FINISH = VMStr.byRes(R.string.im_chat_load_more_header_finish);//"加载完成";
-        ClassicsHeader.REFRESH_HEADER_FAILED = VMStr.byRes(R.string.im_chat_load_more_header_failed);//"加载失败";
-        ClassicsHeader.REFRESH_HEADER_SECONDARY = VMStr.byRes(R.string.im_chat_load_more_header_secondary);//"释放进入二楼";
-        ClassicsHeader.REFRESH_HEADER_UPDATE = VMStr.byRes(R.string.im_chat_load_more_header_update);//"上次加载 M-d HH:mm";
-
-        imChatRefreshLayout.setOnRefreshListener { loadMoreMsg() }
+        mBinding.imChatRefreshLayout.setOnRefreshListener { loadMoreMsg() }
 
         // 消息点击监听
         val listener = object : BItemDelegate.BItemListener<EMMessage> {
@@ -247,15 +254,15 @@ class IMChatFragment : BaseFragment() {
         mAdapter.notifyDataSetChanged()
         layoutManager = LinearLayoutManager(context)
         layoutManager.stackFromEnd = true
-        imChatRecyclerView.layoutManager = layoutManager
-        imChatRecyclerView.adapter = mAdapter
+        mBinding.imChatRecyclerView.layoutManager = layoutManager
+        mBinding.imChatRecyclerView.adapter = mAdapter
     }
 
     /**
      * 设置输入框内容的监听
      */
     private fun initInputWatcher() {
-        imChatMessageET.addTextChangedListener(object : TextWatcher {
+        mBinding.imChatMessageET.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable) {
@@ -268,7 +275,7 @@ class IMChatFragment : BaseFragment() {
                         IMChatManager.sendInputStatus(chatId)
                     }
                 }
-                imChatSendIV.visibility = if (s.toString().isNullOrEmpty()) View.GONE else View.VISIBLE
+                mBinding.imChatSendIV.visibility = if (s.toString().isNullOrEmpty()) View.GONE else View.VISIBLE
             }
         })
     }
@@ -284,15 +291,15 @@ class IMChatFragment : BaseFragment() {
                 sendMsgCount++
             }
         }
-        if (receiveMsgCount < 10 || sendMsgCount < 10) {
-            imChatPictureLockIV.visibility = View.VISIBLE
+        if (receiveMsgCount > 2 && sendMsgCount > 2) {
+            mBinding.imChatPictureIV.visibility = View.VISIBLE
         } else {
-            imChatPictureLockIV.visibility = View.GONE
+            mBinding.imChatPictureIV.visibility = View.GONE
         }
-        if (receiveMsgCount < 20 || sendMsgCount < 20) {
-            imChatCallLockIV.visibility = View.VISIBLE
+        if (receiveMsgCount >= 5 || sendMsgCount >= 5) {
+            mBinding.imChatCallIV.visibility = View.VISIBLE
         } else {
-            imChatCallLockIV.visibility = View.GONE
+            mBinding.imChatCallIV.visibility = View.GONE
         }
     }
 
@@ -300,19 +307,9 @@ class IMChatFragment : BaseFragment() {
      * 打开相册选择图片发送
      */
     private fun openAlbum() {
-        IMGChoose.singlePicture(requireActivity()) { sendPicture(it as Uri) }
-    }
-
-    /**
-     * 显示发送图片限制对话框
-     */
-    private fun showPictureLimitDialog() {
-        mDialog = CommonDialog(requireActivity())
-        (mDialog as CommonDialog).let { dialog ->
-            dialog.setContent(VMStr.byResArgs(R.string.im_chat_picture_limit, 10, 10))
-            dialog.setNegative("")
-            dialog.setPositive(VMStr.byRes(R.string.btn_i_known))
-            dialog.show()
+        // 必须有读写存储权限才能选择图片
+        if (PermissionManager.storagePermission(requireContext())) {
+            IMGChoose.singlePicture(requireActivity()) { sendPicture(it as Uri) }
         }
     }
 
@@ -327,25 +324,12 @@ class IMChatFragment : BaseFragment() {
     }
 
     /**
-     * 显示通话限制对话框
-     */
-    private fun showCallLimitDialog() {
-        mDialog = CommonDialog(requireActivity())
-        (mDialog as CommonDialog).let { dialog ->
-            dialog.setContent(VMStr.byResArgs(R.string.im_chat_call_limit, 20, 20))
-            dialog.setNegative("")
-            dialog.setPositive(VMStr.byRes(R.string.btn_i_known))
-            dialog.show()
-        }
-    }
-
-    /**
      * 新消息刷新
      */
     private fun refreshNewMsg(msg: EMMessage) {
         mItems.add(msg)
         mAdapter.notifyItemInserted(mAdapter.itemCount)
-        imChatRecyclerView.post { scrollToBottom() }
+        mBinding.imChatRecyclerView.post { scrollToBottom() }
     }
 
 
@@ -369,7 +353,7 @@ class IMChatFragment : BaseFragment() {
      * 加载更多消息
      */
     private fun loadMoreMsg() {
-        imChatRefreshLayout.finishRefresh()
+        mBinding.imChatRefreshLayout.finishRefresh()
 
         val list = IMChatManager.loadMoreMessages(conversation, limit)
         mItems.addAll(0, list)
@@ -380,11 +364,11 @@ class IMChatFragment : BaseFragment() {
      * 发送文本消息
      */
     private fun sendText() {
-        val content: String = imChatMessageET.text.toString().trim()
+        val content: String = mBinding.imChatMessageET.text.toString().trim()
         if (content.isNullOrEmpty()) {
             return errorBar(R.string.im_chat_send_notnull)
         }
-        imChatMessageET.setText("")
+        mBinding.imChatMessageET.setText("")
         lastTimeInputStatus = 0
         // 创建消息
         sendMessage(IMChatManager.createTextMessage(content, chatId))
@@ -416,14 +400,14 @@ class IMChatFragment : BaseFragment() {
      * 滚动到底部
      */
     private fun scrollToBottom() {
-        imChatRecyclerView.smoothScrollToPosition(mAdapter.itemCount - 1)
+        mBinding.imChatRecyclerView.smoothScrollToPosition(mAdapter.itemCount - 1)
     }
 
     /**
      * 判断是否能向上滚动
      */
     private fun canScrollToUp(): Boolean {
-        return imChatRecyclerView.canScrollVertically(1)
+        return mBinding.imChatRecyclerView.canScrollVertically(1)
     }
 
 

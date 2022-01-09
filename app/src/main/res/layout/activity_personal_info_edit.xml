@@ -1,58 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
 
-    <data>
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg"
+    android:orientation="vertical"
+    tools:context=".ui.main.mine.info.EditNicknameActivity">
 
-        <variable
-            name="viewModel"
-            type="com.vmloft.develop.app.template.ui.main.mine.info.InfoViewModel" />
-    </data>
+    <include layout="@layout/widget_common_top_bar" />
 
-    <LinearLayout
+    <!--单行输入框-->
+    <EditText
+        android:id="@+id/infoSingleET"
+        style="@style/AppEdit.Single"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/app_bg"
-        android:orientation="vertical"
-        tools:context=".ui.main.mine.info.EditNicknameActivity">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/vm_dimen_16"
+        android:layout_marginTop="@dimen/vm_dimen_16"
+        android:layout_marginEnd="@dimen/vm_dimen_16"
+        android:hint="@string/input_hint" />
 
-        <include layout="@layout/widget_common_top_bar" />
+    <!--多行输入框-->
+    <EditText
+        android:id="@+id/infoMultiLineET"
+        style="@style/AppEdit.MultiLine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/vm_dimen_16"
+        android:layout_marginTop="@dimen/vm_dimen_16"
+        android:layout_marginEnd="@dimen/vm_dimen_16"
+        android:hint="@string/input_hint"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
-        <!--单行输入框-->
-        <EditText
-            android:id="@+id/infoSingleET"
-            style="@style/AppEdit.Single"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/vm_dimen_16"
-            android:layout_marginTop="@dimen/vm_dimen_16"
-            android:layout_marginEnd="@dimen/vm_dimen_16"
-            android:hint="@string/input_hint" />
-
-        <!--多行输入框-->
-        <EditText
-            android:id="@+id/infoMultiLineET"
-            style="@style/AppEdit.MultiLine"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/vm_dimen_16"
-            android:layout_marginTop="@dimen/vm_dimen_16"
-            android:layout_marginEnd="@dimen/vm_dimen_16"
-            android:hint="@string/input_hint"
-            android:visibility="gone"
-            tools:visibility="visible" />
-
-        <TextView
-            android:id="@+id/infoDescTV"
-            style="@style/AppText.Tips"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/vm_dimen_16"
-            android:layout_marginTop="@dimen/vm_dimen_8"
-            android:layout_marginEnd="@dimen/vm_dimen_16"
-            android:paddingStart="@dimen/vm_dimen_16"
-            android:paddingEnd="@dimen/vm_dimen_16"
-            tools:text="@string/app_name" />
-    </LinearLayout>
-</layout>
+    <TextView
+        android:id="@+id/infoDescTV"
+        style="@style/AppText.Tips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/vm_dimen_16"
+        android:layout_marginTop="@dimen/vm_dimen_8"
+        android:layout_marginEnd="@dimen/vm_dimen_16"
+        android:paddingStart="@dimen/vm_dimen_16"
+        android:paddingEnd="@dimen/vm_dimen_16"
+        tools:text="@string/app_name" />
+</LinearLayout>

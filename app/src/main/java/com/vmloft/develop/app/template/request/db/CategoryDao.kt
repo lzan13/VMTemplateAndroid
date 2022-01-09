@@ -9,18 +9,20 @@ import com.vmloft.develop.app.template.request.bean.Category
  */
 @Dao
 interface CategoryDao {
-
-    @Insert
+    /**
+     * 插入数据，如果已存在则会覆盖
+     */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(vararg category: Category)
 
     @Delete
     suspend fun delete(category: Category)
 
     @Query("DELETE FROM category")
-    fun delete()
+    suspend fun delete()
 
-    @Update
-    suspend fun update(category: Category)
+//    @Update
+//    suspend fun update(category: Category)
 
     @Query("SELECT * FROM category WHERE id = :id")
     suspend fun query(id: String): Category?

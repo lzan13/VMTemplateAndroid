@@ -2,6 +2,7 @@ package com.vmloft.develop.library.common.request
 
 
 import com.vmloft.develop.library.common.BuildConfig
+import com.vmloft.develop.library.common.utils.json.JsonUtils
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -40,7 +41,7 @@ abstract class BaseRequest {
     fun <S> getAPI(apiClass: Class<S>, baseUrl: String): S {
         return Retrofit.Builder()
             .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(JsonUtils.gson))
             .baseUrl(baseUrl)
             .build().create(apiClass)
     }

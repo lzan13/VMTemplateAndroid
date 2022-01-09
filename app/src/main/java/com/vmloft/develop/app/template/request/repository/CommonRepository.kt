@@ -9,8 +9,10 @@ import com.vmloft.develop.app.template.request.db.AppDatabase
 import com.vmloft.develop.library.common.common.CConstants
 import com.vmloft.develop.library.common.request.RPaging
 import com.vmloft.develop.library.tools.utils.VMSystem
+import okhttp3.MultipartBody
 
 import okhttp3.RequestBody
+import retrofit2.http.Part
 
 
 /**
@@ -22,12 +24,9 @@ class CommonRepository : BaseRepository() {
     /**
      * 上传附件
      */
-    suspend fun ucloudCallbackObj(body: RequestBody): RResult<Attachment> {
-        return safeRequest(call = { requestUpload(body) })
+    suspend fun upload(body: MultipartBody): RResult<Attachment> {
+        return safeRequest { executeResponse(APIRequest.commonAPI.upload(body)) }
     }
-
-    private suspend fun requestUpload(body: RequestBody): RResult<Attachment> =
-        executeResponse(APIRequest.commonAPI.ucloudCallbackObj(body))
 
     /**
      * 获取分类集合
@@ -43,7 +42,7 @@ class CommonRepository : BaseRepository() {
             }
         }
         // 从服务器获取后保存到本地数据库
-        val result = safeRequest(call = { requestCategoryList() })
+        val result = safeRequest { executeResponse(APIRequest.commonAPI.getCategoryList()) }
         if (result is RResult.Success) {
             SPManager.setCategoryTime(System.currentTimeMillis())
             // 先清空原来的数据
@@ -53,9 +52,6 @@ class CommonRepository : BaseRepository() {
         }
         return result
     }
-
-    private suspend fun requestCategoryList(): RResult<RPaging<Category>> =
-        executeResponse(APIRequest.commonAPI.getCategoryList())
 
     /**
      * 获取职业集合
@@ -72,7 +68,7 @@ class CommonRepository : BaseRepository() {
             }
         }
         // 从服务器获取后保存到本地数据库
-        val result = safeRequest(call = { requestProfessionList() })
+        val result = safeRequest { executeResponse(APIRequest.commonAPI.getProfessionList()) }
         if (result is RResult.Success) {
             SPManager.setProfessionTime(System.currentTimeMillis())
             // 先清空原来的数据
@@ -82,9 +78,6 @@ class CommonRepository : BaseRepository() {
         }
         return result
     }
-
-    private suspend fun requestProfessionList(): RResult<RPaging<Profession>> =
-        executeResponse(APIRequest.commonAPI.getProfessionList())
 
     /**
      * 检查版本，这里控制超过 24 小时去服务器请求
@@ -104,17 +97,13 @@ class CommonRepository : BaseRepository() {
                 }
             }
         }
-        val result = safeRequest(call = { requestCheckVersion() })
+        val result = safeRequest { executeResponse(APIRequest.commonAPI.checkVersion()) }
         if (result is RResult.Success) {
             SPManager.setCheckVersionTime(System.currentTimeMillis())
         }
 
         return result
     }
-
-    private suspend fun requestCheckVersion(): RResult<Version> =
-        executeResponse(APIRequest.commonAPI.checkVersion())
-
 
     /**
      * 获取客户端配置，这里控制超过 24 小时去服务器请求
@@ -128,15 +117,12 @@ class CommonRepository : BaseRepository() {
                 return RResult.Success("", config)
             }
         }
-        val result = safeRequest(call = { requestClientConfig() })
+        val result = safeRequest { executeResponse(APIRequest.commonAPI.getClientConfig()) }
         if (result is RResult.Success) {
             SPManager.setClientConfigTime(System.currentTimeMillis())
         }
         return result
     }
-
-    private suspend fun requestClientConfig(): RResult<Config> =
-        executeResponse(APIRequest.commonAPI.getClientConfig())
 
     /**
      * 获取隐私政策，这里控制超过 24 小时去服务器请求
@@ -150,15 +136,12 @@ class CommonRepository : BaseRepository() {
                 return RResult.Success("", config)
             }
         }
-        val result = safeRequest(call = { requestPrivatePolicy() })
+        val result = safeRequest { executeResponse(APIRequest.commonAPI.getPrivatePolicy()) }
         if (result is RResult.Success) {
             SPManager.setPrivatePolicyTime(System.currentTimeMillis())
         }
         return result
     }
-
-    private suspend fun requestPrivatePolicy(): RResult<Config> =
-        executeResponse(APIRequest.commonAPI.getPrivatePolicy())
 
     /**
      * 获取用户协议，这里控制超过 24 小时去服务器请求
@@ -172,24 +155,32 @@ class CommonRepository : BaseRepository() {
                 return RResult.Success("", config)
             }
         }
-        val result = safeRequest(call = { requestUserAgreement() })
+        val result = safeRequest { executeResponse(APIRequest.commonAPI.getUserAgreement()) }
         if (result is RResult.Success) {
             SPManager.setUserAgreementTime(System.currentTimeMillis())
         }
         return result
     }
 
-    private suspend fun requestUserAgreement(): RResult<Config> =
-        executeResponse(APIRequest.commonAPI.getUserAgreement())
-
     /**
      * 提交反馈
      */
-    suspend fun feedback(contact: String, content: String, attachment: String): RResult<Any> {
-        return safeRequest(call = { requestFeedback(contact, content, attachment) })
+    suspend fun feedback(contact: String, content: String, user: String, post: String, attachments: List<String>, type: Int): RResult<Any> {
+        return safeRequest { executeResponse(APIRequest.commonAPI.feedback(contact, content, user, post, attachments, type)) }
     }
 
-    private suspend fun requestFeedback(contact: String, content: String, attachment: String): RResult<Any> =
-        executeResponse(APIRequest.commonAPI.feedback(contact, content, attachment))
+    /**
+     * 获取反馈列表
+     */
+    suspend fun feedbackList(page: Int, limit: Int): RResult<RPaging<Feedback>> {
+        return safeRequest { executeResponse(APIRequest.commonAPI.feedbackList(page, limit)) }
+    }
+
+    /**
+     * 获取商品列表
+     */
+    suspend fun commodityList(page: Int, limit: Int, type: Int): RResult<RPaging<Commodity>> {
+        return safeRequest { executeResponse(APIRequest.commonAPI.commodityList(page, limit, type)) }
+    }
 
 }

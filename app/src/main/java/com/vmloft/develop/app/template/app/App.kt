@@ -6,11 +6,9 @@ import androidx.appcompat.app.AppCompatDelegate
 
 import com.alibaba.android.arouter.launcher.ARouter
 
-import com.scwang.smart.refresh.footer.ClassicsFooter
-import com.scwang.smart.refresh.header.ClassicsHeader
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
-import com.vmloft.develop.app.template.BuildConfig
 
+import com.vmloft.develop.app.template.BuildConfig
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.common.SPManager
 import com.vmloft.develop.app.template.im.IMManager
@@ -19,6 +17,8 @@ import com.vmloft.develop.library.common.report.ReportManager
 import com.vmloft.develop.library.common.common.CConstants
 import com.vmloft.develop.library.common.common.CSPManager
 import com.vmloft.develop.library.common.notify.NotifyManager
+import com.vmloft.develop.library.common.ui.widget.refresh.DoubleCircleFooter
+import com.vmloft.develop.library.common.ui.widget.refresh.DoubleCircleHeader
 import com.vmloft.develop.library.tools.VMTools
 import com.vmloft.develop.library.tools.utils.VMFile
 import com.vmloft.develop.library.tools.utils.VMTheme
@@ -65,9 +65,6 @@ class App : Application() {
         initReport()
 
         initRefresh()
-
-        // 初始化短信
-//        SMSManager.init()
 
         // 初始化广告管理
         // ADSManager.init(appContext)
@@ -139,7 +136,11 @@ class App : Application() {
      * 初始化上报
      */
     private fun initReport() {
-        ReportManager.init(appContext)
+        ReportManager.preInit(appContext)
+        // 如果没有统一协议，这里先不初始化
+        if (SPManager.isAgreementPolicy()) {
+            ReportManager.init(appContext)
+        }
     }
 
     /**
@@ -174,13 +175,15 @@ class App : Application() {
         }
         // 设置全局的Header构建器
         SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, _ ->
-            // 指定为经典Header，默认是 贝塞尔雷达Header
-            ClassicsHeader(context)
+            // 设置顶部刷新头
+            DoubleCircleHeader(context)
+//            FluidLoadHeader(context)
         }
         //设置全局的Footer构建器
         SmartRefreshLayout.setDefaultRefreshFooterCreator { context, _ ->
             // 指定为经典Footer，默认是 BallPulseFooter
-            ClassicsFooter(context).setDrawableSize(16f)
+//            ClassicsFooter(context).setDrawableSize(16f)
+            DoubleCircleFooter(context)
         }
     }
 }

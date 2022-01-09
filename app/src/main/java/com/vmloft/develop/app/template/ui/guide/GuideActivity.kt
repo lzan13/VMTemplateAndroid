@@ -8,12 +8,11 @@ import com.alibaba.android.arouter.facade.annotation.Route
 
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.common.SPManager
+import com.vmloft.develop.app.template.databinding.ActivityGuideBinding
 import com.vmloft.develop.app.template.router.AppRouter
-import com.vmloft.develop.library.common.base.BaseActivity
+import com.vmloft.develop.library.common.base.BActivity
 import com.vmloft.develop.library.common.router.CRouter
 import com.vmloft.develop.library.tools.adapter.VMFragmentPagerAdapter
-
-import kotlinx.android.synthetic.main.activity_guide.*
 
 
 /**
@@ -21,27 +20,27 @@ import kotlinx.android.synthetic.main.activity_guide.*
  * 描述：引导界面
  */
 @Route(path = AppRouter.appGuide)
-class GuideActivity : BaseActivity() {
+class GuideActivity : BActivity<ActivityGuideBinding>() {
 
     private var mCurrentIndex = 0
     private var mFragmentList: MutableList<Fragment> = mutableListOf()
     private var mAdapter: VMFragmentPagerAdapter? = null
 
 
-    override fun layoutId(): Int = R.layout.activity_guide
+    override fun initVB() = ActivityGuideBinding.inflate(layoutInflater)
 
     override fun initUI() {
         super.initUI()
 
-        guidePrevBtn.setOnClickListener {
+        mBinding.guidePrevBtn.setOnClickListener {
             mCurrentIndex -= 1
-            guideViewPager.setCurrentItem(mCurrentIndex, true)
+            mBinding.guideViewPager.setCurrentItem(mCurrentIndex, true)
         }
-        guideNextBtn.setOnClickListener {
+        mBinding.guideNextBtn.setOnClickListener {
             mCurrentIndex += 1
-            guideViewPager.setCurrentItem(mCurrentIndex, true)
+            mBinding.guideViewPager.setCurrentItem(mCurrentIndex, true)
         }
-        guideFinishBtn.setOnClickListener {
+        mBinding.guideFinishBtn.setOnClickListener {
             SPManager.setGuideHide()
             CRouter.goMain()
             finish()
@@ -57,19 +56,19 @@ class GuideActivity : BaseActivity() {
 
         mAdapter = VMFragmentPagerAdapter(supportFragmentManager, mFragmentList)
 
-        guideViewPager.offscreenPageLimit = mFragmentList.size - 1
-        guideViewPager.adapter = mAdapter
-        guideIndicatorView.setViewPager(guideViewPager)
+        mBinding.guideViewPager.offscreenPageLimit = mFragmentList.size - 1
+        mBinding.guideViewPager.adapter = mAdapter
+        mBinding.guideIndicatorView.setViewPager(mBinding.guideViewPager)
         /**
          * 通过监听 ViewPager 页面滑动渐变调整 ViewPager 的背景
          */
-        guideViewPager.addOnPageChangeListener(object : OnPageChangeListener {
+        mBinding.guideViewPager.addOnPageChangeListener(object : OnPageChangeListener {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
             override fun onPageSelected(position: Int) {
                 mCurrentIndex = position
-                guidePrevBtn.visibility = if (position == 0) View.GONE else View.VISIBLE
-                guideNextBtn.visibility = if (position == mFragmentList.size - 1) View.GONE else View.VISIBLE
-                guideFinishBtn.visibility = if (position == mFragmentList.size - 1) View.VISIBLE else View.GONE
+                mBinding.guidePrevBtn.visibility = if (position == 0) View.GONE else View.VISIBLE
+                mBinding.guideNextBtn.visibility = if (position == mFragmentList.size - 1) View.GONE else View.VISIBLE
+                mBinding.guideFinishBtn.visibility = if (position == mFragmentList.size - 1) View.VISIBLE else View.GONE
             }
 
             override fun onPageScrollStateChanged(state: Int) {}

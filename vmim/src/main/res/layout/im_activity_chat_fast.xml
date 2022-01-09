@@ -66,6 +66,7 @@
         android:layout_marginBottom="@dimen/vm_dimen_8"
         android:background="@drawable/shape_card_common_bg"
         android:padding="@dimen/vm_dimen_8"
+        android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/imChatFastContentET"
         app:layout_constraintStart_toStartOf="parent"
@@ -117,24 +118,12 @@
         android:layout_marginBottom="@dimen/vm_dimen_8"
         android:background="@drawable/shape_card_common_bg"
         android:gravity="top"
-        android:padding="@dimen/vm_dimen_8"
         android:hint="@string/im_chat_input_hint"
+        android:padding="@dimen/vm_dimen_8"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imChatFastContent1TV"
         app:layout_constraintTop_toBottomOf="@+id/imChatFastAvatar2IV"
         tools:text="收代理费就是登陆方式看的发生的" />
-    <!--输入框-->
-    <!--    <EditText-->
-    <!--        android:id="@+id/imChatFastMessageET"-->
-    <!--        style="@style/IMEdit.Message"-->
-    <!--        android:layout_width="@dimen/vm_dimen_0"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_margin="@dimen/vm_dimen_8"-->
-    <!--        android:hint="@string/im_chat_input_hint"-->
-    <!--        app:layout_constrainedWidth="true"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,8 +2,7 @@ package com.vmloft.develop.app.template.common
 
 import com.vmloft.develop.app.template.request.bean.Room
 import com.vmloft.develop.app.template.request.bean.User
-import com.vmloft.develop.library.common.event.LDEventBus
-import com.vmloft.develop.library.common.utils.JsonUtils
+import com.vmloft.develop.library.common.utils.json.JsonUtils
 
 
 /**
@@ -85,14 +84,14 @@ object CacheManager {
             roomMap.remove(lastRoom?.id)
         }
         lastRoom = room
-        val json: String = JsonUtils.toJson(room, Room::class.java)
+        val json: String = JsonUtils.toJson(room)
         SPManager.putLastRoom(json)
     }
 
     fun getLastRoom(): Room? {
         if (lastRoom == null) {
             val json: String = SPManager.getLastRoom()
-            lastRoom = JsonUtils.formJson(json, Room::class.java)
+            lastRoom = JsonUtils.fromJson(json, Room::class.java)
         }
         return lastRoom
     }

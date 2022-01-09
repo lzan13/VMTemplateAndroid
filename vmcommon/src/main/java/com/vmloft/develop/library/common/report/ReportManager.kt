@@ -1,10 +1,10 @@
 package com.vmloft.develop.library.common.report
 
 import android.content.Context
+import com.tencent.bugly.crashreport.CrashReport
 
 import com.umeng.analytics.MobclickAgent
 import com.umeng.commonsdk.UMConfigure
-import com.umeng.umcrash.UMCrash
 
 import com.vmloft.develop.library.common.BuildConfig
 import com.vmloft.develop.library.tools.VMTools
@@ -15,15 +15,29 @@ import com.vmloft.develop.library.tools.VMTools
  */
 object ReportManager {
 
-    fun init(context: Context) {
-        // 初始化
-        UMConfigure.init(context, UMConfigure.DEVICE_TYPE_PHONE, null)
+    /**
+     * 预初始化
+     */
+    fun preInit(context: Context) {
+
+        CrashReport.setIsDevelopmentDevice(context, BuildConfig.DEBUG);
+        CrashReport.initCrashReport(context, "", BuildConfig.DEBUG)
+
+        UMConfigure.preInit(context, "", "")
         // 设置友盟统计日志开关 默认为 false
         UMConfigure.setLogEnabled(BuildConfig.DEBUG)
         // 选用 AUTO 页面采集模式
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO)
         // 支持在子进程中统计自定义事件
         UMConfigure.setProcessEvent(true)
+    }
+
+    /**
+     * 正式初始化
+     */
+    fun init(context: Context) {
+        // 初始化
+        UMConfigure.init(context, UMConfigure.DEVICE_TYPE_PHONE, null)
     }
 
     /**
@@ -57,14 +71,14 @@ object ReportManager {
      * 自定义异常上报
      */
     fun reportCrash(e: Throwable) {
-        UMCrash.generateCustomLog(e, "customLog")
+        CrashReport.postCatchedException(e)
     }
 
     /**
      * 自定义日志上报
      */
-    fun reportCrash(log: String) {
-        UMCrash.generateCustomLog(log, "customLog")
+    fun reportCrash(msg: String) {
+        CrashReport.postCatchedException(Throwable(msg))
     }
 
 }

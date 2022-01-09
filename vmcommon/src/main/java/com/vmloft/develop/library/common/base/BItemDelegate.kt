@@ -5,9 +5,8 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
 
 import com.drakeet.multitype.ItemViewDelegate
 
@@ -15,7 +14,7 @@ import com.drakeet.multitype.ItemViewDelegate
  * Create by lzan13 on 2020/02/15 17:20
  * 描述：MultiType 适配器 Item 的代理基类类
  */
-abstract class BItemDelegate<T, VDB : ViewDataBinding> : ItemViewDelegate<T, BItemDelegate.BItemHolder<VDB>> {
+abstract class BItemDelegate<T, VB : ViewBinding> : ItemViewDelegate<T, BItemDelegate.BItemHolder<VB>> {
     protected lateinit var mContext: Context
 
     // 将事件回调给 View 层监听接口
@@ -35,11 +34,11 @@ abstract class BItemDelegate<T, VDB : ViewDataBinding> : ItemViewDelegate<T, BIt
         mItemLongListener = longListener
     }
 
-    override fun onBindViewHolder(holder: BItemHolder<VDB>, item: T) {
+    override fun onBindViewHolder(holder: BItemHolder<VB>, item: T) {
         holder.itemView.setOnClickListener {
             mItemListener?.onClick(it, item, getPosition(holder))
         }
-        holder.itemView.setOnTouchListener { v, event ->
+        holder.itemView.setOnTouchListener { _, event ->
             mEvent = event
             false
         }
@@ -49,32 +48,27 @@ abstract class BItemDelegate<T, VDB : ViewDataBinding> : ItemViewDelegate<T, BIt
         onBindView(holder, item)
     }
 
-    override fun onCreateViewHolder(context: Context, parent: ViewGroup): BItemHolder<VDB> {
+    override fun onCreateViewHolder(context: Context, parent: ViewGroup): BItemHolder<VB> {
         mContext = context
-        var binding: VDB = DataBindingUtil.inflate(
-            LayoutInflater.from(context),
-            layoutId(),
-            parent,
-            false
-        );
+        var binding: VB = initVB(LayoutInflater.from(context), parent)
         return BItemHolder(binding)
     }
 
     /**
-     * 获取 Item 布局 uid
+     * 初始化 ViewBinding
      */
-    protected abstract fun layoutId(): Int
+    protected abstract fun initVB(inflater: LayoutInflater, parent: ViewGroup): VB
 
     /**
      * 绑定定数
      */
-    protected abstract fun onBindView(holder: BItemHolder<VDB>, item: T)
+    protected abstract fun onBindView(holder: BItemHolder<VB>, item: T)
 
     /**
      * ----------------------------------
      * 定义通用的 ViewHolder
      */
-    class BItemHolder<B : ViewDataBinding>(val binding: B) : RecyclerView.ViewHolder(binding.root)
+    class BItemHolder<VB : ViewBinding>(val binding: VB) : RecyclerView.ViewHolder(binding.root)
 
     /**
      * 回调给 View 层监听接口

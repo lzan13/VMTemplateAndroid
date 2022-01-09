@@ -8,6 +8,9 @@
         <item name="colorPrimaryDark">@color/app_primary_dark</item>
         <item name="colorAccent">@color/app_accent</item>
 
+        <!--设置键盘状态-->
+        <item name="android:windowSoftInputMode">adjustNothing|stateAlwaysHidden</item>
+
         <!--半透明状态栏-->
         <item name="android:windowTranslucentStatus">true</item>
 
@@ -16,7 +19,7 @@
         <!--设置状态栏颜色-->
         <item name="android:statusBarColor">@color/app_primary</item>
         <!--设置界面切换动画-->
-        <item name="android:windowAnimationStyle">@style/animActivitySlide</item>
+        <item name="android:windowAnimationStyle">@style/animActivityFade</item>
     </style>
 
     <!--Display主题-->
@@ -26,26 +29,47 @@
     </style>
 
     <!--透明主题-->
-    <style name="AppTheme.Transparent" parent="VMTheme.Transparent">
-        <!--<item name="colorPrimary">@color/vm_transparent</item>-->
-        <!--<item name="colorPrimaryDark">@color/vm_transparent</item>-->
-        <!--&lt;!&ndash; 设置允许修改系统栏的背景色 比如导航栏 状态栏等&ndash;&gt;-->
-        <!--<item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
-        <!--&lt;!&ndash;设置状态栏为透明&ndash;&gt;-->
-        <!--<item name="android:statusBarColor">@color/vm_black_12</item>-->
-        <!--&lt;!&ndash;设置导航栏半透明效果&ndash;&gt;-->
-        <!--<item name="android:windowTranslucentNavigation">true</item>-->
+    <style name="AppTheme.Transparent">
+        <!--设置背景-->
+        <item name="android:windowBackground">@color/vm_transparent</item>
+        <!--Dialog的windowFrame框为无-->
+        <item name="android:windowFrame">@null</item>
+        <!--是否浮现在activity之上，false 的话会被软键盘覆盖-->
+        <item name="android:windowIsFloating">false</item>
+        <!--是否半透明，为false时背景为黑色不透明-->
+        <item name="android:windowIsTranslucent">true</item>
+        <!--背景是否模糊显示，为false时效果为全透明-->
+        <item name="android:backgroundDimEnabled">false</item>
+        <!--是否有覆盖-->
+        <item name="android:windowContentOverlay">@null</item>
+        <!--Activity的动画效果-->
+        <!--        <item name="android:windowAnimationStyle">@style/animActivityTransparent</item>-->
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <!--点击空白处时是否销毁Activity-->
+        <item name="android:windowCloseOnTouchOutside">true</item>
     </style>
 
     <!--授权弹窗主题-->
     <style name="AppTheme.Permission">
+        <!--设置背景-->
         <item name="android:windowBackground">@color/vm_transparent</item>
+        <!--Dialog的windowFrame框为无-->
         <item name="android:windowFrame">@null</item>
+        <!--是否浮现在activity之上，false的话会被软键盘覆盖-->
         <item name="android:windowIsFloating">true</item>
+        <!--是否半透明，为false时背景为黑色不透明-->
         <item name="android:windowIsTranslucent">false</item>
+        <!--背景是否模糊显示，为false时效果为全透明-->
         <item name="android:backgroundDimEnabled">false</item>
+        <!--是否有覆盖-->
         <item name="android:windowContentOverlay">@null</item>
+        <!--Activity的动画效果-->
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <!--        <item name="android:windowAnimationStyle">@style/animActivityTransparent</item>-->
+        <!--点击空白处时是否销毁Activity-->
+        <item name="android:windowCloseOnTouchOutside">true</item>
     </style>
+
     <!--侧滑动画-->
     <style name="animActivitySlide" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/activity_slide_open_enter</item>
@@ -60,6 +84,21 @@
     </style>
     <!--渐变动画-->
     <style name="animActivityFade" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/activity_fade_open_enter</item>
+        <item name="android:activityOpenExitAnimation">@anim/activity_fade_open_exit</item>
+        <item name="android:activityCloseEnterAnimation">@anim/activity_fade_close_enter</item>
+        <item name="android:activityCloseExitAnimation">@anim/activity_fade_close_exit</item>
+
+        <item name="android:taskOpenEnterAnimation">@anim/activity_fade_open_enter</item>
+        <item name="android:taskOpenExitAnimation">@anim/activity_fade_open_exit</item>
+        <item name="android:taskCloseEnterAnimation">@anim/activity_fade_close_enter</item>
+        <item name="android:taskCloseExitAnimation">@anim/activity_fade_close_exit</item>
+    </style>
+    <!--透明主题所用动画-->
+    <style name="animActivityTransparent" parent="@android:style/Animation.Activity">
+        <item name="android:windowEnterAnimation">@anim/activity_fade_open_enter</item>
+        <item name="android:windowExitAnimation">@anim/activity_fade_close_exit</item>
+
         <item name="android:activityOpenEnterAnimation">@anim/activity_fade_open_enter</item>
         <item name="android:activityOpenExitAnimation">@anim/activity_fade_open_exit</item>
         <item name="android:activityCloseEnterAnimation">@anim/activity_fade_close_enter</item>
@@ -100,6 +139,14 @@
     <!--内容样式-->
     <style name="AppText.Body" parent="@style/VMText.Body1">
         <item name="android:textColor">@color/app_body</item>
+    </style>
+    <!--内容样式-->
+    <style name="AppText.Content" parent="@style/VMText.Subhead">
+        <item name="android:textColor">@color/app_subtitle</item>
+    </style>
+    <!--描述样式-->
+    <style name="AppText.Desc" parent="@style/VMText.Body1">
+        <item name="android:textColor">@color/app_desc</item>
     </style>
 
     <!--更多样式-->
@@ -149,15 +196,18 @@
         <item name="android:textColor">@color/app_input</item>
         <item name="android:textColorHint">@color/app_input_hint</item>
         <item name="android:paddingStart">@dimen/vm_padding_large</item>
-        <item name="android:paddingEnd">@dimen/vm_dimen_12</item>
+        <item name="android:paddingEnd">@dimen/vm_padding_large</item>
         <item name="android:paddingTop">@dimen/vm_dimen_12</item>
-        <item name="android:paddingBottom">@dimen/vm_padding_large</item>
+        <item name="android:paddingBottom">@dimen/vm_dimen_12</item>
         <item name="android:textStyle">normal</item>
     </style>
 
     <style name="AppEdit.MultiLine" parent="@style/VMEdit.MultiLine">
         <item name="android:background">@drawable/shape_input_bg</item>
-        <item name="android:lines">3</item>
+        <item name="android:paddingStart">@dimen/vm_padding_large</item>
+        <item name="android:paddingEnd">@dimen/vm_padding_large</item>
+        <item name="android:paddingTop">@dimen/vm_dimen_12</item>
+        <item name="android:paddingBottom">@dimen/vm_dimen_12</item>
         <item name="android:textColor">@color/app_input</item>
         <item name="android:textColorHint">@color/app_input_hint</item>
         <item name="android:textStyle">normal</item>
@@ -187,6 +237,48 @@
         <item name="android:textStyle">normal</item>
     </style>
     <!--按钮样式 end-->
+
+    <!--VMLineView 标题文字样式 Title-->
+    <style name="AppText.LVTitle" parent="VMText.Title">
+        <item name="android:textSize">@dimen/vm_size_14</item>
+    </style>
+
+    <!--自定义控件 VMLineView 样式-->
+    <style name="AppLVStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/app_bg_item</item>
+
+        <!--图标大小-->
+        <item name="vm_line_icon_size">@dimen/vm_dimen_24</item>
+        <!--标题-->
+        <item name="vm_line_title_color">@color/app_title</item>
+        <item name="vm_line_title_style">@style/AppText.LVTitle</item>
+        <item name="vm_line_title_space">@dimen/vm_dimen_16</item>
+
+        <!--右侧描述-->
+        <item name="vm_line_caption_color">@color/app_caption</item>
+        <item name="vm_line_caption_style">@style/AppText.More</item>
+        <item name="vm_line_caption_space">@dimen/vm_dimen_8</item>
+
+        <!--右侧图标-->
+        <item name="vm_line_right_icon">@drawable/ic_arrow_next</item>
+        <item name="vm_line_right_icon_size">@dimen/vm_dimen_16</item>
+
+        <!--底部描述-->
+        <item name="vm_line_description_color">@color/app_desc</item>
+        <item name="vm_line_description_style">@style/AppText.Desc</item>
+
+        <!--分割线-->
+        <item name="vm_line_decoration">center</item>
+        <item name="vm_line_decoration_color">@color/app_decoration</item>
+        <item name="vm_line_decoration_height">@dimen/vm_dimen_0_5</item>
+        <item name="vm_line_decoration_start">@dimen/vm_dimen_16</item>
+        <item name="vm_line_decoration_end">@dimen/vm_dimen_16</item>
+    </style>
+    <style name="AppLVStyle.NoDecoration">
+        <item name="vm_line_decoration">hide</item>
+    </style>
 
     <style name="AppSpinner">
         <!--设置弹窗背景为 系统设置的 应用主色调 在application 的colorPrimay 中配置的颜色, actionBar toolbar 默认使用这个为背景颜色-->

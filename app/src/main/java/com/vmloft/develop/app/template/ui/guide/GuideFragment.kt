@@ -1,22 +1,24 @@
 package com.vmloft.develop.app.template.ui.guide
 
 import android.os.Bundle
-import com.vmloft.develop.app.template.R
-import com.vmloft.develop.library.common.base.BaseFragment
+import android.view.LayoutInflater
+import android.view.ViewGroup
 
-import kotlinx.android.synthetic.main.fragment_guide.*
+import com.vmloft.develop.app.template.databinding.FragmentGuideBinding
+import com.vmloft.develop.library.common.base.BFragment
 
 
 /**
  * Create by lzan13 on 2020/05/02 11:54
- * 描述：主页
+ * 描述：引导
  */
-class GuideFragment : BaseFragment() {
+class GuideFragment : BFragment<FragmentGuideBinding>() {
 
     companion object {
         private val argImgId = "argImgId"
         private val argTitleId = "argTitleId"
         private val argBodyId = "argBodyId"
+
         /**
          * Fragment 的工厂方法，方便创建并设置参数
          */
@@ -32,14 +34,14 @@ class GuideFragment : BaseFragment() {
     }
 
 
-    override fun layoutId() = R.layout.fragment_guide
+    override fun initVB(inflater: LayoutInflater, parent: ViewGroup?) = FragmentGuideBinding.inflate(inflater, parent, false)
 
     override fun initUI() {
         super.initUI()
 
-        guideCoverIV.setImageResource(arguments!!.getInt(argImgId))
-        guideTitleTV.setText(arguments!!.getInt(argTitleId))
-        guideBodyTV.setText(arguments!!.getInt(argBodyId))
+        mBinding.guideCoverIV.setImageResource(requireArguments().getInt(argImgId))
+        mBinding.guideTitleTV.setText(requireArguments().getInt(argTitleId))
+        mBinding.guideBodyTV.setText(requireArguments().getInt(argBodyId))
     }
 
     override fun initData() {

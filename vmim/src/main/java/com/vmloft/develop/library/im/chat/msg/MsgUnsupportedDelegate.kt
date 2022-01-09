@@ -1,14 +1,18 @@
 package com.vmloft.develop.library.im.chat.msg
 
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import com.hyphenate.chat.EMMessage
 
 import com.vmloft.develop.library.common.base.BItemDelegate
 import com.vmloft.develop.library.common.common.CConstants
 import com.vmloft.develop.library.common.router.CRouter
+import com.vmloft.develop.library.common.utils.FormatUtils
 import com.vmloft.develop.library.im.R
 import com.vmloft.develop.library.im.chat.IMChatManager
 import com.vmloft.develop.library.im.common.IMConstants
+import com.vmloft.develop.library.im.databinding.ImItemMsgCallReceiveDelegateBinding
 import com.vmloft.develop.library.im.databinding.ImItemMsgUnsupportedDelegateBinding
 import com.vmloft.develop.library.tools.utils.VMStr
 
@@ -18,16 +22,13 @@ import com.vmloft.develop.library.tools.utils.VMStr
  */
 class MsgUnsupportedDelegate : BItemDelegate<EMMessage, ImItemMsgUnsupportedDelegateBinding>() {
 
-    override fun layoutId(): Int = R.layout.im_item_msg_unsupported_delegate
+    override fun initVB(inflater: LayoutInflater, parent: ViewGroup) = ImItemMsgUnsupportedDelegateBinding.inflate(inflater, parent, false)
 
     override fun onBindView(holder: BItemHolder<ImItemMsgUnsupportedDelegateBinding>, item: EMMessage) {
         holder.binding.imMsgTimeTV.visibility = if (IMChatManager.isShowTime(getPosition(holder), item)) View.VISIBLE else View.GONE
-
-        holder.binding.time = item.localTime()
+        holder.binding.imMsgTimeTV.text = FormatUtils.relativeTime(item.localTime())
 
         val content = item.getStringAttribute(IMConstants.Common.msgAttrUnsupported, VMStr.byRes(R.string.im_unknown_msg))
         holder.binding.imMsgContentTV.text = content
-
-        holder.binding.executePendingBindings()
     }
 }

@@ -3,7 +3,7 @@ package com.vmloft.develop.app.template.common
 import com.vmloft.develop.library.common.event.LDEventBus
 import com.vmloft.develop.app.template.im.IMManager
 import com.vmloft.develop.app.template.request.bean.User
-import com.vmloft.develop.library.common.utils.JsonUtils
+import com.vmloft.develop.library.common.utils.json.JsonUtils
 
 
 /**
@@ -48,7 +48,7 @@ object SignManager {
     fun setCurrUser(user: User?) {
         mCurrUser = user
         mPrevUser = user
-        val userJson: String = JsonUtils.toJson(user, User::class.java)
+        val userJson: String = JsonUtils.toJson(user)
         SPManager.putCurrUser(userJson)
         SPManager.putPrevUser(userJson)
         user?.let {
@@ -59,7 +59,7 @@ object SignManager {
     fun getCurrUser(): User? {
         if (mCurrUser == null) {
             var userJson: String = SPManager.getCurrUser()
-            mCurrUser = JsonUtils.formJson(userJson, User::class.java)
+            mCurrUser = JsonUtils.fromJson(userJson, User::class.java)
         }
         return mCurrUser
     }
@@ -70,7 +70,7 @@ object SignManager {
     fun getPrevUser(): User? {
         if (mPrevUser == null) {
             var userJson: String = SPManager.getPrevUser()
-            mPrevUser = JsonUtils.formJson(userJson, User::class.java)
+            mPrevUser = JsonUtils.fromJson(userJson, User::class.java)
         }
         return mPrevUser
     }
