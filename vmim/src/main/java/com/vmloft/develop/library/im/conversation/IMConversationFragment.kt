@@ -11,9 +11,9 @@ import com.drakeet.multitype.MultiTypeAdapter
 import com.hyphenate.chat.EMConversation
 import com.hyphenate.chat.EMMessage
 
-import com.vmloft.develop.library.common.base.BFragment
-import com.vmloft.develop.library.common.base.BItemDelegate
-import com.vmloft.develop.library.common.event.LDEventBus
+import com.vmloft.develop.library.base.BFragment
+import com.vmloft.develop.library.base.BItemDelegate
+import com.vmloft.develop.library.base.event.LDEventBus
 import com.vmloft.develop.library.im.IM
 import com.vmloft.develop.library.im.R
 import com.vmloft.develop.library.im.chat.IMChatManager
@@ -31,7 +31,7 @@ import com.vmloft.develop.library.tools.widget.VMFloatMenu
 class IMConversationFragment : BFragment<ImFragmentConversationBinding>() {
 
     // 列表适配器
-    private val mAdapter by lazy { MultiTypeAdapter() }
+    private val mAdapter by lazy(LazyThreadSafetyMode.NONE) { MultiTypeAdapter() }
     private val mItems = ArrayList<EMConversation>()
 
     private lateinit var floatMenu: VMFloatMenu
@@ -116,6 +116,7 @@ class IMConversationFragment : BFragment<ImFragmentConversationBinding>() {
      */
     private fun initFloatMenu() {
         floatMenu = VMFloatMenu(requireActivity())
+        floatMenu.setMenuBackground(R.drawable.shape_card_common_bg)
         floatMenu.setItemClickListener(object : VMFloatMenu.IItemClickListener() {
             override fun onItemClick(id: Int) {
                 when (id) {
@@ -123,8 +124,6 @@ class IMConversationFragment : BFragment<ImFragmentConversationBinding>() {
                     1 -> setTop()
                     2 -> remove()
                     3 -> clear()
-                    else -> {
-                    }
                 }
                 refresh()
             }

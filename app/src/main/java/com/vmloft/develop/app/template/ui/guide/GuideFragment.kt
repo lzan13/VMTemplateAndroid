@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 
 import com.vmloft.develop.app.template.databinding.FragmentGuideBinding
-import com.vmloft.develop.library.common.base.BFragment
+import com.vmloft.develop.library.base.BFragment
 
 
 /**

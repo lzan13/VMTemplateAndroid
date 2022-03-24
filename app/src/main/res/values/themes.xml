@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--启动主题-->
+    <style name="AppTheme.Launcher">
+        <!--半透明状态栏-->
+        <item name="android:windowTranslucentStatus">false</item>
+        <!--充满屏幕-->
+        <item name="android:windowFullscreen">false</item>
+        <!--设置状态栏颜色-->
+        <item name="android:statusBarColor">@color/app_bg</item>
+        <!--背景-->
+        <item name="android:windowBackground">@drawable/shape_launch_splash</item>
+    </style>
+    
+</resources>

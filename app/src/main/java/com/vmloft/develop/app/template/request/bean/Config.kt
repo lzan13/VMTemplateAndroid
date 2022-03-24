@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 
 import com.google.gson.annotations.SerializedName
 
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 /**
  * Create by lzan13 on 2020/7/30 16:12

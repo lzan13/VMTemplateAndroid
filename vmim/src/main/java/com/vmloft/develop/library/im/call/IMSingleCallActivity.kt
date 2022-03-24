@@ -1,17 +1,18 @@
 package com.vmloft.develop.library.im.call
 
 import android.view.View
+import androidx.core.view.isVisible
 
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 
 import com.hyphenate.chat.EMMessage
+import com.vmloft.develop.library.base.BActivity
+import com.vmloft.develop.library.base.event.LDEventBus
+import com.vmloft.develop.library.base.utils.showBar
 
-import com.vmloft.develop.library.common.base.BActivity
-import com.vmloft.develop.library.common.event.LDEventBus
-import com.vmloft.develop.library.common.image.IMGLoader
-import com.vmloft.develop.library.common.utils.showBar
+import com.vmloft.develop.library.image.IMGLoader
 import com.vmloft.develop.library.im.IM
 import com.vmloft.develop.library.im.R
 import com.vmloft.develop.library.im.bean.IMUser
@@ -29,7 +30,7 @@ import io.agora.rtc.RtcEngine
  * 描述：1V1通话界面
  */
 @Route(path = IMRouter.imSingleCall)
-class IMSingleCallActivity : BActivity<ImActivitySingleCallBinding>() {
+class IMSingleCallActivity: BActivity<ImActivitySingleCallBinding>() {
 
     @Autowired
     lateinit var callId: String
@@ -55,17 +56,20 @@ class IMSingleCallActivity : BActivity<ImActivitySingleCallBinding>() {
 
         initRtcEngine()
 
-        // 变声彩蛋
-        mBinding.imCallMicBtn.setOnLongClickListener {
-            mBinding.imCallVoiceEffectLL.visibility = View.VISIBLE
-            true
+        // 魔音变声
+        mBinding.imCallMicMagicBtn.setOnClickListener {
+            if (mBinding.imCallMagicVoiceLL.isVisible) {
+                mBinding.imCallMagicVoiceLL.visibility = View.GONE
+            } else {
+                mBinding.imCallMagicVoiceLL.visibility = View.VISIBLE
+            }
         }
         // 设置人声变声效果
-        mBinding.imCallVoiceEffectIV0.setOnClickListener { view -> setVoiceEffect(view, 0) }
-        mBinding.imCallVoiceEffectIV1.setOnClickListener { view -> setVoiceEffect(view, 1) }
-        mBinding.imCallVoiceEffectIV2.setOnClickListener { view -> setVoiceEffect(view, 2) }
-        mBinding.imCallVoiceEffectIV3.setOnClickListener { view -> setVoiceEffect(view, 3) }
-        mBinding.imCallVoiceEffectIV4.setOnClickListener { view -> setVoiceEffect(view, 4) }
+        mBinding.imCallMagicVoiceIV0.setOnClickListener { view -> setVoiceEffect(view, 0) }
+        mBinding.imCallMagicVoiceIV1.setOnClickListener { view -> setVoiceEffect(view, 1) }
+        mBinding.imCallMagicVoiceIV2.setOnClickListener { view -> setVoiceEffect(view, 2) }
+        mBinding.imCallMagicVoiceIV3.setOnClickListener { view -> setVoiceEffect(view, 3) }
+        mBinding.imCallMagicVoiceIV4.setOnClickListener { view -> setVoiceEffect(view, 4) }
 
         // 设置麦克风点击事件
         mBinding.imCallMicBtn.setOnClickListener {
@@ -118,6 +122,7 @@ class IMSingleCallActivity : BActivity<ImActivitySingleCallBinding>() {
                 finish()
             }
         }
+        // 监听通话时间变化
         LDEventBus.observe(this, IMConstants.Call.callTimeEvent, Int::class.java) {
             mBinding.imCallTimeTV.text = IMCallManager.getCallTime()
         }
@@ -181,11 +186,13 @@ class IMSingleCallActivity : BActivity<ImActivitySingleCallBinding>() {
      * 设置声音音效
      */
     private fun setVoiceEffect(view: View, effect: Int) {
+        mBinding.imCallMagicVoiceLL.visibility = View.GONE
+
         lastEffectView?.isSelected = false
         lastEffectView = view
         lastEffectView?.isSelected = true
-        // VOICE_CHANGER_EFFECT_UNCLE 中年
         // VOICE_CHANGER_EFFECT_OLDMAN 老年
+        // VOICE_CHANGER_EFFECT_UNCLE 中年
         // VOICE_CHANGER_EFFECT_BOY 男孩
         // VOICE_CHANGER_EFFECT_SISTER 少女
         // VOICE_CHANGER_EFFECT_GIRL 女孩

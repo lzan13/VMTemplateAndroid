@@ -30,6 +30,7 @@ object SPManager {
     private val tokenKey = "tokenKey"
     private val currUserKey = "currUserKey"
     private val prevUserKey = "prevUserKey"
+    private val selfMatchKey = "selfMatchKey"
 
     /**
      * 记录最后加入的房间信息
@@ -157,6 +158,16 @@ object SPManager {
     fun getPrevUser(): String = get(signEntry, prevUserKey, "") as String
     fun putPrevUser(userJson: String) {
         putAsync(signEntry, prevUserKey, userJson)
+    }
+
+    /**
+     * 当前账户匹配信息
+     *
+     * @return 如果为空，说明没有登录记录
+     */
+    fun getSelfMatch(): String = get(signEntry, selfMatchKey, "") as String
+    fun putSelfMatch(json: String) {
+        put(signEntry, selfMatchKey, json)
     }
 
     /**

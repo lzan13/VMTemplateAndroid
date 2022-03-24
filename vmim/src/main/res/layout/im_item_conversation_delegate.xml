@@ -26,6 +26,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/img_default_avatar" />
+
+    <ImageView
+        android:id="@+id/imConversationIdentityIV"
+        android:layout_width="@dimen/vm_dimen_16"
+        android:layout_height="@dimen/vm_dimen_16"
+        android:background="@drawable/shape_circle_common_bg"
+        android:padding="@dimen/vm_dimen_2"
+        android:src="@drawable/ic_vip"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/imConversationAvatarIV"
+        app:layout_constraintStart_toStartOf="@+id/imConversationAvatarIV"
+        tools:visibility="visible" />
+
     <!--未读数-->
     <TextView
         android:id="@+id/imConversationUnreadTV"

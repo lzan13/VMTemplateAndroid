@@ -1,9 +1,10 @@
 package com.vmloft.develop.app.template.common
 
-import com.vmloft.develop.library.common.event.LDEventBus
 import com.vmloft.develop.app.template.im.IMManager
+import com.vmloft.develop.app.template.request.bean.Match
 import com.vmloft.develop.app.template.request.bean.User
-import com.vmloft.develop.library.common.utils.json.JsonUtils
+import com.vmloft.develop.library.base.event.LDEventBus
+import com.vmloft.develop.library.common.utils.JsonUtils
 
 
 /**
@@ -17,6 +18,9 @@ object SignManager {
     // 当前登录账户
     private var mCurrUser: User? = null
     private var mPrevUser: User? = null
+
+    // 自己的匹配信息
+    private var selfMatch: Match? = null
 
 
     /**
@@ -48,18 +52,18 @@ object SignManager {
     fun setCurrUser(user: User?) {
         mCurrUser = user
         mPrevUser = user
-        val userJson: String = JsonUtils.toJson(user)
-        SPManager.putCurrUser(userJson)
-        SPManager.putPrevUser(userJson)
+        val json: String = JsonUtils.toJson(user)
+        SPManager.putCurrUser(json)
+        SPManager.putPrevUser(json)
         user?.let {
-            LDEventBus.post(Constants.userInfoEvent, it)
+            LDEventBus.post(Constants.Event.userInfo, it)
         }
     }
 
     fun getCurrUser(): User? {
         if (mCurrUser == null) {
-            var userJson: String = SPManager.getCurrUser()
-            mCurrUser = JsonUtils.fromJson(userJson, User::class.java)
+            var json: String = SPManager.getCurrUser()
+            mCurrUser = JsonUtils.fromJson(json, User::class.java)
         }
         return mCurrUser
     }
@@ -69,10 +73,31 @@ object SignManager {
      */
     fun getPrevUser(): User? {
         if (mPrevUser == null) {
-            var userJson: String = SPManager.getPrevUser()
-            mPrevUser = JsonUtils.fromJson(userJson, User::class.java)
+            var json: String = SPManager.getPrevUser()
+            mPrevUser = JsonUtils.fromJson(json, User::class.java)
         }
         return mPrevUser
+    }
+
+    /**
+     * 设置自己的匹配信息
+     */
+    fun setSelfMatch(match: Match) {
+        selfMatch = match
+        val json: String = JsonUtils.toJson(match)
+        SPManager.putSelfMatch(json)
+        LDEventBus.post(Constants.Event.matchInfo, match)
+    }
+
+    /**
+     * 获取自己的匹配信息
+     */
+    fun getSelfMatch(): Match {
+        if (selfMatch == null) {
+            var json: String = SPManager.getSelfMatch()
+            selfMatch = JsonUtils.fromJson(json, Match::class.java)
+        }
+        return selfMatch ?: Match("selfMatch", mCurrUser ?: User(), gender = mCurrUser?.gender ?: 2, filterGender = -1)
     }
 
     /**

@@ -73,6 +73,33 @@
         app:layout_constraintTop_toBottomOf="@+id/imChatFastAvatar1IV"
         tools:text="收代理费就是登陆方式看的发生的" />
 
+    <!--等待-->
+    <LinearLayout
+        android:id="@+id/imChatFastWaitLL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imChatFastContentET"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imChatFastAvatar1IV">
+
+        <ImageView
+            android:layout_width="@dimen/vm_dimen_56"
+            android:layout_height="@dimen/vm_dimen_56"
+            android:src="@drawable/ic_await"
+            app:tint="@color/app_desc" />
+
+        <TextView
+            style="@style/IMText.Desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/common_wait"
+            android:textSize="@dimen/vm_size_14" />
+    </LinearLayout>
+
     <!--自己信息-->
     <ImageView
         android:id="@+id/imChatFastAvatar2IV"

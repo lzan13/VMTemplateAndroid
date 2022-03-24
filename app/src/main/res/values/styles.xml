@@ -1,32 +1,21 @@
 <resources>
 
-    <!--启动主题-->
-    <style name="AppTheme.Launcher">
-        <!--半透明状态栏-->
-        <item name="android:windowTranslucentStatus">false</item>
-        <!--充满屏幕-->
-        <item name="android:windowFullscreen">false</item>
-        <!--设置状态栏颜色-->
-        <item name="android:statusBarColor">@color/app_bg</item>
-        <!--背景-->
-        <item name="android:windowBackground">@drawable/shape_launch_splash</item>
-    </style>
-
+    <!--下拉弹窗样式-->
     <style name="AppSpinnerStyle">
         <!--设置弹窗背景为 系统设置的 应用主色调 在application 的colorPrimay 中配置的颜色, actionBar toolbar 默认使用这个为背景颜色-->
-<!--        <item name="android:popupBackground">?attr/colorPrimary</item>-->
+        <!--        <item name="android:popupBackground">?attr/colorPrimary</item>-->
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <!--设置 spinner 显示位置往下偏移 actionBarSize 的高度, 默认显示是直接显示在 Spinner 的选中项的上方-->
-<!--        <item name="android:dropDownVerticalOffset">?attr/actionBarSize</item>-->
+        <!--        <item name="android:dropDownVerticalOffset">?attr/actionBarSize</item>-->
         <!--设置选中之后Item 的背景变换 设置背景为 灰色背景色-->
-<!--        <item name="android:dropDownSelector">@color/app_decoration</item>-->
+        <!--        <item name="android:dropDownSelector">@color/app_decoration</item>-->
         <!--设置下拉框的 list 的样式, 主要是设置 分割线, 当然也可以设置下拉的 list 的背景颜色-->
-<!--        <item name="android:dropDownListViewStyle">@style/AppSpinnerListStyle</item>-->
+        <!--        <item name="android:dropDownListViewStyle">@style/AppSpinnerListStyle</item>-->
         <!--设置显示在 popup 中 item(TextView) 的样式-->
-<!--        <item name="android:dropDownItemStyle">@style/AppSpinnerItemStyle</item>-->
+        <!--        <item name="android:dropDownItemStyle">@style/AppSpinnerItemStyle</item>-->
     </style>
 
     <!--设置分割线-->
@@ -53,6 +42,27 @@
         <item name="android:textColor">@color/app_home_card_desc</item>
         <item name="android:layout_marginTop">@dimen/vm_dimen_2</item>
         <item name="android:lines">2</item>
+    </style>
+
+    <style name="AppBtn.Feedback" parent="@style/AppBtn">
+        <item name="android:textSize">@dimen/vm_size_14</item>
+        <item name="android:textColor">@color/app_body</item>
+        <item name="android:background">@drawable/selector_border_common_bg</item>
+    </style>
+
+    <!--登录输入框样式-->
+    <style name="AppEdit.Sign" parent="@style/VMEdit">
+        <item name="android:background">@drawable/shape_input_sign</item>
+        <item name="android:layout_marginStart">@dimen/vm_dimen_48</item>
+        <item name="android:layout_marginEnd">@dimen/vm_dimen_48</item>
+        <item name="android:gravity">left</item>
+        <item name="android:paddingStart">@dimen/vm_dimen_48</item>
+        <item name="android:paddingTop">@dimen/vm_dimen_12</item>
+        <item name="android:paddingEnd">@dimen/vm_dimen_48</item>
+        <item name="android:paddingBottom">@dimen/vm_dimen_12</item>
+        <item name="android:textColor">@color/app_input</item>
+        <item name="android:textColorHint">@color/app_input_hint</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>

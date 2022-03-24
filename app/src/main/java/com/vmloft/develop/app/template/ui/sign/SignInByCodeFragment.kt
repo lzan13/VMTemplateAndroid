@@ -4,15 +4,17 @@ package com.vmloft.develop.app.template.ui.sign
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.databinding.FragmentSignInByCodeBinding
 import com.vmloft.develop.app.template.request.viewmodel.SignViewModel
 import com.vmloft.develop.app.template.router.AppRouter
-import com.vmloft.develop.library.common.base.BVMFragment
-import com.vmloft.develop.library.common.base.BViewModel
-import com.vmloft.develop.library.common.router.CRouter
-import com.vmloft.develop.library.common.utils.errorBar
+import com.vmloft.develop.library.base.BVMFragment
+import com.vmloft.develop.library.base.BViewModel
+import com.vmloft.develop.library.base.router.CRouter
+import com.vmloft.develop.library.base.utils.errorBar
 import com.vmloft.develop.library.tools.utils.VMReg
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -71,6 +73,10 @@ class SignInByCodeFragment : BVMFragment<FragmentSignInByCodeBinding, SignViewMo
 
     override fun initData() {
 
+    }
+
+    override fun onModelLoading(model: BViewModel.UIModel) {
+        mBinding.loadingView.visibility = if (model.isLoading) View.VISIBLE else View.GONE
     }
 
     override fun onModelRefresh(model: BViewModel.UIModel) {

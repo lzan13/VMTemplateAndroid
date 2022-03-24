@@ -1,8 +1,10 @@
 package com.vmloft.develop.app.template.request.bean
 
 import android.os.Parcelable
+
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
+
+import kotlinx.parcelize.Parcelize
 
 /**
  * Create by lzan13 on 2020/7/30 15:56
@@ -34,11 +36,12 @@ data class User(
     var fansCount: Int = 0, // 粉丝数
     var followCount: Int = 0, // 关注数
     var likeCount: Int = 0, // 喜欢数
+    var matchCount: Int = 0, // 可用匹配次数
     var postCount: Int = 0, // 帖子数
     var relation: Int = -1, // 当前用户与他人关系
     var profession: Profession = Profession(), // 职业
     var role: Role = Role(), // 身份
-    var roleExpired: String="", // 身份过期时间，主要是判断会员到期
+    var roleDate: String="", // 身份过期时间，主要是判断会员到期
     var token: String = "",
     var idCardNumber: String = "",
     var realName: String = "",
@@ -48,5 +51,10 @@ data class User(
     var createdAt: String = "",
     var updatedAt: String = "",
 ) : Parcelable {
-
+    override fun equals(other: Any?): Boolean {
+        (other as? User)?.let {
+            return it.id == this.id
+        }
+        return false
+    }
 }

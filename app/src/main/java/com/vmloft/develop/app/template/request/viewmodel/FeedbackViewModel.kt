@@ -2,9 +2,9 @@ package com.vmloft.develop.app.template.request.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.vmloft.develop.app.template.request.repository.CommonRepository
-import com.vmloft.develop.library.common.base.BViewModel
-import com.vmloft.develop.library.common.common.CConstants
-import com.vmloft.develop.library.common.request.RResult
+import com.vmloft.develop.library.base.BViewModel
+import com.vmloft.develop.library.base.common.CConstants
+import com.vmloft.develop.library.request.RResult
 import com.vmloft.develop.library.tools.utils.bitmap.VMBitmap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,12 +18,16 @@ import java.io.File
  * Create by lzan13 on 2020/4/20 17:28
  * 描述：注册登录 ViewModel
  */
-class FeedbackViewModel(
-    private val repo: CommonRepository,
-) : BViewModel() {
+class FeedbackViewModel(private val repo: CommonRepository) : BViewModel() {
 
     /**
      * 提交反馈信息
+     * @param contact 联系方式
+     * @param content 反馈内容
+     * @param user 相关用户
+     * @param post 相关帖子
+     * @param attachments 附件
+     * @param type 反馈类型 0-意见建议 1-广告 2-政治敏感 3-色情低俗 4-血腥暴力 5-不文明 6-涉嫌诈骗 7-其他
      */
     fun feedback(contact: String, content: String, user: String = "", post: String = "", attachments: List<String> = arrayListOf(), type: Int = 0) {
         viewModelScope.launch(Dispatchers.Main) {

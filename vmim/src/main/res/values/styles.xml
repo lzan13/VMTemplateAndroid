@@ -10,7 +10,7 @@
     <style name="IMTheme.Chat"></style>
 
     <style name="IMEdit.Message" parent="@style/VMEdit">
-        <item name="android:background">@drawable/shape_input_bg</item>
+        <item name="android:background">@drawable/im_shape_msg_input_bg</item>
         <item name="android:minHeight">@dimen/vm_dimen_40</item>
         <item name="android:maxLines">3</item>
         <item name="android:paddingStart">@dimen/vm_dimen_16</item>

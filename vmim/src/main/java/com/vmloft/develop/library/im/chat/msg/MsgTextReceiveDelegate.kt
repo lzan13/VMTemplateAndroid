@@ -5,14 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import com.hyphenate.chat.EMMessage
 import com.hyphenate.chat.EMTextMessageBody
+import com.vmloft.develop.library.base.BItemDelegate
+import com.vmloft.develop.library.base.utils.FormatUtils
 
-import com.vmloft.develop.library.common.base.BItemDelegate
-import com.vmloft.develop.library.common.image.IMGLoader
-import com.vmloft.develop.library.common.utils.FormatUtils
+import com.vmloft.develop.library.image.IMGLoader
 import com.vmloft.develop.library.im.IM
-import com.vmloft.develop.library.im.R
 import com.vmloft.develop.library.im.chat.IMChatManager
-import com.vmloft.develop.library.im.databinding.ImItemMsgSystemDelegateBinding
 import com.vmloft.develop.library.im.databinding.ImItemMsgTextReceiveDelegateBinding
 
 /**

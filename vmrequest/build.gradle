@@ -1,0 +1,74 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+}
+
+// 获取配置信息
+def configs = rootProject.ext.configs
+
+android {
+    compileSdk configs.compileSdkVersion
+
+    defaultConfig {
+        minSdk configs.minSdkVersion
+        targetSdk configs.targetSdkVersion
+
+        // 通过配置文件设置请求 API 地址
+        buildConfigField("String", "baseDebugUrl", configs.baseDebugUrl)
+        buildConfigField("String", "baseReleaseUrl", configs.baseReleaseUrl)
+        // 资源文件 url 地址
+        buildConfigField("String", "mediaUrl", configs.mediaUrl)
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            // 配置 Java 编译版本
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            consumerProguardFiles 'consumer-rules.pro'
+        }
+    }
+    // 配置 Java 编译版本
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    // 开启 ViewBinding
+    buildFeatures {
+        viewBinding true
+    }
+
+    // 编译忽略错误配置
+    lintOptions {
+        abortOnError false
+    }
+    // kotlin 配置
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11
+    }
+
+    kapt {
+        arguments {
+            // 阿里巴巴 ARouter Kotlin 下的配置
+            arg("AROUTER_MODULE_NAME", project.getName())
+        }
+    }
+}
+
+dependencies {
+    api fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+
+    // Retrofit https://github.com/square/retrofit
+    api 'com.squareup.retrofit2:retrofit:2.9.0'
+    api 'com.squareup.retrofit2:converter-gson:2.9.0'
+    api 'com.squareup.okhttp3:logging-interceptor:4.3.1'
+    // Gson 解析 JSON https://github.com/google/gson
+    api 'com.google.code.gson:gson:2.8.6'
+
+    // 依赖 base 库
+    implementation project(':vmbase')
+    // 依赖 common 库
+    implementation project(':vmcommon')
+}

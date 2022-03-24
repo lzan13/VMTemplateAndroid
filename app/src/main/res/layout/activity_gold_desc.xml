@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/app_bg"
     android:orientation="vertical"
-    tools:context=".ui.main.mine.gold.GoldDescActivity">
+    tools:context=".ui.trade.GoldDescActivity">
 
     <include layout="@layout/widget_common_top_bar" />
 

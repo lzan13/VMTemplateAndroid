@@ -3,8 +3,8 @@ package com.vmloft.develop.library.im.room
 import android.view.LayoutInflater
 import android.view.ViewGroup
 
-import com.vmloft.develop.library.common.base.BItemDelegate
-import com.vmloft.develop.library.common.image.IMGLoader
+import com.vmloft.develop.library.base.BItemDelegate
+import com.vmloft.develop.library.image.IMGLoader
 import com.vmloft.develop.library.im.bean.IMUser
 import com.vmloft.develop.library.im.databinding.ImItemRoomApplyUserDelegateBinding
 

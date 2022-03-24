@@ -1,11 +1,12 @@
 package com.vmloft.develop.app.template.request.bean
 
 import android.os.Parcelable
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
+
+import kotlinx.parcelize.Parcelize
 
 /**
  * Create by lzan13 on 2021/01/20 16:12

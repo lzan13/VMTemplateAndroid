@@ -16,17 +16,18 @@ import com.vmloft.develop.app.template.im.IMManager
 import com.vmloft.develop.app.template.request.bean.Room
 import com.vmloft.develop.app.template.request.viewmodel.RoomViewModel
 import com.vmloft.develop.app.template.router.AppRouter
-import com.vmloft.develop.library.common.base.BItemDelegate
-import com.vmloft.develop.library.common.base.BVMActivity
-import com.vmloft.develop.library.common.base.BViewModel
-import com.vmloft.develop.library.common.common.CConstants
-import com.vmloft.develop.library.common.request.RPaging
-import com.vmloft.develop.library.common.router.CRouter
-import com.vmloft.develop.library.common.ui.widget.CommonDialog
-import com.vmloft.develop.library.common.ui.widget.decoration.StaggeredItemDecoration
+import com.vmloft.develop.library.base.BItemDelegate
+import com.vmloft.develop.library.base.BVMActivity
+import com.vmloft.develop.library.base.BViewModel
+import com.vmloft.develop.library.base.common.CConstants
+import com.vmloft.develop.library.base.router.CRouter
+import com.vmloft.develop.library.request.RPaging
+import com.vmloft.develop.library.base.widget.CommonDialog
+import com.vmloft.develop.library.base.widget.decoration.StaggeredItemDecoration
 import com.vmloft.develop.library.tools.utils.VMDimen
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
+
 
 /**
  * Create on lzan13 on 2021/05/09 10:10
@@ -39,9 +40,9 @@ class RoomListActivity : BVMActivity<ActivityRoomListBinding, RoomViewModel>() {
     private var limit: Int = CConstants.defaultLimit
 
     // 适配器
-    private val mAdapter by lazy { MultiTypeAdapter() }
+    private val mAdapter by lazy(LazyThreadSafetyMode.NONE) { MultiTypeAdapter() }
     private val mItems = ArrayList<Any>()
-    private val mLayoutManager by lazy { StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL) }
+    private val mLayoutManager by lazy(LazyThreadSafetyMode.NONE) { StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL) }
 
     override fun initVB() = ActivityRoomListBinding.inflate(layoutInflater)
 
@@ -59,7 +60,7 @@ class RoomListActivity : BVMActivity<ActivityRoomListBinding, RoomViewModel>() {
     override fun initData() {
         ARouter.getInstance().inject(this)
 
-        mViewModel.getRoomList()
+        mViewModel.roomList()
     }
 
     /**
@@ -82,12 +83,12 @@ class RoomListActivity : BVMActivity<ActivityRoomListBinding, RoomViewModel>() {
         // 设置下拉刷新
         mBinding.refreshLayout.setOnRefreshListener {
             mBinding.refreshLayout.setNoMoreData(false)
-            mViewModel.getRoomList()
+            mViewModel.roomList()
         }
         // 设置加载更多
         mBinding.refreshLayout.setOnLoadMoreListener {
             page++
-            mViewModel.getRoomList(page)
+            mViewModel.roomList(page)
         }
     }
 

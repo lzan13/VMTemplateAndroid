@@ -8,14 +8,14 @@ import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.common.SPManager
 import com.vmloft.develop.app.template.databinding.ActivitySettingsDarkBinding
 import com.vmloft.develop.app.template.router.AppRouter
-import com.vmloft.develop.library.common.base.BActivity
+import com.vmloft.develop.library.base.BActivity
 
 /**
  * Create by lzan13 on 2020/05/02 22:56
  * 描述：主题设置
  */
 @Route(path = AppRouter.appSettingsDark)
-class DarkSettingsActivity : BActivity<ActivitySettingsDarkBinding>() {
+class DarkSettingsActivity: BActivity<ActivitySettingsDarkBinding>() {
 
     override fun initVB() = ActivitySettingsDarkBinding.inflate(layoutInflater)
 

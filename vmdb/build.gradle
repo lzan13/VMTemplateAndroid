@@ -1,0 +1,71 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+}
+
+// 获取配置信息
+def configs = rootProject.ext.configs
+
+android {
+    compileSdk configs.compileSdkVersion
+
+    defaultConfig {
+        minSdk configs.minSdkVersion
+        targetSdk configs.targetSdkVersion
+
+    }
+
+    buildTypes {
+        release {
+            // 混淆文件
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            consumerProguardFiles 'consumer-rules.pro'
+        }
+    }
+
+    // 配置 Java 编译版本
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    // 开启 ViewBinding
+    buildFeatures {
+        viewBinding true
+    }
+
+    // 编译忽略错误配置
+    lintOptions {
+        abortOnError false
+    }
+    // kotlin 配置
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11
+    }
+
+    kapt {
+        arguments {
+            // 阿里巴巴 ARouter Kotlin 下的配置
+            arg("AROUTER_MODULE_NAME", project.getName())
+        }
+    }
+}
+
+dependencies {
+    api fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+
+    // 引用 Room 数据库操作库
+//    api "androidx.room:room-runtime:2.2.5"
+    // WCDB 数据库 https://github.com/Tencent/wcdb
+    api "com.tencent.wcdb:wcdb-android:1.0.8"
+    // WCDB room 代替上边 room-runtime https://github.com/Tencent/wcdb
+    api "com.tencent.wcdb:room:1.0.8"
+    kapt "androidx.room:room-compiler:2.3.0"
+    api "androidx.room:room-ktx:2.3.0"
+
+    // 依赖 base 库
+    implementation project(':vmbase')
+
+}

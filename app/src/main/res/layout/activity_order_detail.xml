@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_bg"
-    tools:context=".ui.order.OrderDetailActivity">
+    tools:context=".ui.trade.OrderDetailActivity">
 
     <include layout="@layout/widget_common_top_bar" />
 
@@ -37,17 +37,16 @@
         tools:text="256.00" />
 
     <TextView
-        android:id="@+id/orderPriceCopyTV"
+        android:id="@+id/orderRealPriceTV"
         style="@style/AppText.Body"
         android:padding="@dimen/vm_dimen_16"
-        android:text="@string/order_copy_price"
-        android:textColor="@color/app_link"
+        android:text="@string/order_real_price"
         app:layout_constraintBottom_toBottomOf="@+id/orderPriceTV"
-        app:layout_constraintStart_toEndOf="@+id/orderPriceTV"
+        app:layout_constraintEnd_toStartOf="@+id/orderPriceUnitTV"
         app:layout_constraintTop_toTopOf="@+id/orderPriceTV" />
 
     <TextView
-        android:id="@+id/orderTimerTV"
+        android:id="@+id/orderIdTV"
         style="@style/AppText.Body"
         android:layout_marginTop="@dimen/vm_dimen_8"
         android:background="@drawable/shape_fillet_tips_bg"
@@ -58,50 +57,109 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/orderPriceTV"
-        tools:text="剩余支付时间 05:00x" />
+        tools:text="订单id: 1231923891723817321" />
 
     <TextView
-        android:id="@+id/orderRechargeWechatTV"
-        style="@style/AppText.Title"
-        android:layout_marginTop="@dimen/vm_dimen_16"
-        android:background="@drawable/selector_common_border_bg"
-        android:padding="@dimen/vm_dimen_8"
-        android:text="@string/order_recharge_wechat"
-        app:layout_constraintEnd_toStartOf="@+id/orderRechargeAlipayTV"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/orderTimerTV" />
-
-    <TextView
-        android:id="@+id/orderRechargeAlipayTV"
-        style="@style/AppText.Title"
-        android:layout_marginStart="@dimen/vm_dimen_16"
-        android:background="@drawable/selector_common_border_bg"
-        android:padding="@dimen/vm_dimen_8"
-        android:text="@string/order_recharge_alipay"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/orderRechargeWechatTV"
-        app:layout_constraintTop_toBottomOf="@+id/orderTimerTV"
-        app:layout_constraintTop_toTopOf="@+id/orderRechargeWechatTV" />
-
-    <ImageView
-        android:id="@+id/orderRechargeQRIV"
-        android:layout_width="@dimen/vm_dimen_192"
-        android:layout_height="@dimen/vm_dimen_192"
-        android:layout_marginTop="@dimen/vm_dimen_16"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/orderRechargeWechatTV" />
-
-    <TextView
-        android:id="@+id/orderRechargeQRTipsIV"
+        android:id="@+id/orderCreateTimeTV"
         style="@style/AppText.Body"
-        android:layout_marginTop="@dimen/vm_dimen_16"
-        android:padding="@dimen/vm_dimen_16"
-        android:text="@string/order_recharge_qr_tips"
+        android:layout_marginTop="@dimen/vm_dimen_8"
+        android:background="@drawable/shape_fillet_tips_bg"
+        android:paddingStart="@dimen/vm_dimen_16"
+        android:paddingTop="@dimen/vm_dimen_4"
+        android:paddingEnd="@dimen/vm_dimen_16"
+        android:paddingBottom="@dimen/vm_dimen_4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/orderRechargeQRIV" />
+        app:layout_constraintTop_toBottomOf="@+id/orderIdTV"
+        tools:text="下单时间: 2022/02/23 23:34" />
+
+    <TextView
+        android:id="@+id/orderUpdateTimeTV"
+        style="@style/AppText.Body"
+        android:layout_marginTop="@dimen/vm_dimen_8"
+        android:background="@drawable/shape_fillet_tips_bg"
+        android:paddingStart="@dimen/vm_dimen_16"
+        android:paddingTop="@dimen/vm_dimen_4"
+        android:paddingEnd="@dimen/vm_dimen_16"
+        android:paddingBottom="@dimen/vm_dimen_4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/orderCreateTimeTV"
+        tools:text="更新时间: 2022/02/23 23:34" />
+
+    <!--待支付状态-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/orderPayModelCL"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/vm_dimen_0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/orderUpdateTimeTV">
+
+        <!--支付方式-->
+        <TextView
+            android:id="@+id/orderPayModeTV"
+            style="@style/AppText.Title"
+            android:layout_margin="@dimen/vm_dimen_8"
+            android:background="@drawable/selector_border_common_bg"
+            android:padding="@dimen/vm_dimen_8"
+            android:text="@string/order_pay_mode"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/vm_dimen_0_1"
+            android:layout_marginBottom="@dimen/vm_dimen_8"
+            android:background="@color/app_decoration"
+            app:layout_constraintBottom_toTopOf="@+id/orderPayAlipayIV" />
+
+        <ImageView
+            android:id="@+id/orderPayAlipayIV"
+            android:layout_width="@dimen/vm_dimen_40"
+            android:layout_height="@dimen/vm_dimen_40"
+            android:layout_margin="@dimen/vm_dimen_8"
+            android:padding="@dimen/vm_dimen_8"
+            android:src="@drawable/ic_alipay_logo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/orderPayModeTV" />
+
+        <TextView
+            android:id="@+id/orderPayAlipayTV"
+            style="@style/AppText.Title"
+            android:padding="@dimen/vm_dimen_16"
+            android:text="@string/order_pay_alipay"
+            app:layout_constraintBottom_toBottomOf="@+id/orderPayAlipayIV"
+            app:layout_constraintStart_toEndOf="@+id/orderPayAlipayIV"
+            app:layout_constraintTop_toTopOf="@+id/orderPayAlipayIV" />
+
+        <ImageView
+            android:id="@+id/orderPayAlipayDoneIV"
+            android:layout_width="@dimen/vm_dimen_24"
+            android:layout_height="@dimen/vm_dimen_24"
+            android:layout_margin="@dimen/vm_dimen_16"
+            android:src="@drawable/ic_done"
+            app:layout_constraintBottom_toBottomOf="@+id/orderPayAlipayIV"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/orderPayAlipayIV" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/vm_dimen_0_1"
+            android:layout_marginTop="@dimen/vm_dimen_8"
+            android:background="@color/app_decoration"
+            app:layout_constraintTop_toBottomOf="@+id/orderPayAlipayIV" />
+
+        <TextView
+            android:id="@+id/orderPayTipsIV"
+            style="@style/AppText.Body"
+            android:layout_marginTop="@dimen/vm_dimen_16"
+            android:padding="@dimen/vm_dimen_16"
+            android:text="@string/order_pay_tips"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/orderPayAlipayIV" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/submitTV"
@@ -109,7 +167,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/vm_dimen_36"
-        android:text="@string/order_recharge"
+        android:text="@string/order_pay"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

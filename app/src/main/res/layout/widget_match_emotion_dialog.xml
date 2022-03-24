@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_card_common_bg"
+    android:paddingTop="@dimen/vm_dimen_8"
+    android:paddingBottom="@dimen/vm_dimen_16"
+    tools:context=".ui.widget.MatchEmotionDialog">
+
+    <TextView
+        android:id="@+id/emotionTitleTV"
+        style="@style/AppText.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/vm_dimen_16"
+        android:text="@string/emotion_title"
+        android:textSize="@dimen/vm_size_20"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/emotionHappyLL"
+        android:layout_width="@dimen/vm_dimen_0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/vm_dimen_16"
+        android:layout_marginTop="@dimen/vm_dimen_16"
+        android:background="@drawable/selector_border_common_bg"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/vm_dimen_16"
+        android:paddingBottom="@dimen/vm_dimen_16"
+        app:layout_constraintEnd_toStartOf="@+id/emotionNormalLL"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emotionTitleTV">
+
+        <ImageView
+            android:layout_width="@dimen/vm_dimen_36"
+            android:layout_height="@dimen/vm_dimen_36"
+            android:src="@drawable/ic_emotion_happy" />
+
+        <TextView
+            style="@style/AppText.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/vm_dimen_4"
+            android:text="@string/emotion_happy" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/emotionNormalLL"
+        android:layout_width="@dimen/vm_dimen_0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/vm_dimen_16"
+        android:background="@drawable/selector_border_common_bg"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/vm_dimen_16"
+        android:paddingBottom="@dimen/vm_dimen_16"
+        app:layout_constraintBottom_toBottomOf="@+id/emotionHappyLL"
+        app:layout_constraintEnd_toStartOf="@+id/emotionSadLL"
+        app:layout_constraintStart_toEndOf="@+id/emotionHappyLL"
+        app:layout_constraintTop_toTopOf="@+id/emotionHappyLL">
+
+        <ImageView
+            android:layout_width="@dimen/vm_dimen_36"
+            android:layout_height="@dimen/vm_dimen_36"
+            android:src="@drawable/ic_emotion_normal" />
+
+        <TextView
+            style="@style/AppText.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/vm_dimen_4"
+            android:text="@string/emotion_normal" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/emotionSadLL"
+        android:layout_width="@dimen/vm_dimen_0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/vm_dimen_16"
+        android:background="@drawable/selector_border_common_bg"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/vm_dimen_16"
+        android:paddingBottom="@dimen/vm_dimen_16"
+        app:layout_constraintBottom_toBottomOf="@+id/emotionHappyLL"
+        app:layout_constraintEnd_toStartOf="@+id/emotionAngerLL"
+        app:layout_constraintStart_toEndOf="@+id/emotionNormalLL"
+        app:layout_constraintTop_toTopOf="@+id/emotionHappyLL">
+
+        <ImageView
+            android:layout_width="@dimen/vm_dimen_36"
+            android:layout_height="@dimen/vm_dimen_36"
+            android:src="@drawable/ic_emotion_sad" />
+
+        <TextView
+            style="@style/AppText.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/vm_dimen_4"
+            android:text="@string/emotion_sad" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/emotionAngerLL"
+        android:layout_width="@dimen/vm_dimen_0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/vm_dimen_16"
+        android:layout_marginEnd="@dimen/vm_dimen_16"
+        android:background="@drawable/selector_border_common_bg"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/vm_dimen_16"
+        android:paddingBottom="@dimen/vm_dimen_16"
+        app:layout_constraintBottom_toBottomOf="@+id/emotionHappyLL"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/emotionSadLL"
+        app:layout_constraintTop_toTopOf="@+id/emotionHappyLL">
+
+        <ImageView
+            android:layout_width="@dimen/vm_dimen_36"
+            android:layout_height="@dimen/vm_dimen_36"
+            android:src="@drawable/ic_emotion_anger" />
+
+        <TextView
+            style="@style/AppText.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/vm_dimen_4"
+            android:text="@string/emotion_anger" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/contentET"
+        style="@style/AppEdit.Single.Border"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/vm_dimen_16"
+        android:hint="@string/emotion_hint"
+        app:layout_constraintTop_toBottomOf="@+id/emotionHappyLL" />
+
+    <TextView
+        android:id="@+id/errorTipsTV"
+        style="@style/AppText.Tips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/vm_dimen_16"
+        android:text="@string/input_not_null"
+        android:textColor="@color/app_main"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contentET"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/submitTV"
+        style="@style/AppBtn.Confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/vm_dimen_16"
+        android:layout_marginTop="@dimen/vm_dimen_24"
+        android:layout_marginEnd="@dimen/vm_dimen_16"
+        android:text="@string/btn_confirm"
+        app:layout_constraintTop_toBottomOf="@+id/contentET" />
+</androidx.constraintlayout.widget.ConstraintLayout>

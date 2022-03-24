@@ -15,6 +15,18 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
+        android:id="@+id/identityIV"
+        android:layout_width="@dimen/vm_dimen_16"
+        android:layout_height="@dimen/vm_dimen_16"
+        android:background="@drawable/shape_circle_common_bg"
+        android:padding="@dimen/vm_dimen_2"
+        android:src="@drawable/ic_vip"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/avatarIV"
+        app:layout_constraintStart_toStartOf="@+id/avatarIV"
+        tools:visibility="visible" />
+
+    <ImageView
         android:id="@+id/genderIV"
         android:layout_width="@dimen/vm_dimen_12"
         android:layout_height="@dimen/vm_dimen_12"
@@ -26,9 +38,9 @@
 
     <TextView
         android:id="@+id/nameTV"
-        style="@style/AppText.Title"
-        android:layout_marginStart="@dimen/vm_dimen_16"
-        android:layout_marginEnd="@dimen/vm_dimen_16"
+        style="@style/AppText.Tips"
+        android:layout_marginStart="@dimen/vm_dimen_8"
+        android:layout_marginEnd="@dimen/vm_dimen_8"
         android:ellipsize="end"
         android:maxLines="1"
         android:textSize="@dimen/vm_size_12"
@@ -55,7 +67,7 @@
         android:id="@+id/contentTV"
         style="@style/AppText.Body"
         android:layout_width="@dimen/vm_dimen_0"
-        android:layout_marginStart="@dimen/vm_dimen_16"
+        android:layout_marginStart="@dimen/vm_dimen_8"
         android:layout_marginTop="@dimen/vm_dimen_4"
         android:layout_marginEnd="@dimen/vm_dimen_16"
         app:layout_constraintEnd_toEndOf="parent"

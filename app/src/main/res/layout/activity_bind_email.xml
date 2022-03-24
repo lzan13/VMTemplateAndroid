@@ -29,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/vm_dimen_16"
-        android:layout_marginTop="@dimen/vm_dimen_8"
+        android:layout_marginTop="@dimen/vm_dimen_4"
         android:layout_marginEnd="@dimen/vm_dimen_16"
         android:paddingStart="@dimen/vm_dimen_16"
         android:paddingEnd="@dimen/vm_dimen_16"
@@ -43,7 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/vm_dimen_16"
-        android:layout_marginTop="@dimen/vm_dimen_16"
+        android:layout_marginTop="@dimen/vm_dimen_8"
         android:layout_marginEnd="@dimen/vm_dimen_16"
         android:hint="@string/sign_code_hint"
         app:layout_constraintTop_toBottomOf="@+id/bindEmailDescTV" />

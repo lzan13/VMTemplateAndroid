@@ -2,9 +2,9 @@ package com.vmloft.develop.app.template.request.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.vmloft.develop.app.template.request.repository.CommonRepository
+import com.vmloft.develop.library.base.BViewModel
 
-import com.vmloft.develop.library.common.base.BViewModel
-import com.vmloft.develop.library.common.request.RResult
+import com.vmloft.develop.library.request.RResult
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

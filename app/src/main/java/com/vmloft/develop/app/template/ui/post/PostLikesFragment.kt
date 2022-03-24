@@ -3,7 +3,6 @@ package com.vmloft.develop.app.template.ui.post
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -11,18 +10,16 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.drakeet.multitype.MultiTypeAdapter
 
 import com.vmloft.develop.app.template.databinding.FragmentCommonListBinding
-import com.vmloft.develop.library.common.request.RPaging
+import com.vmloft.develop.library.request.RPaging
 import com.vmloft.develop.app.template.request.bean.Post
 import com.vmloft.develop.app.template.request.viewmodel.PostViewModel
 import com.vmloft.develop.app.template.router.AppRouter
-import com.vmloft.develop.library.common.base.BItemDelegate
-import com.vmloft.develop.library.common.base.BVMFragment
-import com.vmloft.develop.library.common.base.BViewModel
-import com.vmloft.develop.library.common.common.CConstants
-import com.vmloft.develop.library.common.router.CRouter
-import com.vmloft.develop.library.common.ui.widget.decoration.StaggeredItemDecoration
+import com.vmloft.develop.library.base.BVMFragment
+import com.vmloft.develop.library.base.BViewModel
+import com.vmloft.develop.library.base.common.CConstants
+import com.vmloft.develop.library.base.router.CRouter
+import com.vmloft.develop.library.base.widget.decoration.StaggeredItemDecoration
 import com.vmloft.develop.library.tools.utils.VMDimen
-
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 /**
@@ -34,9 +31,9 @@ class PostLikesFragment : BVMFragment<FragmentCommonListBinding, PostViewModel>(
     private var page = CConstants.defaultPage
 
     // 适配器
-    private val mAdapter by lazy { MultiTypeAdapter() }
+    private val mAdapter by lazy(LazyThreadSafetyMode.NONE) { MultiTypeAdapter() }
     private val mItems = ArrayList<Any>()
-    private val mLayoutManager by lazy { StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL) }
+    private val mLayoutManager by lazy(LazyThreadSafetyMode.NONE) { StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL) }
 
     private lateinit var userId: String
 

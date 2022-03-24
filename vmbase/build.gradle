@@ -1,0 +1,103 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+}
+
+// 获取配置信息
+def configs = rootProject.ext.configs
+
+android {
+    compileSdk configs.compileSdkVersion
+
+    defaultConfig {
+        minSdk configs.minSdkVersion
+        targetSdk configs.targetSdkVersion
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            // 配置 Java 编译版本
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            consumerProguardFiles 'consumer-rules.pro'
+        }
+    }
+    // 配置 Java 编译版本
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    // 开启 ViewBinding
+    buildFeatures {
+        viewBinding true
+    }
+
+    // 编译忽略错误配置
+    lintOptions {
+        abortOnError false
+    }
+    // kotlin 配置
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11
+    }
+
+    kapt {
+        arguments {
+            // 阿里巴巴 ARouter Kotlin 下的配置
+            arg("AROUTER_MODULE_NAME", project.getName())
+        }
+    }
+}
+
+dependencies {
+    api fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+
+    // AndroidX 扩展库
+    api 'androidx.activity:activity-ktx:1.3.1'
+    api 'androidx.appcompat:appcompat:1.3.1'
+    api 'androidx.constraintlayout:constraintlayout:2.1.1'
+    api 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
+    api 'androidx.core:core-ktx:1.6.0'
+    api 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
+    api 'com.google.android.material:material:1.4.0'
+
+//    api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    // Kotlin 协同程序扩展
+    // 介绍 https://www.kotlincn.net/docs/reference/coroutines/coroutines-guide.html
+    api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0'
+    // 依赖当前平台所对应的平台库
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0"
+
+    // 依赖注入框架
+//    // Koin for Android
+//    implementation 'org.koin:koin-android:2.0.1'
+//    // Koin for Kotlin
+//    implementation "org.koin:koin-core:2.0.1"
+//    // or Koin for Lifecycle scoping
+//    implementation 'org.koin:koin-androidx-scope:2.0.1'
+//    // or Koin for Android Architecture ViewModel
+    api 'org.koin:koin-androidx-viewmodel:2.0.1'
+
+    // Android Jetpack 相关
+    api 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    api 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
+    api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
+
+    // MultiType RecyclerView 多类型适配器 https://github.com/drakeet/MultiType
+    api 'com.drakeet.multitype:multitype:4.2.0'
+
+    // 阿里巴巴 ARouter 库 https://github.com/alibaba/ARouter
+    api 'com.alibaba:arouter-api:1.5.2'
+    // ARouter 编译器，TODO 当代码中有一些自己没看到的错误的时候，ARouter 会拦截错误信息，看不到错误位置，把这行注释掉，重新编译
+    kapt 'com.alibaba:arouter-compiler:1.5.2'
+
+    // Android消息总线，基于LiveData https://github.com/JeremyLiao/LiveEventBus
+    api 'io.github.jeremyliao:live-event-bus-x:1.8.0'
+
+    // 自定义工具库 https://gitee.com/lzan13/VMLibrary
+    api 'com.github.lzan13:VMLibrary:1.6.0'
+    // 引入自己封装的工具库源码，便与调试
+//    api project(':vmtools')
+}

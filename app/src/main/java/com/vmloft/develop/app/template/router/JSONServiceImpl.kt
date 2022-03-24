@@ -5,7 +5,7 @@ import android.content.Context
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.facade.service.SerializationService
 
-import com.vmloft.develop.library.common.utils.json.JsonUtils
+import com.vmloft.develop.library.common.utils.JsonUtils
 
 import java.lang.reflect.Type
 

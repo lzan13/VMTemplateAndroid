@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!--首页匹配颜色-->
-    <color name="app_home_card_destiny_start">#e6e66d48</color>
-    <color name="app_home_card_destiny_end">#e6ff8965</color>
-    <color name="app_home_card_emotion_start">#e6fc997f</color>
-    <color name="app_home_card_emotion_end">#e6fd86a8</color>
-    <color name="app_home_card_fast_start">#e6d54b4b</color>
-    <color name="app_home_card_fast_end">#e6da6161</color>
-    <color name="app_home_card_room_start">#e6fab37b</color>
-    <color name="app_home_card_room_end">#e6fca487</color>
-    <color name="app_home_card_secret_start">#e6b37fe8</color>
-    <color name="app_home_card_secret_end">#e67d77e0</color>
-    <color name="app_home_card_wish_start">#e66db7c7</color>
-    <color name="app_home_card_wish_end">#e66092e8</color>
+    <color name="app_home_card_destiny">#e66d48</color>
+    <color name="app_home_card_fast">#d54b4b</color>
+    <color name="app_home_card_room">#fab37b</color>
+    <color name="app_home_card_game">#cc39</color>
+    <color name="app_home_card_secret">#b37fe8</color>
+    <color name="app_home_card_wish">#6db7c7</color>
+<!--    <color name="app_home_card_wish">#6092e8</color>-->
 
     <color name="app_home_card_name">@color/vm_white</color>
     <color name="app_home_card_desc">@color/vm_white_87</color>

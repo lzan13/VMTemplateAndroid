@@ -1,8 +1,8 @@
 package com.vmloft.develop.app.template.request.repository
 
 import com.vmloft.develop.app.template.request.api.APIRequest
-import com.vmloft.develop.library.common.request.BaseRepository
-import com.vmloft.develop.library.common.request.RResult
+import com.vmloft.develop.library.request.BaseRepository
+import com.vmloft.develop.library.request.RResult
 import com.vmloft.develop.app.template.request.bean.User
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -92,10 +92,17 @@ class InfoRepository : BaseRepository() {
     }
 
     /**
+     * 签到
+     */
+    suspend fun mqttUserToken(id: String): RResult<String> {
+        return safeRequest { executeResponse(APIRequest.userInfoAPI.mqttUserToken(id)) }
+    }
+
+    /**
      * 请求验证码
      */
     suspend fun sendCodeEmail(email: String): RResult<Any> {
-        return safeRequest({ executeResponse(APIRequest.signAPI.sendCodeEmail(email)) })
+        return safeRequest { executeResponse(APIRequest.signAPI.sendCodeEmail(email)) }
     }
 
 }

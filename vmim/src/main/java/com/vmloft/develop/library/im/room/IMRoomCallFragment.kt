@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.drakeet.multitype.MultiTypeAdapter
@@ -12,14 +13,14 @@ import com.hyphenate.EMChatRoomChangeListener
 import com.hyphenate.chat.EMClient
 import com.hyphenate.chat.EMMessage
 
-import com.vmloft.develop.library.common.base.BFragment
-import com.vmloft.develop.library.common.base.BItemDelegate
-import com.vmloft.develop.library.common.event.LDEventBus
-import com.vmloft.develop.library.common.image.IMGLoader
-import com.vmloft.develop.library.common.utils.json.JsonUtils
-import com.vmloft.develop.library.common.utils.errorBar
-import com.vmloft.develop.library.common.utils.showBar
-import com.vmloft.develop.library.common.ui.widget.CommonDialog
+import com.vmloft.develop.library.base.BFragment
+import com.vmloft.develop.library.base.BItemDelegate
+import com.vmloft.develop.library.base.event.LDEventBus
+import com.vmloft.develop.library.base.utils.errorBar
+import com.vmloft.develop.library.base.utils.showBar
+import com.vmloft.develop.library.image.IMGLoader
+import com.vmloft.develop.library.base.widget.CommonDialog
+import com.vmloft.develop.library.common.utils.JsonUtils
 import com.vmloft.develop.library.im.IM
 import com.vmloft.develop.library.im.R
 import com.vmloft.develop.library.im.bean.IMRoom
@@ -66,7 +67,7 @@ class IMRoomCallFragment : BFragment<ImFragmentRoomCallBinding>() {
     var currMicUser: IMUser? = null
 
     // 列表适配器
-    private val mAdapter by lazy { MultiTypeAdapter() }
+    private val mAdapter by lazy(LazyThreadSafetyMode.NONE) { MultiTypeAdapter() }
     private val mItems = ArrayList<Any>()
     private lateinit var layoutManager: LinearLayoutManager
 
@@ -91,21 +92,20 @@ class IMRoomCallFragment : BFragment<ImFragmentRoomCallBinding>() {
     override fun initUI() {
         super.initUI()
 
-        // 变声彩蛋
-        mBinding.imRoomOwnerAvatarIV.setOnLongClickListener {
-            if (isOwner) mBinding.imVoiceEffectLL.visibility = View.VISIBLE
-            true
-        }
-        mBinding.imRoomGuestAvatarIV.setOnLongClickListener {
-            if (currMicUser?.id == selfId) mBinding.imVoiceEffectLL.visibility = View.VISIBLE
-            true
+        // 魔音变声
+        mBinding.imCallMicMagicBtn.setOnClickListener {
+            if (mBinding.imMagicVoiceLL.isVisible) {
+                mBinding.imMagicVoiceLL.visibility = View.GONE
+            } else {
+                mBinding.imMagicVoiceLL.visibility = View.VISIBLE
+            }
         }
         // 设置人声变声效果
-        mBinding.imVoiceEffectIV0.setOnClickListener { view -> setVoiceEffect(view, 0) }
-        mBinding.imVoiceEffectIV1.setOnClickListener { view -> setVoiceEffect(view, 1) }
-        mBinding.imVoiceEffectIV2.setOnClickListener { view -> setVoiceEffect(view, 2) }
-        mBinding.imVoiceEffectIV3.setOnClickListener { view -> setVoiceEffect(view, 3) }
-        mBinding.imVoiceEffectIV4.setOnClickListener { view -> setVoiceEffect(view, 4) }
+        mBinding.imMagicVoiceIV0.setOnClickListener { view -> setVoiceEffect(view, 0) }
+        mBinding.imMagicVoiceIV1.setOnClickListener { view -> setVoiceEffect(view, 1) }
+        mBinding.imMagicVoiceIV2.setOnClickListener { view -> setVoiceEffect(view, 2) }
+        mBinding.imMagicVoiceIV3.setOnClickListener { view -> setVoiceEffect(view, 3) }
+        mBinding.imMagicVoiceIV4.setOnClickListener { view -> setVoiceEffect(view, 4) }
 
         mBinding.imRoomGuestApplyBtn.setOnClickListener {
             if (isOwner) return@setOnClickListener
@@ -113,7 +113,7 @@ class IMRoomCallFragment : BFragment<ImFragmentRoomCallBinding>() {
             showBar(R.string.im_room_apply_hint)
         }
         mBinding.imRoomGuestAvatarIV.setOnClickListener {
-            // TODO 房主，以及其他人不能点击用户头像下麦，后续会完善头像点击事件
+            // 房主可以点击用户头像下麦 TODO 其他人不能，后续会完善头像点击事件
             if (isOwner) {
                 kickUserMic()
             } else if (currMicUser?.id == selfId) {
@@ -123,6 +123,7 @@ class IMRoomCallFragment : BFragment<ImFragmentRoomCallBinding>() {
 
         initRecyclerView()
 
+        // 监听申请上麦命令
         LDEventBus.observe(this, IMConstants.Call.cmdRoomApplyMic, EMMessage::class.java) {
             onApplyMic(it)
         }
@@ -417,7 +418,7 @@ class IMRoomCallFragment : BFragment<ImFragmentRoomCallBinding>() {
      * 设置声音音效
      */
     private fun setVoiceEffect(view: View, effect: Int) {
-        mBinding.imVoiceEffectLL.visibility = View.GONE
+        mBinding.imMagicVoiceLL.visibility = View.GONE
 
         lastEffectView?.isSelected = false
         lastEffectView = view

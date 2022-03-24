@@ -1,13 +1,16 @@
 package com.vmloft.develop.app.template.request.viewmodel
 
 import androidx.lifecycle.viewModelScope
+import com.vmloft.develop.app.template.R
+import com.vmloft.develop.app.template.request.bean.Post
 import com.vmloft.develop.app.template.request.repository.CommonRepository
 import com.vmloft.develop.app.template.request.repository.LikeRepository
 
-import com.vmloft.develop.library.common.base.BViewModel
-import com.vmloft.develop.library.common.request.RResult
+import com.vmloft.develop.library.request.RResult
 import com.vmloft.develop.app.template.request.repository.PostRepository
-import com.vmloft.develop.library.common.common.CConstants
+import com.vmloft.develop.library.base.BViewModel
+import com.vmloft.develop.library.base.common.CConstants
+import com.vmloft.develop.library.tools.utils.VMStr
 import com.vmloft.develop.library.tools.utils.bitmap.VMBitmap
 
 import kotlinx.coroutines.Dispatchers
@@ -33,11 +36,11 @@ class PostViewModel(
      * -------------------------------------------------------
      * 加载分类
      */
-    fun getCategoryList() {
+    fun categoryList() {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
             val result = withContext(Dispatchers.IO) {
-                commonRepo.getCategoryList()
+                commonRepo.categoryList()
             }
 
             if (result is RResult.Success) {
@@ -117,6 +120,7 @@ class PostViewModel(
             }
         }
     }
+
     /**
      * 创建
      */
@@ -137,10 +141,10 @@ class PostViewModel(
     /**
      * 帖子列表
      */
-    fun postList(owner: String, page: Int = CConstants.defaultPage, limit: Int = CConstants.defaultLimit) {
+    fun postList(owner: String, page: Int = CConstants.defaultPage, limit: Int = CConstants.defaultLimit, isService: Boolean = true) {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val result = repo.getPostList(page, limit, owner)
+            val result = repo.postList(page, limit, isService, owner)
 
             if (result is RResult.Success) {
                 emitUIState(data = result.data, type = "postList")
@@ -181,6 +185,23 @@ class PostViewModel(
 
             if (result is RResult.Success) {
                 emitUIState(data = result.data, type = "commentList")
+                return@launch
+            } else if (result is RResult.Error) {
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
+            }
+        }
+    }
+
+    /**
+     * 屏蔽内容
+     */
+    fun shieldPost(post: Post) {
+        viewModelScope.launch(Dispatchers.Main) {
+            emitUIState(true)
+            val result = repo.shieldPost(post)
+
+            if (result is RResult.Success) {
+                emitUIState(data = result.data, toast = VMStr.byRes(R.string.feedback_hint), type = "shieldPost")
                 return@launch
             } else if (result is RResult.Error) {
                 emitUIState(isSuccess = false, code = result.code, error = result.error)

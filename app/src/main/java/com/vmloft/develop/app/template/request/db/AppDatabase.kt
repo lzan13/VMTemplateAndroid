@@ -25,7 +25,7 @@ import com.vmloft.develop.app.template.request.bean.*
     Profession::class,
     Version::class
 ], version = 5)
-@TypeConverters(MatchConverter::class)
+@TypeConverters(DataConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
     companion object {

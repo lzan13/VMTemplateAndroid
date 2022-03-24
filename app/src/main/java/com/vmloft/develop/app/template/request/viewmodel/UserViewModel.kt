@@ -1,15 +1,15 @@
 package com.vmloft.develop.app.template.request.viewmodel
 
 import androidx.lifecycle.viewModelScope
-
 import com.vmloft.develop.app.template.common.CacheManager
-import com.vmloft.develop.library.common.base.BViewModel
-import com.vmloft.develop.library.common.request.RResult
+import com.vmloft.develop.library.request.RResult
 import com.vmloft.develop.app.template.request.repository.CommonRepository
 import com.vmloft.develop.app.template.request.repository.FollowRepository
 import com.vmloft.develop.app.template.request.repository.InfoRepository
-import com.vmloft.develop.app.template.request.repository.OrderRepository
-import com.vmloft.develop.library.common.utils.json.JsonUtils
+import com.vmloft.develop.app.template.request.repository.TradeRepository
+import com.vmloft.develop.library.base.BViewModel
+import com.vmloft.develop.library.common.utils.JsonUtils
+import com.vmloft.develop.library.qr.QRHelper
 import com.vmloft.develop.library.tools.utils.bitmap.VMBitmap
 
 import kotlinx.coroutines.Dispatchers
@@ -33,7 +33,7 @@ class UserViewModel(
     private val repo: InfoRepository,
     private val commonRepo: CommonRepository,
     private val followRepo: FollowRepository,
-    private val orderRepo: OrderRepository,
+    private val tradeRepo: TradeRepository,
 ) : BViewModel() {
 
     /**
@@ -42,11 +42,11 @@ class UserViewModel(
     /**
      * 获取职业集合
      */
-    fun loadProfessionList() {
+    fun professionList() {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
             val result = withContext(Dispatchers.IO) {
-                commonRepo.getProfessionList()
+                commonRepo.professionList()
             }
             if (result is RResult.Success) {
                 emitUIState(data = result.data, type = "professionList")
@@ -242,7 +242,7 @@ class UserViewModel(
     }
 
     /**
-     * 请求验证码
+     * 获取邮箱验证码
      */
     fun sendCodeEmail(email: String) {
         viewModelScope.launch(Dispatchers.Main) {
@@ -254,6 +254,21 @@ class UserViewModel(
             } else if (result is RResult.Error) {
                 emitUIState(isSuccess = false, code = result.code, error = result.error)
             }
+        }
+    }
+
+    /**
+     * 生成二维码
+     */
+    fun generateQRCode(content: String) {
+        viewModelScope.launch(Dispatchers.Main) {
+            emitUIState(true)
+            val bitmap = withContext(Dispatchers.IO) {
+                QRHelper.encodeQRCode(content)
+            }
+            val result = RResult.Success(data = bitmap)
+            emitUIState(data = result.data, type = "generateQRCode")
+            return@launch
         }
     }
 
@@ -295,12 +310,31 @@ class UserViewModel(
 
 
     /**
-     * 创建订单
+     * ----------------------------- 交易相关 -----------------------------
      */
-    fun createOrder(price: String, title: String) {
+    /**
+     * 获取商品列表
+     */
+    fun virtualCommodityList() {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val result = orderRepo.createOrder(price, title)
+            val result = commonRepo.virtualCommodityList()
+            if (result is RResult.Success) {
+                emitUIState(data = result.data, type = "virtualCommodityList")
+                return@launch
+            } else if (result is RResult.Error) {
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
+            }
+        }
+    }
+
+    /**
+     * 创建订单
+     */
+    fun createOrder(commoditys: List<String>, remarks: String) {
+        viewModelScope.launch(Dispatchers.Main) {
+            emitUIState(true)
+            val result = tradeRepo.createOrder(commoditys, remarks)
             if (result is RResult.Success) {
                 emitUIState(data = result.data, type = "createOrder")
                 return@launch

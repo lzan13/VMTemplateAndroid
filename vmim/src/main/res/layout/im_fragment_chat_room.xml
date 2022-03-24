@@ -26,7 +26,7 @@
             android:layout_width="@dimen/vm_dimen_40"
             android:layout_height="@dimen/vm_dimen_40"
             android:layout_marginEnd="@dimen/vm_dimen_8"
-            android:background="@drawable/selector_common_circle_icon_bg"
+            android:background="@drawable/selector_circle_common_icon_bg"
             android:padding="@dimen/vm_dimen_8"
             android:src="@drawable/ic_fire"
             android:visibility="gone"
@@ -40,7 +40,7 @@
             android:layout_width="@dimen/vm_dimen_40"
             android:layout_height="@dimen/vm_dimen_40"
             android:layout_marginEnd="@dimen/vm_dimen_8"
-            android:background="@drawable/selector_common_circle_icon_bg"
+            android:background="@drawable/selector_circle_common_icon_bg"
             android:padding="@dimen/vm_dimen_10"
             android:src="@drawable/ic_picture_album"
             android:visibility="gone"
@@ -48,15 +48,15 @@
             app:layout_constraintEnd_toStartOf="@+id/imRoomEncourageBtn"
             app:layout_constraintStart_toEndOf="@+id/imChatRecordIV" />
 
-        <!--鼓励-->
+        <!--感谢，送人玫瑰，手有余香-->
         <TextView
             android:id="@+id/imRoomEncourageBtn"
             android:layout_width="@dimen/vm_dimen_40"
             android:layout_height="@dimen/vm_dimen_40"
             android:layout_marginEnd="@dimen/vm_dimen_8"
-            android:background="@drawable/selector_common_circle_icon_bg"
+            android:background="@drawable/selector_circle_common_icon_bg"
             android:gravity="center"
-            android:text="👏"
+            android:text="🌹"
             android:textSize="@dimen/vm_size_20"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/imChatMessageET"
@@ -82,7 +82,7 @@
             android:layout_width="@dimen/vm_dimen_40"
             android:layout_height="@dimen/vm_dimen_40"
             android:layout_marginStart="@dimen/vm_dimen_8"
-            android:background="@drawable/selector_common_circle_icon_bg"
+            android:background="@drawable/selector_circle_common_icon_bg"
             android:padding="@dimen/vm_dimen_10"
             android:src="@drawable/ic_send"
             android:visibility="gone"

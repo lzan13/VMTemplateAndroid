@@ -11,9 +11,9 @@ import com.vmloft.develop.app.template.databinding.ActivityBindEmailBinding
 import com.vmloft.develop.app.template.request.bean.User
 import com.vmloft.develop.app.template.request.viewmodel.UserViewModel
 import com.vmloft.develop.app.template.router.AppRouter
-import com.vmloft.develop.library.common.base.BVMActivity
-import com.vmloft.develop.library.common.base.BViewModel
-import com.vmloft.develop.library.common.utils.errorBar
+import com.vmloft.develop.library.base.BVMActivity
+import com.vmloft.develop.library.base.BViewModel
+import com.vmloft.develop.library.base.utils.errorBar
 import com.vmloft.develop.library.tools.utils.VMReg
 import com.vmloft.develop.library.tools.utils.VMStr
 
@@ -77,9 +77,6 @@ class BindEmailActivity : BVMActivity<ActivityBindEmailBinding, UserViewModel>()
      * 校验输入框内容
      */
     private fun verifyInputBox() {
-        // 检查邮箱地址输入框
-//        bindCodeBtn.isEnabled = VMReg.isEmail(email)
-
         // 检查整体输入框是否为空
         setTopEndBtnEnable(VMReg.isEmail(email) && !code.isNullOrEmpty())
     }

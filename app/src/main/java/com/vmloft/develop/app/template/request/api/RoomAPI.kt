@@ -1,8 +1,8 @@
 package com.vmloft.develop.app.template.request.api
 
 import com.vmloft.develop.app.template.request.bean.*
-import com.vmloft.develop.library.common.request.RPaging
-import com.vmloft.develop.library.common.request.RResponse
+import com.vmloft.develop.library.request.RPaging
+import com.vmloft.develop.library.request.RResponse
 
 import retrofit2.http.*
 
@@ -44,16 +44,22 @@ interface RoomAPI {
      * 获取房间列表
      */
     @GET("v1/room")
-    suspend fun getRoomList(
+    suspend fun roomList(
         @Query("page") page: Int,
         @Query("limit") limit: Int,
-        @Query("owner") owner: String
+        @Query("type") type: Int
     ): RResponse<RPaging<Room>>
+
+    /**
+     * 获取随机房间
+     */
+    @GET("v1/room")
+    suspend fun randomRoom(@Query("type") type: Int): RResponse<Room>
 
     /**
      * 获取房间信息
      */
     @GET("v1/room/{id}")
-    suspend fun getRoomInfo(@Query("id") id: String): RResponse<Room>
+    suspend fun roomInfo(@Path("id") id: String): RResponse<Room>
 
 }

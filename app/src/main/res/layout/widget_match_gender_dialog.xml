@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_card_common_bg"
+    android:paddingTop="@dimen/vm_dimen_8"
+    android:paddingBottom="@dimen/vm_dimen_16"
+    tools:context=".ui.widget.MatchGenderDialog">
+
+    <TextView
+        android:id="@+id/filterTitleTV"
+        style="@style/AppText.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/vm_dimen_16"
+        android:text="@string/filter_gender_title"
+        android:textSize="@dimen/vm_size_20"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/filterAllLL"
+        android:layout_width="@dimen/vm_dimen_0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/vm_dimen_16"
+        android:layout_marginTop="@dimen/vm_dimen_16"
+        android:background="@drawable/selector_border_common_bg"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/vm_dimen_16"
+        android:paddingBottom="@dimen/vm_dimen_16"
+        app:layout_constraintEnd_toStartOf="@+id/filterWomanLL"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filterTitleTV">
+
+        <ImageView
+            android:layout_width="@dimen/vm_dimen_24"
+            android:layout_height="@dimen/vm_dimen_24"
+            android:src="@drawable/ic_gender_unknown" />
+
+        <TextView
+            style="@style/AppText.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/vm_dimen_4"
+            android:text="@string/filter_gender_all" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/filterWomanLL"
+        android:layout_width="@dimen/vm_dimen_0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/vm_dimen_16"
+        android:background="@drawable/selector_border_common_bg"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/vm_dimen_16"
+        android:paddingBottom="@dimen/vm_dimen_16"
+        app:layout_constraintBottom_toBottomOf="@+id/filterAllLL"
+        app:layout_constraintEnd_toStartOf="@+id/filterManLL"
+        app:layout_constraintStart_toEndOf="@+id/filterAllLL"
+        app:layout_constraintTop_toTopOf="@+id/filterAllLL">
+
+        <ImageView
+            android:layout_width="@dimen/vm_dimen_24"
+            android:layout_height="@dimen/vm_dimen_24"
+            android:src="@drawable/ic_gender_woman" />
+
+        <TextView
+            style="@style/AppText.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/vm_dimen_4"
+            android:text="@string/filter_gender_woman" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/filterManLL"
+        android:layout_width="@dimen/vm_dimen_0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/vm_dimen_16"
+        android:layout_marginEnd="@dimen/vm_dimen_16"
+        android:background="@drawable/selector_border_common_bg"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/vm_dimen_16"
+        android:paddingBottom="@dimen/vm_dimen_16"
+        app:layout_constraintBottom_toBottomOf="@+id/filterWomanLL"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/filterWomanLL"
+        app:layout_constraintTop_toTopOf="@+id/filterWomanLL">
+
+        <ImageView
+            android:layout_width="@dimen/vm_dimen_24"
+            android:layout_height="@dimen/vm_dimen_24"
+            android:src="@drawable/ic_gender_man" />
+
+        <TextView
+            style="@style/AppText.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/vm_dimen_4"
+            android:text="@string/filter_gender_man" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/submitTV"
+        style="@style/AppBtn.Confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/vm_dimen_16"
+        android:text="@string/btn_confirm"
+        app:layout_constraintTop_toBottomOf="@+id/filterAllLL" />
+</androidx.constraintlayout.widget.ConstraintLayout>

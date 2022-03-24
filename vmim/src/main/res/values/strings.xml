@@ -1,9 +1,12 @@
 <resources>
     <!--聊天界面-->
-    <string name="im_chat_fast">要注意用词哦</string>
+    <string name="im_chat_fast">实时聊天</string>
     <string name="im_chat_input_hint">请输入消息...</string>
     <string name="im_chat_input_status">对方正在输入...</string>
     <string name="im_chat_send_notnull">消息内容不能为空</string>
+
+    <string name="im_chat_menu_user">个人主页</string>
+    <string name="im_chat_menu_clear">清空消息</string>
 
     <string name="im_chat_picture_limit">双方互相发送消息超过 %1$d 条以上才能解锁图片功能，需要双方都超过 %2$d 条</string>
     <string name="im_chat_call_limit">双方互相发送消息超过 %1$d 条以上才能解锁通话功能，需要双方都超过 %2$d 条</string>
@@ -47,12 +50,13 @@
 
 
     <!--消息操作-->
+    <string name="im_msg_clear">清空消息</string>
     <string name="im_msg_copy">复制</string>
     <string name="im_msg_delete">删除</string>
     <string name="im_msg_forward">转发</string>
     <string name="im_msg_recall">撤回</string>
     <string name="im_msg_copy_success">已复制到剪切板</string>
-    <string name="im_msg_voice_erduo">使用听筒播放</string>
+    <string name="im_msg_voice_earphone">使用听筒播放</string>
     <string name="im_msg_voice_speaker">使用扬声器播放</string>
 
     <string name="im_remove_hint_title">删除会话会清空聊天记录，确定要删除吗？</string>
@@ -107,13 +111,13 @@
     <!--快速聊天-->
     <string name="im_fast_cancel">不用了</string>
     <string name="im_fast_confirm">去看看</string>
-    <string name="im_fast_wait">已申请和对方快速聊天，请耐心等待对方回复🤓</string>
+    <string name="im_fast_wait">已申请和对方快速聊天，请稍等对方回复🤓</string>
     <string name="im_fast_apply">对方申请和你进行快速聊天，要和TA聊聊吗？😎</string>
     <string name="im_fast_agree">对方同意了你的申请，开始愉快的聊天吧😊</string>
     <string name="im_fast_busy">对方正忙，重新匹配一个试试吧😫</string>
-    <string name="im_fast_reject">对方拒绝了你的申请，重新匹配一个试试吧😅</string>
+    <string name="im_fast_reject">对方可能不方便进行快速聊天，重新匹配一个试试吧😅</string>
     <string name="im_fast_exit">退出将结束聊天，确定不再聊会了吗？🤔</string>
-    <string name="im_fast_end">聊天已结束，对对方有好感的话可以去对方主页看看😁</string>
+    <string name="im_fast_end">聊天已结束，要不要去对方个人主页看看呢？🤔</string>
 
     <!--聊天房-->
     <string name="im_room_destroyed">房间已被房主销毁，请退出选择加入其它房间</string>

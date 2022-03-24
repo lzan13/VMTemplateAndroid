@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_card_common_bg"
+    android:padding="@dimen/vm_dimen_16"
+    tools:context=".ui.widget.PostReportDialog">
+
+    <TextView
+        android:id="@+id/shieldTitleTV"
+        style="@style/AppText.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/feedback_type_shield"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.vmloft.develop.library.tools.widget.VMViewGroup
+        android:id="@+id/shieldVG"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingEnd="@dimen/vm_dimen_8"
+        app:layout_constraintTop_toBottomOf="@+id/shieldTitleTV">
+
+        <TextView
+            android:id="@+id/shieldContentTV"
+            style="@style/AppBtn.Feedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/vm_dimen_8"
+            android:layout_marginTop="@dimen/vm_dimen_8"
+            android:text="@string/feedback_type_shield_post" />
+
+        <TextView
+            android:id="@+id/shieldAuthorTV"
+            style="@style/AppBtn.Feedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/vm_dimen_8"
+            android:layout_marginTop="@dimen/vm_dimen_8"
+            android:text="@string/feedback_type_shield_author" />
+
+    </com.vmloft.develop.library.tools.widget.VMViewGroup>
+
+    <TextView
+        android:id="@+id/reportTitleTV"
+        style="@style/AppText.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/vm_dimen_16"
+        android:text="@string/feedback_type_report"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/shieldVG" />
+
+    <com.vmloft.develop.library.tools.widget.VMViewGroup
+        android:id="@+id/reportVG"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingEnd="@dimen/vm_dimen_8"
+        app:layout_constraintTop_toBottomOf="@+id/reportTitleTV">
+
+        <TextView
+            android:id="@+id/reportAdsTV"
+            style="@style/AppBtn.Feedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/vm_dimen_8"
+            android:layout_marginTop="@dimen/vm_dimen_8"
+            android:text="@string/feedback_type_report_ads" />
+
+        <TextView
+            android:id="@+id/reportSensitivityTV"
+            style="@style/AppBtn.Feedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/vm_dimen_8"
+            android:layout_marginTop="@dimen/vm_dimen_8"
+            android:text="@string/feedback_type_report_sensitivity" />
+
+        <TextView
+            android:id="@+id/reportIllegalTV"
+            style="@style/AppBtn.Feedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/vm_dimen_8"
+            android:layout_marginTop="@dimen/vm_dimen_8"
+            android:text="@string/feedback_type_report_illegal" />
+
+        <TextView
+            android:id="@+id/reportPornVulgarTV"
+            style="@style/AppBtn.Feedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/vm_dimen_8"
+            android:layout_marginTop="@dimen/vm_dimen_8"
+            android:text="@string/feedback_type_report_porn_vulgar" />
+
+        <TextView
+            android:id="@+id/reportViolenceTV"
+            style="@style/AppBtn.Feedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/vm_dimen_8"
+            android:layout_marginTop="@dimen/vm_dimen_8"
+            android:text="@string/feedback_type_report_violence" />
+
+        <TextView
+            android:id="@+id/reportGuideTV"
+            style="@style/AppBtn.Feedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/vm_dimen_8"
+            android:layout_marginTop="@dimen/vm_dimen_8"
+            android:text="@string/feedback_type_report_guide" />
+
+        <TextView
+            android:id="@+id/reportUncivilizedTV"
+            style="@style/AppBtn.Feedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/vm_dimen_8"
+            android:layout_marginTop="@dimen/vm_dimen_8"
+            android:text="@string/feedback_type_report_uncivilized" />
+
+        <TextView
+            android:id="@+id/reportFraudTV"
+            style="@style/AppBtn.Feedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/vm_dimen_8"
+            android:layout_marginTop="@dimen/vm_dimen_8"
+            android:text="@string/feedback_type_report_fraud" />
+
+        <TextView
+            android:id="@+id/reportUncomfortableTV"
+            style="@style/AppBtn.Feedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/vm_dimen_8"
+            android:layout_marginTop="@dimen/vm_dimen_8"
+            android:text="@string/feedback_type_report_uncomfortable" />
+
+        <TextView
+            android:id="@+id/reportOtherTV"
+            style="@style/AppBtn.Feedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/vm_dimen_8"
+            android:layout_marginTop="@dimen/vm_dimen_8"
+            android:text="@string/feedback_type_report_other" />
+    </com.vmloft.develop.library.tools.widget.VMViewGroup>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

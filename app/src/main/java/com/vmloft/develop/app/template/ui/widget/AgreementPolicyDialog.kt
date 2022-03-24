@@ -13,8 +13,8 @@ import android.widget.TextView
 
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.router.AppRouter
-import com.vmloft.develop.library.common.router.CRouter
-import com.vmloft.develop.library.common.ui.widget.CommonDialog
+import com.vmloft.develop.library.base.router.CRouter
+import com.vmloft.develop.library.base.widget.CommonDialog
 import com.vmloft.develop.library.tools.utils.VMColor
 import com.vmloft.develop.library.tools.utils.VMStr
 
@@ -33,11 +33,9 @@ class AgreementPolicyDialog(context: Context) : CommonDialog(context) {
         val privatePolicy = VMStr.byRes(R.string.private_policy)
         //创建一个 SpannableString对象
         val sp = SpannableString(agreementContent)
-        var start = 0
-        var end = 0
+        var start = agreementContent.indexOf(userAgreement)
+        var end = start + userAgreement.length
 
-        start = agreementContent.indexOf(userAgreement)
-        end = start + userAgreement.length
         //设置超链接
         sp.setSpan(CustomURLSpan("agreement"), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         //设置高亮样式

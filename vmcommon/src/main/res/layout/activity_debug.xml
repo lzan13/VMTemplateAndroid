@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/app_bg"
     android:orientation="vertical"
-    tools:context="com.vmloft.develop.library.common.ui.debug.DebugActivity">
+    tools:context="com.vmloft.develop.library.common.debug.DebugActivity">
 
     <include layout="@layout/widget_common_top_bar" />
 

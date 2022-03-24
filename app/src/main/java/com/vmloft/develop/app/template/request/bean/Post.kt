@@ -3,8 +3,10 @@ package com.vmloft.develop.app.template.request.bean
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
+
+import kotlinx.parcelize.Parcelize
 
 /**
  * Create by lzan13 on 2020/7/30 16:08
@@ -26,8 +28,15 @@ data class Post(
     var likeCount: Int = 0, // 喜欢人数
     var createdAt: String = "",
     var updatedAt: String = "",
+
     var isLike: Boolean = false, // 记录是否喜欢
 
     var isShielded: Boolean = false, // 记录是否被屏蔽，这个目前在本地使用
 ) : Parcelable {
+    override fun equals(other: Any?): Boolean {
+        (other as? Post)?.let {
+            return it.id == this.id
+        }
+        return false
+    }
 }

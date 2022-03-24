@@ -8,8 +8,8 @@ import com.vmloft.develop.app.template.request.bean.User
 import com.vmloft.develop.app.template.request.repository.InfoRepository
 import com.vmloft.develop.app.template.request.repository.RoomRepository
 import com.vmloft.develop.app.template.router.AppRouter
-import com.vmloft.develop.library.common.request.RResult
-import com.vmloft.develop.library.common.router.CRouter
+import com.vmloft.develop.library.base.router.CRouter
+import com.vmloft.develop.library.request.RResult
 import com.vmloft.develop.library.im.IIMListener
 import com.vmloft.develop.library.im.bean.IMRoom
 import com.vmloft.develop.library.im.bean.IMUser
@@ -31,25 +31,25 @@ class IMListener : IIMListener {
         var user = SignManager.getCurrUser()
         user?.let {
             if (it.id == id) {
-                return IMUser(id, it.username, it.nickname, it.avatar, it.gender)
+                return IMUser(id, it.username, it.nickname, it.avatar, it.gender, it.role.identity)
             }
         }
         user = CacheManager.getUser(id)
         user?.let {
-            return IMUser(id, it.username, it.nickname, it.avatar, it.gender)
+            return IMUser(id, it.username, it.nickname, it.avatar, it.gender, it.role.identity)
         }
         return null
     }
 
     /**
-     * 同步获取联系人信息
+     * 异步获取联系人信息
      *
      * @param id 联系人 id
      */
     override fun getUser(id: String, callback: (IMUser) -> Unit) {
         var user = CacheManager.getUser(id)
         user?.let {
-            return callback.invoke(IMUser(id, it.username, it.nickname, it.avatar, it.gender))
+            return callback.invoke(IMUser(id, it.username, it.nickname, it.avatar, it.gender, it.role.identity))
         }
         // 这里使用协程获取用户信息
         val scope = CoroutineScope(Job() + Dispatchers.Main)
@@ -59,7 +59,7 @@ class IMListener : IIMListener {
                 val user = result.data!!
                 // 将用户信息加入到缓存
                 CacheManager.putUser(user)
-                callback.invoke(IMUser(id, user.username, user.nickname, user.avatar, user.gender))
+                callback.invoke(IMUser(id, user.username, user.nickname, user.avatar, user.gender, user.role.identity))
             } else if (result is RResult.Error) {
                 callback.invoke(IMUser(id))
             }
@@ -87,7 +87,7 @@ class IMListener : IIMListener {
     override fun getRoom(id: String): IMRoom {
         val room = CacheManager.getRoom(id)
         room?.let {
-            val owner = IMUser(room.owner.id, room.owner.username, room.owner.nickname, room.owner.avatar, room.owner.gender)
+            val owner = IMUser(room.owner.id, room.owner.username, room.owner.nickname, room.owner.avatar, room.owner.gender, room.owner.role.identity)
             return IMRoom(id, owner, room.title, room.desc, room.count)
         }
         return IMRoom(id, IMUser(""))
@@ -144,8 +144,7 @@ class IMListener : IIMListener {
      */
     override fun onHeadClick(id: String) {
         val user = CacheManager.getUser(id) ?: User(id)
-//        AppRouter.goUserInfo(user)
-        CRouter.go(AppRouter.appUserInfo, obj0 =  user)
+        CRouter.go(AppRouter.appUserInfo, obj0 = user)
     }
 
     override fun getMsgType(msg: EMMessage): Int {

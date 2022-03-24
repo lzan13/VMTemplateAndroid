@@ -1,8 +1,8 @@
 package com.vmloft.develop.app.template.request.repository
 
 import com.vmloft.develop.app.template.request.api.APIRequest
-import com.vmloft.develop.library.common.request.BaseRepository
-import com.vmloft.develop.library.common.request.RResult
+import com.vmloft.develop.library.request.BaseRepository
+import com.vmloft.develop.library.request.RResult
 import com.vmloft.develop.app.template.request.bean.User
 
 

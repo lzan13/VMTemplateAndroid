@@ -6,8 +6,8 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 
-import com.vmloft.develop.library.common.base.BActivity
-import com.vmloft.develop.library.common.ui.widget.CommonDialog
+import com.vmloft.develop.library.base.BActivity
+import com.vmloft.develop.library.base.widget.CommonDialog
 import com.vmloft.develop.library.im.IM
 import com.vmloft.develop.library.im.R
 import com.vmloft.develop.library.im.bean.IMRoom
@@ -22,7 +22,7 @@ import com.vmloft.develop.library.tools.utils.VMSystem
  * 聊天房间界面
  */
 @Route(path = IMRouter.imChatRoom)
-class IMChatRoomActivity : BActivity<ImActivityChatRoomBinding>() {
+class IMChatRoomActivity: BActivity<ImActivityChatRoomBinding>() {
 
     @Autowired
     lateinit var chatId: String

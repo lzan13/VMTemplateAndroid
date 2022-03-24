@@ -13,11 +13,11 @@ import com.vmloft.develop.app.template.databinding.ActivityPostCommentBinding
 import com.vmloft.develop.app.template.request.bean.Comment
 import com.vmloft.develop.app.template.request.viewmodel.PostViewModel
 import com.vmloft.develop.app.template.router.AppRouter
-import com.vmloft.develop.library.common.base.BVMActivity
-import com.vmloft.develop.library.common.base.BViewModel
-import com.vmloft.develop.library.common.event.LDEventBus
-import com.vmloft.develop.library.common.router.CRouter
-import com.vmloft.develop.library.common.utils.errorBar
+import com.vmloft.develop.library.base.BVMActivity
+import com.vmloft.develop.library.base.BViewModel
+import com.vmloft.develop.library.base.event.LDEventBus
+import com.vmloft.develop.library.base.router.CRouter
+import com.vmloft.develop.library.base.utils.errorBar
 import com.vmloft.develop.library.tools.utils.VMReg
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -80,7 +80,7 @@ class PostCommentActivity : BVMActivity<ActivityPostCommentBinding, PostViewMode
 
     override fun onModelRefresh(model: BViewModel.UIModel) {
         if (model.type == "createComment") {
-            LDEventBus.post(Constants.createCommentEvent, model.data as Comment)
+            LDEventBus.post(Constants.Event.createComment, model.data as Comment)
             finish()
         }
     }

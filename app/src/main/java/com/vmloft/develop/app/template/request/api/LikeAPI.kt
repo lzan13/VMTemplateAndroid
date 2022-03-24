@@ -2,8 +2,8 @@ package com.vmloft.develop.app.template.request.api
 
 import com.vmloft.develop.app.template.request.bean.Post
 import com.vmloft.develop.app.template.request.bean.User
-import com.vmloft.develop.library.common.request.RPaging
-import com.vmloft.develop.library.common.request.RResponse
+import com.vmloft.develop.library.request.RPaging
+import com.vmloft.develop.library.request.RResponse
 
 import retrofit2.http.*
 

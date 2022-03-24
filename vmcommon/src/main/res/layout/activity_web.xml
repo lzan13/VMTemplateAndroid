@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_bg"
-    tools:context="com.vmloft.develop.library.common.ui.web.WebActivity"
+    tools:context="com.vmloft.develop.library.common.web.WebActivity"
     >
 
     <include layout="@layout/widget_common_top_bar" />

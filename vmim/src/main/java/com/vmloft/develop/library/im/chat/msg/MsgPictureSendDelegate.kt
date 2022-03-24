@@ -8,11 +8,11 @@ import android.widget.ImageView
 
 import com.hyphenate.chat.EMImageMessageBody
 import com.hyphenate.chat.EMMessage
+import com.vmloft.develop.library.base.BItemDelegate
+import com.vmloft.develop.library.base.utils.CUtils
+import com.vmloft.develop.library.base.utils.FormatUtils
 
-import com.vmloft.develop.library.common.base.BItemDelegate
-import com.vmloft.develop.library.common.image.IMGLoader
-import com.vmloft.develop.library.common.utils.CUtils
-import com.vmloft.develop.library.common.utils.FormatUtils
+import com.vmloft.develop.library.image.IMGLoader
 import com.vmloft.develop.library.im.IM
 import com.vmloft.develop.library.im.R
 import com.vmloft.develop.library.im.chat.IMChatManager

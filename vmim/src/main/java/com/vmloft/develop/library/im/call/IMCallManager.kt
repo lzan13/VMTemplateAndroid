@@ -6,7 +6,7 @@ import android.media.AudioManager
 import android.media.SoundPool
 import com.hyphenate.chat.EMMessage
 
-import com.vmloft.develop.library.common.event.LDEventBus
+import com.vmloft.develop.library.base.event.LDEventBus
 import com.vmloft.develop.library.im.IM
 import com.vmloft.develop.library.im.R
 import com.vmloft.develop.library.im.chat.IMChatManager

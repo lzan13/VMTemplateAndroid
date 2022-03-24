@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/selector_border_common_bg"
+    android:padding="@dimen/vm_dimen_8"
+    tools:context=".ui.trade.ItemVirtualCommodityDelegate">
+
+    <ImageView
+        android:id="@+id/iconIV"
+        android:layout_width="@dimen/vm_dimen_16"
+        android:layout_height="@dimen/vm_dimen_16"
+        android:src="@drawable/ic_gold"
+        app:layout_constraintBottom_toTopOf="@+id/priceTV"
+        app:layout_constraintEnd_toStartOf="@+id/scoreTV"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/scoreTV"
+        style="@style/AppText.Body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/vm_dimen_2"
+        android:text="800"
+        android:textColor="@color/app_title"
+        app:layout_constraintBottom_toBottomOf="@+id/iconIV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iconIV"
+        app:layout_constraintTop_toTopOf="@+id/iconIV" />
+
+    <!--原价-->
+    <TextView
+        android:id="@+id/priceTV"
+        style="@style/AppText.Tips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/vm_dimen_4"
+        app:layout_constraintBottom_toTopOf="@+id/currPriceTV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iconIV"
+        tools:text="8元" />
+
+    <TextView
+        android:id="@+id/currPriceTV"
+        style="@style/AppText.Body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/app_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/priceTV"
+        tools:text="8元" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

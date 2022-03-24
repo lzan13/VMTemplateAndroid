@@ -15,11 +15,11 @@ ext {
             // Bugly AppId
             buglyAppId       : "Bugly appId",
 
-            // 环信 Appkey 替换成自己的 appKey
-            easemobAppKey    : "appKey",
-
-            // alipay AppId
-            alipayAppId      : "\"支付宝  appId\"",
+            // 环信相关配置
+            emAppKey         : "appKey", // AppKey
+            emMQTTAppId      : "\"appId\"",  // MQTT AppId
+            emMQTTHost       : "\"mqtt host\"", // MQTT 链接地址
+            emMQTTPort       : "\"mqtt port\"", // MQTT 链接端口 1883(mqtt),1884(mqtts),80(ws),443(wss)
 
             // 声网 AppId 这里需要写入 BuildConfig 只会写入双引号内部字段，所以需要多包一层""
             agoraAppId       : "\"Agora appId\"",

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.vmloft.develop.library.image">
+
+    <application>
+        <!--展示单图页面-->
+        <activity
+            android:name="com.vmloft.develop.library.image.display.DisplaySingleActivity"
+            android:screenOrientation="fullSensor"
+            android:theme="@style/AppTheme.Display" />
+        <!--展示多图页面-->
+        <activity
+            android:name="com.vmloft.develop.library.image.display.DisplayMultiActivity"
+            android:screenOrientation="fullSensor"
+            android:theme="@style/AppTheme.Display" />
+    </application>
+</manifest>

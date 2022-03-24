@@ -9,6 +9,7 @@ buildscript {
         maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
         maven { url 'https://maven.aliyun.com/repository/public' }
         maven { url 'https://jitpack.io' }
+        maven { url "https://repo.eclipse.org/content/repositories/paho-snapshots/" }
         google()
         mavenCentral()
     }
@@ -24,6 +25,7 @@ allprojects {
         maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
         maven { url 'https://maven.aliyun.com/repository/public' }
         maven { url 'https://jitpack.io' }
+        maven { url "https://repo.eclipse.org/content/repositories/paho-snapshots/" }
         google()
         mavenCentral()
     }

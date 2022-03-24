@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="VMTheme">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/app_primary</item>
+        <item name="colorPrimaryDark">@color/app_primary_dark</item>
+        <item name="colorAccent">@color/app_accent</item>
+
+        <!--设置键盘状态-->
+        <item name="android:windowSoftInputMode">adjustNothing|stateAlwaysHidden</item>
+
+        <!--半透明状态栏-->
+        <item name="android:windowTranslucentStatus">true</item>
+
+        <!-- 设置允许修改系统栏的背景色 比如导航栏 状态栏等-->
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <!--设置状态栏颜色-->
+        <item name="android:statusBarColor">@color/app_primary</item>
+        <!--设置界面切换动画-->
+        <item name="android:windowAnimationStyle">@style/animActivityFade</item>
+    </style>
+
+    <!--透明主题-->
+    <style name="AppTheme.Transparent">
+        <!--设置背景-->
+        <item name="android:windowBackground">@color/vm_transparent</item>
+        <!--Dialog的windowFrame框为无-->
+        <item name="android:windowFrame">@null</item>
+        <!--是否浮现在activity之上，false 的话会被软键盘覆盖-->
+        <item name="android:windowIsFloating">false</item>
+        <!--是否半透明，为false时背景为黑色不透明-->
+        <item name="android:windowIsTranslucent">true</item>
+        <!--背景是否模糊显示，为false时效果为全透明-->
+        <item name="android:backgroundDimEnabled">false</item>
+        <!--是否有覆盖-->
+        <item name="android:windowContentOverlay">@null</item>
+        <!--Activity的动画效果-->
+        <!--        <item name="android:windowAnimationStyle">@style/animActivityTransparent</item>-->
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <!--点击空白处时是否销毁Activity-->
+        <item name="android:windowCloseOnTouchOutside">true</item>
+    </style>
+
+    <!--授权弹窗主题-->
+    <style name="AppTheme.Permission">
+        <!--设置背景-->
+        <item name="android:windowBackground">@color/vm_transparent</item>
+        <!--Dialog的windowFrame框为无-->
+        <item name="android:windowFrame">@null</item>
+        <!--是否浮现在activity之上，false的话会被软键盘覆盖-->
+        <item name="android:windowIsFloating">true</item>
+        <!--是否半透明，为false时背景为黑色不透明-->
+        <item name="android:windowIsTranslucent">false</item>
+        <!--背景是否模糊显示，为false时效果为全透明-->
+        <item name="android:backgroundDimEnabled">false</item>
+        <!--是否有覆盖-->
+        <item name="android:windowContentOverlay">@null</item>
+        <!--Activity的动画效果-->
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <!--        <item name="android:windowAnimationStyle">@style/animActivityTransparent</item>-->
+        <!--点击空白处时是否销毁Activity-->
+        <item name="android:windowCloseOnTouchOutside">true</item>
+    </style>
+
+    <!--侧滑动画-->
+    <style name="animActivitySlide" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/activity_slide_open_enter</item>
+        <item name="android:activityOpenExitAnimation">@anim/activity_slide_open_exit</item>
+        <item name="android:activityCloseEnterAnimation">@anim/activity_slide_close_enter</item>
+        <item name="android:activityCloseExitAnimation">@anim/activity_slide_close_exit</item>
+
+        <item name="android:taskOpenEnterAnimation">@anim/activity_slide_open_enter</item>
+        <item name="android:taskOpenExitAnimation">@anim/activity_slide_open_exit</item>
+        <item name="android:taskCloseEnterAnimation">@anim/activity_slide_close_enter</item>
+        <item name="android:taskCloseExitAnimation">@anim/activity_slide_close_exit</item>
+    </style>
+    <!--渐变动画-->
+    <style name="animActivityFade" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/activity_fade_open_enter</item>
+        <item name="android:activityOpenExitAnimation">@anim/activity_fade_open_exit</item>
+        <item name="android:activityCloseEnterAnimation">@anim/activity_fade_close_enter</item>
+        <item name="android:activityCloseExitAnimation">@anim/activity_fade_close_exit</item>
+
+        <item name="android:taskOpenEnterAnimation">@anim/activity_fade_open_enter</item>
+        <item name="android:taskOpenExitAnimation">@anim/activity_fade_open_exit</item>
+        <item name="android:taskCloseEnterAnimation">@anim/activity_fade_close_enter</item>
+        <item name="android:taskCloseExitAnimation">@anim/activity_fade_close_exit</item>
+    </style>
+    <!--透明主题所用动画-->
+    <style name="animActivityTransparent" parent="@android:style/Animation.Activity">
+        <item name="android:windowEnterAnimation">@anim/activity_fade_open_enter</item>
+        <item name="android:windowExitAnimation">@anim/activity_fade_close_exit</item>
+
+        <item name="android:activityOpenEnterAnimation">@anim/activity_fade_open_enter</item>
+        <item name="android:activityOpenExitAnimation">@anim/activity_fade_open_exit</item>
+        <item name="android:activityCloseEnterAnimation">@anim/activity_fade_close_enter</item>
+        <item name="android:activityCloseExitAnimation">@anim/activity_fade_close_exit</item>
+
+        <item name="android:taskOpenEnterAnimation">@anim/activity_fade_open_enter</item>
+        <item name="android:taskOpenExitAnimation">@anim/activity_fade_open_exit</item>
+        <item name="android:taskCloseEnterAnimation">@anim/activity_fade_close_enter</item>
+        <item name="android:taskCloseExitAnimation">@anim/activity_fade_close_exit</item>
+    </style>
+</resources>

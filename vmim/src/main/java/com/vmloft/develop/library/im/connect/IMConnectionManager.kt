@@ -3,7 +3,7 @@ package com.vmloft.develop.library.im.connect
 import com.hyphenate.EMConnectionListener
 import com.hyphenate.EMError
 import com.hyphenate.chat.EMClient
-import com.vmloft.develop.library.common.event.LDEventBus
+import com.vmloft.develop.library.base.event.LDEventBus
 
 import com.vmloft.develop.library.im.IM
 import com.vmloft.develop.library.im.common.IMConstants

@@ -69,6 +69,20 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:text="20:32" />
 
+    <!--魔音-->
+    <ImageView
+        android:id="@+id/imCallMicMagicBtn"
+        android:layout_width="@dimen/vm_dimen_56"
+        android:layout_height="@dimen/vm_dimen_56"
+        android:layout_margin="@dimen/vm_dimen_16"
+        android:background="@drawable/im_selector_call_icon_bg"
+        android:padding="@dimen/vm_dimen_16"
+        android:src="@drawable/ic_mic_magic"
+        app:layout_constraintBottom_toTopOf="@+id/imCallMicBtn"
+        app:layout_constraintEnd_toEndOf="@+id/imCallMicBtn"
+        app:layout_constraintStart_toStartOf="@+id/imCallMicBtn"
+        app:tint="@color/app_icon_light" />
+
     <!--麦克风-->
     <ImageView
         android:id="@+id/imCallMicBtn"
@@ -83,18 +97,18 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
-        android:id="@+id/imCallVoiceEffectLL"
+        android:id="@+id/imCallMagicVoiceLL"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/imCallMicBtn"
-        app:layout_constraintEnd_toEndOf="@+id/imCallMicBtn"
-        app:layout_constraintStart_toStartOf="@+id/imCallMicBtn"
+        app:layout_constraintBottom_toTopOf="@+id/imCallMicMagicBtn"
+        app:layout_constraintEnd_toEndOf="@+id/imCallMicMagicBtn"
+        app:layout_constraintStart_toStartOf="@+id/imCallMicMagicBtn"
         tools:visibility="visible">
 
         <ImageView
-            android:id="@+id/imCallVoiceEffectIV0"
+            android:id="@+id/imCallMagicVoiceIV0"
             android:layout_width="@dimen/vm_dimen_48"
             android:layout_height="@dimen/vm_dimen_48"
             android:layout_margin="@dimen/vm_dimen_4"
@@ -103,16 +117,17 @@
             android:src="@drawable/im_ic_avatar_oldman" />
 
         <ImageView
-            android:id="@+id/imCallVoiceEffectIV1"
+            android:id="@+id/imCallMagicVoiceIV1"
             android:layout_width="@dimen/vm_dimen_48"
             android:layout_height="@dimen/vm_dimen_48"
             android:layout_margin="@dimen/vm_dimen_4"
             android:background="@drawable/im_selector_call_icon_effect_bg"
             android:padding="@dimen/vm_dimen_8"
-            android:src="@drawable/im_ic_avatar_midlife" />
+            android:src="@drawable/im_ic_avatar_midlife"
+            android:visibility="gone" />
 
         <ImageView
-            android:id="@+id/imCallVoiceEffectIV2"
+            android:id="@+id/imCallMagicVoiceIV2"
             android:layout_width="@dimen/vm_dimen_48"
             android:layout_height="@dimen/vm_dimen_48"
             android:layout_margin="@dimen/vm_dimen_4"
@@ -121,7 +136,7 @@
             android:src="@drawable/im_ic_avatar_boy" />
 
         <ImageView
-            android:id="@+id/imCallVoiceEffectIV3"
+            android:id="@+id/imCallMagicVoiceIV3"
             android:layout_width="@dimen/vm_dimen_48"
             android:layout_height="@dimen/vm_dimen_48"
             android:layout_margin="@dimen/vm_dimen_4"
@@ -130,13 +145,14 @@
             android:src="@drawable/im_ic_avatar_girl" />
 
         <ImageView
-            android:id="@+id/imCallVoiceEffectIV4"
+            android:id="@+id/imCallMagicVoiceIV4"
             android:layout_width="@dimen/vm_dimen_48"
             android:layout_height="@dimen/vm_dimen_48"
             android:layout_margin="@dimen/vm_dimen_4"
             android:background="@drawable/im_selector_call_icon_effect_bg"
             android:padding="@dimen/vm_dimen_8"
-            android:src="@drawable/im_ic_avatar_loli" />
+            android:src="@drawable/im_ic_avatar_loli"
+            android:visibility="gone" />
     </LinearLayout>
     <!--接听-->
     <ImageView
@@ -151,6 +167,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/imCallEndBtn"
         app:layout_constraintStart_toEndOf="@+id/imCallMicBtn"
+        app:tint="@color/app_icon_light"
         tools:visibility="visible" />
 
     <!--挂断-->
@@ -164,7 +181,8 @@
         android:src="@drawable/ic_call_end"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/imCallSpeakerBtn"
-        app:layout_constraintStart_toEndOf="@+id/imCallAnswerBtn" />
+        app:layout_constraintStart_toEndOf="@+id/imCallAnswerBtn"
+        app:tint="@color/app_icon_light" />
 
     <!--扬声器-->
     <ImageView

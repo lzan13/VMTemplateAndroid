@@ -8,22 +8,22 @@ import com.alibaba.android.arouter.facade.annotation.Route
 
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.common.Constants
-import com.vmloft.develop.library.common.common.PermissionManager
 import com.vmloft.develop.app.template.common.SignManager
 import com.vmloft.develop.app.template.databinding.ActivityPersonalInfoBinding
-import com.vmloft.develop.library.common.event.LDEventBus
-import com.vmloft.develop.library.common.request.RPaging
+import com.vmloft.develop.library.request.RPaging
 import com.vmloft.develop.app.template.request.bean.Profession
 import com.vmloft.develop.app.template.request.bean.User
 import com.vmloft.develop.app.template.request.viewmodel.UserViewModel
 import com.vmloft.develop.app.template.router.AppRouter
-import com.vmloft.develop.library.common.base.BVMActivity
-import com.vmloft.develop.library.common.base.BViewModel
-import com.vmloft.develop.library.common.image.IMGChoose
-import com.vmloft.develop.library.common.image.IMGLoader
-import com.vmloft.develop.library.common.router.CRouter
-import com.vmloft.develop.library.common.utils.showBar
-import com.vmloft.develop.library.common.ui.widget.CommonDialog
+import com.vmloft.develop.library.base.BVMActivity
+import com.vmloft.develop.library.base.BViewModel
+import com.vmloft.develop.library.base.common.PermissionManager
+import com.vmloft.develop.library.base.event.LDEventBus
+import com.vmloft.develop.library.base.router.CRouter
+import com.vmloft.develop.library.base.utils.showBar
+import com.vmloft.develop.library.image.IMGChoose
+import com.vmloft.develop.library.image.IMGLoader
+import com.vmloft.develop.library.base.widget.CommonDialog
 import com.vmloft.develop.library.tools.utils.VMColor
 import com.vmloft.develop.library.tools.utils.VMDimen
 import com.vmloft.develop.library.tools.utils.VMStr
@@ -63,6 +63,12 @@ class PersonalInfoActivity : BVMActivity<ActivityPersonalInfoBinding, UserViewMo
         mAvatarIV.layoutParams = LinearLayout.LayoutParams(avatarSize, avatarSize)
         mBinding.infoAvatarLV.setRightView(mAvatarIV)
 
+        val qrIV = IMGLoader.createView(this)
+        val qrSize = VMDimen.dp2px(16)
+        qrIV.layoutParams = LinearLayout.LayoutParams(qrSize, qrSize)
+        qrIV.setImageResource(R.drawable.ic_qrcode)
+        mBinding.infoQRCodeLV.setRightView(qrIV)
+
         mBinding.infoCoverLV.setOnClickListener { chooseCover() }
         mBinding.infoAvatarLV.setOnClickListener { chooseAvatar() }
         mBinding.infoUsernameLV.setOnClickListener {
@@ -72,13 +78,21 @@ class PersonalInfoActivity : BVMActivity<ActivityPersonalInfoBinding, UserViewMo
                 showBar(R.string.info_perfect_username_hint)
             }
         }
+        mBinding.infoQRCodeLV.setOnClickListener {
+            if (mUser.username.isNullOrEmpty()) {
+                showBar(R.string.info_qr_username_hint)
+            } else {
+                CRouter.go(AppRouter.appMineQRCode)
+            }
+        }
         mBinding.infoNicknameLV.setOnClickListener { CRouter.go(AppRouter.appEditNickname, str0 = mUser.nickname) }
         mBinding.infoSignatureLV.setOnClickListener { CRouter.go(AppRouter.appEditSignature, str0 = mUser.signature) }
         mBinding.infoPhoneLV.setOnClickListener { }
         mBinding.infoEmailLV.setOnClickListener { CRouter.go(AppRouter.appBindEmail) }
         mBinding.infoAuthStatusLV.setOnClickListener { checkPersonalAuth() }
 
-        LDEventBus.observe(this, Constants.userInfoEvent, User::class.java, { user ->
+        // 监听用户信息变化
+        LDEventBus.observe(this, Constants.Event.userInfo, User::class.java, { user ->
             mUser = user
             bindInfo()
         })
@@ -91,7 +105,7 @@ class PersonalInfoActivity : BVMActivity<ActivityPersonalInfoBinding, UserViewMo
         bindPicker()
 
         mViewModel.userInfo()
-        mViewModel.loadProfessionList()
+        mViewModel.professionList()
     }
 
     override fun onModelRefresh(model: BViewModel.UIModel) {

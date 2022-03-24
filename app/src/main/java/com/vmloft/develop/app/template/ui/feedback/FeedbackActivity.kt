@@ -6,6 +6,7 @@ import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Autowired
 
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.databinding.ActivityFeedbackBinding
@@ -13,18 +14,17 @@ import com.vmloft.develop.app.template.request.bean.Attachment
 import com.vmloft.develop.app.template.request.bean.Post
 import com.vmloft.develop.app.template.request.viewmodel.FeedbackViewModel
 import com.vmloft.develop.app.template.router.AppRouter
-import com.vmloft.develop.library.common.base.BVMActivity
-import com.vmloft.develop.library.common.base.BViewModel
-import com.vmloft.develop.library.common.common.CConstants
-import com.vmloft.develop.library.common.image.IMGChoose
-import com.vmloft.develop.library.common.image.IMGLoader
-import com.vmloft.develop.library.common.router.CRouter
-import com.vmloft.develop.library.common.utils.errorBar
-import com.vmloft.develop.library.common.utils.showBar
+import com.vmloft.develop.library.base.BVMActivity
+import com.vmloft.develop.library.base.BViewModel
+import com.vmloft.develop.library.base.common.CConstants
+import com.vmloft.develop.library.base.router.CRouter
+import com.vmloft.develop.library.base.utils.errorBar
+import com.vmloft.develop.library.base.utils.showBar
+import com.vmloft.develop.library.image.IMGChoose
+import com.vmloft.develop.library.image.IMGLoader
 import com.vmloft.develop.library.tools.utils.VMReg
 import com.vmloft.develop.library.tools.utils.VMStr
 import com.vmloft.develop.library.tools.utils.VMSystem
-
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 /**
@@ -34,6 +34,8 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 @Route(path = AppRouter.appFeedback)
 class FeedbackActivity : BVMActivity<ActivityFeedbackBinding, FeedbackViewModel>() {
 
+
+    // 反馈类型 0-意见建议 1-广告 2-政治敏感 3-色情低俗 4-血腥暴力 5-不文明 6-涉嫌诈骗 7-其他
     @Autowired(name = CRouter.paramsWhat)
     @JvmField
     var type: Int = 0
@@ -43,10 +45,10 @@ class FeedbackActivity : BVMActivity<ActivityFeedbackBinding, FeedbackViewModel>
     var post: Post? = null
 
     // 内容
-    private lateinit var mContent: String
+    private var mContent: String = ""
 
     // 联系方式
-    private lateinit var mContact: String
+    private var mContact: String = ""
 
     // 截图
     private var picture: Any? = null
@@ -100,7 +102,7 @@ class FeedbackActivity : BVMActivity<ActivityFeedbackBinding, FeedbackViewModel>
     }
 
     override fun initData() {
-
+        ARouter.getInstance().inject(this)
     }
 
     override fun onModelRefresh(model: BViewModel.UIModel) {

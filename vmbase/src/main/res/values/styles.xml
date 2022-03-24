@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--文本样式 start-->
+    <!--标题样式-欢迎标题-->
+    <style name="AppText.Headline" parent="@style/VMText.Headline">
+        <item name="android:textColor">@color/app_title</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <!--标题样式-页面标题-->
+    <style name="AppText.Title" parent="@style/VMText.Title">
+        <item name="android:textColor">@color/app_title</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/vm_size_16</item>
+    </style>
+
+    <!--标题样式-副标题-->
+    <style name="AppText.Subtitle" parent="@style/VMText.Subhead">
+        <item name="android:textColor">@color/app_subtitle</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <!--标题样式-列表名字-->
+    <style name="AppText.ItemName" parent="@style/AppText.Title">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/vm_size_14</item>
+    </style>
+
+    <!--内容样式-->
+    <style name="AppText.Body" parent="@style/VMText.Body1">
+        <item name="android:textColor">@color/app_body</item>
+    </style>
+    <!--内容样式-->
+    <style name="AppText.Content" parent="@style/VMText.Subhead">
+        <item name="android:textColor">@color/app_subtitle</item>
+    </style>
+    <!--描述样式-->
+    <style name="AppText.Desc" parent="@style/VMText.Body1">
+        <item name="android:textColor">@color/app_desc</item>
+    </style>
+
+    <!--更多样式-->
+    <style name="AppText.More" parent="@style/VMText.Caption">
+        <item name="android:textColor">@color/app_more</item>
+        <item name="android:textSize">@dimen/vm_size_12</item>
+    </style>
+
+    <!--Tips样式-->
+    <style name="AppText.Tips" parent="@style/VMText.Caption">
+        <item name="android:textSize">@dimen/vm_size_10</item>
+        <item name="android:textColor">@color/app_tips</item>
+    </style>
+
+    <!--底部导航样式-->
+    <style name="AppText.BNV.Active" parent="@style/VMText.Caption">
+        <item name="android:textSize">@dimen/vm_size_10</item>
+    </style>
+
+    <style name="AppText.BNV.Inactive" parent="@style/VMText.Caption">
+        <item name="android:textSize">@dimen/vm_size_10</item>
+    </style>
+
+    <style name="AppText.TopBarEndBtn" parent="@style/VMText.Body1">
+        <item name="android:textSize">@dimen/vm_size_14</item>
+        <item name="android:textColor">@color/selector_text_accent</item>
+    </style>
+    <!--文本样式 end-->
+
+    <!--输入框样式 start-->
+    <style name="AppEdit.Single" parent="@style/VMEdit">
+        <item name="android:background">@drawable/shape_input_bg</item>
+        <item name="android:textColor">@color/app_input</item>
+        <item name="android:textColorHint">@color/app_input_hint</item>
+        <item name="android:paddingTop">@dimen/vm_dimen_10</item>
+        <item name="android:paddingBottom">@dimen/vm_dimen_10</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="AppEdit.Single.Border">
+        <item name="android:background">@drawable/shape_input_border_bg</item>
+    </style>
+
+    <style name="AppEdit.MultiLine" parent="@style/VMEdit.MultiLine">
+        <item name="android:background">@drawable/shape_input_bg</item>
+        <item name="android:textColor">@color/app_input</item>
+        <item name="android:textColorHint">@color/app_input_hint</item>
+        <item name="android:paddingTop">@dimen/vm_dimen_10</item>
+        <item name="android:paddingBottom">@dimen/vm_dimen_10</item>
+        <item name="android:lines">3</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="AppEdit.MultiLine.Border">
+        <item name="android:background">@drawable/shape_input_border_bg</item>
+    </style>
+    <!--输入框样式 end-->
+
+    <!--按钮样式 start-->
+    <style name="AppBtn" parent="@style/VMBtn.Flat.Fillet" />
+
+    <style name="AppBtn.Confirm" parent="@style/VMBtn.Flat.Fillet.Accent" />
+
+    <style name="AppBtn.Cancel" parent="@style/VMBtn.Flat.Fillet.Border.Accent" />
+
+    <style name="AppBtn.Sign" parent="@style/VMBtn.Flat.Fillet.Accent">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/vm_dimen_48</item>
+        <item name="android:layout_marginStart">@dimen/vm_dimen_48</item>
+        <item name="android:layout_marginEnd">@dimen/vm_dimen_48</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="AppBtn.Sign.Border" parent="@style/VMBtn.Flat.Fillet.Border.Accent">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/vm_dimen_48</item>
+        <item name="android:layout_marginStart">@dimen/vm_dimen_48</item>
+        <item name="android:layout_marginEnd">@dimen/vm_dimen_48</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+    <!--按钮样式 end-->
+
+    <!--VMLineView 标题文字样式 Title-->
+    <style name="AppText.LVTitle" parent="VMText.Title">
+        <item name="android:textSize">@dimen/vm_size_14</item>
+    </style>
+
+    <!--自定义控件 VMLineView 样式-->
+    <style name="AppLVStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/app_bg_item</item>
+
+        <!--图标大小-->
+        <item name="vm_line_icon_size">@dimen/vm_dimen_24</item>
+        <!--标题-->
+        <item name="vm_line_title_color">@color/app_title</item>
+        <item name="vm_line_title_style">@style/AppText.LVTitle</item>
+        <item name="vm_line_title_space">@dimen/vm_dimen_16</item>
+
+        <!--右侧描述-->
+        <item name="vm_line_caption_color">@color/app_caption</item>
+        <item name="vm_line_caption_style">@style/AppText.More</item>
+        <item name="vm_line_caption_space">@dimen/vm_dimen_8</item>
+
+        <!--右侧图标-->
+        <item name="vm_line_right_icon">@drawable/ic_arrow_next</item>
+        <item name="vm_line_right_icon_size">@dimen/vm_dimen_16</item>
+
+        <!--底部描述-->
+        <item name="vm_line_description_color">@color/app_desc</item>
+        <item name="vm_line_description_style">@style/AppText.Desc</item>
+
+        <!--分割线-->
+        <item name="vm_line_decoration">center</item>
+        <item name="vm_line_decoration_color">@color/app_decoration</item>
+        <item name="vm_line_decoration_height">@dimen/vm_dimen_0_5</item>
+        <item name="vm_line_decoration_start">@dimen/vm_dimen_16</item>
+        <item name="vm_line_decoration_end">@dimen/vm_dimen_16</item>
+    </style>
+
+    <style name="AppLVStyle.NoDecoration">
+        <item name="vm_line_decoration">hide</item>
+    </style>
+    <!--开关样式-->
+    <style name="AppLVStyle.Switch">
+        <!--右侧图标-->
+        <item name="vm_line_right_icon">@drawable/ic_switch_selector</item>
+        <item name="vm_line_right_icon_size">@dimen/vm_dimen_32</item>
+    </style>
+
+    <style name="AppSpinner">
+        <!--设置弹窗背景为 系统设置的 应用主色调 在application 的colorPrimay 中配置的颜色, actionBar toolbar 默认使用这个为背景颜色-->
+        <item name="android:popupBackground">?attr/colorPrimary</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <!--设置 spinner 显示位置往下偏移 actionBarSize 的高度, 默认显示是直接显示在 Spinner 的选中项的上方-->
+        <item name="android:dropDownVerticalOffset">?attr/actionBarSize</item>
+        <!--设置选中之后Item 的背景变换 设置背景为 灰色背景色-->
+        <item name="android:dropDownSelector">@color/app_main</item>
+        <!--设置下拉框的 list 的样式, 主要是设置 分割线, 当然也可以设置下拉的 list 的背景颜色-->
+        <item name="android:dropDownListViewStyle">@style/AppSpinnerDivider</item>
+        <!--设置显示在 popup 中 item(TextView) 的样式-->
+        <item name="android:dropDownItemStyle">@style/AppSpinnerItem</item>
+    </style>
+
+    <!--设置分割线-->
+    <style name="AppSpinnerDivider" parent="@android:style/Widget.ListView.DropDown">
+        <item name="android:divider">@color/app_decoration</item>
+        <item name="android:dividerHeight">@dimen/vm_dimen_0_1</item>
+    </style>
+
+    <!--设置文本颜色 和大小-->
+    <style name="AppSpinnerItem" parent="@android:style/Widget.TextView.SpinnerItem">
+        <item name="android:textColor">@color/app_title</item>
+        <item name="android:textSize">@dimen/vm_size_14</item>
+    </style>
+</resources>

@@ -4,8 +4,8 @@ import android.os.Build
 import com.vmloft.develop.app.template.app.App
 import com.vmloft.develop.app.template.common.SignManager
 import com.vmloft.develop.app.template.request.api.*
-import com.vmloft.develop.library.common.request.BaseRequest
-import com.vmloft.develop.library.common.common.CConstants
+import com.vmloft.develop.library.request.BaseRequest
+import com.vmloft.develop.library.request.RConstants
 import com.vmloft.develop.library.tools.utils.VMDate
 import com.vmloft.develop.library.tools.utils.VMSystem
 import okhttp3.Cache
@@ -18,15 +18,15 @@ import java.io.File
  */
 object APIRequest : BaseRequest() {
 
-    val commonAPI by lazy { getAPI(CommonAPI::class.java, CConstants.baseHost()) }
-    val followAPI by lazy { getAPI(FollowAPI::class.java, CConstants.baseHost()) }
-    val likeAPI by lazy { getAPI(LikeAPI::class.java, CConstants.baseHost()) }
-    val matchAPI by lazy { getAPI(MatchAPI::class.java, CConstants.baseHost()) }
-    val orderAPI by lazy { getAPI(OrderAPI::class.java, CConstants.baseHost()) }
-    val postAPI by lazy { getAPI(PostAPI::class.java, CConstants.baseHost()) }
-    val roomAPI by lazy { getAPI(RoomAPI::class.java, CConstants.baseHost()) }
-    val signAPI by lazy { getAPI(SignAPI::class.java, CConstants.baseHost()) }
-    val userInfoAPI by lazy { getAPI(UserInfoAPI::class.java, CConstants.baseHost()) }
+    val commonAPI by lazy(LazyThreadSafetyMode.NONE) { getAPI(CommonAPI::class.java, RConstants.baseHost()) }
+    val followAPI by lazy(LazyThreadSafetyMode.NONE) { getAPI(FollowAPI::class.java, RConstants.baseHost()) }
+    val likeAPI by lazy(LazyThreadSafetyMode.NONE) { getAPI(LikeAPI::class.java, RConstants.baseHost()) }
+    val matchAPI by lazy(LazyThreadSafetyMode.NONE) { getAPI(MatchAPI::class.java, RConstants.baseHost()) }
+    val tradeAPI by lazy(LazyThreadSafetyMode.NONE) { getAPI(TradeAPI::class.java, RConstants.baseHost()) }
+    val postAPI by lazy(LazyThreadSafetyMode.NONE) { getAPI(PostAPI::class.java, RConstants.baseHost()) }
+    val roomAPI by lazy(LazyThreadSafetyMode.NONE) { getAPI(RoomAPI::class.java, RConstants.baseHost()) }
+    val signAPI by lazy(LazyThreadSafetyMode.NONE) { getAPI(SignAPI::class.java, RConstants.baseHost()) }
+    val userInfoAPI by lazy(LazyThreadSafetyMode.NONE) { getAPI(UserInfoAPI::class.java, RConstants.baseHost()) }
 
     override fun handleBuilder(builder: OkHttpClient.Builder) {
 

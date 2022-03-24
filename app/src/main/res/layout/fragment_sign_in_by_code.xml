@@ -125,6 +125,6 @@
         app:layout_constraintBottom_toBottomOf="@+id/signSubmitBtn"
         app:layout_constraintEnd_toEndOf="@+id/signSubmitBtn"
         app:layout_constraintTop_toTopOf="@+id/signSubmitBtn"
-        app:vm_loading_color="@color/app_main"
+        app:vm_loading_color="@color/app_loading_light"
         app:vm_loading_type="DoubleCircle" />
 </androidx.constraintlayout.widget.ConstraintLayout>

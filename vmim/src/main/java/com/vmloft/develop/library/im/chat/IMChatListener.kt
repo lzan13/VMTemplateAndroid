@@ -4,10 +4,10 @@ import com.hyphenate.EMMessageListener
 import com.hyphenate.chat.EMCmdMessageBody
 import com.hyphenate.chat.EMConversation
 import com.hyphenate.chat.EMMessage
-import com.vmloft.develop.library.common.common.CConstants
+import com.vmloft.develop.library.base.common.CConstants
 
-import com.vmloft.develop.library.common.event.LDEventBus
-import com.vmloft.develop.library.common.notify.NotifyManager
+import com.vmloft.develop.library.base.event.LDEventBus
+import com.vmloft.develop.library.base.notify.NotifyManager
 import com.vmloft.develop.library.im.IM
 import com.vmloft.develop.library.im.call.IMCallManager
 import com.vmloft.develop.library.im.common.IMConstants

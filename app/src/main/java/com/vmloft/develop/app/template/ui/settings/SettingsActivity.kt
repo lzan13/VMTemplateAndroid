@@ -5,16 +5,16 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.databinding.ActivitySettingsBinding
 import com.vmloft.develop.app.template.router.AppRouter
-import com.vmloft.develop.library.common.base.BActivity
-import com.vmloft.develop.library.common.router.CRouter
-import com.vmloft.develop.library.common.ui.widget.CommonDialog
+import com.vmloft.develop.library.base.BActivity
+import com.vmloft.develop.library.base.router.CRouter
+import com.vmloft.develop.library.base.widget.CommonDialog
 
 /**
  * Create by lzan13 on 2020/06/07 21:06
  * 描述：设置
  */
 @Route(path = AppRouter.appSettings)
-class SettingsActivity : BActivity<ActivitySettingsBinding>() {
+class SettingsActivity: BActivity<ActivitySettingsBinding>() {
 
     override fun initVB()=ActivitySettingsBinding.inflate(layoutInflater)
 

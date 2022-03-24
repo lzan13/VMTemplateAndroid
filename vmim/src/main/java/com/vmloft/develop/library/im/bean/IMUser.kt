@@ -1,7 +1,8 @@
 package com.vmloft.develop.library.im.bean
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
+
 
 /**
  * Create by lzan13 on 2019/5/23 09:50
@@ -15,6 +16,7 @@ data class IMUser(
     var nickname: String = "", // 账户昵称
     var avatar: String = "", // 账户头像
     var gender: Int = 2, // 性别
+    var identity: Int = 9, // 用户 身份
 ) : Parcelable {
     override fun equals(other: Any?): Boolean {
         (other as? IMUser)?.let {

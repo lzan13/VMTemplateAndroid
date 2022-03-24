@@ -6,21 +6,23 @@ package com.vmloft.develop.app.template.common
  */
 object Constants {
 
-    const val dbName = "wcdb_vmmatch"
-    const val dbPass = "wcdb_vmmatch_lzan13"
+    const val dbName = "wcdb_vmnepenthe"
+    const val dbPass = "wcdb_vmnepenthe_lzan13"
 
-    // 用户信息改变事件
-    const val userInfoEvent = "userInfoEvent"
-
-    // 创建帖子
-    const val createPostEvent = "createPostEvent"
-    // 创建评论
-    const val createCommentEvent = "createCommentEvent"
+    // App 层事件总线 Key
+    object Event {
+        const val userInfo = "appUserInfo" // 用户信息改变事件
+        const val matchInfo = "appMatchInfo" // 匹配信息改变事件
+        const val createPost = "appCreatePost" // 创建帖子
+        const val createComment = "appCreateComment" // 创建评论
+        const val shieldPost = "appShieldPost" // 屏蔽帖子
+        const val orderStatus = "appOrderStatus" // 订单状态更新
+    }
 
     /**
      * 反馈类型
      */
-    object FeedbackType{
+    object FeedbackType {
         const val opinion = 0
         const val ads = 1
         const val sensitivity = 2

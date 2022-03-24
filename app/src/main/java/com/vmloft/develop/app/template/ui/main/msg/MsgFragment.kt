@@ -7,12 +7,18 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 
 import com.vmloft.develop.app.template.R
+import com.vmloft.develop.app.template.common.CacheManager
 import com.vmloft.develop.app.template.databinding.FragmentMsgBinding
+import com.vmloft.develop.app.template.request.bean.User
 import com.vmloft.develop.app.template.router.AppRouter
-import com.vmloft.develop.library.common.base.BFragment
-import com.vmloft.develop.library.common.router.CRouter
+import com.vmloft.develop.library.base.BFragment
+import com.vmloft.develop.library.base.router.CRouter
+import com.vmloft.develop.library.base.utils.showBar
 import com.vmloft.develop.library.im.conversation.IMConversationFragment
+import com.vmloft.develop.library.qr.QRCodeScanLauncher
+import com.vmloft.develop.library.qr.QRHelper
 import com.vmloft.develop.library.tools.utils.VMDimen
+import com.vmloft.develop.library.tools.utils.VMStr
 import com.vmloft.develop.library.tools.widget.VMFloatMenu
 
 
@@ -21,6 +27,8 @@ import com.vmloft.develop.library.tools.widget.VMFloatMenu
  * 描述：消息
  */
 class MsgFragment : BFragment<FragmentMsgBinding>() {
+
+    private lateinit var launcher: QRCodeScanLauncher
 
     // 弹出菜单
     private lateinit var floatMenu: VMFloatMenu
@@ -32,15 +40,17 @@ class MsgFragment : BFragment<FragmentMsgBinding>() {
     override fun initUI() {
         super.initUI()
         setTopTitle(R.string.nav_msg)
-//        setTopEndIcon(R.drawable.ic_add) { showFloatMenu(it) }
+        setTopEndIcon(R.drawable.ic_add) { showMenu(it) }
 
         setupFragment()
-        initFloatMenu()
+        initMenu()
+
+        launcher = QRCodeScanLauncher(this)
     }
 
     override fun initData() {
-        viewX = VMDimen.screenWidth
-
+        viewX = VMDimen.screenWidth - VMDimen.dp2px(24)
+        viewY = VMDimen.dp2px(56)
     }
 
     private fun setupFragment() {
@@ -52,16 +62,14 @@ class MsgFragment : BFragment<FragmentMsgBinding>() {
     }
 
     /**
-     * 加载心情 View
+     * 初始化悬浮菜单
      */
-    private fun initFloatMenu() {
+    private fun initMenu() {
         floatMenu = VMFloatMenu(requireActivity())
         floatMenu.setItemClickListener(object : VMFloatMenu.IItemClickListener() {
             override fun onItemClick(id: Int) {
                 when (id) {
-                    0 -> CRouter.go(AppRouter.appQRScan)
-                    else -> {
-                    }
+                    0 -> openScanQRCode()
                 }
             }
         })
@@ -70,11 +78,26 @@ class MsgFragment : BFragment<FragmentMsgBinding>() {
     /**
      * 弹出菜单
      */
-    private fun showFloatMenu(view: View) {
+    private fun showMenu(view: View) {
         floatMenu.clearAllItem()
-        floatMenu.addItem(VMFloatMenu.ItemBean(0, "扫一扫", itemIcon = R.drawable.ic_scan))
+        floatMenu.addItem(VMFloatMenu.ItemBean(0, VMStr.byRes(R.string.scan), itemIcon = R.drawable.ic_scan))
 
         floatMenu.showAtLocation(view, viewX, viewY)
     }
 
+    /**
+     *
+     */
+    private fun openScanQRCode() {
+        launcher.launch(0) {
+            val bean = QRHelper.decodeQRCodeResult(it)
+            bean?.let {
+                showBar("${bean.type} ${bean.content}")
+                if (bean.type == 0) {
+                    val user = CacheManager.getUser(bean.content) ?: User(bean.content)
+                    CRouter.go(AppRouter.appUserInfo, obj0 = user)
+                }
+            }
+        }
+    }
 }

@@ -1,7 +1,6 @@
 package com.vmloft.develop.app.template.ui.post
 
 import android.content.Context
-import android.net.Uri
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -17,24 +16,24 @@ import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.common.Constants
 import com.vmloft.develop.app.template.databinding.ActivityPostCreateBinding
 import com.vmloft.develop.app.template.request.bean.Attachment
-import com.vmloft.develop.library.common.request.RPaging
+import com.vmloft.develop.library.request.RPaging
 import com.vmloft.develop.app.template.request.bean.Category
 import com.vmloft.develop.app.template.router.AppRouter
-import com.vmloft.develop.library.common.base.BVMActivity
-import com.vmloft.develop.library.common.base.BViewModel
-import com.vmloft.develop.library.common.common.CConstants
-import com.vmloft.develop.library.common.event.LDEventBus
-import com.vmloft.develop.library.common.image.IMGChoose
-import com.vmloft.develop.library.common.image.IMGLoader
+import com.vmloft.develop.library.image.IMGChoose
+import com.vmloft.develop.library.image.IMGLoader
 import com.vmloft.develop.app.template.report.ReportConstants
 import com.vmloft.develop.app.template.request.bean.Post
 import com.vmloft.develop.app.template.request.viewmodel.PostViewModel
-import com.vmloft.develop.library.common.common.PermissionManager
-import com.vmloft.develop.library.common.report.ReportManager
-import com.vmloft.develop.library.common.router.CRouter
-import com.vmloft.develop.library.common.utils.ViewUtils
-import com.vmloft.develop.library.common.utils.errorBar
-import com.vmloft.develop.library.common.utils.showBar
+import com.vmloft.develop.library.base.BVMActivity
+import com.vmloft.develop.library.base.BViewModel
+import com.vmloft.develop.library.base.common.CConstants
+import com.vmloft.develop.library.base.common.PermissionManager
+import com.vmloft.develop.library.base.event.LDEventBus
+import com.vmloft.develop.library.base.router.CRouter
+import com.vmloft.develop.library.base.utils.ViewUtils
+import com.vmloft.develop.library.base.utils.errorBar
+import com.vmloft.develop.library.base.utils.showBar
+import com.vmloft.develop.library.report.ReportManager
 import com.vmloft.develop.library.tools.utils.VMReg
 import com.vmloft.develop.library.tools.utils.VMStr
 import com.vmloft.develop.library.tools.utils.VMSystem
@@ -95,7 +94,7 @@ class PostCreateActivity : BVMActivity<ActivityPostCreateBinding, PostViewModel>
 
 
     override fun initData() {
-        mViewModel.getCategoryList()
+        mViewModel.categoryList()
     }
 
     override fun onModelRefresh(model: BViewModel.UIModel) {
@@ -108,7 +107,7 @@ class PostCreateActivity : BVMActivity<ActivityPostCreateBinding, PostViewModel>
         } else if (model.type == "createPost") {
             showBar(R.string.post_success_hint)
             val post = model.data as Post
-            LDEventBus.post(Constants.createPostEvent, post)
+            LDEventBus.post(Constants.Event.createPost, post)
             VMSystem.runInUIThread({ finish() }, CConstants.timeSecond)
         }
     }

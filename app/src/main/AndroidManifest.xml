@@ -46,6 +46,7 @@
 
         <!--引导-->
         <activity android:name=".ui.guide.GuideActivity" />
+        <activity android:name=".ui.ads.ADSActivity" />
 
         <!--登录引导-->
         <activity android:name=".ui.sign.SignGuideActivity" />
@@ -65,10 +66,6 @@
             android:name=".ui.room.RoomCreateActivity"
             android:windowSoftInputMode="adjustResize|stateVisible" />
 
-        <!--二维码-->
-        <activity android:name=".ui.qr.QRCodeScanActivity" />
-        <activity android:name=".ui.qr.QRCodeMineActivity" />
-
         <!--发布-->
         <activity
             android:name=".ui.post.PostCreateActivity"
@@ -85,11 +82,11 @@
         <activity android:name=".ui.user.UserInfoActivity" />
 
         <!--金币-->
-        <activity android:name=".ui.main.mine.gold.GoldActivity" />
-        <activity android:name=".ui.main.mine.gold.GoldDescActivity" />
+        <activity android:name=".ui.trade.GoldActivity" />
+        <activity android:name=".ui.trade.GoldDescActivity" />
         <!--订单-->
-        <activity android:name=".ui.order.OrderDetailActivity" />
-        <activity android:name=".ui.order.OrderListActivity" />
+        <activity android:name=".ui.trade.OrderDetailActivity" />
+        <activity android:name=".ui.trade.OrderListActivity" />
         <!--个人信息-->
         <activity android:name=".ui.main.mine.info.PersonalInfoActivity" />
         <activity android:name=".ui.main.mine.info.PersonalInfoGuideActivity" />
@@ -97,6 +94,8 @@
         <activity android:name=".ui.main.mine.info.BindEmailActivity" />
         <!--个人信息用户名设置-->
         <activity android:name=".ui.main.mine.info.EditUsernameActivity" />
+        <!--二维码-->
+        <activity android:name=".ui.main.mine.info.MineQRCodeActivity" />
         <!--个人信息昵称设置-->
         <activity android:name=".ui.main.mine.info.EditNicknameActivity" />
         <!--个人信息签名设置-->

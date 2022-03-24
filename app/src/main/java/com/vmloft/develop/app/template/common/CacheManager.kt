@@ -2,7 +2,7 @@ package com.vmloft.develop.app.template.common
 
 import com.vmloft.develop.app.template.request.bean.Room
 import com.vmloft.develop.app.template.request.bean.User
-import com.vmloft.develop.library.common.utils.json.JsonUtils
+import com.vmloft.develop.library.common.utils.JsonUtils
 
 
 /**

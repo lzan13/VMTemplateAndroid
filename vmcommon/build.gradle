@@ -9,20 +9,12 @@ plugins {
 def configs = rootProject.ext.configs
 
 android {
-    compileSdkVersion configs.compileSdkVersion
-    buildToolsVersion configs.buildToolsVersion
+    compileSdk configs.compileSdkVersion
 
     defaultConfig {
-        minSdkVersion configs.minSdkVersion
-        targetSdkVersion configs.targetSdkVersion
+        minSdk configs.minSdkVersion
+        targetSdk configs.targetSdkVersion
 
-        // 这里通过配置文件设置声网 AppId
-        buildConfigField("String", "alipayAppId", configs.alipayAppId)
-        // 通过配置文件设置请求 API 地址
-        buildConfigField("String", "baseDebugUrl", configs.baseDebugUrl)
-        buildConfigField("String", "baseReleaseUrl", configs.baseReleaseUrl)
-        // 资源文件 url 地址
-        buildConfigField("String", "mediaUrl", configs.mediaUrl)
     }
 
     buildTypes {
@@ -63,101 +55,35 @@ android {
 
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
-//    api (name: 'alipaysdk-15.8.05.211018174351', ext: 'aar')
 
-    // AndroidX 扩展库
-    api 'androidx.activity:activity-ktx:1.3.1'
-    api 'androidx.appcompat:appcompat:1.3.1'
-    api 'androidx.constraintlayout:constraintlayout:2.1.1'
-    api 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
-    api 'androidx.core:core-ktx:1.6.0'
-    api 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
-    api 'com.google.android.material:material:1.4.0'
+    // ARouter 编译器，TODO 当代码中有一些自己没看到的错误的时候，ARouter 会拦截错误信息，看不到错误位置，把这行注释掉，重新编译
+    kapt 'com.alibaba:arouter-compiler:1.5.2'
 
-//    api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    // Kotlin 协同程序扩展
-    // 介绍 https://www.kotlincn.net/docs/reference/coroutines/coroutines-guide.html
-    api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0'
-    // 依赖当前平台所对应的平台库
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0"
-
-//    // Koin for Android
-//    implementation 'org.koin:koin-android:2.0.1'
-//    // Koin for Kotlin
-//    implementation "org.koin:koin-core:2.0.1"
-//    // or Koin for Lifecycle scoping
-//    implementation 'org.koin:koin-androidx-scope:2.0.1'
-//    // or Koin for Android Architecture ViewModel
-    api 'org.koin:koin-androidx-viewmodel:2.0.1'
-
-    // Android Jetpack 相关
-    api 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    api 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
-    api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
-    // 引用 Room 数据库操作库
-//    api "androidx.room:room-runtime:2.2.5"
-    // WCDB 数据库 https://github.com/Tencent/wcdb
-    api "com.tencent.wcdb:wcdb-android:1.0.8"
-    // WCDB room 代替上边 room-runtime https://github.com/Tencent/wcdb
-    api "com.tencent.wcdb:room:1.0.8"
-    kapt "androidx.room:room-compiler:2.3.0"
-    api "androidx.room:room-ktx:2.3.0"
-
-    // Retrofit https://github.com/square/retrofit
-    api 'com.squareup.retrofit2:retrofit:2.9.0'
-    api 'com.squareup.retrofit2:converter-gson:2.9.0'
-    api 'com.squareup.okhttp3:logging-interceptor:4.3.1'
+//    // Retrofit https://github.com/square/retrofit
+//    api 'com.squareup.retrofit2:retrofit:2.9.0'
+//    api 'com.squareup.retrofit2:converter-gson:2.9.0'
+//    api 'com.squareup.okhttp3:logging-interceptor:4.3.1'
     // Gson 解析 JSON https://github.com/google/gson
-    api 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.google.code.gson:gson:2.8.6'
 
-    // Glide https://github.com/bumptech/glide
-    api 'com.github.bumptech.glide:glide:4.12.0'
-    kapt 'com.github.bumptech.glide:compiler:4.12.0'
-
-    // 可缩放 PhotoView https://github.com/chrisbanes/PhotoView
-    api 'com.github.chrisbanes:PhotoView:2.3.0'
-
-    // 图片选择器 https://github.com/yangpeixing/YImagePicker
-    api 'com.ypx.yimagepicker:androidx:3.1.4'
-
-    // 强大 WebView 库 https://github.com/Justson/AgentWeb
+    // 强大 WebView 库 https://github.com/J ustson/AgentWeb
     api 'com.github.Justson.AgentWeb:agentweb-core:v4.1.9-androidx'
+
+    // 滚动选择器库 https://github.com/AigeStudio/WheelPicker
+    api 'cn.aigestudio.wheelpicker:WheelPicker:1.1.3'
 
     // 动画库 https://github.com/LottieFiles/lottie-android
     api 'com.airbnb.android:lottie:3.7.0'
 
-    // Bugly https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=20200203205953
-    api 'com.tencent.bugly:crashreport:3.4.4'
-
-    // UMeng https://developer.umeng.com/docs/119267/detail/118584
-    // 友盟基础组件库（所有友盟业务SDK都依赖基础组件库）
-    api 'com.umeng.umsdk:common:9.4.0'// 必选
-    api 'com.umeng.umsdk:asms:1.2.3'// 必选
-    // 应用性能监控包
-//    api 'com.umeng.umsdk:apm:1.4.0'
-
-    // implementation  'com.umeng.umsdk:game:x.x.x' // 游戏统计SDK依赖(可选)
-
-    // MultiType RecyclerView 多类型适配器 https://github.com/drakeet/MultiType
-    api 'com.drakeet.multitype:multitype:4.2.0'
-
-    // 滚动选择器库 https://github.com/AigeStudio/WheelPicker
-    api 'cn.aigestudio.wheelpicker:WheelPicker:1.1.3'
-    // 二维码扫描库 https://github.com/bingoogolapple/BGAQRCode-Android
-    api 'com.github.bingoogolapple.BGAQRCode-Android:zxing:1.3.8'
+//    // 二维码扫描库 https://github.com/bingoogolapple/BGAQRCode-Android
+//    api 'com.github.bingoogolapple.BGAQRCode-Android:zxing:1.3.8'
 
     // 下拉刷新库 https://github.com/scwang90/SmartRefreshLayout
     api 'com.scwang.smart:refresh-layout-kernel:2.0.3'
 //    api 'com.scwang.smart:refresh-header-classics:2.0.3' //经典刷新
 //    api 'com.scwang.smart:refresh-footer-classics:2.0.3' //经典加载
 
-    // 阿里巴巴 ARouter 库 https://github.com/alibaba/ARouter
-    api 'com.alibaba:arouter-api:1.5.2'
-    kapt 'com.alibaba:arouter-compiler:1.5.2'
+    // 依赖 base 库
+    implementation project(':vmbase')
 
-    // Android消息总线，基于LiveData https://github.com/JeremyLiao/LiveEventBus
-    api 'io.github.jeremyliao:live-event-bus-x:1.8.0'
-
-    // 自定义工具库 https://gitee.com/lzan13/VMLibrary
-    api 'com.github.lzan13:VMLibrary:1.5.2'
 }

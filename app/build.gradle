@@ -12,21 +12,22 @@ ext {
     isDebug = true
 }
 android {
-    compileSdkVersion configs.compileSdkVersion
-    buildToolsVersion configs.buildToolsVersion
+    compileSdk configs.compileSdkVersion
 
     defaultConfig {
         applicationId configs.applicationId
-        minSdkVersion configs.minSdkVersion
-        targetSdkVersion configs.targetSdkVersion
+        minSdk configs.minSdkVersion
+        targetSdk configs.targetSdkVersion
         versionCode configs.versionCode
         versionName configs.versionName
 
         // 简单粗暴解决多个库出现 UnsatisfiedLinkError 文件错误问题
         ndk {
             // "x86", "armeabi-v7a", "arm64-v8a"
+//            abiFilters "x86"
+            abiFilters "armeabi-v7a"
 //            abiFilters "arm64-v8a"
-            abiFilters "armeabi-v7a", "arm64-v8a"
+//            abiFilters "armeabi-v7a", "arm64-v8a"
         }
     }
 
@@ -85,7 +86,7 @@ android {
                     appChannel    : "Develop",
                     appVersionName: configs.versionName,
                     buglyAppId    : configs.buglyAppId,
-                    easemobAppKey : configs.easemobAppKey,
+                    emAppKey      : configs.emAppKey,
                     umengAppKey   : configs.umengAppKey,
                     isDebug       : isDebug
             ]
@@ -96,7 +97,7 @@ android {
                     appChannel    : "GooglePlay",
                     appVersionName: configs.versionName,
                     buglyAppId    : configs.buglyAppId,
-                    easemobAppKey : configs.easemobAppKey,
+                    emAppKey      : configs.emAppKey,
                     umengAppKey   : configs.umengAppKey,
                     isDebug       : isDebug
             ]
@@ -137,16 +138,29 @@ dependencies {
 
     kapt "androidx.room:room-compiler:2.3.0"
 
-    /**
-     * ARouter 编译器，这里有个问题，就是当代码中有一些自己没看到的错误的时候，
-     * ARouter 会拦截错误信息，让人以为是 ARouter 的报错，
-     * 但是又找不到错误位置，把这行注释掉，重新编译
-     */
+    // ARouter 编译器，TODO 当代码中有一些自己没看到的错误的时候，ARouter 会拦截错误信息，看不到错误位置，把这行注释掉，重新编译
     kapt 'com.alibaba:arouter-compiler:1.5.2'
 
-    // 引入统一管理库
-    api project(':vmcommon')
-    api project(':vmim')
+    // 依赖 base 库
+    implementation project(':vmbase')
+    // 依赖 common 库
+    implementation project(':vmcommon')
+    // 依赖 db 库
+    implementation project(':vmdb')
+    // 依赖 im 库
+    implementation project(':vmim')
+    // 依赖 mqtt 库
+    implementation project(':vmmqtt')
+    // 依赖 image 库
+    implementation project(':vmimage')
+    // 依赖 qr 库
+    implementation project(':vmpay')
+    // 依赖 qr 库
+    implementation project(':vmqr')
+    // 依赖 report 库
+    implementation project(':vmreport')
+    // 依赖 request 库
+    implementation project(':vmrequest')
 }
 
 // 获取当前系统时间

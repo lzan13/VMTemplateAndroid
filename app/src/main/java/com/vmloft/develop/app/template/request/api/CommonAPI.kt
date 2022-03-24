@@ -1,12 +1,11 @@
 package com.vmloft.develop.app.template.request.api
 
 import com.vmloft.develop.app.template.request.bean.*
-import com.vmloft.develop.library.common.common.CConstants
-import com.vmloft.develop.library.common.request.RPaging
-import com.vmloft.develop.library.common.request.RResponse
+import com.vmloft.develop.library.base.common.CConstants
+import com.vmloft.develop.library.request.RPaging
+import com.vmloft.develop.library.request.RResponse
 
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import retrofit2.http.*
 
 /**
@@ -31,7 +30,7 @@ interface CommonAPI {
      * 获取分类列表
      */
     @GET("v1/common/category")
-    suspend fun getCategoryList(
+    suspend fun categoryList(
         @Query("page") page: Int = CConstants.defaultPage,
         @Query("limit") limit: Int = CConstants.defaultLimit,
     ): RResponse<RPaging<Category>>
@@ -40,7 +39,7 @@ interface CommonAPI {
      * 获取职业列表
      */
     @GET("v1/common/profession")
-    suspend fun getProfessionList(
+    suspend fun professionList(
         @Query("page") page: Int = CConstants.defaultPage,
         @Query("limit") limit: Int = CConstants.defaultLimit,
     ): RResponse<RPaging<Profession>>
@@ -55,19 +54,19 @@ interface CommonAPI {
      * 获取客户端配置
      */
     @GET("v1/common/clientConfig")
-    suspend fun getClientConfig(): RResponse<Config>
+    suspend fun clientConfig(): RResponse<Config>
 
     /**
      * 获取隐私政策
      */
     @GET("v1/common/privatePolicy")
-    suspend fun getPrivatePolicy(): RResponse<Config>
+    suspend fun privatePolicy(): RResponse<Config>
 
     /**
      * 获取用户协议
      */
     @GET("v1/common/userAgreement")
-    suspend fun getUserAgreement(): RResponse<Config>
+    suspend fun userAgreement(): RResponse<Config>
 
 
     /**
@@ -103,13 +102,9 @@ interface CommonAPI {
      * 商品相关
      */
     /**
-     * 查询商品列表
+     * 查询虚拟商品列表
      */
-    @GET("v1/common/commodityList")
-    suspend fun commodityList(
-        @Query("page") page: Int,
-        @Query("limit") limit: Int,
-        @Query("type") type: Int
-    ): RResponse<RPaging<Commodity>>
+    @GET("v1/common/virtualCommodityList")
+    suspend fun virtualCommodityList(): RResponse<RPaging<Commodity>>
 
 }

@@ -1,8 +1,7 @@
 package com.vmloft.develop.library.im.common
 
 import com.hyphenate.EMError
-import com.vmloft.develop.library.common.common.CError
-import com.vmloft.develop.library.common.request.RResult
+import com.vmloft.develop.library.request.RResult
 import com.vmloft.develop.library.im.R
 import com.vmloft.develop.library.tools.utils.VMStr
 import com.vmloft.develop.library.tools.utils.logger.VMLog

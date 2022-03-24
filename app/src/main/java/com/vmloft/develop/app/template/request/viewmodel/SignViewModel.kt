@@ -1,13 +1,12 @@
 package com.vmloft.develop.app.template.request.viewmodel
 
 import androidx.lifecycle.viewModelScope
-
-import com.vmloft.develop.library.common.base.BViewModel
 import com.vmloft.develop.app.template.common.SignManager
 import com.vmloft.develop.app.template.im.IMManager
-import com.vmloft.develop.library.common.request.RResult
+import com.vmloft.develop.library.request.RResult
 import com.vmloft.develop.app.template.request.bean.User
 import com.vmloft.develop.app.template.request.repository.SignRepository
+import com.vmloft.develop.library.base.BViewModel
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,7 +15,7 @@ import kotlinx.coroutines.launch
  * Create by lzan13 on 2020/4/20 17:28
  * 描述：注册登录 ViewModel
  */
-class SignViewModel(private val repository: SignRepository) : BViewModel() {
+class SignViewModel(private val repo: SignRepository) : BViewModel() {
 
     /**
      * 通过设备 Id 注册
@@ -24,7 +23,7 @@ class SignViewModel(private val repository: SignRepository) : BViewModel() {
     fun signUpByDevicesId(devicesId: String, password: String) {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val result = repository.signUpByDevicesId(devicesId, password)
+            val result = repo.signUpByDevicesId(devicesId, password)
             if (result is RResult.Success && result.data != null && result.data is User) {
                 // 注册成功存储下登录信息
                 SignManager.setToken(result.data!!.token)
@@ -43,7 +42,7 @@ class SignViewModel(private val repository: SignRepository) : BViewModel() {
     fun signUpByEmail(email: String, password: String) {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val result = repository.signUpByEmail(email, password)
+            val result = repo.signUpByEmail(email, password)
 
             if (result is RResult.Success && result.data != null && result.data is User) {
                 // 注册成功存储下登录信息
@@ -63,7 +62,7 @@ class SignViewModel(private val repository: SignRepository) : BViewModel() {
     fun signUpByPhone(phone: String, password: String) {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val result = repository.signUpByPhone(phone, password)
+            val result = repo.signUpByPhone(phone, password)
 
             if (result is RResult.Success && result.data != null && result.data is User) {
                 // 注册成功存储下登录信息
@@ -83,7 +82,7 @@ class SignViewModel(private val repository: SignRepository) : BViewModel() {
     fun signIn(account: String, password: String) {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val result = repository.signIn(account, password)
+            val result = repo.signIn(account, password)
             if (result is RResult.Success && result.data != null && result.data is User) {
                 // 登录成功存储下登录信息
                 SignManager.setToken(result.data!!.token)
@@ -102,7 +101,7 @@ class SignViewModel(private val repository: SignRepository) : BViewModel() {
     fun signInByDevicesId(devicesId: String, password: String) {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val result = repository.signInByDevicesId(devicesId, password)
+            val result = repo.signInByDevicesId(devicesId, password)
             if (result is RResult.Success && result.data != null && result.data is User) {
                 // 登录成功存储下登录信息
                 SignManager.setToken(result.data!!.token)
@@ -121,7 +120,7 @@ class SignViewModel(private val repository: SignRepository) : BViewModel() {
     fun signInByCode(phone: String, code: String) {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val result = repository.signInByCode(phone, code)
+            val result = repo.signInByCode(phone, code)
             if (result is RResult.Success && result.data != null && result.data is User) {
                 // 登录成功存储下登录信息
                 SignManager.setToken(result.data!!.token)
@@ -173,7 +172,7 @@ class SignViewModel(private val repository: SignRepository) : BViewModel() {
     fun signOut() {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val result = repository.signOut()
+            val result = repo.signOut()
             if (result is RResult.Success) {
                 emitUIState(type = "signOut")
                 return@launch

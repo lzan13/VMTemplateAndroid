@@ -5,10 +5,10 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.databinding.ActivitySettingsMediaBinding
 import com.vmloft.develop.app.template.router.AppRouter
-import com.vmloft.develop.library.common.base.BActivity
-import com.vmloft.develop.library.common.common.CConstants
-import com.vmloft.develop.library.common.common.CSPManager
-import com.vmloft.develop.library.common.utils.showBar
+import com.vmloft.develop.library.base.BActivity
+import com.vmloft.develop.library.base.common.CConstants
+import com.vmloft.develop.library.base.common.CSPManager
+import com.vmloft.develop.library.base.utils.showBar
 import com.vmloft.develop.library.tools.utils.VMFile
 
 import java.io.File
@@ -18,7 +18,7 @@ import java.io.File
  * 描述：图片资源设置
  */
 @Route(path = AppRouter.appSettingsMedia)
-class MediaSettingsActivity : BActivity<ActivitySettingsMediaBinding>() {
+class MediaSettingsActivity: BActivity<ActivitySettingsMediaBinding>() {
     // 缓存地址
     private val cachePath = "${VMFile.cachePath}${CConstants.cacheImageDir}"
 

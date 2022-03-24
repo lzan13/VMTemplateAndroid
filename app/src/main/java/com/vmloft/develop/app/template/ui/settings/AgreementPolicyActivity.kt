@@ -14,9 +14,9 @@ import com.vmloft.develop.app.template.databinding.ActivitySettingsAgreementPoli
 import com.vmloft.develop.app.template.request.bean.Config
 import com.vmloft.develop.app.template.request.viewmodel.SettingsViewModel
 import com.vmloft.develop.app.template.router.AppRouter
-import com.vmloft.develop.library.common.base.BVMActivity
-import com.vmloft.develop.library.common.base.BViewModel
-import com.vmloft.develop.library.common.router.CRouter
+import com.vmloft.develop.library.base.BVMActivity
+import com.vmloft.develop.library.base.BViewModel
+import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.tools.utils.VMColor
 import com.vmloft.develop.library.tools.utils.VMStr
 

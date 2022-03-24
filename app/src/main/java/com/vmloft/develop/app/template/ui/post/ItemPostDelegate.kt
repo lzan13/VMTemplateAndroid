@@ -8,9 +8,11 @@ import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.databinding.ItemPostDelegateBinding
 import com.vmloft.develop.app.template.request.bean.Attachment
 import com.vmloft.develop.app.template.request.bean.Post
-import com.vmloft.develop.library.common.base.BItemDelegate
-import com.vmloft.develop.library.common.image.IMGLoader
-import com.vmloft.develop.library.common.utils.FormatUtils
+import com.vmloft.develop.library.base.BItemDelegate
+import com.vmloft.develop.library.base.utils.FormatUtils
+import com.vmloft.develop.library.common.config.ConfigManager
+import com.vmloft.develop.library.image.IMGLoader
+import com.vmloft.develop.library.tools.utils.VMColor
 import com.vmloft.develop.library.tools.widget.VMRatioLayout
 
 /**
@@ -34,6 +36,9 @@ class ItemPostDelegate(listener: PostItemListener, longListener: BItemLongListen
 
         IMGLoader.loadAvatar(holder.binding.itemAvatarIV, item.owner.avatar)
         holder.binding.itemNameTV.text = item.owner.nickname
+        if (ConfigManager.clientConfig.vipEntry && item.owner.role.identity in 100..199) {
+            holder.binding.itemNameTV.setTextColor(VMColor.byRes(R.color.app_identity_vip))
+        }
 
         holder.binding.itemLikeIV.setImageResource(if (item.isLike) R.drawable.ic_like_fill else R.drawable.ic_like_line)
         holder.binding.itemLikeIV.setOnClickListener { (mItemListener as PostItemListener).onLikeClick(item, getPosition(holder)) }

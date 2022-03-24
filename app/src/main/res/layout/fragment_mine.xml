@@ -52,8 +52,10 @@
                 android:background="@drawable/shape_circle_common_bg"
                 android:padding="@dimen/vm_dimen_4"
                 android:src="@drawable/ic_vip"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/mineAvatarIV"
-                app:layout_constraintStart_toStartOf="@+id/mineAvatarIV" />
+                app:layout_constraintStart_toStartOf="@+id/mineAvatarIV"
+                tools:visibility="visible" />
 
             <ImageView
                 android:id="@+id/mineGenderIV"
@@ -228,7 +230,7 @@
                 android:gravity="center_vertical"
                 android:paddingStart="@dimen/vm_dimen_16"
                 android:paddingEnd="@dimen/vm_dimen_16"
-                android:text="@string/info_edit"
+                android:text="@string/settings_info"
                 android:textColor="@color/app_title_display"
                 android:textSize="@dimen/vm_size_13"
                 app:layout_constraintBottom_toBottomOf="@+id/mineFansLL"

@@ -10,9 +10,9 @@ import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.databinding.ActivityPersonalAuthBinding
 import com.vmloft.develop.app.template.request.viewmodel.UserViewModel
 import com.vmloft.develop.app.template.router.AppRouter
-import com.vmloft.develop.library.common.base.BVMActivity
-import com.vmloft.develop.library.common.base.BViewModel
-import com.vmloft.develop.library.common.utils.errorBar
+import com.vmloft.develop.library.base.BVMActivity
+import com.vmloft.develop.library.base.BViewModel
+import com.vmloft.develop.library.base.utils.errorBar
 import com.vmloft.develop.library.tools.utils.VMReg
 import com.vmloft.develop.library.tools.utils.VMStr
 

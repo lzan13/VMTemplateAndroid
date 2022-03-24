@@ -34,6 +34,11 @@
                 android:id="@+id/infoUsernameLV"
                 style="@style/AppLVStyle"
                 app:vm_line_title="@string/info_username" />
+            <!--二维码-->
+            <com.vmloft.develop.library.tools.widget.VMLineView
+                android:id="@+id/infoQRCodeLV"
+                style="@style/AppLVStyle"
+                app:vm_line_title="@string/info_mine_qr"/>
             <!--昵称-->
             <com.vmloft.develop.library.tools.widget.VMLineView
                 android:id="@+id/infoNicknameLV"

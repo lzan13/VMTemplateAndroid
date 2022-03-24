@@ -4,15 +4,18 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.common.Constants
 import com.vmloft.develop.app.template.common.SignManager
 import com.vmloft.develop.app.template.databinding.ActivityMainBinding
+import com.vmloft.develop.app.template.request.bean.Config
 import com.vmloft.develop.app.template.request.bean.User
 import com.vmloft.develop.app.template.request.bean.Version
 import com.vmloft.develop.app.template.request.viewmodel.MainViewModel
@@ -21,13 +24,13 @@ import com.vmloft.develop.app.template.ui.main.explore.ExploreFragment
 import com.vmloft.develop.app.template.ui.main.home.HomeFragment
 import com.vmloft.develop.app.template.ui.main.mine.MineFragment
 import com.vmloft.develop.app.template.ui.main.msg.MsgFragment
-import com.vmloft.develop.library.common.base.BVMActivity
-import com.vmloft.develop.library.common.base.BViewModel
-import com.vmloft.develop.library.common.common.PermissionManager
-import com.vmloft.develop.library.common.event.LDEventBus
-import com.vmloft.develop.library.common.router.CRouter
-import com.vmloft.develop.library.common.utils.errorBar
-import com.vmloft.develop.library.common.ui.widget.CommonDialog
+import com.vmloft.develop.library.base.BVMActivity
+import com.vmloft.develop.library.base.BViewModel
+import com.vmloft.develop.library.base.event.LDEventBus
+import com.vmloft.develop.library.base.router.CRouter
+import com.vmloft.develop.library.base.utils.errorBar
+import com.vmloft.develop.library.base.widget.CommonDialog
+import com.vmloft.develop.library.common.config.ConfigManager
 import com.vmloft.develop.library.tools.utils.VMStr
 import com.vmloft.develop.library.tools.utils.VMSystem
 
@@ -101,7 +104,8 @@ class MainActivity : BVMActivity<ActivityMainBinding, MainViewModel>() {
 
         if (!SignManager.isSingIn()) return
 
-        mViewModel.getCurrUser()
+        mViewModel.userInfo()
+        mViewModel.clientConfig()
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -195,8 +199,9 @@ class MainActivity : BVMActivity<ActivityMainBinding, MainViewModel>() {
                     // 这里放在用户信息成功后检查版本
                     mViewModel.checkVersion()
                 }
-                LDEventBus.post(Constants.userInfoEvent, it)
             }
+        } else if (model.type == "clientConfig") {
+            ConfigManager.setupConfig((model.data as Config).content)
         } else if (model.type == "checkVersion") {
             if (model.data == null) return
             showVersionDialog(model.data as Version)

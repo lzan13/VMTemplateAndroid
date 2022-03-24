@@ -38,7 +38,7 @@
             android:layout_width="@dimen/vm_dimen_40"
             android:layout_height="@dimen/vm_dimen_40"
             android:layout_marginStart="@dimen/vm_dimen_8"
-            android:background="@drawable/selector_common_circle_icon_bg"
+            android:background="@drawable/selector_circle_common_icon_bg"
             android:padding="@dimen/vm_dimen_10"
             android:src="@drawable/ic_send"
             android:visibility="gone"

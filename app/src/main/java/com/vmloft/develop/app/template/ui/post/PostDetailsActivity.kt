@@ -1,5 +1,6 @@
 package com.vmloft.develop.app.template.ui.post
 
+import android.view.Gravity
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 
@@ -16,14 +17,14 @@ import com.vmloft.develop.app.template.request.bean.Comment
 import com.vmloft.develop.app.template.request.bean.Post
 import com.vmloft.develop.app.template.request.viewmodel.PostViewModel
 import com.vmloft.develop.app.template.router.AppRouter
-import com.vmloft.develop.library.common.base.BItemDelegate
-import com.vmloft.develop.library.common.base.BVMActivity
-import com.vmloft.develop.library.common.base.BViewModel
-import com.vmloft.develop.library.common.common.CConstants
-import com.vmloft.develop.library.common.event.LDEventBus
-import com.vmloft.develop.library.common.request.RPaging
-import com.vmloft.develop.library.common.router.CRouter
-
+import com.vmloft.develop.app.template.ui.widget.PostReportDialog
+import com.vmloft.develop.library.base.BItemDelegate
+import com.vmloft.develop.library.base.BVMActivity
+import com.vmloft.develop.library.base.BViewModel
+import com.vmloft.develop.library.base.common.CConstants
+import com.vmloft.develop.library.base.event.LDEventBus
+import com.vmloft.develop.library.base.router.CRouter
+import com.vmloft.develop.library.request.RPaging
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 
@@ -40,7 +41,7 @@ class PostDetailsActivity : BVMActivity<ActivityPostDetailsBinding, PostViewMode
     private var page = CConstants.defaultPage
 
     // 适配器
-    private val mAdapter by lazy { MultiTypeAdapter() }
+    private val mAdapter by lazy(LazyThreadSafetyMode.NONE) { MultiTypeAdapter() }
     private val mItems = ArrayList<Any>()
 
     override fun initVB() = ActivityPostDetailsBinding.inflate(layoutInflater)
@@ -56,7 +57,8 @@ class PostDetailsActivity : BVMActivity<ActivityPostDetailsBinding, PostViewMode
 
         initRecyclerView()
 
-        LDEventBus.observe(this, Constants.createCommentEvent, Comment::class.java) {
+        // 监听评论信息添加
+        LDEventBus.observe(this, Constants.Event.createComment, Comment::class.java) {
             mItems.add(1, it)
             mAdapter.notifyItemInserted(1)
         }
@@ -71,16 +73,6 @@ class PostDetailsActivity : BVMActivity<ActivityPostDetailsBinding, PostViewMode
         mViewModel.postInfo(post.id)
     }
 
-    override fun onModelRefresh(model: BViewModel.UIModel) {
-        if (model.type == "postInfo") {
-            post = model.data as Post
-
-            mViewModel.commentList(post.id)
-        } else if (model.type == "commentList") {
-            refresh(model.data as RPaging<Comment>)
-        }
-    }
-
     /**
      * 初始化列表
      */
@@ -90,10 +82,14 @@ class PostDetailsActivity : BVMActivity<ActivityPostDetailsBinding, PostViewMode
             override fun onLikeClick(item: Post, position: Int) {
                 clickLikePost()
             }
+
+            override fun onReportClick(item: Post, position: Int) {
+                clickReportPost()
+            }
         }))
         mAdapter.register(ItemPostDetailsCommentDelegate(object : BItemDelegate.BItemListener<Comment> {
             override fun onClick(v: View, data: Comment, position: Int) {
-                CRouter.go(AppRouter.appPostComment, str0 = post.id, obj0 =  data)
+                CRouter.go(AppRouter.appPostComment, str0 = post.id, obj0 = data)
             }
         }))
 
@@ -108,11 +104,37 @@ class PostDetailsActivity : BVMActivity<ActivityPostDetailsBinding, PostViewMode
             mViewModel.commentList(post.id)
         }
         mBinding.refreshLayout.setOnLoadMoreListener {
-            mViewModel.postList(post.id, page++)
+            mViewModel.commentList(post.id, page++)
         }
     }
 
-    private fun refresh(paging: RPaging<Comment>) {
+    override fun onModelRefresh(model: BViewModel.UIModel) {
+        if (model.type == "postInfo") {
+            post = model.data as Post
+
+            refreshPost()
+
+            mViewModel.commentList(post.id)
+        } else if (model.type == "commentList") {
+            refreshComment(model.data as RPaging<Comment>)
+        } else if (model.type == "shieldPost") {
+            LDEventBus.post(Constants.Event.shieldPost, post)
+        }
+    }
+
+    /**
+     * 刷新帖子内容
+     */
+    private fun refreshPost() {
+        mItems.removeAt(0)
+        mItems.add(0, post)
+        mAdapter.notifyItemChanged(0)
+    }
+
+    /**
+     * 刷新评论
+     */
+    private fun refreshComment(paging: RPaging<Comment>) {
         val position = mItems.size
         val count = paging.data.size
         mItems.addAll(paging.data)
@@ -138,4 +160,40 @@ class PostDetailsActivity : BVMActivity<ActivityPostDetailsBinding, PostViewMode
         mAdapter.notifyItemChanged(0)
     }
 
+    /**
+     * 弹出屏蔽举报菜单
+     */
+    private fun clickReportPost() {
+        mDialog = PostReportDialog(this)
+        (mDialog as PostReportDialog).let { dialog ->
+            dialog.setShieldListener { type -> shieldPost(type) }
+            dialog.setReportListener { type -> reportPost(type) }
+            dialog.show(Gravity.BOTTOM)
+        }
+    }
+
+    /**
+     * 屏蔽 Post
+     */
+    private fun shieldPost(type: Int) {
+        mDialog?.dismiss()
+
+        if (type == 0) {
+            // TODO 屏蔽内容
+        } else if (type == 1) {
+            // TODO 屏蔽用户
+        }
+        post.isShielded = true
+        mViewModel.shieldPost(post)
+    }
+
+    /**
+     * 举报 Post
+     * 0-意见建议 1-广告引流 2-政治敏感 3-违法违规 4-色情低俗 5-血腥暴力 6-诱导信息 7-谩骂攻击 8-涉嫌诈骗 9-引人不适 10-其他
+     */
+    private fun reportPost(type: Int) {
+        mDialog?.dismiss()
+
+        CRouter.go(AppRouter.appFeedback, what = type, obj0 = post)
+    }
 }

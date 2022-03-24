@@ -5,10 +5,10 @@ import android.content.Context
 import com.hyphenate.EMCallBack
 import com.hyphenate.chat.EMClient
 import com.hyphenate.chat.EMOptions
+import com.vmloft.develop.library.base.common.CError
+import com.vmloft.develop.library.base.common.CSPManager
 
-import com.vmloft.develop.library.common.common.CError
-import com.vmloft.develop.library.common.common.CSPManager
-import com.vmloft.develop.library.common.request.RResult
+import com.vmloft.develop.library.request.RResult
 import com.vmloft.develop.library.im.call.IMCallManager
 import com.vmloft.develop.library.im.chat.IMChatManager
 import com.vmloft.develop.library.im.common.IMExceptionManager
@@ -23,8 +23,7 @@ import java.util.concurrent.CountDownLatch
 
 /**
  * Create by lzan13 on 2019/5/20 22:22
- *
- * 入口类
+ * 描述：IM 入口类
  */
 object IM {
     lateinit var imListener: IIMListener

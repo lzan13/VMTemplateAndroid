@@ -12,13 +12,13 @@ import com.vmloft.develop.app.template.BuildConfig
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.common.SPManager
 import com.vmloft.develop.app.template.im.IMManager
-import com.vmloft.develop.library.common.event.LDEventBus
-import com.vmloft.develop.library.common.report.ReportManager
-import com.vmloft.develop.library.common.common.CConstants
-import com.vmloft.develop.library.common.common.CSPManager
-import com.vmloft.develop.library.common.notify.NotifyManager
-import com.vmloft.develop.library.common.ui.widget.refresh.DoubleCircleFooter
-import com.vmloft.develop.library.common.ui.widget.refresh.DoubleCircleHeader
+import com.vmloft.develop.library.base.event.LDEventBus
+import com.vmloft.develop.library.report.ReportManager
+import com.vmloft.develop.library.base.common.CConstants
+import com.vmloft.develop.library.base.common.CSPManager
+import com.vmloft.develop.library.base.notify.NotifyManager
+import com.vmloft.develop.library.common.widget.refresh.DoubleCircleFooter
+import com.vmloft.develop.library.common.widget.refresh.DoubleCircleHeader
 import com.vmloft.develop.library.tools.VMTools
 import com.vmloft.develop.library.tools.utils.VMFile
 import com.vmloft.develop.library.tools.utils.VMTheme
@@ -89,7 +89,7 @@ class App : Application() {
             VMTheme.setDarkTheme(SPManager.getDarkModeManual())
         }
 
-        val path = "${VMFile.pictures}${CConstants.projectDir}"
+        val path = "${VMFile.pictures}${CConstants.projectName}"
         if (!VMFile.isDirExists(path)) {
             VMFile.createDirectory(path)
         }

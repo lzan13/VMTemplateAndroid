@@ -3,16 +3,13 @@ package com.vmloft.develop.app.template.request.repository
 import com.vmloft.develop.app.template.common.SPManager
 import com.vmloft.develop.app.template.request.api.APIRequest
 import com.vmloft.develop.app.template.request.bean.*
-import com.vmloft.develop.library.common.request.BaseRepository
-import com.vmloft.develop.library.common.request.RResult
+import com.vmloft.develop.library.request.BaseRepository
+import com.vmloft.develop.library.request.RResult
 import com.vmloft.develop.app.template.request.db.AppDatabase
-import com.vmloft.develop.library.common.common.CConstants
-import com.vmloft.develop.library.common.request.RPaging
+import com.vmloft.develop.library.base.common.CConstants
+import com.vmloft.develop.library.request.RPaging
 import com.vmloft.develop.library.tools.utils.VMSystem
 import okhttp3.MultipartBody
-
-import okhttp3.RequestBody
-import retrofit2.http.Part
 
 
 /**
@@ -31,7 +28,7 @@ class CommonRepository : BaseRepository() {
     /**
      * 获取分类集合
      */
-    suspend fun getCategoryList(server: Boolean = false): RResult<RPaging<Category>> {
+    suspend fun categoryList(server: Boolean = false): RResult<RPaging<Category>> {
         // 根据参数优先从本地获取，这里检查下缓存时间，大于 1 天就重新从服务器获取
         val time = SPManager.getCategoryTime()
         val intervalTime = System.currentTimeMillis() - time
@@ -42,7 +39,7 @@ class CommonRepository : BaseRepository() {
             }
         }
         // 从服务器获取后保存到本地数据库
-        val result = safeRequest { executeResponse(APIRequest.commonAPI.getCategoryList()) }
+        val result = safeRequest { executeResponse(APIRequest.commonAPI.categoryList()) }
         if (result is RResult.Success) {
             SPManager.setCategoryTime(System.currentTimeMillis())
             // 先清空原来的数据
@@ -56,7 +53,7 @@ class CommonRepository : BaseRepository() {
     /**
      * 获取职业集合
      */
-    suspend fun getProfessionList(server: Boolean = false): RResult<RPaging<Profession>> {
+    suspend fun professionList(server: Boolean = false): RResult<RPaging<Profession>> {
         // 根据参数优先从本地获取，这里检查下缓存时间，大于 1 天就重新从服务器获取
         // 根据参数优先从本地获取
         val time = SPManager.getProfessionTime()
@@ -68,7 +65,7 @@ class CommonRepository : BaseRepository() {
             }
         }
         // 从服务器获取后保存到本地数据库
-        val result = safeRequest { executeResponse(APIRequest.commonAPI.getProfessionList()) }
+        val result = safeRequest { executeResponse(APIRequest.commonAPI.professionList()) }
         if (result is RResult.Success) {
             SPManager.setProfessionTime(System.currentTimeMillis())
             // 先清空原来的数据
@@ -106,18 +103,20 @@ class CommonRepository : BaseRepository() {
     }
 
     /**
-     * 获取客户端配置，这里控制超过 24 小时去服务器请求
+     * 获取客户端配置，这里控制超过 1 小时去服务器请求
      */
-    suspend fun getClientConfig(): RResult<Config> {
+    suspend fun clientConfig(): RResult<Config> {
         val time = SPManager.getClientConfigTime()
         val intervalTime = System.currentTimeMillis() - time
-        if (intervalTime < CConstants.timeDay * 7) {
+        // 这里一般使用缓存，只有超过一定时间才去服务器获取，设置为 1 小时，TODO 测试情况为 1 分钟
+//        if (intervalTime < CConstants.timeHour * 1) {
+        if (intervalTime < CConstants.timeMinute * 1) {
             val config = AppDatabase.getInstance().configDao().query("clientConfig")
             if (config != null) {
                 return RResult.Success("", config)
             }
         }
-        val result = safeRequest { executeResponse(APIRequest.commonAPI.getClientConfig()) }
+        val result = safeRequest { executeResponse(APIRequest.commonAPI.clientConfig()) }
         if (result is RResult.Success) {
             SPManager.setClientConfigTime(System.currentTimeMillis())
         }
@@ -127,7 +126,7 @@ class CommonRepository : BaseRepository() {
     /**
      * 获取隐私政策，这里控制超过 24 小时去服务器请求
      */
-    suspend fun getPrivatePolicy(): RResult<Config> {
+    suspend fun privatePolicy(): RResult<Config> {
         val time = SPManager.getPrivatePolicyTime()
         val intervalTime = System.currentTimeMillis() - time
         if (intervalTime < CConstants.timeDay * 7) {
@@ -136,7 +135,7 @@ class CommonRepository : BaseRepository() {
                 return RResult.Success("", config)
             }
         }
-        val result = safeRequest { executeResponse(APIRequest.commonAPI.getPrivatePolicy()) }
+        val result = safeRequest { executeResponse(APIRequest.commonAPI.privatePolicy()) }
         if (result is RResult.Success) {
             SPManager.setPrivatePolicyTime(System.currentTimeMillis())
         }
@@ -146,7 +145,7 @@ class CommonRepository : BaseRepository() {
     /**
      * 获取用户协议，这里控制超过 24 小时去服务器请求
      */
-    suspend fun getUserAgreement(): RResult<Config> {
+    suspend fun userAgreement(): RResult<Config> {
         val time = SPManager.getUserAgreementTime()
         val intervalTime = System.currentTimeMillis() - time
         if (intervalTime < CConstants.timeDay * 7) {
@@ -155,7 +154,7 @@ class CommonRepository : BaseRepository() {
                 return RResult.Success("", config)
             }
         }
-        val result = safeRequest { executeResponse(APIRequest.commonAPI.getUserAgreement()) }
+        val result = safeRequest { executeResponse(APIRequest.commonAPI.userAgreement()) }
         if (result is RResult.Success) {
             SPManager.setUserAgreementTime(System.currentTimeMillis())
         }
@@ -164,6 +163,12 @@ class CommonRepository : BaseRepository() {
 
     /**
      * 提交反馈
+     * @param contact 联系方式
+     * @param content 反馈内容
+     * @param user 相关用户
+     * @param post 相关帖子
+     * @param attachments 附件
+     * @param type 反馈类型 0-意见建议 1-广告 2-政治敏感 3-色情低俗 4-血腥暴力 5-不文明 6-涉嫌诈骗 7-其他
      */
     suspend fun feedback(contact: String, content: String, user: String, post: String, attachments: List<String>, type: Int): RResult<Any> {
         return safeRequest { executeResponse(APIRequest.commonAPI.feedback(contact, content, user, post, attachments, type)) }
@@ -177,10 +182,13 @@ class CommonRepository : BaseRepository() {
     }
 
     /**
-     * 获取商品列表
+     * ----------------------------- 商品相关 -----------------------------
      */
-    suspend fun commodityList(page: Int, limit: Int, type: Int): RResult<RPaging<Commodity>> {
-        return safeRequest { executeResponse(APIRequest.commonAPI.commodityList(page, limit, type)) }
+    /**
+     * 获取虚拟商品列表
+     */
+    suspend fun virtualCommodityList(): RResult<RPaging<Commodity>> {
+        return safeRequest { executeResponse(APIRequest.commonAPI.virtualCommodityList()) }
     }
 
 }

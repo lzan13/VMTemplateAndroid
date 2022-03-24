@@ -10,8 +10,8 @@ import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.common.SPManager
 import com.vmloft.develop.app.template.databinding.ActivityGuideBinding
 import com.vmloft.develop.app.template.router.AppRouter
-import com.vmloft.develop.library.common.base.BActivity
-import com.vmloft.develop.library.common.router.CRouter
+import com.vmloft.develop.library.base.BActivity
+import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.tools.adapter.VMFragmentPagerAdapter
 
 
@@ -20,7 +20,7 @@ import com.vmloft.develop.library.tools.adapter.VMFragmentPagerAdapter
  * 描述：引导界面
  */
 @Route(path = AppRouter.appGuide)
-class GuideActivity : BActivity<ActivityGuideBinding>() {
+class GuideActivity: BActivity<ActivityGuideBinding>() {
 
     private var mCurrentIndex = 0
     private var mFragmentList: MutableList<Fragment> = mutableListOf()

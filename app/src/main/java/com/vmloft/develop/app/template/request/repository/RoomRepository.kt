@@ -1,10 +1,9 @@
 package com.vmloft.develop.app.template.request.repository
 
 import com.vmloft.develop.app.template.request.api.APIRequest
-import com.vmloft.develop.library.common.request.BaseRepository
-import com.vmloft.develop.library.common.request.RPaging
-import com.vmloft.develop.library.common.request.RResult
-import com.vmloft.develop.app.template.request.bean.Post
+import com.vmloft.develop.library.request.BaseRepository
+import com.vmloft.develop.library.request.RPaging
+import com.vmloft.develop.library.request.RResult
 import com.vmloft.develop.app.template.request.bean.Room
 
 /**
@@ -39,16 +38,23 @@ class RoomRepository : BaseRepository() {
     /**
      * 获取房间列表
      */
-    suspend fun getRoomList(page: Int, limit: Int, owner: String = ""): RResult<RPaging<Room>> {
-        return safeRequest { executeResponse(APIRequest.roomAPI.getRoomList(page, limit, owner)) }
+    suspend fun roomList(page: Int, limit: Int, type: Int = 0): RResult<RPaging<Room>> {
+        return safeRequest { executeResponse(APIRequest.roomAPI.roomList(page, limit, type)) }
+    }
+
+    /**
+     * 获取随机房间
+     */
+    suspend fun randomRoom(type: Int): RResult<Room> {
+        return safeRequest { executeResponse(APIRequest.roomAPI.randomRoom(type)) }
     }
 
 
     /**
-     * 获取房间列表
+     * 获取房间信息
      */
-    suspend fun getRoomInfo(id: String): RResult<Room> {
-        return safeRequest { executeResponse(APIRequest.roomAPI.getRoomInfo(id)) }
+    suspend fun roomInfo(id: String): RResult<Room> {
+        return safeRequest { executeResponse(APIRequest.roomAPI.roomInfo(id)) }
     }
 
 }

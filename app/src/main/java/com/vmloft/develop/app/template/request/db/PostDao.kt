@@ -21,15 +21,24 @@ interface PostDao {
     @Query("DELETE FROM post")
     suspend fun delete()
 
+    @Query("DELETE FROM post WHERE isShielded = :isShielded")
+    suspend fun clear(isShielded: Boolean = false)
+
     @Update
     suspend fun update(post: Post)
 
     @Query("SELECT * FROM post WHERE id = :id")
     suspend fun query(id: String): Post?
 
-    @Query("SELECT * FROM post WHERE isShielded = :isShielded")
-    suspend fun query(isShielded: Boolean): List<Post>
+    /**
+     * 查询屏蔽的数据
+     */
+    @Query("SELECT * FROM post WHERE isShielded = :isShielded limit :limit")
+    suspend fun queryShielded(isShielded: Boolean = true, limit: Int = 20): List<Post>
 
-    @Query("SELECT *  FROM post")
-    suspend fun all(): List<Post>
+    /**
+     * 获取本地缓存的全部非屏蔽数据
+     */
+    @Query("SELECT *  FROM post WHERE isShielded = :isShielded limit :limit")
+    suspend fun all(limit: Int = 20, isShielded: Boolean = false): List<Post>
 }

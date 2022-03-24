@@ -1,8 +1,8 @@
 package com.vmloft.develop.app.template.request.api
 
 import com.vmloft.develop.app.template.request.bean.*
-import com.vmloft.develop.library.common.request.RPaging
-import com.vmloft.develop.library.common.request.RResponse
+import com.vmloft.develop.library.request.RPaging
+import com.vmloft.develop.library.request.RResponse
 
 import okhttp3.RequestBody
 import retrofit2.http.*
@@ -51,7 +51,7 @@ interface PostAPI {
      * 获取
      */
     @GET("v1/post")
-    suspend fun getPostList(
+    suspend fun postList(
         @Query("page") page: Int,
         @Query("limit") limit: Int,
         @Query("owner") owner: String,

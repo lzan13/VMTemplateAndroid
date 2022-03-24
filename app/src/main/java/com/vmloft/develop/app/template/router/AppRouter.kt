@@ -1,13 +1,5 @@
 package com.vmloft.develop.app.template.router
 
-import android.os.Parcelable
-import com.alibaba.android.arouter.launcher.ARouter
-import com.vmloft.develop.app.template.request.bean.Match
-import com.vmloft.develop.app.template.request.bean.Post
-import com.vmloft.develop.app.template.request.bean.User
-import com.vmloft.develop.app.template.ui.main.mine.info.EditNicknameActivity
-import com.vmloft.develop.app.template.ui.main.mine.info.EditSignatureActivity
-
 /**
  * Create by lzan13 on 2020-02-24 21:57
  * 描述：针对路由注解统一收口
@@ -15,6 +7,7 @@ import com.vmloft.develop.app.template.ui.main.mine.info.EditSignatureActivity
 object AppRouter {
 
     const val appGuide = "/App/Guide"
+    const val appADS = "/App/ADS"
 
     // 注册登录
     const val appSignGuide = "/App/Sign"
@@ -34,10 +27,6 @@ object AppRouter {
     // 政策协议
     const val appSettingsAgreementPolicy = "/App/SettingsAgreementPolicy"
 
-    // 二维码
-    const val appQRScan = "/App/QRScan"
-    const val appQRMine = "/App/QRMine"
-
     // 金币信息
     const val appGold = "/App/Gold"
     const val appGoldDesc = "/App/GoldDesc"
@@ -53,6 +42,7 @@ object AppRouter {
     const val appEditUsername = "/App/EditUsername"
     const val appEditNickname = "/App/EditNickname"
     const val appEditSignature = "/App/EditSignature"
+    const val appMineQRCode = "/App/MineQRCode"
 
     // 绑定邮箱
     const val appBindEmail = "/App/BindEmail"
@@ -63,16 +53,15 @@ object AppRouter {
     const val appPostDetails = "/App/PostDetail"
     const val appPostComment = "/App/appPostComment"
 
-    // 用户信息
-    const val appUserInfo = "/App/UserInfo"
+    const val appUserInfo = "/App/UserInfo" // 用户信息
 
-    // 匹配
-    const val appMatchAnim = "/App/MatchAnim"
-    const val appMatchSecret = "/App/MatchSecret"
+    const val appMatchAnim = "/App/MatchAnim" // 匹配
 
-    // 房间信息
-    const val appRoomList = "/App/RoomList"
+    const val appRoomList = "/App/RoomList" // 房间信息
     const val appRoomCreate = "/App/RoomCreate"
+
+    const val appGameDraw = "/App/GameDraw" // 你画我猜
+    const val appMatchSecret = "/App/MatchSecret" // 秘密
 
 
 }

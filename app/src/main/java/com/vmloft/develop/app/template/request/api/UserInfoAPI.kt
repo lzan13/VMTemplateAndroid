@@ -1,7 +1,7 @@
 package com.vmloft.develop.app.template.request.api
 
 import com.vmloft.develop.app.template.request.bean.*
-import com.vmloft.develop.library.common.request.RResponse
+import com.vmloft.develop.library.request.RResponse
 
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -96,5 +96,11 @@ interface UserInfoAPI {
      */
     @GET("v1/info/clock")
     suspend fun clock(): RResponse<Any>
+
+    /**
+     * 签到操作
+     */
+    @GET("v1/info/mqttUserToken")
+    suspend fun mqttUserToken(@Query("id") id: String): RResponse<String>
 
 }

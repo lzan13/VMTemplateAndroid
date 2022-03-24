@@ -3,18 +3,19 @@ package com.vmloft.develop.library.im.fast
 import android.text.Editable
 import android.text.TextWatcher
 import android.text.method.ScrollingMovementMethod
+import android.view.View
 
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 
 import com.hyphenate.chat.EMMessage
-import com.vmloft.develop.library.common.base.BActivity
 
-import com.vmloft.develop.library.common.event.LDEventBus
-import com.vmloft.develop.library.common.image.IMGLoader
-import com.vmloft.develop.library.common.ui.widget.CommonDialog
-import com.vmloft.develop.library.common.utils.showBar
+import com.vmloft.develop.library.base.BActivity
+import com.vmloft.develop.library.base.event.LDEventBus
+import com.vmloft.develop.library.base.utils.showBar
+import com.vmloft.develop.library.image.IMGLoader
+import com.vmloft.develop.library.base.widget.CommonDialog
 import com.vmloft.develop.library.im.IM
 import com.vmloft.develop.library.im.R
 import com.vmloft.develop.library.im.bean.IMUser
@@ -60,6 +61,7 @@ class IMChatFastActivity : BActivity<ImActivityChatFastBinding>() {
             } else if (status == IMConstants.ChatFast.fastInputStatusAgree) {
                 showBar(R.string.im_fast_agree)
                 mBinding.imChatFastContentET.isEnabled = true
+                mBinding.imChatFastWaitLL.visibility = View.GONE
             } else if (status == IMConstants.ChatFast.fastInputStatusReject || status == IMConstants.ChatFast.fastInputStatusBusy) {
                 showRejectOrBusyDialog(status)
             } else if (status == IMConstants.ChatFast.fastInputStatusContent) {
@@ -112,10 +114,11 @@ class IMChatFastActivity : BActivity<ImActivityChatFastBinding>() {
         ARouter.getInstance().inject(this)
 
         mUser = IM.imListener.getUser(chatId) ?: IMUser(chatId)
-        val selfId = IM.getSelfId()
-        mSelfUser = IM.imListener.getUser(selfId) ?: IMUser(selfId)
+        mSelfUser = IM.imListener.getUser(IM.getSelfId()) ?: IMUser(IM.getSelfId())
 
         bindInfo()
+
+        mBinding.imChatFastWaitLL.visibility = View.VISIBLE
 
         if (isApply) {
             showApplyDialog()
@@ -167,11 +170,12 @@ class IMChatFastActivity : BActivity<ImActivityChatFastBinding>() {
             dialog.backDismissSwitch = false
             dialog.touchDismissSwitch = false
             dialog.setContent(R.string.im_fast_apply)
-            dialog.setNegative() {
+            dialog.setNegative {
                 IMChatFastManager.sendFastSignal(chatId, IMConstants.ChatFast.fastInputStatusReject)
                 finish()
             }
-            dialog.setPositive() {
+            dialog.setPositive {
+                mBinding.imChatFastWaitLL.visibility = View.GONE
                 IMChatFastManager.sendFastSignal(chatId, IMConstants.ChatFast.fastInputStatusAgree)
             }
             dialog.show()

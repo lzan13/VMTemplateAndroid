@@ -6,17 +6,18 @@ import com.alibaba.android.arouter.launcher.ARouter
 
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.common.CacheManager
+import com.vmloft.develop.app.template.common.SignManager
 import com.vmloft.develop.app.template.databinding.ActivityMatchAnimBinding
 import com.vmloft.develop.app.template.im.IMManager
 import com.vmloft.develop.app.template.request.bean.Match
+import com.vmloft.develop.app.template.request.bean.User
 import com.vmloft.develop.app.template.request.viewmodel.MatchViewModel
 import com.vmloft.develop.app.template.router.AppRouter
-import com.vmloft.develop.library.common.base.BVMActivity
-import com.vmloft.develop.library.common.base.BViewModel
-import com.vmloft.develop.library.common.router.CRouter
+import com.vmloft.develop.library.base.BVMActivity
+import com.vmloft.develop.library.base.BViewModel
+import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.tools.animator.VMAnimator
 import com.vmloft.develop.library.tools.utils.VMSystem
-
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 
@@ -35,7 +36,6 @@ class MatchAnimActivity : BVMActivity<ActivityMatchAnimBinding, MatchViewModel>(
     var type: Int = 0
 
     // 过滤匹配性别
-    @Autowired(name = CRouter.paramsObj0)
     lateinit var selfMatch: Match
 
     private var mAnimatorWrapRadar: VMAnimator.AnimatorSetWrap? = null
@@ -56,9 +56,11 @@ class MatchAnimActivity : BVMActivity<ActivityMatchAnimBinding, MatchViewModel>(
 
     override fun initData() {
         ARouter.getInstance().inject(this)
-        // 首先提交自己的匹配数据
-        selfMatch.type = type
-        mViewModel.submitMatch(selfMatch)
+
+        selfMatch = SignManager.getSelfMatch()
+
+        // 获取随机匹配
+        mViewModel.randomMatch(selfMatch.filterGender)
     }
 
     override fun onModelLoading(model: BViewModel.UIModel) {
@@ -70,20 +72,14 @@ class MatchAnimActivity : BVMActivity<ActivityMatchAnimBinding, MatchViewModel>(
     }
 
     override fun onModelRefresh(model: BViewModel.UIModel) {
-        if (model.type == "submitMatch") {
-            // 自己的匹配数据提交成功后，随机获取一个匹配用户
-            mViewModel.randomMatch(selfMatch.filterGender)
-        }
         if (model.type == "randomMatch") {
             val match = model.data as Match
             CacheManager.putUser(match.user)
-
             when (type) {
                 0 -> IMManager.goChat(match.user.id, match.content)
                 1 -> IMManager.goChatFast(match.user.id)
-                else -> CRouter.go(AppRouter.appUserInfo, obj0 =  match.user)
+                else -> CRouter.go(AppRouter.appUserInfo, obj0 = match.user)
             }
-
             finish()
         }
     }

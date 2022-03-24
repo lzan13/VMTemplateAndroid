@@ -5,8 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.hyphenate.chat.EMMessage
 
-import com.vmloft.develop.library.common.base.BItemDelegate
-import com.vmloft.develop.library.common.utils.FormatUtils
+import com.vmloft.develop.library.base.BItemDelegate
+import com.vmloft.develop.library.base.utils.FormatUtils
 import com.vmloft.develop.library.im.R
 import com.vmloft.develop.library.im.chat.IMChatManager
 import com.vmloft.develop.library.im.common.IMConstants

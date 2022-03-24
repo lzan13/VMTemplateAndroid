@@ -17,21 +17,23 @@ import com.hyphenate.chat.EMImageMessageBody
 import com.hyphenate.chat.EMMessage
 import com.hyphenate.chat.EMTextMessageBody
 
-import com.vmloft.develop.library.common.base.BFragment
-import com.vmloft.develop.library.common.base.BItemDelegate
-import com.vmloft.develop.library.common.common.CConstants
-import com.vmloft.develop.library.common.common.PermissionManager
-import com.vmloft.develop.library.common.event.LDEventBus
-import com.vmloft.develop.library.common.image.IMGChoose
-import com.vmloft.develop.library.common.router.CRouter
-import com.vmloft.develop.library.common.ui.widget.CommonDialog
-import com.vmloft.develop.library.common.utils.errorBar
-import com.vmloft.develop.library.common.utils.showBar
+import com.vmloft.develop.library.base.BFragment
+import com.vmloft.develop.library.base.BItemDelegate
+import com.vmloft.develop.library.base.common.CConstants
+import com.vmloft.develop.library.base.common.PermissionManager
+import com.vmloft.develop.library.base.event.LDEventBus
+import com.vmloft.develop.library.base.router.CRouter
+import com.vmloft.develop.library.base.utils.errorBar
+import com.vmloft.develop.library.base.utils.showBar
+import com.vmloft.develop.library.common.config.ConfigManager
+import com.vmloft.develop.library.im.IM
 import com.vmloft.develop.library.im.R
+import com.vmloft.develop.library.im.bean.IMUser
 import com.vmloft.develop.library.im.chat.msg.*
 import com.vmloft.develop.library.im.common.IMConstants
 import com.vmloft.develop.library.im.databinding.ImFragmentChatBinding
 import com.vmloft.develop.library.im.router.IMRouter
+import com.vmloft.develop.library.image.IMGChoose
 import com.vmloft.develop.library.tools.utils.VMDate
 import com.vmloft.develop.library.tools.utils.VMStr
 import com.vmloft.develop.library.tools.utils.VMSystem
@@ -49,7 +51,7 @@ class IMChatFragment : BFragment<ImFragmentChatBinding>() {
     private val limit = CConstants.defaultLimit
 
     // 列表适配器
-    private val mAdapter by lazy { MultiTypeAdapter() }
+    private val mAdapter by lazy(LazyThreadSafetyMode.NONE) { MultiTypeAdapter() }
     private val mItems = ArrayList<Any>()
     private lateinit var layoutManager: LinearLayoutManager
 
@@ -66,9 +68,11 @@ class IMChatFragment : BFragment<ImFragmentChatBinding>() {
     private var chatType: Int = 0
     private lateinit var chatExtend: String
     private lateinit var conversation: EMConversation
+    private lateinit var user: IMUser
+    private lateinit var selfUser: IMUser
 
-    private var receiveMsgCount = 0
-    private var sendMsgCount = 0
+    private var receiveMsgCount = 0 // 接收消息数
+    private var sendMsgCount = 0 // 发送消息数
 
     companion object {
         private val argChatId = "argChatId"
@@ -131,6 +135,9 @@ class IMChatFragment : BFragment<ImFragmentChatBinding>() {
         chatType = requireArguments().getInt(argChatType, 0)
         chatExtend = requireArguments().getString(argChatExtend, "")
 
+        user = IM.imListener.getUser(chatId) ?: IMUser(chatId)
+        selfUser = IM.imListener.getUser(IM.getSelfId()) ?: IMUser(IM.getSelfId())
+
         initConversation()
 
         checkLockStatus()
@@ -142,7 +149,6 @@ class IMChatFragment : BFragment<ImFragmentChatBinding>() {
     private fun initConversation() {
         // 获取会话对象
         conversation = IMChatManager.getConversation(chatId, chatType)
-
         // 保存扩展信息
         saveExtendMsg()
 
@@ -284,6 +290,12 @@ class IMChatFragment : BFragment<ImFragmentChatBinding>() {
      * 检查锁状态
      */
     private fun checkLockStatus(msg: EMMessage? = null) {
+        // VIP 不限制发送图片和语音通话
+        if (selfUser.identity in 100..199) {
+            mBinding.imChatPictureIV.visibility = View.VISIBLE
+            mBinding.imChatCallIV.visibility = View.VISIBLE
+            return
+        }
         msg?.let {
             if (msg.direct() == EMMessage.Direct.RECEIVE) {
                 receiveMsgCount++
@@ -291,12 +303,15 @@ class IMChatFragment : BFragment<ImFragmentChatBinding>() {
                 sendMsgCount++
             }
         }
-        if (receiveMsgCount > 2 && sendMsgCount > 2) {
+        if (receiveMsgCount > ConfigManager.clientConfig.chatPictureLimit && sendMsgCount > ConfigManager.clientConfig.chatPictureLimit) {
             mBinding.imChatPictureIV.visibility = View.VISIBLE
         } else {
             mBinding.imChatPictureIV.visibility = View.GONE
         }
-        if (receiveMsgCount >= 5 || sendMsgCount >= 5) {
+        if (receiveMsgCount >= ConfigManager.clientConfig.chatCallLimit
+            && sendMsgCount >= ConfigManager.clientConfig.chatCallLimit
+            && ConfigManager.clientConfig.chatCallEntry
+        ) {
             mBinding.imChatCallIV.visibility = View.VISIBLE
         } else {
             mBinding.imChatCallIV.visibility = View.GONE
@@ -417,14 +432,13 @@ class IMChatFragment : BFragment<ImFragmentChatBinding>() {
      */
     private fun initFloatMenu() {
         floatMenu = VMFloatMenu(requireActivity())
+        floatMenu.setMenuBackground(R.drawable.shape_card_common_bg)
         floatMenu.setItemClickListener(object : VMFloatMenu.IItemClickListener() {
             override fun onItemClick(id: Int) {
                 when (id) {
                     0 -> copyMsg()
                     1 -> recallMsg()
                     2 -> deleteMsg()
-                    else -> {
-                    }
                 }
             }
         })
@@ -435,7 +449,6 @@ class IMChatFragment : BFragment<ImFragmentChatBinding>() {
      */
     private fun showFloatMenu(view: View, event: MotionEvent) {
         floatMenu.clearAllItem()
-
 
         val msgType = IMChatManager.getMsgType(currMsg)
         if (msgType == IMConstants.MsgType.imTextReceive || msgType == IMConstants.MsgType.imTextSend) {

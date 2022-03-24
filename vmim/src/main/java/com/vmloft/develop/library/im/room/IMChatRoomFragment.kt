@@ -15,11 +15,11 @@ import com.drakeet.multitype.MultiTypeAdapter
 import com.hyphenate.chat.EMConversation
 import com.hyphenate.chat.EMMessage
 
-import com.vmloft.develop.library.common.base.BFragment
-import com.vmloft.develop.library.common.common.CConstants
-import com.vmloft.develop.library.common.event.LDEventBus
-import com.vmloft.develop.library.common.utils.CUtils
-import com.vmloft.develop.library.common.utils.errorBar
+import com.vmloft.develop.library.base.BFragment
+import com.vmloft.develop.library.base.common.CConstants
+import com.vmloft.develop.library.base.event.LDEventBus
+import com.vmloft.develop.library.base.utils.CUtils
+import com.vmloft.develop.library.base.utils.errorBar
 import com.vmloft.develop.library.im.R
 import com.vmloft.develop.library.im.chat.IMChatManager
 import com.vmloft.develop.library.im.chat.msg.*
@@ -41,7 +41,7 @@ class IMChatRoomFragment : BFragment<ImFragmentChatRoomBinding>() {
     private val limit = CConstants.defaultLimit
 
     // 列表适配器
-    private val mAdapter by lazy { MultiTypeAdapter() }
+    private val mAdapter by lazy(LazyThreadSafetyMode.NONE) { MultiTypeAdapter() }
     private val mItems = ArrayList<Any>()
     private lateinit var layoutManager: LinearLayoutManager
 
@@ -265,7 +265,7 @@ class IMChatRoomFragment : BFragment<ImFragmentChatRoomBinding>() {
         imageView.x = x.toFloat()
         imageView.y = y.toFloat()
         imageView.alpha = 0.0f
-        imageView.setImageResource(R.drawable.im_ic_emotion_applaud)
+        imageView.setImageResource(R.drawable.im_ic_emotion_flower)
         mBinding.imRoomEncourageFL.addView(imageView, lp)
 
         // 动画出现

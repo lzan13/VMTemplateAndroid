@@ -1,8 +1,10 @@
 package com.vmloft.develop.app.template.request.bean
 
 import android.os.Parcelable
+
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
+
+import kotlinx.parcelize.Parcelize
 
 /**
  * Create by lzan13 on 2020/11/22
@@ -11,7 +13,8 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Commodity(
     @SerializedName("_id")
-    var id: String = "", // 商品标题
+    var id: String = "", // 商品Id
+    var title: String = "", // 商品标题
     val desc: String = "", // 商品描述
     val price: String = "", // 商品价格
     val currPrice: String = "", // 优惠价格
@@ -22,5 +25,13 @@ data class Commodity(
     val level: Int = 0, // 开通/续费会员级别，0-月度 1-季度 2-年度 商品 type == 1 需要
     val remarks: String = "", // 商品备注
     var createdAt: String = "",
+
+    var isSelected: Boolean = false, // 这个只是自己本地配置
 ) : Parcelable {
+    override fun equals(other: Any?): Boolean {
+        (other as? Commodity)?.let {
+            return it.id == this.id
+        }
+        return false
+    }
 }

@@ -3,7 +3,7 @@ package com.vmloft.develop.library.im.router
 import android.content.Intent
 
 import com.alibaba.android.arouter.launcher.ARouter
-import com.vmloft.develop.library.common.router.CRouter
+import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.im.common.IMConstants
 
 /**

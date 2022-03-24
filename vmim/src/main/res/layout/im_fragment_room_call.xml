@@ -9,8 +9,8 @@
     <!--房主-->
     <ImageView
         android:id="@+id/imRoomOwnerAvatarIV"
-        android:layout_width="@dimen/vm_avatar_small"
-        android:layout_height="@dimen/vm_avatar_small"
+        android:layout_width="@dimen/vm_avatar_normal"
+        android:layout_height="@dimen/vm_avatar_normal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -79,8 +79,8 @@
 
     <ImageView
         android:id="@+id/imRoomGuestApplyBtn"
-        android:layout_width="@dimen/vm_avatar_small"
-        android:layout_height="@dimen/vm_avatar_small"
+        android:layout_width="@dimen/vm_dimen_48"
+        android:layout_height="@dimen/vm_dimen_48"
         android:background="@drawable/shape_circle_common_bg"
         android:padding="@dimen/vm_dimen_8"
         android:src="@drawable/ic_sofa"
@@ -107,26 +107,39 @@
     <!--咨询者头像-->
     <ImageView
         android:id="@+id/imRoomGuestAvatarIV"
-        android:layout_width="@dimen/vm_avatar_small"
-        android:layout_height="@dimen/vm_avatar_small"
+        android:layout_width="@dimen/vm_dimen_48"
+        android:layout_height="@dimen/vm_dimen_48"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!--魔音-->
+    <ImageView
+        android:id="@+id/imCallMicMagicBtn"
+        android:layout_width="@dimen/vm_dimen_48"
+        android:layout_height="@dimen/vm_dimen_48"
+        android:layout_margin="@dimen/vm_dimen_16"
+        android:background="@drawable/im_selector_call_icon_bg"
+        android:padding="@dimen/vm_dimen_16"
+        android:src="@drawable/ic_mic_magic"
+        app:layout_constraintBottom_toBottomOf="@+id/imRoomGuestApplyBtn"
+        app:layout_constraintEnd_toStartOf="@+id/imRoomGuestApplyBtn"
+        app:layout_constraintTop_toTopOf="@+id/imRoomGuestApplyBtn" />
+
     <LinearLayout
-        android:id="@+id/imVoiceEffectLL"
+        android:id="@+id/imMagicVoiceLL"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_card_common_bg"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/imCallMicMagicBtn"
+        app:layout_constraintStart_toStartOf="@+id/imCallMicMagicBtn"
+        app:layout_constraintTop_toBottomOf="@+id/imCallMicMagicBtn"
         tools:visibility="visible">
 
         <ImageView
-            android:id="@+id/imVoiceEffectIV0"
+            android:id="@+id/imMagicVoiceIV0"
             android:layout_width="@dimen/vm_dimen_36"
             android:layout_height="@dimen/vm_dimen_36"
             android:layout_margin="@dimen/vm_dimen_4"
@@ -135,16 +148,17 @@
             android:src="@drawable/im_ic_avatar_oldman" />
 
         <ImageView
-            android:id="@+id/imVoiceEffectIV1"
+            android:id="@+id/imMagicVoiceIV1"
             android:layout_width="@dimen/vm_dimen_36"
             android:layout_height="@dimen/vm_dimen_36"
             android:layout_margin="@dimen/vm_dimen_4"
             android:background="@drawable/im_selector_call_icon_effect_bg"
             android:padding="@dimen/vm_dimen_8"
-            android:src="@drawable/im_ic_avatar_midlife" />
+            android:src="@drawable/im_ic_avatar_midlife"
+            android:visibility="gone" />
 
         <ImageView
-            android:id="@+id/imVoiceEffectIV2"
+            android:id="@+id/imMagicVoiceIV2"
             android:layout_width="@dimen/vm_dimen_36"
             android:layout_height="@dimen/vm_dimen_36"
             android:layout_margin="@dimen/vm_dimen_4"
@@ -153,7 +167,7 @@
             android:src="@drawable/im_ic_avatar_boy" />
 
         <ImageView
-            android:id="@+id/imVoiceEffectIV3"
+            android:id="@+id/imMagicVoiceIV3"
             android:layout_width="@dimen/vm_dimen_36"
             android:layout_height="@dimen/vm_dimen_36"
             android:layout_margin="@dimen/vm_dimen_4"
@@ -162,13 +176,14 @@
             android:src="@drawable/im_ic_avatar_girl" />
 
         <ImageView
-            android:id="@+id/imVoiceEffectIV4"
+            android:id="@+id/imMagicVoiceIV4"
             android:layout_width="@dimen/vm_dimen_36"
             android:layout_height="@dimen/vm_dimen_36"
             android:layout_margin="@dimen/vm_dimen_4"
             android:background="@drawable/im_selector_call_icon_effect_bg"
             android:padding="@dimen/vm_dimen_8"
-            android:src="@drawable/im_ic_avatar_loli" />
+            android:src="@drawable/im_ic_avatar_loli"
+            android:visibility="gone" />
     </LinearLayout>
     <!--申请上麦列表-->
     <androidx.recyclerview.widget.RecyclerView

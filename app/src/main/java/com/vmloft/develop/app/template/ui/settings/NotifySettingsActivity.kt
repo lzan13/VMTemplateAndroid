@@ -6,10 +6,10 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.databinding.ActivitySettingsNotifyBinding
 import com.vmloft.develop.app.template.router.AppRouter
-import com.vmloft.develop.library.common.base.BActivity
-import com.vmloft.develop.library.common.common.CConstants
-import com.vmloft.develop.library.common.common.CSPManager
-import com.vmloft.develop.library.common.notify.NotifyManager
+import com.vmloft.develop.library.base.BActivity
+import com.vmloft.develop.library.base.common.CConstants
+import com.vmloft.develop.library.base.common.CSPManager
+import com.vmloft.develop.library.base.notify.NotifyManager
 import com.vmloft.develop.library.tools.utils.VMFile
 
 /**
@@ -17,7 +17,7 @@ import com.vmloft.develop.library.tools.utils.VMFile
  * 描述：设置
  */
 @Route(path = AppRouter.appSettingsNotify)
-class NotifySettingsActivity : BActivity<ActivitySettingsNotifyBinding>() {
+class NotifySettingsActivity: BActivity<ActivitySettingsNotifyBinding>() {
     // 缓存地址
     private val cachePath = "${VMFile.cachePath}${CConstants.cacheImageDir}"
 

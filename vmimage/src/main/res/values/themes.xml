@@ -1,0 +1,8 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!--Display主题-->
+    <style name="AppTheme.Display" parent="@style/AppTheme">
+        <!--半透明状态栏-->
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+</resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--二维码-->
+    <string name="qr_code_scan">二维码识别</string>
+    <string name="qr_code_scan_err">未识别到二维码</string>
+    <string name="qr_code_scan_camera_err">打开相机失败</string>
+
+</resources>

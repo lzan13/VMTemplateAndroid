@@ -27,6 +27,18 @@
         app:layout_constraintTop_toBottomOf="@+id/coverIV" />
 
     <ImageView
+        android:id="@+id/identityIV"
+        android:layout_width="@dimen/vm_dimen_16"
+        android:layout_height="@dimen/vm_dimen_16"
+        android:background="@drawable/shape_circle_common_bg"
+        android:padding="@dimen/vm_dimen_2"
+        android:src="@drawable/ic_vip"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/avatarIV"
+        app:layout_constraintStart_toStartOf="@+id/avatarIV"
+        tools:visibility="visible" />
+
+    <ImageView
         android:id="@+id/genderIV"
         android:layout_width="@dimen/vm_dimen_12"
         android:layout_height="@dimen/vm_dimen_12"
@@ -39,7 +51,7 @@
     <TextView
         android:id="@+id/nameTV"
         style="@style/AppText.Subtitle"
-        android:layout_marginStart="@dimen/vm_dimen_16"
+        android:layout_marginStart="@dimen/vm_dimen_8"
         android:layout_marginEnd="@dimen/vm_margin_normal"
         android:ellipsize="end"
         android:maxLines="1"
@@ -52,7 +64,7 @@
     <TextView
         android:id="@+id/categoryTV"
         style="@style/AppText.Tips"
-        android:layout_marginStart="@dimen/vm_dimen_16"
+        android:layout_marginStart="@dimen/vm_dimen_8"
         android:layout_marginEnd="@dimen/vm_margin_normal"
         android:background="@drawable/shape_fillet_tips_bg"
         android:paddingStart="@dimen/vm_dimen_8"
@@ -82,6 +94,7 @@
         android:id="@+id/likeIV"
         android:layout_width="@dimen/vm_dimen_36"
         android:layout_height="@dimen/vm_dimen_36"
+        android:layout_marginEnd="-8dp"
         android:padding="@dimen/vm_dimen_10"
         android:src="@drawable/ic_like_line"
         app:layout_constraintBottom_toBottomOf="@+id/avatarIV"
@@ -99,7 +112,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/avatarIV"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/avatarIV"
-        tools:text="8" />
+        tools:text="999" />
 
     <TextView
         android:id="@+id/contentTV"
@@ -114,19 +127,33 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/vm_dimen_0_5"
+        android:layout_marginTop="@dimen/vm_dimen_16"
         android:background="@color/app_decoration"
-        app:layout_constraintTop_toBottomOf="@+id/contentTV"
-        android:layout_marginTop="@dimen/vm_dimen_16"/>
+        app:layout_constraintTop_toBottomOf="@+id/contentTV" />
 
     <TextView
         android:id="@+id/commentTitleTV"
         style="@style/AppText.Subtitle"
         android:layout_width="@dimen/vm_dimen_0"
-        android:padding="@dimen/vm_dimen_16"
         android:layout_marginTop="@dimen/vm_dimen_16"
+        android:padding="@dimen/vm_dimen_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/contentTV"
         tools:text="20 条评论" />
 
+    <TextView
+        android:id="@+id/reportTV"
+        style="@style/AppText.Tips"
+        android:layout_width="wrap_content"
+        android:layout_marginEnd="@dimen/vm_dimen_16"
+        android:background="@drawable/shape_fillet_common_border"
+        android:paddingStart="@dimen/vm_dimen_16"
+        android:paddingTop="@dimen/vm_dimen_8"
+        android:paddingEnd="@dimen/vm_dimen_16"
+        android:paddingBottom="@dimen/vm_dimen_8"
+        android:text="@string/feedback_dislike"
+        app:layout_constraintBottom_toBottomOf="@+id/commentTitleTV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/commentTitleTV" />
 </androidx.constraintlayout.widget.ConstraintLayout>
