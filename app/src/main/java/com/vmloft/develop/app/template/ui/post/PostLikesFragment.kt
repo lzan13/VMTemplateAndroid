@@ -65,7 +65,7 @@ class PostLikesFragment : BVMFragment<FragmentCommonListBinding, PostViewModel>(
     override fun initData() {
         userId = requireArguments().getString(argUserId) ?: ""
 
-        mViewModel.getLikePostList(userId)
+        mViewModel.likePostList(userId)
     }
 
     /**
@@ -85,16 +85,16 @@ class PostLikesFragment : BVMFragment<FragmentCommonListBinding, PostViewModel>(
         mAdapter.items = mItems
 
         mBinding.recyclerView.layoutManager = mLayoutManager
-        mBinding.recyclerView.addItemDecoration(StaggeredItemDecoration(VMDimen.dp2px(8)))
+        mBinding.recyclerView.addItemDecoration(StaggeredItemDecoration(VMDimen.dp2px(4)))
         mBinding.recyclerView.adapter = mAdapter
         // 设置下拉刷新
         mBinding.refreshLayout.setOnRefreshListener {
             mBinding.refreshLayout.setNoMoreData(false)
             page = CConstants.defaultPage
-            mViewModel.postList(userId)
+            mViewModel.likePostList(userId)
         }
         mBinding.refreshLayout.setOnLoadMoreListener {
-            mViewModel.postList(userId, page++)
+            mViewModel.likePostList(userId, page++)
         }
     }
 
@@ -150,7 +150,7 @@ class PostLikesFragment : BVMFragment<FragmentCommonListBinding, PostViewModel>(
      * 结果刷新
      */
     override fun onModelRefresh(model: BViewModel.UIModel) {
-        if (model.type == "likeList") {
+        if (model.type == "likePostList") {
             refresh(model.data as RPaging<Post>)
         }
     }

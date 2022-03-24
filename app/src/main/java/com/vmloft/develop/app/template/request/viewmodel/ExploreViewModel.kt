@@ -23,7 +23,7 @@ class ExploreViewModel(private val postRepo: PostRepository, private val likeRep
     /**
      * 加载内容
      */
-    fun getPostList(page: Int = CConstants.defaultPage, limit: Int = CConstants.defaultLimit, isService: Boolean = true) {
+    fun postList(page: Int = CConstants.defaultPage, limit: Int = CConstants.defaultLimit, isService: Boolean = true) {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
             val result = postRepo.postList(page, limit, isService)

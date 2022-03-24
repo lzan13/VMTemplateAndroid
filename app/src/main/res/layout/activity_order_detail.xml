@@ -100,7 +100,6 @@
             android:id="@+id/orderPayModeTV"
             style="@style/AppText.Title"
             android:layout_margin="@dimen/vm_dimen_8"
-            android:background="@drawable/selector_border_common_bg"
             android:padding="@dimen/vm_dimen_8"
             android:text="@string/order_pay_mode"
             app:layout_constraintStart_toStartOf="parent"

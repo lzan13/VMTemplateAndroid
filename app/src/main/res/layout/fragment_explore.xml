@@ -24,7 +24,10 @@
             android:layout_height="match_parent"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:overScrollMode="never" />
+            android:overScrollMode="never"
+            android:paddingStart="@dimen/vm_dimen_4"
+            android:paddingEnd="@dimen/vm_dimen_4"
+            android:scrollbars="none" />
     </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
     <include

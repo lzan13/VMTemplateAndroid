@@ -92,6 +92,7 @@ class HomeFragment : BVMFragment<FragmentHomeBinding, MatchViewModel>() {
         // 监听用户信息变化
         LDEventBus.observe(this, Constants.Event.userInfo, User::class.java) {
             mUser = it
+            selfMatch.user = mUser
             selfMatch.gender = mUser.gender
             if (selfMatch.content.isNullOrEmpty() && mUser.nickname.isNotEmpty()) {
                 selfMatch.content = "嗨😉 我是 ${mUser.nickname}"
@@ -242,6 +243,8 @@ class HomeFragment : BVMFragment<FragmentHomeBinding, MatchViewModel>() {
      * 发送匹配信息
      */
     private fun sendMatchInfo() {
+        if (selfMatch.user.nickname.isEmpty()) return
+
         // 提交自己的匹配信息到服务器
         mViewModel.submitMatch(selfMatch)
 

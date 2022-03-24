@@ -68,7 +68,9 @@ class PersonalInfoGuideActivity : BVMActivity<ActivityPersonalInfoGuideBinding, 
             finish()
         }
         if (model.type == "updateAvatar") {
-            SignManager.setCurrUser(model.data as User)
+            mUser = model.data as User
+            SignManager.setCurrUser(mUser)
+            IMGLoader.loadAvatar(mBinding.avatarIV, mUser.avatar)
         }
     }
 

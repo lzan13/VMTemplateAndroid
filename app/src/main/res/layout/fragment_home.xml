@@ -83,7 +83,7 @@
                     android:layout_height="wrap_content"
                     android:paddingEnd="@dimen/vm_dimen_4"
                     android:textColor="@color/app_match_count"
-                    android:textSize="@dimen/vm_size_24"
+                    android:textSize="@dimen/vm_size_32"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -135,11 +135,11 @@
                     android:layout_height="wrap_content"
                     android:paddingEnd="@dimen/vm_dimen_4"
                     android:textColor="@color/app_match_count"
-                    android:textSize="@dimen/vm_size_24"
+                    android:textSize="@dimen/vm_size_32"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="100" />
+                    tools:text="99" />
 
                 <ImageView
                     android:id="@+id/matchFastIV"

@@ -29,8 +29,8 @@ class LikeRepository : BaseRepository() {
     /**
      * 获取喜欢列表
      */
-    suspend fun getLikePostList(owner: String, page: Int, limit: Int, type: Int, id: String): RResult<RPaging<Post>> {
-        return safeRequest { executeResponse(APIRequest.likeAPI.getLikePostList(type, id, owner, page, limit)) }
+    suspend fun likePostList(owner: String, page: Int, limit: Int, type: Int, id: String): RResult<RPaging<Post>> {
+        return safeRequest { executeResponse(APIRequest.likeAPI.likePostList(type, id, owner, page, limit)) }
     }
 
 }

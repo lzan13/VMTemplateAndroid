@@ -1,6 +1,8 @@
 package com.vmloft.develop.app.template.ui.main.explore
 
 import android.view.*
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 
 import com.drakeet.multitype.MultiTypeAdapter
@@ -32,6 +34,8 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  */
 class ExploreFragment : BVMFragment<FragmentExploreBinding, ExploreViewModel>() {
 
+    private var isFirst = true
+
     private var page = CConstants.defaultPage
 
     // 长按弹出菜单
@@ -62,6 +66,7 @@ class ExploreFragment : BVMFragment<FragmentExploreBinding, ExploreViewModel>() 
             mBinding.recyclerView.post {
                 mBinding.recyclerView.invalidateItemDecorations();
             }
+            checkEmptyStatus()
         }
         // 监听 Post 屏蔽事件
         LDEventBus.observe(this, Constants.Event.shieldPost, Post::class.java) {
@@ -73,7 +78,7 @@ class ExploreFragment : BVMFragment<FragmentExploreBinding, ExploreViewModel>() 
     }
 
     override fun initData() {
-        mViewModel.getPostList(isService = false)
+        mViewModel.postList(isService = false)
     }
 
     /**
@@ -102,16 +107,15 @@ class ExploreFragment : BVMFragment<FragmentExploreBinding, ExploreViewModel>() 
         mAdapter.items = mItems
 
         mBinding.recyclerView.layoutManager = mLayoutManager
-        mBinding.recyclerView.addItemDecoration(StaggeredItemDecoration(VMDimen.dp2px(8)))
+        mBinding.recyclerView.addItemDecoration(StaggeredItemDecoration(VMDimen.dp2px(4)))
         mBinding.recyclerView.adapter = mAdapter
-
-        // 刷新监听
+        // 设置下拉刷新
         mBinding.refreshLayout.setOnRefreshListener {
             mBinding.refreshLayout.setNoMoreData(false)
             page = CConstants.defaultPage
-            mViewModel.getPostList()
+            mViewModel.postList()
         }
-        mBinding.refreshLayout.setOnLoadMoreListener { mViewModel.getPostList(page++) }
+        mBinding.refreshLayout.setOnLoadMoreListener { mViewModel.postList(page++) }
     }
 
     private fun refresh(paging: RPaging<Post>) {
@@ -160,6 +164,11 @@ class ExploreFragment : BVMFragment<FragmentExploreBinding, ExploreViewModel>() 
     override fun onModelRefresh(model: BViewModel.UIModel) {
         if (model.type == "postList") {
             refresh(model.data as RPaging<Post>)
+            // 因为为了快速展示数据，第一次从本地取，后边会再刷新一次
+            if (isFirst) {
+                isFirst = false
+                mBinding.refreshLayout.autoRefresh((CConstants.timeSecond / 2).toInt())
+            }
         } else if (model.type == "shieldPost") {
             LDEventBus.post(Constants.Event.shieldPost, currPost!!)
         }

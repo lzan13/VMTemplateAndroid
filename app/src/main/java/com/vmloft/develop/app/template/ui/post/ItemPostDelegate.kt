@@ -28,7 +28,7 @@ class ItemPostDelegate(listener: PostItemListener, longListener: BItemLongListen
         if (item.attachments.isNotEmpty()) {
             item.attachments[0].path
             updateCoverRatio(holder.binding.itemRatioLayout, item.attachments[0])
-            IMGLoader.loadCover(holder.binding.itemCoverIV, item.attachments[0].path, isRadius = true, radiusTL = 8, radiusTR = 8, thumbExt = "!vt256")
+            IMGLoader.loadCover(holder.binding.itemCoverIV, item.attachments[0].path, isRadius = true, thumbExt = "!vt256")
         }
 
         holder.binding.itemTimeTV.text = FormatUtils.relativeTime(item.createdAt)

@@ -84,7 +84,7 @@ class PostFallsFragment : BVMFragment<FragmentCommonListBinding, PostViewModel>(
         mAdapter.items = mItems
 
         mBinding.recyclerView.layoutManager = mLayoutManager
-        mBinding.recyclerView.addItemDecoration(StaggeredItemDecoration(VMDimen.dp2px(8)))
+        mBinding.recyclerView.addItemDecoration(StaggeredItemDecoration(VMDimen.dp2px(4)))
         mBinding.recyclerView.adapter = mAdapter
         // 设置下拉刷新
         mBinding.refreshLayout.setOnRefreshListener {

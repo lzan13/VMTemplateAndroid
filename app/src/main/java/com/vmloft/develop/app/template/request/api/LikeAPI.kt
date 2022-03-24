@@ -57,7 +57,7 @@ interface LikeAPI {
      * @param owner 发起喜欢的人，查询指定用户喜欢的数据是用到
      */
     @GET("v1/like")
-    suspend fun getLikePostList(
+    suspend fun likePostList(
         @Query("type") type: Int = 1,
         @Query("id") id: String,
         @Query("owner") owner: String,

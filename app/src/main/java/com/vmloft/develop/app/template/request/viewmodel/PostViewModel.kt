@@ -105,7 +105,7 @@ class PostViewModel(
     }
 
     /**
-     * 创建
+     * 删除
      */
     fun deletePost(id: String) {
         viewModelScope.launch(Dispatchers.Main) {
@@ -122,7 +122,7 @@ class PostViewModel(
     }
 
     /**
-     * 创建
+     * 获取单个帖子信息
      */
     fun postInfo(id: String) {
         viewModelScope.launch(Dispatchers.Main) {
@@ -249,13 +249,13 @@ class PostViewModel(
     /**
      * 获取指定用户喜欢的帖子
      */
-    fun getLikePostList(owner: String, page: Int = CConstants.defaultPage, limit: Int = CConstants.defaultLimit) {
+    fun likePostList(owner: String, page: Int = CConstants.defaultPage, limit: Int = CConstants.defaultLimit) {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val result = likeRepo.getLikePostList(owner, page, limit, 1, "")
+            val result = likeRepo.likePostList(owner, page, limit, 1, "")
 
             if (result is RResult.Success) {
-                emitUIState(data = result.data, type = "likeList")
+                emitUIState(data = result.data, type = "likePostList")
                 return@launch
             } else if (result is RResult.Error) {
                 emitUIState(isSuccess = false, code = result.code, error = result.error)
