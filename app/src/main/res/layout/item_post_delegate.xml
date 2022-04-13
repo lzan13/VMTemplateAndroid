@@ -7,35 +7,29 @@
     android:background="@drawable/shape_card_common_bg"
     tools:context="com.vmloft.develop.app.template.ui.post.ItemPostDelegate">
 
-    <com.vmloft.develop.library.tools.widget.VMRatioLayout
-        android:id="@+id/itemRatioLayout"
+    <ImageView
+        android:id="@+id/itemCoverIV"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="visible"
-        app:vm_layout_ratio="1.062">
+        android:layout_height="@dimen/vm_dimen_192"
+        android:scaleType="centerCrop"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/itemCoverIV"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
-
-        <TextView
-            android:id="@+id/itemTimeTV"
-            style="@style/AppText.Tips"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_margin="@dimen/vm_dimen_4"
-            android:background="@drawable/shape_fillet_tips_bg"
-            android:paddingStart="@dimen/vm_dimen_8"
-            android:paddingTop="@dimen/vm_dimen_4"
-            android:paddingEnd="@dimen/vm_dimen_8"
-            android:paddingBottom="@dimen/vm_dimen_4"
-            android:visibility="gone"
-            tools:text="2020.09.22"
-            tools:visibility="visible" />
-    </com.vmloft.develop.library.tools.widget.VMRatioLayout>
+    <!--    <TextView-->
+    <!--        android:id="@+id/itemTimeTV"-->
+    <!--        style="@style/AppText.Tips"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_margin="@dimen/vm_dimen_4"-->
+    <!--        android:background="@drawable/shape_fillet_tips_bg"-->
+    <!--        android:paddingStart="@dimen/vm_dimen_8"-->
+    <!--        android:paddingTop="@dimen/vm_dimen_4"-->
+    <!--        android:paddingEnd="@dimen/vm_dimen_8"-->
+    <!--        android:paddingBottom="@dimen/vm_dimen_4"-->
+    <!--        android:visibility="gone"-->
+    <!--        tools:text="2020.09.22"-->
+    <!--        tools:visibility="visible" />-->
 
     <TextView
         android:id="@+id/itemTitleTV"
@@ -49,9 +43,10 @@
         android:paddingEnd="@dimen/vm_dimen_8"
         android:textSize="@dimen/vm_size_12"
         android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@+id/itemRatioLayout"
-        app:layout_constraintStart_toStartOf="@+id/itemRatioLayout"
-        app:layout_constraintTop_toBottomOf="@+id/itemRatioLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_goneMarginTop="@dimen/vm_dimen_8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/itemCoverIV"
         tools:text="文本标题"
         tools:visibility="visible" />
 
@@ -65,8 +60,8 @@
         android:paddingStart="@dimen/vm_dimen_8"
         android:paddingTop="@dimen/vm_dimen_4"
         android:paddingEnd="@dimen/vm_dimen_8"
-        app:layout_constraintEnd_toEndOf="@+id/itemRatioLayout"
-        app:layout_constraintStart_toStartOf="@+id/itemRatioLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/itemTitleTV"
         tools:text="这里是内容，最多三行" />
 
@@ -76,7 +71,7 @@
         android:layout_height="@dimen/vm_dimen_36"
         android:padding="@dimen/vm_dimen_8"
         android:scaleType="centerCrop"
-        app:layout_constraintStart_toStartOf="@+id/itemRatioLayout"
+        app:layout_constraintStart_toStartOf="@+id/itemCoverIV"
         app:layout_constraintTop_toBottomOf="@+id/itemContentTV" />
 
     <TextView

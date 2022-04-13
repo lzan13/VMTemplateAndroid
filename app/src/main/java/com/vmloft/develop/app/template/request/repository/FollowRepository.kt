@@ -22,15 +22,15 @@ class FollowRepository : BaseRepository() {
     /**
      * 取消关注
      */
-    suspend fun cancelFollow(id: String): RResult<Any> {
-        return safeRequest { executeResponse(APIRequest.followAPI.cancelFollow(id)) }
+    suspend fun cancel(id: String): RResult<Any> {
+        return safeRequest { executeResponse(APIRequest.followAPI.cancel(id)) }
     }
 
     /**
      * 获取关注列表
      */
-    suspend fun getFollowList(userId: String, type: Int, page: Int, limit: Int): RResult<RPaging<User>> {
-        return safeRequest { executeResponse(APIRequest.followAPI.getFollowList(userId, type, page, limit)) }
+    suspend fun followList(type: Int, page: Int, limit: Int): RResult<RPaging<User>> {
+        return safeRequest { executeResponse(APIRequest.followAPI.followList(type, page, limit)) }
     }
 
 }

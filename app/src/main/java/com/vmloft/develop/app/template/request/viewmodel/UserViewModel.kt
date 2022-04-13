@@ -1,13 +1,12 @@
 package com.vmloft.develop.app.template.request.viewmodel
 
 import androidx.lifecycle.viewModelScope
+
 import com.vmloft.develop.app.template.common.CacheManager
+import com.vmloft.develop.app.template.request.repository.*
 import com.vmloft.develop.library.request.RResult
-import com.vmloft.develop.app.template.request.repository.CommonRepository
-import com.vmloft.develop.app.template.request.repository.FollowRepository
-import com.vmloft.develop.app.template.request.repository.InfoRepository
-import com.vmloft.develop.app.template.request.repository.TradeRepository
 import com.vmloft.develop.library.base.BViewModel
+import com.vmloft.develop.library.base.common.CConstants
 import com.vmloft.develop.library.common.utils.JsonUtils
 import com.vmloft.develop.library.qr.QRHelper
 import com.vmloft.develop.library.tools.utils.bitmap.VMBitmap
@@ -32,6 +31,7 @@ import java.io.File
 class UserViewModel(
     private val repo: InfoRepository,
     private val commonRepo: CommonRepository,
+    private val blacklistRepo: BlacklistRepository,
     private val followRepo: FollowRepository,
     private val tradeRepo: TradeRepository,
 ) : BViewModel() {
@@ -277,7 +277,7 @@ class UserViewModel(
      * 用户交互接口
      */
     /**
-     * 关注用户
+     * 关注
      */
     fun follow(id: String) {
         viewModelScope.launch(Dispatchers.Main) {
@@ -293,14 +293,82 @@ class UserViewModel(
     }
 
     /**
-     * 取消关注用户
+     * 取消关注
      */
     fun cancelFollow(id: String) {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val result = followRepo.cancelFollow(id)
+            val result = followRepo.cancel(id)
             if (result is RResult.Success) {
                 emitUIState(data = result.data, type = "cancelFollow")
+                return@launch
+            } else if (result is RResult.Error) {
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
+            }
+        }
+    }
+
+    /**
+     * 关注列表
+     */
+    fun followList(type: Int = 0, page: Int = CConstants.defaultPage, limit: Int = CConstants.defaultLimit) {
+        viewModelScope.launch(Dispatchers.Main) {
+            emitUIState(true)
+            val result = followRepo.followList(type, page, limit)
+            if (result is RResult.Success) {
+                emitUIState(data = result.data, type = "followList")
+                return@launch
+            } else if (result is RResult.Error) {
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
+            }
+        }
+    }
+
+    /**
+     * --------------------------------------------------------------------
+     * 黑名单接口
+     */
+    /**
+     * 拉黑
+     */
+    fun blacklist(id: String) {
+        viewModelScope.launch(Dispatchers.Main) {
+            emitUIState(true)
+            val result = blacklistRepo.blacklist(id)
+            if (result is RResult.Success) {
+                emitUIState(data = result.data, toast = result.msg, type = "blacklist")
+                return@launch
+            } else if (result is RResult.Error) {
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
+            }
+        }
+    }
+
+    /**
+     * 取消拉黑
+     */
+    fun cancelBlacklist(id: String) {
+        viewModelScope.launch(Dispatchers.Main) {
+            emitUIState(true)
+            val result = blacklistRepo.cancel(id)
+            if (result is RResult.Success) {
+                emitUIState(data = result.data, toast = result.msg, type = "cancelBlacklist")
+                return@launch
+            } else if (result is RResult.Error) {
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
+            }
+        }
+    }
+
+    /**
+     * 黑名单列表
+     */
+    fun getBlacklist(type: Int, page: Int = CConstants.defaultPage, limit: Int = CConstants.defaultLimit) {
+        viewModelScope.launch(Dispatchers.Main) {
+            emitUIState(true)
+            val result = blacklistRepo.getBlacklist(type, page, limit)
+            if (result is RResult.Success) {
+                emitUIState(data = result.data, type = "getBlacklist")
                 return@launch
             } else if (result is RResult.Error) {
                 emitUIState(isSuccess = false, code = result.code, error = result.error)

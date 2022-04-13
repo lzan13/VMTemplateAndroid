@@ -31,6 +31,9 @@ object IMManager {
         IM.signIn(user.id, user.password)
     }
 
+    /**
+     * 退出登录
+     */
     fun exit() {
         IM.signOut(false)
     }

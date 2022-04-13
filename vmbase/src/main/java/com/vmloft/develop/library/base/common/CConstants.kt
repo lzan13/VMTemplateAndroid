@@ -17,8 +17,8 @@ object CConstants {
 
     // 分页默认数据
     const val defaultPage = 0
-    const val defaultLimit = 50
-    const val defaultLimitBig = 100
+    const val defaultLimit = 20
+    const val defaultLimitBig = 50
 
     // 时间常量
     const val timeSecond: Long = 1000

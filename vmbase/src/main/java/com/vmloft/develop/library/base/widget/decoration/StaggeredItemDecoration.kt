@@ -30,22 +30,24 @@ class StaggeredItemDecoration(val space: Int, val column: Int = 2, val startCoun
         // 瀑布流专属分割线
         val params = view.layoutParams as StaggeredGridLayoutManager.LayoutParams
         outRect.top = space
+        outRect.left = space / 2
+        outRect.right = space / 2
         /**
          * 根据params.getSpanIndex()来判断左右边确定分割线
          * 第一列设置左边距为space，右边距为space/2  （第二列反之）
          */
-        if (params.spanIndex % column == 0) {
-            // 第一列
-            outRect.left = space * 2
-            outRect.right = space / 2
-        } else if (params.spanIndex % column == column - 1) {
-            // 最后一列
-            outRect.left = space / 2
-            outRect.right = space * 2
-        } else {
-            // 中间部分
-            outRect.left = space / 2
-            outRect.right = space / 2
-        }
+//        if (params.spanIndex % column == 0) {
+//            // 第一列
+//            outRect.left = space * 2
+//            outRect.right = space / 2
+//        } else if (params.spanIndex % column == column - 1) {
+//            // 最后一列
+//            outRect.left = space / 2
+//            outRect.right = space * 2
+//        } else {
+//            // 中间部分
+//            outRect.left = space / 2
+//            outRect.right = space / 2
+//        }
     }
 }

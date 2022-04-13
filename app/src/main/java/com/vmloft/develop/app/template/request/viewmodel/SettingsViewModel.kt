@@ -53,6 +53,24 @@ class SettingsViewModel(private val repo: CommonRepository, private val signRepo
             }
         }
     }
+    /**
+     * 加载用户行为规范
+     */
+    fun userNorm() {
+        viewModelScope.launch(Dispatchers.Main) {
+            emitUIState(true)
+            val result = withContext(Dispatchers.IO) {
+                repo.userNorm()
+            }
+
+            if (result is RResult.Success) {
+                emitUIState(data = result.data, type = "userNorm")
+                return@launch
+            } else if (result is RResult.Error) {
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
+            }
+        }
+    }
 
     /**
      * 销毁账户

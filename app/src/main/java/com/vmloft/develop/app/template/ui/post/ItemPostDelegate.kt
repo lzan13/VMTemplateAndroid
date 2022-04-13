@@ -3,6 +3,7 @@ package com.vmloft.develop.app.template.ui.post
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.databinding.ItemPostDelegateBinding
@@ -13,6 +14,8 @@ import com.vmloft.develop.library.base.utils.FormatUtils
 import com.vmloft.develop.library.common.config.ConfigManager
 import com.vmloft.develop.library.image.IMGLoader
 import com.vmloft.develop.library.tools.utils.VMColor
+import com.vmloft.develop.library.tools.utils.VMDimen
+import com.vmloft.develop.library.tools.utils.VMStr
 import com.vmloft.develop.library.tools.widget.VMRatioLayout
 
 /**
@@ -24,18 +27,21 @@ class ItemPostDelegate(listener: PostItemListener, longListener: BItemLongListen
     override fun initVB(inflater: LayoutInflater, parent: ViewGroup) = ItemPostDelegateBinding.inflate(inflater, parent, false)
 
     override fun onBindView(holder: BItemHolder<ItemPostDelegateBinding>, item: Post) {
-        holder.binding.itemRatioLayout.visibility = if (item.attachments.isNotEmpty()) View.VISIBLE else View.GONE
+        holder.binding.itemCoverIV.visibility = if (item.attachments.isNotEmpty()) View.VISIBLE else View.GONE
         if (item.attachments.isNotEmpty()) {
             item.attachments[0].path
-            updateCoverRatio(holder.binding.itemRatioLayout, item.attachments[0])
+            updateCoverRatio(holder.binding.itemCoverIV, item.attachments[0])
             IMGLoader.loadCover(holder.binding.itemCoverIV, item.attachments[0].path, isRadius = true, thumbExt = "!vt256")
         }
 
-        holder.binding.itemTimeTV.text = FormatUtils.relativeTime(item.createdAt)
+//        holder.binding.itemTimeTV.text = FormatUtils.relativeTime(item.createdAt)
         holder.binding.itemContentTV.text = item.content
 
         IMGLoader.loadAvatar(holder.binding.itemAvatarIV, item.owner.avatar)
-        holder.binding.itemNameTV.text = item.owner.nickname
+
+        val nickname = if (item.owner.nickname.isNullOrEmpty()) VMStr.byRes(R.string.info_nickname_default) else item.owner.nickname
+        holder.binding.itemNameTV.text = nickname
+
         if (ConfigManager.clientConfig.vipEntry && item.owner.role.identity in 100..199) {
             holder.binding.itemNameTV.setTextColor(VMColor.byRes(R.color.app_identity_vip))
         }
@@ -48,7 +54,7 @@ class ItemPostDelegate(listener: PostItemListener, longListener: BItemLongListen
     /**
      * 根据图片宽高更新封面比例
      */
-    private fun updateCoverRatio(coverLayout: VMRatioLayout, attachment: Attachment) {
+    private fun updateCoverRatio(coverView: View, attachment: Attachment) {
         var w = attachment.width
         var h = attachment.height
         if (w == 0 || h == 0) {
@@ -59,7 +65,9 @@ class ItemPostDelegate(listener: PostItemListener, longListener: BItemLongListen
         } else if (w > h * 2) {
             w = h * 2
         }
-        coverLayout.setRatio(h / w.toFloat())
+        val realW = (VMDimen.screenWidth - VMDimen.dp2px(4) * 3) / 2
+        coverView.layoutParams.width = realW
+        coverView.layoutParams.height = realW * h / w
     }
 
     /**

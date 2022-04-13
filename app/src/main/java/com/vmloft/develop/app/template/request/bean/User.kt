@@ -38,10 +38,12 @@ data class User(
     var likeCount: Int = 0, // 喜欢数
     var matchCount: Int = 0, // 可用匹配次数
     var postCount: Int = 0, // 帖子数
+    var strangerMsg: Boolean = true,//陌生人私信
     var relation: Int = -1, // 当前用户与他人关系
+    var blacklist: Int = -1, // 当前用户与他人黑名单关系
     var profession: Profession = Profession(), // 职业
     var role: Role = Role(), // 身份
-    var roleDate: String="", // 身份过期时间，主要是判断会员到期
+    var roleDate: String = "", // 身份过期时间，主要是判断会员到期
     var token: String = "",
     var idCardNumber: String = "",
     var realName: String = "",

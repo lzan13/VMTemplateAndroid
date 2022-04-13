@@ -7,33 +7,33 @@ import com.vmloft.develop.library.request.RResponse
 import retrofit2.http.*
 
 /**
- * Create by lzan13 on 2020-02-13 17:35
- * 描述：关注相关 API 接口
+ * Create by lzan13 on 2020/04/07 17:35
+ * 描述：黑名单相关 API 接口
  */
-interface FollowAPI {
+interface BlacklistAPI {
 
     /**
-     * 关注
+     * 拉黑
      */
     @FormUrlEncoded
-    @POST("v1/follow")
-    suspend fun follow(@Field("id") id: String): RResponse<Any>
+    @POST("v1/blacklist")
+    suspend fun blacklist(@Field("id") id: String): RResponse<Any>
 
     /**
-     * 取消关注
+     * 取消拉黑
      */
     @FormUrlEncoded
-    @POST("v1/follow/cancel")
+    @POST("v1/blacklist/cancel")
     suspend fun cancel(@Field("id") id: String): RResponse<Any>
 
     /**
-     * 获取关注列表
+     * 获取拉黑列表
      * @param page
      * @param limit
-     * @param type 关系类型 0-我关注的 1-关注我的 2-互相关注
+     * @param type 关系类型 0-我拉黑的 1-拉黑我的 2-互相拉黑
      */
-    @GET("v1/follow")
-    suspend fun followList(
+    @GET("v1/blacklist")
+    suspend fun getBlacklist(
         @Query("type") type: Int,
         @Query("page") page: Int,
         @Query("limit") limit: Int,

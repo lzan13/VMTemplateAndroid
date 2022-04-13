@@ -70,6 +70,13 @@ interface CommonAPI {
 
 
     /**
+     * 获取用户行为规范
+     */
+    @GET("v1/common/userNorm")
+    suspend fun userNorm(): RResponse<Config>
+
+
+    /**
      * ------------------------------------ 反馈接口  ------------------------------------
      */
     /**

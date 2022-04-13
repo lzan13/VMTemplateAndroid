@@ -6,17 +6,24 @@
     android:layout_height="match_parent"
     android:background="@color/app_bg"
     android:orientation="vertical"
-    tools:context=".ui.settings.AccountSecuritySettingsActivity">
+    tools:context=".ui.settings.PrivacySettingsActivity">
 
     <include layout="@layout/widget_common_top_bar" />
 
-
-    <!--销毁账户-->
+    <!--陌生人私信-->
     <com.vmloft.develop.library.tools.widget.VMLineView
-        android:id="@+id/signDestroyLV"
+        android:id="@+id/strangerMsgLV"
+        style="@style/AppLVStyle.Switch"
+        android:layout_marginTop="@dimen/vm_dimen_8"
+        app:vm_line_description="@string/privacy_stranger_msg_tips"
+        app:vm_line_title="@string/privacy_stranger_msg"
+        app:vm_line_title_color="@color/app_main" />
+
+    <!--陌生人私信-->
+    <com.vmloft.develop.library.tools.widget.VMLineView
+        android:id="@+id/blacklistLV"
         style="@style/AppLVStyle.NoDecoration"
         android:layout_marginTop="@dimen/vm_dimen_8"
-        app:vm_line_description="@string/account_destroy_desc"
-        app:vm_line_title="@string/account_destroy"
+        app:vm_line_title="@string/privacy_blacklist"
         app:vm_line_title_color="@color/app_main" />
 </LinearLayout>

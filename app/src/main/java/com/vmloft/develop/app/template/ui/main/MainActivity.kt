@@ -154,21 +154,26 @@ class MainActivity : BVMActivity<ActivityMainBinding, MainViewModel>() {
     /**
      * 界面切换
      */
-    private fun switchFragment(position: Int) {
+    private fun switchFragment(tab: Int) {
+        if (tab == 0) {
+            mBinding.mainNav.setBackgroundResource(R.color.vm_transparent)
+        }else{
+            mBinding.mainNav.setBackgroundResource(R.color.app_bg_nav)
+        }
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
         val oldFragment: Fragment = fragmentList[currentTab]
-        val newFragment: Fragment = fragmentList[position]
+        val newFragment: Fragment = fragmentList[tab]
         if (currentFragment == null) {
-            transaction.add(R.id.mainContainerFL, newFragment, fragmentKeys[position]).commit()
+            transaction.add(R.id.mainContainerFL, newFragment, fragmentKeys[tab]).commit()
         } else {
             if (newFragment.isAdded) {
                 transaction.hide(oldFragment).show(newFragment).commit()
             } else {
-                transaction.hide(oldFragment).add(R.id.mainContainerFL, newFragment, fragmentKeys[position]).commit()
+                transaction.hide(oldFragment).add(R.id.mainContainerFL, newFragment, fragmentKeys[tab]).commit()
             }
         }
 
-        currentTab = position
+        currentTab = tab
         currentFragment = newFragment
     }
 

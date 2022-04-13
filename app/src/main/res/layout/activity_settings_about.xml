@@ -67,6 +67,18 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/userNormTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/vm_dimen_8"
+        android:text="@string/user_norm"
+        android:textColor="@color/app_link"
+        android:textSize="@dimen/vm_size_12"
+        app:layout_constraintBottom_toTopOf="@+id/userAgreementTV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
         android:id="@+id/userAgreementTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

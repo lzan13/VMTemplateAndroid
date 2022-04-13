@@ -12,7 +12,6 @@
         android:layout_height="@dimen/bottom_nav_height"
         android:layout_alignParentBottom="true"
         android:background="@color/app_bg_nav"
-        app:itemBackground="@color/app_bg_nav"
         app:itemHorizontalTranslationEnabled="false"
         app:itemIconTint="@color/selector_bottom_nav"
         app:itemTextAppearanceActive="@style/AppText.BNV.Active"

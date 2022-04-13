@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">社交模板</string>
+    <string name="app_name">忘忧</string>
 
     <!--引导-->
     <string name="guide_prev">上一步</string>
@@ -64,11 +64,12 @@
     <!--发布-->
     <string name="post_create_title">发布内容</string>
     <string name="post_success_hint">内容发布成功</string>
-    <string name="post_content_hint">留下一个脚印👣 分享这一刻的心情 ~ </string>
-    <string name="post_content_limit_hint">内容须在 1-800 之间，维护健康环境，需要你我同行 😋</string>
+    <string name="post_content_hint">留下一个脚印👣 分享此刻的心情 ~ </string>
+    <string name="post_content_tips">维护健康网络环境，发布内容请遵守《用户行为规范》</string>
+    <string name="post_content_limit_hint">内容须在 1-800 之间</string>
     <string name="post_detail_title">内容详情</string>
     <string name="post_comment_hint">喜欢就留下你的脚印 👣 </string>
-    <string name="post_comment_limit_hint">内容须在 1-64 之间，维护健康环境，需要你我同行 😋</string>
+    <string name="post_comment_limit_hint">内容须在 1-64 之间</string>
 
     <!--房间-->
     <string name="room_list">房间大厅</string>
@@ -84,12 +85,26 @@
     <!--我的-->
     <string name="fans">粉丝</string>
     <string name="follow">关注</string>
-    <string name="like">我喜欢的</string>
+
+    <string name="mine_publish">我发布的</string>
+    <string name="mine_like">我喜欢的</string>
+    <string name="mine_follow">我的关注</string>
+    <string name="mine_fans">我的粉丝</string>
+    <string name="mine_blacklist">我的黑名单</string>
 
     <string name="follow_status_0">已关注</string>
     <string name="follow_status_1">回粉</string>
     <string name="follow_status_2">互相关注</string>
-    <string name="follow_cancel_tips">确定取消关注？</string>
+    <string name="follow_cancel_tips">确定取消关注对方吗？</string>
+
+    <string name="menu_report">举报</string>
+
+    <string name="blacklist_title">🙈不喜欢TA</string>
+    <string name="blacklist_add">加入黑名单</string>
+    <string name="blacklist_add_tips">确定要将对方加入黑名单?</string>
+    <string name="blacklist_remove">移除黑名单</string>
+    <string name="blacklist_remove_tips">确定要将对方移出黑名单?</string>
+    <string name="blacklist">黑名单列表</string>
 
     <!--设置-->
     <string name="settings">设置</string>
@@ -114,7 +129,7 @@
     <string name="feedback_type_shield">🙈不想看</string>
     <string name="feedback_type_shield_post">不看内容</string>
     <string name="feedback_type_shield_author">不看作者</string>
-    <string name="feedback_type_report">🙅内容不适</string>
+    <string name="feedback_type_report">🙅举报反馈</string>
     <string name="feedback_type_report_ads">广告引流</string>
     <string name="feedback_type_report_sensitivity">政治敏感</string>
     <string name="feedback_type_report_illegal">违法违规</string>
@@ -131,12 +146,18 @@
     <string name="version_upgrade">马上升级</string>
     <string name="version_is_new">已经是最新版本</string>
 
-    <!--深色模式主题设置-->
+    <!--账户安全-->
     <string name="settings_account_security">账户与安全</string>
     <string name="account_destroy">销毁账户</string>
     <string name="account_destroy_desc">销毁账户将清空你所有数据，并且不可恢复，请谨慎操作</string>
     <string name="account_destroy_hint">销毁账户将清空你所有数据，并且不可恢复，确认销毁账户吗？</string>
     <string name="account_destroy_success">账户销毁已完成，感谢你的使用，期待再见</string>
+
+    <!--隐私设置-->
+    <string name="settings_privacy">隐私设置</string>
+    <string name="privacy_stranger_msg">陌生人私信</string>
+    <string name="privacy_stranger_msg_tips">关闭后将不允许陌生人通过个人主页向你发起聊天</string>
+    <string name="privacy_blacklist">黑名单</string>
 
     <!--深色模式主题设置-->
     <string name="settings_dark">深色模式</string>
@@ -146,6 +167,8 @@
     <string name="settings_dark_normal">正常模式</string>
 
     <!--通知相关设置-->
+    <string name="notify_open">开启消息通知</string>
+    <string name="notify_open_tips">不错过对方的消息</string>
     <string name="settings_notify">通知设置</string>
     <string name="notify_switch">通知开关</string>
     <string name="notify_switch_msg">接收新消息通知</string>
@@ -254,7 +277,7 @@
     <string name="gold_desc_h5">支付遇到问题</string>
     <string name="gold_desc_body5">如果显示充值成功(已经付费成功)，但忘忧币没有到账，可以先杀掉App进程再次进入，查看忘忧币是否有更新(有时候会有延迟哒，不要着急哦~)\n\n
         如果等了一段时间忘忧币还没有增加，请截图你的充值账单，反馈给我们，我们将尽快核查你的账单处理的哦~\n\n
-<!--        微信：进入【微信】>【我】>【支付】>【钱包】>【账单】> 找到与【忘忧 App】相关的那一条支付记录，进入【账单详情】截图 \n\n-->
+        <!--        微信：进入【微信】>【我】>【支付】>【钱包】>【账单】> 找到与【忘忧 App】相关的那一条支付记录，进入【账单详情】截图 \n\n-->
         支付宝：进入【支付宝】>【我的】>【账单】> 找到与【忘忧 App】相关的那一条支付记录，进入【订单详情】截图</string>
     <string name="go_feedback">去反馈</string>
 
@@ -305,6 +328,7 @@
 
     <string name="user_agreement">《用户协议》</string>
     <string name="private_policy">《隐私政策》</string>
+    <string name="user_norm">《用户行为规范》</string>
     <string name="agreement_policy_prefix">进入表示你已阅读并同意</string>
     <string name="agreement_policy_hint">请阅读并同意《用户协议》与《隐私政策》</string>
     <string name="agreement_policy_dialog_title">用户协议与隐私政策</string>
@@ -312,7 +336,7 @@
         1.为了向你提供功能服务，我们会根据你使用服务的具体需要，收集必要的信息；\n
         2.未经你授权，我们不会与第三方共享或对外提供你的信息；\n
         3.你可以访问、更正、删除你的个人信息，我们也将提供注销和更正方式。\n
-        请你阅读完整版《用户协议》和《隐私政策》，点击「同意」即表示你已阅读并同意全部条款。</string>
+        请你阅读完整版《用户协议》和《隐私政策》以及《用户行为规范》，点击「同意」即表示你已阅读并同意全部条款。</string>
 
     <!--网络请求-->
     <string name="network_failed">请求失败，请稍后重试</string>

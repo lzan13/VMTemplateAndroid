@@ -22,12 +22,14 @@ object IMRouter {
      * @param chatType 聊天类型 0-单聊 1-群聊 2-聊天室
      */
     fun goChat(chatId: String, extend: String = "") {
-        ARouter.getInstance().build(imChat)
-            .withFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            .withString("chatId", chatId)
-            .withInt("chatType", IMConstants.ChatType.imChatSingle)
-            .withString("chatExtend", extend)
-            .navigation()
+        CRouter.go(imChat, IMConstants.ChatType.imChatSingle, str0 = chatId, str1 = extend, flags = Intent.FLAG_ACTIVITY_NEW_TASK)
+
+//        ARouter.getInstance().build(imChat)
+//            .withFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//            .withString("chatId", chatId)
+//            .withInt("chatType", IMConstants.ChatType.imChatSingle)
+//            .withString("chatExtend", extend)
+//            .navigation()
     }
 
     /**

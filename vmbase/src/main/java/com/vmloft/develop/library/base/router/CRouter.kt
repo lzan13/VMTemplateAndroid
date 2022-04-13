@@ -55,6 +55,7 @@ object CRouter {
         obj0: Parcelable? = null,
         obj1: Parcelable? = null,
         list: ArrayList<Any>? = null,
+        flags: Int = 0,
     ) {
         val postcard = ARouter.getInstance().build(path)
 
@@ -85,6 +86,9 @@ object CRouter {
                 list.any { it is Parcelable } -> postcard.withParcelableArrayList(paramsList, list as ArrayList<Parcelable>)
                 else -> VMLog.d("暂不支持的类型")
             }
+        }
+        if (flags != 0) {
+            postcard.withFlags(flags)
         }
 
         postcard.navigation()

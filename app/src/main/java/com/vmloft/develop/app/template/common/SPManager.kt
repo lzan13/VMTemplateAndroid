@@ -47,6 +47,7 @@ object SPManager {
     private val clientConfigTimeKey = "clientConfigTimeKey" // 上次请求客户端配置时间
     private val privatePolicyTimeKey = "privatePolicyTimeKey" // 上次请求隐私政策时间
     private val userAgreementTimeKey = "userAgreementTimeKey" // 上次请求用户协议时间
+    private val userNormTimeKey = "userNormTimeKey" // 上次请求用户行为规范时间
 
 
     /**
@@ -229,6 +230,13 @@ object SPManager {
     fun getUserAgreementTime(): Long = get(timeEntry, userAgreementTimeKey, 0L) as Long
     fun setUserAgreementTime(time: Long) {
         putAsync(timeEntry, userAgreementTimeKey, time)
+    }
+    /**
+     * 获取最近一次请求用户行为规范时间
+     */
+    fun getUserNormTime(): Long = get(timeEntry, userNormTimeKey, 0L) as Long
+    fun setUserNormTime(time: Long) {
+        putAsync(timeEntry, userNormTimeKey, time)
     }
 
 }

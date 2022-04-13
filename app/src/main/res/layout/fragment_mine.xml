@@ -205,7 +205,8 @@
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/mineFollowLL"
                 app:layout_constraintStart_toEndOf="@+id/mineFollowLL"
-                app:layout_constraintTop_toTopOf="@+id/mineFollowLL">
+                app:layout_constraintTop_toTopOf="@+id/mineFollowLL"
+                tools:visibility="visible">
 
                 <TextView
                     android:id="@+id/mineLikeTV"
@@ -216,7 +217,7 @@
                 <TextView
                     style="@style/AppText.Tips"
                     android:layout_marginTop="@dimen/vm_margin_normal"
-                    android:text="@string/like"
+                    android:text="@string/mine_like"
                     android:textColor="@color/app_title_display" />
             </LinearLayout>
 

@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.hyphenate.chat.EMMessage
+import com.hyphenate.chat.EMTextMessageBody
 
 import com.vmloft.develop.library.base.BItemDelegate
 import com.vmloft.develop.library.base.utils.FormatUtils
@@ -27,7 +28,13 @@ class MsgSystemDelegate : BItemDelegate<EMMessage, ImItemMsgSystemDelegateBindin
 
         val content = when (IMChatManager.getMsgType(item)) {
             IMConstants.MsgType.imRecall -> VMStr.byRes(R.string.im_recall_already)
-            else -> item.getStringAttribute(IMConstants.Common.msgAttrSystem, "")
+            else -> {
+                var content = item.getStringAttribute(IMConstants.Common.msgAttrSystem, "")
+                if (content.isNullOrEmpty()) {
+                    content = (item.body as EMTextMessageBody).message
+                }
+                content
+            }
         }
         holder.binding.imMsgContentTV.text = content
 

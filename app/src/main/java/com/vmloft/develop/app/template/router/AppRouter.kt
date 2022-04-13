@@ -17,6 +17,7 @@ object AppRouter {
     // 设置
     const val appSettings = "/App/Settings"
     const val appSettingsAccountSecurity = "/App/SettingsAccountSecurity"
+    const val appSettingsPrivacy = "/App/SettingsPrivacy"
     const val appSettingsDark = "/App/SettingsDark"
     const val appSettingsMedia = "/App/SettingsMedia"
     const val appSettingsNotify = "/App/SettingsNotify"
@@ -43,6 +44,8 @@ object AppRouter {
     const val appEditNickname = "/App/EditNickname"
     const val appEditSignature = "/App/EditSignature"
     const val appMineQRCode = "/App/MineQRCode"
+    const val appMineRelation = "/App/MineRelation"
+    const val appMineBlacklist = "/App/MineBlacklist"
 
     // 绑定邮箱
     const val appBindEmail = "/App/BindEmail"

@@ -47,12 +47,15 @@ class AgreementPolicyActivity : BVMActivity<ActivitySettingsAgreementPolicyBindi
     override fun initData() {
         ARouter.getInstance().inject(this)
 
-        setTopTitle(if (type == "agreement") VMStr.byRes(R.string.user_agreement) else VMStr.byRes(R.string.private_policy))
-
         if (type == "agreement") {
+            setTopTitle(R.string.user_agreement)
             mViewModel.userAgreement()
-        } else {
+        } else if (type == "policy") {
+            setTopTitle(R.string.private_policy)
             mViewModel.privatePolicy()
+        } else if (type == "norm") {
+            setTopTitle(R.string.user_norm)
+            mViewModel.userNorm()
         }
     }
 
@@ -67,12 +70,12 @@ class AgreementPolicyActivity : BVMActivity<ActivitySettingsAgreementPolicyBindi
     }
 
     override fun onModelRefresh(model: BViewModel.UIModel) {
-        if (model.type == "userAgreement" || model.type == "privatePolicy") {
+        if (model.type == "userAgreement" || model.type == "privatePolicy" || model.type == "userNorm") {
             if (model.data == null) {
                 showEmpty()
             } else {
                 val config = model.data as Config
-                showContent(config.content)
+                showContent(config)
             }
         }
     }
@@ -80,13 +83,15 @@ class AgreementPolicyActivity : BVMActivity<ActivitySettingsAgreementPolicyBindi
     /**
      * 协议与政策内容
      */
-    private fun showContent(content: String) {
+    private fun showContent(config: Config) {
+        setTopTitle(config.title)
+
         mBinding.webEmptyIV.visibility = View.GONE
         mBinding.webContainer.visibility = View.VISIBLE
-        if (content.indexOf("http") == 0) {
-            mAgentWeb.urlLoader.loadUrl(content)
+        if (config.content.indexOf("http") == 0) {
+            mAgentWeb.urlLoader.loadUrl(config.content)
         } else {
-            mAgentWeb.urlLoader.loadData(content, "text/html", "utf-8")
+            mAgentWeb.urlLoader.loadData(config.content, "text/html", "utf-8")
         }
     }
 

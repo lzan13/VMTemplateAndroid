@@ -99,6 +99,8 @@
     <!--按钮样式 start-->
     <style name="AppBtn" parent="@style/VMBtn.Flat.Fillet" />
 
+    <style name="AppBtn.Border" parent="@style/VMBtn.Flat.Fillet.Border.Accent" />
+
     <style name="AppBtn.Confirm" parent="@style/VMBtn.Flat.Fillet.Accent" />
 
     <style name="AppBtn.Cancel" parent="@style/VMBtn.Flat.Fillet.Border.Accent" />

@@ -33,7 +33,7 @@ class AccountSecuritySettingsActivity : BVMActivity<ActivitySettingsAccountSecur
 
         setTopTitle(R.string.settings_account_security)
 
-        mBinding.settingsSignDestroyLV.setOnClickListener { showSignDestroy() }
+        mBinding.signDestroyLV.setOnClickListener { showSignDestroy() }
     }
 
     override fun initData() {

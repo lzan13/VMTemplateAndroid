@@ -7,6 +7,7 @@ import com.vmloft.develop.library.request.BaseRepository
 import com.vmloft.develop.library.request.RResult
 import com.vmloft.develop.app.template.request.db.AppDatabase
 import com.vmloft.develop.library.base.common.CConstants
+import com.vmloft.develop.library.base.common.CSPManager
 import com.vmloft.develop.library.request.RPaging
 import com.vmloft.develop.library.tools.utils.VMSystem
 import okhttp3.MultipartBody
@@ -110,7 +111,7 @@ class CommonRepository : BaseRepository() {
         val intervalTime = System.currentTimeMillis() - time
         // 这里一般使用缓存，只有超过一定时间才去服务器获取，设置为 1 小时，TODO 测试情况为 1 分钟
 //        if (intervalTime < CConstants.timeHour * 1) {
-        if (intervalTime < CConstants.timeMinute * 1) {
+        if (intervalTime < if(CSPManager.isDebug()) CConstants.timeMinute * 1 else CConstants.timeHour * 4) {
             val config = AppDatabase.getInstance().configDao().query("clientConfig")
             if (config != null) {
                 return RResult.Success("", config)
@@ -157,6 +158,25 @@ class CommonRepository : BaseRepository() {
         val result = safeRequest { executeResponse(APIRequest.commonAPI.userAgreement()) }
         if (result is RResult.Success) {
             SPManager.setUserAgreementTime(System.currentTimeMillis())
+        }
+        return result
+    }
+
+    /**
+     * 获取用户行为规范，这里控制超过 24 小时去服务器请求
+     */
+    suspend fun userNorm(): RResult<Config> {
+        val time = SPManager.getUserNormTime()
+        val intervalTime = System.currentTimeMillis() - time
+        if (intervalTime < CConstants.timeDay * 7) {
+            val config = AppDatabase.getInstance().configDao().query("userNorm")
+            if (config != null) {
+                return RResult.Success("", config)
+            }
+        }
+        val result = safeRequest { executeResponse(APIRequest.commonAPI.userNorm()) }
+        if (result is RResult.Success) {
+            SPManager.setUserNormTime(System.currentTimeMillis())
         }
         return result
     }

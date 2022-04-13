@@ -1,5 +1,7 @@
 package com.vmloft.develop.library.im.chat
 
+import android.os.Bundle
+
 import com.hyphenate.EMMessageListener
 import com.hyphenate.chat.EMCmdMessageBody
 import com.hyphenate.chat.EMConversation
@@ -36,10 +38,10 @@ class IMChatListener : EMMessageListener {
             val conversation: EMConversation = IMChatManager.getConversation(msg.conversationId(), msg.chatType.ordinal)
             IMChatManager.setConversationTime(conversation, msg.localTime())
             // 先获取联系人信息再通知消息刷新
-            if (IM.imListener.getUser(msg.from) != null) {
+            if (IM.imListener.getUser(msg.conversationId()) != null) {
                 onNotifyMessage(msg)
             } else {
-                IM.imListener.getUser(msg.from) {
+                IM.imListener.getUser(msg.conversationId()) {
                     onNotifyMessage(msg)
                 }
             }
@@ -56,9 +58,13 @@ class IMChatListener : EMMessageListener {
         // 通知有新消息来了，新消息通知肯定要发送，不在当前聊天界面还要发送通知栏提醒
         LDEventBus.post(IMConstants.Common.newMsgEvent, msg)
         if (!IMChatManager.isCurrChat(msg.conversationId())) {
-            val title = IMChatManager.getSummary(msg)
+            val user = IM.imListener.getUser(msg.conversationId())
             val content = IMChatManager.getSummary(msg)
-            NotifyManager.sendNotify(content, title)
+            val title = user?.nickname ?: user?.username ?: ""
+            val bundle = Bundle()
+            bundle.putString("bname", "im")
+            bundle.putString("chatId", msg.conversationId())
+            NotifyManager.sendNotify(content, title, bundle)
         }
     }
 

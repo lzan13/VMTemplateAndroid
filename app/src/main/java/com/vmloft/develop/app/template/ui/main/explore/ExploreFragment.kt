@@ -1,8 +1,6 @@
 package com.vmloft.develop.app.template.ui.main.explore
 
 import android.view.*
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 
 import com.drakeet.multitype.MultiTypeAdapter
@@ -15,7 +13,7 @@ import com.vmloft.develop.app.template.request.bean.Post
 import com.vmloft.develop.app.template.request.viewmodel.ExploreViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.app.template.ui.post.ItemPostDelegate
-import com.vmloft.develop.app.template.ui.widget.PostReportDialog
+import com.vmloft.develop.app.template.ui.widget.PostDislikeDialog
 import com.vmloft.develop.library.base.BItemDelegate
 import com.vmloft.develop.library.base.BVMFragment
 import com.vmloft.develop.library.base.BViewModel
@@ -25,6 +23,7 @@ import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.base.utils.showBar
 import com.vmloft.develop.library.base.widget.decoration.StaggeredItemDecoration
 import com.vmloft.develop.library.tools.utils.VMDimen
+
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 
@@ -202,8 +201,8 @@ class ExploreFragment : BVMFragment<FragmentExploreBinding, ExploreViewModel>() 
      * 长按 post 弹出屏蔽举报菜单
      */
     private fun longClickPost() {
-        mDialog = PostReportDialog(requireContext())
-        (mDialog as PostReportDialog).let { dialog ->
+        mDialog = PostDislikeDialog(requireContext())
+        (mDialog as PostDislikeDialog).let { dialog ->
             dialog.setShieldListener { type -> shieldPost(type) }
             dialog.setReportListener { type -> reportPost(type) }
             dialog.show(Gravity.BOTTOM)

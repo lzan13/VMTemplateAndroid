@@ -25,7 +25,6 @@ import com.vmloft.develop.app.template.ui.widget.MatchGenderDialog
 import com.vmloft.develop.library.base.BVMFragment
 import com.vmloft.develop.library.base.BViewModel
 import com.vmloft.develop.library.base.common.CConstants
-import com.vmloft.develop.library.base.event.EventData
 import com.vmloft.develop.library.base.event.LDEventBus
 import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.common.config.ConfigManager
@@ -35,6 +34,7 @@ import com.vmloft.develop.library.mqtt.MQTTHelper
 import com.vmloft.develop.library.report.ReportManager
 import com.vmloft.develop.library.tools.widget.barrage.VMBarrageView
 import com.vmloft.develop.library.tools.widget.barrage.VMViewCreator
+
 import org.json.JSONObject
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -95,7 +95,7 @@ class HomeFragment : BVMFragment<FragmentHomeBinding, MatchViewModel>() {
             selfMatch.user = mUser
             selfMatch.gender = mUser.gender
             if (selfMatch.content.isNullOrEmpty() && mUser.nickname.isNotEmpty()) {
-                selfMatch.content = "嗨😉 我是 ${mUser.nickname}"
+                selfMatch.content = "嗨 ${mUser.nickname} 来啦 😉"
             }
             saveMatchEmotion()
             bindInfo()
@@ -143,24 +143,10 @@ class HomeFragment : BVMFragment<FragmentHomeBinding, MatchViewModel>() {
     override fun onModelRefresh(model: BViewModel.UIModel) {
         if (model.type == "matchList") {
             val paging = model.data as RPaging<Match>
-            if (paging.currentCount + paging.page * paging.limit >= paging.totalCount) {
-                mPage = CConstants.defaultPage
-            } else {
-                mPage++
-            }
-            dataList.clear()
-            paging.data.map {
-                // 因为有注销功能，查询到的匹配信息可能没有用户信息，前端这里做下保护
-                if (it.user != null && it.user.id.isNotEmpty()) {
-                    dataList.add(it)
-                    if (it.user.id != mUser.id) {
-                        CacheManager.putUser(it.user)
-                    }
-                }
-            }
-            setupBarrage()
+            setupBarrage(paging)
         } else if (model.type == "mqttUserToken") {
-            MQTTHelper.connect(mUser.id, model.data as String, MQTTConstants.Topic.newMatchInfo)
+            val token = model.data as String
+            MQTTHelper.connect(mUser.id, token, MQTTConstants.Topic.newMatchInfo)
         }
     }
 
@@ -327,7 +313,23 @@ class HomeFragment : BVMFragment<FragmentHomeBinding, MatchViewModel>() {
     /**
      * 装载弹幕
      */
-    private fun setupBarrage() {
+    private fun setupBarrage(paging: RPaging<Match>) {
+        if (paging.currentCount + paging.page * paging.limit >= paging.totalCount) {
+            mPage = CConstants.defaultPage
+        } else {
+            mPage++
+        }
+        dataList.clear()
+        paging.data.map {
+            // 因为有注销功能，查询到的匹配信息可能没有用户信息，前端这里做下保护
+            if (it.user != null && it.user.id.isNotEmpty()) {
+                dataList.add(it)
+                if (it.user.id != mUser.id) {
+                    CacheManager.putUser(it.user)
+                }
+            }
+        }
+
         barrageView?.stop()
         barrageView = null
         mBinding.homeBarrageViewLL.removeAllViews()
@@ -352,7 +354,15 @@ class HomeFragment : BVMFragment<FragmentHomeBinding, MatchViewModel>() {
             val barrageItemIV = view.findViewById<ImageView>(R.id.barrageItemIV)
             val barrageItemTV = view.findViewById<TextView>(R.id.barrageItemTV)
 
-            IMGLoader.loadAvatar(barrageItemIV, bean.user.avatar)
+            val emotionResId = when (bean.emotion) {
+                0 -> R.drawable.ic_emotion_happy
+                1 -> R.drawable.ic_emotion_normal
+                2 -> R.drawable.ic_emotion_sad
+                3 -> R.drawable.ic_emotion_anger
+                else -> R.drawable.ic_emotion_happy
+            }
+            barrageItemIV.setImageResource(emotionResId)
+//            IMGLoader.loadAvatar(barrageItemIV, bean.user.avatar)
             barrageItemTV.text = bean.content
 
             view.setOnClickListener { CRouter.go(AppRouter.appUserInfo, obj0 = bean.user) }

@@ -1,19 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_bg"
+    android:orientation="vertical"
     tools:context=".ui.main.msg.MsgFragment">
 
     <include layout="@layout/widget_common_top_bar" />
 
+    <com.vmloft.develop.library.tools.widget.VMLineView
+        android:id="@+id/openNotifyLV"
+        style="@style/AppLVStyle.Switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:vm_line_description="@string/notify_open_tips"
+        app:vm_line_title="@string/notify_open" />
     <!--会话列表容器-->
     <LinearLayout
-        android:id="@+id/conversation_container"
+        android:id="@+id/conversationContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/commonTopLL"
         android:orientation="vertical" />
-</RelativeLayout>
+</LinearLayout>

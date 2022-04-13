@@ -458,7 +458,7 @@ class IMChatFragment : BFragment<ImFragmentChatBinding>() {
         // 判断当前消息的时间是否已经超过了限制时间，如果超过，则不可撤回消息
         val currTime = VMDate.currentMilli()
         val msgTime = currMsg.msgTime
-        if (currTime > msgTime && currTime - msgTime < CConstants.timeMinute * 5) {
+        if (currMsg.direct() == EMMessage.Direct.SEND && currTime > msgTime && currTime - msgTime < CConstants.timeMinute * 5) {
             floatMenu.addItem(VMFloatMenu.ItemBean(1, VMStr.byRes(R.string.im_msg_recall)))
         }
 

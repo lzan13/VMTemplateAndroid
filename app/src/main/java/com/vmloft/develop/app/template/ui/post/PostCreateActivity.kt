@@ -1,8 +1,10 @@
 package com.vmloft.develop.app.template.ui.post
 
 import android.content.Context
-import android.text.Editable
-import android.text.TextWatcher
+import android.text.*
+import android.text.method.LinkMovementMethod
+import android.text.style.ForegroundColorSpan
+import android.text.style.URLSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +26,7 @@ import com.vmloft.develop.library.image.IMGLoader
 import com.vmloft.develop.app.template.report.ReportConstants
 import com.vmloft.develop.app.template.request.bean.Post
 import com.vmloft.develop.app.template.request.viewmodel.PostViewModel
+import com.vmloft.develop.app.template.ui.widget.AgreementPolicyDialog
 import com.vmloft.develop.library.base.BVMActivity
 import com.vmloft.develop.library.base.BViewModel
 import com.vmloft.develop.library.base.common.CConstants
@@ -34,6 +37,7 @@ import com.vmloft.develop.library.base.utils.ViewUtils
 import com.vmloft.develop.library.base.utils.errorBar
 import com.vmloft.develop.library.base.utils.showBar
 import com.vmloft.develop.library.report.ReportManager
+import com.vmloft.develop.library.tools.utils.VMColor
 import com.vmloft.develop.library.tools.utils.VMReg
 import com.vmloft.develop.library.tools.utils.VMStr
 import com.vmloft.develop.library.tools.utils.VMSystem
@@ -90,6 +94,7 @@ class PostCreateActivity : BVMActivity<ActivityPostCreateBinding, PostViewModel>
                 verifyInputBox()
             }
         })
+        setupUserNorm()
     }
 
 
@@ -115,6 +120,27 @@ class PostCreateActivity : BVMActivity<ActivityPostCreateBinding, PostViewModel>
     override fun onModelError(model: BViewModel.UIModel) {
         super.onModelError(model)
         setTopEndBtnEnable(true)
+    }
+
+    /**
+     * 装载用户行为规范
+     */
+    private fun setupUserNorm() {
+        val agreementContent = VMStr.byRes(R.string.post_content_tips)
+        val userNorm = VMStr.byRes(R.string.user_norm)
+        //创建一个 SpannableString 对象
+        val sp = SpannableString(agreementContent)
+
+        var start = agreementContent.indexOf(userNorm)
+        var end = start + userNorm.length
+        //设置超链接
+        sp.setSpan(CustomURLSpan("norm"), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        //设置高亮样式
+        sp.setSpan(ForegroundColorSpan(VMColor.byRes(R.color.app_accent)), start, end, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+
+        mBinding.publishTipsTV.text = sp
+        mBinding.publishTipsTV.highlightColor = VMColor.byRes(R.color.vm_transparent)
+        mBinding.publishTipsTV.movementMethod = LinkMovementMethod.getInstance()
     }
 
     /**
@@ -154,6 +180,23 @@ class PostCreateActivity : BVMActivity<ActivityPostCreateBinding, PostViewModel>
         ReportManager.reportEvent(ReportConstants.eventPostCreate)
 
         mViewModel.createPost(mContent, mCategory.id, list)
+    }
+
+    /**
+     * 自定义URLSpan
+     */
+    class CustomURLSpan(val type: String) : URLSpan(type) {
+        override fun updateDrawState(ds: TextPaint) {
+            super.updateDrawState(ds)
+            //设置超链接文本的颜色
+//            ds.color = Color.RED
+            //这里可以去除点击文本的默认的下划线
+            ds.isUnderlineText = false
+        }
+
+        override fun onClick(widget: View) {
+            CRouter.go(AppRouter.appSettingsAgreementPolicy, str0 = type)
+        }
     }
 
     /**

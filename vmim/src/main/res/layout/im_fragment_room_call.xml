@@ -130,7 +130,6 @@
         android:id="@+id/imMagicVoiceLL"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_card_common_bg"
         android:orientation="vertical"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@+id/imCallMicMagicBtn"

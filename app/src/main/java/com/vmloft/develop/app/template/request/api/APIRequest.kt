@@ -18,6 +18,7 @@ import java.io.File
  */
 object APIRequest : BaseRequest() {
 
+    val blacklistAPI by lazy(LazyThreadSafetyMode.NONE) { getAPI(BlacklistAPI::class.java, RConstants.baseHost()) }
     val commonAPI by lazy(LazyThreadSafetyMode.NONE) { getAPI(CommonAPI::class.java, RConstants.baseHost()) }
     val followAPI by lazy(LazyThreadSafetyMode.NONE) { getAPI(FollowAPI::class.java, RConstants.baseHost()) }
     val likeAPI by lazy(LazyThreadSafetyMode.NONE) { getAPI(LikeAPI::class.java, RConstants.baseHost()) }

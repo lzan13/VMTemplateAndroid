@@ -18,8 +18,14 @@
         <!--账户与安全设置-->
         <com.vmloft.develop.library.tools.widget.VMLineView
             android:id="@+id/settingsAccountSecurityLV"
-            style="@style/AppLVStyle.NoDecoration"
+            style="@style/AppLVStyle"
             app:vm_line_title="@string/settings_account_security" />
+
+        <!--隐私设置-->
+        <com.vmloft.develop.library.tools.widget.VMLineView
+            android:id="@+id/settingsPrivacyLV"
+            style="@style/AppLVStyle.NoDecoration"
+            app:vm_line_title="@string/settings_privacy" />
 
         <!--暗色主题设置-->
         <com.vmloft.develop.library.tools.widget.VMLineView

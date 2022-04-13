@@ -31,21 +31,28 @@ class AgreementPolicyDialog(context: Context) : CommonDialog(context) {
         val agreementContent = VMStr.byRes(R.string.agreement_policy_dialog_content)
         val userAgreement = VMStr.byRes(R.string.user_agreement)
         val privatePolicy = VMStr.byRes(R.string.private_policy)
+        val userNorm = VMStr.byRes(R.string.user_norm)
         //创建一个 SpannableString对象
         val sp = SpannableString(agreementContent)
+
         var start = agreementContent.indexOf(userAgreement)
         var end = start + userAgreement.length
-
         //设置超链接
         sp.setSpan(CustomURLSpan("agreement"), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         //设置高亮样式
         sp.setSpan(ForegroundColorSpan(VMColor.byRes(R.color.app_accent)), start, end, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-        //设置高亮样式二
 
         start = agreementContent.indexOf(privatePolicy)
         end = start + privatePolicy.length
         //设置超链接
         sp.setSpan(CustomURLSpan("policy"), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        //设置高亮样式
+        sp.setSpan(ForegroundColorSpan(VMColor.byRes(R.color.app_accent)), start, end, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+
+        start = agreementContent.indexOf(userNorm)
+        end = start + userNorm.length
+        //设置超链接
+        sp.setSpan(CustomURLSpan("norm"), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         //设置高亮样式
         sp.setSpan(ForegroundColorSpan(VMColor.byRes(R.color.app_accent)), start, end, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
 

@@ -219,6 +219,15 @@ class IMConversationFragment : BFragment<ImFragmentConversationBinding>() {
         mItems.addAll(list)
         mAdapter.notifyDataSetChanged()
 
+        checkEmpty()
+    }
+
+    private fun checkEmpty() {
+        if (mItems.isEmpty()) {
+            showEmptyNoData()
+        } else {
+            hideEmptyView()
+        }
     }
 
 

@@ -3,17 +3,20 @@ package com.vmloft.develop.library.base.notify
 import android.app.NotificationChannel
 import android.app.NotificationChannelGroup
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Build
+import android.os.Bundle
 import android.provider.Settings
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.vmloft.develop.library.base.R
 
+import com.vmloft.develop.library.base.R
 import com.vmloft.develop.library.base.common.CSPManager
+import com.vmloft.develop.library.tools.VMTools
 import com.vmloft.develop.library.tools.utils.VMStr
 import com.vmloft.develop.library.tools.utils.logger.VMLog
 
@@ -25,7 +28,7 @@ object NotifyManager {
 
     // 系统通知管理类
     private lateinit var mNotificationManager: NotificationManager
-    private lateinit var mContext: Context
+//    private lateinit var mContext: Context
 
     /**
      * 最后一条通知发出时间，用于控制相近的通知，不发出声音
@@ -57,24 +60,28 @@ object NotifyManager {
     /**
      * 初始化通知
      */
-    fun init(context: Context) {
-        mContext = context
-        mNotificationManager = mContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    fun init() {
+        mNotificationManager = VMTools.context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         initChannel()
     }
 
     /**
      * 发送通知
+     * @param content 通知内容
+     * @param title 通知标题
+     * @param bundle 通知扩展参数，默认为空
      */
-    fun sendNotify(content: String, title: String) {
+    fun sendNotify(content: String, title: String, bundle: Bundle? = null) {
         if (!CSPManager.isNotifyMsgSwitch()) {
             return
         }
         val builder: NotificationCompat.Builder = getBuilder(notifyMsgChannelId)
 
         // 通知标题
-        if (!title.isNullOrEmpty()) {
+        if (title.isNullOrEmpty()) {
+            builder.setContentTitle(VMStr.byRes(R.string.app_name))
+        } else {
             builder.setContentTitle(title)
         }
 
@@ -88,12 +95,14 @@ object NotifyManager {
             builder.setContentText(VMStr.byRes(R.string.notify_msg_hint))
         }
 
-        // TODO 视具体业务打开对应界面
-//        val intent = Intent(mContext, NotifyActivity::class.java)
-//        val pendingIntent = PendingIntent.getBroadcast(mContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-//        val pendingIntent = PendingIntent.getActivity(mContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-//         设置通知点击跳转
-//        builder.setContentIntent(pendingIntent)
+        // 这里打开中转页面，通过中转页面根据不同的业务跳转
+        val intent = Intent(VMTools.context, NotifyActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        intent.putExtra("params", bundle)
+        val pendingIntent = PendingIntent.getBroadcast(VMTools.context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+//        val pendingIntent = PendingIntent.getActivity(VMTools.context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        // 设置通知点击跳转
+        builder.setContentIntent(pendingIntent)
 
         val notifyId: Int = notifyMsgChannelId.hashCode()
 
@@ -107,7 +116,9 @@ object NotifyManager {
         val builder: NotificationCompat.Builder = getBuilder(notifyKeepAliveChannelId)
 
         // 通知标题
-        if (!title.isNullOrEmpty()) {
+        if (title.isNullOrEmpty()) {
+            builder.setContentTitle(VMStr.byRes(R.string.app_name))
+        } else {
             builder.setContentTitle(title)
         }
 
@@ -117,9 +128,9 @@ object NotifyManager {
         builder.setContentText(content)
 
         // TODO 视具体业务打开对应界面
-//        val intent = Intent(mContext, NotifyActivity::class.java)
-//        val pendingIntent = PendingIntent.getBroadcast(mContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-//        val pendingIntent = PendingIntent.getActivity(mContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+//        val intent = Intent(VMTools.context, NotifyActivity::class.java)
+//        val pendingIntent = PendingIntent.getBroadcast(VMTools.context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+//        val pendingIntent = PendingIntent.getActivity(VMTools.context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 //         设置通知点击跳转
 //        builder.setContentIntent(pendingIntent)
 
@@ -132,11 +143,11 @@ object NotifyManager {
      * 检查是否开启了通知
      */
     fun checkNotifySetting(): Boolean {
-        val manager = NotificationManagerCompat.from(mContext)
+        val manager = NotificationManagerCompat.from(VMTools.context)
         // areNotificationsEnabled 方法的有效性官方只最低支持到API 19，低于19的仍可调用此方法不过只会返回 true，即默认为用户已经开启了通知。
         val isOpened = manager.areNotificationsEnabled()
         if (isOpened) {
-            VMLog.d("通知权限已经被打开，手机型号：" + Build.MODEL + "，SDK版本：" + Build.VERSION.SDK_INT + "，系统版本：" + Build.VERSION.RELEASE + "，包名：" + mContext.packageName)
+            VMLog.d("通知权限已经被打开，手机型号：" + Build.MODEL + "，SDK版本：" + Build.VERSION.SDK_INT + "，系统版本：" + Build.VERSION.RELEASE + "，包名：" + VMTools.context.packageName)
         } else {
             VMLog.d("还没有开启通知权限")
         }
@@ -156,26 +167,26 @@ object NotifyManager {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 // 8.0及以后版本使用这两个 extra. >=API 26
                 intent.action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
-                intent.putExtra(Settings.EXTRA_APP_PACKAGE, mContext.packageName)
-                intent.putExtra(Settings.EXTRA_CHANNEL_ID, mContext.applicationInfo.uid)
+                intent.putExtra(Settings.EXTRA_APP_PACKAGE, VMTools.context.packageName)
+                intent.putExtra(Settings.EXTRA_CHANNEL_ID, VMTools.context.applicationInfo.uid)
             } else {
                 // 5.0-7.1 使用这两个extra.  <= API 25, >=API 21
                 intent.action = Settings.ACTION_APP_NOTIFICATION_BUBBLE_SETTINGS
-                intent.putExtra("app_package", mContext.packageName)
-                intent.putExtra("app_uid", mContext.applicationInfo.uid)
+                intent.putExtra("app_package", VMTools.context.packageName)
+                intent.putExtra("app_uid", VMTools.context.applicationInfo.uid)
             }
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
-            mContext.startActivity(intent)
+            VMTools.context.startActivity(intent)
         } catch (e: Exception) {
             e.printStackTrace()
 
             // 其他低版本或者异常情况，走该节点。进入APP设置界面
             intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-            intent.putExtra("package", mContext.packageName)
+            intent.putExtra("package", VMTools.context.packageName)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
-            mContext.startActivity(intent)
+            VMTools.context.startActivity(intent)
         }
     }
 
@@ -184,15 +195,15 @@ object NotifyManager {
      * 获取通知对象
      */
     fun getBuilder(channelId: String, clickCancel: Boolean = true): NotificationCompat.Builder {
-        val builder: NotificationCompat.Builder = NotificationCompat.Builder(mContext, channelId)
+        val builder: NotificationCompat.Builder = NotificationCompat.Builder(VMTools.context, channelId)
         // 设置通知时间
         builder.setWhen(System.currentTimeMillis())
         // 设置点击自动取消
         builder.setAutoCancel(clickCancel)
         // 设置小图标
-        builder.setSmallIcon(mContext.applicationInfo.icon)
+        builder.setSmallIcon(VMTools.context.applicationInfo.icon)
         // 设置大图标
-        val largeIcon = BitmapFactory.decodeResource(mContext.resources, mContext.applicationInfo.icon)
+        val largeIcon = BitmapFactory.decodeResource(VMTools.context.resources, VMTools.context.applicationInfo.icon)
         builder.setLargeIcon(largeIcon)
 
         // 支持横幅通知

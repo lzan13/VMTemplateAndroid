@@ -12,6 +12,7 @@ import com.vmloft.develop.app.template.databinding.FragmentMsgBinding
 import com.vmloft.develop.app.template.request.bean.User
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.base.BFragment
+import com.vmloft.develop.library.base.notify.NotifyManager
 import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.base.utils.showBar
 import com.vmloft.develop.library.im.conversation.IMConversationFragment
@@ -42,6 +43,8 @@ class MsgFragment : BFragment<FragmentMsgBinding>() {
         setTopTitle(R.string.nav_msg)
         setTopEndIcon(R.drawable.ic_add) { showMenu(it) }
 
+        mBinding.openNotifyLV.setOnClickListener { NotifyManager.openNotifySetting() }
+
         setupFragment()
         initMenu()
 
@@ -51,13 +54,20 @@ class MsgFragment : BFragment<FragmentMsgBinding>() {
     override fun initData() {
         viewX = VMDimen.screenWidth - VMDimen.dp2px(24)
         viewY = VMDimen.dp2px(56)
+
     }
+
+    override fun onResume() {
+        super.onResume()
+        checkNotifyStatus()
+    }
+
 
     private fun setupFragment() {
         val fragment = IMConversationFragment.newInstance()
         val manager: FragmentManager = childFragmentManager
         val ft: FragmentTransaction = manager.beginTransaction()
-        ft.replace(R.id.conversation_container, fragment)
+        ft.replace(R.id.conversationContainer, fragment)
         ft.commit()
     }
 
@@ -86,7 +96,7 @@ class MsgFragment : BFragment<FragmentMsgBinding>() {
     }
 
     /**
-     *
+     * 打开扫描二维码
      */
     private fun openScanQRCode() {
         launcher.launch(0) {
@@ -99,5 +109,12 @@ class MsgFragment : BFragment<FragmentMsgBinding>() {
                 }
             }
         }
+    }
+
+    /**
+     * 检查通知栏状态
+     */
+    private fun checkNotifyStatus() {
+        mBinding.openNotifyLV.visibility = if (NotifyManager.checkNotifySetting()) View.GONE else View.VISIBLE
     }
 }

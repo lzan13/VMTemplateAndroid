@@ -12,6 +12,7 @@ import com.vmloft.develop.library.base.common.CConstants
 import com.vmloft.develop.library.base.event.LDEventBus
 import com.vmloft.develop.library.im.R
 import com.vmloft.develop.library.im.IM
+import com.vmloft.develop.library.im.call.IMCallManager
 import com.vmloft.develop.library.im.common.IMConstants
 import com.vmloft.develop.library.tools.utils.VMDate
 import com.vmloft.develop.library.tools.utils.VMStr
@@ -459,7 +460,7 @@ object IMChatManager {
     }
 
     /**
-     * 发送位置消息
+     * 创建位置消息
      *
      * @param latitude  纬度
      * @param longitude 经度
@@ -482,7 +483,7 @@ object IMChatManager {
     }
 
     /**
-     * 发送视频消息
+     * 创建视频消息
      *
      * @param uri      视频文件地址
      * @param thumbPath 视频缩略图地址
@@ -505,7 +506,7 @@ object IMChatManager {
     }
 
     /**
-     * 发送语音消息
+     * 创建语音消息
      *
      * @param uri   语音文件的路径
      * @param time   语音持续时间
@@ -527,7 +528,7 @@ object IMChatManager {
     }
 
     /**
-     * 发送文件消息
+     * 创建文件消息
      *
      * @param uri   要发送的文件的路径
      * @param id     接收者
@@ -560,6 +561,18 @@ object IMChatManager {
         // 创建CMD 消息的消息体 并设置 action
         message.addBody(EMCmdMessageBody(cmd))
         return message
+    }
+
+    /**
+     * 保存一条系统消息
+     */
+    fun saveSysMessage(id: String, content: String) {
+        val message = createTextMessage(content, id, false)
+        message.chatType = EMMessage.ChatType.Chat
+        message.setStatus(EMMessage.Status.SUCCESS)
+        message.setAttribute(IMConstants.Common.msgAttrExtType, IMConstants.MsgType.imSystem)
+
+        saveMessage(message)
     }
 
     /**
@@ -610,6 +623,9 @@ object IMChatManager {
 
             override fun onError(code: Int, desc: String) {
                 VMLog.i("消息发送失败 $code, $desc")
+                if (msg.type != EMMessage.Type.CMD && code == 210) {
+                    saveSysMessage(msg.conversationId(), "对方已将你加入黑名单，无法发送消息")
+                }
                 LDEventBus.post(IMConstants.Common.updateMsgEvent, msg)
                 error.invoke(code, desc)
             }
@@ -623,8 +639,6 @@ object IMChatManager {
         })
         // 发送消息
         EMClient.getInstance().chatManager().sendMessage(msg)
-        // 发送一条新消息时插入新消息的位置，这里直接用插入新消息前的消息总数来作为新消息的位置
-        //        int position = conversation.getAllMessages().indexOf(message);
     }
 
     /**
@@ -825,7 +839,11 @@ object IMChatManager {
          * 通知类消息
          */
         if (type == IMConstants.MsgType.imSystem) {
-            // TODO 系统提醒
+            // 系统提醒
+            content = msg.getStringAttribute(IMConstants.Common.msgAttrSystem, "")
+            if (content.isNullOrEmpty()) {
+                content = (msg.body as EMTextMessageBody).message
+            }
         } else if (type == IMConstants.MsgType.imRecall) {
             // 撤回消息
             content = "[" + VMStr.byRes(R.string.im_recall_already) + "]"

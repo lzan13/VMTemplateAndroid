@@ -24,6 +24,7 @@ class SettingsActivity: BActivity<ActivitySettingsBinding>() {
         setTopTitle(R.string.settings)
 
         mBinding.settingsAccountSecurityLV.setOnClickListener { CRouter.go(AppRouter.appSettingsAccountSecurity) }
+        mBinding.settingsPrivacyLV.setOnClickListener { CRouter.go(AppRouter.appSettingsPrivacy) }
 
         mBinding.settingsDarkLV.setOnClickListener { CRouter.go(AppRouter.appSettingsDark) }
 

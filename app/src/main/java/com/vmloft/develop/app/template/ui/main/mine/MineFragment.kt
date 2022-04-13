@@ -53,8 +53,8 @@ class MineFragment : BFragment<FragmentMineBinding>() {
         mBinding.mineCoverIV.setOnClickListener { CRouter.goDisplaySingle(if (user.cover.isNullOrEmpty()) user.avatar else user.cover) }
         mBinding.mineAvatarIV.setOnClickListener { CRouter.goDisplaySingle(user.avatar) }
         mBinding.mineScoreTV.setOnClickListener { CRouter.go(AppRouter.appGold) }
-        mBinding.mineFansLL.setOnClickListener { }
-        mBinding.mineFollowLL.setOnClickListener { }
+        mBinding.mineFansLL.setOnClickListener { CRouter.go(AppRouter.appMineRelation, what = 1) }
+        mBinding.mineFollowLL.setOnClickListener { CRouter.go(AppRouter.appMineRelation, what = 0) }
         mBinding.mineLikeLL.setOnClickListener { }
 
         mBinding.mineEditInfoTV.setOnClickListener { CRouter.go(AppRouter.appPersonalInfo) }

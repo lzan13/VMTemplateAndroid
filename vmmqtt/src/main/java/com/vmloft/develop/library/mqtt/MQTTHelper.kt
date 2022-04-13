@@ -24,6 +24,8 @@ import java.lang.Exception
  */
 object MQTTHelper {
 
+    // mqtt 链接所需 Token
+    private var mqttToken: String = ""
     private var mqttClient: MqttAndroidClient? = null
 
     // 缓存主题集合
@@ -36,6 +38,8 @@ object MQTTHelper {
      * @param topic 需要订阅的主题，不为空就会在连接成功后进行订阅
      */
     fun connect(id: String, token: String, topic: String = "") {
+        if(token.isNullOrEmpty()) return
+        mqttToken = token
         // 处理订阅主题
         if (topic.isNotEmpty()) topicList.add(topic)
 
@@ -52,7 +56,7 @@ object MQTTHelper {
         options.connectionTimeout = CConstants.timeMinute.toInt() // 设置超时时间，单位：秒
         options.keepAliveInterval = CConstants.timeMinute.toInt() // 心跳包发送间隔，单位：秒
         options.userName = id // 用户名
-        options.password = token.toCharArray() // 密码
+        options.password = mqttToken.toCharArray() // 密码
         options.mqttVersion = MqttConnectOptions.MQTT_VERSION_3_1_1;
         // 设置MQTT监听
         mqttClient?.setCallback(object : MqttCallback {

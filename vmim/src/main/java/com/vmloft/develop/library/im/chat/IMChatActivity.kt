@@ -13,6 +13,7 @@ import com.hyphenate.chat.EMMessage
 
 import com.vmloft.develop.library.base.BActivity
 import com.vmloft.develop.library.base.event.LDEventBus
+import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.common.config.ConfigManager
 import com.vmloft.develop.library.im.IM
 import com.vmloft.develop.library.im.R
@@ -32,14 +33,14 @@ import com.vmloft.develop.library.tools.widget.VMFloatMenu
 @Route(path = IMRouter.imChat)
 class IMChatActivity : BActivity<ImActivityChatBinding>() {
 
-    @Autowired
-    lateinit var chatId: String
-
     @JvmField
-    @Autowired
+    @Autowired(name = CRouter.paramsWhat)
     var chatType: Int = IMConstants.ChatType.imChatSingle
 
-    @Autowired
+    @Autowired(name = CRouter.paramsStr0)
+    lateinit var chatId: String
+
+    @Autowired(name = CRouter.paramsStr1)
     lateinit var chatExtend: String
 
     lateinit var mUser: IMUser
@@ -126,7 +127,7 @@ class IMChatActivity : BActivity<ImActivityChatBinding>() {
      */
     private fun showMenu(view: View) {
         floatMenu.clearAllItem()
-        floatMenu.addItem(VMFloatMenu.ItemBean(0, VMStr.byRes(R.string.im_chat_menu_user), itemIcon = R.drawable.ic_mine_line))
+        floatMenu.addItem(VMFloatMenu.ItemBean(0, VMStr.byRes(R.string.im_chat_menu_user)))
 //        floatMenu.addItem(VMFloatMenu.ItemBean(1, VMStr.byRes(R.string.im_chat_menu_clear), itemIcon = R.drawable.ic_clear))
 
         floatMenu.showAtLocation(view, viewX, viewY)

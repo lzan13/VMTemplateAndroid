@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 
@@ -23,6 +24,9 @@ abstract class BFragment<VB : ViewBinding> : Fragment() {
     protected var commonTopLL: View? = null
     protected var commonTopSpace: View? = null
     protected var commonTopBar: VMTopBar? = null
+
+    protected var emptyStatusLL: View? = null
+    protected var emptyStatusIV: ImageView? = null
 
     protected var mDialog: CommonDialog? = null
 
@@ -100,6 +104,10 @@ abstract class BFragment<VB : ViewBinding> : Fragment() {
         commonTopLL = mBinding.root.findViewById(R.id.commonTopLL)
         commonTopBar = mBinding.root.findViewById(R.id.commonTopBar)
         commonTopSpace = mBinding.root.findViewById(R.id.commonTopSpace)
+
+        emptyStatusLL = mBinding.root.findViewById(R.id.emptyStatusLL)
+        emptyStatusIV = mBinding.root.findViewById(R.id.emptyStatusIV)
+
         if (!isHideTopSpace) {
             // 设置状态栏透明主题时，布局整体会上移，所以给头部 View 设置 StatusBar 的高度
             commonTopSpace?.layoutParams?.height = VMDimen.statusBarHeight
@@ -164,6 +172,21 @@ abstract class BFragment<VB : ViewBinding> : Fragment() {
     protected fun setTopEndIcon(resId: Int, listener: View.OnClickListener) {
         commonTopBar?.setEndIcon(resId)
         commonTopBar?.setEndIconListener(listener)
+    }
+
+    /**
+     * 隐藏空态
+     */
+    protected fun hideEmptyView() {
+        emptyStatusLL?.visibility = View.GONE
+    }
+
+    /**
+     * 显示没有数据
+     */
+    protected fun showEmptyNoData() {
+        emptyStatusIV?.setImageResource(R.drawable.ic_empty_data)
+        emptyStatusLL?.visibility = View.VISIBLE
     }
 
     override fun onDestroy() {

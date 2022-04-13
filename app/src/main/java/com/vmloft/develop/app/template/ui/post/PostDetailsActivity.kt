@@ -17,7 +17,7 @@ import com.vmloft.develop.app.template.request.bean.Comment
 import com.vmloft.develop.app.template.request.bean.Post
 import com.vmloft.develop.app.template.request.viewmodel.PostViewModel
 import com.vmloft.develop.app.template.router.AppRouter
-import com.vmloft.develop.app.template.ui.widget.PostReportDialog
+import com.vmloft.develop.app.template.ui.widget.PostDislikeDialog
 import com.vmloft.develop.library.base.BItemDelegate
 import com.vmloft.develop.library.base.BVMActivity
 import com.vmloft.develop.library.base.BViewModel
@@ -164,8 +164,8 @@ class PostDetailsActivity : BVMActivity<ActivityPostDetailsBinding, PostViewMode
      * 弹出屏蔽举报菜单
      */
     private fun clickReportPost() {
-        mDialog = PostReportDialog(this)
-        (mDialog as PostReportDialog).let { dialog ->
+        mDialog = PostDislikeDialog(this)
+        (mDialog as PostDislikeDialog).let { dialog ->
             dialog.setShieldListener { type -> shieldPost(type) }
             dialog.setReportListener { type -> reportPost(type) }
             dialog.show(Gravity.BOTTOM)

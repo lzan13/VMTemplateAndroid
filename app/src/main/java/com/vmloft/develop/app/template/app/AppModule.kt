@@ -14,7 +14,7 @@ val viewModelModule = module {
     viewModel { com.vmloft.develop.library.image.display.DisplayViewModel() }
     viewModel { ExploreViewModel(get(), get()) }
     viewModel { FeedbackViewModel(get()) }
-    viewModel { UserViewModel(get(), get(), get(), get()) }
+    viewModel { UserViewModel(get(), get(), get(), get(), get()) }
     viewModel { MainViewModel(get(), get()) }
     viewModel { MatchViewModel(get(), get()) }
     viewModel { TradeViewModel(get()) }
@@ -29,6 +29,7 @@ val viewModelModule = module {
 val repositoryModule = module {
 //    single { APIRequest.getAPI(APIService::class.java, CConstants.baseHost()) }
     single { CoroutinesDispatcherProvider() }
+    single { BlacklistRepository() }
     single { CommonRepository() }
     single { FollowRepository() }
     single { InfoRepository() }

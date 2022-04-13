@@ -1,5 +1,6 @@
 package com.vmloft.develop.app.template.ui.user
 
+import android.view.Gravity
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -18,9 +19,11 @@ import com.vmloft.develop.app.template.request.viewmodel.UserViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.app.template.ui.post.PostFallsFragment
 import com.vmloft.develop.app.template.ui.post.PostLikesFragment
+import com.vmloft.develop.app.template.ui.widget.UserDislikeDialog
 import com.vmloft.develop.library.base.BVMActivity
 import com.vmloft.develop.library.base.BViewModel
 import com.vmloft.develop.library.base.router.CRouter
+import com.vmloft.develop.library.base.utils.showBar
 import com.vmloft.develop.library.base.widget.CommonDialog
 import com.vmloft.develop.library.common.config.ConfigManager
 import com.vmloft.develop.library.image.IMGLoader
@@ -60,6 +63,7 @@ class UserInfoActivity : BVMActivity<ActivityUserInfoBinding, UserViewModel>() {
 
         mBinding.infoCoverIV.setOnClickListener { CRouter.goDisplaySingle(if (user.cover.isNullOrEmpty()) user.avatar else user.cover) }
         mBinding.infoAvatarIV.setOnClickListener { CRouter.goDisplaySingle(user.avatar) }
+        mBinding.infoDislikeTV.setOnClickListener { showDislikeDialog() }
         mBinding.infoFansLL.setOnClickListener { }
         mBinding.infoFollowLL.setOnClickListener { }
         mBinding.infoLikeLL.setOnClickListener { }
@@ -112,6 +116,10 @@ class UserInfoActivity : BVMActivity<ActivityUserInfoBinding, UserViewModel>() {
         if (model.type == "userInfo") {
             user = model.data as User
             bindInfo()
+        } else if (model.type == "blacklist") {
+            user.blacklist++
+        } else if (model.type == "cancelBlacklist") {
+            user.blacklist--
         } else if (model.type == "follow") {
             user.relation++
             setupFollowStatus()
@@ -152,10 +160,10 @@ class UserInfoActivity : BVMActivity<ActivityUserInfoBinding, UserViewModel>() {
         mBinding.infoAddressTV.text = if (user.address.isNullOrEmpty()) VMStr.byRes(R.string.info_address_default) else user.address
         mBinding.infoSignatureTV.text = if (user.signature.isNullOrEmpty()) VMStr.byRes(R.string.info_signature_default) else user.signature
 
-
         mBinding.infoLikeTV.text = user.likeCount.toString()
         mBinding.infoFollowTV.text = user.followCount.toString()
         mBinding.infoFansTV.text = user.fansCount.toString()
+        mBinding.infoSendBtn.visibility = if (user.strangerMsg) View.VISIBLE else View.GONE
 
         setupFollowStatus()
     }
@@ -190,12 +198,59 @@ class UserInfoActivity : BVMActivity<ActivityUserInfoBinding, UserViewModel>() {
         mDialog = CommonDialog(this)
         (mDialog as CommonDialog).let { dialog ->
             dialog.setContent(R.string.follow_cancel_tips)
-            dialog.setPositive{
+            dialog.setPositive {
                 mViewModel.cancelFollow(user.id)
             }
             dialog.show()
         }
+    }
 
+    /**
+     * 举报弹窗
+     */
+    private fun showDislikeDialog() {
+        mDialog = UserDislikeDialog(this)
+        (mDialog as UserDislikeDialog).let { dialog ->
+            dialog.setBlacklistListener(user.blacklist) {
+                blacklist()
+            }
+            dialog.setReportListener { type -> report(type) }
+            dialog.show(Gravity.BOTTOM)
+        }
+    }
+
+    /**
+     * 黑名单操作
+     */
+    private fun blacklist() {
+        mDialog?.dismiss()
+
+        mDialog = CommonDialog(this)
+        (mDialog as CommonDialog).let { dialog ->
+            if (user.blacklist == 0 || user.blacklist == 2) {
+                dialog.setContent(R.string.blacklist_remove_tips)
+            } else {
+                dialog.setContent(R.string.blacklist_add_tips)
+            }
+            dialog.setPositive {
+                if (user.blacklist == 0 || user.blacklist == 2) {
+                    mViewModel.cancelBlacklist(user.id)
+                } else {
+                    mViewModel.blacklist(user.id)
+                }
+            }
+            dialog.show()
+        }
+    }
+
+    /**
+     * 举报 Post
+     * 0-意见建议 1-广告引流 2-政治敏感 3-违法违规 4-色情低俗 5-血腥暴力 6-诱导信息 7-谩骂攻击 8-涉嫌诈骗 9-引人不适 10-其他
+     */
+    private fun report(type: Int) {
+        mDialog?.dismiss()
+
+        CRouter.go(AppRouter.appFeedback, what = type, obj1 = user)
     }
 
 
