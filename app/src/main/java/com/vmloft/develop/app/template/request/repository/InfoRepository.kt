@@ -52,8 +52,8 @@ class InfoRepository : BaseRepository() {
     /**
      * 更新密码
      */
-    suspend fun updatePassword(password: String, oldPassword: String): RResult<Any> {
-        return safeRequest { executeResponse(APIRequest.userInfoAPI.updatePassword(password, oldPassword)) }
+    suspend fun updatePassword(password: String, email: String, code: String): RResult<Any> {
+        return safeRequest { executeResponse(APIRequest.userInfoAPI.updatePassword(password, email, code)) }
     }
 
     /**

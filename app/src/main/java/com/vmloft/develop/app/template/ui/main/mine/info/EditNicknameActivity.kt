@@ -42,7 +42,7 @@ class EditNicknameActivity : BVMActivity<ActivityPersonalInfoEditBinding, UserVi
         setTopTitle(R.string.info_nickname)
 
         setTopEndBtnEnable(false)
-        setTopEndBtnListener(VMStr.byRes(R.string.btn_save)) { save() }
+        setTopEndBtnListener(VMStr.byRes(R.string.btn_confirm)) { save() }
         mBinding.infoSingleET.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}

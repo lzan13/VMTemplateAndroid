@@ -36,7 +36,7 @@ class SignInByCodeFragment : BVMFragment<FragmentSignInByCodeBinding, SignViewMo
     override fun initUI() {
         super.initUI()
         // 监听输入框变化
-        mBinding.signAccountET.addTextChangedListener(object : TextWatcher {
+        mBinding.accountET.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
 
@@ -45,7 +45,7 @@ class SignInByCodeFragment : BVMFragment<FragmentSignInByCodeBinding, SignViewMo
                 verifyInputBox()
             }
         })
-        mBinding.signCodeET.addTextChangedListener(object : TextWatcher {
+        mBinding.codeET.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
             }
@@ -56,14 +56,14 @@ class SignInByCodeFragment : BVMFragment<FragmentSignInByCodeBinding, SignViewMo
             }
         })
 
-        mBinding.signCodeBtn.setOnClickListener {
+        mBinding.codeBtn.setOnClickListener {
             mViewModel.requestCodeBySMS(mPhone)
         }
 
-        mBinding.signUserAgreementTV.setOnClickListener { CRouter.go(AppRouter.appSettingsAgreementPolicy, str0 = "agreement") }
-        mBinding.signPrivatePolicyTV.setOnClickListener { CRouter.go(AppRouter.appSettingsAgreementPolicy, str0 = "policy") }
-        mBinding.signSubmitBtn.setOnClickListener {
-            if (mBinding.signPrivatePolicyCB.isChecked) {
+        mBinding.userAgreementTV.setOnClickListener { CRouter.go(AppRouter.appSettingsAgreementPolicy, str0 = "agreement") }
+        mBinding.privatePolicyTV.setOnClickListener { CRouter.go(AppRouter.appSettingsAgreementPolicy, str0 = "policy") }
+        mBinding.submitTV.setOnClickListener {
+            if (mBinding.privatePolicyCB.isChecked) {
                 mViewModel.signInByCode(mPhone, mCode)
             } else {
                 errorBar(R.string.agreement_policy_hint)
@@ -82,7 +82,7 @@ class SignInByCodeFragment : BVMFragment<FragmentSignInByCodeBinding, SignViewMo
     override fun onModelRefresh(model: BViewModel.UIModel) {
         if (model.type == "requestCodeBySMS") {
             // 请求验证码成功
-            mBinding.signCodeBtn.startTimer()
+            mBinding.codeBtn.startTimer()
         }
         if (model.type == "signInBySMS") {
             // 登录成功
@@ -94,7 +94,7 @@ class SignInByCodeFragment : BVMFragment<FragmentSignInByCodeBinding, SignViewMo
      * 校验输入框内容
      */
     private fun verifyInputBox() {
-        mBinding.signCodeBtn.isEnabled = VMReg.isSimpleMobileNumber(mPhone)
-        mBinding.signSubmitBtn.isEnabled = VMReg.isSimpleMobileNumber(mPhone) && VMReg.isCommonReg(mCode, "^[0-9]{6}\$")
+        mBinding.codeBtn.isEnabled = VMReg.isSimpleMobileNumber(mPhone)
+        mBinding.submitTV.isEnabled = VMReg.isSimpleMobileNumber(mPhone) && VMReg.isCommonReg(mCode, "^[0-9]{6}\$")
     }
 }

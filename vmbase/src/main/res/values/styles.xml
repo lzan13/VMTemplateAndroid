@@ -69,11 +69,13 @@
 
     <!--输入框样式 start-->
     <style name="AppEdit.Single" parent="@style/VMEdit">
-        <item name="android:background">@drawable/shape_input_bg</item>
+        <item name="android:background">@drawable/shape_input_fillet_bg</item>
         <item name="android:textColor">@color/app_input</item>
         <item name="android:textColorHint">@color/app_input_hint</item>
-        <item name="android:paddingTop">@dimen/vm_dimen_10</item>
-        <item name="android:paddingBottom">@dimen/vm_dimen_10</item>
+        <item name="android:paddingStart">@dimen/vm_dimen_16</item>
+        <item name="android:paddingEnd">@dimen/vm_dimen_16</item>
+        <item name="android:paddingTop">@dimen/vm_dimen_12</item>
+        <item name="android:paddingBottom">@dimen/vm_dimen_12</item>
         <item name="android:textStyle">normal</item>
     </style>
 
@@ -85,8 +87,10 @@
         <item name="android:background">@drawable/shape_input_bg</item>
         <item name="android:textColor">@color/app_input</item>
         <item name="android:textColorHint">@color/app_input_hint</item>
-        <item name="android:paddingTop">@dimen/vm_dimen_10</item>
-        <item name="android:paddingBottom">@dimen/vm_dimen_10</item>
+        <item name="android:paddingStart">@dimen/vm_dimen_16</item>
+        <item name="android:paddingEnd">@dimen/vm_dimen_16</item>
+        <item name="android:paddingTop">@dimen/vm_dimen_12</item>
+        <item name="android:paddingBottom">@dimen/vm_dimen_12</item>
         <item name="android:lines">3</item>
         <item name="android:textStyle">normal</item>
     </style>
@@ -108,16 +112,12 @@
     <style name="AppBtn.Sign" parent="@style/VMBtn.Flat.Fillet.Accent">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/vm_dimen_48</item>
-        <item name="android:layout_marginStart">@dimen/vm_dimen_48</item>
-        <item name="android:layout_marginEnd">@dimen/vm_dimen_48</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="AppBtn.Sign.Border" parent="@style/VMBtn.Flat.Fillet.Border.Accent">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/vm_dimen_48</item>
-        <item name="android:layout_marginStart">@dimen/vm_dimen_48</item>
-        <item name="android:layout_marginEnd">@dimen/vm_dimen_48</item>
         <item name="android:textStyle">normal</item>
     </style>
     <!--按钮样式 end-->

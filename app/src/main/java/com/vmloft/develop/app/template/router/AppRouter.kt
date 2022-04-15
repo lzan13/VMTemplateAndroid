@@ -49,6 +49,8 @@ object AppRouter {
 
     // 绑定邮箱
     const val appBindEmail = "/App/BindEmail"
+    // 修改密码
+    const val appUpdatePassword = "/App/UpdatePassword"
 
 
     // 内容

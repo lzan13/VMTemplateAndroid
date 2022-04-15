@@ -8,9 +8,11 @@
     tools:context=".ui.sign.SignInActivity">
 
     <EditText
-        android:id="@+id/signAccountET"
+        android:id="@+id/accountET"
         style="@style/AppEdit.Sign"
+        android:layout_marginStart="@dimen/vm_dimen_16"
         android:layout_marginTop="@dimen/vm_dimen_36"
+        android:layout_marginEnd="@dimen/vm_dimen_16"
         android:hint="@string/sign_phone_hint"
         android:inputType="phone"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,98 +25,60 @@
         android:layout_marginStart="@dimen/vm_dimen_8"
         android:padding="@dimen/vm_dimen_8"
         android:src="@drawable/ic_me"
-        app:layout_constraintBottom_toBottomOf="@+id/signAccountET"
-        app:layout_constraintStart_toStartOf="@+id/signAccountET"
-        app:layout_constraintTop_toTopOf="@+id/signAccountET"
+        app:layout_constraintBottom_toBottomOf="@+id/accountET"
+        app:layout_constraintStart_toStartOf="@+id/accountET"
+        app:layout_constraintTop_toTopOf="@+id/accountET"
         app:tint="@color/app_input_hint" />
 
     <EditText
-        android:id="@+id/signCodeET"
+        android:id="@+id/codeET"
         style="@style/AppEdit.Sign"
+        android:layout_marginStart="@dimen/vm_dimen_16"
         android:layout_marginTop="@dimen/vm_dimen_16"
+        android:layout_marginEnd="@dimen/vm_dimen_16"
         android:hint="@string/sign_code_hint"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signAccountET" />
+        app:layout_constraintTop_toBottomOf="@+id/accountET" />
 
     <ImageView
-        android:id="@+id/signCodeIcon"
+        android:id="@+id/codeIcon"
         android:layout_width="@dimen/vm_dimen_36"
         android:layout_height="@dimen/vm_dimen_36"
         android:layout_marginStart="@dimen/vm_dimen_8"
         android:padding="@dimen/vm_dimen_8"
         android:src="@drawable/ic_password_selector"
-        app:layout_constraintBottom_toBottomOf="@+id/signCodeET"
-        app:layout_constraintStart_toStartOf="@+id/signCodeET"
-        app:layout_constraintTop_toTopOf="@+id/signCodeET"
+        app:layout_constraintBottom_toBottomOf="@+id/codeET"
+        app:layout_constraintStart_toStartOf="@+id/codeET"
+        app:layout_constraintTop_toTopOf="@+id/codeET"
         app:tint="@color/app_input_hint" />
 
     <com.vmloft.develop.library.tools.widget.VMTimerBtn
-        android:id="@+id/signCodeBtn"
+        android:id="@+id/codeBtn"
         style="@style/AppBtn.Confirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/vm_dimen_4"
         android:enabled="false"
         android:text="@string/sign_code"
-        app:layout_constraintBottom_toBottomOf="@+id/signCodeET"
-        app:layout_constraintEnd_toEndOf="@+id/signCodeET"
-        app:layout_constraintTop_toTopOf="@+id/signCodeET"
+        app:layout_constraintBottom_toBottomOf="@+id/codeET"
+        app:layout_constraintEnd_toEndOf="@+id/codeET"
+        app:layout_constraintTop_toTopOf="@+id/codeET"
         app:vm_timer_text="@string/sign_code_again"
         app:vm_timer_time="60" />
 
-    <CheckBox
-        android:id="@+id/signPrivatePolicyCB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/vm_dimen_16"
-        android:button="@drawable/ic_check_box_selector"
-        android:text="@string/agreement_policy_prefix"
-        android:textColor="@color/app_tips"
-        android:textSize="@dimen/vm_size_11"
-        app:layout_constraintEnd_toStartOf="@+id/signUserAgreementTV"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signCodeET" />
-
     <TextView
-        android:id="@+id/signUserAgreementTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/vm_dimen_8"
-        android:paddingBottom="@dimen/vm_dimen_8"
-        android:text="@string/user_agreement"
-        android:textColor="@color/app_link"
-        android:textSize="@dimen/vm_size_11"
-        app:layout_constraintBottom_toBottomOf="@+id/signPrivatePolicyCB"
-        app:layout_constraintEnd_toStartOf="@+id/signPrivatePolicyTV"
-        app:layout_constraintStart_toEndOf="@+id/signPrivatePolicyCB"
-        app:layout_constraintTop_toTopOf="@+id/signPrivatePolicyCB" />
-
-    <TextView
-        android:id="@+id/signPrivatePolicyTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/vm_dimen_8"
-        android:paddingBottom="@dimen/vm_dimen_8"
-        android:text="@string/private_policy"
-        android:textColor="@color/app_link"
-        android:textSize="@dimen/vm_size_11"
-        app:layout_constraintBottom_toBottomOf="@+id/signUserAgreementTV"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/signUserAgreementTV"
-        app:layout_constraintTop_toTopOf="@+id/signUserAgreementTV" />
-
-    <TextView
-        android:id="@+id/signSubmitBtn"
+        android:id="@+id/submitTV"
         style="@style/AppBtn.Sign"
+        android:layout_marginStart="@dimen/vm_dimen_36"
         android:layout_marginTop="@dimen/vm_dimen_24"
+        android:layout_marginEnd="@dimen/vm_dimen_36"
         android:enabled="true"
         android:text="@string/sign_in"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signPrivatePolicyCB" />
+        app:layout_constraintTop_toBottomOf="@+id/codeET" />
 
     <com.vmloft.develop.library.tools.widget.loading.VMLoadingView
         android:id="@+id/loadingView"
@@ -122,9 +86,54 @@
         android:layout_height="@dimen/vm_dimen_48"
         android:padding="@dimen/vm_dimen_8"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/signSubmitBtn"
-        app:layout_constraintEnd_toEndOf="@+id/signSubmitBtn"
-        app:layout_constraintTop_toTopOf="@+id/signSubmitBtn"
+        app:layout_constraintBottom_toBottomOf="@+id/submitTV"
+        app:layout_constraintEnd_toEndOf="@+id/submitTV"
+        app:layout_constraintTop_toTopOf="@+id/submitTV"
         app:vm_loading_color="@color/app_loading_light"
         app:vm_loading_type="DoubleCircle" />
+
+    <CheckBox
+        android:id="@+id/privatePolicyCB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/vm_dimen_24"
+        android:button="@drawable/ic_check_box_selector"
+        android:paddingTop="@dimen/vm_dimen_16"
+        android:paddingBottom="@dimen/vm_dimen_16"
+        android:text="@string/agreement_policy_prefix"
+        android:textColor="@color/app_tips"
+        android:textSize="@dimen/vm_size_11"
+        app:layout_constraintEnd_toStartOf="@+id/userAgreementTV"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/submitTV" />
+
+    <TextView
+        android:id="@+id/userAgreementTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/vm_dimen_16"
+        android:paddingBottom="@dimen/vm_dimen_16"
+        android:text="@string/user_agreement"
+        android:textColor="@color/app_link"
+        android:textSize="@dimen/vm_size_11"
+        app:layout_constraintBottom_toBottomOf="@+id/privatePolicyCB"
+        app:layout_constraintEnd_toStartOf="@+id/privatePolicyTV"
+        app:layout_constraintStart_toEndOf="@+id/privatePolicyCB"
+        app:layout_constraintTop_toTopOf="@+id/privatePolicyCB" />
+
+    <TextView
+        android:id="@+id/privatePolicyTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/vm_dimen_16"
+        android:paddingBottom="@dimen/vm_dimen_16"
+        android:text="@string/private_policy"
+        android:textColor="@color/app_link"
+        android:textSize="@dimen/vm_size_11"
+        app:layout_constraintBottom_toBottomOf="@+id/userAgreementTV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/userAgreementTV"
+        app:layout_constraintTop_toTopOf="@+id/userAgreementTV" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

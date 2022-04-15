@@ -9,11 +9,16 @@ ext {
             versionCode      : 1,
             versionName      : "0.0.1",
 
-            // 友盟 AppId
-            umengAppKey      : "UMeng AppKey",
+            // TopOn 聚合平台 AppId
+            topOnAppId       : "\"TopOn AppId\"",
+            // TopOn 聚合平台 AppKey
+            topOnAppKey      : "\"TopOn AppKey\"",
 
             // Bugly AppId
             buglyAppId       : "Bugly appId",
+
+            // 友盟 AppId
+            umengAppKey      : "UMeng AppKey",
 
             // 环信相关配置
             emAppKey         : "appKey", // AppKey

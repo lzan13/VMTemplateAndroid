@@ -22,6 +22,8 @@
     <TextView
         android:id="@+id/signByDevicesIdBtn"
         style="@style/AppBtn.Sign"
+        android:layout_marginStart="@dimen/vm_dimen_36"
+        android:layout_marginEnd="@dimen/vm_dimen_36"
         android:layout_marginBottom="@dimen/vm_dimen_16"
         android:enabled="true"
         android:text="@string/sign_in_by_device_id"
@@ -32,6 +34,8 @@
     <TextView
         android:id="@+id/signByPasswordBtn"
         style="@style/AppBtn.Sign.Border"
+        android:layout_marginStart="@dimen/vm_dimen_36"
+        android:layout_marginEnd="@dimen/vm_dimen_36"
         android:layout_marginBottom="@dimen/vm_dimen_36"
         android:text="@string/sign_in_by_password"
         app:layout_constraintBottom_toTopOf="@+id/signPrivatePolicyCB"

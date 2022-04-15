@@ -38,7 +38,7 @@ class EditUsernameActivity : BVMActivity<ActivityPersonalInfoEditBinding, UserVi
         setTopTitle(R.string.info_username)
 
         setTopEndBtnEnable(false)
-        setTopEndBtnListener(VMStr.byRes(R.string.btn_save)) { save() }
+        setTopEndBtnListener(VMStr.byRes(R.string.btn_confirm)) { save() }
         mBinding.infoSingleET.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
@@ -72,7 +72,7 @@ class EditUsernameActivity : BVMActivity<ActivityPersonalInfoEditBinding, UserVi
      * 保存用户名
      */
     private fun save() {
-        if (!VMReg.isCommonReg(username, "^[a-zA-Z0-9_.@]{4,16}\$")) {
+        if (!VMReg.isCommonReg(username, "^[a-zA-Z0-9_.@]{4,20}\$")) {
             return errorBar(R.string.info_username_tips)
         }
         mViewModel.updateUsername(username!!)

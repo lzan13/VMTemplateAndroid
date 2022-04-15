@@ -5,6 +5,7 @@ import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 
 import com.vmloft.develop.app.template.R
+import com.vmloft.develop.app.template.common.SignManager
 import com.vmloft.develop.app.template.databinding.ActivitySignGuideBinding
 import com.vmloft.develop.app.template.request.viewmodel.SignViewModel
 import com.vmloft.develop.app.template.router.AppRouter
@@ -23,7 +24,8 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 @Route(path = AppRouter.appSignGuide)
 class SignGuideActivity : BVMActivity<ActivitySignGuideBinding, SignViewModel>() {
 
-    lateinit var devicesId: String
+    private lateinit var devicesId: String
+    private var password: String = "123123"
 
     override fun initVB() = ActivitySignGuideBinding.inflate(layoutInflater)
 
@@ -40,7 +42,7 @@ class SignGuideActivity : BVMActivity<ActivitySignGuideBinding, SignViewModel>()
         mBinding.signPrivatePolicyTV.setOnClickListener { CRouter.go(AppRouter.appSettingsAgreementPolicy, str0 = "policy") }
         mBinding.signByDevicesIdBtn.setOnClickListener {
             if (mBinding.signPrivatePolicyCB.isChecked) {
-                mViewModel.signInByDevicesId(devicesId, "123456")
+                mViewModel.signInByDevicesId(devicesId, password)
             } else {
                 errorBar(R.string.agreement_policy_hint)
             }
@@ -52,6 +54,7 @@ class SignGuideActivity : BVMActivity<ActivitySignGuideBinding, SignViewModel>()
 
     override fun initData() {
         devicesId = VMSystem.deviceId()
+        password = SignManager.getPrevUser()?.password ?: "123123"
     }
 
     override fun onModelLoading(model: BViewModel.UIModel) {

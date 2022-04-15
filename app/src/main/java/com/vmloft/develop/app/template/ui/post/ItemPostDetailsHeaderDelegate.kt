@@ -6,6 +6,7 @@ import android.view.ViewGroup
 
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.databinding.ItemPostDetailsHeaderDelegateBinding
+import com.vmloft.develop.app.template.request.bean.Attachment
 import com.vmloft.develop.app.template.request.bean.Post
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.base.BItemDelegate
@@ -14,6 +15,7 @@ import com.vmloft.develop.library.base.utils.FormatUtils
 import com.vmloft.develop.library.common.config.ConfigManager
 import com.vmloft.develop.library.image.IMGLoader
 import com.vmloft.develop.library.tools.utils.VMColor
+import com.vmloft.develop.library.tools.utils.VMDimen
 import com.vmloft.develop.library.tools.utils.VMStr
 
 /**
@@ -27,6 +29,8 @@ class ItemPostDetailsHeaderDelegate(listener: PostItemListener) : BItemDelegate<
     override fun onBindView(holder: BItemHolder<ItemPostDetailsHeaderDelegateBinding>, item: Post) {
         holder.binding.coverIV.visibility = if (item.attachments.size > 0) View.VISIBLE else View.GONE
         if (item.attachments.size > 0) {
+            updateCoverRatio(holder.binding.coverIV, item.attachments[0])
+
             IMGLoader.loadCover(holder.binding.coverIV, item.attachments[0].path, thumbExt = "!vt512")
             holder.binding.coverIV.setOnClickListener { CRouter.goDisplaySingle(item.attachments[0].path) }
         }
@@ -60,8 +64,26 @@ class ItemPostDetailsHeaderDelegate(listener: PostItemListener) : BItemDelegate<
         holder.binding.commentTitleTV.text = VMStr.byResArgs(R.string.comment_count, item.commentCount)
 
         holder.binding.reportTV.setOnClickListener { (mItemListener as PostItemListener).onReportClick(item, getPosition(holder)) }
+    }
 
-
+    /**
+     * 根据图片宽高更新封面比例
+     */
+    private fun updateCoverRatio(coverView: View, attachment: Attachment) {
+        var w = attachment.width
+        var h = attachment.height
+        if (w == 0 || h == 0) {
+            return
+        }
+        val sw = VMDimen.screenWidth
+        var sh = sw * h / w
+        if (sh > VMDimen.dp2px(512)) {
+            sh = VMDimen.dp2px(512)
+        } else if (sh < VMDimen.dp2px(192)) {
+            sh = VMDimen.dp2px(192)
+        }
+        coverView.layoutParams.width = sw
+        coverView.layoutParams.height = sh
     }
 
     /**

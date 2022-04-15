@@ -35,6 +35,8 @@ class NotifyActivity : BActivity<ActivityNotifyBinding>() {
         } else {
             CRouter.goMain()
         }
+        // 打开其他页面后关闭中间页
+        finish()
     }
 
 }

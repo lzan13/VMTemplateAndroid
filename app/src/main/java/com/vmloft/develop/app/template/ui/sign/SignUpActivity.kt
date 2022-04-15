@@ -40,7 +40,7 @@ class SignUpActivity : BVMActivity<ActivitySignUpBinding, SignViewModel>() {
         setTopTitle(R.string.sign_up)
 
         // 监听输入框变化
-        mBinding.signAccountET.addTextChangedListener(object : TextWatcher {
+        mBinding.accountET.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
 
@@ -49,7 +49,7 @@ class SignUpActivity : BVMActivity<ActivitySignUpBinding, SignViewModel>() {
                 verifyInputBox()
             }
         })
-        mBinding.signPasswordET.addTextChangedListener(object : TextWatcher {
+        mBinding.passwordET.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
             }
@@ -61,21 +61,21 @@ class SignUpActivity : BVMActivity<ActivitySignUpBinding, SignViewModel>() {
         })
 
         // 设置密码隐藏与显示
-        mBinding.signPasswordIcon.setOnClickListener {
-            if (mBinding.signPasswordIcon.isSelected) {
+        mBinding.passwordIconIV.setOnClickListener {
+            if (mBinding.passwordIconIV.isSelected) {
                 // 隐藏密码
-                mBinding.signPasswordET.transformationMethod = PasswordTransformationMethod.getInstance()
-                mBinding.signPasswordIcon.isSelected = false
+                mBinding.passwordET.transformationMethod = PasswordTransformationMethod.getInstance()
+                mBinding.passwordIconIV.isSelected = false
             } else {
                 // 显示密码
-                mBinding.signPasswordET.transformationMethod = HideReturnsTransformationMethod.getInstance()
-                mBinding.signPasswordIcon.isSelected = true
+                mBinding.passwordET.transformationMethod = HideReturnsTransformationMethod.getInstance()
+                mBinding.passwordIconIV.isSelected = true
             }
         }
-        mBinding.signUserAgreementTV.setOnClickListener { CRouter.go(AppRouter.appSettingsAgreementPolicy, str0 = "agreement") }
-        mBinding.signPrivatePolicyTV.setOnClickListener { CRouter.go(AppRouter.appSettingsAgreementPolicy, str0 = "policy") }
-        mBinding.signSubmitBtn.setOnClickListener {
-            if (mBinding.signPrivatePolicyCB.isChecked) {
+        mBinding.userAgreementTV.setOnClickListener { CRouter.go(AppRouter.appSettingsAgreementPolicy, str0 = "agreement") }
+        mBinding.privatePolicyTV.setOnClickListener { CRouter.go(AppRouter.appSettingsAgreementPolicy, str0 = "policy") }
+        mBinding.submitTV.setOnClickListener {
+            if (mBinding.privatePolicyCB.isChecked) {
                 if (VMReg.isEmail(mAccount)) {
                     mViewModel.signUpByEmail(mAccount, mPassword)
                 } else {
@@ -98,11 +98,17 @@ class SignUpActivity : BVMActivity<ActivitySignUpBinding, SignViewModel>() {
 
     override fun onModelRefresh(model: BViewModel.UIModel) {
         if (model.type == "signUpByPhone") {
+            // 这里直接调用下 IM 的登录，不影响页面的继续
+            mViewModel.signInIM()
+
             // 注册成功，跳转到主页
             CRouter.goMain()
             finish()
         }
         if (model.type == "signUpByEmail") {
+            // 这里直接调用下 IM 的登录，不影响页面的继续
+            mViewModel.signInIM()
+
             // 注册成功，跳转到主页
             CRouter.goMain()
             finish()
@@ -113,7 +119,7 @@ class SignUpActivity : BVMActivity<ActivitySignUpBinding, SignViewModel>() {
      * 校验输入框内容
      */
     private fun verifyInputBox() {
-        mBinding.signSubmitBtn.isEnabled = VMReg.isEmail(mAccount) && mPassword.isNotEmpty()
+        mBinding.submitTV.isEnabled = VMReg.isEmail(mAccount) && mPassword.isNotEmpty()
     }
 
 }

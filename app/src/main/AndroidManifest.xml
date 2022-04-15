@@ -80,7 +80,6 @@
 
         <!--用户信息-->
         <activity android:name=".ui.user.UserInfoActivity" />
-
         <!--金币-->
         <activity android:name=".ui.trade.GoldActivity" />
         <activity android:name=".ui.trade.GoldDescActivity" />
@@ -103,10 +102,18 @@
         <!--个人信息个人认证-->
         <activity android:name=".ui.main.mine.info.PersonalAuthActivity" />
 
+        <!--关系列表-->
+        <activity android:name=".ui.main.mine.relation.RelationListActivity" />
+        <activity android:name=".ui.main.mine.relation.BlacklistActivity" />
+
         <!--设置-->
         <activity android:name=".ui.settings.SettingsActivity" />
         <!--账户与安全设置-->
         <activity android:name=".ui.settings.AccountSecuritySettingsActivity" />
+        <!--修改密码-->
+        <activity android:name=".ui.main.mine.info.UpdatePasswordActivity" />
+        <!--隐私设置-->
+        <activity android:name=".ui.settings.PrivacySettingsActivity" />
         <!--暗色主题设置-->
         <activity android:name=".ui.settings.DarkSettingsActivity" />
         <!--资源设置-->

@@ -43,7 +43,7 @@ class EditSignatureActivity : BVMActivity<ActivityPersonalInfoEditBinding, UserV
         setTopTitle(R.string.info_signature)
 
         setTopEndBtnEnable(false)
-        setTopEndBtnListener(VMStr.byRes(R.string.btn_save)) { save() }
+        setTopEndBtnListener(VMStr.byRes(R.string.btn_confirm)) { save() }
 
         mBinding.infoSingleET.visibility = View.GONE
         mBinding.infoMultiLineET.visibility = View.VISIBLE

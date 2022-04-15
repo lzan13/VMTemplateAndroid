@@ -67,7 +67,7 @@ class FeedbackActivity : BVMActivity<ActivityFeedbackBinding, FeedbackViewModel>
         setTopTitle(R.string.settings_feedback)
 
         setTopEndBtnEnable(false)
-        setTopEndBtnListener(VMStr.byRes(R.string.btn_submit)) { planSubmit() }
+        setTopEndBtnListener(VMStr.byRes(R.string.btn_confirm)) { planSubmit() }
 
         // 选择图片
         mBinding.feedbackPictureBtn.setOnClickListener {

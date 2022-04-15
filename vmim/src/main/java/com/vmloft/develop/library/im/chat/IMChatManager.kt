@@ -606,6 +606,10 @@ object IMChatManager {
     ) {
         if (!IM.isSignIn()) {
             error.invoke(-1, "未登录，无法发送消息")
+            if (msg.type != EMMessage.Type.CMD) {
+                msg.setStatus(EMMessage.Status.FAIL)
+                LDEventBus.post(IMConstants.Common.updateMsgEvent, msg)
+            }
             return
         }
         setConversationTime(getConversation(msg.conversationId(), msg.chatType.ordinal), msg.localTime())

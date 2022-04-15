@@ -53,8 +53,6 @@
     <!--登录输入框样式-->
     <style name="AppEdit.Sign" parent="@style/VMEdit">
         <item name="android:background">@drawable/shape_input_sign</item>
-        <item name="android:layout_marginStart">@dimen/vm_dimen_48</item>
-        <item name="android:layout_marginEnd">@dimen/vm_dimen_48</item>
         <item name="android:gravity">left</item>
         <item name="android:paddingStart">@dimen/vm_dimen_48</item>
         <item name="android:paddingTop">@dimen/vm_dimen_12</item>

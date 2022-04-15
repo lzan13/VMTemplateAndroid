@@ -59,7 +59,8 @@ interface UserInfoAPI {
     @PUT("v1/info/password")
     suspend fun updatePassword(
         @Field("password") password: String,
-        @Field("oldPassword") oldPassword: String,
+        @Field("email") email: String,
+        @Field("code") code: String,
     ): RResponse<Any>
 
     /**

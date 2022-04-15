@@ -54,7 +54,9 @@ object SignManager {
         mPrevUser = user
         val json: String = JsonUtils.toJson(user)
         SPManager.putCurrUser(json)
-        SPManager.putPrevUser(json)
+        if (user != null) {
+            SPManager.putPrevUser(json)
+        }
         user?.let {
             LDEventBus.post(Constants.Event.userInfo, it)
         }

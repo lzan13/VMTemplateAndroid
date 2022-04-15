@@ -1,5 +1,6 @@
 package com.vmloft.develop.library.base.notify
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationChannelGroup
 import android.app.NotificationManager
@@ -72,6 +73,7 @@ object NotifyManager {
      * @param title 通知标题
      * @param bundle 通知扩展参数，默认为空
      */
+    @SuppressLint("LaunchActivityFromNotification")
     fun sendNotify(content: String, title: String, bundle: Bundle? = null) {
         if (!CSPManager.isNotifyMsgSwitch()) {
             return
@@ -98,9 +100,11 @@ object NotifyManager {
         // 这里打开中转页面，通过中转页面根据不同的业务跳转
         val intent = Intent(VMTools.context, NotifyActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        intent.putExtra("params", bundle)
-        val pendingIntent = PendingIntent.getBroadcast(VMTools.context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-//        val pendingIntent = PendingIntent.getActivity(VMTools.context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        if (bundle != null) {
+            intent.putExtra("params", bundle)
+        }
+//        val pendingIntent = PendingIntent.getBroadcast(VMTools.context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val pendingIntent = PendingIntent.getActivity(VMTools.context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         // 设置通知点击跳转
         builder.setContentIntent(pendingIntent)
 

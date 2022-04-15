@@ -15,7 +15,7 @@ android {
         minSdk configs.minSdkVersion
         targetSdk configs.targetSdkVersion
 
-        // 资源文件 url 地址
+        // MQTT 配置
         buildConfigField("String", "mqttAppId", configs.emMQTTAppId)
         buildConfigField("String", "mqttHost", configs.emMQTTHost)
         buildConfigField("String", "mqttPort", configs.emMQTTPort)
@@ -49,19 +49,10 @@ android {
         jvmTarget = JavaVersion.VERSION_11
     }
 
-    kapt {
-        arguments {
-            // 阿里巴巴 ARouter Kotlin 下的配置
-            arg("AROUTER_MODULE_NAME", project.getName())
-        }
-    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-//    // ARouter 编译器，TODO 当代码中有一些自己没看到的错误的时候，ARouter 会拦截错误信息，看不到错误位置，把这行注释掉，重新编译
-//    kapt 'com.alibaba:arouter-compiler:1.5.2'
 
     // MQTT sdk https://docs-im.easemob.com/mqtt/qsandroidsdk
     implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0'

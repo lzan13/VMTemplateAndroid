@@ -73,12 +73,12 @@ class SignInActivity : BVMActivity<ActivitySignInBinding, SignViewModel>() {
         val oldFragment: Fragment = fragmentList[currentIndex]
         val newFragment: Fragment = fragmentList[position]
         if (currentFragment == null) {
-            transaction.add(R.id.signContainerFL, newFragment, fragmentKeys[position]).commit()
+            transaction.add(R.id.containerFL, newFragment, fragmentKeys[position]).commit()
         } else {
             if (newFragment.isAdded) {
                 transaction.hide(oldFragment).show(newFragment).commit()
             } else {
-                transaction.hide(oldFragment).add(R.id.signContainerFL, newFragment, fragmentKeys[position]).commit()
+                transaction.hide(oldFragment).add(R.id.containerFL, newFragment, fragmentKeys[position]).commit()
             }
         }
 

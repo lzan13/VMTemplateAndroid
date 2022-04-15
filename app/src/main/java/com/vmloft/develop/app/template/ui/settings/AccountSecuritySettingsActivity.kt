@@ -34,6 +34,7 @@ class AccountSecuritySettingsActivity : BVMActivity<ActivitySettingsAccountSecur
         setTopTitle(R.string.settings_account_security)
 
         mBinding.signDestroyLV.setOnClickListener { showSignDestroy() }
+        mBinding.updatePasswordLV.setOnClickListener { CRouter.go(AppRouter.appUpdatePassword) }
     }
 
     override fun initData() {

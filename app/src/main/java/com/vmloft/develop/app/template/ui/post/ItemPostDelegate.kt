@@ -29,7 +29,6 @@ class ItemPostDelegate(listener: PostItemListener, longListener: BItemLongListen
     override fun onBindView(holder: BItemHolder<ItemPostDelegateBinding>, item: Post) {
         holder.binding.itemCoverIV.visibility = if (item.attachments.isNotEmpty()) View.VISIBLE else View.GONE
         if (item.attachments.isNotEmpty()) {
-            item.attachments[0].path
             updateCoverRatio(holder.binding.itemCoverIV, item.attachments[0])
             IMGLoader.loadCover(holder.binding.itemCoverIV, item.attachments[0].path, isRadius = true, thumbExt = "!vt256")
         }

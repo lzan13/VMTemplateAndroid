@@ -171,10 +171,10 @@ class UserViewModel(
     /**
      * 更新密码
      */
-    fun updatePassword(password: String, oldPassword: String) {
+    fun updatePassword(password: String, email: String, code: String) {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val result = repo.updatePassword(password, oldPassword)
+            val result = repo.updatePassword(password, email, code)
 
             if (result is RResult.Success) {
                 emitUIState(data = result.data, type = "updatePassword")
@@ -246,10 +246,10 @@ class UserViewModel(
      */
     fun sendCodeEmail(email: String) {
         viewModelScope.launch(Dispatchers.Main) {
-            emitUIState(true)
+            emitUIState(true, type = "sendCodeEmail")
             val result = repo.sendCodeEmail(email)
             if (result is RResult.Success) {
-                emitUIState(data = result.data, type = "sendCodeEmail")
+                emitUIState(data = result.data, toast = result.msg, type = "sendCodeEmail")
                 return@launch
             } else if (result is RResult.Error) {
                 emitUIState(isSuccess = false, code = result.code, error = result.error)

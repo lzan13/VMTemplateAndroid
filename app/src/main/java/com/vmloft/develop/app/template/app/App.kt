@@ -71,6 +71,7 @@ class App : Application() {
 
         // 初始化事件总线
         LDEventBus.init()
+
     }
 
 

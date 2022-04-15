@@ -10,7 +10,7 @@
     <include layout="@layout/widget_common_top_bar" />
 
     <TextView
-        android:id="@+id/signWelcomeTV"
+        android:id="@+id/welcomeTV"
         style="@style/AppText.Headline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,15 +20,15 @@
         app:layout_constraintTop_toBottomOf="@+id/commonTopLL" />
 
     <FrameLayout
-        android:id="@+id/signContainerFL"
+        android:id="@+id/containerFL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signWelcomeTV" />
+        app:layout_constraintTop_toBottomOf="@+id/welcomeTV" />
 
     <ImageView
-        android:id="@+id/signQQIV"
+        android:id="@+id/qqIV"
         android:layout_width="@dimen/vm_dimen_48"
         android:layout_height="@dimen/vm_dimen_48"
         android:layout_marginBottom="@dimen/vm_dimen_36"
@@ -36,13 +36,13 @@
         android:src="@drawable/ic_me"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/signWeiboIV"
+        app:layout_constraintEnd_toStartOf="@+id/weiboIV"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
         tools:visibility="visible" />
 
     <ImageView
-        android:id="@+id/signWeiboIV"
+        android:id="@+id/weiboIV"
         android:layout_width="@dimen/vm_dimen_48"
         android:layout_height="@dimen/vm_dimen_48"
         android:layout_marginBottom="@dimen/vm_dimen_36"
@@ -51,7 +51,7 @@
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/signQQIV"
+        app:layout_constraintStart_toEndOf="@+id/qqIV"
         tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

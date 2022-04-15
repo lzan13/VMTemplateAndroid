@@ -19,4 +19,13 @@
         app:vm_line_description="@string/account_destroy_desc"
         app:vm_line_title="@string/account_destroy"
         app:vm_line_title_color="@color/app_main" />
+
+    <!--修改账户密码-->
+    <com.vmloft.develop.library.tools.widget.VMLineView
+        android:id="@+id/updatePasswordLV"
+        style="@style/AppLVStyle.NoDecoration"
+        android:layout_marginTop="@dimen/vm_dimen_8"
+        app:vm_line_description="@string/update_password_desc"
+        app:vm_line_title="@string/update_password"
+        app:vm_line_title_color="@color/app_main" />
 </LinearLayout>

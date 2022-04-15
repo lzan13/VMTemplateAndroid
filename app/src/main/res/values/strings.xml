@@ -153,6 +153,12 @@
     <string name="account_destroy_hint">销毁账户将清空你所有数据，并且不可恢复，确认销毁账户吗？</string>
     <string name="account_destroy_success">账户销毁已完成，感谢你的使用，期待再见</string>
 
+    <string name="update_password">修改密码</string>
+    <string name="update_password_desc">设置密码后可以使用（邮箱/账户+密码）登录</string>
+    <string name="update_password_email_tips">当前邮箱</string>
+    <string name="update_password_email_null">设置密码前请先绑定邮箱</string>
+    <string name="update_password_success">修改密码成功，请使用【账户+新密码】重新登录</string>
+
     <!--隐私设置-->
     <string name="settings_privacy">隐私设置</string>
     <string name="privacy_stranger_msg">陌生人私信</string>
@@ -193,13 +199,13 @@
     <string name="info_cover">封面图</string>
     <string name="info_avatar">头像</string>
     <string name="info_username">用户名</string>
-    <string name="info_username_tips">用户名必须唯一，且只能设置一次，4-16个字符，不能包含除 a-z A-Z 0-9 _ . 外的其它字符</string>
+    <string name="info_username_tips">用户名必须唯一，且只能设置一次，4-20个字符，不能包含除 a-z A-Z 0-9 _ . 外的其它字符</string>
     <string name="info_nickname">昵称</string>
     <string name="info_nickname_default">小透明</string>
     <string name="info_nickname_tips">昵称长度1-12字符，不能包含特殊字符</string>
     <string name="info_email">邮箱</string>
     <string name="info_bind_email">绑定邮箱</string>
-    <string name="info_bind_email_tips">请输入正确邮箱地址，会覆盖之前绑定的邮箱</string>
+    <string name="info_bind_email_tips">新的邮箱地址会覆盖之前绑定的邮箱</string>
     <string name="info_email_null">未绑定</string>
     <string name="info_phone">手机号</string>
     <string name="info_phone_null">未绑定</string>
@@ -318,10 +324,12 @@
     <!--    <string name="sign_account_hint">请填写用户名/手机号/邮箱</string>-->
     <!--暂时屏蔽手机号登陆-->
     <string name="sign_account_hint">请填写用户名/邮箱</string>
+    <string name="sign_account_tips">账号只能包含 a-zA-Z0-9_.@ 中的字符，且长度在 4-32 之间</string>
     <string name="sign_phone_hint">请输入手机号</string>
     <string name="sign_email_hint">请输入邮箱地址</string>
     <string name="sign_password">密码</string>
     <string name="sign_password_hint">请输入密码</string>
+    <string name="sign_password_tips">密码只能包含 a-zA-Z0-9_. 中的字符，且长度在 6-20 之间</string>
     <string name="sign_code">获取验证码</string>
     <string name="sign_code_again">重新获取(%d)</string>
     <string name="sign_code_hint">请输入验证码</string>

@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.common.SignManager
 import com.vmloft.develop.app.template.databinding.FragmentSignInByPasswordBinding
+import com.vmloft.develop.app.template.request.bean.User
 import com.vmloft.develop.app.template.request.viewmodel.SignViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.base.BVMFragment
@@ -38,7 +39,7 @@ class SignInByPasswordFragment : BVMFragment<FragmentSignInByPasswordBinding, Si
     override fun initUI() {
         super.initUI()
         // 监听输入框变化
-        mBinding.signAccountET.addTextChangedListener(object : TextWatcher {
+        mBinding.accountET.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
 
@@ -47,7 +48,7 @@ class SignInByPasswordFragment : BVMFragment<FragmentSignInByPasswordBinding, Si
                 verifyInputBox()
             }
         })
-        mBinding.signPasswordET.addTextChangedListener(object : TextWatcher {
+        mBinding.passwordET.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
 
@@ -57,22 +58,22 @@ class SignInByPasswordFragment : BVMFragment<FragmentSignInByPasswordBinding, Si
             }
         })
         // 设置密码隐藏与显示
-        mBinding.signPasswordIcon.setOnClickListener {
-            if (mBinding.signPasswordIcon.isSelected) {
+        mBinding.passwordIconIV.setOnClickListener {
+            if (mBinding.passwordIconIV.isSelected) {
                 // 隐藏密码
-                mBinding.signPasswordET.transformationMethod = PasswordTransformationMethod.getInstance()
-                mBinding.signPasswordIcon.isSelected = false
+                mBinding.passwordET.transformationMethod = PasswordTransformationMethod.getInstance()
+                mBinding.passwordIconIV.isSelected = false
             } else {
                 // 显示密码
-                mBinding.signPasswordET.transformationMethod = HideReturnsTransformationMethod.getInstance()
-                mBinding.signPasswordIcon.isSelected = true
+                mBinding.passwordET.transformationMethod = HideReturnsTransformationMethod.getInstance()
+                mBinding.passwordIconIV.isSelected = true
             }
         }
 
-        mBinding.signUserAgreementTV.setOnClickListener { CRouter.go(AppRouter.appSettingsAgreementPolicy, str0 = "agreement") }
-        mBinding.signPrivatePolicyTV.setOnClickListener { CRouter.go(AppRouter.appSettingsAgreementPolicy, str0 = "policy") }
-        mBinding.signSubmitBtn.setOnClickListener {
-            if (mBinding.signPrivatePolicyCB.isChecked) {
+        mBinding.userAgreementTV.setOnClickListener { CRouter.go(AppRouter.appSettingsAgreementPolicy, str0 = "agreement") }
+        mBinding.privatePolicyTV.setOnClickListener { CRouter.go(AppRouter.appSettingsAgreementPolicy, str0 = "policy") }
+        mBinding.submitTV.setOnClickListener {
+            if (mBinding.privatePolicyCB.isChecked) {
                 mViewModel.signIn(mAccount, mPassword)
             } else {
                 errorBar(R.string.agreement_policy_hint)
@@ -81,13 +82,13 @@ class SignInByPasswordFragment : BVMFragment<FragmentSignInByPasswordBinding, Si
     }
 
     override fun initData() {
-        val user = SignManager.getPrevUser()
-        if (user?.username.isNullOrEmpty()) {
-            mBinding.signAccountET.setText(user?.username)
-        } else if (user?.phone.isNullOrEmpty()) {
-            mBinding.signAccountET.setText(user?.phone)
-        } else if (user?.email.isNullOrEmpty()) {
-            mBinding.signAccountET.setText(user?.email)
+        val user = SignManager.getPrevUser() ?: User()
+        if (user.username.isNotEmpty()) {
+            mBinding.accountET.setText(user.username)
+        } else if (user.email.isNotEmpty()) {
+            mBinding.accountET.setText(user.email)
+        } else if (user.phone.isNotEmpty()) {
+            mBinding.accountET.setText(user.phone)
         }
     }
 
@@ -97,6 +98,9 @@ class SignInByPasswordFragment : BVMFragment<FragmentSignInByPasswordBinding, Si
 
     override fun onModelRefresh(model: BViewModel.UIModel) {
         if (model.type == "signIn") {
+            // 这里直接调用下 IM 的登录，不影响页面的继续
+            mViewModel.signInIM()
+
             // 登录成功，跳转到主页
             CRouter.goMain()
             activity?.finish()
@@ -108,6 +112,6 @@ class SignInByPasswordFragment : BVMFragment<FragmentSignInByPasswordBinding, Si
      */
     private fun verifyInputBox() {
         // 检查输入框
-        mBinding.signSubmitBtn.isEnabled = VMReg.isCommonReg(mAccount, "^[0-9a-zA-Z_.@]{6,16}$") && mPassword.isNotEmpty()
+        mBinding.submitTV.isEnabled = VMReg.isCommonReg(mAccount, "^[0-9a-zA-Z_.@]{6,20}$") && VMReg.isNormalPassword(mPassword)
     }
 }
