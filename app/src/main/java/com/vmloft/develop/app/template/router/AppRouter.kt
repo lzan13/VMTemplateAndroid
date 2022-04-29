@@ -30,7 +30,10 @@ object AppRouter {
 
     // 金币信息
     const val appGold = "/App/Gold"
+    const val appGoldRecharge = "/App/GoldRecharge"
     const val appGoldDesc = "/App/GoldDesc"
+    const val appGoldTask = "/App/GoldTask"
+    const val appGoldVIP = "/App/GoldVIP"
 
     // 订单
     const val appOrderDetail = "/App/OrderDetail"
@@ -49,6 +52,7 @@ object AppRouter {
 
     // 绑定邮箱
     const val appBindEmail = "/App/BindEmail"
+
     // 修改密码
     const val appUpdatePassword = "/App/UpdatePassword"
 

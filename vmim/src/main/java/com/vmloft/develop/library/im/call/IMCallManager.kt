@@ -12,6 +12,7 @@ import com.vmloft.develop.library.im.R
 import com.vmloft.develop.library.im.chat.IMChatManager
 import com.vmloft.develop.library.im.common.IMConstants
 import com.vmloft.develop.library.im.router.IMRouter
+import com.vmloft.develop.library.tools.VMTools
 import com.vmloft.develop.library.tools.utils.logger.VMLog
 
 import io.agora.rtc.RtcEngine
@@ -55,8 +56,8 @@ object IMCallManager {
     /**
      * 初始化
      */
-    fun init() {
-        audioManager = IM.imContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+    fun init(context: Context) {
+        audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
         // 设置音频要用在什么地方，这里选择电话通知铃音
         val attributes = AudioAttributes.Builder()
             .setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE)
@@ -127,13 +128,10 @@ object IMCallManager {
      * 保存通话消息
      */
     private fun saveCallMessage(id: String) {
-        var content = ""
-        if (callStatus == IMConstants.Call.callStatusReject) {
-            content = "通话取消"
-        } else if (callStatus == IMConstants.Call.callStatusBusy) {
-            content = "对方忙碌"
-        } else {
-            content = "通话结束 " + getCallTime()
+        var content = when (callStatus) {
+            IMConstants.Call.callStatusReject -> "通话取消"
+            IMConstants.Call.callStatusBusy -> "对方忙碌"
+            else -> "通话结束 " + getCallTime()
         }
         val message = IMChatManager.createTextMessage(content, id, !isInComingCall)
         message.chatType = EMMessage.ChatType.Chat
@@ -168,13 +166,10 @@ object IMCallManager {
         val h = t / 60 / 60
         val m = t / 60 % 60
         val s = t % 60 % 60
-        var time = ""
-        time = if (h > 9) {
-            "$h:"
-        } else if (h > 1) {
-            "0$h:"
-        } else {
-            ""
+        var time = when {
+            h > 9 -> "$h:"
+            h > 1 -> "0$h:"
+            else -> ""
         }
         time += if (m > 9) {
             "$m:"
@@ -251,9 +246,9 @@ object IMCallManager {
                 startPlaySound()
             }
             loadResId = if (isInComingCall) {
-                soundPool.load(IM.imContext, R.raw.im_incoming_call, 1)
+                soundPool.load(VMTools.context, R.raw.im_incoming_call, 1)
             } else {
-                soundPool.load(IM.imContext, R.raw.im_call_out, 1)
+                soundPool.load(VMTools.context, R.raw.im_call_out, 1)
             }
         }
     }

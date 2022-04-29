@@ -52,33 +52,57 @@
     <TextView
         android:id="@+id/timeTV"
         style="@style/AppText.Tips"
+        android:layout_marginTop="@dimen/vm_dimen_4"
         android:layout_marginEnd="@dimen/vm_dimen_16"
         android:background="@drawable/shape_fillet_tips_bg"
         android:paddingStart="@dimen/vm_dimen_8"
-        android:paddingTop="@dimen/vm_dimen_2"
+        android:paddingTop="@dimen/vm_dimen_1"
         android:paddingEnd="@dimen/vm_dimen_8"
         android:paddingBottom="@dimen/vm_dimen_2"
-        app:layout_constraintBottom_toBottomOf="@+id/nameTV"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/nameTV"
+        app:layout_constraintStart_toStartOf="@+id/nameTV"
+        app:layout_constraintTop_toBottomOf="@+id/nameTV"
         tools:text="2021/05/26 12:36" />
 
+    <!--喜欢-->
+    <ImageView
+        android:id="@+id/likeIV"
+        android:layout_width="@dimen/vm_dimen_32"
+        android:layout_height="@dimen/vm_dimen_32"
+        android:layout_marginEnd="-4dp"
+        android:padding="@dimen/vm_dimen_6"
+        android:src="@drawable/ic_like_line"
+        app:layout_constraintEnd_toStartOf="@+id/likeTV"
+        app:layout_constraintTop_toTopOf="@+id/avatarIV"
+        tools:src="@drawable/ic_like_fill" />
+
+    <TextView
+        android:id="@+id/likeTV"
+        style="@style/AppText.Desc"
+        android:layout_width="@dimen/vm_dimen_0"
+        android:layout_marginEnd="@dimen/vm_dimen_16"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintBottom_toBottomOf="@+id/likeIV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/likeIV"
+        tools:text="999" />
+    <!--内容-->
     <TextView
         android:id="@+id/contentTV"
         style="@style/AppText.Body"
         android:layout_width="@dimen/vm_dimen_0"
         android:layout_marginStart="@dimen/vm_dimen_8"
-        android:layout_marginTop="@dimen/vm_dimen_4"
+        android:layout_marginTop="@dimen/vm_dimen_16"
         android:layout_marginEnd="@dimen/vm_dimen_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/avatarIV"
-        app:layout_constraintTop_toBottomOf="@+id/nameTV"
+        app:layout_constraintTop_toBottomOf="@+id/avatarIV"
         tools:text="评论内容" />
 
     <View
         android:layout_width="@dimen/vm_dimen_0"
         android:layout_height="@dimen/vm_dimen_0_5"
-        android:layout_marginTop="@dimen/vm_dimen_8"
+        android:layout_marginTop="@dimen/vm_dimen_16"
         android:background="@color/app_decoration"
         app:layout_constraintEnd_toEndOf="@+id/contentTV"
         app:layout_constraintStart_toStartOf="@+id/contentTV"

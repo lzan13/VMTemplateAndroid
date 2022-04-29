@@ -17,6 +17,10 @@ android {
 
         // 这里通过配置文件设置声网 AppId
         buildConfigField("String", "agoraAppId", configs.agoraAppId)
+
+        manifestPlaceholders = [
+                emAppKey      : configs.emAppKey,
+        ]
     }
 
     buildTypes {
@@ -56,8 +60,6 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
     // ARouter 编译器，TODO 当代码中有一些自己没看到的错误的时候，ARouter 会拦截错误信息，看不到错误位置，把这行注释掉，重新编译
     kapt 'com.alibaba:arouter-compiler:1.5.2'
 

@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_nav_height"
         android:layout_alignParentBottom="true"
-        android:background="@color/app_bg_nav"
+        android:background="@color/vm_transparent"
         app:itemHorizontalTranslationEnabled="false"
         app:itemIconTint="@color/selector_bottom_nav"
         app:itemTextAppearanceActive="@style/AppText.BNV.Active"

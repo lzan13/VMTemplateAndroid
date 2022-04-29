@@ -372,7 +372,7 @@ class IMRoomCallFragment : BFragment<ImFragmentRoomCallBinding>() {
      */
     private fun initRtcEngine() {
         try {
-            rtcEngine = RtcEngine.create(IM.imContext, IMConstants.agoraAppId(), object : IRtcEngineEventHandler() {})
+            rtcEngine = RtcEngine.create(requireContext(), IMConstants.agoraAppId(), object : IRtcEngineEventHandler() {})
             // 这里设置成直播场景
             rtcEngine.setChannelProfile(Constants.CHANNEL_PROFILE_LIVE_BROADCASTING)
             // 设置用户角色，房主默认为主播，其他人默认为观众

@@ -2,18 +2,20 @@ package com.vmloft.develop.app.template.ui.post
 
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 
 import com.drakeet.multitype.MultiTypeAdapter
+import com.vmloft.develop.app.template.common.SignManager
 
 import com.vmloft.develop.app.template.databinding.FragmentCommonListBinding
 import com.vmloft.develop.library.request.RPaging
 import com.vmloft.develop.app.template.request.bean.Post
+import com.vmloft.develop.app.template.request.bean.User
 import com.vmloft.develop.app.template.request.viewmodel.PostViewModel
 import com.vmloft.develop.app.template.router.AppRouter
+import com.vmloft.develop.app.template.ui.widget.ContentDislikeDialog
+import com.vmloft.develop.library.base.BItemDelegate
 import com.vmloft.develop.library.base.BVMFragment
 import com.vmloft.develop.library.base.BViewModel
 import com.vmloft.develop.library.base.common.CConstants
@@ -28,7 +30,13 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  */
 class PostLikesFragment : BVMFragment<FragmentCommonListBinding, PostViewModel>() {
 
+    private lateinit var user: User
+
     private var page = CConstants.defaultPage
+
+    // 长按弹出菜单
+    private var currPost: Post? = null
+    private var currPosition = -1
 
     // 适配器
     private val mAdapter by lazy(LazyThreadSafetyMode.NONE) { MultiTypeAdapter() }
@@ -43,7 +51,7 @@ class PostLikesFragment : BVMFragment<FragmentCommonListBinding, PostViewModel>(
         /**
          * Fragment 的工厂方法，方便创建并设置参数
          */
-        fun newInstance(userId: String): PostLikesFragment {
+        fun newInstance(userId: String = ""): PostLikesFragment {
             val fragment = PostLikesFragment()
             val args = Bundle()
             args.putString(argUserId, userId)
@@ -63,6 +71,7 @@ class PostLikesFragment : BVMFragment<FragmentCommonListBinding, PostViewModel>(
     }
 
     override fun initData() {
+        user = SignManager.getCurrUser() ?: User()
         userId = requireArguments().getString(argUserId) ?: ""
 
         mViewModel.likePostList(userId)
@@ -74,11 +83,21 @@ class PostLikesFragment : BVMFragment<FragmentCommonListBinding, PostViewModel>(
     private fun initRecyclerView() {
         mAdapter.register(ItemPostDelegate(object : ItemPostDelegate.PostItemListener {
             override fun onClick(v: View, data: Post, position: Int) {
-                CRouter.go(AppRouter.appPostDetails, obj0 =  data)
+                CRouter.go(AppRouter.appPostDetails, obj0 = data)
             }
 
             override fun onLikeClick(item: Post, position: Int) {
-                clickLikePost(item, position)
+                likePost(item, position)
+            }
+        }, object : BItemDelegate.BItemLongListener<Post> {
+            override fun onLongClick(v: View, event: MotionEvent, data: Post, position: Int): Boolean {
+                // 自己的时候不需要处理
+                if (data.owner.id == user.id) return true
+
+                currPost = data
+                currPosition = position
+                reportPostDialog()
+                return true
             }
         }))
 
@@ -163,7 +182,7 @@ class PostLikesFragment : BVMFragment<FragmentCommonListBinding, PostViewModel>(
     /**
      * 处理点击喜欢帖子事件
      */
-    private fun clickLikePost(post: Post, position: Int) {
+    private fun likePost(post: Post, position: Int) {
         post.isLike = !post.isLike
         if (post.isLike) {
             post.likeCount++
@@ -173,5 +192,43 @@ class PostLikesFragment : BVMFragment<FragmentCommonListBinding, PostViewModel>(
             mViewModel.cancelLike(post.id)
         }
         mAdapter.notifyItemChanged(position)
+    }
+
+    /**
+     * 长按 post 弹出屏蔽举报菜单
+     */
+    private fun reportPostDialog() {
+        mDialog = ContentDislikeDialog(requireContext())
+        (mDialog as ContentDislikeDialog).let { dialog ->
+            dialog.setShieldListener { type -> shieldPost(type) }
+            dialog.setReportListener { type -> reportPost(type) }
+            dialog.show(Gravity.BOTTOM)
+        }
+    }
+
+    /**
+     * 屏蔽 Post
+     */
+    private fun shieldPost(type: Int) {
+        mDialog?.dismiss()
+
+        if (type == 0) {
+            // TODO 屏蔽内容
+        } else if (type == 1) {
+            // TODO 屏蔽用户
+        }
+        currPost?.isShielded = true
+        mViewModel.shieldPost(currPost!!)
+
+    }
+
+    /**
+     * 举报 Post
+     * 0-意见建议 1-广告引流 2-政治敏感 3-违法违规 4-色情低俗 5-血腥暴力 6-诱导信息 7-谩骂攻击 8-涉嫌诈骗 9-引人不适 10-其他
+     */
+    private fun reportPost(type: Int) {
+        mDialog?.dismiss()
+
+        CRouter.go(AppRouter.appFeedback, what = type, obj0 = currPost)
     }
 }

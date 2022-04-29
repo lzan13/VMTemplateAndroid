@@ -28,6 +28,7 @@
         <!--聊天界面-->
         <activity
             android:name=".chat.IMChatActivity"
+            android:exported="false"
             android:launchMode="singleTask"
             android:theme="@style/IMTheme.Chat"
             android:windowSoftInputMode="adjustResize|stateHidden" />
@@ -35,6 +36,7 @@
         <!--快速聊天界面-->
         <activity
             android:name=".fast.IMChatFastActivity"
+            android:exported="false"
             android:launchMode="singleTask"
             android:theme="@style/IMTheme.Chat"
             android:windowSoftInputMode="adjustResize|stateHidden" />
@@ -42,6 +44,7 @@
         <!--聊天房间界面-->
         <activity
             android:name=".room.IMChatRoomActivity"
+            android:exported="false"
             android:launchMode="singleTask"
             android:theme="@style/IMTheme.Chat"
             android:windowSoftInputMode="adjustResize|stateHidden" />
@@ -49,6 +52,7 @@
         <!--1V1通话界面-->
         <activity
             android:name=".call.IMSingleCallActivity"
+            android:exported="false"
             android:launchMode="singleTask"
             android:theme="@style/IMTheme.Chat"
             android:windowSoftInputMode="adjustNothing|stateAlwaysHidden" />

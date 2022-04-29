@@ -9,7 +9,14 @@ buildscript {
         maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
         maven { url 'https://maven.aliyun.com/repository/public' }
         maven { url 'https://jitpack.io' }
+        // 个推 SDK
+        maven { url "https://mvn.getui.com/nexus/content/repositories/releases/" }
+        // MQTT SDK
         maven { url "https://repo.eclipse.org/content/repositories/paho-snapshots/" }
+        // TopOn 聚合平台
+        maven { url "https://anythink.jfrog.io/artifactory/android_sdk" }
+        // Mintegral SDK
+        maven { url "https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_oversea" }
         google()
         mavenCentral()
     }
@@ -25,9 +32,21 @@ allprojects {
         maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
         maven { url 'https://maven.aliyun.com/repository/public' }
         maven { url 'https://jitpack.io' }
+        // 个推 SDK
+        maven { url "https://mvn.getui.com/nexus/content/repositories/releases/" }
+        // MQTT SDK
         maven { url "https://repo.eclipse.org/content/repositories/paho-snapshots/" }
+        // TopOn 聚合平台
+        maven { url "https://anythink.jfrog.io/artifactory/android_sdk" }
+        // Mintegral SDK
+        maven { url "https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_oversea" }
         google()
         mavenCentral()
+        // 解决本地依赖 aar 打包报错 其实就是将libs作为本地仓库，然后引用参考下的库文件。但是编译时候会有这个提示
+        // Using flatDir should be avoided because it doesn't support any meta-data formats.
+        flatDir {
+            dirs new File(rootProject.projectDir.getAbsolutePath() + '/vmads/libs')
+        }
     }
 }
 

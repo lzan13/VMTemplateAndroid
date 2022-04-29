@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.vmloft.develop.library.push">
+
+    <application android:usesCleartextTraffic="true">
+        <!--自定义推送服务，为了保证推送的存活-->
+        <service
+            android:name=".CustomPushService"
+            android:exported="false"
+            android:label="PushService"
+            android:process=":pushservice" />
+        <!--推送信息接收服务-->
+        <service
+            android:name=".CustomPushIntentService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <meta-data
+            android:name="PUSH_APPID"
+            android:value="${pushAppId}"
+            tools:replace="android:value" />
+
+        <meta-data
+            android:name="PUSH_APPKEY"
+            android:value="${pushAppKey}"
+            tools:replace="android:value" />
+
+        <meta-data
+            android:name="PUSH_APPSECRET"
+            android:value="${pushAppSecret}"
+            tools:replace="android:value" />
+
+    </application>
+</manifest>

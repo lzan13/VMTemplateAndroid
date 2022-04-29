@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright © 2018-2020 TopOn. All rights reserved.
+  ~ https://www.toponad.com
+  ~ Licensed under the TopOn SDK License Agreement
+  ~ https://github.com/toponteam/TopOn-Android-SDK/blob/master/LICENSE
+  -->
+
+<paths>
+    <!-- 这个下载路径不可以修改，SigDownload -->
+    <external-cache-path name="SigMob_root" path="SigDownload" />
+    <external-path name="SigMob_root_external" path="." />
+    <root-path name="SigMob_root" path="." />
+</paths>

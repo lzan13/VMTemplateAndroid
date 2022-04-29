@@ -6,11 +6,13 @@
         <!--展示单图页面-->
         <activity
             android:name="com.vmloft.develop.library.image.display.DisplaySingleActivity"
+            android:exported="false"
             android:screenOrientation="fullSensor"
             android:theme="@style/AppTheme.Display" />
         <!--展示多图页面-->
         <activity
             android:name="com.vmloft.develop.library.image.display.DisplayMultiActivity"
+            android:exported="false"
             android:screenOrientation="fullSensor"
             android:theme="@style/AppTheme.Display" />
     </application>

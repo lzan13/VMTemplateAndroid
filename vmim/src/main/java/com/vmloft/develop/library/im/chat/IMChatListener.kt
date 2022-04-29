@@ -65,6 +65,9 @@ class IMChatListener : EMMessageListener {
             bundle.putString("bname", "im")
             bundle.putString("chatId", msg.conversationId())
             NotifyManager.sendNotify(content, title, bundle)
+
+            // 通知未读更新
+            LDEventBus.post(IMConstants.Common.changeUnreadCount, 0)
         }
     }
 

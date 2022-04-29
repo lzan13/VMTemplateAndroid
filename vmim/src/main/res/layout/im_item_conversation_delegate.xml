@@ -43,6 +43,8 @@
     <TextView
         android:id="@+id/imConversationUnreadTV"
         style="@style/IMText.Unread"
+        android:layout_marginTop="-4dp"
+        android:layout_marginEnd="-4dp"
         android:gravity="center"
         android:minWidth="@dimen/vm_dimen_16"
         android:minHeight="@dimen/vm_dimen_16"

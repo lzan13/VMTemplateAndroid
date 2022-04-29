@@ -24,14 +24,15 @@
         android:allowBackup="true"
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
-        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
         <!--闪屏页-->
         <activity
             android:name=".ui.splash.SplashActivity"
+            android:exported="true"
             android:theme="@style/AppTheme.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,90 +43,169 @@
         <!--主界面-->
         <activity
             android:name=".ui.main.MainActivity"
+            android:exported="false"
             android:launchMode="singleTop" />
 
         <!--引导-->
-        <activity android:name=".ui.guide.GuideActivity" />
-        <activity android:name=".ui.ads.ADSActivity" />
+        <activity
+            android:name=".ui.guide.GuideActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.ads.ADSActivity"
+            android:exported="false" />
 
         <!--登录引导-->
-        <activity android:name=".ui.sign.SignGuideActivity" />
+        <activity
+            android:name=".ui.sign.SignGuideActivity"
+            android:exported="false" />
         <!--登录-->
-        <activity android:name=".ui.sign.SignInActivity" />
+        <activity
+            android:name=".ui.sign.SignInActivity"
+            android:exported="false" />
         <!--注册-->
-        <activity android:name=".ui.sign.SignUpActivity" />
+        <activity
+            android:name=".ui.sign.SignUpActivity"
+            android:exported="false" />
 
         <!--匹配动画过渡界面-->
-        <activity android:name=".ui.main.home.MatchAnimActivity" />
+        <activity
+            android:name=".ui.main.home.MatchAnimActivity"
+            android:exported="false" />
 
         <!--聊天室列表界面-->
-        <activity android:name=".ui.room.RoomListActivity" />
+        <activity
+            android:name=".ui.room.RoomListActivity"
+            android:exported="false" />
 
         <!--聊天室创建界面-->
         <activity
             android:name=".ui.room.RoomCreateActivity"
+            android:exported="false"
             android:windowSoftInputMode="adjustResize|stateVisible" />
 
         <!--发布-->
         <activity
             android:name=".ui.post.PostCreateActivity"
+            android:exported="false"
             android:windowSoftInputMode="adjustResize|stateVisible" />
         <!--详情-->
-        <activity android:name=".ui.post.PostDetailsActivity" />
+        <activity
+            android:name=".ui.post.PostDetailsActivity"
+            android:exported="false" />
         <!--发表评论-->
         <activity
             android:name=".ui.post.PostCommentActivity"
+            android:exported="false"
             android:theme="@style/AppTheme.Transparent"
             android:windowSoftInputMode="adjustResize|stateAlwaysVisible" />
 
         <!--用户信息-->
-        <activity android:name=".ui.user.UserInfoActivity" />
+        <activity
+            android:name=".ui.user.UserInfoActivity"
+            android:exported="false" />
         <!--金币-->
-        <activity android:name=".ui.trade.GoldActivity" />
-        <activity android:name=".ui.trade.GoldDescActivity" />
+        <activity
+            android:name=".ui.trade.GoldActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.trade.GoldDescActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.trade.GoldRechargeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.trade.GoldTaskActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.trade.GoldVipActivity"
+            android:exported="false" />
         <!--订单-->
-        <activity android:name=".ui.trade.OrderDetailActivity" />
-        <activity android:name=".ui.trade.OrderListActivity" />
+        <activity
+            android:name=".ui.trade.OrderDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.trade.OrderListActivity"
+            android:exported="false" />
         <!--个人信息-->
-        <activity android:name=".ui.main.mine.info.PersonalInfoActivity" />
-        <activity android:name=".ui.main.mine.info.PersonalInfoGuideActivity" />
+        <activity
+            android:name=".ui.main.mine.info.PersonalInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.main.mine.info.PersonalInfoGuideActivity"
+            android:exported="false" />
         <!--个人信息绑定邮箱-->
-        <activity android:name=".ui.main.mine.info.BindEmailActivity" />
+        <activity
+            android:name=".ui.main.mine.info.BindEmailActivity"
+            android:exported="false" />
         <!--个人信息用户名设置-->
-        <activity android:name=".ui.main.mine.info.EditUsernameActivity" />
+        <activity
+            android:name=".ui.main.mine.info.EditUsernameActivity"
+            android:exported="false" />
         <!--二维码-->
-        <activity android:name=".ui.main.mine.info.MineQRCodeActivity" />
+        <activity
+            android:name=".ui.main.mine.info.MineQRCodeActivity"
+            android:exported="false" />
         <!--个人信息昵称设置-->
-        <activity android:name=".ui.main.mine.info.EditNicknameActivity" />
+        <activity
+            android:name=".ui.main.mine.info.EditNicknameActivity"
+            android:exported="false" />
         <!--个人信息签名设置-->
-        <activity android:name=".ui.main.mine.info.EditSignatureActivity" />
+        <activity
+            android:name=".ui.main.mine.info.EditSignatureActivity"
+            android:exported="false" />
         <!--个人信息个人认证-->
-        <activity android:name=".ui.main.mine.info.PersonalAuthActivity" />
+        <activity
+            android:name=".ui.main.mine.info.PersonalAuthActivity"
+            android:exported="false" />
 
         <!--关系列表-->
-        <activity android:name=".ui.main.mine.relation.RelationListActivity" />
-        <activity android:name=".ui.main.mine.relation.BlacklistActivity" />
+        <activity
+            android:name=".ui.main.mine.relation.RelationListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.main.mine.relation.BlacklistActivity"
+            android:exported="false" />
 
         <!--设置-->
-        <activity android:name=".ui.settings.SettingsActivity" />
+        <activity
+            android:name=".ui.settings.SettingsActivity"
+            android:exported="false" />
         <!--账户与安全设置-->
-        <activity android:name=".ui.settings.AccountSecuritySettingsActivity" />
+        <activity
+            android:name=".ui.settings.AccountSecuritySettingsActivity"
+            android:exported="false" />
         <!--修改密码-->
-        <activity android:name=".ui.main.mine.info.UpdatePasswordActivity" />
+        <activity
+            android:name=".ui.main.mine.info.UpdatePasswordActivity"
+            android:exported="false" />
         <!--隐私设置-->
-        <activity android:name=".ui.settings.PrivacySettingsActivity" />
+        <activity
+            android:name=".ui.settings.PrivacySettingsActivity"
+            android:exported="false" />
         <!--暗色主题设置-->
-        <activity android:name=".ui.settings.DarkSettingsActivity" />
+        <activity
+            android:name=".ui.settings.DarkSettingsActivity"
+            android:exported="false" />
         <!--资源设置-->
-        <activity android:name=".ui.settings.MediaSettingsActivity" />
+        <activity
+            android:name=".ui.settings.MediaSettingsActivity"
+            android:exported="false" />
         <!--通知设置-->
-        <activity android:name=".ui.settings.NotifySettingsActivity" />
+        <activity
+            android:name=".ui.settings.NotifySettingsActivity"
+            android:exported="false" />
         <!--关于-->
-        <activity android:name=".ui.settings.AboutSettingsActivity" />
+        <activity
+            android:name=".ui.settings.AboutSettingsActivity"
+            android:exported="false" />
         <!--协议和政策-->
-        <activity android:name=".ui.settings.AgreementPolicyActivity" />
+        <activity
+            android:name=".ui.settings.AgreementPolicyActivity"
+            android:exported="false" />
         <!--问题反馈-->
-        <activity android:name=".ui.feedback.FeedbackActivity" />
+        <activity
+            android:name=".ui.feedback.FeedbackActivity"
+            android:exported="false" />
 
     </application>
 </manifest>

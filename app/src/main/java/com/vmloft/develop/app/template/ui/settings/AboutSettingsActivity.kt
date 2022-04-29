@@ -46,6 +46,7 @@ class AboutSettingsActivity : BVMActivity<ActivitySettingsAboutBinding, CommonVi
         // 检查更新
         mBinding.checkVersionLV.setOnClickListener { mViewModel.checkVersion(true) }
 
+        mBinding.userNormTV.setOnClickListener { CRouter.go(AppRouter.appSettingsAgreementPolicy, str0 = "norm") }
         mBinding.userAgreementTV.setOnClickListener { CRouter.go(AppRouter.appSettingsAgreementPolicy, str0 = "agreement") }
         mBinding.privatePolicyTV.setOnClickListener { CRouter.go(AppRouter.appSettingsAgreementPolicy, str0 = "policy") }
     }

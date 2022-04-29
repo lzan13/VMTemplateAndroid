@@ -95,7 +95,7 @@
                 android:paddingTop="@dimen/vm_dimen_8"
                 android:paddingEnd="@dimen/vm_dimen_12"
                 android:paddingBottom="@dimen/vm_dimen_8"
-                android:text="@string/feedback_dislike"
+                android:text="@string/feedback_report"
                 android:textColor="@color/app_title_display"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="@+id/infoNameTV"
@@ -225,11 +225,11 @@
                 android:textColor="@color/app_title_display"
                 android:textSize="@dimen/vm_size_13"
                 app:layout_constraintBottom_toBottomOf="@+id/infoFansLL"
-                app:layout_constraintEnd_toStartOf="@+id/infoSendBtn"
+                app:layout_constraintEnd_toStartOf="@+id/infoSendIV"
                 app:layout_constraintTop_toTopOf="@+id/infoFansLL" />
             <!--发消息-->
             <ImageView
-                android:id="@+id/infoSendBtn"
+                android:id="@+id/infoSendIV"
                 android:layout_width="@dimen/vm_dimen_36"
                 android:layout_height="@dimen/vm_dimen_36"
                 android:layout_marginEnd="@dimen/vm_dimen_16"

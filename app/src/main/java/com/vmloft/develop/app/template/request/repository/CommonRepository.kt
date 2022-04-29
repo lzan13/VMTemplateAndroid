@@ -109,9 +109,8 @@ class CommonRepository : BaseRepository() {
     suspend fun clientConfig(): RResult<Config> {
         val time = SPManager.getClientConfigTime()
         val intervalTime = System.currentTimeMillis() - time
-        // 这里一般使用缓存，只有超过一定时间才去服务器获取，设置为 1 小时，TODO 测试情况为 1 分钟
-//        if (intervalTime < CConstants.timeHour * 1) {
-        if (intervalTime < if(CSPManager.isDebug()) CConstants.timeMinute * 1 else CConstants.timeHour * 4) {
+        // 这里一般使用缓存，只有超过一定时间才去服务器获取，设置为 4 小时，TODO 测试情况为 1 分钟
+        if (intervalTime < if (CSPManager.isDebug()) CConstants.timeMinute * 1 else CConstants.timeHour * 1) {
             val config = AppDatabase.getInstance().configDao().query("clientConfig")
             if (config != null) {
                 return RResult.Success("", config)
@@ -187,11 +186,12 @@ class CommonRepository : BaseRepository() {
      * @param content 反馈内容
      * @param user 相关用户
      * @param post 相关帖子
+     * @param comment 相关评论
      * @param attachments 附件
      * @param type 反馈类型 0-意见建议 1-广告 2-政治敏感 3-色情低俗 4-血腥暴力 5-不文明 6-涉嫌诈骗 7-其他
      */
-    suspend fun feedback(contact: String, content: String, user: String, post: String, attachments: List<String>, type: Int): RResult<Any> {
-        return safeRequest { executeResponse(APIRequest.commonAPI.feedback(contact, content, user, post, attachments, type)) }
+    suspend fun feedback(contact: String, content: String, type: Int, attachments: List<String>, user: String, post: String, comment: String): RResult<Any> {
+        return safeRequest { executeResponse(APIRequest.commonAPI.feedback(contact, content, type, attachments, user, post, comment)) }
     }
 
     /**

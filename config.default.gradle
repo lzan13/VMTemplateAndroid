@@ -9,13 +9,18 @@ ext {
             versionCode      : 1,
             versionName      : "0.0.1",
 
-            // TopOn 聚合平台 AppId
-            topOnAppId       : "\"TopOn AppId\"",
-            // TopOn 聚合平台 AppKey
-            topOnAppKey      : "\"TopOn AppKey\"",
+            // 推送平台
+            pushAppId        : "Push AppId", // 推送平台 AppId
+            pushAppKey       : "Push AppKey", // 推送平台 AppKey
+            pushAppSecret    : "Push AppSecret", // 推送平台 AppSecret
+
+            // 聚合平台配置
+            topOnAppId       : "\"TopOn AppId\"", // TopOn 聚合平台 AppId
+            topOnAppKey      : "\"TopOn AppKey\"", // TopOn 聚合平台 AppKey
+            admobAppId       : "AppId", // Google Admob AppId
 
             // Bugly AppId
-            buglyAppId       : "Bugly appId",
+            buglyAppId       : "Bugly AppId",
 
             // 友盟 AppId
             umengAppKey      : "UMeng AppKey",

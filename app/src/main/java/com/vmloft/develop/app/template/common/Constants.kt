@@ -17,6 +17,7 @@ object Constants {
         const val createComment = "appCreateComment" // 创建评论
         const val shieldPost = "appShieldPost" // 屏蔽帖子
         const val orderStatus = "appOrderStatus" // 订单状态更新
+        const val goldTaskReward = "appGoldTaskReward" // 金币任务奖励
     }
 
     /**

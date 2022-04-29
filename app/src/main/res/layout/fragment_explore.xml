@@ -37,18 +37,20 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/commonTopLL" />
 
+    <include layout="@layout/widget_common_loading" />
+
     <ImageView
         android:id="@+id/postAddIV"
         android:layout_width="@dimen/vm_dimen_48"
         android:layout_height="@dimen/vm_dimen_48"
         android:layout_margin="@dimen/vm_dimen_16"
         android:background="@drawable/shape_circle_common_bg"
+        android:backgroundTint="@color/app_main_87"
         android:elevation="@dimen/vm_elevation_normal"
         android:padding="@dimen/vm_dimen_12"
-        android:src="@drawable/ic_add"
+        android:src="@drawable/ic_edit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:tint="@color/app_main" />
+        app:tint="@color/app_icon_light" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

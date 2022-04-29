@@ -12,13 +12,15 @@ import com.vmloft.develop.app.template.BuildConfig
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.common.SPManager
 import com.vmloft.develop.app.template.im.IMManager
+import com.vmloft.develop.library.ads.ADSManager
 import com.vmloft.develop.library.base.event.LDEventBus
-import com.vmloft.develop.library.report.ReportManager
 import com.vmloft.develop.library.base.common.CConstants
 import com.vmloft.develop.library.base.common.CSPManager
 import com.vmloft.develop.library.base.notify.NotifyManager
 import com.vmloft.develop.library.common.widget.refresh.DoubleCircleFooter
 import com.vmloft.develop.library.common.widget.refresh.DoubleCircleHeader
+import com.vmloft.develop.library.push.CustomPushManager
+import com.vmloft.develop.library.report.ReportManager
 import com.vmloft.develop.library.tools.VMTools
 import com.vmloft.develop.library.tools.utils.VMFile
 import com.vmloft.develop.library.tools.utils.VMTheme
@@ -61,13 +63,16 @@ class App : Application() {
         // 初始化 IM
         initIM()
 
+        // 初始化 Push
+        initPush()
+
         // 初始化上报，这里包含 bugly 错误日志上报以及 UMeng 统计上报
         initReport()
 
         initRefresh()
 
         // 初始化广告管理
-        // ADSManager.init(appContext)
+        ADSManager.init(appContext)
 
         // 初始化事件总线
         LDEventBus.init()
@@ -81,7 +86,7 @@ class App : Application() {
     private fun initCommon() {
         VMTools.init(appContext)
         val level = if (CSPManager.isDebug()) VMLog.Level.DEBUG else VMLog.Level.ERROR
-        VMLog.init(level, "VMMatchAndroid")
+        VMLog.init(level, CConstants.projectName)
 
         // 设置暗色主题模式
         if (SPManager.isDarkModeSystemSwitch()) {
@@ -134,11 +139,21 @@ class App : Application() {
     }
 
     /**
+     * 初始化推送
+     */
+    private fun initPush() {
+        // 如果没有同意用户隐私协议，这里先不初始化
+        if (SPManager.isAgreementPolicy()) {
+            CustomPushManager.init(appContext)
+        }
+    }
+
+    /**
      * 初始化上报
      */
     private fun initReport() {
         ReportManager.preInit(appContext)
-        // 如果没有统一协议，这里先不初始化
+        // 如果没有同意用户隐私协议，这里先不初始化
         if (SPManager.isAgreementPolicy()) {
             ReportManager.init(appContext)
         }

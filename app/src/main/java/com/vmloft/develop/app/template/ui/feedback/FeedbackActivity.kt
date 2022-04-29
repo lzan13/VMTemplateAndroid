@@ -1,5 +1,6 @@
 package com.vmloft.develop.app.template.ui.feedback
 
+import android.os.Parcelable
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -11,6 +12,7 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.databinding.ActivityFeedbackBinding
 import com.vmloft.develop.app.template.request.bean.Attachment
+import com.vmloft.develop.app.template.request.bean.Comment
 import com.vmloft.develop.app.template.request.bean.Post
 import com.vmloft.develop.app.template.request.bean.User
 import com.vmloft.develop.app.template.request.viewmodel.FeedbackViewModel
@@ -43,11 +45,11 @@ class FeedbackActivity : BVMActivity<ActivityFeedbackBinding, FeedbackViewModel>
 
     @Autowired(name = CRouter.paramsObj0)
     @JvmField
-    var post: Post? = null
+    var reportObj: Parcelable? = null
 
-    @Autowired(name = CRouter.paramsObj1)
-    @JvmField
-    var user: User? = null
+    private var userId: String = ""
+    private var postId: String = ""
+    private var commentId: String = ""
 
     // 内容
     private var mContent: String = ""
@@ -108,7 +110,22 @@ class FeedbackActivity : BVMActivity<ActivityFeedbackBinding, FeedbackViewModel>
 
     override fun initData() {
         ARouter.getInstance().inject(this)
-        post?.let { user = post?.owner }
+        reportObj?.let {
+            when (it) {
+                is User -> {
+                    userId = it.id
+                }
+                is Post -> {
+                    userId = it.owner.id
+                    postId = it.id
+                }
+                is Comment -> {
+                    userId = it.owner.id
+                    postId = it.post.id
+                    commentId = it.id
+                }
+            }
+        }
     }
 
     override fun onModelRefresh(model: BViewModel.UIModel) {
@@ -151,7 +168,7 @@ class FeedbackActivity : BVMActivity<ActivityFeedbackBinding, FeedbackViewModel>
         attachment?.let {
             list.add(it.id)
         }
-        mViewModel.feedback(mContact, mContent, user?.id ?: "", post?.id ?: "", list, type)
+        mViewModel.feedback(mContact, mContent, type, list, userId, postId, commentId)
     }
 
 

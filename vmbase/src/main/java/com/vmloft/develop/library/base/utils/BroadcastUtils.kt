@@ -10,7 +10,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
  * Create by lzan13 on 2020/8/12 20:34
  * 描述：
  */
-object wBroadcastUtils {
+object BroadcastUtils {
 
     /**
      * 注册广播

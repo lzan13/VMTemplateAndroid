@@ -4,6 +4,9 @@
 
     <application>
         <!--通知中间页-->
-        <activity android:name=".notify.NotifyActivity" />
+        <activity
+            android:name=".notify.NotifyActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme.Transparent" />
     </application>
 </manifest>

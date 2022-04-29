@@ -94,6 +94,13 @@ class PostRepository : BaseRepository() {
     }
 
     /**
+     * 删除评论
+     */
+    suspend fun deleteComment(id: String): RResult<Any> {
+        return safeRequest { executeResponse(APIRequest.postAPI.deleteComment(id)) }
+    }
+
+    /**
      * 获取评论列表
      */
     suspend fun getCommentList(post: String, page: Int, limit: Int): RResult<RPaging<Comment>> {

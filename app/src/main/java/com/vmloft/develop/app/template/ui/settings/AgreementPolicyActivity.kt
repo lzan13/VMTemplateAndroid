@@ -1,6 +1,7 @@
 package com.vmloft.develop.app.template.ui.settings
 
 import android.view.View
+import android.webkit.WebView
 import android.widget.LinearLayout
 
 import com.alibaba.android.arouter.facade.annotation.Autowired
@@ -8,6 +9,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 
 import com.just.agentweb.AgentWeb
+import com.just.agentweb.WebChromeClient
 
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.databinding.ActivitySettingsAgreementPolicyBinding
@@ -19,6 +21,7 @@ import com.vmloft.develop.library.base.BViewModel
 import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.tools.utils.VMColor
 import com.vmloft.develop.library.tools.utils.VMStr
+import com.vmloft.develop.library.tools.utils.logger.VMLog
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -47,15 +50,19 @@ class AgreementPolicyActivity : BVMActivity<ActivitySettingsAgreementPolicyBindi
     override fun initData() {
         ARouter.getInstance().inject(this)
 
-        if (type == "agreement") {
-            setTopTitle(R.string.user_agreement)
-            mViewModel.userAgreement()
-        } else if (type == "policy") {
-            setTopTitle(R.string.private_policy)
-            mViewModel.privatePolicy()
-        } else if (type == "norm") {
-            setTopTitle(R.string.user_norm)
-            mViewModel.userNorm()
+        when (type) {
+            "agreement" -> {
+                setTopTitle(R.string.user_agreement)
+                mViewModel.userAgreement()
+            }
+            "policy" -> {
+                setTopTitle(R.string.private_policy)
+                mViewModel.privatePolicy()
+            }
+            "norm" -> {
+                setTopTitle(R.string.user_norm)
+                mViewModel.userNorm()
+            }
         }
     }
 
@@ -63,6 +70,7 @@ class AgreementPolicyActivity : BVMActivity<ActivitySettingsAgreementPolicyBindi
         mAgentWeb = AgentWeb.with(this)
             .setAgentWebParent(mBinding.webContainer, LinearLayout.LayoutParams(-1, -1))
             .useDefaultIndicator(VMColor.byRes(com.vmloft.develop.library.common.R.color.app_main), 1)
+            .setWebChromeClient(chromeClient)
             .createAgentWeb()
             .ready()
             .go("")
@@ -106,11 +114,17 @@ class AgreementPolicyActivity : BVMActivity<ActivitySettingsAgreementPolicyBindi
     /**
      * WebView 回调
      */
-//    private val chromeClient: WebChromeClient = object : WebChromeClient() {
-//        override fun onReceivedTitle(view: WebView, title: String) {
-//            setTopTitle(title)
-//        }
-//    }
+    private val chromeClient: WebChromeClient = object : WebChromeClient() {
+        override fun onReceivedTitle(view: WebView, title: String) {
+            setTopTitle(title)
+            VMLog.i("-lz- onReceivedTitle $title")
+        }
+
+        override fun onProgressChanged(view: WebView, progress: Int) {
+            super.onProgressChanged(view, progress)
+            VMLog.i("-lz- onProgressChanged $progress")
+        }
+    }
 
     override fun onResume() {
         mAgentWeb.webLifeCycle.onResume()

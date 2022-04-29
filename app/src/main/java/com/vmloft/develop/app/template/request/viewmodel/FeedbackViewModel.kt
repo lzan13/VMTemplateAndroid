@@ -26,13 +26,14 @@ class FeedbackViewModel(private val repo: CommonRepository) : BViewModel() {
      * @param content 反馈内容
      * @param user 相关用户
      * @param post 相关帖子
+     * @param comment 相关评论
      * @param attachments 附件
      * @param type 反馈类型 0-意见建议 1-广告 2-政治敏感 3-色情低俗 4-血腥暴力 5-不文明 6-涉嫌诈骗 7-其他
      */
-    fun feedback(contact: String, content: String, user: String = "", post: String = "", attachments: List<String> = arrayListOf(), type: Int = 0) {
+    fun feedback(contact: String, content: String, type: Int = 0, attachments: List<String> = arrayListOf(), user: String = "", post: String = "", comment: String = "") {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val result = repo.feedback(contact, content, user, post, attachments, type)
+            val result = repo.feedback(contact, content, type, attachments, user, post, comment)
             if (result is RResult.Success) {
                 emitUIState(type = "feedback")
                 return@launch

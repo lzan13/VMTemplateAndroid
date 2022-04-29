@@ -1,5 +1,8 @@
 package com.vmloft.develop.app.template.ui.main.home
 
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +20,6 @@ import com.vmloft.develop.app.template.request.bean.Match
 import com.vmloft.develop.library.request.RPaging
 import com.vmloft.develop.app.template.request.bean.User
 import com.vmloft.develop.app.template.router.AppRouter
-import com.vmloft.develop.library.image.IMGLoader
 import com.vmloft.develop.app.template.report.ReportConstants
 import com.vmloft.develop.app.template.request.viewmodel.MatchViewModel
 import com.vmloft.develop.app.template.ui.widget.MatchEmotionDialog
@@ -25,6 +27,7 @@ import com.vmloft.develop.app.template.ui.widget.MatchGenderDialog
 import com.vmloft.develop.library.base.BVMFragment
 import com.vmloft.develop.library.base.BViewModel
 import com.vmloft.develop.library.base.common.CConstants
+import com.vmloft.develop.library.base.common.CSPManager
 import com.vmloft.develop.library.base.event.LDEventBus
 import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.common.config.ConfigManager
@@ -32,8 +35,15 @@ import com.vmloft.develop.library.common.utils.JsonUtils
 import com.vmloft.develop.library.mqtt.MQTTConstants
 import com.vmloft.develop.library.mqtt.MQTTHelper
 import com.vmloft.develop.library.report.ReportManager
+import com.vmloft.develop.library.tools.utils.VMColor
+import com.vmloft.develop.library.tools.utils.VMDimen
+import com.vmloft.develop.library.tools.utils.VMStr
 import com.vmloft.develop.library.tools.widget.barrage.VMBarrageView
 import com.vmloft.develop.library.tools.widget.barrage.VMViewCreator
+import com.vmloft.develop.library.tools.widget.guide.GuideItem
+import com.vmloft.develop.library.tools.widget.guide.VMGuide
+import com.vmloft.develop.library.tools.widget.guide.VMGuideView
+import com.vmloft.develop.library.tools.widget.guide.VMShape
 
 import org.json.JSONObject
 
@@ -61,6 +71,7 @@ class HomeFragment : BVMFragment<FragmentHomeBinding, MatchViewModel>() {
     private var mPage: Int = CConstants.defaultPage
 
     // 顶部心情控件
+    private lateinit var emotionView: View
     private lateinit var emotionIV: ImageView
     private lateinit var emotionTV: TextView
 
@@ -74,21 +85,14 @@ class HomeFragment : BVMFragment<FragmentHomeBinding, MatchViewModel>() {
         setTopIcon(R.drawable.ic_filter)
         setTopIconListener { showMatchGenderDialog() }
 
-        // 下一波
-        mBinding.homeNextTV.setOnClickListener { mViewModel.matchList(selfMatch.filterGender, selfMatch.type, mPage) }
+        // 刷新
+        mBinding.matchInfoView.setOnClickListener { mViewModel.matchList(selfMatch.filterGender, selfMatch.type, mPage) }
 
         // 匹配项点击处理
-        // 缘分匹配
-        mBinding.matchDestinyCL.setOnClickListener { startMatch(0) }
         // 快速聊天
-        mBinding.matchFastCL.setOnClickListener { startMatch(1) }
+        mBinding.chatFastCL.setOnClickListener { startMatch(1) }
         // 解忧房
-        mBinding.homeChatRoomLL.setOnClickListener { CRouter.go(AppRouter.appRoomList) }
-        // 秘密枯井
-        mBinding.homeSecretLL.setOnClickListener { CRouter.go(AppRouter.appMatchSecret) }
-        // 心愿古树
-        mBinding.homeWishLL.setOnClickListener { }
-
+        mBinding.chatRoomCL.setOnClickListener { CRouter.go(AppRouter.appRoomList) }
         // 监听用户信息变化
         LDEventBus.observe(this, Constants.Event.userInfo, User::class.java) {
             mUser = it
@@ -107,10 +111,6 @@ class HomeFragment : BVMFragment<FragmentHomeBinding, MatchViewModel>() {
             bindEmotionInfo()
             // 发送匹配信息
             sendMatchInfo()
-        }
-        // 配置信息变化
-        LDEventBus.observe(this, CConstants.clientConfigEvent, Int::class.java) {
-            setupConfig()
         }
 
         // 订阅 MQTT 事件
@@ -134,10 +134,18 @@ class HomeFragment : BVMFragment<FragmentHomeBinding, MatchViewModel>() {
 
         setupEmotion()
         bindInfo()
+
+        checkGuide()
+
+        setupConfig()
     }
 
     override fun onModelLoading(model: BViewModel.UIModel) {
-        mBinding.loadingView.visibility = if (model.isLoading) View.VISIBLE else View.GONE
+        if (model.type == "matchList") {
+            mBinding.matchInfoView.isEnabled = !model.isLoading
+            mBinding.loadingView.visibility = if (model.isLoading) View.VISIBLE else View.GONE
+        }
+
     }
 
     override fun onModelRefresh(model: BViewModel.UIModel) {
@@ -156,29 +164,47 @@ class HomeFragment : BVMFragment<FragmentHomeBinding, MatchViewModel>() {
     private fun bindInfo() {
         // VIP 不需要显示可用匹配次数
         if (mUser.role.identity < 100) {
-            mBinding.matchDestinyCountTV.text = mUser.matchCount.toString()
-            mBinding.matchDestinyCountTV.visibility = View.VISIBLE
-            mBinding.matchFastCountTV.text = mUser.matchCount.toString()
-            mBinding.matchFastCountTV.visibility = View.VISIBLE
+            mBinding.fastCountTV.text = mUser.matchCount.toString()
+            mBinding.fastCountTV.visibility = View.VISIBLE
         } else {
-            mBinding.matchDestinyCountTV.visibility = View.GONE
-            mBinding.matchFastCountTV.visibility = View.GONE
+            mBinding.fastCountTV.visibility = View.GONE
         }
+    }
+
+    /**
+     * 检查引导
+     */
+    private fun checkGuide() {
+        if (!CSPManager.isNeedGuide(this@HomeFragment::class.java.simpleName)) return
+
+        val list = mutableListOf<GuideItem>()
+        list.add(GuideItem(emotionView, VMStr.byRes(R.string.guide_home_emotion), shape = VMShape.guideShapeCircle, offX = VMDimen.dp2px(96), offY = VMDimen.dp2px(16)))
+        list.add(GuideItem(mBinding.chatFastCL, VMStr.byRes(R.string.guide_home_chat_fast), shape = VMShape.guideShapeCircle, offY = VMDimen.dp2px(56)))
+        list.add(GuideItem(mBinding.matchInfoView, VMStr.byRes(R.string.guide_home_refresh), shape = VMShape.guideShapeCircle, offX = VMDimen.dp2px(-56), offY = VMDimen.dp2px(-16)))
+        list.add(GuideItem(mBinding.chatRoomCL, VMStr.byRes(R.string.guide_home_chat_room), shape = VMShape.guideShapeCircle, offX = VMDimen.dp2px(72), offY = VMDimen.dp2px(56)))
+
+        VMGuide.Builder(requireActivity()).setOneByOne(true).setGuideViews(list).setGuideListener(object : VMGuideView.GuideListener {
+            override fun onFinish() {
+                    CSPManager.setNeedGuide(this@HomeFragment::class.java.simpleName, false)
+            }
+
+            override fun onNext(index: Int) {}
+        }).build().show()
     }
 
     /**
      * 装载右上角心情信息
      */
     private fun setupEmotion() {
-        val view = LayoutInflater.from(context).inflate(R.layout.widget_match_emtoion_view, null)
-        emotionIV = view.findViewById(R.id.emotionIV)
-        emotionTV = view.findViewById(R.id.emotionTV)
+        emotionView = LayoutInflater.from(context).inflate(R.layout.widget_match_emtoion_view, null)
+        emotionIV = emotionView.findViewById(R.id.emotionIV)
+        emotionTV = emotionView.findViewById(R.id.emotionTV)
 
-        setTopEndView(view)
+        setTopEndView(emotionView)
 
         bindEmotionInfo()
 
-        view.setOnClickListener {
+        emotionView.setOnClickListener {
             mDialog = MatchEmotionDialog(requireContext())
             (mDialog as MatchEmotionDialog).show(Gravity.BOTTOM)
         }
@@ -252,9 +278,8 @@ class HomeFragment : BVMFragment<FragmentHomeBinding, MatchViewModel>() {
      * 加载配置信息
      */
     private fun setupConfig() {
-        mBinding.homeChatRoomLL.visibility = if (ConfigManager.clientConfig.homeRoomEntry) View.VISIBLE else View.GONE
-        mBinding.homeSecretLL.visibility = if (ConfigManager.clientConfig.homeSecretEntry) View.VISIBLE else View.GONE
-        mBinding.homeWishLL.visibility = if (ConfigManager.clientConfig.homeWishEntry) View.VISIBLE else View.GONE
+        mBinding.chatFastCL.visibility = if (ConfigManager.clientConfig.homeChatFastEntry) View.VISIBLE else View.GONE
+        mBinding.chatRoomCL.visibility = if (ConfigManager.clientConfig.homeChatRoomEntry) View.VISIBLE else View.GONE
     }
 
     /**
@@ -314,6 +339,16 @@ class HomeFragment : BVMFragment<FragmentHomeBinding, MatchViewModel>() {
      * 装载弹幕
      */
     private fun setupBarrage(paging: RPaging<Match>) {
+        val countStr = paging.totalCount.toString()
+        val infoStr = VMStr.byResArgs(R.string.match_info, countStr)
+        val infoSP = SpannableString(infoStr)
+
+        var start = infoStr.indexOf(countStr)
+        var end = start + countStr.length
+        //设置高亮样式
+        infoSP.setSpan(ForegroundColorSpan(VMColor.byRes(R.color.app_title_display)), start, end, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+        mBinding.matchInfoTV.text = infoSP
+
         if (paging.currentCount + paging.page * paging.limit >= paging.totalCount) {
             mPage = CConstants.defaultPage
         } else {
@@ -332,12 +367,12 @@ class HomeFragment : BVMFragment<FragmentHomeBinding, MatchViewModel>() {
 
         barrageView?.stop()
         barrageView = null
-        mBinding.homeBarrageViewLL.removeAllViews()
+        mBinding.barrageViewLL.removeAllViews()
 
         // 重置弹幕控件
         barrageView = VMBarrageView(activity)
         val lp: LinearLayout.LayoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT)
-        mBinding.homeBarrageViewLL.addView(barrageView, lp)
+        mBinding.barrageViewLL.addView(barrageView, lp)
 
         barrageView?.let {
             it.setCreator(ViewCreator()).setMaxSize(50).create(dataList).start()

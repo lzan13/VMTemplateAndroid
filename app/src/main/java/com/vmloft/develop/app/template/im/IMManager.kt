@@ -60,6 +60,13 @@ object IMManager {
     }
 
     /**
+     * 获取未读数
+     */
+    fun getUnreadCount(): Int {
+        return IM.getUnreadCount()
+    }
+
+    /**
      * ---------------------------------------------------------------------
      * 设置通知
      */

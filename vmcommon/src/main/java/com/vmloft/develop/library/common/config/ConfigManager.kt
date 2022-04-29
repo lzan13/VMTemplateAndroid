@@ -25,27 +25,51 @@ object ConfigManager {
 
 /**
  * 客户端配置数据 Bean，这里是通过服务器下发的配置解析出来的，有默认值
- * {
- *  "chatPictureLimit": 5,
- *  "chatCallLimit":10,
- *  "chatCallEntry": true,
- *  "homeRoomEntry": true,
- *  "homeSecretEntry": false,
- *  "homeWishEntry": false,
- *  "scoreEntry": true,
- *  "vipEntry": false
- * }
  */
 data class ClientConfig(
-    var chatPictureLimit: Int = 5, // 聊天图片锁 限制数
-    var chatCallLimit: Int = 10, // 聊天语音通话 锁限制
-    var chatCallEntry: Boolean = true, // 聊天通话入口
+    /*
+    {
+        "adsEntry": {
+            "splashEntry": true,
+            "exploreEntry": true,
+            "goldEntry": true
+        },
+        "chatConfig":{
+            "pictureLimit": 5,
+            "callLimit":10,
+            "callEntry": true
+        },
+        "homeFastChatEntry": true,
+        "homeChatRoomEntry": true,
+        "scoreEntry": true,
+        "vipEntry": true
+    }
+     */
+    var adsEntry: ADSEntry = ADSEntry(), // 广告相关入口
 
-    var homeRoomEntry: Boolean = true, // 聊天房入口
-    var homeSecretEntry: Boolean = false, // 秘密入口
-    var homeWishEntry: Boolean = false, // 愿望入口
+    var chatConfig: ChatConfig = ChatConfig(), // 聊天配置
+
+    var homeChatFastEntry: Boolean = true, // 闪聊入口
+    var homeChatRoomEntry: Boolean = true, // 聊天房入口
 
     var scoreEntry: Boolean = true, // 积分相关入口
-    var vipEntry: Boolean = false, // VIP充值相关入口
+    var vipEntry: Boolean = true, // VIP充值相关入口
+)
 
-) {}
+/**
+ * 广告部分入口
+ */
+data class ADSEntry(
+    var splashEntry: Boolean = true, // 开屏广告入口
+    var exploreEntry: Boolean = true, // 发现内容入口
+    var goldEntry: Boolean = true, // 金币获取入口
+)
+
+/**
+ * 聊天配置
+ */
+data class ChatConfig(
+    var pictureLimit: Int = 5, // 聊天图片锁 限制数
+    var callLimit: Int = 10, // 聊天语音通话 锁限制
+    var callEntry: Boolean = true, // 聊天通话入口
+)

@@ -8,18 +8,21 @@
         <!--调试设置页面-->
         <activity
             android:name=".debug.DebugActivity"
+            android:exported="false"
             android:screenOrientation="fullSensor"
             android:theme="@style/AppTheme" />
 
         <!--Web页面-->
         <activity
             android:name=".web.WebActivity"
+            android:exported="false"
             android:screenOrientation="fullSensor"
             android:theme="@style/AppTheme" />
 
         <!--重新定义权限请求主题-->
         <activity
             android:name="com.vmloft.develop.library.tools.permission.VMPermissionActivity"
+            android:exported="false"
             android:theme="@style/AppTheme.Permission"
             tools:replace="android:theme" />
 
@@ -32,7 +35,6 @@
         <provider
             android:name="com.vmloft.develop.library.base.common.CFileProvider"
             android:authorities="${applicationId}.common.fileProvider"
-            android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"

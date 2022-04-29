@@ -26,6 +26,9 @@ object CSPManager {
     private val notifyMsgSwitchKey = "notifyMsgSwitchKey"
     private val notifyMsgDetailSwitchKey = "notifyMsgDetailSwitchKey"
 
+    // 引导前缀
+    private val guideKeyPrefix = "guideKeyPrefix"
+
     /**
      * Debug 状态
      */
@@ -75,6 +78,14 @@ object CSPManager {
 
     fun isNotifyMsgDetailSwitch(): Boolean =
         get(settingsEntry, notifyMsgDetailSwitchKey, true) as Boolean
+
+    /**
+     * 检查指定模块是否需要显示引导
+     */
+    fun isNeedGuide(module: String): Boolean = get(settingsEntry, guideKeyPrefix + module, true) as Boolean
+    fun setNeedGuide(module: String, need: Boolean) {
+        putAsync(settingsEntry, guideKeyPrefix + module, need)
+    }
 
 
     /**

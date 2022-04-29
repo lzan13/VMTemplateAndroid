@@ -1,6 +1,8 @@
 package com.vmloft.develop.library.im.conversation
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -66,11 +68,15 @@ class IMConversationFragment : BFragment<ImFragmentConversationBinding>() {
         })
         // 监听新消息
         LDEventBus.observe(this, IMConstants.Common.newMsgEvent, EMMessage::class.java, {
-            refresh()
+            prepareRefresh()
         })
         // 监听消息撤回
         LDEventBus.observe(this, IMConstants.Common.cmdRecallAction, EMMessage::class.java) {
-            refresh()
+            prepareRefresh()
+        }
+        // 监听新消息过来，这里主要更新Tab未读
+        LDEventBus.observe(this, IMConstants.Common.changeUnreadCount, Int::class.java) {
+            prepareRefresh()
         }
     }
 
@@ -196,12 +202,43 @@ class IMConversationFragment : BFragment<ImFragmentConversationBinding>() {
         val list = IMChatManager.getAllConversation()
         val ids = list.map { it.conversationId() }
 
-        VMLog.d("-lz-0 获取指定用户信息")
         IM.imListener.getUserList(ids) {
             // 刷新结束
             mBinding.imConversationRefreshLayout.finishRefresh()
-            VMLog.d("-lz-5 获取指定用户信息")
             refresh()
+        }
+    }
+
+
+    private var refreshTime: Long = 0 // 上次刷新时间 ms
+    private var refreshDelay: Long = 500 // 刷新延迟时间 ms
+    private val refreshWhat: Int = 100
+
+    /**
+     *
+     */
+    var handler: Handler = object : Handler() {
+        override fun handleMessage(msg: Message) {
+            refresh()
+        }
+    }
+
+    /**
+     * 准备刷新
+     */
+    private fun prepareRefresh() {
+        val currTime = System.currentTimeMillis()
+        // 先检查下是否有等待刷新的人物
+        if (handler.hasMessages(refreshWhat)) {
+            // 在检查下距离刷新还有多久
+            if (currTime - refreshTime >= refreshDelay) {
+                refreshTime = currTime
+                handler.removeMessages(refreshWhat)
+                handler.sendEmptyMessageDelayed(refreshWhat, refreshDelay)
+            }
+        } else {
+            refreshTime = currTime
+            handler.sendEmptyMessageDelayed(refreshWhat, refreshDelay)
         }
     }
 
@@ -209,6 +246,7 @@ class IMConversationFragment : BFragment<ImFragmentConversationBinding>() {
      * 刷新界面
      */
     private fun refresh() {
+        VMLog.i("-lz-refresh- 3 ")
         val list = IMChatManager.getAllConversation()
 
 //        val result = DiffUtil.calculateDiff(ConversationDiff(mItems, list), true)

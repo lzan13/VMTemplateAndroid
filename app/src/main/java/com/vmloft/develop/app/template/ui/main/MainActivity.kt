@@ -2,14 +2,20 @@ package com.vmloft.develop.app.template.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.hyphenate.chat.EMMessage
 
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.common.Constants
@@ -31,6 +37,8 @@ import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.base.utils.errorBar
 import com.vmloft.develop.library.base.widget.CommonDialog
 import com.vmloft.develop.library.common.config.ConfigManager
+import com.vmloft.develop.library.im.IM
+import com.vmloft.develop.library.im.common.IMConstants
 import com.vmloft.develop.library.tools.utils.VMStr
 import com.vmloft.develop.library.tools.utils.VMSystem
 
@@ -53,6 +61,8 @@ class MainActivity : BVMActivity<ActivityMainBinding, MainViewModel>() {
     private lateinit var exploreFragment: ExploreFragment
     private lateinit var msgFragment: MsgFragment
     private lateinit var mineFragment: MineFragment
+
+    private lateinit var msgUnreadTV: TextView
 
     @JvmField
     @Autowired
@@ -97,6 +107,12 @@ class MainActivity : BVMActivity<ActivityMainBinding, MainViewModel>() {
         if (!SignManager.isSingIn()) return
 
         initBottomNav()
+
+        // 监听新消息过来，这里主要更新Tab未读
+        LDEventBus.observe(this, IMConstants.Common.changeUnreadCount, Int::class.java) {
+            checkMsgUnread()
+        }
+
     }
 
     override fun initData() {
@@ -105,7 +121,8 @@ class MainActivity : BVMActivity<ActivityMainBinding, MainViewModel>() {
         if (!SignManager.isSingIn()) return
 
         mViewModel.userInfo()
-        mViewModel.clientConfig()
+
+        checkMsgUnread()
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -130,6 +147,13 @@ class MainActivity : BVMActivity<ActivityMainBinding, MainViewModel>() {
         // 如果导航是多色图标，需要取消 BottomNavigationView 的着色效果，自己去设置 selector
         // mainNav.itemIconTintList = null
         mBinding.mainNav.setOnNavigationItemSelectedListener(onNavigationItemSelected)
+
+        val msgNavMenu = mBinding.mainNav.getChildAt(0) as BottomNavigationMenuView
+        val msgNavItem = msgNavMenu.getChildAt(2) as BottomNavigationItemView
+        val unreadCL = LayoutInflater.from(this).inflate(R.layout.widget_unread_layout, msgNavItem, false)
+        msgNavItem.addView(unreadCL)
+
+        msgUnreadTV = unreadCL.findViewById(R.id.unreadTV) as TextView
     }
 
     /**
@@ -157,7 +181,7 @@ class MainActivity : BVMActivity<ActivityMainBinding, MainViewModel>() {
     private fun switchFragment(tab: Int) {
         if (tab == 0) {
             mBinding.mainNav.setBackgroundResource(R.color.vm_transparent)
-        }else{
+        } else {
             mBinding.mainNav.setBackgroundResource(R.color.app_bg_nav)
         }
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
@@ -205,12 +229,24 @@ class MainActivity : BVMActivity<ActivityMainBinding, MainViewModel>() {
                     mViewModel.checkVersion()
                 }
             }
-        } else if (model.type == "clientConfig") {
-            ConfigManager.setupConfig((model.data as Config).content)
         } else if (model.type == "checkVersion") {
             if (model.data == null) return
             showVersionDialog(model.data as Version)
         }
+    }
+
+    /**
+     * 检查消息未读
+     */
+    private fun checkMsgUnread() {
+        val unreadCount = IM.getUnreadCount()
+        val unreadStr = if (unreadCount > 99) {
+            "99+"
+        } else {
+            unreadCount.toString()
+        }
+        msgUnreadTV.text = unreadStr
+        msgUnreadTV.visibility = if (unreadCount > 0) View.VISIBLE else View.GONE
     }
 
 
@@ -223,16 +259,16 @@ class MainActivity : BVMActivity<ActivityMainBinding, MainViewModel>() {
         mDialog = CommonDialog(this)
         (mDialog as CommonDialog).let { dialog ->
             // 判断是否需要强制更新，如果强制更新，则不能关闭对话框
-            val force = version.force or (version.versionCode - VMSystem.versionCode > 10)
+            val force = version.force or (version.versionCode - VMSystem.versionCode > 5)
             dialog.backDismissSwitch = !force
             dialog.touchDismissSwitch = !force
 
             dialog.setTitle(version.title)
             dialog.setContent(version.desc)
-            dialog.setNegative(if (force) "" else VMStr.byRes(R.string.version_skip))
-            dialog.setPositive(VMStr.byRes(R.string.version_upgrade)) {
+            dialog.setNegative(if (force) "" else version.negativeBtn)
+            dialog.setPositive(version.positiveBtn) {
                 if (version.url.isNullOrEmpty()) {
-                    errorBar("无法打开升级地址")
+                    finish()
                 } else {
                     CRouter.goWeb(version.url, true)
                     finish()
@@ -242,7 +278,7 @@ class MainActivity : BVMActivity<ActivityMainBinding, MainViewModel>() {
         }
     }
 
-    override fun onBackPressed() {
-        CRouter.goHome()
-    }
+//    override fun onBackPressed() {
+//        CRouter.goHome()
+//    }
 }

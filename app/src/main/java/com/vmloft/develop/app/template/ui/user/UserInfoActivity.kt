@@ -22,6 +22,7 @@ import com.vmloft.develop.app.template.ui.post.PostLikesFragment
 import com.vmloft.develop.app.template.ui.widget.UserDislikeDialog
 import com.vmloft.develop.library.base.BVMActivity
 import com.vmloft.develop.library.base.BViewModel
+import com.vmloft.develop.library.base.common.CSPManager
 import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.base.utils.showBar
 import com.vmloft.develop.library.base.widget.CommonDialog
@@ -30,6 +31,10 @@ import com.vmloft.develop.library.image.IMGLoader
 import com.vmloft.develop.library.tools.utils.VMColor
 import com.vmloft.develop.library.tools.utils.VMDimen
 import com.vmloft.develop.library.tools.utils.VMStr
+import com.vmloft.develop.library.tools.widget.guide.GuideItem
+import com.vmloft.develop.library.tools.widget.guide.VMGuide
+import com.vmloft.develop.library.tools.widget.guide.VMGuideView
+import com.vmloft.develop.library.tools.widget.guide.VMShape
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 
@@ -69,7 +74,7 @@ class UserInfoActivity : BVMActivity<ActivityUserInfoBinding, UserViewModel>() {
         mBinding.infoLikeLL.setOnClickListener { }
 
         mBinding.infoFollowMeTV.setOnClickListener { follow() }
-        mBinding.infoSendBtn.setOnClickListener { IMManager.goChat(user.id) }
+        mBinding.infoSendIV.setOnClickListener { IMManager.goChat(user.id) }
 
     }
 
@@ -82,6 +87,8 @@ class UserInfoActivity : BVMActivity<ActivityUserInfoBinding, UserViewModel>() {
         initViewPager()
 
         bindInfo()
+
+        checkGuide()
     }
 
     /**
@@ -130,6 +137,24 @@ class UserInfoActivity : BVMActivity<ActivityUserInfoBinding, UserViewModel>() {
     }
 
     /**
+     * 检查引导
+     */
+    private fun checkGuide() {
+        if (!CSPManager.isNeedGuide(this@UserInfoActivity::class.java.simpleName)) return
+
+        val list = mutableListOf<GuideItem>()
+        list.add(GuideItem(mBinding.infoDislikeTV, VMStr.byRes(R.string.guide_user_report), shape = VMShape.guideShapeCircle, offX = VMDimen.dp2px(36), offY = VMDimen.dp2px(24)))
+        list.add(GuideItem(mBinding.infoSendIV, VMStr.byRes(R.string.guide_user_msg), shape = VMShape.guideShapeCircle, offX = VMDimen.dp2px(74), offY = VMDimen.dp2px(8)))
+        VMGuide.Builder(this).setOneByOne(true).setGuideViews(list).setGuideListener(object : VMGuideView.GuideListener {
+            override fun onFinish() {
+                CSPManager.setNeedGuide(this@UserInfoActivity::class.java.simpleName, false)
+            }
+
+            override fun onNext(index: Int) {}
+        }).build().show()
+    }
+
+    /**
      * 绑定用户数据
      */
     private fun bindInfo() {
@@ -163,7 +188,7 @@ class UserInfoActivity : BVMActivity<ActivityUserInfoBinding, UserViewModel>() {
         mBinding.infoLikeTV.text = user.likeCount.toString()
         mBinding.infoFollowTV.text = user.followCount.toString()
         mBinding.infoFansTV.text = user.fansCount.toString()
-        mBinding.infoSendBtn.visibility = if (user.strangerMsg) View.VISIBLE else View.GONE
+        mBinding.infoSendIV.visibility = if (user.strangerMsg) View.VISIBLE else View.GONE
 
         setupFollowStatus()
     }
@@ -250,8 +275,6 @@ class UserInfoActivity : BVMActivity<ActivityUserInfoBinding, UserViewModel>() {
     private fun report(type: Int) {
         mDialog?.dismiss()
 
-        CRouter.go(AppRouter.appFeedback, what = type, obj1 = user)
+        CRouter.go(AppRouter.appFeedback, what = type, obj0 = user)
     }
-
-
 }

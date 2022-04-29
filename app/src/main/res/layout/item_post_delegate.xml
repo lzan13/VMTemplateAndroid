@@ -7,6 +7,15 @@
     android:background="@drawable/shape_card_common_bg"
     tools:context="com.vmloft.develop.app.template.ui.post.ItemPostDelegate">
 
+    <View
+        android:id="@+id/itemGuideView"
+        android:layout_width="@dimen/vm_dimen_36"
+        android:layout_height="@dimen/vm_dimen_36"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/itemCoverIV"
         android:layout_width="match_parent"
@@ -44,9 +53,9 @@
         android:textSize="@dimen/vm_size_12"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_goneMarginTop="@dimen/vm_dimen_8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/itemCoverIV"
+        app:layout_goneMarginTop="@dimen/vm_dimen_8"
         tools:text="文本标题"
         tools:visibility="visible" />
 

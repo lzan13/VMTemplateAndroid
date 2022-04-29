@@ -54,8 +54,6 @@ android {
 }
 
 dependencies {
-    api fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
-
     // ARouter 编译器，TODO 当代码中有一些自己没看到的错误的时候，ARouter 会拦截错误信息，看不到错误位置，把这行注释掉，重新编译
     kapt 'com.alibaba:arouter-compiler:1.5.2'
 
@@ -66,7 +64,7 @@ dependencies {
     // Gson 解析 JSON https://github.com/google/gson
     implementation 'com.google.code.gson:gson:2.8.6'
 
-    // 强大 WebView 库 https://github.com/J ustson/AgentWeb
+    // 强大 WebView 库 https://github.com/Justson/AgentWeb
     api 'com.github.Justson.AgentWeb:agentweb-core:v4.1.9-androidx'
 
     // 滚动选择器库 https://github.com/AigeStudio/WheelPicker

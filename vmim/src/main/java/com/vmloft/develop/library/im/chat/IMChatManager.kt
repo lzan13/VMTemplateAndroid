@@ -31,6 +31,8 @@ object IMChatManager {
     // 当前聊天对象 Id
     private var currChatId: String? = null
 
+    // 标记未读会话集合
+    private val markUnreadList = mutableListOf<String>()
 
     fun init() {
         // 将会话加载到内存，因为这个必须要登录之后才能加载，这里只是登录过才有效
@@ -48,6 +50,14 @@ object IMChatManager {
 
     fun setCurrChatId(chatId: String) {
         currChatId = chatId
+    }
+
+    /**
+     * 获取全部未读数，包括标记未读
+     */
+    fun getUnreadCount(): Int {
+        var unread = EMClient.getInstance().chatManager().unreadMessageCount
+        return unread + markUnreadList.size
     }
 
     /**
@@ -326,11 +336,19 @@ object IMChatManager {
      * @param unread       设置未读状态
      */
     fun setConversationUnread(conversation: EMConversation, unread: Boolean) {
+        if(unread){
+            markUnreadList.add(conversation.conversationId())
+        }else{
+            markUnreadList.remove(conversation.conversationId())
+        }
         // 设置为已读的时候清空下原有未读数据
         if (!unread) {
             conversation.markAllMessagesAsRead()
         }
         setConversationExt(conversation, IMConstants.Common.conversationUnread, unread)
+
+        // 通知未读更新
+        LDEventBus.post(IMConstants.Common.changeUnreadCount, 0)
     }
 
     /**
@@ -582,6 +600,8 @@ object IMChatManager {
         EMClient.getInstance().chatManager().saveMessage(msg)
         // 保存会话时间
         setConversationTime(getConversation(msg.conversationId(), msg.chatType.ordinal), msg.localTime())
+
+        // 通知有新消息，这里主要是通知会话列表刷新
         LDEventBus.post(IMConstants.Common.newMsgEvent, msg)
     }
 

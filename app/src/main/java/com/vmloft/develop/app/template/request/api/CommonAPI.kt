@@ -83,20 +83,22 @@ interface CommonAPI {
      * 提交反馈
      * @param contact 联系方式
      * @param content 反馈内容
+     * @param type 反馈类型 0-意见建议 1-广告 2-政治敏感 3-色情低俗 4-血腥暴力 5-不文明 6-涉嫌诈骗 7-其他
+     * @param attachments 附件
      * @param user 相关用户
      * @param post 相关帖子
-     * @param attachments 附件
-     * @param type 反馈类型 0-意见建议 1-广告 2-政治敏感 3-色情低俗 4-血腥暴力 5-不文明 6-涉嫌诈骗 7-其他
+     * @param comment 相关评论
      */
     @FormUrlEncoded
     @POST("v1/common/feedback")
     suspend fun feedback(
         @Field("contact") contact: String,
         @Field("content") content: String,
+        @Field("type") type: Int,
+        @Field("attachments") attachments: List<String>,
         @Field("user") user: String,
         @Field("post") post: String,
-        @Field("attachments") attachments: List<String>,
-        @Field("type") type: Int,
+        @Field("comment") comment: String,
     ): RResponse<Any>
 
     /**

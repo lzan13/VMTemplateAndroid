@@ -176,6 +176,23 @@ class PostViewModel(
     }
 
     /**
+     * 删除
+     */
+    fun deleteComment(id: String) {
+        viewModelScope.launch(Dispatchers.Main) {
+            emitUIState(true)
+            val result = repo.deleteComment(id)
+
+            if (result is RResult.Success) {
+                emitUIState(data = result.data, type = "deleteComment")
+                return@launch
+            } else if (result is RResult.Error) {
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
+            }
+        }
+    }
+
+    /**
      * 加载内容评论列表
      */
     fun commentList(post: String, page: Int = CConstants.defaultPage, limit: Int = CConstants.defaultLimit) {
@@ -215,10 +232,10 @@ class PostViewModel(
     /**
      * 喜欢
      */
-    fun like(id: String) {
+    fun like(id: String, type: Int = 1) {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val result = likeRepo.like(1, id)
+            val result = likeRepo.like(type, id)
 
             if (result is RResult.Success) {
                 emitUIState(type = "like")
@@ -232,10 +249,10 @@ class PostViewModel(
     /**
      * 取消喜欢
      */
-    fun cancelLike(id: String) {
+    fun cancelLike(id: String, type: Int = 1) {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val result = likeRepo.cancelLike(1, id)
+            val result = likeRepo.cancelLike(type, id)
 
             if (result is RResult.Success) {
                 emitUIState(type = "cancelLike")

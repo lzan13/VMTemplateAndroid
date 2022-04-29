@@ -172,7 +172,7 @@ class IMSingleCallActivity: BActivity<ImActivitySingleCallBinding>() {
      */
     private fun initRtcEngine() {
         try {
-            rtcEngine = RtcEngine.create(IM.imContext, IMConstants.agoraAppId(), object : IRtcEngineEventHandler() {})
+            rtcEngine = RtcEngine.create(this, IMConstants.agoraAppId(), object : IRtcEngineEventHandler() {})
             // 这里设置成通话场景
             rtcEngine.setChannelProfile(Constants.CHANNEL_PROFILE_COMMUNICATION)
             // 设置采样率和音频通话场景

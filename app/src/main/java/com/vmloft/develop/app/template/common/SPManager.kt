@@ -231,6 +231,7 @@ object SPManager {
     fun setUserAgreementTime(time: Long) {
         putAsync(timeEntry, userAgreementTimeKey, time)
     }
+
     /**
      * 获取最近一次请求用户行为规范时间
      */

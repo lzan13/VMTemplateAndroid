@@ -13,7 +13,9 @@ import com.vmloft.develop.library.base.BVMActivity
 import com.vmloft.develop.library.base.BViewModel
 import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.base.utils.errorBar
+import com.vmloft.develop.library.tools.utils.VMStr
 import com.vmloft.develop.library.tools.utils.VMSystem
+import com.vmloft.develop.library.tools.utils.VMUtils
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -25,7 +27,7 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 class SignGuideActivity : BVMActivity<ActivitySignGuideBinding, SignViewModel>() {
 
     private lateinit var devicesId: String
-    private var password: String = "123123"
+    private var password: String = "123456"
 
     override fun initVB() = ActivitySignGuideBinding.inflate(layoutInflater)
 
@@ -54,7 +56,7 @@ class SignGuideActivity : BVMActivity<ActivitySignGuideBinding, SignViewModel>()
 
     override fun initData() {
         devicesId = VMSystem.deviceId()
-        password = SignManager.getPrevUser()?.password ?: "123123"
+        password = SignManager.getPrevUser()?.password ?: VMStr.toMD5("123456")
     }
 
     override fun onModelLoading(model: BViewModel.UIModel) {

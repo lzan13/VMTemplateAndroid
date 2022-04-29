@@ -16,285 +16,139 @@
 
     <!--顶部弹幕展示-->
     <LinearLayout
-        android:id="@+id/homeBarrageViewLL"
+        android:id="@+id/barrageViewLL"
         android:layout_width="match_parent"
         android:layout_height="@dimen/vm_dimen_0"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/homeBottomLL"
+        app:layout_constraintBottom_toTopOf="@+id/matchInfoView"
         app:layout_constraintTop_toBottomOf="@+id/commonTopLL" />
 
-    <!--换一波匹配数据-->
-    <TextView
-        android:id="@+id/homeNextTV"
+    <!--实时聊-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/chatFastCL"
+        android:layout_width="@dimen/vm_dimen_64"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/vm_dimen_8"
+        android:background="@drawable/shape_card_common_bg"
+        android:backgroundTint="@color/app_home_card_fast"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/vm_dimen_8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/fastCountTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingEnd="@dimen/vm_dimen_4"
+            android:textColor="@color/app_match_count"
+            android:textSize="@dimen/vm_size_36"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="99" />
+
+        <ImageView
+            android:id="@+id/fastIconIV"
+            android:layout_width="@dimen/vm_dimen_36"
+            android:layout_height="@dimen/vm_dimen_36"
+            android:layout_margin="@dimen/vm_dimen_8"
+            android:src="@drawable/ic_fishnet"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/fastTitleTV"
+            style="@style/AppText.HomeCardName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/match_destiny_fast"
+            app:layout_constraintStart_toStartOf="@+id/fastIconIV"
+            app:layout_constraintTop_toBottomOf="@+id/fastIconIV" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--匹配信息-->
+    <View
+        android:id="@+id/matchInfoView"
         style="@style/AppBtn.Confirm"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/vm_dimen_0"
         android:layout_height="@dimen/vm_dimen_48"
-        android:layout_marginBottom="@dimen/vm_dimen_16"
-        android:enabled="true"
-        android:paddingStart="@dimen/vm_dimen_56"
-        android:paddingEnd="@dimen/vm_dimen_56"
-        android:text="@string/match_next"
-        app:layout_constraintBottom_toTopOf="@+id/homeBottomLL"
+        android:layout_marginStart="@dimen/vm_dimen_80"
+        android:layout_marginEnd="@dimen/vm_dimen_80"
+        android:layout_marginBottom="@dimen/vm_dimen_8"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <!--信息-->
+    <TextView
+        android:id="@+id/matchInfoTV"
+        style="@style/AppText.Tips"
+        android:text="@string/match_info"
+        android:textColor="@color/vm_white_54"
+        app:layout_constraintBottom_toTopOf="@+id/matchRefreshTV"
+        app:layout_constraintEnd_toEndOf="@+id/matchInfoView"
+        app:layout_constraintStart_toStartOf="@+id/matchInfoView"
+        app:layout_constraintTop_toTopOf="@+id/matchInfoView"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <!--刷新-->
+    <TextView
+        android:id="@+id/matchRefreshTV"
+        style="@style/AppText.Subtitle"
+        android:text="@string/match_refresh"
+        android:textColor="@color/app_title_display"
+        app:layout_constraintBottom_toBottomOf="@+id/matchInfoView"
+        app:layout_constraintEnd_toEndOf="@+id/matchInfoView"
+        app:layout_constraintStart_toStartOf="@+id/matchInfoView"
+        app:layout_constraintTop_toBottomOf="@+id/matchInfoTV" />
+
+    <!--loading-->
     <com.vmloft.develop.library.tools.widget.loading.VMLoadingView
         android:id="@+id/loadingView"
         android:layout_width="@dimen/vm_dimen_48"
         android:layout_height="@dimen/vm_dimen_48"
         android:padding="@dimen/vm_dimen_8"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/homeNextTV"
-        app:layout_constraintEnd_toEndOf="@+id/homeNextTV"
-        app:layout_constraintTop_toTopOf="@+id/homeNextTV"
-        app:vm_loading_color="@color/app_loading_light"
+        app:layout_constraintBottom_toBottomOf="@+id/matchInfoView"
+        app:layout_constraintEnd_toEndOf="@+id/matchInfoView"
+        app:layout_constraintStart_toStartOf="@+id/matchInfoView"
+        app:layout_constraintTop_toTopOf="@+id/matchInfoView"
+        app:vm_loading_color="@color/app_main"
         app:vm_loading_type="DoubleCircle"
         tools:visibility="visible" />
 
-    <!--底部匹配按钮-->
-    <HorizontalScrollView
-        android:id="@+id/homeBottomLL"
-        android:layout_width="match_parent"
+    <!--解忧房-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/chatRoomCL"
+        android:layout_width="@dimen/vm_dimen_64"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:scrollbars="none"
+        android:layout_margin="@dimen/vm_dimen_8"
+        android:background="@drawable/shape_card_common_bg"
+        android:backgroundTint="@color/app_home_card_room"
+        android:orientation="vertical"
+        android:padding="@dimen/vm_dimen_8"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <LinearLayout
+        <ImageView
+            android:id="@+id/roomIconIV"
+            android:layout_width="@dimen/vm_dimen_36"
+            android:layout_height="@dimen/vm_dimen_36"
+            android:src="@drawable/ic_coffee"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/app_icon_light" />
+
+        <TextView
+            android:id="@+id/roomTitleTV"
+            style="@style/AppText.HomeCardName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:animateLayoutChanges="true"
-            android:orientation="horizontal"
-            android:padding="@dimen/vm_dimen_8">
-            <!--相信命运-->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/matchDestinyCL"
-                android:layout_width="@dimen/vm_dimen_72"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/vm_dimen_8"
-                android:background="@drawable/shape_card_common_bg"
-                android:backgroundTint="@color/app_home_card_destiny"
-                android:orientation="vertical">
+            android:text="@string/match_room"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/roomIconIV" />
 
-                <TextView
-                    android:id="@+id/matchDestinyCountTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingEnd="@dimen/vm_dimen_4"
-                    android:textColor="@color/app_match_count"
-                    android:textSize="@dimen/vm_size_32"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="99" />
-
-                <ImageView
-                    android:id="@+id/matchDestinyIV"
-                    android:layout_width="@dimen/vm_dimen_36"
-                    android:layout_height="@dimen/vm_dimen_36"
-                    android:layout_margin="@dimen/vm_dimen_8"
-                    android:src="@drawable/ic_fishnet"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/matchDestinyTV"
-                    style="@style/AppText.HomeCardName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/match_destiny"
-                    app:layout_constraintStart_toStartOf="@+id/matchDestinyIV"
-                    app:layout_constraintTop_toBottomOf="@+id/matchDestinyIV" />
-
-                <TextView
-                    style="@style/AppText.HomeCardDesc"
-                    android:layout_width="@dimen/vm_dimen_0"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/vm_dimen_8"
-                    android:paddingBottom="@dimen/vm_dimen_8"
-                    android:text="@string/match_destiny_desc"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/matchDestinyTV"
-                    app:layout_constraintTop_toBottomOf="@+id/matchDestinyTV" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <!--实时聊-->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/matchFastCL"
-                android:layout_width="@dimen/vm_dimen_72"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/vm_dimen_8"
-                android:background="@drawable/shape_card_common_bg"
-                android:backgroundTint="@color/app_home_card_fast"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/matchFastCountTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingEnd="@dimen/vm_dimen_4"
-                    android:textColor="@color/app_match_count"
-                    android:textSize="@dimen/vm_size_32"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="99" />
-
-                <ImageView
-                    android:id="@+id/matchFastIV"
-                    android:layout_width="@dimen/vm_dimen_36"
-                    android:layout_height="@dimen/vm_dimen_36"
-                    android:layout_margin="@dimen/vm_dimen_8"
-                    android:src="@drawable/ic_chat_emoji"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/matchFastTV"
-                    style="@style/AppText.HomeCardName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/match_fast"
-                    app:layout_constraintStart_toStartOf="@+id/matchFastIV"
-                    app:layout_constraintTop_toBottomOf="@+id/matchFastIV" />
-
-                <TextView
-                    style="@style/AppText.HomeCardDesc"
-                    android:layout_width="@dimen/vm_dimen_0"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/vm_dimen_8"
-                    android:paddingBottom="@dimen/vm_dimen_8"
-                    android:text="@string/match_fast_desc"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/matchFastTV"
-                    app:layout_constraintTop_toBottomOf="@+id/matchFastTV" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <!--解忧房-->
-            <LinearLayout
-                android:id="@+id/homeChatRoomLL"
-                android:layout_width="@dimen/vm_dimen_72"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/vm_dimen_8"
-                android:background="@drawable/shape_card_common_bg"
-                android:backgroundTint="@color/app_home_card_room"
-                android:orientation="vertical"
-                android:padding="@dimen/vm_dimen_8">
-
-                <ImageView
-                    android:layout_width="@dimen/vm_dimen_36"
-                    android:layout_height="@dimen/vm_dimen_36"
-                    android:src="@drawable/ic_coffee"
-                    app:tint="@color/app_icon_light" />
-
-                <TextView
-                    style="@style/AppText.HomeCardName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/match_room" />
-
-                <TextView
-                    style="@style/AppText.HomeCardDesc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/match_room_desc" />
-            </LinearLayout>
-
-            <!--游戏厅-->
-            <!--            <LinearLayout-->
-            <!--                android:id="@+id/homeGameLL"-->
-            <!--                android:layout_width="@dimen/vm_dimen_72"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginStart="@dimen/vm_dimen_8"-->
-            <!--                android:background="@drawable/shape_card_common_bg"-->
-            <!--                android:backgroundTint="@color/app_home_card_game"-->
-            <!--                android:orientation="vertical"-->
-            <!--                android:padding="@dimen/vm_dimen_8">-->
-
-            <!--                <ImageView-->
-            <!--                    android:layout_width="@dimen/vm_dimen_36"-->
-            <!--                    android:layout_height="@dimen/vm_dimen_36"-->
-            <!--                    android:src="@drawable/ic_game"-->
-            <!--                    app:tint="@color/app_icon_light" />-->
-
-            <!--                <TextView-->
-            <!--                    style="@style/AppText.HomeCardName"-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:text="@string/match_game" />-->
-
-            <!--                <TextView-->
-            <!--                    style="@style/AppText.HomeCardDesc"-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:text="@string/match_game_desc" />-->
-            <!--            </LinearLayout>-->
-
-            <!--秘密-->
-            <LinearLayout
-                android:id="@+id/homeSecretLL"
-                android:layout_width="@dimen/vm_dimen_72"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/vm_dimen_8"
-                android:background="@drawable/shape_card_common_bg"
-                android:backgroundTint="@color/app_home_card_secret"
-                android:orientation="vertical"
-                android:padding="@dimen/vm_dimen_8"
-                android:visibility="gone"
-                tools:visibility="visible">
-
-                <ImageView
-                    android:layout_width="@dimen/vm_dimen_36"
-                    android:layout_height="@dimen/vm_dimen_36"
-                    android:src="@drawable/ic_mask"
-                    app:tint="@color/app_icon_light" />
-
-                <TextView
-                    style="@style/AppText.HomeCardName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/match_secret" />
-
-                <TextView
-                    style="@style/AppText.HomeCardDesc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/match_secret_desc" />
-            </LinearLayout>
-
-            <!--愿望-->
-            <LinearLayout
-                android:id="@+id/homeWishLL"
-                android:layout_width="@dimen/vm_dimen_72"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/vm_dimen_8"
-                android:layout_marginEnd="@dimen/vm_dimen_8"
-                android:background="@drawable/shape_card_common_bg"
-                android:backgroundTint="@color/app_home_card_wish"
-                android:orientation="vertical"
-                android:padding="@dimen/vm_dimen_8"
-                android:visibility="gone"
-                tools:visibility="visible">
-
-                <ImageView
-                    android:layout_width="@dimen/vm_dimen_36"
-                    android:layout_height="@dimen/vm_dimen_36"
-                    android:src="@drawable/ic_wish"
-                    app:tint="@color/app_icon_light" />
-
-                <TextView
-                    style="@style/AppText.HomeCardName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/match_wish" />
-
-                <TextView
-                    style="@style/AppText.HomeCardDesc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/match_wish_desc" />
-            </LinearLayout>
-        </LinearLayout>
-    </HorizontalScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

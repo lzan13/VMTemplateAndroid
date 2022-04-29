@@ -24,7 +24,7 @@ import com.vmloft.develop.app.template.request.bean.*
     Post::class,
     Profession::class,
     Version::class
-], version = 5)
+], version = 9)
 @TypeConverters(DataConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 

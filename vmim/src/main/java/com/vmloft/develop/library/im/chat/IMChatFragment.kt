@@ -179,9 +179,6 @@ class IMChatFragment : BFragment<ImFragmentChatBinding>() {
         message.setStatus(EMMessage.Status.SUCCESS)
 
         IMChatManager.saveMessage(message)
-
-        // 通知有新消息，这里主要是通知会话列表刷新
-        LDEventBus.post(IMConstants.Common.newMsgEvent, message)
     }
 
 
@@ -303,14 +300,14 @@ class IMChatFragment : BFragment<ImFragmentChatBinding>() {
                 sendMsgCount++
             }
         }
-        if (receiveMsgCount > ConfigManager.clientConfig.chatPictureLimit && sendMsgCount > ConfigManager.clientConfig.chatPictureLimit) {
+        if (receiveMsgCount > ConfigManager.clientConfig.chatConfig.pictureLimit && sendMsgCount > ConfigManager.clientConfig.chatConfig.pictureLimit) {
             mBinding.imChatPictureIV.visibility = View.VISIBLE
         } else {
             mBinding.imChatPictureIV.visibility = View.GONE
         }
-        if (receiveMsgCount >= ConfigManager.clientConfig.chatCallLimit
-            && sendMsgCount >= ConfigManager.clientConfig.chatCallLimit
-            && ConfigManager.clientConfig.chatCallEntry
+        if (receiveMsgCount >= ConfigManager.clientConfig.chatConfig.callLimit
+            && sendMsgCount >= ConfigManager.clientConfig.chatConfig.callLimit
+            && ConfigManager.clientConfig.chatConfig.callEntry
         ) {
             mBinding.imChatCallIV.visibility = View.VISIBLE
         } else {

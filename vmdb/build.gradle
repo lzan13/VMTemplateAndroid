@@ -47,8 +47,6 @@ android {
 }
 
 dependencies {
-    api fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
-
     // 引用 Room 数据库操作库
 //    api "androidx.room:room-runtime:2.2.5"
     // WCDB 数据库 https://github.com/Tencent/wcdb

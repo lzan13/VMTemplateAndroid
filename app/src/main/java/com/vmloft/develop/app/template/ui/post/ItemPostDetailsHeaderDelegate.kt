@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.vmloft.develop.app.template.R
+import com.vmloft.develop.app.template.common.SignManager
 import com.vmloft.develop.app.template.databinding.ItemPostDetailsHeaderDelegateBinding
 import com.vmloft.develop.app.template.request.bean.Attachment
 import com.vmloft.develop.app.template.request.bean.Post
@@ -22,11 +23,13 @@ import com.vmloft.develop.library.tools.utils.VMStr
  * Create by lzan13 on 2021/05/05 17:56
  * 描述：内容详情头部 Item
  */
-class ItemPostDetailsHeaderDelegate(listener: PostItemListener) : BItemDelegate<Post, ItemPostDetailsHeaderDelegateBinding>(listener) {
+class ItemPostDetailsHeaderDelegate(listener: PostItemListener, longListener: BItemLongListener<Post>) : BItemDelegate<Post, ItemPostDetailsHeaderDelegateBinding>(listener, longListener) {
 
     override fun initVB(inflater: LayoutInflater, parent: ViewGroup) = ItemPostDetailsHeaderDelegateBinding.inflate(inflater, parent, false)
 
     override fun onBindView(holder: BItemHolder<ItemPostDetailsHeaderDelegateBinding>, item: Post) {
+        val user = SignManager.getCurrUser()
+
         holder.binding.coverIV.visibility = if (item.attachments.size > 0) View.VISIBLE else View.GONE
         if (item.attachments.size > 0) {
             updateCoverRatio(holder.binding.coverIV, item.attachments[0])
@@ -36,7 +39,20 @@ class ItemPostDetailsHeaderDelegate(listener: PostItemListener) : BItemDelegate<
         }
 
         IMGLoader.loadAvatar(holder.binding.avatarIV, item.owner.avatar)
-        holder.binding.avatarIV.setOnClickListener { CRouter.go(AppRouter.appUserInfo, obj0 = item.owner) }
+        holder.binding.avatarIV.setOnClickListener {
+            if (item.owner.id == user?.id) {
+                CRouter.go(AppRouter.appPersonalInfo)
+            } else {
+                CRouter.go(AppRouter.appUserInfo, obj0 = item.owner)
+            }
+        }
+        holder.binding.coverIV.setOnTouchListener { _, event ->
+            mEvent = event
+            false
+        }
+        holder.binding.coverIV.setOnLongClickListener {
+            mItemLongListener?.onLongClick(it, mEvent, item, getPosition(holder)) ?: false
+        }
 
         // 性别
         when (item.owner.gender) {
@@ -63,6 +79,15 @@ class ItemPostDetailsHeaderDelegate(listener: PostItemListener) : BItemDelegate<
         holder.binding.contentTV.text = item.content
         holder.binding.commentTitleTV.text = VMStr.byResArgs(R.string.comment_count, item.commentCount)
 
+        if (item.owner.id == user?.id) {
+            holder.binding.reportTV.setText(R.string.content_delete)
+            holder.binding.likeIV.visibility = View.GONE
+            holder.binding.likeTV.visibility = View.GONE
+        } else {
+            holder.binding.reportTV.setText(R.string.feedback_dislike)
+            holder.binding.likeIV.visibility = View.VISIBLE
+            holder.binding.likeTV.visibility = View.VISIBLE
+        }
         holder.binding.reportTV.setOnClickListener { (mItemListener as PostItemListener).onReportClick(item, getPosition(holder)) }
     }
 

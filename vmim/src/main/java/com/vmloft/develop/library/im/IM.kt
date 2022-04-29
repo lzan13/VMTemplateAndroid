@@ -28,11 +28,6 @@ import java.util.concurrent.CountDownLatch
 object IM {
     lateinit var imListener: IIMListener
 
-    /**
-     * 获取上下文对象
-     */
-    lateinit var imContext: Context
-
     // 记录已经初始化
     private var isInit = false
 
@@ -43,7 +38,6 @@ object IM {
      * 初始化
      */
     fun init(context: Context, listener: IIMListener): Boolean {
-        imContext = context
         imListener = listener
         // 获取当前进程 id 并取得进程名
         val processName: String? = VMSystem.processName
@@ -72,7 +66,7 @@ object IM {
         // 初始化聊天管理类
         IMChatManager.init()
         // 初始化通话管理类
-        IMCallManager.init()
+        IMCallManager.init(context)
 
         // 初始化完成
         isInit = true
@@ -189,6 +183,13 @@ object IM {
      */
     fun getSelfId(): String {
         return selfId ?: IMSPManager.getSelfId()
+    }
+
+    /**
+     * 获取会话未读数
+     */
+    fun getUnreadCount(): Int {
+        return IMChatManager.getUnreadCount()
     }
 
     /**

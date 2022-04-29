@@ -58,13 +58,13 @@ class MatchViewModel(private val repo: MatchRepository, private val infoRepo: In
      */
     fun matchList(gender: Int = 2, type: Int = 0, page: Int = CConstants.defaultPage, limit: Int = CConstants.defaultLimit) {
         viewModelScope.launch(Dispatchers.Main) {
-            emitUIState(true)
+            emitUIState(true, type = "matchList")
             val result = repo.matchList(gender, type, page, limit)
             if (result is RResult.Success) {
                 emitUIState(data = result.data, type = "matchList")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(isSuccess = false, code = result.code, error = result.error)
+                emitUIState(isSuccess = false, type = "matchList", code = result.code, error = result.error)
             }
         }
     }

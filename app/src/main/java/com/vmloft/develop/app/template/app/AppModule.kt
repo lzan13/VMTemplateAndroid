@@ -21,6 +21,7 @@ val viewModelModule = module {
     viewModel { PostViewModel(get(), get(), get()) }
     viewModel { RoomViewModel(get()) }
     viewModel { SignViewModel(get()) }
+    viewModel { SplashViewModel(get()) }
     viewModel { SettingsViewModel(get(), get()) }
     viewModel { CommonViewModel(get()) }
 

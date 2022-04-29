@@ -72,6 +72,59 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <!--会员中心-->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/goldVipCL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/vm_dimen_16"
+                android:background="@drawable/shape_card_common_bg"
+                android:paddingTop="@dimen/vm_dimen_8"
+                android:paddingBottom="@dimen/vm_dimen_8"
+                app:layout_constraintTop_toBottomOf="@+id/goldInfoCL">
+
+                <ImageView
+                    android:id="@+id/vipIconIV"
+                    android:layout_width="@dimen/vm_dimen_48"
+                    android:layout_height="@dimen/vm_dimen_48"
+                    android:padding="@dimen/vm_dimen_10"
+                    android:src="@drawable/ic_vip"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/vipTitleTV"
+                    style="@style/AppText.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gold_vip_title"
+                    android:textSize="@dimen/vm_dimen_16"
+                    app:layout_constraintBottom_toTopOf="@+id/vipDescTV"
+                    app:layout_constraintStart_toEndOf="@+id/vipIconIV"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/vipDescTV"
+                    style="@style/AppText.Tips"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gold_vip_hint"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/vipIconIV"
+                    app:layout_constraintTop_toBottomOf="@+id/vipTitleTV" />
+
+                <ImageView
+                    android:layout_width="@dimen/vm_dimen_48"
+                    android:layout_height="@dimen/vm_dimen_48"
+                    android:padding="@dimen/vm_dimen_12"
+                    android:src="@drawable/ic_arrow_next"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
             <!--签到描述信息-->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clockCL"
@@ -80,7 +133,7 @@
                 android:layout_margin="@dimen/vm_dimen_16"
                 android:background="@drawable/shape_card_common_bg"
                 android:padding="@dimen/vm_dimen_16"
-                app:layout_constraintTop_toBottomOf="@+id/goldInfoCL">
+                app:layout_constraintTop_toBottomOf="@+id/goldVipCL">
 
                 <TextView
                     android:id="@+id/clockTitleTV"
@@ -303,9 +356,9 @@
                     app:layout_constraintTop_toBottomOf="@+id/continuousClockLL" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!--充值-->
+            <!--更多-->
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/rechargeCL"
+                android:id="@+id/moreCL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/vm_dimen_16"
@@ -316,87 +369,47 @@
                 tools:visibility="visible">
 
                 <TextView
-                    android:id="@+id/rechargeTitleTV"
+                    android:id="@+id/moreTitleTV"
                     style="@style/AppText.Title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/vm_dimen_16"
-                    android:text="@string/gold_recharge_title"
+                    android:text="@string/gold_more_title"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-                <!--订单列表-->
-                <TextView
-                    android:id="@+id/goOrderTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableEnd="@drawable/ic_arrow_next"
-                    android:gravity="center"
-                    android:text="@string/order_list"
-                    app:layout_constraintBottom_toBottomOf="@+id/rechargeTitleTV"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/rechargeTitleTV" />
 
-                <!--会员部分-->
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerViewVIP"
+                <com.vmloft.develop.library.tools.widget.VMLineView
+                    android:id="@+id/moreRechargeLV"
+                    style="@style/AppLVStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/vm_dimen_8"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/rechargeTitleTV" />
+                    app:layout_constraintTop_toBottomOf="@+id/moreTitleTV"
+                    app:vm_line_caption="+∞"
+                    app:vm_line_right_icon="@drawable/ic_gold"
+                    app:vm_line_title="@string/gold_more_recharge" />
 
-                <TextView
-                    android:id="@+id/tipsTVVIP"
-                    style="@style/AppText.Tips"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/vm_dimen_16"
-                    android:layout_marginTop="@dimen/vm_dimen_8"
-                    android:text="@string/gold_recharge_vip_hint"
-                    app:layout_constraintStart_toStartOf="@+id/recyclerViewVIP"
-                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewVIP" />
-
-                <TextView
-                    android:id="@+id/goRechargeTVVIP"
-                    style="@style/AppBtn.Confirm"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/vm_dimen_16"
-                    android:enabled="false"
-                    android:text="@string/gold_recharge_vip"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewVIP" />
-
-                <!--充值部分-->
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView"
+                <com.vmloft.develop.library.tools.widget.VMLineView
+                    android:id="@+id/moreVideoTaskLV"
+                    style="@style/AppLVStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/vm_dimen_8"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/goRechargeTVVIP" />
+                    app:layout_constraintTop_toBottomOf="@+id/moreRechargeLV"
+                    app:vm_line_caption="+50"
+                    app:vm_line_right_icon="@drawable/ic_gold"
+                    app:vm_line_title="@string/gold_more_video_ads" />
 
-                <TextView
-                    android:id="@+id/tipsTV"
-                    style="@style/AppText.Tips"
-                    android:layout_width="wrap_content"
+                <com.vmloft.develop.library.tools.widget.VMLineView
+                    android:id="@+id/morePerfectInfoLV"
+                    style="@style/AppLVStyle"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/vm_dimen_16"
-                    android:layout_marginTop="@dimen/vm_dimen_8"
-                    android:text="@string/gold_recharge_hint"
-                    app:layout_constraintStart_toStartOf="@+id/recyclerView"
-                    app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
-
-                <TextView
-                    android:id="@+id/goRechargeTV"
-                    style="@style/AppBtn.Confirm"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/vm_dimen_16"
-                    android:enabled="false"
-                    android:text="@string/gold_recharge"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@+id/moreVideoTaskLV"
+                    app:vm_line_caption="+100"
+                    app:vm_line_description="@string/gold_more_perfect_info_tips"
+                    app:vm_line_right_icon="@drawable/ic_gold"
+                    app:vm_line_title="@string/gold_more_perfect_info" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

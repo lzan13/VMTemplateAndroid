@@ -16,6 +16,19 @@
     <string name="guide_title_4">Super Star</string>
     <string name="guide_intro_4">在这里，你就是巨星，闪耀吧</string>
 
+    <string name="guide_home_emotion">点击这里设置自己的心情\n其他人可以实时接收到哦</string>
+    <string name="guide_home_chat_fast">可随机匹配闪聊</string>
+    <string name="guide_home_refresh">点击刷新心情弹幕</string>
+    <string name="guide_home_chat_room">来聊天室侃大山放松心情</string>
+    <string name="guide_explore_report">长按可屏蔽举报对应内容</string>
+    <string name="guide_explore_publish">点击图标去发布内容</string>
+    <string name="guide_user_report">如果收到对方骚扰，可拉黑和举报TA</string>
+    <string name="guide_user_msg">如果对TA感兴趣，可以私聊TA</string>
+    <string name="guide_post_like">喜欢可以点一下这里</string>
+    <string name="guide_post_report">不喜欢可以点击这里屏蔽</string>
+    <string name="guide_post_long_report">长按也可以屏蔽</string>
+    <string name="guide_post_comment">点击这里留下你的脚印吧👣</string>
+
     <string name="nav_home">首页</string>
     <string name="nav_explore">发现</string>
     <string name="nav_msg">消息</string>
@@ -25,7 +38,8 @@
     <string name="search_hint">输入搜索关键词</string>
 
     <!--匹配-->
-    <string name="match_next">换一波</string>
+    <string name="match_refresh">刷新心情弹幕</string>
+    <string name="match_info">当前活跃 %s 人 </string>
     <string name="match_loading">忘忧君扫描中...</string>
 
     <string name="match_destiny">相信缘分</string>
@@ -34,11 +48,11 @@
     <string name="match_emotion">心情速配</string>
     <string name="match_emotion_desc">情绪有很多\n你是什么心情呢</string>
 
-    <string name="match_fast">闪聊一下</string>
-    <string name="match_fast_desc">我正在输入\n你看到了嘛😁</string>
+    <string name="match_destiny_fast">缘分闪现</string>
+    <string name="match_fast_desc">相信缘分\n让我们闪聊一下</string>
 
     <string name="match_room">解忧房</string>
-    <string name="match_room_desc">来房间坐坐\吹吹牛B聊聊天</string>
+    <string name="match_room_desc">来房间坐坐\n吹吹牛B聊聊天</string>
 
     <string name="match_game">游戏厅</string>
     <string name="match_game_desc">玩玩小游戏\n结识小伙伴吧</string>
@@ -70,6 +84,9 @@
     <string name="post_detail_title">内容详情</string>
     <string name="post_comment_hint">喜欢就留下你的脚印 👣 </string>
     <string name="post_comment_limit_hint">内容须在 1-64 之间</string>
+
+    <string name="content_delete">❌ 删除</string>
+    <string name="content_delete_tips">确定要删除内容吗？删除后不可恢复！</string>
 
     <!--房间-->
     <string name="room_list">房间大厅</string>
@@ -122,7 +139,8 @@
     <string name="feedback_screenshot_hint">截图更有助于我们解决问题</string>
     <string name="feedback_submit_hint">反馈内容已提交，感谢</string>
 
-    <string name="feedback_dislike">😣不喜欢</string>
+    <string name="feedback_dislike">😣 不喜欢</string>
+    <string name="feedback_report">😣 举报</string>
     <string name="feedback_hint">感谢反馈</string>
 
     <string name="feedback_type_opinion">意见建议</string>
@@ -261,20 +279,28 @@
     <string name="gold_clock_continuous_6">6天</string>
     <string name="gold_clock_continuous_tips">连续签到有更多奖励哦~</string>
     <string name="gold_clock_complete">已签到</string>
-    <string name="gold_recharge_title">充值与会员</string>
+    <string name="gold_more_title">忘忧币获取</string>
+    <string name="gold_more_video_ads">看视频得忘忧币</string>
+    <string name="gold_more_perfect_info">完善个人资料</string>
+    <string name="gold_more_perfect_info_tips">只能获取一次</string>
+    <string name="gold_more_recharge">有钱任性，去充值</string>
+
+    <string name="gold_recharge_title">充值商城</string>
     <string name="gold_recharge">立即充值 → </string>
     <string name="gold_recharge_hint">金币充值更随意，永不过期</string>
-    <string name="gold_recharge_vip">开通会员 → </string>
-    <string name="gold_recharge_vip_renewal">续费会员 → </string>
-    <string name="gold_recharge_vip_hint">会员独享多种权益，开通更实惠</string>
+    <string name="gold_vip_title">会员中心</string>
+    <string name="gold_vip">开通会员 → </string>
+    <string name="gold_vip_renewal">续费会员 → </string>
+    <string name="gold_vip_desc">会员权益</string>
+    <string name="gold_vip_hint">会员独享多种权益，开通更实惠</string>
 
     <string name="gold_desc">须知&amp;反馈</string>
     <string name="gold_desc_h1">什么是忘忧币</string>
     <string name="gold_desc_body1">忘忧币是仅限忘忧App内使用的虚拟币。</string>
     <string name="gold_desc_h2">如何获得忘忧币</string>
-    <string name="gold_desc_body2">忘忧币可以通过每日签到、完成每日任务、充值等方式获取</string>
+    <string name="gold_desc_body2">忘忧币可以通过每日签到、视频任务、充值等方式获取</string>
     <string name="gold_desc_h3">如何使用忘忧币</string>
-    <string name="gold_desc_body3">忘忧币可用于匹配消耗、发布动态、后续的礼物答谢等虚拟服务或商品。</string>
+    <string name="gold_desc_body3">忘忧币可用于匹配消耗、后续的礼物答谢等虚拟服务或商品。</string>
     <string name="gold_desc_h4">充值说明</string>
     <string name="gold_desc_body4">1.当前仅支持支付宝支付；\n
         2.用户确认购买后，将按照所选择的支付方式从对应的第三方支付账户付款扣费；\n

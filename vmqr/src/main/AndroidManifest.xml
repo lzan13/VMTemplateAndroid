@@ -3,7 +3,10 @@
     package="com.vmloft.develop.library.qr">
 
     <application>
-        <activity android:name="com.vmloft.develop.library.qr.QRCodeScanActivity" />
+        <activity
+            android:name="com.vmloft.develop.library.qr.QRCodeScanActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme.Transparent" />
     </application>
 
 </manifest>

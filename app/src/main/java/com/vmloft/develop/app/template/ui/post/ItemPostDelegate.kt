@@ -29,6 +29,7 @@ class ItemPostDelegate(listener: PostItemListener, longListener: BItemLongListen
     override fun onBindView(holder: BItemHolder<ItemPostDelegateBinding>, item: Post) {
         holder.binding.itemCoverIV.visibility = if (item.attachments.isNotEmpty()) View.VISIBLE else View.GONE
         if (item.attachments.isNotEmpty()) {
+            item.attachments[0].path
             updateCoverRatio(holder.binding.itemCoverIV, item.attachments[0])
             IMGLoader.loadCover(holder.binding.itemCoverIV, item.attachments[0].path, isRadius = true, thumbExt = "!vt256")
         }
@@ -43,6 +44,8 @@ class ItemPostDelegate(listener: PostItemListener, longListener: BItemLongListen
 
         if (ConfigManager.clientConfig.vipEntry && item.owner.role.identity in 100..199) {
             holder.binding.itemNameTV.setTextColor(VMColor.byRes(R.color.app_identity_vip))
+        }else{
+            holder.binding.itemNameTV.setTextColor(VMColor.byRes(R.color.app_tips))
         }
 
         holder.binding.itemLikeIV.setImageResource(if (item.isLike) R.drawable.ic_like_fill else R.drawable.ic_like_line)

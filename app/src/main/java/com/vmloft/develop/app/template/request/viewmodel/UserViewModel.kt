@@ -252,7 +252,7 @@ class UserViewModel(
                 emitUIState(data = result.data, toast = result.msg, type = "sendCodeEmail")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(isSuccess = false, code = result.code, error = result.error)
+                emitUIState(isSuccess = false, type = "sendCodeEmail", code = result.code, error = result.error)
             }
         }
     }

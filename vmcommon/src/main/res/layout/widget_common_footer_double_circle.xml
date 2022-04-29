@@ -7,7 +7,6 @@
     android:gravity="center"
     android:orientation="vertical">
 
-
     <com.vmloft.develop.library.tools.widget.loading.VMLoadingView
         android:id="@+id/commonLoadingView"
         android:layout_width="@dimen/vm_dimen_36"
@@ -21,6 +20,8 @@
         style="@style/AppText.Body"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="@dimen/vm_dimen_16"
         android:text="@string/common_not_more"
-        android:visibility="gone" />
+        android:visibility="gone"
+        tools:visibility="visible" />
 </LinearLayout>

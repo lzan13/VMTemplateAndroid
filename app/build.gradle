@@ -25,10 +25,16 @@ android {
         ndk {
             // "x86", "armeabi-v7a", "arm64-v8a"
 //            abiFilters "x86"
-            abiFilters "armeabi-v7a"
-//            abiFilters "arm64-v8a"
+//            abiFilters "armeabi-v7a"
+            abiFilters "arm64-v8a"
 //            abiFilters "armeabi-v7a", "arm64-v8a"
         }
+
+        manifestPlaceholders = [
+                appChannel    : "develop",
+                appVersionName: configs.versionName,
+                isDebug       : isDebug
+        ]
     }
 
     // 签名信息
@@ -80,27 +86,33 @@ android {
     // 多渠道打包配置
     flavorDimensions "default"
     productFlavors {
-        Develop {
+        develop {
             dimension = "default"
             manifestPlaceholders = [
-                    appChannel    : "Develop",
+                    appChannel    : "develop",
                     appVersionName: configs.versionName,
-                    buglyAppId    : configs.buglyAppId,
-                    emAppKey      : configs.emAppKey,
-                    umengAppKey   : configs.umengAppKey,
                     isDebug       : isDebug
             ]
+
+            // 根据渠道不同加载不同的so库
+            ndk {
+//                abiFilters "armeabi-v7a"
+                abiFilters "arm64-v8a"
+//                abiFilters "armeabi-v7a", "arm64-v8a"
+            }
         }
-        GooglePlay {
+        googlePlay {
             dimension = "default"
             manifestPlaceholders = [
-                    appChannel    : "GooglePlay",
+                    appChannel    : "develop",
                     appVersionName: configs.versionName,
-                    buglyAppId    : configs.buglyAppId,
-                    emAppKey      : configs.emAppKey,
-                    umengAppKey   : configs.umengAppKey,
                     isDebug       : isDebug
             ]
+
+            // GooglePlay 可以发布aab包，所以不需要单独打支持不同CPU的包
+            ndk {
+                abiFilters "armeabi-v7a", "arm64-v8a"
+            }
         }
     }
 
@@ -134,13 +146,13 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-
     kapt "androidx.room:room-compiler:2.3.0"
 
     // ARouter 编译器，TODO 当代码中有一些自己没看到的错误的时候，ARouter 会拦截错误信息，看不到错误位置，把这行注释掉，重新编译
     kapt 'com.alibaba:arouter-compiler:1.5.2'
 
+    // 依赖 ads 库
+    implementation project(':vmads')
     // 依赖 base 库
     implementation project(':vmbase')
     // 依赖 common 库
@@ -153,8 +165,10 @@ dependencies {
     implementation project(':vmmqtt')
     // 依赖 image 库
     implementation project(':vmimage')
-    // 依赖 qr 库
+    // 依赖 pay 库
     implementation project(':vmpay')
+    // 依赖 push 库
+    implementation project(':vmpush')
     // 依赖 qr 库
     implementation project(':vmqr')
     // 依赖 report 库

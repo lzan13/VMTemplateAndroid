@@ -36,7 +36,8 @@ data class User(
     var fansCount: Int = 0, // 粉丝数
     var followCount: Int = 0, // 关注数
     var likeCount: Int = 0, // 喜欢数
-    var matchCount: Int = 0, // 可用匹配次数
+    var chatCount: Int = 99, // 可用私聊次数
+    var matchCount: Int = 99, // 可用匹配次数
     var postCount: Int = 0, // 帖子数
     var strangerMsg: Boolean = true,//陌生人私信
     var relation: Int = -1, // 当前用户与他人关系

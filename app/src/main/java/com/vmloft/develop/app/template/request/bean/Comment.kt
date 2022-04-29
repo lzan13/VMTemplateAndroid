@@ -20,6 +20,8 @@ data class Comment(
     var content: String = "",
     var likeCount: Int = 0,
     var createdAt: String = "",
+
+    var isLike: Boolean = false, // 记录是否喜欢
 ) : Parcelable {
     override fun equals(other: Any?): Boolean {
         (other as? Comment)?.let {

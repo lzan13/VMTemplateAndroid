@@ -38,6 +38,7 @@ object IMConstants {
         const val deliveredMsgEvent = "deliveredMsgEvent"
         const val recallMsgEvent = "recallMsgEvent"
         const val changeMsgEvent = "changeMsgEvent"
+        const val changeUnreadCount = "changeUnreadCount"
 
         // CMD Action
         const val cmdEncourageAction = "cmdEncourageAction" // 鼓励
