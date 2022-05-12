@@ -4,13 +4,13 @@
     <color name="app_primary">#ffffff</color>
     <color name="app_primary_dark">#ffffff</color>
     <!--强调色-->
-    <color name="app_accent">#fffc455d</color>
+    <color name="app_accent">#ffff5151</color>
     <!--主色-->
-    <color name="app_main">#fffc455d</color>
-    <color name="app_main_87">#ddfc455d</color>
-    <color name="app_main_54">#89fc455d</color>
-    <color name="app_main_38">#61fc455d</color>
-    <color name="app_main_12">#1efc455d</color>
+    <color name="app_main">#ffff5151</color>
+    <color name="app_main_87">#ddff5151</color>
+    <color name="app_main_54">#89ff5151</color>
+    <color name="app_main_38">#61ff5151</color>
+    <color name="app_main_12">#1eff5151</color>
 
 
     <!--背景色-->
