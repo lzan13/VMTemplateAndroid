@@ -175,6 +175,8 @@ VMTemplateAndroid
 
 ### 更多
 
+可以看看 [项目整体介绍](https://www.yuque.com/lzan13/fn003n/ypa51f)  [更新记录](./UPDATE.md)
+
 **项目客户端下载体验**
 
 - [本地 APK 包下载](http://app.melove.net/fwn)
@@ -187,14 +189,13 @@ VMTemplateAndroid
 - [gitee/vmtemplatehome](https://gitee.com/lzan13/vmtemplatehome) 首页端项目使用`vue3`+`vite`
 - [gitee/vmtemplateserver](https://gitee.com/lzan13/vmtemplateserver) 服务器端项目使用`eggjs`
 
-**项目介绍说明**
-
-- [Android 功能介绍](https://mp.weixin.qq.com/s/bZYNCkngSuYpYJfdwFFYlw)
-- [服务器介绍说明](https://mp.weixin.qq.com/s/1D0VllcyolPL1ei7Ix9hfw)
-
-- [更新记录](./UPDATE.md)
+- [github/VMTemplateAndroid](https://github.com/lzan13/VMTemplateAndroid) Android 客户端
+- [github/vmtemplateadmin](https://github.com/lzan13/vmtemplateadmin) 管理端项目使用`vue3`+`vite`+`element-plus`
+- [github/vmtemplatehome](https://github.com/lzan13/vmtemplatehome) 首页端项目使用`vue3`+`vite`
+- [github/vmtemplateserver](https://github.com/lzan13/vmtemplateserver) 服务器端项目使用`eggjs`
 
 **沟通交流**
+
 可以通过已下方式找到我，获取最新信息，以及技术支持
 
 公众号: 穿裤衩闯天下
@@ -222,4 +223,3 @@ QQ 群: 901211985 个人 QQ: 1565176197
 ### LICENSE
 
 [MIT License Copyright (c) 2022 lzan13](./LICENSE)
-
