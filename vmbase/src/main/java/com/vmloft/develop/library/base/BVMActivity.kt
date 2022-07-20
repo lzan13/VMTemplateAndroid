@@ -113,7 +113,7 @@ abstract class BVMActivity<VB : ViewBinding, VM : BViewModel> : AppCompatActivit
      * 开始观察 View 生命周期
      */
     private fun startObserve() {
-        mViewModel.uiState.observe(this, {
+        mViewModel.uiState.observe(this) {
             onModelLoading(it)
             if (!it.isLoading) {
                 if (it.isSuccess) {
@@ -123,7 +123,7 @@ abstract class BVMActivity<VB : ViewBinding, VM : BViewModel> : AppCompatActivit
                 }
                 it.toast?.let { message -> showBar(message) }
             }
-        })
+        }
     }
 
     /**
@@ -273,6 +273,18 @@ abstract class BVMActivity<VB : ViewBinding, VM : BViewModel> : AppCompatActivit
         emptyStatusLL?.visibility = View.VISIBLE
     }
 
+    /**
+     * 设置空态点击事件
+     */
+    protected fun setEmptyClick(listener: View.OnClickListener) {
+        emptyStatusIV?.setOnClickListener { listener.onClick(it) }
+    }
+
+//    override fun finish() {
+//        super.finish()
+//        // 这里会影响回到上一个界面
+//        overridePendingTransition(R.anim.activity_slide_open_enter, R.anim.activity_slide_close_exit)
+//    }
 
     override fun onDestroy() {
         mDialog?.dismiss()

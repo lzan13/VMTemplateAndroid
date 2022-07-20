@@ -1,12 +1,13 @@
 package com.vmloft.develop.app.template.request.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import com.vmloft.develop.app.template.common.SignManager
+
+import com.vmloft.develop.library.data.common.SignManager
+import com.vmloft.develop.library.data.bean.User
+import com.vmloft.develop.library.data.repository.SignRepository
 import com.vmloft.develop.app.template.im.IMManager
-import com.vmloft.develop.library.request.RResult
-import com.vmloft.develop.app.template.request.bean.User
-import com.vmloft.develop.app.template.request.repository.SignRepository
 import com.vmloft.develop.library.base.BViewModel
+import com.vmloft.develop.library.request.RResult
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

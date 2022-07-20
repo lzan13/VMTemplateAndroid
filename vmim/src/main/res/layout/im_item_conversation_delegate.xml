@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/vm_dimen_72"
-    android:background="@drawable/shape_fill_common_bg"
-    tools:context="com.vmloft.develop.library.im.conversation.IMItemConversationDelegate">
+    android:background="@drawable/selector_fill_common_bg"
+    tools:context=".conversation.IMItemConversationDelegate">
 
     <ImageView
         android:id="@+id/imConversationTopIV"
@@ -42,15 +42,9 @@
     <!--未读数-->
     <TextView
         android:id="@+id/imConversationUnreadTV"
-        style="@style/IMText.Unread"
+        style="@style/AppText.Unread"
         android:layout_marginTop="-4dp"
         android:layout_marginEnd="-4dp"
-        android:gravity="center"
-        android:minWidth="@dimen/vm_dimen_16"
-        android:minHeight="@dimen/vm_dimen_16"
-        android:paddingLeft="@dimen/vm_dimen_4"
-        android:paddingRight="@dimen/vm_dimen_4"
-        android:text="@{FormatUtils.wrapUnread(unread)}"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@+id/imConversationAvatarIV"
         app:layout_constraintTop_toTopOf="@+id/imConversationAvatarIV"
@@ -59,12 +53,14 @@
     <!--标题-->
     <TextView
         android:id="@+id/imConversationTitleTV"
-        style="@style/IMText.Title"
+        style="@style/AppText.Subtitle"
+        android:layout_width="@dimen/vm_dimen_0"
         android:layout_marginStart="@dimen/vm_margin_normal"
         android:ellipsize="end"
         android:maxLines="1"
         android:textSize="@dimen/vm_size_16"
         app:layout_constraintBottom_toTopOf="@+id/imConversationContentTV"
+        app:layout_constraintEnd_toStartOf="@+id/imConversationTimeTV"
         app:layout_constraintStart_toEndOf="@+id/imConversationAvatarIV"
         app:layout_constraintTop_toTopOf="@+id/imConversationAvatarIV"
         app:layout_constraintVertical_chainStyle="packed"
@@ -72,13 +68,12 @@
     <!--时间-->
     <TextView
         android:id="@+id/imConversationTimeTV"
-        style="@style/IMText.Tips"
+        style="@style/AppText.Tips"
         android:layout_width="@dimen/vm_dimen_0"
         android:layout_marginStart="@dimen/vm_margin_normal"
         android:layout_marginEnd="@dimen/vm_margin_large"
         android:ellipsize="end"
         android:maxLines="1"
-        android:textSize="@dimen/vm_size_8"
         app:layout_constraintBottom_toBottomOf="@+id/imConversationTitleTV"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imConversationTitleTV"
@@ -86,7 +81,7 @@
     <!--内容-->
     <TextView
         android:id="@+id/imConversationContentTV"
-        style="@style/IMText.Subtitle"
+        style="@style/AppText.Body"
         android:layout_width="@dimen/vm_dimen_0"
         android:layout_marginEnd="@dimen/vm_dimen_16"
         android:ellipsize="end"

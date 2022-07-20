@@ -10,8 +10,6 @@ import com.drakeet.multitype.MultiTypeAdapter
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.common.Constants
 import com.vmloft.develop.app.template.databinding.ActivityOrderListBinding
-import com.vmloft.develop.app.template.request.bean.Order
-import com.vmloft.develop.app.template.request.viewmodel.TradeViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.base.BItemDelegate
 import com.vmloft.develop.library.base.BVMActivity
@@ -19,6 +17,8 @@ import com.vmloft.develop.library.base.BViewModel
 import com.vmloft.develop.library.base.common.CConstants
 import com.vmloft.develop.library.base.event.LDEventBus
 import com.vmloft.develop.library.base.router.CRouter
+import com.vmloft.develop.library.data.bean.Order
+import com.vmloft.develop.library.data.viewmodel.TradeViewModel
 import com.vmloft.develop.library.request.RPaging
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -57,7 +57,7 @@ class OrderListActivity : BVMActivity<ActivityOrderListBinding, TradeViewModel>(
     }
 
     override fun initData() {
-        mViewModel.orderList()
+        mBinding.refreshLayout.autoRefresh()
     }
 
 

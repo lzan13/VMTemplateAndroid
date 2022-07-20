@@ -16,6 +16,7 @@ object IMRouter {
     const val imChatFast = "/IM/ChatFast"
     const val imChatRoom = "/IM/ChatRoom"
     const val imSingleCall = "/IM/SingleCall"
+    const val imGiftAnim = "/IM/GiftAnim"
 
     /**
      * 去聊天

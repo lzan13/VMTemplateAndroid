@@ -2,17 +2,21 @@ package com.vmloft.develop.library.ads
 
 /**
  * Create by lzan13 on 2022/3/9
- * 描述：
+ * 描述：广告模块静态资源类
  */
 object ADSConstants {
 
     /**
-     * 广告单元 Id
+     * 广告相关 Id
      */
     object ADSIds {
         const val adsSplashId = "b625832273c997"
         const val adsNativeId = "b625836c465ce1"
         const val adsVideoId = "b62583b7c12bdb"
+
+        // 广告场景
+        const val videoSceneScoreId = "f6261304415e10"
+        const val videoSceneItemId = "f62a0ccd923fae"
     }
 
     /**
@@ -45,6 +49,13 @@ object ADSConstants {
      */
     fun topOnAppKey(): String {
         return BuildConfig.topOnAppKey
+    }
+
+    /**
+     * 获取签名 secKey
+     */
+    fun secKey(): String {
+        return BuildConfig.adsSecKey
     }
 
 

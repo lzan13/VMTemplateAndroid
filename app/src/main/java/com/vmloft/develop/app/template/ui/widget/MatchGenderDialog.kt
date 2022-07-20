@@ -3,9 +3,9 @@ package com.vmloft.develop.app.template.ui.widget
 import android.content.Context
 import android.view.LayoutInflater
 
-import com.vmloft.develop.app.template.common.SignManager
 import com.vmloft.develop.app.template.databinding.WidgetMatchGenderDialogBinding
 import com.vmloft.develop.app.template.report.ReportConstants
+import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.library.report.ReportManager
 import com.vmloft.develop.library.tools.base.VMBDialog
 
@@ -16,7 +16,7 @@ import com.vmloft.develop.library.tools.base.VMBDialog
  */
 class MatchGenderDialog(context: Context) : VMBDialog<WidgetMatchGenderDialogBinding>(context) {
 
-    private val selfMatch = SignManager.getSelfMatch()!!
+    private val selfMatch = SignManager.getSelfMatch()
 
     private var filterGender: Int = -1
 
@@ -64,11 +64,9 @@ class MatchGenderDialog(context: Context) : VMBDialog<WidgetMatchGenderDialogBin
         SignManager.setSelfMatch(selfMatch)
 
         val params = mutableMapOf<String, Any>()
-        params["filter"] = selfMatch.filterGender // 过滤选项 -1-不限 0-女 1-男
+        params["filter"] = selfMatch.filterGender // 过滤选项 -1-不限 0-仙子 1-仙君
         ReportManager.reportEvent(ReportConstants.eventChangeFilter, params)
 
         dismiss()
     }
-
-
 }

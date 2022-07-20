@@ -88,9 +88,11 @@
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/submitTV"
         app:layout_constraintEnd_toEndOf="@+id/submitTV"
+        app:layout_constraintStart_toStartOf="@+id/submitTV"
         app:layout_constraintTop_toTopOf="@+id/submitTV"
-        app:vm_loading_color="@color/app_loading_light"
-        app:vm_loading_type="DoubleCircle" />
+        app:vm_loading_color="@color/app_main"
+        app:vm_loading_type="DoubleCircle"
+        tools:visibility="visible" />
 
     <CheckBox
         android:id="@+id/privatePolicyCB"

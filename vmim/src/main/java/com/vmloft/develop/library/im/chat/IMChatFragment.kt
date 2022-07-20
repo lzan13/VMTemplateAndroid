@@ -8,6 +8,9 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.drakeet.multitype.MultiTypeAdapter
@@ -25,10 +28,18 @@ import com.vmloft.develop.library.base.event.LDEventBus
 import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.base.utils.errorBar
 import com.vmloft.develop.library.base.utils.showBar
+import com.vmloft.develop.library.base.widget.CommonDialog
 import com.vmloft.develop.library.common.config.ConfigManager
+import com.vmloft.develop.library.common.utils.JsonUtils
+import com.vmloft.develop.library.data.bean.Gift
+import com.vmloft.develop.library.data.bean.User
+import com.vmloft.develop.library.data.common.CacheManager
+import com.vmloft.develop.library.data.common.DConstants
+import com.vmloft.develop.library.data.common.SignManager
+import com.vmloft.develop.library.gift.GiftFragment
+import com.vmloft.develop.library.gift.GiftRouter
 import com.vmloft.develop.library.im.IM
 import com.vmloft.develop.library.im.R
-import com.vmloft.develop.library.im.bean.IMUser
 import com.vmloft.develop.library.im.chat.msg.*
 import com.vmloft.develop.library.im.common.IMConstants
 import com.vmloft.develop.library.im.databinding.ImFragmentChatBinding
@@ -39,16 +50,20 @@ import com.vmloft.develop.library.tools.utils.VMStr
 import com.vmloft.develop.library.tools.utils.VMSystem
 import com.vmloft.develop.library.tools.utils.bitmap.VMBitmap
 import com.vmloft.develop.library.tools.widget.VMFloatMenu
+import com.vmloft.develop.library.tools.widget.VMKeyboardController
+import com.vmloft.develop.library.tools.widget.record.VMRecordView
 
 
 /**
  * Create by lzan13 on 2019/05/09 10:11
- *
- * IM 可自定义加载的聊天界面
+ * 描述：IM 可自定义加载的聊天界面
  */
 class IMChatFragment : BFragment<ImFragmentChatBinding>() {
 
     private val limit = CConstants.defaultLimit
+
+    // 输入面板控制类
+    private lateinit var keyboardController: VMKeyboardController
 
     // 列表适配器
     private val mAdapter by lazy(LazyThreadSafetyMode.NONE) { MultiTypeAdapter() }
@@ -64,12 +79,12 @@ class IMChatFragment : BFragment<ImFragmentChatBinding>() {
     private var currPosition: Int = 0
 
     // 会话相关
-    private lateinit var chatId: String
+    private var chatId: String = ""
     private var chatType: Int = 0
-    private lateinit var chatExtend: String
+    private var chatExtend: String = ""
     private lateinit var conversation: EMConversation
-    private lateinit var user: IMUser
-    private lateinit var selfUser: IMUser
+
+    private lateinit var selfUser: User
 
     private var receiveMsgCount = 0 // 接收消息数
     private var sendMsgCount = 0 // 发送消息数
@@ -98,23 +113,24 @@ class IMChatFragment : BFragment<ImFragmentChatBinding>() {
     override fun initUI() {
         super.initUI()
 
-        // 选择图片
-        mBinding.imChatPictureIV.setOnClickListener { openAlbum() }
-        // 开启通话申请
-        mBinding.imChatCallIV.setOnClickListener { requestCall() }
-        // 点击发送
-        mBinding.imChatSendIV.setOnClickListener { sendText() }
-
-        // 初始化输入框监听
-        initInputWatcher()
-        // 初始化列表
-        initRecyclerView()
+        initView()
         // 初始化长按菜单
         initFloatMenu()
 
+        // 监听礼物赠送成功，这里要发送一条消息
+        LDEventBus.observe(this, DConstants.Event.giftGive, Gift::class.java) {
+            sendGift(it)
+        }
+
         // 监听新消息过来，这里肯定是发给自己的消息，在发送事件时已经过滤
         LDEventBus.observe(this, IMConstants.Common.newMsgEvent, EMMessage::class.java) {
-            checkLockStatus(it)
+            it?.let {
+                if (it.direct() == EMMessage.Direct.RECEIVE) {
+                    receiveMsgCount++
+                } else {
+                    sendMsgCount++
+                }
+            }
             refreshNewMsg(it)
         }
 
@@ -135,52 +151,11 @@ class IMChatFragment : BFragment<ImFragmentChatBinding>() {
         chatType = requireArguments().getInt(argChatType, 0)
         chatExtend = requireArguments().getString(argChatExtend, "")
 
-        user = IM.imListener.getUser(chatId) ?: IMUser(chatId)
-        selfUser = IM.imListener.getUser(IM.getSelfId()) ?: IMUser(IM.getSelfId())
+        selfUser = SignManager.getCurrUser()
 
         initConversation()
-
-        checkLockStatus()
+        setupGiftFragment()
     }
-
-    /**
-     * 初始化会话
-     */
-    private fun initConversation() {
-        // 获取会话对象
-        conversation = IMChatManager.getConversation(chatId, chatType)
-        // 保存扩展信息
-        saveExtendMsg()
-
-        receiveMsgCount = IMChatManager.getConversationMsgReceiveCount(conversation)
-        sendMsgCount = IMChatManager.getConversationMsgSendCount(conversation)
-
-        // 清空未读
-        IMChatManager.setConversationUnread(conversation, false)
-        val cacheCount = IMChatManager.getCacheMessages(chatId, chatType).size
-        val sumCount = IMChatManager.getMessagesCount(chatId, chatType)
-        if (cacheCount in 1 until sumCount && cacheCount < limit) {
-            // 加载更多消息，填充满一页
-            IMChatManager.loadMoreMessages(conversation, limit)
-        }
-        mItems.clear()
-        mItems.addAll(IMChatManager.getCacheMessages(chatId, chatType))
-        mAdapter.notifyDataSetChanged()
-    }
-
-    /**
-     * 根据传入参数判断需不需要保存扩展信息
-     */
-    private fun saveExtendMsg() {
-        if (chatExtend.isNullOrEmpty()) return
-
-        val message = IMChatManager.createTextMessage(chatExtend, chatId, false)
-        message.chatType = EMMessage.ChatType.Chat
-        message.setStatus(EMMessage.Status.SUCCESS)
-
-        IMChatManager.saveMessage(message)
-    }
-
 
     override fun onResume() {
         super.onResume()
@@ -208,15 +183,154 @@ class IMChatFragment : BFragment<ImFragmentChatBinding>() {
         IMChatManager.setConversationDraft(conversation, draft)
     }
 
+    private fun initView() {
+        mBinding.imChatVoiceIV.visibility = if (ConfigManager.clientConfig.chatConfig.voiceEntry) View.VISIBLE else View.GONE
+        mBinding.imChatPictureIV.visibility = if (ConfigManager.clientConfig.chatConfig.pictureEntry) View.VISIBLE else View.GONE
+        mBinding.imChatCallIV.visibility = if (ConfigManager.clientConfig.chatConfig.callEntry) View.VISIBLE else View.GONE
+
+        // 选择图片
+        mBinding.imChatPictureIV.setOnClickListener { openAlbum() }
+        // 开启通话申请
+        mBinding.imChatCallIV.setOnClickListener { requestCall() }
+        // 点击发送
+        mBinding.imChatSendIV.setOnClickListener { sendText() }
+
+        // 初始化输入面板
+        initInputPanel()
+        // 初始化列表
+        initRecyclerView()
+    }
+
+
+    /**
+     * 设置输入框内容的监听
+     */
+    private fun initInputPanel() {
+        mBinding.imChatRecordView.setRecordListener(object : VMRecordView.RecordListener() {
+            override fun onStart() {}
+
+            override fun onCancel() {
+//                showBar("录音取消")
+            }
+
+            override fun onError(code: Int, desc: String) {
+                errorBar("录音失败 $code $desc")
+            }
+
+            override fun onComplete(path: String, time: Int) {
+//                showBar("录音完成 $path $time")
+                sendVoice(path, time)
+            }
+        })
+
+        mBinding.imChatMessageET.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable) {
+                changeInputStatus(true)
+                // 发送正在输入，变为空则不发送输入状态
+                if (!s.toString().isNullOrEmpty()) {
+                    // 输入状态的展示时间是 3 秒，检查一下，如果间隔不足两秒，则不重新发送
+                    val time = System.currentTimeMillis()
+                    if (time - lastTimeInputStatus > CConstants.timeSecond * 2) {
+                        lastTimeInputStatus = time
+                        IMChatManager.sendInputStatus(chatId)
+                    }
+                }
+                mBinding.imChatSendIV.visibility = if (s.toString().isNullOrEmpty()) View.GONE else View.VISIBLE
+            }
+        })
+
+        keyboardController = VMKeyboardController(requireActivity())
+            .bindExtendContainer(mBinding.imChatExtendContainer)
+            .bindContentContainer(mBinding.imChatRefreshLayout)
+            .bindEditText(mBinding.imChatMessageET)
+
+        mBinding.imChatExtendArrowIV.setOnClickListener { changeInputStatus() }
+        mBinding.imChatVoiceIV.setOnClickListener {
+            mBinding.imChatGiftLL.visibility = View.GONE
+            mBinding.imChatEmotionLL.visibility = View.GONE
+            if (mBinding.imChatExtendContainer.isShown) {
+                if (mBinding.imChatRecordView.isVisible) {
+                    keyboardController.hideExtendContainer(true, true) //隐藏表情布局，显示软件盘
+                    mBinding.imChatRecordView.visibility = View.GONE
+                } else {
+                    mBinding.imChatRecordView.visibility = View.VISIBLE
+                }
+            } else {
+                mBinding.imChatRecordView.visibility = View.VISIBLE
+                if (keyboardController.isShowKeyboard()) {
+                    keyboardController.showExtendContainer(true)
+                } else {
+                    keyboardController.showExtendContainer(false) //两者都没显示，直接显示表情布局
+                }
+                scrollToBottom()
+            }
+        }
+        mBinding.imChatGiftIV.setOnClickListener {
+            mBinding.imChatRecordView.visibility = View.GONE
+            mBinding.imChatEmotionLL.visibility = View.GONE
+            if (mBinding.imChatExtendContainer.isShown) {
+                if (mBinding.imChatGiftLL.isVisible) {
+                    keyboardController.hideExtendContainer(true, true) //隐藏表情布局，显示软件盘
+                    mBinding.imChatGiftLL.visibility = View.GONE
+                } else {
+                    mBinding.imChatGiftLL.visibility = View.VISIBLE
+                }
+            } else {
+                mBinding.imChatGiftLL.visibility = View.VISIBLE
+                if (keyboardController.isShowKeyboard()) {
+                    keyboardController.showExtendContainer(true)
+                } else {
+                    keyboardController.showExtendContainer(false) //两者都没显示，直接显示表情布局
+                }
+                scrollToBottom()
+            }
+        }
+        mBinding.imChatEmotionIV.setOnClickListener {
+            mBinding.imChatRecordView.visibility = View.GONE
+            mBinding.imChatGiftLL.visibility = View.GONE
+            if (mBinding.imChatExtendContainer.isShown) {
+                if (mBinding.imChatEmotionLL.isVisible) {
+                    keyboardController.hideExtendContainer(true, true) //隐藏表情布局，显示软件盘
+                    mBinding.imChatEmotionLL.visibility = View.GONE
+                } else {
+                    mBinding.imChatEmotionLL.visibility = View.VISIBLE
+                }
+            } else {
+                mBinding.imChatEmotionLL.visibility = View.VISIBLE
+                if (keyboardController.isShowKeyboard()) {
+                    keyboardController.showExtendContainer(true)
+                } else {
+                    keyboardController.showExtendContainer(false) //两者都没显示，直接显示表情布局
+                }
+                scrollToBottom()
+            }
+        }
+    }
+
+    /**
+     * 装载礼物内容
+     */
+    private fun setupGiftFragment() {
+        // 加载表情界面
+        val fragment = GiftFragment.newInstance(chatId)
+        val manager: FragmentManager = childFragmentManager
+        val ft: FragmentTransaction = manager.beginTransaction()
+        ft.replace(R.id.imChatGiftLL, fragment)
+        ft.commit()
+    }
+
+    /**
+     * 初始化列表
+     */
     private fun initRecyclerView() {
         mBinding.imChatRefreshLayout.setOnRefreshListener { loadMoreMsg() }
 
         // 消息点击监听
         val listener = object : BItemDelegate.BItemListener<EMMessage> {
             override fun onClick(v: View, data: EMMessage, position: Int) {
-                val body = data.body as EMImageMessageBody
-                var originalRemoteUrl = body.remoteUrl
-                CRouter.goDisplaySingle(originalRemoteUrl)
+                clickMsg(data, position)
             }
         }
         // 消息长按监听
@@ -234,10 +348,14 @@ class IMChatFragment : BFragment<ImFragmentChatBinding>() {
             MsgSystemDelegate(),
             MsgCallReceiveDelegate(longListener),
             MsgCallSendDelegate(longListener),
+            MsgGiftReceiveDelegate(listener, longListener),
+            MsgGiftSendDelegate(listener, longListener),
             MsgPictureReceiveDelegate(listener, longListener),
             MsgPictureSendDelegate(listener, longListener),
             MsgTextReceiveDelegate(longListener),
             MsgTextSendDelegate(longListener),
+            MsgVoiceReceiveDelegate(longListener),
+            MsgVoiceSendDelegate(longListener),
         ).withKotlinClassLinker { _, data ->
             // 根据消息类型返回不同的 View 展示
             when (IMChatManager.getMsgType(data)) {
@@ -245,73 +363,137 @@ class IMChatFragment : BFragment<ImFragmentChatBinding>() {
                 IMConstants.MsgType.imRecall -> MsgSystemDelegate::class
                 IMConstants.MsgType.imCallReceive -> MsgCallReceiveDelegate::class
                 IMConstants.MsgType.imCallSend -> MsgCallSendDelegate::class
+                IMConstants.MsgType.imGiftReceive -> MsgGiftReceiveDelegate::class
+                IMConstants.MsgType.imGiftSend -> MsgGiftSendDelegate::class
                 IMConstants.MsgType.imPictureReceive -> MsgPictureReceiveDelegate::class
                 IMConstants.MsgType.imPictureSend -> MsgPictureSendDelegate::class
                 IMConstants.MsgType.imTextReceive -> MsgTextReceiveDelegate::class
                 IMConstants.MsgType.imTextSend -> MsgTextSendDelegate::class
+                IMConstants.MsgType.imVoiceReceive -> MsgVoiceReceiveDelegate::class
+                IMConstants.MsgType.imVoiceSend -> MsgVoiceSendDelegate::class
                 else -> MsgUnsupportedDelegate::class
             }
         }
 
         mAdapter.items = mItems
-        mAdapter.notifyDataSetChanged()
+
         layoutManager = LinearLayoutManager(context)
-        layoutManager.stackFromEnd = true
+        layoutManager.stackFromEnd = false
         mBinding.imChatRecyclerView.layoutManager = layoutManager
         mBinding.imChatRecyclerView.adapter = mAdapter
+
+        mBinding.imChatRecyclerView.setOnTouchListener { _, _ ->
+            keyboardController.hideKeyboard()
+            keyboardController.hideExtendContainer(false, false)
+            false
+        }
     }
 
     /**
-     * 设置输入框内容的监听
+     * 初始化会话
      */
-    private fun initInputWatcher() {
-        mBinding.imChatMessageET.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable) {
-                // 发送正在输入，变为空则不发送输入状态
-                if (!s.toString().isNullOrEmpty()) {
-                    // 输入状态的展示时间是 3 秒，检查一下，如果间隔不足两秒，则不重新发送
-                    val time = System.currentTimeMillis()
-                    if (time - lastTimeInputStatus > CConstants.timeSecond * 2) {
-                        lastTimeInputStatus = time
-                        IMChatManager.sendInputStatus(chatId)
-                    }
-                }
-                mBinding.imChatSendIV.visibility = if (s.toString().isNullOrEmpty()) View.GONE else View.VISIBLE
-            }
-        })
+    private fun initConversation() {
+        // 获取会话对象
+        conversation = IMChatManager.getConversation(chatId, chatType)
+        // 保存扩展信息
+        saveExtendMsg()
+
+        receiveMsgCount = IMChatManager.getConversationMsgReceiveCount(conversation)
+        sendMsgCount = IMChatManager.getConversationMsgSendCount(conversation)
+
+        // 清空未读
+        IMChatManager.setConversationUnread(conversation, false)
+        val cacheCount = IMChatManager.getCacheMessages(chatId, chatType).size
+        val sumCount = IMChatManager.getMessagesCount(chatId, chatType)
+        if (cacheCount in 1 until sumCount && cacheCount < limit) {
+            // 加载更多消息，填充满一页
+            IMChatManager.loadMoreMessages(conversation, limit)
+        }
+        mItems.clear()
+        mItems.addAll(IMChatManager.getCacheMessages(chatId, chatType))
+        mAdapter.notifyDataSetChanged()
+        // 第一页内容加载完成需要滚动到底部
+        mBinding.imChatRecyclerView.post {
+            scrollToBottom()
+        }
+    }
+
+    /**
+     * 根据传入参数判断需不需要保存扩展信息
+     */
+    private fun saveExtendMsg() {
+        if (chatExtend.isNullOrEmpty() || IMChatManager.getMessagesCount(chatId, chatType) > 0) return
+
+        val message = IMChatManager.createTextMessage(chatExtend, chatId, false)
+        message.chatType = EMMessage.ChatType.Chat
+        message.setStatus(EMMessage.Status.SUCCESS)
+
+        IMChatManager.saveMessage(message)
+    }
+
+    /**
+     * 输入状态改变
+     */
+    private fun changeInputStatus(showArrow: Boolean = false) {
+        if (showArrow) {
+            mBinding.imChatExtendArrowIV.visibility = View.VISIBLE
+            mBinding.imChatVoiceIV.visibility = View.GONE
+            mBinding.imChatPictureIV.visibility = View.GONE
+            mBinding.imChatCallIV.visibility = View.GONE
+            mBinding.imChatGiftIV.visibility = View.GONE
+        } else {
+            mBinding.imChatExtendArrowIV.visibility = View.GONE
+            mBinding.imChatVoiceIV.visibility = View.VISIBLE
+            mBinding.imChatPictureIV.visibility = View.VISIBLE
+            mBinding.imChatCallIV.visibility = View.VISIBLE
+            mBinding.imChatGiftIV.visibility = View.VISIBLE
+        }
     }
 
     /**
      * 检查锁状态
      */
-    private fun checkLockStatus(msg: EMMessage? = null) {
+    private fun checkVoiceLockStatus(): Boolean {
         // VIP 不限制发送图片和语音通话
-        if (selfUser.identity in 100..199) {
-            mBinding.imChatPictureIV.visibility = View.VISIBLE
-            mBinding.imChatCallIV.visibility = View.VISIBLE
-            return
+        if (selfUser.role.identity in 100..199) {
+            return true
         }
-        msg?.let {
-            if (msg.direct() == EMMessage.Direct.RECEIVE) {
-                receiveMsgCount++
+        return receiveMsgCount > ConfigManager.clientConfig.chatConfig.voiceLimit && sendMsgCount > ConfigManager.clientConfig.chatConfig.voiceLimit
+    }
+
+    /**
+     * 检查锁状态
+     */
+    private fun checkPictureLockStatus(): Boolean {
+        // VIP 不限制发送图片和语音通话
+        if (selfUser.role.identity in 100..199) {
+            return true
+        }
+        return receiveMsgCount > ConfigManager.clientConfig.chatConfig.pictureLimit && sendMsgCount > ConfigManager.clientConfig.chatConfig.pictureLimit
+    }
+
+    /**
+     * 检查锁状态
+     */
+    private fun checkCallLockStatus(): Boolean {
+        // VIP 不限制发送图片和语音通话
+        if (selfUser.role.identity in 100..199) {
+            return true
+        }
+        return receiveMsgCount >= ConfigManager.clientConfig.chatConfig.callLimit && sendMsgCount >= ConfigManager.clientConfig.chatConfig.callLimit
+    }
+
+    /**
+     * 打开相册选择图片发送
+     */
+    private fun switchVoice() {
+        // 必须有读写存储权限才能选择图片
+        if (PermissionManager.recordPermission(requireContext())) {
+            if (!checkVoiceLockStatus()) {
+                showLimitDialog(ConfigManager.clientConfig.chatConfig.voiceLimit)
             } else {
-                sendMsgCount++
+
             }
-        }
-        if (receiveMsgCount > ConfigManager.clientConfig.chatConfig.pictureLimit && sendMsgCount > ConfigManager.clientConfig.chatConfig.pictureLimit) {
-            mBinding.imChatPictureIV.visibility = View.VISIBLE
-        } else {
-            mBinding.imChatPictureIV.visibility = View.GONE
-        }
-        if (receiveMsgCount >= ConfigManager.clientConfig.chatConfig.callLimit
-            && sendMsgCount >= ConfigManager.clientConfig.chatConfig.callLimit
-            && ConfigManager.clientConfig.chatConfig.callEntry
-        ) {
-            mBinding.imChatCallIV.visibility = View.VISIBLE
-        } else {
-            mBinding.imChatCallIV.visibility = View.GONE
         }
     }
 
@@ -321,7 +503,11 @@ class IMChatFragment : BFragment<ImFragmentChatBinding>() {
     private fun openAlbum() {
         // 必须有读写存储权限才能选择图片
         if (PermissionManager.storagePermission(requireContext())) {
-            IMGChoose.singlePicture(requireActivity()) { sendPicture(it as Uri) }
+            if (!checkPictureLockStatus()) {
+                showLimitDialog(ConfigManager.clientConfig.chatConfig.pictureLimit)
+            } else {
+                IMGChoose.singlePicture(requireActivity()) { sendPicture(it as Uri) }
+            }
         }
     }
 
@@ -331,7 +517,24 @@ class IMChatFragment : BFragment<ImFragmentChatBinding>() {
     private fun requestCall() {
         // 必须有录音权限才能进行通话
         if (PermissionManager.recordPermission(requireContext())) {
-            IMRouter.goSingleCall(chatId)
+            if (!checkCallLockStatus()) {
+                showLimitDialog(ConfigManager.clientConfig.chatConfig.callLimit)
+            } else {
+                IMRouter.goSingleCall(chatId)
+            }
+        }
+    }
+
+    /**
+     * 显示通话限制对话框
+     */
+    private fun showLimitDialog(limit: Int) {
+        mDialog = CommonDialog(requireActivity())
+        (mDialog as CommonDialog).let { dialog ->
+            dialog.setContent(VMStr.byResArgs(R.string.im_chat_extend_limit, limit))
+            dialog.setNegative("")
+            dialog.setPositive(VMStr.byRes(R.string.btn_i_known))
+            dialog.show()
         }
     }
 
@@ -339,6 +542,10 @@ class IMChatFragment : BFragment<ImFragmentChatBinding>() {
      * 新消息刷新
      */
     private fun refreshNewMsg(msg: EMMessage) {
+        val msgType = IMChatManager.getMsgType(msg)
+        if (msgType == IMConstants.MsgType.imGiftReceive) {
+            playGiftAnim(msg)
+        }
         mItems.add(msg)
         mAdapter.notifyItemInserted(mAdapter.itemCount)
         mBinding.imChatRecyclerView.post { scrollToBottom() }
@@ -382,8 +589,18 @@ class IMChatFragment : BFragment<ImFragmentChatBinding>() {
         }
         mBinding.imChatMessageET.setText("")
         lastTimeInputStatus = 0
-        // 创建消息
+        // 发送消息
         sendMessage(IMChatManager.createTextMessage(content, chatId))
+
+        changeInputStatus()
+    }
+
+    /**
+     * 发送语音消息
+     */
+    private fun sendVoice(path: String, time: Int) {
+        val uri = Uri.parse(path)
+        sendMessage(IMChatManager.createVoiceMessage(uri, time, chatId))
     }
 
     /**
@@ -393,6 +610,17 @@ class IMChatFragment : BFragment<ImFragmentChatBinding>() {
         // 临时压缩下图片，这里压缩到默认的分辨率
         val tempPath = VMBitmap.compressTempImage(uri, 2048, 256)
         sendMessage(IMChatManager.createPictureMessage(Uri.parse(tempPath), chatId))
+    }
+
+    /**
+     * 发送礼物消息
+     */
+    private fun sendGift(gift: Gift) {
+        val giftStr = JsonUtils.toJson(gift)
+        val message = IMChatManager.createTextMessage(gift.title, chatId)
+        message.setAttribute(IMConstants.Common.msgAttrExtType, IMConstants.MsgType.imGift)
+        message.setAttribute(IMConstants.Common.msgAttrGift, giftStr)
+        sendMessage(message)
     }
 
     /**
@@ -409,10 +637,42 @@ class IMChatFragment : BFragment<ImFragmentChatBinding>() {
     }
 
     /**
+     * 点击消息事件
+     */
+    private fun clickMsg(msg: EMMessage, position: Int) {
+        val msgType = IMChatManager.getMsgType(msg)
+        if (msgType == IMConstants.MsgType.imGiftSend || msgType == IMConstants.MsgType.imGiftReceive) {
+            playGiftAnim(msg)
+        } else if (msgType == IMConstants.MsgType.imPictureReceive || msgType == IMConstants.MsgType.imPictureSend) {
+            // 跳转图片预览
+            val body = msg.body as EMImageMessageBody
+            var originalRemoteUrl = body.remoteUrl
+            CRouter.goDisplaySingle(originalRemoteUrl)
+        } else if (msgType == IMConstants.MsgType.imVoiceReceive || msgType == IMConstants.MsgType.imVoiceSend) {
+
+        }
+    }
+
+    /**
+     * 播放礼物动画
+     */
+    private fun playGiftAnim(msg: EMMessage) {
+        // 播放礼物动效，这里直接在新的Activity界面打开
+        // 获取礼物消息扩展内容
+        val giftStr = msg.getStringAttribute(IMConstants.Common.msgAttrGift, "")
+        val gift = JsonUtils.fromJson<Gift>(giftStr)
+        CRouter.go(GiftRouter.giftAnim, obj0 = gift)
+    }
+
+    /**
      * 滚动到底部
      */
     private fun scrollToBottom() {
-        mBinding.imChatRecyclerView.smoothScrollToPosition(mAdapter.itemCount - 1)
+        mBinding.imChatRecyclerView.postDelayed({
+            if (mAdapter.itemCount > 0) {
+                mBinding.imChatRecyclerView.smoothScrollToPosition(mAdapter.itemCount - 1)
+            }
+        }, 200)
     }
 
     /**
@@ -421,7 +681,6 @@ class IMChatFragment : BFragment<ImFragmentChatBinding>() {
     private fun canScrollToUp(): Boolean {
         return mBinding.imChatRecyclerView.canScrollVertically(1)
     }
-
 
     /**
      * ----------------------------------------------
@@ -486,11 +745,10 @@ class IMChatFragment : BFragment<ImFragmentChatBinding>() {
     }
 
     /**
-     * 删除消息，都会触发
+     * 删除消息，都会触发l
      */
     private fun deleteMsg() {
         IMChatManager.removeMessage(currMsg)
         refreshDeleteMsg(currMsg, currPosition)
     }
-
 }

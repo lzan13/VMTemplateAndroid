@@ -15,7 +15,7 @@
         android:id="@+id/emotionIV"
         android:layout_width="@dimen/vm_dimen_24"
         android:layout_height="@dimen/vm_dimen_24"
-        android:src="@drawable/ic_emotion_happy" />
+        android:src="@drawable/ic_emotion_hahaha" />
 
     <TextView
         android:id="@+id/emotionTV"

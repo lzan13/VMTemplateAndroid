@@ -1,12 +1,11 @@
 package com.vmloft.develop.app.template.im
 
 import android.content.Context
-import com.vmloft.develop.app.template.common.SignManager
-import com.vmloft.develop.app.template.request.bean.User
 
+import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.library.im.IM
-import com.vmloft.develop.library.im.common.IMConstants
 import com.vmloft.develop.library.im.router.IMRouter
+
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -27,15 +26,15 @@ object IMManager {
      * 登录 IM
      */
     suspend fun signIn() = withContext(Dispatchers.IO) {
-        val user = SignManager.getCurrUser() ?: User()
+        val user = SignManager.getCurrUser()
         IM.signIn(user.id, user.password)
     }
 
     /**
      * 退出登录
      */
-    fun exit() {
-        IM.signOut(false)
+    fun signOut() {
+        IM.signOut(true)
     }
 
     /**

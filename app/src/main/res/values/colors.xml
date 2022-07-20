@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--首页匹配颜色-->
+    <color name="app_home_icon_start">#dde66d48</color>
+    <color name="app_home_icon_end">#fab37b</color>
     <color name="app_home_card_destiny">#e66d48</color>
     <color name="app_home_card_fast">#d54b4b</color>
     <color name="app_home_card_room">#fab37b</color>

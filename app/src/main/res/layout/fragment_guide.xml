@@ -13,7 +13,6 @@
         android:id="@+id/guideCoverRL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/vm_dimen_24"
         app:layout_constraintBottom_toTopOf="@+id/guideTitleTV"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,6 +23,7 @@
             android:id="@+id/guideCoverIV"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="@dimen/vm_dimen_16"
             android:scaleType="centerInside"
             tools:src="@drawable/img_guide_0" />
     </com.vmloft.develop.library.tools.widget.VMRatioLayout>
@@ -33,20 +33,19 @@
         style="@style/VMText.Title"
         android:layout_marginTop="@dimen/vm_dimen_24"
         android:padding="@dimen/vm_dimen_8"
-        android:textSize="@dimen/vm_size_24"
         android:textStyle="bold"
-        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/guideBodyTV"
         app:layout_constraintEnd_toEndOf="@+id/guideCoverRL"
         app:layout_constraintStart_toStartOf="@+id/guideCoverRL"
         app:layout_constraintTop_toBottomOf="@+id/guideCoverRL"
-        tools:text="@string/guide_title_0"
-        tools:visibility="visible" />
+        tools:text="@string/guide_title_0" />
 
     <TextView
         android:id="@+id/guideBodyTV"
         style="@style/VMText.Subhead"
+        android:layout_margin="@dimen/vm_dimen_16"
         android:padding="@dimen/vm_padding_large"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

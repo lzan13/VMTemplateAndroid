@@ -28,12 +28,14 @@ object AppRouter {
     // 政策协议
     const val appSettingsAgreementPolicy = "/App/SettingsAgreementPolicy"
 
-    // 金币信息
+    // 财富信息
     const val appGold = "/App/Gold"
     const val appGoldRecharge = "/App/GoldRecharge"
     const val appGoldDesc = "/App/GoldDesc"
-    const val appGoldTask = "/App/GoldTask"
-    const val appGoldVIP = "/App/GoldVIP"
+    const val appVipTrade = "/App/VipTrade"
+
+    // 激励视频
+    const val appRewardVideo = "/App/RewardVideo"
 
     // 订单
     const val appOrderDetail = "/App/OrderDetail"
@@ -50,6 +52,9 @@ object AppRouter {
     const val appMineRelation = "/App/MineRelation"
     const val appMineBlacklist = "/App/MineBlacklist"
 
+    // 我的礼物
+    const val appMineGift = "/App/MineGift"
+
     // 绑定邮箱
     const val appBindEmail = "/App/BindEmail"
 
@@ -65,6 +70,9 @@ object AppRouter {
     const val appUserInfo = "/App/UserInfo" // 用户信息
 
     const val appMatchAnim = "/App/MatchAnim" // 匹配
+
+    const val appAppletList = "/App/AppletList" // 程序列表
+    const val appAppletDetail = "/App/AppletDetail"
 
     const val appRoomList = "/App/RoomList" // 房间信息
     const val appRoomCreate = "/App/RoomCreate"

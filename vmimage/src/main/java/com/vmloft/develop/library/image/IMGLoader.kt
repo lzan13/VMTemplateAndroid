@@ -288,7 +288,7 @@ object IMGLoader {
      */
     private fun wrapOptions(options: Options): Options {
         if (options.res is String && (options.res as String).indexOf("http") != 0) {
-            if ((options.res as String).indexOf("file:///") == 0 || (options.res as String).indexOf("content:///") == 0) {
+            if ((options.res as String).indexOf("file:///") == 0 || (options.res as String).indexOf("content://") == 0) {
                 options.res = Uri.parse(options.res as String)
             } else if ((options.res as String).indexOf("/storage") != 0) {
                 options.res = RConstants.mediaHost() + options.res + options.thumbExt

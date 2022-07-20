@@ -1,5 +1,9 @@
 package com.vmloft.develop.library.common.web
 
+import android.content.pm.ActivityInfo
+import android.net.Uri
+import android.view.View
+import android.view.WindowManager
 import android.webkit.WebView
 import android.widget.LinearLayout
 
@@ -40,6 +44,8 @@ class WebActivity : BActivity<ActivityWebBinding>() {
     override fun initData() {
         ARouter.getInstance().inject(this)
 
+        setupUrl()
+
         mAgentWeb.urlLoader.loadUrl(url)
     }
 
@@ -61,6 +67,21 @@ class WebActivity : BActivity<ActivityWebBinding>() {
         override fun onReceivedTitle(view: WebView, title: String) {
             setTopTitle(title)
         }
+    }
+
+    private fun setupUrl() {
+        val uri: Uri = Uri.parse(url)
+        val fullScreen = uri.getBooleanQueryParameter("fullScreen", false)
+        val hideTitle = uri.getBooleanQueryParameter("hideTitle", false)
+        val orientation = uri.getQueryParameter("orientation") ?: "1"
+
+        if (fullScreen) window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or
+                View.SYSTEM_UI_FLAG_FULLSCREEN or
+                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+        requestedOrientation = if (orientation == "0") ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE else ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+        commonTopLL?.visibility = if (hideTitle) View.GONE else View.VISIBLE
     }
 
     override fun onResume() {

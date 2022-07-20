@@ -8,17 +8,17 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.drakeet.multitype.MultiTypeAdapter
 
 import com.vmloft.develop.app.template.R
-import com.vmloft.develop.app.template.common.SignManager
 import com.vmloft.develop.app.template.databinding.ActivityGoldRechargeBinding
-import com.vmloft.develop.app.template.request.bean.Commodity
-import com.vmloft.develop.app.template.request.bean.Order
-import com.vmloft.develop.app.template.request.bean.User
 import com.vmloft.develop.app.template.router.AppRouter
-import com.vmloft.develop.app.template.request.viewmodel.UserViewModel
 import com.vmloft.develop.library.base.BItemDelegate
 import com.vmloft.develop.library.base.BVMActivity
 import com.vmloft.develop.library.base.BViewModel
 import com.vmloft.develop.library.base.router.CRouter
+import com.vmloft.develop.library.data.bean.Commodity
+import com.vmloft.develop.library.data.bean.Order
+import com.vmloft.develop.library.data.bean.User
+import com.vmloft.develop.library.data.common.SignManager
+import com.vmloft.develop.library.data.viewmodel.UserViewModel
 import com.vmloft.develop.library.request.RPaging
 import com.vmloft.develop.library.base.widget.CommonDialog
 import com.vmloft.develop.library.base.widget.decoration.GridItemDecoration
@@ -105,7 +105,7 @@ class GoldRechargeActivity : BVMActivity<ActivityGoldRechargeBinding, UserViewMo
             }
         }
 
-        mItems.addAll(list.sortedBy { it.price.toFloat() })
+        mItems.addAll(list.sortedBy { it.price })
         mAdapter.notifyDataSetChanged()
 
     }

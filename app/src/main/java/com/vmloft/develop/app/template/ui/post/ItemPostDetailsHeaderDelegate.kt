@@ -5,15 +5,15 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.vmloft.develop.app.template.R
-import com.vmloft.develop.app.template.common.SignManager
 import com.vmloft.develop.app.template.databinding.ItemPostDetailsHeaderDelegateBinding
-import com.vmloft.develop.app.template.request.bean.Attachment
-import com.vmloft.develop.app.template.request.bean.Post
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.base.BItemDelegate
 import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.base.utils.FormatUtils
 import com.vmloft.develop.library.common.config.ConfigManager
+import com.vmloft.develop.library.data.common.SignManager
+import com.vmloft.develop.library.data.bean.Attachment
+import com.vmloft.develop.library.data.bean.Post
 import com.vmloft.develop.library.image.IMGLoader
 import com.vmloft.develop.library.tools.utils.VMColor
 import com.vmloft.develop.library.tools.utils.VMDimen
@@ -62,7 +62,7 @@ class ItemPostDetailsHeaderDelegate(listener: PostItemListener, longListener: BI
         }
         holder.binding.nameTV.text = item.owner.nickname
         // 身份
-        if (ConfigManager.clientConfig.vipEntry && item.owner.role.identity in 100..199) {
+        if (ConfigManager.clientConfig.tradeConfig.vipEntry && item.owner.role.identity in 100..199) {
             holder.binding.nameTV.setTextColor(VMColor.byRes(R.color.app_identity_vip))
             holder.binding.identityIV.visibility = View.VISIBLE
         } else {

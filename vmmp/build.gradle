@@ -1,0 +1,73 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+}
+
+// 获取配置信息
+def configs = rootProject.ext.configs
+
+android {
+    compileSdk configs.compileSdkVersion
+
+    defaultConfig {
+        minSdk configs.minSdkVersion
+        targetSdk configs.targetSdkVersion
+
+        manifestPlaceholders = [
+                // UNIApp SDK 必须参数
+                "apk.applicationId": configs.applicationId,
+        ]
+    }
+
+    buildTypes {
+        release {
+            // 混淆文件
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            consumerProguardFiles 'consumer-rules.pro'
+        }
+    }
+
+    // UNIApp SDK 配置必须添加 否则无法正确运行
+    aaptOptions {
+        additionalParameters '--auto-add-overlay'
+        //noCompress 'foo', 'bar'
+        ignoreAssetsPattern "!.svn:!.git:.*:!CVS:!thumbs.db:!picasa.ini:!*.scc:*~"
+    }
+
+    // 配置 Java 编译版本
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    // 开启 ViewBinding
+    buildFeatures {
+        viewBinding true
+    }
+
+    // 编译忽略错误配置
+    lintOptions {
+        abortOnError false
+    }
+    // kotlin 配置
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11
+    }
+}
+
+dependencies {
+    // UNIApp SDK 配置 https://nativesupport.dcloud.net.cn/UniMPDocs/UseSdk/android
+    implementation(name: 'android-gif-drawable-release@1.2.23', ext: 'aar')
+    implementation(name: 'base_oaid_sdk', ext: 'aar')
+    implementation(name: 'uniapp-v8-release', ext: 'aar')
+    implementation(name: 'uniMPSDK-V2-release', ext: 'aar')
+
+    // 下边三个库在 UNIApp 中需要用到 如果自己项目中又引入，可以删除
+    implementation 'com.alibaba:fastjson:1.2.69'
+    implementation 'com.facebook.fresco:fresco:1.13.0'
+    implementation 'com.facebook.fresco:animated-gif:1.13.0'
+
+    // 依赖 base 库
+    implementation project(':vmbase')
+}

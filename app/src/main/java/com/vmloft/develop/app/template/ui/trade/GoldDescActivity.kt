@@ -28,6 +28,4 @@ class GoldDescActivity: BActivity<ActivityGoldDescBinding>() {
     override fun initData() {
 
     }
-
-
 }

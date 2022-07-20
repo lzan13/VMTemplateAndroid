@@ -62,6 +62,7 @@ class AgreementPolicyDialog(context: Context) : CommonDialog(context) {
 //        sp.setSpan(UnderlineSpan(), 22, 25, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         // 去除点击后字体出现的背景色
 
+        setTitle(VMStr.byRes(R.string.agreement_policy_dialog_title))
         setContent(sp)
         getContentTV()?.highlightColor = VMColor.byRes(R.color.vm_transparent)
         getContentTV()?.movementMethod = LinkMovementMethod.getInstance()
@@ -80,5 +81,4 @@ class AgreementPolicyDialog(context: Context) : CommonDialog(context) {
             CRouter.go(AppRouter.appSettingsAgreementPolicy, str0 = type)
         }
     }
-
 }

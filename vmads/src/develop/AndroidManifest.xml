@@ -18,24 +18,13 @@
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <!--可选权限，申请后用于防作弊功能以及有助于广告平台投放广告-->
-<!--    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />-->
-<!--    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />-->
+    <!--    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />-->
+    <!--    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />-->
 
     <application android:usesCleartextTraffic="true">
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
-
-        <!-- targetSDKVersion >= 24时才需要添加这个provider。
-        provider的authorities属性的值为${applicationId}.sigprovider -->
-        <provider
-            android:name="com.sigmob.sdk.SigmobFileProvider"
-            android:authorities="${applicationId}.sigprovider"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/anythink_bk_sigmob_file_path" />
-        </provider>
     </application>
 
 </manifest>

@@ -8,12 +8,13 @@ import com.alibaba.android.arouter.facade.annotation.Route
 
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.common.Constants
-import com.vmloft.develop.app.template.common.SignManager
+import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.app.template.databinding.ActivityPersonalInfoBinding
 import com.vmloft.develop.library.request.RPaging
-import com.vmloft.develop.app.template.request.bean.Profession
-import com.vmloft.develop.app.template.request.bean.User
-import com.vmloft.develop.app.template.request.viewmodel.UserViewModel
+import com.vmloft.develop.library.data.bean.Profession
+import com.vmloft.develop.library.data.bean.User
+import com.vmloft.develop.library.data.common.DConstants
+import com.vmloft.develop.library.data.viewmodel.UserViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.base.BVMActivity
 import com.vmloft.develop.library.base.BViewModel
@@ -92,14 +93,14 @@ class PersonalInfoActivity : BVMActivity<ActivityPersonalInfoBinding, UserViewMo
         mBinding.infoAuthStatusLV.setOnClickListener { checkPersonalAuth() }
 
         // 监听用户信息变化
-        LDEventBus.observe(this, Constants.Event.userInfo, User::class.java, { user ->
+        LDEventBus.observe(this, DConstants.Event.userInfo, User::class.java) { user ->
             mUser = user
             bindInfo()
-        })
+        }
     }
 
     override fun initData() {
-        mUser = SignManager.getCurrUser() ?: return finish()
+        mUser = SignManager.getCurrUser()
 
         bindInfo()
         bindPicker()
@@ -238,7 +239,7 @@ class PersonalInfoActivity : BVMActivity<ActivityPersonalInfoBinding, UserViewMo
         /**
          * 性别选择器
          */
-        mBinding.pickerLayout.pickerGenderView.data = listOf("女", "男", "保密")
+        mBinding.pickerLayout.pickerGenderView.data = listOf("仙子", "仙君", "保密")
         mBinding.pickerLayout.pickerGenderView.setSelectedItemPosition(mUser.gender, false)
 
         /**

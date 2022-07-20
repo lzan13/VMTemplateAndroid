@@ -11,11 +11,6 @@ import com.alibaba.android.arouter.launcher.ARouter
 
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.databinding.ActivityFeedbackBinding
-import com.vmloft.develop.app.template.request.bean.Attachment
-import com.vmloft.develop.app.template.request.bean.Comment
-import com.vmloft.develop.app.template.request.bean.Post
-import com.vmloft.develop.app.template.request.bean.User
-import com.vmloft.develop.app.template.request.viewmodel.FeedbackViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.base.BVMActivity
 import com.vmloft.develop.library.base.BViewModel
@@ -23,11 +18,17 @@ import com.vmloft.develop.library.base.common.CConstants
 import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.base.utils.errorBar
 import com.vmloft.develop.library.base.utils.showBar
+import com.vmloft.develop.library.data.bean.Attachment
+import com.vmloft.develop.library.data.bean.Comment
+import com.vmloft.develop.library.data.bean.Post
+import com.vmloft.develop.library.data.bean.User
+import com.vmloft.develop.library.data.viewmodel.FeedbackViewModel
 import com.vmloft.develop.library.image.IMGChoose
 import com.vmloft.develop.library.image.IMGLoader
 import com.vmloft.develop.library.tools.utils.VMReg
 import com.vmloft.develop.library.tools.utils.VMStr
 import com.vmloft.develop.library.tools.utils.VMSystem
+
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 /**

@@ -5,11 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.databinding.ItemPostDetailsCommentDelegateBinding
-import com.vmloft.develop.app.template.request.bean.Comment
-import com.vmloft.develop.app.template.request.bean.Post
 import com.vmloft.develop.library.base.BItemDelegate
 import com.vmloft.develop.library.base.utils.FormatUtils
 import com.vmloft.develop.library.common.config.ConfigManager
+import com.vmloft.develop.library.data.bean.Comment
 import com.vmloft.develop.library.image.IMGLoader
 import com.vmloft.develop.library.tools.utils.VMColor
 import com.vmloft.develop.library.tools.utils.VMStr
@@ -35,7 +34,7 @@ class ItemPostDetailsCommentDelegate(listener: CommentItemListener, longListener
         val nickname = if (item.owner.nickname.isNullOrEmpty()) VMStr.byRes(R.string.info_nickname_default) else item.owner.nickname
         holder.binding.nameTV.text = nickname
         // 身份
-        if (ConfigManager.clientConfig.vipEntry && item.owner.role.identity in 100..199) {
+        if (ConfigManager.clientConfig.tradeConfig.vipEntry && item.owner.role.identity in 100..199) {
             holder.binding.nameTV.setTextColor(VMColor.byRes(R.color.app_identity_vip))
             holder.binding.identityIV.visibility = View.VISIBLE
         } else {

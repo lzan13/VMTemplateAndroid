@@ -13,10 +13,11 @@ import com.drakeet.multitype.MultiTypeAdapter
 import com.hyphenate.chat.EMConversation
 import com.hyphenate.chat.EMMessage
 
-import com.vmloft.develop.library.base.BFragment
 import com.vmloft.develop.library.base.BItemDelegate
+import com.vmloft.develop.library.base.BVMFragment
+import com.vmloft.develop.library.base.BViewModel
 import com.vmloft.develop.library.base.event.LDEventBus
-import com.vmloft.develop.library.im.IM
+import com.vmloft.develop.library.data.viewmodel.UserViewModel
 import com.vmloft.develop.library.im.R
 import com.vmloft.develop.library.im.chat.IMChatManager
 import com.vmloft.develop.library.im.common.IMConstants
@@ -26,11 +27,13 @@ import com.vmloft.develop.library.tools.utils.VMStr
 import com.vmloft.develop.library.tools.utils.logger.VMLog
 import com.vmloft.develop.library.tools.widget.VMFloatMenu
 
+import org.koin.androidx.viewmodel.ext.android.getViewModel
+
 /**
  * Create by lzan13 on 2019/5/9 10:34
- * IM 最近会话界面，可加载到自己的容器
+ * 描述：IM 最近会话界面，可加载到自己的容器
  */
-class IMConversationFragment : BFragment<ImFragmentConversationBinding>() {
+class IMConversationFragment : BVMFragment<ImFragmentConversationBinding, UserViewModel>() {
 
     // 列表适配器
     private val mAdapter by lazy(LazyThreadSafetyMode.NONE) { MultiTypeAdapter() }
@@ -39,6 +42,20 @@ class IMConversationFragment : BFragment<ImFragmentConversationBinding>() {
     private lateinit var floatMenu: VMFloatMenu
 
     private lateinit var currConversation: EMConversation
+
+
+    private var refreshTime: Long = 0 // 上次刷新时间 ms
+    private var refreshDelay: Long = 500 // 刷新延迟时间 ms
+    private val refreshWhat: Int = 100
+
+    /**
+     * 处理延迟刷新
+     */
+    var handler: Handler = object : Handler() {
+        override fun handleMessage(msg: Message) {
+            refresh()
+        }
+    }
 
 
     companion object {
@@ -52,6 +69,8 @@ class IMConversationFragment : BFragment<ImFragmentConversationBinding>() {
             return fragment
         }
     }
+
+    override fun initVM(): UserViewModel = getViewModel()
 
     override fun initVB(inflater: LayoutInflater, parent: ViewGroup?) = ImFragmentConversationBinding.inflate(inflater, parent, false)
 
@@ -112,7 +131,6 @@ class IMConversationFragment : BFragment<ImFragmentConversationBinding>() {
         )
 
         mAdapter.items = mItems
-        mAdapter.notifyDataSetChanged()
 
         mBinding.imConversationRecyclerView.adapter = mAdapter
     }
@@ -134,6 +152,26 @@ class IMConversationFragment : BFragment<ImFragmentConversationBinding>() {
                 refresh()
             }
         })
+    }
+
+    private fun loadConversation() {
+        val list = IMChatManager.getAllConversation()
+
+        // 请求列表用户信息
+        val ids = list.map { it.conversationId() }
+        mViewModel.userList(ids)
+    }
+
+    override fun onModelLoading(model: BViewModel.UIModel) {
+        if (model.type == "userList" && !model.isLoading) {
+            mBinding.imConversationRefreshLayout.finishRefresh()
+        }
+    }
+
+    override fun onModelRefresh(model: BViewModel.UIModel) {
+        if (model.type == "userList") {
+            prepareRefresh()
+        }
     }
 
     /**
@@ -197,38 +235,12 @@ class IMConversationFragment : BFragment<ImFragmentConversationBinding>() {
         floatMenu.showAtLocation(view, event.x.toInt(), event.y.toInt())
     }
 
-
-    private fun loadConversation() {
-        val list = IMChatManager.getAllConversation()
-        val ids = list.map { it.conversationId() }
-
-        IM.imListener.getUserList(ids) {
-            // 刷新结束
-            mBinding.imConversationRefreshLayout.finishRefresh()
-            refresh()
-        }
-    }
-
-
-    private var refreshTime: Long = 0 // 上次刷新时间 ms
-    private var refreshDelay: Long = 500 // 刷新延迟时间 ms
-    private val refreshWhat: Int = 100
-
-    /**
-     *
-     */
-    var handler: Handler = object : Handler() {
-        override fun handleMessage(msg: Message) {
-            refresh()
-        }
-    }
-
     /**
      * 准备刷新
      */
     private fun prepareRefresh() {
         val currTime = System.currentTimeMillis()
-        // 先检查下是否有等待刷新的人物
+        // 先检查下是否有等待刷新的任务
         if (handler.hasMessages(refreshWhat)) {
             // 在检查下距离刷新还有多久
             if (currTime - refreshTime >= refreshDelay) {
@@ -267,6 +279,4 @@ class IMConversationFragment : BFragment<ImFragmentConversationBinding>() {
             hideEmptyView()
         }
     }
-
-
 }

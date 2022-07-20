@@ -47,7 +47,7 @@
     <style name="AppBtn.Feedback" parent="@style/AppBtn">
         <item name="android:textSize">@dimen/vm_size_14</item>
         <item name="android:textColor">@color/app_body</item>
-        <item name="android:background">@drawable/selector_border_common_bg</item>
+        <item name="android:background">@drawable/selector_rectangle_common_border</item>
     </style>
 
     <!--登录输入框样式-->

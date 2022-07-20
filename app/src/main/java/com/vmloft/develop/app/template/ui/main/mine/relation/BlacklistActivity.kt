@@ -10,8 +10,8 @@ import com.drakeet.multitype.MultiTypeAdapter
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.databinding.ActivityRelationListBinding
 import com.vmloft.develop.library.request.RPaging
-import com.vmloft.develop.app.template.request.bean.User
-import com.vmloft.develop.app.template.request.viewmodel.UserViewModel
+import com.vmloft.develop.library.data.bean.User
+import com.vmloft.develop.library.data.viewmodel.UserViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.base.BVMActivity
 import com.vmloft.develop.library.base.BViewModel
@@ -53,7 +53,7 @@ class BlacklistActivity : BVMActivity<ActivityRelationListBinding, UserViewModel
     }
 
     override fun initData() {
-        mViewModel.getBlacklist(type)
+        mBinding.refreshLayout.autoRefresh()
     }
 
     /**

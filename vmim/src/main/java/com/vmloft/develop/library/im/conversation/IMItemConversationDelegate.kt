@@ -3,13 +3,14 @@ package com.vmloft.develop.library.im.conversation
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+
 import com.hyphenate.chat.EMConversation
 
 import com.vmloft.develop.library.base.BItemDelegate
 import com.vmloft.develop.library.base.utils.FormatUtils
 import com.vmloft.develop.library.common.config.ConfigManager
+import com.vmloft.develop.library.data.common.CacheManager
 import com.vmloft.develop.library.image.IMGLoader
-import com.vmloft.develop.library.im.IM
 import com.vmloft.develop.library.im.R
 import com.vmloft.develop.library.im.chat.IMChatManager
 import com.vmloft.develop.library.im.databinding.ImItemConversationDelegateBinding
@@ -30,11 +31,11 @@ class IMItemConversationDelegate(listener: BItemListener<EMConversation>, longLi
         holder.binding.imConversationUnreadTV.text = IMChatManager.getConversationUnread(item).toString()
         holder.binding.imConversationUnreadTV.visibility = if (IMChatManager.getConversationUnread(item) > 0) View.VISIBLE else View.GONE
 
-        val user = IM.imListener.getUser(item.conversationId())
-        IMGLoader.loadAvatar(holder.binding.imConversationAvatarIV, user?.avatar ?: "")
+        val user = CacheManager.getUser(item.conversationId())
+        IMGLoader.loadAvatar(holder.binding.imConversationAvatarIV, user.avatar)
 
         // 身份
-        if (user?.identity in 100..199 && ConfigManager.clientConfig.vipEntry) {
+        if (user.role.identity in 100..199 && ConfigManager.clientConfig.tradeConfig.vipEntry) {
             holder.binding.imConversationTitleTV.setTextColor(VMColor.byRes(R.color.app_identity_vip))
             holder.binding.imConversationIdentityIV.visibility = View.VISIBLE
         } else {
@@ -42,7 +43,7 @@ class IMItemConversationDelegate(listener: BItemListener<EMConversation>, longLi
             holder.binding.imConversationIdentityIV.visibility = View.GONE
         }
 
-        holder.binding.imConversationTitleTV.text = user?.nickname ?: "小透明"
+        holder.binding.imConversationTitleTV.text = if (user.nickname.isEmpty()) "小透明" else user.nickname
         holder.binding.imConversationContentTV.text = IMChatManager.getSummary(item.lastMessage)
         holder.binding.imConversationTimeTV.text = FormatUtils.relativeTime(IMChatManager.getConversationTime(item))
 

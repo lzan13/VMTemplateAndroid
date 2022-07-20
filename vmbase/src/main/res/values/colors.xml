@@ -4,22 +4,23 @@
     <color name="app_primary">#ffffff</color>
     <color name="app_primary_dark">#ffffff</color>
     <!--强调色-->
-    <color name="app_accent">#ffff5151</color>
+    <color name="app_accent">#ffff5050</color>
     <!--主色-->
-    <color name="app_main">#ffff5151</color>
-    <color name="app_main_87">#ddff5151</color>
-    <color name="app_main_54">#89ff5151</color>
-    <color name="app_main_38">#61ff5151</color>
-    <color name="app_main_12">#1eff5151</color>
+    <color name="app_main">#ffff5050</color>
+    <color name="app_main_87">#ddff5050</color>
+    <color name="app_main_54">#89ff5050</color>
+    <color name="app_main_38">#61ff5050</color>
+    <color name="app_main_12">#1eff5050</color>
 
 
     <!--背景色-->
-    <color name="app_bg">#fffafbfc</color>
+    <color name="app_bg">#fff6f7f8</color>
     <color name="app_bg_display">#ff000000</color>
     <color name="app_bg_icon">@color/vm_white</color>
     <color name="app_bg_item">@color/vm_white</color>
-    <color name="app_bg_mask">@color/vm_black_38</color>
+    <color name="app_bg_mask">@color/vm_gray_black_38</color>
     <color name="app_bg_nav">#fffefefe</color>
+    <color name="app_bg_nav_dark">#000000</color>
     <color name="app_bg_tag">@color/vm_gray_12</color>
     <color name="app_bg_transparent_dark">@color/vm_gray_black_12</color>
     <color name="app_bg_transparent_light">@color/vm_gray_white_12</color>
@@ -85,7 +86,7 @@
 
 
     <!--指示器-->
-    <color name="app_indicator_normal">@color/vm_white_87</color>
+    <color name="app_indicator_normal">@color/app_main_12</color>
     <color name="app_indicator_select">@color/app_main</color>
 
 

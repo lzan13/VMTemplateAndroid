@@ -18,10 +18,6 @@ object ReportManager {
      * 预初始化
      */
     fun preInit(context: Context) {
-
-        CrashReport.setIsDevelopmentDevice(context, BuildConfig.DEBUG);
-        CrashReport.initCrashReport(context, "", BuildConfig.DEBUG)
-
         UMConfigure.preInit(context, "", "")
         // 设置友盟统计日志开关 默认为 false
         UMConfigure.setLogEnabled(BuildConfig.DEBUG)
@@ -37,6 +33,9 @@ object ReportManager {
     fun init(context: Context) {
         // 初始化
         UMConfigure.init(context, UMConfigure.DEVICE_TYPE_PHONE, null)
+
+        CrashReport.setIsDevelopmentDevice(context, BuildConfig.DEBUG);
+        CrashReport.initCrashReport(context)
     }
 
     /**

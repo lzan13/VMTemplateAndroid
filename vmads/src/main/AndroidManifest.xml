@@ -9,4 +9,10 @@
         tools:ignore="QueryAllPackagesPermission"
         tools:node="remove" />
 
+    <!--移除权限-->
+    <uses-permission
+        android:name="android.permission.REQUEST_INSTALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission"
+        tools:node="remove" />
+
 </manifest>

@@ -5,17 +5,18 @@ import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 
 import com.vmloft.develop.app.template.R
-import com.vmloft.develop.app.template.common.SignManager
+import com.vmloft.develop.app.template.common.Constants
 import com.vmloft.develop.app.template.databinding.ActivitySignGuideBinding
 import com.vmloft.develop.app.template.request.viewmodel.SignViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.base.BVMActivity
 import com.vmloft.develop.library.base.BViewModel
+import com.vmloft.develop.library.base.event.LDEventBus
 import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.base.utils.errorBar
+import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.library.tools.utils.VMStr
 import com.vmloft.develop.library.tools.utils.VMSystem
-import com.vmloft.develop.library.tools.utils.VMUtils
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -52,6 +53,10 @@ class SignGuideActivity : BVMActivity<ActivitySignGuideBinding, SignViewModel>()
         mBinding.signByPasswordBtn.setOnClickListener { CRouter.go(AppRouter.appSignIn) }
 
         mBinding.loadingView.visibility = View.INVISIBLE
+
+        LDEventBus.observe(this, Constants.Event.finishPrev, Int::class.java) {
+            finish()
+        }
     }
 
     override fun initData() {
@@ -60,6 +65,7 @@ class SignGuideActivity : BVMActivity<ActivitySignGuideBinding, SignViewModel>()
     }
 
     override fun onModelLoading(model: BViewModel.UIModel) {
+        mBinding.signByDevicesIdBtn.isEnabled = !model.isLoading
         mBinding.loadingView.visibility = if (model.isLoading) View.VISIBLE else View.GONE
     }
 
@@ -67,7 +73,7 @@ class SignGuideActivity : BVMActivity<ActivitySignGuideBinding, SignViewModel>()
         if (model.type == "signInByDevicesId" || model.type == "signUpByDevicesId") {
             // 这里直接调用下 IM 的登录，不影响页面的继续
             mViewModel.signInIM()
-
+        } else if (model.type == "signInIM") {
             CRouter.goMain()
             finish()
         }

@@ -9,32 +9,9 @@
     <!--聊天主题-->
     <style name="IMTheme.Chat"></style>
 
-    <style name="IMEdit.Message" parent="@style/VMEdit">
-        <item name="android:background">@drawable/im_shape_msg_input_bg</item>
-        <item name="android:minHeight">@dimen/vm_dimen_40</item>
-        <item name="android:maxLines">3</item>
-        <item name="android:paddingStart">@dimen/vm_dimen_16</item>
-        <item name="android:paddingEnd">@dimen/vm_dimen_16</item>
-        <item name="android:paddingTop">@dimen/vm_dimen_8</item>
-        <item name="android:paddingBottom">@dimen/vm_dimen_8</item>
-        <item name="android:textColor">@color/app_input</item>
-        <item name="android:textColorHint">@color/app_input_hint</item>
-        <item name="android:textSize">@dimen/vm_size_14</item>
-        <item name="android:textStyle">normal</item>
-    </style>
-
-    <style name="IMText.Title" parent="AppText.Subtitle">
-        <item name="android:textSize">@dimen/vm_size_16</item>
-        <item name="android:textColor">@color/app_title</item>
-    </style>
-
     <style name="IMText.Title.Shadow" parent="VMText.Title.Shadow">
         <item name="android:textSize">@dimen/vm_size_16</item>
         <item name="android:textColor">@color/app_title</item>
-    </style>
-
-    <style name="IMText.Subtitle" parent="AppText.Subtitle">
-        <item name="android:textSize">@dimen/vm_size_13</item>
     </style>
 
     <style name="IMText.From" parent="AppText.Tips">
@@ -48,21 +25,8 @@
     </style>
 
     <style name="IMText.Msg.System" parent="AppText.Body">
-        <item name="android:textSize">@dimen/vm_size_12</item>
+        <item name="android:textSize">@dimen/vm_size_10</item>
         <item name="android:textColor">@color/app_title</item>
     </style>
 
-    <style name="IMText.Tips" parent="AppText.Tips">
-        <item name="android:textSize">@dimen/vm_size_10</item>
-    </style>
-
-    <style name="IMText.Desc" parent="AppText.Body">
-        <item name="android:textSize">@dimen/vm_size_10</item>
-    </style>
-
-    <style name="IMText.Unread" parent="AppText.Tips">
-        <item name="android:textSize">@dimen/vm_size_10</item>
-        <item name="android:textColor">@color/app_unread</item>
-        <item name="android:background">@drawable/shape_unread_common_bg</item>
-    </style>
 </resources>

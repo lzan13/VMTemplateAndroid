@@ -7,14 +7,15 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.common.Constants
 import com.vmloft.develop.app.template.databinding.ActivityOrderDetailBinding
-import com.vmloft.develop.app.template.request.bean.Order
-import com.vmloft.develop.app.template.request.viewmodel.TradeViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.base.BVMActivity
 import com.vmloft.develop.library.base.BViewModel
 import com.vmloft.develop.library.base.event.LDEventBus
 import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.base.utils.FormatUtils
+import com.vmloft.develop.library.base.utils.showBar
+import com.vmloft.develop.library.data.bean.Order
+import com.vmloft.develop.library.data.viewmodel.TradeViewModel
 import com.vmloft.develop.library.tools.utils.VMStr
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -59,10 +60,10 @@ class OrderDetailActivity : BVMActivity<ActivityOrderDetailBinding, TradeViewMod
      */
     private fun bindInfo() {
         mBinding.orderTitleTV.text = order.title
-        mBinding.orderPriceTV.text = order.realPrice
+        mBinding.orderPriceTV.text = (order.realPrice / 100f).toString()
         mBinding.orderIdTV.text = VMStr.byResArgs(R.string.order_id, order.id)
         mBinding.orderCreateTimeTV.text = VMStr.byResArgs(R.string.order_create_time, FormatUtils.defaultTime(order.createdAt))
-        mBinding.orderUpdateTimeTV.text = VMStr.byResArgs(R.string.order_update_time,  FormatUtils.defaultTime(order.updatedAt))
+        mBinding.orderUpdateTimeTV.text = VMStr.byResArgs(R.string.order_update_time, FormatUtils.defaultTime(order.updatedAt))
 
         mBinding.submitTV.isEnabled = order.status == 0
         when (order.status) {
@@ -77,6 +78,7 @@ class OrderDetailActivity : BVMActivity<ActivityOrderDetailBinding, TradeViewMod
         if (model.type == "orderPay") {
             // 支付成功 重新查询下订单信息
             mViewModel.orderInfo(order.id)
+            showBar(R.string.order_pay_complete)
         }
         if (model.type == "orderInfo") {
             order = model.data as Order
@@ -84,6 +86,4 @@ class OrderDetailActivity : BVMActivity<ActivityOrderDetailBinding, TradeViewMod
             LDEventBus.post(Constants.Event.orderStatus, order)
         }
     }
-
-
 }

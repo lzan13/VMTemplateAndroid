@@ -14,9 +14,9 @@ import com.vmloft.develop.library.base.widget.CommonDialog
  * 描述：设置
  */
 @Route(path = AppRouter.appSettings)
-class SettingsActivity: BActivity<ActivitySettingsBinding>() {
+class SettingsActivity : BActivity<ActivitySettingsBinding>() {
 
-    override fun initVB()=ActivitySettingsBinding.inflate(layoutInflater)
+    override fun initVB() = ActivitySettingsBinding.inflate(layoutInflater)
 
     override fun initUI() {
         super.initUI()

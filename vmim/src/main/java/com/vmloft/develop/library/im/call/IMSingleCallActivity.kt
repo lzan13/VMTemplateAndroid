@@ -8,14 +8,15 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 
 import com.hyphenate.chat.EMMessage
+
 import com.vmloft.develop.library.base.BActivity
 import com.vmloft.develop.library.base.event.LDEventBus
 import com.vmloft.develop.library.base.utils.showBar
-
+import com.vmloft.develop.library.data.bean.User
+import com.vmloft.develop.library.data.common.CacheManager
 import com.vmloft.develop.library.image.IMGLoader
 import com.vmloft.develop.library.im.IM
 import com.vmloft.develop.library.im.R
-import com.vmloft.develop.library.im.bean.IMUser
 import com.vmloft.develop.library.im.common.IMConstants
 import com.vmloft.develop.library.im.databinding.ImActivitySingleCallBinding
 import com.vmloft.develop.library.im.router.IMRouter
@@ -47,7 +48,7 @@ class IMSingleCallActivity: BActivity<ImActivitySingleCallBinding>() {
     lateinit var channel: String // 频道名
 
     // 通话对方用户信息
-    lateinit var user: IMUser
+    lateinit var user: User
 
     override fun initVB() = ImActivitySingleCallBinding.inflate(layoutInflater)
 
@@ -131,7 +132,7 @@ class IMSingleCallActivity: BActivity<ImActivitySingleCallBinding>() {
     override fun initData() {
         ARouter.getInstance().inject(this)
 
-        user = IM.imListener.getUser(callId) ?: IMUser(callId)
+        user = CacheManager.getUser(callId)
 
         // TODO 开发测试阶段，token 为空，或者设置临时 token
         token = ""

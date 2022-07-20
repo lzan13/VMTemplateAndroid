@@ -11,8 +11,7 @@ import com.vmloft.develop.library.tools.utils.logger.VMLog
 
 /**
  * Create by lzan13 on 2019/5/9 10:58
- *
- * IM 链接监听管理类
+ * 描述：IM 链接监听管理类
  */
 object IMConnectionManager {
 

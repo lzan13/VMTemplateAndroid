@@ -12,11 +12,12 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class IMUser(
     var id: String, // 账户 id
-    var username: String = "", // 账户用户名
-    var nickname: String = "", // 账户昵称
-    var avatar: String = "", // 账户头像
+    var username: String = "", // 用户名
+    var nickname: String = "", // 昵称
+    var avatar: String = "", // 头像
     var gender: Int = 2, // 性别
     var identity: Int = 9, // 用户 身份
+    var signature: String = "", // 签名
 ) : Parcelable {
     override fun equals(other: Any?): Boolean {
         (other as? IMUser)?.let {

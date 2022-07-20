@@ -48,7 +48,7 @@ android {
 
 dependencies {
     // 引用 Room 数据库操作库
-//    api "androidx.room:room-runtime:2.2.5"
+//    implementation "androidx.room:room-runtime:2.2.5"
     // WCDB 数据库 https://github.com/Tencent/wcdb
     api "com.tencent.wcdb:wcdb-android:1.0.8"
     // WCDB room 代替上边 room-runtime https://github.com/Tencent/wcdb

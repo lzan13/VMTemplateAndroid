@@ -3,17 +3,11 @@ package com.vmloft.develop.app.template.ui.trade
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 
-import com.drakeet.multitype.MultiTypeAdapter
-
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.common.Constants
-import com.vmloft.develop.app.template.common.SignManager
 import com.vmloft.develop.app.template.databinding.ActivityGoldBinding
-import com.vmloft.develop.app.template.request.bean.Commodity
-import com.vmloft.develop.app.template.request.bean.Order
-import com.vmloft.develop.app.template.request.bean.User
 import com.vmloft.develop.app.template.router.AppRouter
-import com.vmloft.develop.app.template.request.viewmodel.UserViewModel
+import com.vmloft.develop.library.ads.ADSConstants
 import com.vmloft.develop.library.base.BVMActivity
 import com.vmloft.develop.library.base.BViewModel
 import com.vmloft.develop.library.base.common.CConstants
@@ -21,6 +15,10 @@ import com.vmloft.develop.library.base.event.LDEventBus
 import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.base.utils.FormatUtils
 import com.vmloft.develop.library.common.config.ConfigManager
+import com.vmloft.develop.library.data.common.SignManager
+import com.vmloft.develop.library.data.bean.User
+import com.vmloft.develop.library.data.common.DConstants
+import com.vmloft.develop.library.data.viewmodel.UserViewModel
 import com.vmloft.develop.library.tools.utils.VMDate
 import com.vmloft.develop.library.tools.utils.VMStr
 
@@ -44,36 +42,54 @@ class GoldActivity : BVMActivity<ActivityGoldBinding, UserViewModel>() {
         setTopTitle(R.string.gold_title)
         setTopEndBtnListener(VMStr.byRes(R.string.gold_desc)) { CRouter.go(AppRouter.appGoldDesc) }
 
-        mBinding.goldVipCL.setOnClickListener { CRouter.go(AppRouter.appGoldVIP) }
+        mBinding.goldVipCL.setOnClickListener { CRouter.go(AppRouter.appVipTrade) }
         mBinding.clockTV.setOnClickListener { clock() }
 
-        mBinding.moreVideoTaskLV.setOnClickListener { CRouter.go(AppRouter.appGoldTask) }
-        mBinding.morePerfectInfoLV.setOnClickListener { }
         mBinding.moreRechargeLV.setOnClickListener { CRouter.go(AppRouter.appGoldRecharge) }
+        mBinding.moreVideoTaskLV.setOnClickListener { CRouter.go(AppRouter.appRewardVideo, str0 = ADSConstants.ADSIds.videoSceneScoreId) }
+        mBinding.morePerfectInfoLV.setOnClickListener { }
 
         // 监听用户信息变化
-        LDEventBus.observe(this, Constants.Event.userInfo, User::class.java, {
+        LDEventBus.observe(this, DConstants.Event.userInfo, User::class.java) {
             user = it
             bindInfo()
-        })
+        }
 
-        // 金币任务完成，更新下用户信息
-        LDEventBus.observe(this, Constants.Event.goldTaskReward, Int::class.java) {
-            user.score += 50
-            mViewModel.userInfo()
+        // 视频奖励完成，更新下用户信息
+        LDEventBus.observe(this, Constants.Event.videoReward, String::class.java) {
+            val params = mutableMapOf<String, String>()
+            params["userId"] = user.id
+            params["rewardAmount"] = "1"
+            params["rewardName"] = "score"
+            params["time"] = VMDate.currentMilli().toString()
+
+            val signStr = "userId=${params["userId"]}&rewardAmount=${params["rewardAmount"]}&rewardName=${params["rewardName"]}&time=${params["time"]}&secKey=${ADSConstants.secKey()}"
+            val sign = VMStr.toMD5(signStr)
+            params["sign"] = sign
+
+            mViewModel.videoReward(params)
         }
     }
 
     override fun initData() {
-        user = SignManager.getCurrUser() ?: User()
+        user = SignManager.getCurrUser()
 
         bindInfo()
 
         mViewModel.userInfo()
     }
 
+    override fun onModelLoading(model: BViewModel.UIModel) {
+        if (model.type == "clock") {
+            mBinding.clockTV.isEnabled = !model.isLoading
+            mBinding.clockLoadingView.visibility = if (model.isLoading) View.VISIBLE else View.GONE
+        }
+    }
+
     override fun onModelRefresh(model: BViewModel.UIModel) {
         if (model.type == "clock") {
+            mViewModel.userInfo()
+        } else if (model.type == "videoReward") {
             mViewModel.userInfo()
         } else if (model.type == "userInfo") {
             SignManager.setCurrUser(model.data as User)
@@ -125,11 +141,15 @@ class GoldActivity : BVMActivity<ActivityGoldBinding, UserViewModel>() {
         mBinding.roleTV.text = if (user.role.identity in 100..199) VMStr.byRes(R.string.gold_role_vip) else VMStr.byRes(R.string.gold_role)
         mBinding.roleTipsTV.text = if (user.role.identity in 100..199) VMStr.byRes(R.string.gold_role_vip_date) + FormatUtils.defaultTime(user.roleDate) else VMStr.byRes(R.string.gold_role_hint)
 
-        if (ConfigManager.clientConfig.adsEntry.goldEntry) {
+        // 激励视频广告入口显示
+        if (ConfigManager.clientConfig.adsConfig.goldEntry) {
             mBinding.moreVideoTaskLV.visibility = View.VISIBLE
         } else {
             mBinding.moreVideoTaskLV.visibility = View.GONE
         }
+
+        // VIP 入口显示
+        mBinding.goldVipCL.visibility = if (ConfigManager.clientConfig.tradeConfig.vipEntry) View.VISIBLE else View.GONE
     }
 
     /**

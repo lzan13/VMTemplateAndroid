@@ -42,21 +42,12 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11
     }
-
-    kapt {
-        arguments {
-            // 阿里巴巴 ARouter Kotlin 下的配置
-            arg("AROUTER_MODULE_NAME", project.getName())
-        }
-    }
 }
 
 dependencies {
-    // ARouter 编译器，TODO 当代码中有一些自己没看到的错误的时候，ARouter 会拦截错误信息，看不到错误位置，把这行注释掉，重新编译
-    kapt 'com.alibaba:arouter-compiler:1.5.2'
 
     // 二维码扫描库 https://github.com/bingoogolapple/BGAQRCode-Android
-    api 'com.github.bingoogolapple.BGAQRCode-Android:zxing:1.3.8'
+    implementation 'com.github.bingoogolapple.BGAQRCode-Android:zxing:1.3.8'
 
     // 依赖 base 库
     implementation project(':vmbase')
@@ -65,3 +56,5 @@ dependencies {
     // 依赖 image 库
     implementation project(':vmimage')
 }
+
+apply from: "${rootDir.absolutePath}/arouter.gradle"

@@ -6,31 +6,30 @@ package com.vmloft.develop.app.template.common
  */
 object Constants {
 
-    const val dbName = "wcdb_vmnepenthe"
-    const val dbPass = "wcdb_vmnepenthe_lzan13"
-
     // App 层事件总线 Key
     object Event {
-        const val userInfo = "appUserInfo" // 用户信息改变事件
-        const val matchInfo = "appMatchInfo" // 匹配信息改变事件
-        const val createPost = "appCreatePost" // 创建帖子
-        const val createComment = "appCreateComment" // 创建评论
-        const val shieldPost = "appShieldPost" // 屏蔽帖子
-        const val orderStatus = "appOrderStatus" // 订单状态更新
-        const val goldTaskReward = "appGoldTaskReward" // 金币任务奖励
+        const val finishPrev = "finishPrev" // 结束上一个界面
+        const val createPost = "createPost" // 创建帖子
+        const val createComment = "createComment" // 创建评论
+        const val shieldPost = "shieldPost" // 屏蔽帖子
+        const val orderStatus = "orderStatus" // 订单状态更新
+        const val videoReward = "videoReward" // 金币任务奖励
     }
 
     /**
      * 反馈类型
      */
     object FeedbackType {
-        const val opinion = 0
-        const val ads = 1
-        const val sensitivity = 2
-        const val pornVulgar = 3
-        const val violence = 4
-        const val uncivilized = 5
-        const val fraud = 6
-        const val other = 7
+        const val opinion = 0  // 意见建议
+        const val ads = 1  // 广告引流
+        const val sensitivity = 2  // 政治敏感
+        const val illegal = 3  // 违法违规
+        const val pornVulgar = 4  // 色情低俗
+        const val violence = 5  // 血腥暴力
+        const val guide = 6  // 诱导信息
+        const val uncivilized = 7  // 谩骂攻击
+        const val fraud = 8  // 涉嫌诈骗
+        const val uncomfortable = 9  // 引人不适
+        const val other = 10 // 其它
     }
 }

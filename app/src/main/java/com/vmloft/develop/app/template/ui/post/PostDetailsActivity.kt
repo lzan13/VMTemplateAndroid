@@ -13,12 +13,12 @@ import com.drakeet.multitype.MultiTypeAdapter
 
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.common.Constants
-import com.vmloft.develop.app.template.common.SignManager
+import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.app.template.databinding.ActivityPostDetailsBinding
-import com.vmloft.develop.app.template.request.bean.Comment
-import com.vmloft.develop.app.template.request.bean.Post
-import com.vmloft.develop.app.template.request.bean.User
-import com.vmloft.develop.app.template.request.viewmodel.PostViewModel
+import com.vmloft.develop.library.data.bean.Comment
+import com.vmloft.develop.library.data.bean.Post
+import com.vmloft.develop.library.data.bean.User
+import com.vmloft.develop.library.data.viewmodel.PostViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.app.template.ui.widget.ContentDislikeDialog
 import com.vmloft.develop.library.base.BItemDelegate
@@ -71,7 +71,13 @@ class PostDetailsActivity : BVMActivity<ActivityPostDetailsBinding, PostViewMode
 
         setTopTitle(R.string.post_detail_title)
 
-        mBinding.commentIV.setOnClickListener { CRouter.go(AppRouter.appPostComment, str0 = post.id) }
+        mBinding.commentIV.setOnClickListener {
+            if (user.avatar.isNullOrEmpty() || user.nickname.isNullOrEmpty()) {
+                CRouter.go(AppRouter.appPersonalInfoGuide)
+            } else {
+                CRouter.go(AppRouter.appPostComment, str0 = post.id)
+            }
+        }
 
         initRecyclerView()
 
@@ -85,7 +91,7 @@ class PostDetailsActivity : BVMActivity<ActivityPostDetailsBinding, PostViewMode
     override fun initData() {
         ARouter.getInstance().inject(this)
 
-        user = SignManager.getCurrUser() ?: User()
+        user = SignManager.getCurrUser()
 
         mItems.add(post)
         mAdapter.notifyDataSetChanged()
@@ -187,10 +193,10 @@ class PostDetailsActivity : BVMActivity<ActivityPostDetailsBinding, PostViewMode
             val likeIV = mBinding.recyclerView.getChildAt(0).findViewById<View>(R.id.likeIV)
             val reportTV = mBinding.recyclerView.getChildAt(0).findViewById<View>(R.id.reportTV)
             val guideView = mBinding.recyclerView.getChildAt(0).findViewById<View>(R.id.itemGuideView)
-            list.add(GuideItem(likeIV, VMStr.byRes(R.string.guide_post_like), shape = VMShape.guideShapeCircle, offX = VMDimen.dp2px(108), offY = VMDimen.dp2px(8)))
-            list.add(GuideItem(reportTV, VMStr.byRes(R.string.guide_post_report), shape = VMShape.guideShapeCircle, offX = VMDimen.dp2px(36)))
+            list.add(GuideItem(likeIV, VMStr.byRes(R.string.guide_post_like), shape = VMShape.guideShapeCircle, offX = VMDimen.dp2px(128), offY = VMDimen.dp2px(8)))
+            list.add(GuideItem(reportTV, VMStr.byRes(R.string.guide_post_report), shape = VMShape.guideShapeCircle, offX = VMDimen.dp2px(32)))
             list.add(GuideItem(guideView, VMStr.byRes(R.string.guide_post_long_report), shape = VMShape.guideShapeCircle, offY = VMDimen.dp2px(8)))
-            list.add(GuideItem(mBinding.commentIV, VMStr.byRes(R.string.guide_post_comment), shape = VMShape.guideShapeCircle, offX = VMDimen.dp2px(96), offY = VMDimen.dp2px(8)))
+            list.add(GuideItem(mBinding.commentIV, VMStr.byRes(R.string.guide_post_comment), shape = VMShape.guideShapeCircle, offX = VMDimen.dp2px(96), offY = VMDimen.dp2px(16)))
             VMGuide.Builder(this).setOneByOne(true).setGuideViews(list).setGuideListener(object : VMGuideView.GuideListener {
                 override fun onFinish() {
                     CSPManager.setNeedGuide(this@PostDetailsActivity::class.java.simpleName, false)

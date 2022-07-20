@@ -7,10 +7,10 @@ import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 
 import com.vmloft.develop.app.template.R
-import com.vmloft.develop.app.template.common.SignManager
+import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.app.template.databinding.ActivityBindEmailBinding
-import com.vmloft.develop.app.template.request.bean.User
-import com.vmloft.develop.app.template.request.viewmodel.UserViewModel
+import com.vmloft.develop.library.data.bean.User
+import com.vmloft.develop.library.data.viewmodel.UserViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.base.BVMActivity
 import com.vmloft.develop.library.base.BViewModel

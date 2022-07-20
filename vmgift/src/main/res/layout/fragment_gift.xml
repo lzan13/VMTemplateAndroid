@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    tools:context=".GiftFragment">
+
+    <!--展示礼物-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/vm_dimen_0"
+        android:layout_marginBottom="@dimen/vm_dimen_4"
+        android:overScrollMode="never"
+        android:paddingStart="@dimen/vm_dimen_8"
+        android:paddingEnd="@dimen/vm_dimen_8"
+        app:layout_constraintBottom_toTopOf="@id/goRechargeTV"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include layout="@layout/widget_common_empty_status_view" />
+
+    <!--总资产-->
+    <ImageView
+        android:id="@+id/scoreIV"
+        android:layout_width="@dimen/vm_dimen_12"
+        android:layout_height="@dimen/vm_dimen_12"
+        android:layout_marginStart="@dimen/vm_dimen_16"
+        android:src="@drawable/ic_gold"
+        app:layout_constraintBottom_toBottomOf="@+id/giveTV"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/giveTV" />
+
+    <TextView
+        android:id="@+id/scoreTV"
+        style="@style/AppText.Tips"
+        android:layout_marginStart="@dimen/vm_dimen_4"
+        android:textSize="@dimen/vm_size_10"
+        app:layout_constraintBottom_toBottomOf="@+id/giveTV"
+        app:layout_constraintStart_toEndOf="@+id/scoreIV"
+        app:layout_constraintTop_toTopOf="@+id/giveTV"
+        tools:text="999999" />
+    <!--去充值-->
+    <TextView
+        android:id="@+id/goRechargeTV"
+        style="@style/AppText.Tips"
+        android:padding="@dimen/vm_dimen_12"
+        android:text="@string/gift_recharge"
+        android:textColor="@color/app_link"
+        android:textSize="@dimen/vm_size_14"
+        app:layout_constraintBottom_toBottomOf="@+id/giveTV"
+        app:layout_constraintStart_toEndOf="@+id/scoreTV"
+        app:layout_constraintTop_toTopOf="@+id/giveTV" />
+    <!--赠送-->
+    <TextView
+        android:id="@+id/giveTV"
+        style="@style/AppBtn.Confirm"
+        android:layout_margin="@dimen/vm_dimen_4"
+        android:enabled="false"
+        android:text="@string/gift_give"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+<!--    <com.vmloft.develop.library.tools.widget.loading.VMLoadingView-->
+<!--        android:id="@+id/loadingView"-->
+<!--        android:layout_width="@dimen/vm_dimen_36"-->
+<!--        android:layout_height="@dimen/vm_dimen_36"-->
+<!--        android:padding="@dimen/vm_dimen_8"-->
+<!--        android:visibility="gone"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/giveTV"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/giveTV"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/giveTV"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/giveTV"-->
+<!--        app:vm_loading_color="@color/app_main"-->
+<!--        app:vm_loading_type="DoubleCircle"-->
+<!--        tools:visibility="visible" />-->
+
+    <include layout="@layout/widget_common_loading" />
+</androidx.constraintlayout.widget.ConstraintLayout>

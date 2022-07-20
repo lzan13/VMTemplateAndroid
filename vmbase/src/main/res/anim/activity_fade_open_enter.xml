@@ -5,8 +5,8 @@
         android:duration="@integer/app_activity_enter_time"
         android:fromAlpha="0.0"
         android:toAlpha="1.0" />
-    <translate
-        android:duration="@integer/app_activity_enter_time"
-        android:fromYDelta="80%p"
-        android:toYDelta="0%p" />
+<!--    <translate-->
+<!--        android:duration="@integer/app_activity_enter_time"-->
+<!--        android:fromYDelta="80%p"-->
+<!--        android:toYDelta="0%p" />-->
 </set>

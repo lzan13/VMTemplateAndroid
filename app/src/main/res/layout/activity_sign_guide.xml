@@ -49,8 +49,9 @@
         android:padding="@dimen/vm_dimen_8"
         app:layout_constraintBottom_toBottomOf="@+id/signByDevicesIdBtn"
         app:layout_constraintEnd_toEndOf="@+id/signByDevicesIdBtn"
+        app:layout_constraintStart_toStartOf="@+id/signByDevicesIdBtn"
         app:layout_constraintTop_toTopOf="@+id/signByDevicesIdBtn"
-        app:vm_loading_color="@color/app_loading_light"
+        app:vm_loading_color="@color/app_main"
         app:vm_loading_type="DoubleCircle" />
 
     <CheckBox

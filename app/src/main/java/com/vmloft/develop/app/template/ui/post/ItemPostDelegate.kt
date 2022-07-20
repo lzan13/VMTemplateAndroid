@@ -7,8 +7,8 @@ import android.widget.ImageView
 
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.databinding.ItemPostDelegateBinding
-import com.vmloft.develop.app.template.request.bean.Attachment
-import com.vmloft.develop.app.template.request.bean.Post
+import com.vmloft.develop.library.data.bean.Attachment
+import com.vmloft.develop.library.data.bean.Post
 import com.vmloft.develop.library.base.BItemDelegate
 import com.vmloft.develop.library.base.utils.FormatUtils
 import com.vmloft.develop.library.common.config.ConfigManager
@@ -42,7 +42,7 @@ class ItemPostDelegate(listener: PostItemListener, longListener: BItemLongListen
         val nickname = if (item.owner.nickname.isNullOrEmpty()) VMStr.byRes(R.string.info_nickname_default) else item.owner.nickname
         holder.binding.itemNameTV.text = nickname
 
-        if (ConfigManager.clientConfig.vipEntry && item.owner.role.identity in 100..199) {
+        if (ConfigManager.clientConfig.tradeConfig.vipEntry && item.owner.role.identity in 100..199) {
             holder.binding.itemNameTV.setTextColor(VMColor.byRes(R.color.app_identity_vip))
         }else{
             holder.binding.itemNameTV.setTextColor(VMColor.byRes(R.color.app_tips))

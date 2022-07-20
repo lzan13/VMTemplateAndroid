@@ -14,8 +14,6 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.databinding.ActivityUserInfoBinding
 import com.vmloft.develop.app.template.im.IMManager
-import com.vmloft.develop.app.template.request.bean.User
-import com.vmloft.develop.app.template.request.viewmodel.UserViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.app.template.ui.post.PostFallsFragment
 import com.vmloft.develop.app.template.ui.post.PostLikesFragment
@@ -24,9 +22,12 @@ import com.vmloft.develop.library.base.BVMActivity
 import com.vmloft.develop.library.base.BViewModel
 import com.vmloft.develop.library.base.common.CSPManager
 import com.vmloft.develop.library.base.router.CRouter
-import com.vmloft.develop.library.base.utils.showBar
 import com.vmloft.develop.library.base.widget.CommonDialog
 import com.vmloft.develop.library.common.config.ConfigManager
+import com.vmloft.develop.library.data.bean.User
+import com.vmloft.develop.library.data.common.SignManager
+import com.vmloft.develop.library.data.viewmodel.UserViewModel
+import com.vmloft.develop.library.gift.GiftRouter
 import com.vmloft.develop.library.image.IMGLoader
 import com.vmloft.develop.library.tools.utils.VMColor
 import com.vmloft.develop.library.tools.utils.VMDimen
@@ -35,6 +36,7 @@ import com.vmloft.develop.library.tools.widget.guide.GuideItem
 import com.vmloft.develop.library.tools.widget.guide.VMGuide
 import com.vmloft.develop.library.tools.widget.guide.VMGuideView
 import com.vmloft.develop.library.tools.widget.guide.VMShape
+
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 
@@ -49,6 +51,8 @@ class UserInfoActivity : BVMActivity<ActivityUserInfoBinding, UserViewModel>() {
 
     @Autowired(name = CRouter.paramsObj0)
     lateinit var user: User
+
+    lateinit var selfUser: User
 
     private val fragmentList = arrayListOf<Fragment>()
     private lateinit var publishFragment: PostFallsFragment
@@ -73,13 +77,23 @@ class UserInfoActivity : BVMActivity<ActivityUserInfoBinding, UserViewModel>() {
         mBinding.infoFollowLL.setOnClickListener { }
         mBinding.infoLikeLL.setOnClickListener { }
 
+        mBinding.infoGiftIV.setOnClickListener { CRouter.go(GiftRouter.giftMine, str0 = user.id) }
+
         mBinding.infoFollowMeTV.setOnClickListener { follow() }
-        mBinding.infoSendIV.setOnClickListener { IMManager.goChat(user.id) }
+        mBinding.infoSendIV.setOnClickListener {
+            if (selfUser.avatar.isNullOrEmpty() || selfUser.nickname.isNullOrEmpty()) {
+                CRouter.go(AppRouter.appPersonalInfoGuide)
+            } else {
+                IMManager.goChat(user.id)
+            }
+        }
 
     }
 
     override fun initData() {
         ARouter.getInstance().inject(this)
+
+        selfUser = SignManager.getCurrUser()
 
         mViewModel.userInfo(user.id)
 
@@ -166,7 +180,7 @@ class UserInfoActivity : BVMActivity<ActivityUserInfoBinding, UserViewModel>() {
 
         IMGLoader.loadAvatar(mBinding.infoAvatarIV, user.avatar)
         // 身份
-        if (ConfigManager.clientConfig.vipEntry && user.role.identity in 100..199) {
+        if (ConfigManager.clientConfig.tradeConfig.vipEntry && user.role.identity in 100..199) {
             mBinding.infoNameTV.setTextColor(VMColor.byRes(R.color.app_identity_vip))
             mBinding.infoIdentityIV.visibility = View.VISIBLE
         } else {

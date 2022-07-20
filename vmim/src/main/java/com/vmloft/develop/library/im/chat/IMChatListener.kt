@@ -6,11 +6,11 @@ import com.hyphenate.EMMessageListener
 import com.hyphenate.chat.EMCmdMessageBody
 import com.hyphenate.chat.EMConversation
 import com.hyphenate.chat.EMMessage
-import com.vmloft.develop.library.base.common.CConstants
 
+import com.vmloft.develop.library.base.common.CConstants
 import com.vmloft.develop.library.base.event.LDEventBus
 import com.vmloft.develop.library.base.notify.NotifyManager
-import com.vmloft.develop.library.im.IM
+import com.vmloft.develop.library.data.common.CacheManager
 import com.vmloft.develop.library.im.call.IMCallManager
 import com.vmloft.develop.library.im.common.IMConstants
 import com.vmloft.develop.library.im.fast.IMChatFastManager
@@ -19,7 +19,6 @@ import com.vmloft.develop.library.tools.utils.logger.VMLog
 
 /**
  * Created by lzan13 on 2021/05/21.
- *
  * 描述：消息监听实现类
  */
 class IMChatListener : EMMessageListener {
@@ -38,10 +37,11 @@ class IMChatListener : EMMessageListener {
             val conversation: EMConversation = IMChatManager.getConversation(msg.conversationId(), msg.chatType.ordinal)
             IMChatManager.setConversationTime(conversation, msg.localTime())
             // 先获取联系人信息再通知消息刷新
-            if (IM.imListener.getUser(msg.conversationId()) != null) {
+            val user = CacheManager.getUser(msg.conversationId())
+            if (user.id.isEmpty()) {
                 onNotifyMessage(msg)
             } else {
-                IM.imListener.getUser(msg.conversationId()) {
+                CacheManager.getUser(msg.conversationId()) {
                     onNotifyMessage(msg)
                 }
             }
@@ -58,9 +58,9 @@ class IMChatListener : EMMessageListener {
         // 通知有新消息来了，新消息通知肯定要发送，不在当前聊天界面还要发送通知栏提醒
         LDEventBus.post(IMConstants.Common.newMsgEvent, msg)
         if (!IMChatManager.isCurrChat(msg.conversationId())) {
-            val user = IM.imListener.getUser(msg.conversationId())
+            val user = CacheManager.getUser(msg.conversationId())
             val content = IMChatManager.getSummary(msg)
-            val title = user?.nickname ?: user?.username ?: ""
+            val title = user.nickname
             val bundle = Bundle()
             bundle.putString("bname", "im")
             bundle.putString("chatId", msg.conversationId())
@@ -80,10 +80,11 @@ class IMChatListener : EMMessageListener {
 
         for (msg in list) {
             // 先获取联系人信息再通知消息刷新
-            if (IM.imListener.getUser(msg.from) != null) {
+            val user = CacheManager.getUser(msg.conversationId())
+            if (user.id.isEmpty()) {
                 onNotifyCMDMessage(msg)
             } else {
-                IM.imListener.getUser(msg.from) {
+                CacheManager.getUser(msg.from) {
                     onNotifyCMDMessage(msg)
                 }
             }

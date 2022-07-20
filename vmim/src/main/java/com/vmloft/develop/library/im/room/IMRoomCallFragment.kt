@@ -21,10 +21,12 @@ import com.vmloft.develop.library.base.utils.showBar
 import com.vmloft.develop.library.image.IMGLoader
 import com.vmloft.develop.library.base.widget.CommonDialog
 import com.vmloft.develop.library.common.utils.JsonUtils
+import com.vmloft.develop.library.data.bean.Room
+import com.vmloft.develop.library.data.bean.User
+import com.vmloft.develop.library.data.common.CacheManager
+import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.library.im.IM
 import com.vmloft.develop.library.im.R
-import com.vmloft.develop.library.im.bean.IMRoom
-import com.vmloft.develop.library.im.bean.IMUser
 import com.vmloft.develop.library.im.chat.IMChatManager
 import com.vmloft.develop.library.im.common.IMConstants
 import com.vmloft.develop.library.im.databinding.ImFragmentRoomCallBinding
@@ -59,12 +61,12 @@ class IMRoomCallFragment : BFragment<ImFragmentRoomCallBinding>() {
     lateinit var selfId: String
 
     // 房间信息
-    lateinit var mRoom: IMRoom
+    lateinit var mRoom: Room
 
     var roomListener: EMChatRoomChangeListener? = null
 
     // 当前上麦用户信息
-    var currMicUser: IMUser? = null
+    var currMicUser: User? = null
 
     // 列表适配器
     private val mAdapter by lazy(LazyThreadSafetyMode.NONE) { MultiTypeAdapter() }
@@ -135,7 +137,7 @@ class IMRoomCallFragment : BFragment<ImFragmentRoomCallBinding>() {
         token = ""
         channel = chatId
 
-        mRoom = IM.imListener.getRoom(chatId)
+        mRoom = CacheManager.getRoom(chatId)
         // 判断下当前用户是不是 Owner
         selfId = IM.getSelfId()
         isOwner = selfId == mRoom.owner.id
@@ -151,15 +153,15 @@ class IMRoomCallFragment : BFragment<ImFragmentRoomCallBinding>() {
      * 初始化申请列表
      */
     private fun initRecyclerView() {
-        mAdapter.register(ItemRoomApplyUserDelegate(object : BItemDelegate.BItemListener<IMUser> {
-            override fun onClick(v: View, data: IMUser, position: Int) {
+        mAdapter.register(ItemRoomApplyUserDelegate(object : BItemDelegate.BItemListener<User> {
+            override fun onClick(v: View, data: User, position: Int) {
                 // 同意上麦申请
                 agreeApply(data, position)
             }
         }))
 
         mAdapter.items = mItems
-        mAdapter.notifyDataSetChanged()
+
         layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
         mBinding.imRoomApplyRecyclerView.layoutManager = layoutManager
@@ -171,7 +173,7 @@ class IMRoomCallFragment : BFragment<ImFragmentRoomCallBinding>() {
      */
     private fun bindOwner() {
         IMGLoader.loadAvatar(mBinding.imRoomOwnerAvatarIV, mRoom.owner.avatar)
-        mBinding.imRoomOwnerNameTV.text = mRoom.owner.nickname ?: "小透明"
+        mBinding.imRoomOwnerNameTV.text = mRoom.owner.nickname
         mBinding.imRoomCountTV.text = mRoom.count.toString()
 
         when (mRoom.owner.gender) {
@@ -194,7 +196,7 @@ class IMRoomCallFragment : BFragment<ImFragmentRoomCallBinding>() {
     /**
      * 同意上麦申请
      */
-    private fun agreeApply(data: IMUser, position: Int) {
+    private fun agreeApply(data: User, position: Int) {
         if (currMicUser != null) {
             errorBar(R.string.im_room_mic_not_null)
             return
@@ -220,7 +222,7 @@ class IMRoomCallFragment : BFragment<ImFragmentRoomCallBinding>() {
         } else if (status == IMConstants.Call.roomApplyMicStatusUp) {
             // 房主同意之后，自己要发布上麦命令，把自己的信息发给其他用户
             if (!isOwner) {
-                currMicUser = IM.imListener.getUser(selfId)
+                currMicUser = SignManager.getCurrUser()
             }
             val info = JsonUtils.toJson(currMicUser)
             msg.setAttribute(IMConstants.Call.msgAttrApplyMicInfo, info)
@@ -248,7 +250,7 @@ class IMRoomCallFragment : BFragment<ImFragmentRoomCallBinding>() {
 
         if (status == IMConstants.Call.roomApplyMicStatusApply && isOwner) {
             // 收到用户上麦申请
-            val user = IM.imListener.getUser(msg.from)!!
+            val user = CacheManager.getUser(msg.from)
             if (!mItems.contains(user)) {
                 mItems.add(user)
                 mAdapter.notifyItemInserted(mItems.size - 1)
@@ -262,7 +264,7 @@ class IMRoomCallFragment : BFragment<ImFragmentRoomCallBinding>() {
         } else if (status == IMConstants.Call.roomApplyMicStatusUp) {
             // 收到用户上麦信息，保存下上麦用户的信息，并刷新 UI
             val info = msg.getStringAttribute(IMConstants.Call.msgAttrApplyMicInfo, "")
-            currMicUser = JsonUtils.fromJson(info, IMUser::class.java)
+            currMicUser = JsonUtils.fromJson(info, User::class.java)
             bindGuest()
         } else if (status == IMConstants.Call.roomApplyMicStatusDown) {
             // 收到用户下麦信息，清空当前上麦者信息

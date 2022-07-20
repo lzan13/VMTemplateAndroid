@@ -67,7 +67,7 @@
 
     <TextView
         android:id="@+id/imRoomDescTV"
-        style="@style/IMText.Desc"
+        style="@style/AppText.Desc"
         android:layout_width="@dimen/vm_dimen_0"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/vm_dimen_4"

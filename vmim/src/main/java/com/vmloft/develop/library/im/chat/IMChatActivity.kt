@@ -15,9 +15,10 @@ import com.vmloft.develop.library.base.BActivity
 import com.vmloft.develop.library.base.event.LDEventBus
 import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.common.config.ConfigManager
+import com.vmloft.develop.library.data.bean.User
+import com.vmloft.develop.library.data.common.CacheManager
 import com.vmloft.develop.library.im.IM
 import com.vmloft.develop.library.im.R
-import com.vmloft.develop.library.im.bean.IMUser
 import com.vmloft.develop.library.im.common.IMConstants
 import com.vmloft.develop.library.im.databinding.ImActivityChatBinding
 import com.vmloft.develop.library.im.router.IMRouter
@@ -27,8 +28,7 @@ import com.vmloft.develop.library.tools.widget.VMFloatMenu
 
 /**
  * Create on lzan13 on 2021/05/09 10:10
- *
- * IM 默认提供的聊天界面，可直接打开使用
+ * 描述：IM 默认提供的聊天界面，可直接打开使用
  */
 @Route(path = IMRouter.imChat)
 class IMChatActivity : BActivity<ImActivityChatBinding>() {
@@ -43,7 +43,7 @@ class IMChatActivity : BActivity<ImActivityChatBinding>() {
     @Autowired(name = CRouter.paramsStr1)
     lateinit var chatExtend: String
 
-    lateinit var mUser: IMUser
+    lateinit var mUser: User
 
     lateinit var chatFragment: IMChatFragment
 
@@ -65,9 +65,9 @@ class IMChatActivity : BActivity<ImActivityChatBinding>() {
     override fun initUI() {
         super.initUI()
 
-        setTopEndIcon(R.drawable.ic_more) { showMenu(it) }
+        setTopEndIcon(R.drawable.ic_mine_line) { goChatInfo() }
 
-        initMenu()
+//        initMenu()
 
         // 监听新消息过来，这里主要是收到消息后重置下输入状态
         LDEventBus.observe(this, IMConstants.Common.newMsgEvent, EMMessage::class.java) {
@@ -89,9 +89,9 @@ class IMChatActivity : BActivity<ImActivityChatBinding>() {
         viewX = VMDimen.screenWidth - VMDimen.dp2px(24)
         viewY = VMDimen.dp2px(56)
 
-        mUser = IM.imListener.getUser(chatId) ?: IMUser(chatId)
+        mUser = CacheManager.getUser(chatId)
 
-        setTopTitleColor(if (mUser.identity in 100..199 && ConfigManager.clientConfig.vipEntry) R.color.app_identity_vip else R.color.app_title)
+        setTopTitleColor(if (mUser.role.identity in 100..199 && ConfigManager.clientConfig.tradeConfig.vipEntry) R.color.app_identity_vip else R.color.app_title)
         setTopTitle(if (mUser.nickname.isNullOrEmpty()) "小透明" else mUser.nickname)
 
         setupFragment()
@@ -105,6 +105,10 @@ class IMChatActivity : BActivity<ImActivityChatBinding>() {
         val ft = supportFragmentManager.beginTransaction()
         ft.replace(R.id.imChatContainer, chatFragment)
         ft.commit()
+    }
+
+    private fun goChatInfo() {
+        IM.imListener.onHeadClick(chatId)
     }
 
     /**

@@ -14,6 +14,11 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/vm_size_16</item>
     </style>
+    <style name="AppText.Title.Shadow" parent="@style/VMText.Title.Shadow">
+        <item name="android:textColor">@color/app_title</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/vm_size_16</item>
+    </style>
 
     <!--标题样式-副标题-->
     <style name="AppText.Subtitle" parent="@style/VMText.Subhead">
@@ -51,6 +56,17 @@
         <item name="android:textSize">@dimen/vm_size_10</item>
         <item name="android:textColor">@color/app_tips</item>
     </style>
+    <!--未读样式-->
+    <style name="AppText.Unread" parent="@style/VMText.Caption">
+        <item name="android:textSize">@dimen/vm_size_10</item>
+        <item name="android:textColor">@color/app_unread</item>
+        <item name="android:background">@drawable/shape_unread_common_bg</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minWidth">@dimen/vm_dimen_16</item>
+        <item name="android:minHeight">@dimen/vm_dimen_16</item>
+        <item name="android:paddingLeft">@dimen/vm_dimen_4</item>
+        <item name="android:paddingRight">@dimen/vm_dimen_4</item>
+    </style>
 
     <!--底部导航样式-->
     <style name="AppText.BNV.Active" parent="@style/VMText.Caption">
@@ -73,22 +89,30 @@
         <item name="android:textColor">@color/app_input</item>
         <item name="android:textColorHint">@color/app_input_hint</item>
         <item name="android:textStyle">normal</item>
+        <item name="android:paddingStart">@dimen/vm_dimen_12</item>
+        <item name="android:paddingEnd">@dimen/vm_dimen_12</item>
+        <item name="android:paddingTop">@dimen/vm_dimen_10</item>
+        <item name="android:paddingBottom">@dimen/vm_dimen_10</item>
     </style>
 
     <style name="AppEdit.Single.Border">
-        <item name="android:background">@drawable/shape_input_border_bg</item>
+        <item name="android:background">@drawable/selector_rectangle_input_border_bg</item>
     </style>
 
     <style name="AppEdit.MultiLine" parent="@style/VMEdit.MultiLine">
-        <item name="android:background">@drawable/shape_input_bg</item>
+        <item name="android:background">@drawable/shape_rectangle_input_bg</item>
         <item name="android:textColor">@color/app_input</item>
         <item name="android:textColorHint">@color/app_input_hint</item>
         <item name="android:lines">3</item>
         <item name="android:textStyle">normal</item>
+        <item name="android:paddingStart">@dimen/vm_dimen_12</item>
+        <item name="android:paddingEnd">@dimen/vm_dimen_12</item>
+        <item name="android:paddingTop">@dimen/vm_dimen_10</item>
+        <item name="android:paddingBottom">@dimen/vm_dimen_10</item>
     </style>
 
     <style name="AppEdit.MultiLine.Border">
-        <item name="android:background">@drawable/shape_input_border_bg</item>
+        <item name="android:background">@drawable/selector_rectangle_input_border_bg</item>
     </style>
     <!--输入框样式 end-->
 

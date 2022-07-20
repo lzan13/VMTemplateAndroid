@@ -9,21 +9,21 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.drakeet.multitype.MultiTypeAdapter
 
 import com.vmloft.develop.app.template.R
-import com.vmloft.develop.app.template.common.CacheManager
-import com.vmloft.develop.app.template.common.SignManager
 import com.vmloft.develop.app.template.databinding.ActivityRoomListBinding
 import com.vmloft.develop.app.template.im.IMManager
-import com.vmloft.develop.app.template.request.bean.Room
-import com.vmloft.develop.app.template.request.viewmodel.RoomViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.base.BItemDelegate
 import com.vmloft.develop.library.base.BVMActivity
 import com.vmloft.develop.library.base.BViewModel
 import com.vmloft.develop.library.base.common.CConstants
 import com.vmloft.develop.library.base.router.CRouter
-import com.vmloft.develop.library.request.RPaging
 import com.vmloft.develop.library.base.widget.CommonDialog
 import com.vmloft.develop.library.base.widget.decoration.StaggeredItemDecoration
+import com.vmloft.develop.library.data.common.CacheManager
+import com.vmloft.develop.library.data.common.SignManager
+import com.vmloft.develop.library.data.bean.Room
+import com.vmloft.develop.library.data.viewmodel.RoomViewModel
+import com.vmloft.develop.library.request.RPaging
 import com.vmloft.develop.library.tools.utils.VMDimen
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -60,7 +60,7 @@ class RoomListActivity : BVMActivity<ActivityRoomListBinding, RoomViewModel>() {
     override fun initData() {
         ARouter.getInstance().inject(this)
 
-        mViewModel.roomList()
+        mBinding.refreshLayout.autoRefresh()
     }
 
     /**
@@ -83,6 +83,7 @@ class RoomListActivity : BVMActivity<ActivityRoomListBinding, RoomViewModel>() {
         // 设置下拉刷新
         mBinding.refreshLayout.setOnRefreshListener {
             mBinding.refreshLayout.setNoMoreData(false)
+            page = CConstants.defaultPage
             mViewModel.roomList()
         }
         // 设置加载更多
@@ -188,7 +189,7 @@ class RoomListActivity : BVMActivity<ActivityRoomListBinding, RoomViewModel>() {
      */
     private fun exitRoom() {
         val room = CacheManager.getLastRoom() ?: return
-        val user = SignManager.getCurrUser() ?: return
+        val user = SignManager.getCurrUser()
         // 检查下是不是自己创建的房间
         if (room.owner.id == user.id) {
             mViewModel.destroyRoom(room.id)

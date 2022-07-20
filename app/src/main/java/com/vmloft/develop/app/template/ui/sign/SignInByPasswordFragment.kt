@@ -9,13 +9,15 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.vmloft.develop.app.template.R
-import com.vmloft.develop.app.template.common.SignManager
+import com.vmloft.develop.app.template.common.Constants
+import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.app.template.databinding.FragmentSignInByPasswordBinding
-import com.vmloft.develop.app.template.request.bean.User
+import com.vmloft.develop.library.data.bean.User
 import com.vmloft.develop.app.template.request.viewmodel.SignViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.base.BVMFragment
 import com.vmloft.develop.library.base.BViewModel
+import com.vmloft.develop.library.base.event.LDEventBus
 import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.base.utils.errorBar
 import com.vmloft.develop.library.tools.utils.VMReg
@@ -93,6 +95,7 @@ class SignInByPasswordFragment : BVMFragment<FragmentSignInByPasswordBinding, Si
     }
 
     override fun onModelLoading(model: BViewModel.UIModel) {
+        mBinding.submitTV.isEnabled = !model.isLoading
         mBinding.loadingView.visibility = if (model.isLoading) View.VISIBLE else View.GONE
     }
 
@@ -100,9 +103,10 @@ class SignInByPasswordFragment : BVMFragment<FragmentSignInByPasswordBinding, Si
         if (model.type == "signIn") {
             // 这里直接调用下 IM 的登录，不影响页面的继续
             mViewModel.signInIM()
-
+        } else if (model.type == "signInIM") {
             // 登录成功，跳转到主页
             CRouter.goMain()
+            LDEventBus.post(Constants.Event.finishPrev)
             activity?.finish()
         }
     }
@@ -112,6 +116,6 @@ class SignInByPasswordFragment : BVMFragment<FragmentSignInByPasswordBinding, Si
      */
     private fun verifyInputBox() {
         // 检查输入框
-        mBinding.submitTV.isEnabled = VMReg.isCommonReg(mAccount, "^[0-9a-zA-Z_.@]{6,20}$") && VMReg.isNormalPassword(mPassword)
+        mBinding.submitTV.isEnabled = VMReg.isCommonReg(mAccount, "^[0-9a-zA-Z_.@]{6,32}$") && VMReg.isNormalPassword(mPassword)
     }
 }

@@ -6,11 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.home.MatchAnimActivity">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/img_match_bg" />
+    <!--    <ImageView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:scaleType="centerCrop"-->
+    <!--        android:src="@drawable/img_match_bg" />-->
     <!--匹配背景1-->
     <View
         android:id="@+id/matchAnimView1"
@@ -29,7 +29,7 @@
         android:backgroundTint="@color/app_accent" />
 
     <ImageView
-        android:id="@+id/matchRadarIV"
+        android:id="@+id/matchIconIV"
         android:layout_width="@dimen/vm_avatar_normal"
         android:layout_height="@dimen/vm_avatar_normal"
         android:layout_centerInParent="true"
@@ -37,9 +37,17 @@
         android:backgroundTint="@color/app_accent"
         android:padding="@dimen/vm_dimen_16"
         android:rotation="-45"
-        android:src="@drawable/ic_radar"
+        android:src="@drawable/ic_puzzle_line"
         app:tint="@color/app_icon_light" />
 
+    <TextView
+        style="@style/AppText.Title.Shadow"
+        android:layout_below="@+id/matchIconIV"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/vm_dimen_8"
+        android:text="@string/match_random_tips"
+        android:textColor="@color/app_title_display" />
+
     <!--定义顶部 TopBar-->
-    <include layout="@layout/widget_common_top_bar" />
+    <!--    <include layout="@layout/widget_common_top_bar" />-->
 </RelativeLayout>

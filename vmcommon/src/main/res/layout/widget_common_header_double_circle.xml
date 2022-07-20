@@ -1,17 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center">
+    android:layout_height="@dimen/vm_dimen_64"
+    android:animateLayoutChanges="true"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/loadingTipsTV"
+        style="@style/AppText.Title.Shadow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:padding="@dimen/vm_dimen_4"
+        android:text="@string/loading_2nd_floor_tips"
+        android:textColor="@color/app_title_display"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
     <com.vmloft.develop.library.tools.widget.loading.VMLoadingView
         android:id="@+id/loadingView"
         android:layout_width="@dimen/vm_dimen_36"
         android:layout_height="@dimen/vm_dimen_36"
+        android:layout_centerInParent="true"
         android:layout_margin="@dimen/vm_dimen_16"
         app:vm_loading_color="@color/app_accent"
         app:vm_loading_type="DoubleCircle" />
 
-</LinearLayout>
+</RelativeLayout>

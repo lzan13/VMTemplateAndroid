@@ -10,9 +10,11 @@ import android.view.ViewGroup
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.databinding.FragmentSignInByCodeBinding
 import com.vmloft.develop.app.template.request.viewmodel.SignViewModel
+import com.vmloft.develop.app.template.common.Constants
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.base.BVMFragment
 import com.vmloft.develop.library.base.BViewModel
+import com.vmloft.develop.library.base.event.LDEventBus
 import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.base.utils.errorBar
 import com.vmloft.develop.library.tools.utils.VMReg
@@ -76,6 +78,7 @@ class SignInByCodeFragment : BVMFragment<FragmentSignInByCodeBinding, SignViewMo
     }
 
     override fun onModelLoading(model: BViewModel.UIModel) {
+        mBinding.submitTV.isEnabled = !model.isLoading
         mBinding.loadingView.visibility = if (model.isLoading) View.VISIBLE else View.GONE
     }
 
@@ -83,9 +86,13 @@ class SignInByCodeFragment : BVMFragment<FragmentSignInByCodeBinding, SignViewMo
         if (model.type == "requestCodeBySMS") {
             // 请求验证码成功
             mBinding.codeBtn.startTimer()
-        }
-        if (model.type == "signInBySMS") {
-            // 登录成功
+        }else if (model.type == "signInBySMS") {
+            // 这里直接调用下 IM 的登录，不影响页面的继续
+            mViewModel.signInIM()
+        } else if (model.type == "signInIM") {
+            // 登录成功，跳转到主页
+            CRouter.goMain()
+            LDEventBus.post(Constants.Event.finishPrev)
             activity?.finish()
         }
     }

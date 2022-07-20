@@ -8,8 +8,7 @@ import com.vmloft.develop.library.tools.utils.logger.VMLog
 
 /**
  * Create by lzan13 on 2019/5/11 22:42
- *
- * IM 相关错误统一处理类
+ * 描述：IM 相关错误统一处理类
  */
 object IMExceptionManager {
 

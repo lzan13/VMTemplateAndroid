@@ -5,8 +5,8 @@
         android:duration="@integer/app_activity_exit_time"
         android:fromAlpha="1.0"
         android:toAlpha="0.0" />
-    <translate
-        android:duration="@integer/app_activity_exit_time"
-        android:fromYDelta="0%p"
-        android:toYDelta="50%p" />
+<!--    <translate-->
+<!--        android:duration="@integer/app_activity_exit_time"-->
+<!--        android:fromYDelta="0%p"-->
+<!--        android:toYDelta="50%p" />-->
 </set>

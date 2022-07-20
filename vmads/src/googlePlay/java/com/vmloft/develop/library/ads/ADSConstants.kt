@@ -6,12 +6,16 @@ package com.vmloft.develop.library.ads
  */
 object ADSConstants {
     /**
-     * 广告单元 Id
+     * 广告相关 Id
      */
     object ADSIds {
         const val adsSplashId = "b6260cb8448c4a"
         const val adsNativeId = "b6260cba418cdd"
         const val adsVideoId = "b6260cbb72fa03"
+
+        // 广告场景
+        const val videoSceneScoreId = "f62a0cdf9db566"
+        const val videoSceneItemId = "f62a0ce224024c"
     }
 
     /**
@@ -46,5 +50,11 @@ object ADSConstants {
         return BuildConfig.topOnAppKey
     }
 
+    /**
+     * 获取签名 secKey
+     */
+    fun secKey(): String {
+        return BuildConfig.adsSecKey
+    }
 
 }

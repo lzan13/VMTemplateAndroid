@@ -50,31 +50,26 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11
     }
-
-    kapt {
-        arguments {
-            // 阿里巴巴 ARouter Kotlin 下的配置
-            arg("AROUTER_MODULE_NAME", project.getName())
-        }
-    }
 }
 
 dependencies {
-    // ARouter 编译器，TODO 当代码中有一些自己没看到的错误的时候，ARouter 会拦截错误信息，看不到错误位置，把这行注释掉，重新编译
-    kapt 'com.alibaba:arouter-compiler:1.5.2'
-
     // 环信聊天 IM 库 Easemob http://www.easemob.com
     api 'io.hyphenate:hyphenate-chat:3.8.1'
     // 声网音视频通话 https://docs.agora.io/cn/Voice/start_call_audio_android?platform=Android
-    api 'com.github.agorabuilder:native-voice-sdk:3.6.2'
+    implementation 'com.github.agorabuilder:native-voice-sdk:3.6.2'
 
     // 依赖 base 库
     implementation project(':vmbase')
     // 依赖 common 库
     implementation project(':vmcommon')
+    // 依赖 data 库
+    implementation project(':vmdata')
+    // 依赖 gift 库
+    implementation project(':vmgift')
     // 依赖 image 库
     implementation project(':vmimage')
     // 依赖 request 库
     implementation project(':vmrequest')
-
 }
+
+apply from: "${rootDir.absolutePath}/arouter.gradle"

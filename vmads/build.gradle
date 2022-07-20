@@ -35,6 +35,7 @@ android {
             // TopOn 聚合平台配置
             buildConfigField("String", "topOnAppId", configs.topOnAppId)
             buildConfigField("String", "topOnAppKey", configs.topOnAppKey)
+            buildConfigField("String", "adsSecKey", configs.adsSecKey)
         }
         googlePlay {
             dimension = "default"
@@ -44,6 +45,7 @@ android {
             // TopOn 聚合平台配置
             buildConfigField("String", "topOnAppId", configs.topOnAppIdGP)
             buildConfigField("String", "topOnAppKey", configs.topOnAppKeyGP)
+            buildConfigField("String", "adsSecKey", configs.adsSecKey)
         }
     }
     // 配置 Java 编译版本
@@ -71,56 +73,62 @@ dependencies {
      * 这里依赖要根据渠道不同加载不同的依赖，国内都是本地aar，国外环境直接远程依赖
      * https://docs.toponad.com/#/zh-cn/android/download/package?_t=tdGuaLczpgIXAmXLua6QxX6y93c983UW
      */
-    // 国内环境依赖
-//    developApi(fileTree(dir: 'libs', include: ['*.jar', '*.aar']))
-    developApi(name: 'anythink_banner', ext: 'aar')
-    developApi(name: 'anythink_china_core', ext: 'aar')
-    developApi(name: 'anythink_core', ext: 'aar')
-    developApi(name: 'anythink_interstitial', ext: 'aar')
-    developApi(name: 'anythink_native', ext: 'aar')
-    developApi(name: 'anythink_network_mintegral_china', ext: 'aar')
-    developApi(name: 'anythink_network_sigmob', ext: 'aar')
-    developApi(name: 'anythink_rewardvideo', ext: 'aar')
-    developApi(name: 'anythink_splash', ext: 'aar')
-    developApi(name: 'mbridge_chinasame', ext: 'aar')
-    developApi(name: 'mbridge_interstitial', ext: 'aar')
-    developApi(name: 'mbridge_mbbanner', ext: 'aar')
-    developApi(name: 'mbridge_mbbid', ext: 'aar')
-    developApi(name: 'mbridge_mbjscommon', ext: 'aar')
-    developApi(name: 'mbridge_mbnative', ext: 'aar')
-    developApi(name: 'mbridge_mbnativeadvanced', ext: 'aar')
-    developApi(name: 'mbridge_mbsplash', ext: 'aar')
-    developApi(name: 'mbridge_nativeex', ext: 'aar')
-    developApi(name: 'mbridge_newinterstitial', ext: 'aar')
-    developApi(name: 'mbridge_playercommon', ext: 'aar')
-    developApi(name: 'mbridge_reward', ext: 'aar')
-    developApi(name: 'mbridge_videocommon', ext: 'aar')
-    developApi(name: 'mbridge_videojs', ext: 'aar')
-    developApi(name: 'tramini_sdk', ext: 'aar')
-    developApi(name: 'windAd-3.5.6', ext: 'aar')
+    // 国内环境依赖 当前版本 5.9.51 需要 developImplementation 前缀
+//    developImplementation(fileTree(dir: 'libs', include: ['*.jar', '*.aar']))
+    developImplementation(name: 'anythink_banner', ext: 'aar')
+    developImplementation(name: 'anythink_china_core', ext: 'aar')
+    developImplementation(name: 'anythink_core', ext: 'aar')
+    developImplementation(name: 'anythink_interstitial', ext: 'aar')
+    developImplementation(name: 'anythink_native', ext: 'aar')
+    developImplementation(name: 'anythink_network_mintegral_china', ext: 'aar')
+    developImplementation(name: 'anythink_network_sigmob', ext: 'aar')
+    developImplementation(name: 'anythink_rewardvideo', ext: 'aar')
+    developImplementation(name: 'anythink_splash', ext: 'aar')
 
-    // 海外环境依赖
-    googlePlayApi "com.anythink.sdk:core:5.9.33"
-    googlePlayApi "com.anythink.sdk:nativead:5.9.33"
-    googlePlayApi "com.anythink.sdk:banner:5.9.33"
-    googlePlayApi "com.anythink.sdk:interstitial:5.9.33"
-    googlePlayApi "com.anythink.sdk:rewardedvideo:5.9.33"
-    googlePlayApi "com.anythink.sdk:splash:5.9.33"
+    developImplementation(name: 'mbridge_chinasame', ext: 'aar')
+    developImplementation(name: 'mbridge_dycreator', ext: 'aar')
+    developImplementation(name: 'mbridge_interstitial', ext: 'aar')
+    developImplementation(name: 'mbridge_mbbanner', ext: 'aar')
+    developImplementation(name: 'mbridge_mbbid', ext: 'aar')
+    developImplementation(name: 'mbridge_mbjscommon', ext: 'aar')
+    developImplementation(name: 'mbridge_mbnative', ext: 'aar')
+    developImplementation(name: 'mbridge_mbnativeadvanced', ext: 'aar')
+    developImplementation(name: 'mbridge_mbsplash', ext: 'aar')
+    developImplementation(name: 'mbridge_nativeex', ext: 'aar')
+    developImplementation(name: 'mbridge_newinterstitial', ext: 'aar')
+    developImplementation(name: 'mbridge_playercommon', ext: 'aar')
+    developImplementation(name: 'mbridge_reward', ext: 'aar')
+    developImplementation(name: 'mbridge_videocommon', ext: 'aar')
+    developImplementation(name: 'mbridge_videojs', ext: 'aar')
 
-    // Admob
-    googlePlayApi "com.anythink.sdk:adapter-admob:5.9.33"
-    googlePlayApi "com.google.android.gms:play-services-ads:20.5.0"
+    developImplementation(name: 'tramini_sdk', ext: 'aar')
 
-    // Mintegral
-    googlePlayApi "com.anythink.sdk:adapter-mintegral-nonchina:5.9.33"
-    googlePlayApi "com.mbridge.msdk.oversea:reward:16.0.21"
-    googlePlayApi "com.mbridge.msdk.oversea:newinterstitial:16.0.21"
-    googlePlayApi "com.mbridge.msdk.oversea:mbnative:16.0.21"
-    googlePlayApi "com.mbridge.msdk.oversea:interstitial:16.0.21"
-    googlePlayApi "com.mbridge.msdk.oversea:mbsplash:16.0.21"
-    googlePlayApi "com.mbridge.msdk.oversea:mbnativeadvanced:16.0.21"
-    googlePlayApi "com.mbridge.msdk.oversea:mbbanner:16.0.21"
-    googlePlayApi "com.mbridge.msdk.oversea:mbbid:16.0.21"
+    developImplementation(name: 'wind-common-1.3.2', ext: 'aar')
+    developImplementation(name: 'wind-sdk-4.3.1', ext: 'aar')
+
+    // 海外环境依赖 当前版本 5.9.51 需要 googlePlayImplementation 前缀
+    //Anythink (Necessary)
+    googlePlayImplementation "com.anythink.sdk:core:5.9.80"
+    googlePlayImplementation "com.anythink.sdk:nativead:5.9.80"
+    googlePlayImplementation "com.anythink.sdk:banner:5.9.80"
+    googlePlayImplementation "com.anythink.sdk:interstitial:5.9.80"
+    googlePlayImplementation "com.anythink.sdk:rewardedvideo:5.9.80"
+    googlePlayImplementation "com.anythink.sdk:splash:5.9.80"
+
+    //Admob
+    googlePlayImplementation "com.anythink.sdk:adapter-admob:5.9.80"
+    googlePlayImplementation "com.google.android.gms:play-services-ads:21.0.0"
+
+    //Mintegral
+    googlePlayImplementation "com.anythink.sdk:adapter-mintegral-nonchina:5.9.80.1"
+    googlePlayImplementation "com.mbridge.msdk.oversea:reward:16.1.71"
+    googlePlayImplementation "com.mbridge.msdk.oversea:newinterstitial:16.1.71"
+    googlePlayImplementation "com.mbridge.msdk.oversea:mbnative:16.1.71"
+    googlePlayImplementation "com.mbridge.msdk.oversea:interstitial:16.1.71"
+    googlePlayImplementation "com.mbridge.msdk.oversea:mbsplash:16.1.71"
+    googlePlayImplementation "com.mbridge.msdk.oversea:mbnativeadvanced:16.1.71"
+    googlePlayImplementation "com.mbridge.msdk.oversea:mbbanner:16.1.71"
+    googlePlayImplementation "com.mbridge.msdk.oversea:mbbid:16.1.71"
 
     // 依赖 base 库
     implementation project(':vmbase')

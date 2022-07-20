@@ -8,9 +8,9 @@ import com.alibaba.android.arouter.launcher.ARouter
 
 import com.vmloft.develop.library.base.BActivity
 import com.vmloft.develop.library.base.widget.CommonDialog
-import com.vmloft.develop.library.im.IM
+import com.vmloft.develop.library.data.bean.Room
+import com.vmloft.develop.library.data.common.CacheManager
 import com.vmloft.develop.library.im.R
-import com.vmloft.develop.library.im.bean.IMRoom
 import com.vmloft.develop.library.im.common.IMConstants
 import com.vmloft.develop.library.im.databinding.ImActivityChatRoomBinding
 import com.vmloft.develop.library.im.router.IMRouter
@@ -31,7 +31,7 @@ class IMChatRoomActivity: BActivity<ImActivityChatRoomBinding>() {
     @Autowired
     var chatType: Int = IMConstants.ChatType.imChatRoom
 
-    lateinit var mRoom: IMRoom
+    lateinit var mRoom: Room
 
     lateinit var chatFragment: IMChatRoomFragment
     lateinit var roomFragment: IMRoomCallFragment
@@ -43,7 +43,7 @@ class IMChatRoomActivity: BActivity<ImActivityChatRoomBinding>() {
     override fun initData() {
         ARouter.getInstance().inject(this)
 
-        mRoom = IM.imListener.getRoom(chatId)
+        mRoom = CacheManager.getRoom(chatId)
         setTopTitle(mRoom.title)
 
         // 加入聊天室
@@ -82,8 +82,7 @@ class IMChatRoomActivity: BActivity<ImActivityChatRoomBinding>() {
             dialog.setContent(R.string.im_room_not_exist_hint)
             dialog.setNegative("")
             dialog.setPositive(listener = {
-                // 聊天室销毁处理
-                IMChatRoomManager.roomDestroyed(chatId)
+                IMChatRoomManager.exitRoom(chatId)
                 finish()
             })
             dialog.show()

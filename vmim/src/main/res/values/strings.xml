@@ -1,15 +1,18 @@
 <resources>
     <!--聊天界面-->
-    <string name="im_chat_fast">实时聊天</string>
-    <string name="im_chat_input_hint">请输入消息...</string>
+    <string name="im_chat_fast">同心纸鹤</string>
+    <string name="im_chat_input_hint">请输入内容...</string>
     <string name="im_chat_input_status">对方正在输入...</string>
     <string name="im_chat_send_notnull">消息内容不能为空</string>
 
     <string name="im_chat_menu_user">个人主页</string>
     <string name="im_chat_menu_clear">清空消息</string>
+    <string name="im_chat_record_normal">按下录制</string>
+    <string name="im_chat_record_cancel">松开取消</string>
 
-    <string name="im_chat_picture_limit">双方互相发送消息超过 %1$d 条以上才能解锁图片功能，需要双方都超过 %2$d 条</string>
-    <string name="im_chat_call_limit">双方互相发送消息超过 %1$d 条以上才能解锁通话功能，需要双方都超过 %2$d 条</string>
+    <string name="im_chat_extend_limit">为了防止被骚扰，双方互相回复 %1$d 条消息才能解锁此功能</string>
+    <string name="im_chat_picture_limit">为了防止被骚扰，双方互相回复 %1$d 条消息才能解锁图片功能</string>
+    <string name="im_chat_call_limit">为了防止被骚扰，双方互相回复 %1$d 条消息才能解锁通话功能</string>
 
     <string name="im_chat_load_more_header_pulling">下拉加载更多</string>
     <string name="im_chat_load_more_header_refreshing">正在加载...</string>
@@ -25,6 +28,7 @@
 
     <string name="im_draft">草稿</string>
     <string name="im_recall_already">消息已撤回</string>
+    <string name="im_gift">礼物</string>
     <string name="im_picture">图片</string>
     <string name="im_voice">语音</string>
     <string name="im_empty">- 空 -</string>
@@ -47,6 +51,10 @@
     <string name="im_emoji_rain_happy_birthday">生日快乐</string>
     <string name="im_emoji_rain_good_luck">祝你好运</string>
     <string name="im_emoji_rain_me_me_da">么么哒</string>
+
+    <!--礼物相关-->
+    <string name="im_gift_msg_receive">收到礼物 %s</string>
+    <string name="im_gift_msg_send">送出礼物 %s</string>
 
 
     <!--消息操作-->
@@ -108,14 +116,16 @@
     <string name="call_opposite_version_smaller">对方版本过低，无法通讯</string>
     <string name="call_version_different">双方通讯协议不同，无法通讯</string>
 
-    <!--快速聊天-->
+    <!--同心纸交流-->
     <string name="im_fast_cancel">不用了</string>
     <string name="im_fast_confirm">去看看</string>
-    <string name="im_fast_wait">已申请和对方快速聊天，请稍等对方回复🤓</string>
-    <string name="im_fast_apply">对方申请和你进行快速聊天，要和TA聊聊吗？😎</string>
+    <string name="im_fast_agree_msg">让我们开始吧</string>
+    <string name="im_fast_apply_msg">一起快速聊一会儿吗</string>
+    <string name="im_fast_wait">已申请和对方同心纸交流，请稍等对方回复🤓</string>
+    <string name="im_fast_apply">对方申请和你进行同心纸交流，要和TA聊聊吗？😎</string>
     <string name="im_fast_agree">对方同意了你的申请，开始愉快的聊天吧😊</string>
     <string name="im_fast_busy">对方正忙，重新匹配一个试试吧😫</string>
-    <string name="im_fast_reject">对方可能不方便进行快速聊天，重新匹配一个试试吧😅</string>
+    <string name="im_fast_reject">对方可能不方便进行同心纸交流，重新匹配一个试试吧😅</string>
     <string name="im_fast_exit">退出将结束聊天，确定不再聊会了吗？🤔</string>
     <string name="im_fast_end">聊天已结束，要不要去对方个人主页看看呢？🤔</string>
 

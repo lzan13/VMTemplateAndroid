@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/shape_card_common_bg"
+    android:backgroundTint="@color/app_bg"
+    android:padding="@dimen/vm_dimen_16">
+
+    <ImageView
+        android:id="@+id/iconIV"
+        android:layout_width="@dimen/vm_dimen_56"
+        android:layout_height="@dimen/vm_dimen_56"
+        android:background="@drawable/shape_home_icon_bg"
+        android:padding="@dimen/vm_dimen_16"
+        app:layout_constraintBottom_toTopOf="@+id/descTV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/app_icon_light"
+        tools:src="@drawable/ic_ads" />
+
+    <TextView
+        android:id="@+id/descTV"
+        style="@style/AppText.Desc"
+        android:layout_marginTop="@dimen/vm_dimen_4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iconIV"
+        tools:text="@string/gold_vip_privilege" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

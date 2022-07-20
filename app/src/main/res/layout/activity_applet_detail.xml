@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg"
+    tools:context=".ui.main.home.AppletDetailActivity">
+
+    <include layout="@layout/widget_common_top_bar" />
+
+    <ImageView
+        android:id="@+id/coverIV"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/vm_dimen_192"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/commonTopLL" />
+
+    <TextView
+        android:id="@+id/vipTV"
+        style="@style/AppText.Tips"
+        android:layout_margin="@dimen/vm_dimen_8"
+        android:background="@drawable/shape_fillet_common_bg"
+        android:paddingStart="@dimen/vm_dimen_8"
+        android:paddingTop="@dimen/vm_dimen_2"
+        android:paddingEnd="@dimen/vm_dimen_8"
+        android:paddingBottom="@dimen/vm_dimen_2"
+        android:text="@string/relaxation_world_vip_tips"
+        android:textColor="@color/app_main"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/coverIV"
+        app:layout_constraintStart_toStartOf="@+id/coverIV"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/tipsTV"
+        style="@style/AppText.Tips"
+        android:layout_margin="@dimen/vm_dimen_8"
+        android:background="@drawable/shape_fillet_common_bg"
+        android:paddingStart="@dimen/vm_dimen_8"
+        android:paddingTop="@dimen/vm_dimen_2"
+        android:paddingEnd="@dimen/vm_dimen_8"
+        android:paddingBottom="@dimen/vm_dimen_2"
+        app:layout_constraintBottom_toBottomOf="@+id/coverIV"
+        app:layout_constraintEnd_toEndOf="@+id/coverIV"
+        tools:text="内测" />
+
+    <TextView
+        android:id="@+id/titleTV"
+        style="@style/AppText.Title"
+        android:layout_margin="@dimen/vm_dimen_16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/coverIV"
+        tools:text="标题" />
+
+    <TextView
+        android:id="@+id/contentTV"
+        style="@style/AppText.Body"
+        android:layout_margin="@dimen/vm_dimen_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleTV"
+        tools:text="这里是描述" />
+
+    <TextView
+        android:id="@+id/testTV"
+        style="@style/AppBtn.Cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/vm_dimen_16"
+        android:layout_marginBottom="@dimen/vm_dimen_36"
+        android:drawableStart="@drawable/ic_ads"
+        android:drawableTint="@color/app_main_87"
+        android:text="@string/relaxation_world_test"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/startTV"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/startTV"
+        style="@style/AppBtn.Confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/vm_dimen_16"
+        android:layout_marginBottom="@dimen/vm_dimen_36"
+        android:text="@string/relaxation_world_vip_tips"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/testTV" />
+
+    <include layout="@layout/widget_common_loading" />
+</androidx.constraintlayout.widget.ConstraintLayout>

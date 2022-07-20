@@ -21,6 +21,7 @@ import com.anythink.splashad.api.ATSplashAd
 import com.anythink.splashad.api.ATSplashAdExtraInfo
 import com.anythink.splashad.api.ATSplashAdListener
 import com.anythink.splashad.api.IATSplashEyeAd
+import com.vmloft.develop.library.base.common.CConstants
 import com.vmloft.develop.library.base.common.CSPManager
 
 import com.vmloft.develop.library.tools.utils.logger.VMLog
@@ -46,7 +47,7 @@ object ADSManager {
     // 激励视频广告对象
     private var atVideoAD: ATRewardVideoAd? = null
     private var videoListener: ATRewardVideoListener? = null
-    private var videoCallback: (Int) -> Unit = {}
+    private var videoCallback: (Int, String) -> Unit = { _, _ -> }
 
     /**
      * 初始化广告
@@ -122,6 +123,7 @@ object ADSManager {
                 VMLog.i("ADSManager onAdClick")
                 splashCallback.invoke(ADSConstants.Status.click)
             }
+
             /**
              * 广告关闭回调 参数意义同上
              * splashEyeAd：开屏点睛广告控制接口类，开发者可通过此接口控制展示点睛广告 注意：
@@ -138,9 +140,16 @@ object ADSManager {
     }
 
     /**
+     * 设置开屏广告回调
+     */
+    fun setSplashADSCallback(callback: (Int) -> Unit = {}) {
+        splashCallback = callback
+    }
+
+    /**
      * 加载开屏广告
      */
-    fun loadSplashAD(activity: Activity, callback: (Int) -> Unit) {
+    fun loadSplashAD(activity: Activity, callback: (Int) -> Unit = {}) {
         splashCallback = callback
 
         if (atSplashAD == null) {
@@ -151,6 +160,13 @@ object ADSManager {
         } else {
             atSplashAD!!.loadAd()
         }
+    }
+
+    /**
+     * 判断开屏广告是否准备好
+     */
+    fun isReadySplashADS(): Boolean {
+        return atSplashAD?.isAdReady ?: false
     }
 
     /**
@@ -186,7 +202,7 @@ object ADSManager {
     /**
      * 加载原生广告
      */
-    fun loadNativeAD(activity: Activity, callback: (Int) -> Unit) {
+    fun loadNativeAD(activity: Activity, callback: (Int) -> Unit = {}) {
         nativeCallback = callback
 
         if (atNativeAD == null) {
@@ -195,15 +211,15 @@ object ADSManager {
         if (atNativeAD!!.checkAdStatus().isReady) {
             nativeCallback.invoke(ADSConstants.Status.loaded)
         } else {
-            val space: Int = VMDimen.dp2px(4)
-            val adsWidth = (VMDimen.screenWidth - space * 3) / 2
-            val adsHeight = adsWidth * 9 / 16
+//            val space: Int = VMDimen.dp2px(4)
+//            val adsWidth = (VMDimen.screenWidth - space * 3) / 2
+//            val adsHeight = adsWidth * 9 / 16
+//
+//            val params: MutableMap<String, Any> = HashMap()
+//            params[ATAdConst.KEY.AD_WIDTH] = adsWidth
+//            params[ATAdConst.KEY.AD_HEIGHT] = adsHeight
 
-            val params: MutableMap<String, Any> = HashMap()
-            params[ATAdConst.KEY.AD_WIDTH] = adsWidth
-            params[ATAdConst.KEY.AD_HEIGHT] = adsHeight
-
-            atNativeAD!!.setLocalExtra(params)
+//            atNativeAD!!.setLocalExtra(params)
             atNativeAD!!.makeAdRequest()
         }
     }
@@ -223,7 +239,7 @@ object ADSManager {
 
         val adsRender = CustomNativeRender()
         nativeAd.renderAdView(nativeADView, adsRender)
-        nativeAd.prepare(nativeADView, adsRender.getClickView(), null);
+        nativeAd.prepare(nativeADView, adsRender.getClickView(), null)
     }
 
     /**
@@ -240,7 +256,7 @@ object ADSManager {
              */
             override fun onRewardedVideoAdLoaded() {
                 VMLog.i("onRewardedVideoAdLoaded")
-                videoCallback.invoke(ADSConstants.Status.loaded)
+                videoCallback.invoke(ADSConstants.Status.loaded, "")
             }
 
             /**
@@ -248,7 +264,7 @@ object ADSManager {
              */
             override fun onRewardedVideoAdFailed(error: AdError) {
                 VMLog.e("onRewardedVideoAdFailed: ${error.fullErrorInfo}")
-                videoCallback.invoke(ADSConstants.Status.failed)
+                videoCallback.invoke(ADSConstants.Status.failed, "")
             }
 
             /**
@@ -258,15 +274,15 @@ object ADSManager {
              */
             override fun onRewardedVideoAdPlayStart(info: ATAdInfo) {
                 VMLog.i("onRewardedVideoAdPlayStart")
-                videoCallback.invoke(ADSConstants.Status.playStart)
+                videoCallback.invoke(ADSConstants.Status.playStart, "")
             }
 
             /**
              * 播放结束 参数同上
              */
             override fun onRewardedVideoAdPlayEnd(info: ATAdInfo) {
-                VMLog.i("anythink onRewardedVideoAdPlayEnd")
-                videoCallback.invoke(ADSConstants.Status.playEnd)
+                VMLog.i("anythink onRewardedVideoAdPlayEnd ${info}")
+                videoCallback.invoke(ADSConstants.Status.playEnd, "")
             }
 
             /**
@@ -274,7 +290,7 @@ object ADSManager {
              */
             override fun onRewardedVideoAdPlayFailed(error: AdError, info: ATAdInfo) {
                 VMLog.i("anythink onRewardedVideoAdPlayFailed: ${error.fullErrorInfo}")
-                videoCallback.invoke(ADSConstants.Status.playFailed)
+                videoCallback.invoke(ADSConstants.Status.playFailed, "")
             }
 
             /**
@@ -283,7 +299,7 @@ object ADSManager {
              */
             override fun onRewardedVideoAdClosed(info: ATAdInfo) {
                 VMLog.i("anythink onRewardedVideoAdClosed")
-                videoCallback.invoke(ADSConstants.Status.close)
+                videoCallback.invoke(ADSConstants.Status.close, "")
                 // 关闭后加载下一次广告数据
                 atVideoAD!!.load()
             }
@@ -294,7 +310,7 @@ object ADSManager {
             override fun onRewardedVideoAdPlayClicked(info: ATAdInfo) {
                 // 播放点击
                 VMLog.i("anythink onRewardedVideoAdPlayClicked")
-                videoCallback.invoke(ADSConstants.Status.click)
+                videoCallback.invoke(ADSConstants.Status.click, "")
             }
 
             /**
@@ -302,7 +318,7 @@ object ADSManager {
              */
             override fun onReward(info: ATAdInfo) {
                 VMLog.i("anythink onReward  $info")
-                videoCallback.invoke(ADSConstants.Status.reward)
+                videoCallback.invoke(ADSConstants.Status.reward, info.toString())
             }
         }
     }
@@ -310,7 +326,7 @@ object ADSManager {
     /**
      * 加载激励视频广告
      */
-    fun loadVideoAD(activity: Activity, userParams: Map<String, String>, callback: (Int) -> Unit) {
+    fun loadVideoAD(activity: Activity, callback: (Int, String) -> Unit = { _, _ -> }) {
         videoCallback = callback
 
         if (atVideoAD == null) {
@@ -318,11 +334,11 @@ object ADSManager {
             // 设置广告监听
             atVideoAD!!.setAdListener(videoListener)
             // 设置用户信息，用于向服务器回调
-            atVideoAD!!.setLocalExtra(userParams)
+//            atVideoAD!!.setLocalExtra(userParams)
         }
 
         if (atVideoAD!!.isAdReady) {
-            videoCallback.invoke(ADSConstants.Status.loaded)
+            videoCallback.invoke(ADSConstants.Status.loaded, "")
         } else {
             atVideoAD!!.load()
         }
@@ -331,14 +347,14 @@ object ADSManager {
     /**
      * 展示激励视频广告
      */
-    fun showVideoAD(activity: Activity) {
-        atVideoAD!!.show(activity)
+    fun showVideoAD(activity: Activity, sceneId: String) {
+        atVideoAD!!.show(activity, sceneId)
     }
 
     /**
      * 展示激励视频广告
      */
     fun closeVideoAD() {
-        videoCallback = {}
+        videoCallback = { _, _ -> }
     }
 }

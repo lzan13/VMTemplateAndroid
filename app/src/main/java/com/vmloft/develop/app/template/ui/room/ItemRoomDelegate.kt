@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 
 import com.vmloft.develop.app.template.databinding.ItemRoomDelegateBinding
-import com.vmloft.develop.app.template.request.bean.Room
 import com.vmloft.develop.library.base.BItemDelegate
+import com.vmloft.develop.library.data.bean.Room
 import com.vmloft.develop.library.image.IMGLoader
 
 /**

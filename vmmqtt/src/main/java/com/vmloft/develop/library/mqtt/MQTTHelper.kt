@@ -144,8 +144,8 @@ object MQTTHelper {
                 VMLog.d("MQTT 消息发送成功")
             }
 
-            override fun onFailure(asyncActionToken: IMqttToken, exception: Throwable) {
-                VMLog.d("MQTT 消息发送失败 ${exception.message}")
+            override fun onFailure(asyncActionToken: IMqttToken, exception: Throwable?) {
+                VMLog.d("MQTT 消息发送失败 ${exception?.message}")
             }
         })
     }

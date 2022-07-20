@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--礼物相关-->
+    <string name="gift_give">赠送</string>
+    <string name="gift_mine">我的礼物</string>
+    <string name="gift_score_lack">余额不足，先去获取吧</string>
+    <string name="gift_recharge">去获取→</string>
+</resources>

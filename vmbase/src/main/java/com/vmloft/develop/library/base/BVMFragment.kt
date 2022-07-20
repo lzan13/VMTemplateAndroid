@@ -134,7 +134,7 @@ abstract class BVMFragment<VB : ViewBinding, VM : BViewModel> : Fragment() {
      * 开始观察 View 生命周期
      */
     private fun startObserve() {
-        mViewModel.uiState.observe(viewLifecycleOwner, {
+        mViewModel.uiState.observe(viewLifecycleOwner) {
             onModelLoading(it)
             if (!it.isLoading) {
                 if (it.isSuccess) {
@@ -144,7 +144,7 @@ abstract class BVMFragment<VB : ViewBinding, VM : BViewModel> : Fragment() {
                 }
                 it.toast?.let { message -> showBar(message) }
             }
-        })
+        }
     }
 
     /**
@@ -268,6 +268,13 @@ abstract class BVMFragment<VB : ViewBinding, VM : BViewModel> : Fragment() {
             emptyStatusIV?.setImageResource(R.drawable.ic_empty_network)
         }
         emptyStatusLL?.visibility = View.VISIBLE
+    }
+
+    /**
+     * 设置空态点击事件
+     */
+    protected fun setEmptyClick(listener: View.OnClickListener) {
+        emptyStatusIV?.setOnClickListener { listener.onClick(it) }
     }
 
     override fun onDestroy() {

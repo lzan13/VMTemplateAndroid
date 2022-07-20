@@ -44,25 +44,11 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11
     }
-
-    kapt {
-        arguments {
-            // 阿里巴巴 ARouter Kotlin 下的配置
-            arg("AROUTER_MODULE_NAME", project.getName())
-        }
-    }
 }
 
 dependencies {
-    // ARouter 编译器，TODO 当代码中有一些自己没看到的错误的时候，ARouter 会拦截错误信息，看不到错误位置，把这行注释掉，重新编译
-    kapt 'com.alibaba:arouter-compiler:1.5.2'
-
-//    // Retrofit https://github.com/square/retrofit
-//    api 'com.squareup.retrofit2:retrofit:2.9.0'
-//    api 'com.squareup.retrofit2:converter-gson:2.9.0'
-//    api 'com.squareup.okhttp3:logging-interceptor:4.3.1'
     // Gson 解析 JSON https://github.com/google/gson
-    implementation 'com.google.code.gson:gson:2.8.6'
+    api 'com.google.code.gson:gson:2.8.6'
 
     // 强大 WebView 库 https://github.com/Justson/AgentWeb
     api 'com.github.Justson.AgentWeb:agentweb-core:v4.1.9-androidx'
@@ -70,18 +56,22 @@ dependencies {
     // 滚动选择器库 https://github.com/AigeStudio/WheelPicker
     api 'cn.aigestudio.wheelpicker:WheelPicker:1.1.3'
 
-    // 动画库 https://github.com/LottieFiles/lottie-android
-    api 'com.airbnb.android:lottie:3.7.0'
-
-//    // 二维码扫描库 https://github.com/bingoogolapple/BGAQRCode-Android
-//    api 'com.github.bingoogolapple.BGAQRCode-Android:zxing:1.3.8'
+    // Lottie Airbnb推出的动画库 https://github.com/LottieFiles/lottie-android
+//    api 'com.airbnb.android:lottie:3.7.0'
+    // SVGA YY语音推出的动画库 https://github.com/svga/SVGAPlayer-Android
+    api "com.github.svga:SVGAPlayer-Android:2.6.1"
 
     // 下拉刷新库 https://github.com/scwang90/SmartRefreshLayout
-    api 'com.scwang.smart:refresh-layout-kernel:2.0.3'
-//    api 'com.scwang.smart:refresh-header-classics:2.0.3' //经典刷新
-//    api 'com.scwang.smart:refresh-footer-classics:2.0.3' //经典加载
+    api 'io.github.scwang90:refresh-layout-kernel:2.0.5'
+    api 'io.github.scwang90:refresh-header-two-level:2.0.5' // 二级刷新头
+//    implementation 'com.scwang.smart:refresh-header-classics:2.0.3' //经典刷新
+//    implementation 'com.scwang.smart:refresh-footer-classics:2.0.3' //经典加载
+
+    // 轮播 Banner 库 https://github.com/zhpanvip/BannerViewPager
+    api 'com.github.zhpanvip:bannerviewpager:3.5.5'
 
     // 依赖 base 库
     implementation project(':vmbase')
-
 }
+
+apply from: "${rootDir.absolutePath}/arouter.gradle"

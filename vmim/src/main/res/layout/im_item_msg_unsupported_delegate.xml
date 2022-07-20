@@ -7,11 +7,11 @@
     android:paddingStart="@dimen/vm_dimen_16"
     android:paddingTop="@dimen/vm_dimen_8"
     android:paddingEnd="@dimen/vm_dimen_16"
-    tools:context="com.vmloft.develop.library.im.chat.msg.MsgUnsupportedDelegate">
+    tools:context=".chat.msg.MsgUnsupportedDelegate">
 
     <TextView
         android:id="@+id/imMsgTimeTV"
-        style="@style/IMText.Tips"
+        style="@style/AppText.Tips"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/im_shape_msg_tips_bg"

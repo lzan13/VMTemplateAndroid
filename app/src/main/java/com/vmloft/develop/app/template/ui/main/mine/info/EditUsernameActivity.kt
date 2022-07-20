@@ -7,10 +7,10 @@ import android.text.TextWatcher
 import com.alibaba.android.arouter.facade.annotation.Route
 
 import com.vmloft.develop.app.template.R
-import com.vmloft.develop.app.template.common.SignManager
+import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.app.template.databinding.ActivityPersonalInfoEditBinding
-import com.vmloft.develop.app.template.request.bean.User
-import com.vmloft.develop.app.template.request.viewmodel.UserViewModel
+import com.vmloft.develop.library.data.bean.User
+import com.vmloft.develop.library.data.viewmodel.UserViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.base.BVMActivity
 import com.vmloft.develop.library.base.BViewModel
@@ -27,7 +27,7 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 @Route(path = AppRouter.appEditUsername)
 class EditUsernameActivity : BVMActivity<ActivityPersonalInfoEditBinding, UserViewModel>() {
 
-    private var username: String? = null
+    private var username: String = ""
 
     override fun initVB() = ActivityPersonalInfoEditBinding.inflate(layoutInflater)
 
@@ -75,6 +75,6 @@ class EditUsernameActivity : BVMActivity<ActivityPersonalInfoEditBinding, UserVi
         if (!VMReg.isCommonReg(username, "^[a-zA-Z0-9_.@]{4,20}\$")) {
             return errorBar(R.string.info_username_tips)
         }
-        mViewModel.updateUsername(username!!)
+        mViewModel.updateUsername(username)
     }
 }

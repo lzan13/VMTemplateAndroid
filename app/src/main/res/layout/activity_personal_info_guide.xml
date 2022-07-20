@@ -29,15 +29,53 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/commonTopLL" />
 
+    <ImageView
+        android:id="@+id/genderManIV"
+        android:layout_width="@dimen/vm_dimen_48"
+        android:layout_height="@dimen/vm_dimen_48"
+        android:layout_marginTop="@dimen/vm_dimen_16"
+        android:layout_marginEnd="@dimen/vm_dimen_32"
+        android:background="@drawable/selector_circle_common_border"
+        android:padding="@dimen/vm_dimen_12"
+        android:src="@drawable/ic_gender_man"
+        app:layout_constraintEnd_toStartOf="@+id/genderWomanIV"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/avatarIV" />
+
+    <ImageView
+        android:id="@+id/genderWomanIV"
+        android:layout_width="@dimen/vm_dimen_48"
+        android:layout_height="@dimen/vm_dimen_48"
+        android:layout_marginStart="@dimen/vm_dimen_32"
+        android:layout_marginTop="@dimen/vm_dimen_16"
+        android:background="@drawable/selector_circle_common_border"
+        android:padding="@dimen/vm_dimen_12"
+        android:src="@drawable/ic_gender_woman"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/genderManIV"
+        app:layout_constraintTop_toBottomOf="@+id/avatarIV" />
+
+    <TextView
+        android:id="@+id/genderTipsTV"
+        style="@style/AppText.Desc"
+        android:layout_marginTop="@dimen/vm_dimen_8"
+        android:text="@string/info_perfect_gender_hint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/genderManIV" />
+
     <!--昵称-->
     <EditText
         android:id="@+id/nicknameET"
         style="@style/AppEdit.Single"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/vm_dimen_32"
+        android:layout_marginStart="@dimen/vm_dimen_32"
+        android:layout_marginTop="@dimen/vm_dimen_16"
+        android:layout_marginEnd="@dimen/vm_dimen_32"
         android:hint="@string/input_hint"
-        app:layout_constraintTop_toBottomOf="@+id/avatarIV" />
+        app:layout_constraintTop_toBottomOf="@+id/genderTipsTV" />
 
     <TextView
         style="@style/AppText.Tips"

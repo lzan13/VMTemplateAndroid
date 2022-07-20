@@ -35,14 +35,14 @@ abstract class BItemDelegate<T, VB : ViewBinding> : ItemViewDelegate<T, BItemDel
     }
 
     override fun onBindViewHolder(holder: BItemHolder<VB>, item: T) {
-        holder.itemView.setOnClickListener {
+        holder.binding.root.setOnClickListener {
             mItemListener?.onClick(it, item, getPosition(holder))
         }
-        holder.itemView.setOnTouchListener { _, event ->
+        holder.binding.root.setOnTouchListener { _, event ->
             mEvent = event
             false
         }
-        holder.itemView.setOnLongClickListener {
+        holder.binding.root.setOnLongClickListener {
             mItemLongListener?.onLongClick(it, mEvent, item, getPosition(holder)) ?: false
         }
         onBindView(holder, item)

@@ -4,13 +4,16 @@
     <color name="im_bubble_bg">#ffffffff</color>
     <color name="im_bubble_bg_press">#fff6f7f8</color>
 
+    <color name="im_chat_record_inner">#03A9F4</color>
+    <color name="im_chat_record_outer">#6103A9F4</color>
+    <color name="im_chat_record_cancel">@color/app_main_54</color>
+
     <!--通话图标背景-->
     <color name="im_call_icon_bg">@color/vm_gray_white_12</color>
     <color name="im_call_icon_bg_selected">@color/vm_white</color>
     <color name="im_call_icon_effect_bg_selected">@color/vm_gray_white</color>
 
-    <color name="im_call_icon_answer_bg">@color/vm_green</color>
+    <color name="im_call_icon_answer_bg">#00DC2B</color>
     <color name="im_call_icon_end_bg">@color/vm_red</color>
-
-
+    
 </resources>

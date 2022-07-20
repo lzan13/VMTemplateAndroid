@@ -42,28 +42,18 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11
     }
-
-    kapt {
-        arguments {
-            // 阿里巴巴 ARouter Kotlin 下的配置
-            arg("AROUTER_MODULE_NAME", project.getName())
-        }
-    }
 }
 
 dependencies {
-    // ARouter 编译器，TODO 当代码中有一些自己没看到的错误的时候，ARouter 会拦截错误信息，看不到错误位置，把这行注释掉，重新编译
-    kapt 'com.alibaba:arouter-compiler:1.5.2'
-
     // Glide https://github.com/bumptech/glide
-    api 'com.github.bumptech.glide:glide:4.12.0'
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
     kapt 'com.github.bumptech.glide:compiler:4.12.0'
 
     // 图片选择器 https://github.com/yangpeixing/YImagePicker
-    api 'com.ypx.yimagepicker:androidx:3.1.4'
+    implementation 'com.ypx.yimagepicker:androidx:3.1.4'
 
     // 可缩放 PhotoView https://github.com/chrisbanes/PhotoView
-    api 'com.github.chrisbanes:PhotoView:2.3.0'
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 
     // 依赖 base 库
     implementation project(':vmbase')
@@ -71,5 +61,6 @@ dependencies {
     implementation project(':vmcommon')
     // 依赖 request 库 用到了里边的 mediaHost()
     compileOnly project(':vmrequest')
-
 }
+
+apply from: "${rootDir.absolutePath}/arouter.gradle"

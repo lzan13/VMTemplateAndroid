@@ -9,11 +9,11 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 
 import com.vmloft.develop.app.template.R
-import com.vmloft.develop.app.template.common.Constants
-import com.vmloft.develop.app.template.common.SignManager
+import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.app.template.databinding.FragmentMineBinding
 import com.vmloft.develop.library.image.IMGLoader
-import com.vmloft.develop.app.template.request.bean.User
+import com.vmloft.develop.library.data.bean.User
+import com.vmloft.develop.library.data.common.DConstants
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.app.template.ui.post.PostFallsFragment
 import com.vmloft.develop.app.template.ui.post.PostLikesFragment
@@ -21,6 +21,7 @@ import com.vmloft.develop.library.base.BFragment
 import com.vmloft.develop.library.base.event.LDEventBus
 import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.common.config.ConfigManager
+import com.vmloft.develop.library.gift.GiftRouter
 import com.vmloft.develop.library.tools.utils.VMColor
 import com.vmloft.develop.library.tools.utils.VMDimen
 import com.vmloft.develop.library.tools.utils.VMStr
@@ -57,17 +58,18 @@ class MineFragment : BFragment<FragmentMineBinding>() {
         mBinding.mineFollowLL.setOnClickListener { CRouter.go(AppRouter.appMineRelation, what = 0) }
         mBinding.mineLikeLL.setOnClickListener { }
 
-        mBinding.mineEditInfoTV.setOnClickListener { CRouter.go(AppRouter.appPersonalInfo) }
-        mBinding.mineSettingsBtn.setOnClickListener { CRouter.go(AppRouter.appSettings) }
+        mBinding.mineGiftIV.setOnClickListener { CRouter.go(GiftRouter.giftMine, str0 = user.id) }
+        mBinding.mineInfoTV.setOnClickListener { CRouter.go(AppRouter.appPersonalInfo) }
+        mBinding.mineSettingsIV.setOnClickListener { CRouter.go(AppRouter.appSettings) }
 
-        LDEventBus.observe(this, Constants.Event.userInfo, User::class.java, {
+        LDEventBus.observe(this, DConstants.Event.userInfo, User::class.java) {
             user = it
             bindInfo()
-        })
+        }
     }
 
     override fun initData() {
-        user = SignManager.getCurrUser() ?: User()
+        user = SignManager.getCurrUser()
 
         initFragmentList()
         initViewPager()
@@ -117,7 +119,7 @@ class MineFragment : BFragment<FragmentMineBinding>() {
         val avatar: String = user.avatar
         IMGLoader.loadAvatar(mBinding.mineAvatarIV, avatar)
         // 身份
-        if (ConfigManager.clientConfig.vipEntry && user.role.identity in 100..199) {
+        if (ConfigManager.clientConfig.tradeConfig.vipEntry && user.role.identity in 100..199) {
             mBinding.mineNameTV.setTextColor(VMColor.byRes(R.color.app_identity_vip))
             mBinding.mineIdentityIV.visibility = View.VISIBLE
         } else {
@@ -143,7 +145,7 @@ class MineFragment : BFragment<FragmentMineBinding>() {
         mBinding.mineHeaderLayout.updateLayout()
 
         // 根据配置控制是否显示积分入口
-        mBinding.mineScoreTV.visibility = if (ConfigManager.clientConfig.scoreEntry) View.VISIBLE else View.GONE
+        mBinding.mineScoreTV.visibility = if (ConfigManager.clientConfig.tradeConfig.scoreEntry) View.VISIBLE else View.GONE
 
     }
 

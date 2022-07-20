@@ -1,27 +1,29 @@
 <resources>
-    <string name="app_name">忘忧</string>
+    <string name="app_name">忘忧大陆</string>
+    <string name="app_name_normal">忘忧大陆-修仙一样交友</string>
 
     <!--引导-->
     <string name="guide_prev">上一步</string>
     <string name="guide_next">下一步</string>
-    <string name="guide_finish">完成</string>
-    <string name="guide_title_0">冲浪时间</string>
-    <string name="guide_intro_0">闲下来，来浪吧，这里有世界各地的朋友</string>
-    <string name="guide_title_1">学习交流</string>
-    <string name="guide_intro_1">和社区内的小伙伴一起学习，一起进步</string>
-    <string name="guide_title_2">私密沟通</string>
-    <string name="guide_intro_2">文字、图片、语音、各种消息随心收发</string>
-    <string name="guide_title_3">积攒人气</string>
-    <string name="guide_intro_3">发布你的美照，让别人膜拜吧</string>
-    <string name="guide_title_4">Super Star</string>
-    <string name="guide_intro_4">在这里，你就是巨星，闪耀吧</string>
+    <string name="guide_finish">进入忘忧大陆</string>
+    <string name="guide_title_0">来到忘忧大陆</string>
+    <string name="guide_intro_0">修仙一样交友，分享你的快乐，忘记你的烦忧</string>
+    <string name="guide_title_1">放松身心</string>
+    <string name="guide_intro_1">在喧闹的尘世中，划出一片空间，让身心放松</string>
+    <string name="guide_title_2">邂逅道友</string>
+    <string name="guide_intro_2">用文字和图片来分享自己的心情，邂逅和你有同感的道友</string>
+    <string name="guide_title_3">即时交流</string>
+    <string name="guide_intro_3">飞剑传书，同心纸，不一样的交流体验，就好像你在我眼前</string>
+    <string name="guide_title_4">美好心情</string>
+    <string name="guide_intro_4">忘却你的烦恼和忧愁，收获好心情</string>
 
     <string name="guide_home_emotion">点击这里设置自己的心情\n其他人可以实时接收到哦</string>
-    <string name="guide_home_chat_fast">可随机匹配闪聊</string>
-    <string name="guide_home_refresh">点击刷新心情弹幕</string>
+    <string name="guide_home_chat_random">召唤飞剑传书，邂逅道友</string>
+    <string name="guide_home_chat_fast">获取同心纸进行急速聊天</string>
+    <string name="guide_home_relaxation_world">去往休闲空间玩儿玩儿吧，也可下拉触发</string>
     <string name="guide_home_chat_room">来聊天室侃大山放松心情</string>
     <string name="guide_explore_report">长按可屏蔽举报对应内容</string>
-    <string name="guide_explore_publish">点击图标去发布内容</string>
+    <string name="guide_explore_publish">点击这里可以发布内容</string>
     <string name="guide_user_report">如果收到对方骚扰，可拉黑和举报TA</string>
     <string name="guide_user_msg">如果对TA感兴趣，可以私聊TA</string>
     <string name="guide_post_like">喜欢可以点一下这里</string>
@@ -34,13 +36,20 @@
     <string name="nav_msg">消息</string>
     <string name="nav_mine">我的</string>
 
+    <string name="home_item_random">邂逅道友</string>
+    <string name="home_item_fast">速聊同心纸</string>
+    <string name="home_item_relaxation_world">休闲空间</string>
+    <string name="home_item_chat_room">忘忧聊天房</string>
+
     <string name="search">搜索</string>
     <string name="search_hint">输入搜索关键词</string>
 
     <!--匹配-->
-    <string name="match_refresh">刷新心情弹幕</string>
-    <string name="match_info">当前活跃 %s 人 </string>
-    <string name="match_loading">忘忧君扫描中...</string>
+    <string name="match_info">%s 道友在呼唤你</string>
+
+    <string name="match_random_tips">正在匹配道友...</string>
+    <string name="match_fast_tips">正在查找同心纸鹤...</string>
+    <string name="match_cannot_tips">匹配次数和忘忧币都空了呢，签到会重置当天的匹配次数哦！快去忘忧币页面看看任务获取忘忧币吧!!!</string>
 
     <string name="match_destiny">相信缘分</string>
     <string name="match_destiny_desc">缘分有很多\n我只相信这一刻</string>
@@ -64,8 +73,8 @@
     <string name="match_wish_desc">许个愿吧\n万一实现了呢</string>
 
     <string name="filter_gender_title">匹配过滤</string>
-    <string name="filter_gender_woman">女</string>
-    <string name="filter_gender_man">男</string>
+    <string name="filter_gender_woman">仙子</string>
+    <string name="filter_gender_man">仙君</string>
     <string name="filter_gender_all">不限</string>
 
     <string name="emotion_title">今日心情</string>
@@ -74,6 +83,11 @@
     <string name="emotion_normal">平淡</string>
     <string name="emotion_sad">难过</string>
     <string name="emotion_anger">愤怒</string>
+
+    <string name="relaxation_world">休闲空间</string>
+    <string name="relaxation_world_vip_tips">VIP畅玩</string>
+    <string name="relaxation_world_start">立即畅玩</string>
+    <string name="relaxation_world_test">试玩一下</string>
 
     <!--发布-->
     <string name="post_create_title">发布内容</string>
@@ -127,7 +141,7 @@
     <string name="settings">设置</string>
 
     <string name="settings_about">关于</string>
-    <string name="about_content">忘掉烦恼，解除忧愁，传播正能量😁</string>
+    <string name="about_content">来忘忧大陆，像修仙一样交友</string>
     <string name="about_copyright">Copyright &#169; 2020 VMLoft.\nAll Right Reserved.</string>
 
     <string name="settings_feedback">问题及意见反馈</string>
@@ -242,10 +256,10 @@
     <string name="info_mine_qr">我的二维码</string>
     <string name="info_mine_qr_tips">扫描上面二维码，加我好友</string>
 
-    <string name="info_guide_tips">请设置你的个性头像与昵称</string>
+    <string name="info_guide_tips">请完善你的个人信息</string>
 
-    <string name="info_gender_woman">女</string>
-    <string name="info_gender_man">男</string>
+    <string name="info_gender_woman">仙子</string>
+    <string name="info_gender_man">仙君</string>
     <string name="info_gender_unknow">神秘</string>
 
     <string name="personal_auth">个人认证</string>
@@ -277,7 +291,7 @@
     <string name="gold_clock_continuous_4">4天</string>
     <string name="gold_clock_continuous_5">5天</string>
     <string name="gold_clock_continuous_6">6天</string>
-    <string name="gold_clock_continuous_tips">连续签到有更多奖励哦~</string>
+    <string name="gold_clock_continuous_tips">签到可重置当天匹配次数，连续签到有更多奖励~</string>
     <string name="gold_clock_complete">已签到</string>
     <string name="gold_more_title">忘忧币获取</string>
     <string name="gold_more_video_ads">看视频得忘忧币</string>
@@ -291,12 +305,21 @@
     <string name="gold_vip_title">会员中心</string>
     <string name="gold_vip">开通会员 → </string>
     <string name="gold_vip_renewal">续费会员 → </string>
-    <string name="gold_vip_desc">会员权益</string>
+    <string name="gold_vip_privilege">会员权益</string>
     <string name="gold_vip_hint">会员独享多种权益，开通更实惠</string>
+
+    <string name="gold_vip_privilege_logo">VIP专属标识，升级昵称专属色，会员专属身份标识！</string>
+    <string name="gold_vip_privilege_ads">广告去无踪，屏蔽应用内广告，享受清爽应用！</string>
+    <string name="gold_vip_privilege_random">无限制匹配道友次数，找到你最心仪的那个双修道友！</string>
+    <string name="gold_vip_privilege_fast">无限制同心纸鹤请求，将急速沟通进行到底！</string>
+    <string name="gold_vip_privilege_relaxation">休闲空间无限制，各种游戏随便玩儿！</string>
+    <string name="gold_vip_privilege_voice">打破聊天限制，语音消息随便发！</string>
+    <string name="gold_vip_privilege_picture">打破聊天限制，图片消息随便发！</string>
+    <string name="gold_vip_privilege_call">打破聊天限制，语音通话随便呼！</string>
 
     <string name="gold_desc">须知&amp;反馈</string>
     <string name="gold_desc_h1">什么是忘忧币</string>
-    <string name="gold_desc_body1">忘忧币是仅限忘忧App内使用的虚拟币。</string>
+    <string name="gold_desc_body1">忘忧币是仅限【忘忧大陆】App内使用的虚拟币。</string>
     <string name="gold_desc_h2">如何获得忘忧币</string>
     <string name="gold_desc_body2">忘忧币可以通过每日签到、视频任务、充值等方式获取</string>
     <string name="gold_desc_h3">如何使用忘忧币</string>
@@ -309,8 +332,8 @@
     <string name="gold_desc_h5">支付遇到问题</string>
     <string name="gold_desc_body5">如果显示充值成功(已经付费成功)，但忘忧币没有到账，可以先杀掉App进程再次进入，查看忘忧币是否有更新(有时候会有延迟哒，不要着急哦~)\n\n
         如果等了一段时间忘忧币还没有增加，请截图你的充值账单，反馈给我们，我们将尽快核查你的账单处理的哦~\n\n
-        <!--        微信：进入【微信】>【我】>【支付】>【钱包】>【账单】> 找到与【忘忧 App】相关的那一条支付记录，进入【账单详情】截图 \n\n-->
-        支付宝：进入【支付宝】>【我的】>【账单】> 找到与【忘忧 App】相关的那一条支付记录，进入【订单详情】截图</string>
+        <!--        微信：进入【微信】>【我】>【支付】>【钱包】>【账单】> 找到与【忘忧大陆】APP相关的那一条支付记录，进入【账单详情】截图 \n\n-->
+        支付宝：进入【支付宝】>【我的】>【账单】> 找到与【忘忧大陆】APP相关的那一条支付记录，进入【订单详情】截图</string>
     <string name="go_feedback">去反馈</string>
 
     <!--订单相关-->
@@ -366,11 +389,9 @@
     <string name="agreement_policy_prefix">进入表示你已阅读并同意</string>
     <string name="agreement_policy_hint">请阅读并同意《用户协议》与《隐私政策》</string>
     <string name="agreement_policy_dialog_title">用户协议与隐私政策</string>
-    <string name="agreement_policy_dialog_content">欢迎使用忘忧\n
-        1.为了向你提供功能服务，我们会根据你使用服务的具体需要，收集必要的信息；\n
-        2.未经你授权，我们不会与第三方共享或对外提供你的信息；\n
-        3.你可以访问、更正、删除你的个人信息，我们也将提供注销和更正方式。\n
-        请你阅读完整版《用户协议》和《隐私政策》以及《用户行为规范》，点击「同意」即表示你已阅读并同意全部条款。</string>
+    <string name="agreement_policy_dialog_content">欢迎使用忘忧大陆\n\n1.为了向你提供功能服务，我们会根据你使用服务的具体需要，收集必要的信息；\n2.未经你授权，我们不会与第三方共享或对外提供你的信息；\n3.你可以访问、更正、删除你的个人信息，我们也将提供注销和更正方式。\n\n请你仔细阅读完整版《用户协议》和《隐私政策》以及《用户行为规范》\n\n点击「同意」即表示你已阅读并同意全部条款。</string>
+    <string name="agreement_policy_dialog_agree">同意</string>
+    <string name="agreement_policy_dialog_disagree">不同意</string>
 
     <!--网络请求-->
     <string name="network_failed">请求失败，请稍后重试</string>

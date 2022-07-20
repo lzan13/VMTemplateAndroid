@@ -39,7 +39,7 @@ class DisplaySingleActivity : BVMActivity<ActivityDisplaySingleBinding, DisplayV
     override fun initData() {
         ARouter.getInstance().inject(this)
 
-        IMGLoader.loadCover(mBinding.displayIV, url,thumbExt = "")
+        IMGLoader.loadCover(mBinding.displayIV, url, thumbExt = "")
 
 //        ADSManager.loadBannerADS(ADSManager.adsBannerId, adsContainer)
     }

@@ -2,7 +2,7 @@
 apply from: 'config.gradle'
 
 buildscript {
-    ext.kotlin_version = '1.5.21'
+    ext.kotlin_version = '1.5.20'
 
     repositories {
         maven { url 'https://maven.aliyun.com/repository/google' }
@@ -11,6 +11,8 @@ buildscript {
         maven { url 'https://jitpack.io' }
         // 个推 SDK
         maven { url "https://mvn.getui.com/nexus/content/repositories/releases/" }
+        // 友盟 SDK
+        maven { url 'https://repo1.maven.org/maven2/' }
         // MQTT SDK
         maven { url "https://repo.eclipse.org/content/repositories/paho-snapshots/" }
         // TopOn 聚合平台
@@ -34,6 +36,8 @@ allprojects {
         maven { url 'https://jitpack.io' }
         // 个推 SDK
         maven { url "https://mvn.getui.com/nexus/content/repositories/releases/" }
+        // 友盟 SDK
+        maven { url 'https://repo1.maven.org/maven2/' }
         // MQTT SDK
         maven { url "https://repo.eclipse.org/content/repositories/paho-snapshots/" }
         // TopOn 聚合平台
@@ -42,10 +46,13 @@ allprojects {
         maven { url "https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_oversea" }
         google()
         mavenCentral()
-        // 解决本地依赖 aar 打包报错 其实就是将libs作为本地仓库，然后引用参考下的库文件。但是编译时候会有这个提示
+
+        // 解决本地依赖 aar 打包报错 其实就是将 libs 作为本地仓库，然后引用参考下的库文件。但是编译时候会有这个提示
         // Using flatDir should be avoided because it doesn't support any meta-data formats.
-        flatDir {
-            dirs new File(rootProject.projectDir.getAbsolutePath() + '/vmads/libs')
+        repositories {
+            flatDir {
+                dirs new File(rootProject.projectDir.getAbsolutePath() + '/aar')
+            }
         }
     }
 }

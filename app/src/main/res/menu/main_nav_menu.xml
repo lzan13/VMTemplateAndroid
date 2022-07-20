@@ -13,7 +13,7 @@
     
     <item
         android:id="@+id/nav_msg"
-        android:icon="@drawable/ic_chat_flash"
+        android:icon="@drawable/ic_chat"
         android:title="@string/nav_msg" />
 
     <item

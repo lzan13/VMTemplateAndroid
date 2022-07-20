@@ -1,15 +1,14 @@
 package com.vmloft.develop.app.template.ui.main.mine.info
 
 import android.text.Editable
-import android.text.TextUtils
 import android.text.TextWatcher
 import com.alibaba.android.arouter.facade.annotation.Route
 
 import com.vmloft.develop.app.template.R
-import com.vmloft.develop.app.template.common.SignManager
+import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.app.template.databinding.ActivityPersonalInfoGuideBinding
-import com.vmloft.develop.app.template.request.bean.User
-import com.vmloft.develop.app.template.request.viewmodel.UserViewModel
+import com.vmloft.develop.library.data.bean.User
+import com.vmloft.develop.library.data.viewmodel.UserViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.base.BVMActivity
 import com.vmloft.develop.library.base.BViewModel
@@ -31,7 +30,8 @@ class PersonalInfoGuideActivity : BVMActivity<ActivityPersonalInfoGuideBinding, 
 
     private lateinit var mUser: User
 
-    private var nickname: String? = null
+    private var nickname: String = ""
+    private var gender: Int = 2
 
     override fun initVB() = ActivityPersonalInfoGuideBinding.inflate(layoutInflater)
 
@@ -44,22 +44,25 @@ class PersonalInfoGuideActivity : BVMActivity<ActivityPersonalInfoGuideBinding, 
         setTopEndBtnListener(VMStr.byRes(R.string.btn_skip)) { finish() }
 
         mBinding.avatarIV.setOnClickListener { chooseAvatar() }
+        mBinding.genderManIV.setOnClickListener { chooseGender(1) }
+        mBinding.genderWomanIV.setOnClickListener { chooseGender(0) }
+
         mBinding.nicknameET.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
 
             override fun afterTextChanged(s: Editable) {
                 nickname = s.toString().trim()
-                verifyInputBox()
+                verifyInfo()
             }
         })
         mBinding.submitTV.setOnClickListener { submit() }
     }
 
     override fun initData() {
-        mUser = SignManager.getCurrUser() ?: return finish()
+        mUser = SignManager.getCurrUser()
 
-        IMGLoader.loadAvatar(mBinding.avatarIV, mUser.avatar)
+        bindInfo()
     }
 
     override fun onModelRefresh(model: BViewModel.UIModel) {
@@ -74,6 +77,12 @@ class PersonalInfoGuideActivity : BVMActivity<ActivityPersonalInfoGuideBinding, 
         }
     }
 
+    private fun bindInfo() {
+        IMGLoader.loadAvatar(mBinding.avatarIV, mUser.avatar)
+        chooseGender(mUser.gender)
+        mBinding.nicknameET.setText(mUser.nickname)
+    }
+
     /**
      * 选择头像
      */
@@ -85,11 +94,22 @@ class PersonalInfoGuideActivity : BVMActivity<ActivityPersonalInfoGuideBinding, 
     }
 
     /**
-     * 校验输入框内容
+     * 选择性别
      */
-    private fun verifyInputBox() { // 将用户名转为消息并修剪
+    private fun chooseGender(value: Int) {
+        gender = value
+        mBinding.genderManIV.isSelected = gender == 1
+        mBinding.genderWomanIV.isSelected = gender == 0
+        verifyInfo()
+    }
+
+    /**
+     * 校验用户信息
+     */
+    private fun verifyInfo() {
         // 检查输入框是否为空
-        mBinding.submitTV.isEnabled = !TextUtils.isEmpty(nickname)
+        mBinding.submitTV.isEnabled = nickname.isNotEmpty() && gender != 2 && mUser.avatar.isNotEmpty()
+
     }
 
     /**
@@ -99,8 +119,9 @@ class PersonalInfoGuideActivity : BVMActivity<ActivityPersonalInfoGuideBinding, 
         if (!VMReg.isCommonReg(nickname, "^[\\s\\S]{1,12}$")) {
             return errorBar(R.string.info_nickname_tips)
         }
-        val params = mutableMapOf<String, String>()
-        params["nickname"] = nickname!!
+        val params = mutableMapOf<String, Any>()
+        params["nickname"] = nickname
+        params["gender"] = gender
         mViewModel.updateInfo(params)
     }
 }

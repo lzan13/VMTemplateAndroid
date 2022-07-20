@@ -1,8 +1,7 @@
 package com.vmloft.develop.library.base.common
 
 import com.vmloft.develop.library.base.BuildConfig
-import com.vmloft.develop.library.tools.utils.VMDimen
-import com.vmloft.develop.library.tools.utils.VMSPUtil
+import com.vmloft.develop.library.tools.utils.VMSP
 
 /**
  * Create by lzan13 on 2020/08/11
@@ -16,8 +15,6 @@ object CSPManager {
     private val settingsEntry = "settings"
     // debug 开关
     private val debugKey = "debugKey"
-    // 记录键盘高度
-    private val keyboardHeightKey = "keyboardHeightKey"
     // 资源设置 key
     private val mediaAutoLoadKey = "mediaAutoLoadKey"
     private val mediaSaveDICMKey = "mediaSaveDICMKey"
@@ -33,35 +30,25 @@ object CSPManager {
      * Debug 状态
      */
     fun setDebug(debug: Boolean) {
-        VMSPUtil.getEntry(settingsEntry).putAsync(debugKey, debug)
+        VMSP.getEntry(settingsEntry).putAsync(debugKey, debug)
     }
 
-    fun isDebug(): Boolean = VMSPUtil.getEntry(settingsEntry).get(debugKey, BuildConfig.DEBUG) as Boolean
-
-    /**
-     * 保存键盘高度
-     */
-    fun putKeyboardHeight(height: Int) {
-        VMSPUtil.getEntry(settingsEntry).putAsync(keyboardHeightKey, height)
-    }
-
-    fun getKeyboardHeight(): Int =
-        VMSPUtil.getEntry(settingsEntry).get(keyboardHeightKey, VMDimen.dp2px(256)) as Int
+    fun isDebug(): Boolean = VMSP.getEntry(settingsEntry).get(debugKey, BuildConfig.DEBUG) as Boolean
 
     /**
      * 资源相关配置
      */
     fun setAutoLoad(auto: Boolean) {
-        VMSPUtil.getEntry(settingsEntry).putAsync(mediaAutoLoadKey, auto)
+        VMSP.getEntry(settingsEntry).putAsync(mediaAutoLoadKey, auto)
     }
 
-    fun isAutoLoad(): Boolean = VMSPUtil.getEntry(settingsEntry).get(mediaAutoLoadKey, true) as Boolean
+    fun isAutoLoad(): Boolean = VMSP.getEntry(settingsEntry).get(mediaAutoLoadKey, true) as Boolean
 
     fun setSaveDICM(auto: Boolean) {
-        VMSPUtil.getEntry(settingsEntry).putAsync(mediaSaveDICMKey, auto)
+        VMSP.getEntry(settingsEntry).putAsync(mediaSaveDICMKey, auto)
     }
 
-    fun isSaveDICM(): Boolean = VMSPUtil.getEntry(settingsEntry).get(mediaSaveDICMKey, true) as Boolean
+    fun isSaveDICM(): Boolean = VMSP.getEntry(settingsEntry).get(mediaSaveDICMKey, true) as Boolean
 
     /**
      * 通知开关
@@ -96,20 +83,20 @@ object CSPManager {
      * 通用获取数据
      */
     fun get(entry: String, key: String, default: Any): Any? {
-        return VMSPUtil.getEntry(entry).get(key, default)
+        return VMSP.getEntry(entry).get(key, default)
     }
 
     /**
      * 通用设置数据
      */
-    fun put(entry: String, key: String, value: String) {
-        VMSPUtil.getEntry(entry).put(key, value)
+    fun put(entry: String, key: String, value: Any) {
+        VMSP.getEntry(entry).put(key, value)
     }
 
     /**
      * 通用设置数据，异步
      */
     fun putAsync(entry: String, key: String, value: Any) {
-        VMSPUtil.getEntry(entry).putAsync(key, value)
+        VMSP.getEntry(entry).putAsync(key, value)
     }
 }

@@ -8,23 +8,17 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView
+import com.google.android.material.bottomnavigation.BottomNavigationView
+
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
-import com.google.android.material.bottomnavigation.BottomNavigationItemView
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView
-
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.hyphenate.chat.EMMessage
 
 import com.vmloft.develop.app.template.R
-import com.vmloft.develop.app.template.common.Constants
-import com.vmloft.develop.app.template.common.SignManager
 import com.vmloft.develop.app.template.databinding.ActivityMainBinding
-import com.vmloft.develop.app.template.request.bean.Config
-import com.vmloft.develop.app.template.request.bean.User
-import com.vmloft.develop.app.template.request.bean.Version
-import com.vmloft.develop.app.template.request.viewmodel.MainViewModel
+import com.vmloft.develop.app.template.im.IMManager
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.app.template.ui.main.explore.ExploreFragment
 import com.vmloft.develop.app.template.ui.main.home.HomeFragment
@@ -34,12 +28,12 @@ import com.vmloft.develop.library.base.BVMActivity
 import com.vmloft.develop.library.base.BViewModel
 import com.vmloft.develop.library.base.event.LDEventBus
 import com.vmloft.develop.library.base.router.CRouter
-import com.vmloft.develop.library.base.utils.errorBar
 import com.vmloft.develop.library.base.widget.CommonDialog
-import com.vmloft.develop.library.common.config.ConfigManager
-import com.vmloft.develop.library.im.IM
+import com.vmloft.develop.library.data.common.SignManager
+import com.vmloft.develop.library.data.bean.User
+import com.vmloft.develop.library.data.bean.Version
+import com.vmloft.develop.library.data.viewmodel.MainViewModel
 import com.vmloft.develop.library.im.common.IMConstants
-import com.vmloft.develop.library.tools.utils.VMStr
 import com.vmloft.develop.library.tools.utils.VMSystem
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -132,6 +126,7 @@ class MainActivity : BVMActivity<ActivityMainBinding, MainViewModel>() {
         if (type == 1) {
             // 清空登录信息统一交给 Main 界面处理
             SignManager.signOut()
+            IMManager.signOut()
         }
         if (!SignManager.isSingIn()) {
             CRouter.go(AppRouter.appSignGuide)
@@ -180,7 +175,7 @@ class MainActivity : BVMActivity<ActivityMainBinding, MainViewModel>() {
      */
     private fun switchFragment(tab: Int) {
         if (tab == 0) {
-            mBinding.mainNav.setBackgroundResource(R.color.vm_transparent)
+            mBinding.mainNav.setBackgroundResource(R.color.app_bg_nav_dark)
         } else {
             mBinding.mainNav.setBackgroundResource(R.color.app_bg_nav)
         }
@@ -239,7 +234,7 @@ class MainActivity : BVMActivity<ActivityMainBinding, MainViewModel>() {
      * 检查消息未读
      */
     private fun checkMsgUnread() {
-        val unreadCount = IM.getUnreadCount()
+        val unreadCount = IMManager.getUnreadCount()
         val unreadStr = if (unreadCount > 99) {
             "99+"
         } else {

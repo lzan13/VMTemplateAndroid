@@ -12,8 +12,8 @@ import com.drakeet.multitype.MultiTypeAdapter
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.databinding.ActivityRelationListBinding
 import com.vmloft.develop.library.request.RPaging
-import com.vmloft.develop.app.template.request.bean.User
-import com.vmloft.develop.app.template.request.viewmodel.UserViewModel
+import com.vmloft.develop.library.data.bean.User
+import com.vmloft.develop.library.data.viewmodel.UserViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.base.BVMActivity
 import com.vmloft.develop.library.base.BViewModel
@@ -60,7 +60,7 @@ class RelationListActivity : BVMActivity<ActivityRelationListBinding, UserViewMo
 
         setTopTitle(if (type == 0) R.string.mine_follow else R.string.mine_fans)
 
-        mViewModel.followList(type)
+        mBinding.refreshLayout.autoRefresh()
     }
 
     /**
@@ -87,9 +87,9 @@ class RelationListActivity : BVMActivity<ActivityRelationListBinding, UserViewMo
         mBinding.refreshLayout.setOnRefreshListener {
             mBinding.refreshLayout.setNoMoreData(false)
             page = CConstants.defaultPage
-            mViewModel.followList()
+            mViewModel.relationList(type)
         }
-        mBinding.refreshLayout.setOnLoadMoreListener { mViewModel.followList(type, page++) }
+        mBinding.refreshLayout.setOnLoadMoreListener { mViewModel.relationList(type, page++) }
     }
 
     private fun refresh(paging: RPaging<User>) {
@@ -134,14 +134,14 @@ class RelationListActivity : BVMActivity<ActivityRelationListBinding, UserViewMo
             mBinding.refreshLayout.finishLoadMore()
             hideLoading()
         } else {
-            if (model.type != "followList") {
+            if (model.type != "relationList") {
                 showLoading()
             }
         }
     }
 
     override fun onModelRefresh(model: BViewModel.UIModel) {
-        if (model.type == "followList") {
+        if (model.type == "relationList") {
             refresh(model.data as RPaging<User>)
         } else if (model.type == "follow") {
             currUser!!.relation++
@@ -154,7 +154,7 @@ class RelationListActivity : BVMActivity<ActivityRelationListBinding, UserViewMo
 
     override fun onModelError(model: BViewModel.UIModel) {
         super.onModelError(model)
-        if (model.type == "followList") {
+        if (model.type == "relationList") {
             checkEmptyStatus(1)
         }
     }

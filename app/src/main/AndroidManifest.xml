@@ -67,10 +67,18 @@
             android:name=".ui.sign.SignUpActivity"
             android:exported="false" />
 
+        <!--程序列表界面-->
+        <activity
+            android:name=".ui.main.home.AppletListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.main.home.AppletDetailActivity"
+            android:exported="false" />
         <!--匹配动画过渡界面-->
         <activity
             android:name=".ui.main.home.MatchAnimActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AppTheme.Transparent" />
 
         <!--聊天室列表界面-->
         <activity
@@ -114,10 +122,10 @@
             android:name=".ui.trade.GoldRechargeActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.trade.GoldTaskActivity"
+            android:name=".ui.trade.RewardVideoActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.trade.GoldVipActivity"
+            android:name=".ui.trade.VipTradeActivity"
             android:exported="false" />
         <!--订单-->
         <activity
@@ -157,7 +165,6 @@
         <activity
             android:name=".ui.main.mine.info.PersonalAuthActivity"
             android:exported="false" />
-
         <!--关系列表-->
         <activity
             android:name=".ui.main.mine.relation.RelationListActivity"

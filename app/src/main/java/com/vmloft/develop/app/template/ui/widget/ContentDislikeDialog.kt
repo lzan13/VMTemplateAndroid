@@ -41,5 +41,4 @@ class ContentDislikeDialog(context: Context) : VMBDialog<WidgetContentDislikeDia
         mBinding.reportUncomfortableTV.setOnClickListener { callback(9) }
         mBinding.reportOtherTV.setOnClickListener { callback(10) }
     }
-
 }

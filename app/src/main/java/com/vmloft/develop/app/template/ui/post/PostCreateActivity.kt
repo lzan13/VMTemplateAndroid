@@ -17,30 +17,25 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.common.Constants
 import com.vmloft.develop.app.template.databinding.ActivityPostCreateBinding
-import com.vmloft.develop.app.template.request.bean.Attachment
-import com.vmloft.develop.library.request.RPaging
-import com.vmloft.develop.app.template.request.bean.Category
 import com.vmloft.develop.app.template.router.AppRouter
-import com.vmloft.develop.library.image.IMGChoose
-import com.vmloft.develop.library.image.IMGLoader
 import com.vmloft.develop.app.template.report.ReportConstants
-import com.vmloft.develop.app.template.request.bean.Post
-import com.vmloft.develop.app.template.request.viewmodel.PostViewModel
-import com.vmloft.develop.app.template.ui.widget.AgreementPolicyDialog
 import com.vmloft.develop.library.base.BVMActivity
 import com.vmloft.develop.library.base.BViewModel
 import com.vmloft.develop.library.base.common.CConstants
 import com.vmloft.develop.library.base.common.PermissionManager
 import com.vmloft.develop.library.base.event.LDEventBus
 import com.vmloft.develop.library.base.router.CRouter
-import com.vmloft.develop.library.base.utils.ViewUtils
 import com.vmloft.develop.library.base.utils.errorBar
 import com.vmloft.develop.library.base.utils.showBar
+import com.vmloft.develop.library.data.bean.Attachment
+import com.vmloft.develop.library.data.bean.Category
+import com.vmloft.develop.library.data.bean.Post
+import com.vmloft.develop.library.data.viewmodel.PostViewModel
+import com.vmloft.develop.library.image.IMGChoose
+import com.vmloft.develop.library.image.IMGLoader
 import com.vmloft.develop.library.report.ReportManager
-import com.vmloft.develop.library.tools.utils.VMColor
-import com.vmloft.develop.library.tools.utils.VMReg
-import com.vmloft.develop.library.tools.utils.VMStr
-import com.vmloft.develop.library.tools.utils.VMSystem
+import com.vmloft.develop.library.request.RPaging
+import com.vmloft.develop.library.tools.utils.*
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -155,7 +150,7 @@ class PostCreateActivity : BVMActivity<ActivityPostCreateBinding, PostViewModel>
      * 准备
      */
     private fun planSubmit() {
-        ViewUtils.hideKeyboard(this, mBinding.root)
+        VMView.hideKeyboard(this, mBinding.root)
         if (picture == null) {
             submit(null)
         } else {

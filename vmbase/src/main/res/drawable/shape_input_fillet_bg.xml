@@ -2,7 +2,7 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:dither="true"
     android:shape="rectangle">
-    <corners android:radius="@dimen/vm_dimen_32" />
+    <corners android:radius="@dimen/vm_dimen_24" />
     <!--填充背景色-->
     <solid android:color="@color/app_input_bg" />
 </shape>

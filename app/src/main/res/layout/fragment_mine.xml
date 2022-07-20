@@ -221,8 +221,21 @@
                     android:textColor="@color/app_title_display" />
             </LinearLayout>
 
+            <ImageView
+                android:id="@+id/mineGiftIV"
+                android:layout_width="@dimen/vm_dimen_36"
+                android:layout_height="@dimen/vm_dimen_36"
+                android:layout_marginEnd="@dimen/vm_dimen_16"
+                android:background="@drawable/shape_fillet_common_border"
+                android:padding="@dimen/vm_dimen_8"
+                android:src="@drawable/ic_gift"
+                app:layout_constraintBottom_toBottomOf="@+id/mineInfoTV"
+                app:layout_constraintEnd_toStartOf="@+id/mineInfoTV"
+                app:layout_constraintTop_toTopOf="@+id/mineInfoTV"
+                app:tint="@color/app_title_display" />
+
             <TextView
-                android:id="@+id/mineEditInfoTV"
+                android:id="@+id/mineInfoTV"
                 style="@style/AppText.Subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/vm_dimen_36"
@@ -235,11 +248,11 @@
                 android:textColor="@color/app_title_display"
                 android:textSize="@dimen/vm_size_13"
                 app:layout_constraintBottom_toBottomOf="@+id/mineFansLL"
-                app:layout_constraintEnd_toStartOf="@+id/mineSettingsBtn"
+                app:layout_constraintEnd_toStartOf="@+id/mineSettingsIV"
                 app:layout_constraintTop_toTopOf="@+id/mineFansLL" />
 
             <ImageView
-                android:id="@+id/mineSettingsBtn"
+                android:id="@+id/mineSettingsIV"
                 android:layout_width="@dimen/vm_dimen_36"
                 android:layout_height="@dimen/vm_dimen_36"
                 android:layout_marginEnd="@dimen/vm_dimen_16"
@@ -250,6 +263,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/mineFansLL"
                 app:tint="@color/app_title_display" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout

@@ -8,14 +8,10 @@ import android.widget.ImageView
 
 import com.hyphenate.chat.EMImageMessageBody
 import com.hyphenate.chat.EMMessage
-import com.vmloft.develop.library.base.BItemDelegate
-import com.vmloft.develop.library.base.utils.CUtils
-import com.vmloft.develop.library.base.utils.FormatUtils
 
+import com.vmloft.develop.library.base.utils.CUtils
 import com.vmloft.develop.library.image.IMGLoader
-import com.vmloft.develop.library.im.IM
 import com.vmloft.develop.library.im.R
-import com.vmloft.develop.library.im.chat.IMChatManager
 import com.vmloft.develop.library.im.databinding.ImItemMsgPictureReceiveDelegateBinding
 import com.vmloft.develop.library.tools.utils.VMDimen
 import com.vmloft.develop.library.tools.utils.bitmap.VMBitmap
@@ -25,17 +21,12 @@ import com.vmloft.develop.library.tools.utils.bitmap.VMBitmap
  * 描述：展示图片消息 Item
  */
 class MsgPictureReceiveDelegate(listener: BItemListener<EMMessage>, longListener: BItemLongListener<EMMessage>) :
-    BItemDelegate<EMMessage, ImItemMsgPictureReceiveDelegateBinding>(listener, longListener) {
+    MsgCommonDelegate< ImItemMsgPictureReceiveDelegateBinding>(listener, longListener) {
 
     override fun initVB(inflater: LayoutInflater, parent: ViewGroup) = ImItemMsgPictureReceiveDelegateBinding.inflate(inflater, parent, false)
 
     override fun onBindView(holder: BItemHolder<ImItemMsgPictureReceiveDelegateBinding>, item: EMMessage) {
-        holder.binding.imMsgTimeTV.visibility = if (IMChatManager.isShowTime(getPosition(holder), item)) View.VISIBLE else View.GONE
-
-        val user = IM.imListener.getUser(item.from)
-        IMGLoader.loadAvatar(holder.binding.imMsgAvatarIV, user?.avatar ?: "")
-
-        holder.binding.imMsgTimeTV.text = FormatUtils.relativeTime(item.localTime())
+        super.onBindView(holder, item)
 
         val body = item.body as EMImageMessageBody
 
@@ -47,9 +38,6 @@ class MsgPictureReceiveDelegate(listener: BItemListener<EMMessage>, longListener
         var originalLocalUri = body.localUri
 
         loadPicture(holder.binding.imMsgPictureIV, thumbnailRemoteUrl, originalRemoteUrl, originalLocalUri)
-
-        // 点击头像
-        holder.binding.imMsgAvatarIV.setOnClickListener { IM.imListener.onHeadClick(item.from) }
     }
 
     /**

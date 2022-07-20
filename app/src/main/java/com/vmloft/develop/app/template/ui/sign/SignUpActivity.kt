@@ -5,15 +5,18 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
+import android.view.View
 
 import com.alibaba.android.arouter.facade.annotation.Route
 
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.databinding.ActivitySignUpBinding
 import com.vmloft.develop.app.template.request.viewmodel.SignViewModel
+import com.vmloft.develop.app.template.common.Constants
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.base.BVMActivity
 import com.vmloft.develop.library.base.BViewModel
+import com.vmloft.develop.library.base.event.LDEventBus
 import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.base.utils.errorBar
 import com.vmloft.develop.library.tools.utils.VMReg
@@ -96,21 +99,19 @@ class SignUpActivity : BVMActivity<ActivitySignUpBinding, SignViewModel>() {
 
     }
 
+    override fun onModelLoading(model: BViewModel.UIModel) {
+        mBinding.submitTV.isEnabled = !model.isLoading
+        mBinding.loadingView.visibility = if (model.isLoading) View.VISIBLE else View.GONE
+    }
+
     override fun onModelRefresh(model: BViewModel.UIModel) {
-        if (model.type == "signUpByPhone") {
+        if (model.type == "signUpByPhone" || model.type == "signUpByEmail") {
             // 这里直接调用下 IM 的登录，不影响页面的继续
             mViewModel.signInIM()
-
-            // 注册成功，跳转到主页
+        } else if (model.type == "signInIM") {
+            // 登录成功，跳转到主页
             CRouter.goMain()
-            finish()
-        }
-        if (model.type == "signUpByEmail") {
-            // 这里直接调用下 IM 的登录，不影响页面的继续
-            mViewModel.signInIM()
-
-            // 注册成功，跳转到主页
-            CRouter.goMain()
+            LDEventBus.post(Constants.Event.finishPrev)
             finish()
         }
     }

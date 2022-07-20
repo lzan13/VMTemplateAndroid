@@ -6,16 +6,16 @@ import android.text.TextWatcher
 import com.alibaba.android.arouter.facade.annotation.Route
 
 import com.vmloft.develop.app.template.R
-import com.vmloft.develop.app.template.common.CacheManager
 import com.vmloft.develop.app.template.databinding.ActivityRoomCreateBinding
 import com.vmloft.develop.app.template.im.IMManager
-import com.vmloft.develop.app.template.request.bean.Room
+import com.vmloft.develop.app.template.report.ReportConstants
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.base.BVMActivity
 import com.vmloft.develop.library.base.BViewModel
-import com.vmloft.develop.app.template.report.ReportConstants
-import com.vmloft.develop.app.template.request.viewmodel.RoomViewModel
 import com.vmloft.develop.library.base.utils.errorBar
+import com.vmloft.develop.library.data.common.CacheManager
+import com.vmloft.develop.library.data.bean.Room
+import com.vmloft.develop.library.data.viewmodel.RoomViewModel
 import com.vmloft.develop.library.report.ReportManager
 import com.vmloft.develop.library.tools.utils.VMReg
 import com.vmloft.develop.library.tools.utils.VMStr
@@ -45,23 +45,23 @@ class RoomCreateActivity : BVMActivity<ActivityRoomCreateBinding, RoomViewModel>
         setTopEndBtnEnable(false)
         setTopEndBtnListener(VMStr.byRes(R.string.btn_confirm)) { submit() }
 
-        mBinding.roomTitleET.addTextChangedListener(object : TextWatcher {
+        mBinding.titleET.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
 
             override fun afterTextChanged(s: Editable) {
                 title = s.toString().trim()
-                mBinding.roomTitleCountTV.text = title.length.toString()
+                mBinding.titleCountTV.text = "${title.length}/16"
                 verifyInputBox()
             }
         })
-        mBinding.roomDescET.addTextChangedListener(object : TextWatcher {
+        mBinding.descET.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
 
             override fun afterTextChanged(s: Editable) {
                 desc = s.toString().trim()
-                mBinding.roomDescCountTV.text = desc.length.toString()
+                mBinding.descCountTV.text = "${desc.length}/64"
                 verifyInputBox()
             }
         })

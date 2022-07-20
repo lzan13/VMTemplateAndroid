@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg"
+    android:orientation="vertical"
+    tools:context=".ui.trade.VipTradeActivity">
+
+    <include layout="@layout/widget_common_top_bar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!--会员-->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/vipCL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/vm_dimen_16"
+                android:background="@drawable/shape_card_common_bg"
+                android:paddingBottom="@dimen/vm_dimen_16"
+                android:visibility="visible"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/vipRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/vm_dimen_8"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/vipTipsTV"
+                    style="@style/AppText.Tips"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/vm_dimen_16"
+                    android:layout_marginTop="@dimen/vm_dimen_8"
+                    android:text="@string/gold_vip_hint"
+                    app:layout_constraintStart_toStartOf="@+id/vipRecyclerView"
+                    app:layout_constraintTop_toBottomOf="@+id/vipRecyclerView" />
+
+                <TextView
+                    android:id="@+id/goVIPTV"
+                    style="@style/AppBtn.Confirm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/vm_dimen_16"
+                    android:enabled="false"
+                    android:text="@string/gold_vip"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/vipTipsTV" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--会员权益描述-->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/vipDescCL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/vm_dimen_16"
+                android:background="@drawable/shape_card_common_bg"
+                android:paddingBottom="@dimen/vm_dimen_16"
+                android:visibility="visible"
+                app:layout_constraintTop_toBottomOf="@+id/vipCL"
+                tools:visibility="visible">
+
+                <TextView
+                    android:id="@+id/vipPrivilegeTV"
+                    style="@style/AppText.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/vm_dimen_16"
+                    android:text="@string/gold_vip_privilege"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.zhpan.bannerview.BannerViewPager
+                    android:id="@+id/vipBanner2"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/vm_dimen_192"
+                    android:layout_margin="@dimen/vm_dimen_16"
+                    app:bvp_auto_play="true"
+                    app:bvp_can_loop="true"
+                    app:bvp_indicator_checked_color="@color/app_indicator_select"
+                    app:bvp_indicator_gravity="center"
+                    app:bvp_indicator_normal_color="@color/app_indicator_normal"
+                    app:bvp_indicator_slide_mode="smooth"
+                    app:bvp_indicator_style="circle"
+                    app:bvp_interval="2000"
+                    app:bvp_page_margin="@dimen/vm_dimen_8"
+                    app:bvp_page_style="multi_page_scale"
+                    app:bvp_reveal_width="@dimen/vm_dimen_36"
+                    app:bvp_round_corner="@dimen/vm_dimen_16"
+                    app:bvp_scroll_duration="500"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/vipPrivilegeTV" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</LinearLayout>

@@ -10,14 +10,14 @@ import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.common.Constants
 
 import com.vmloft.develop.app.template.databinding.ActivityPostCommentBinding
-import com.vmloft.develop.app.template.request.bean.Comment
-import com.vmloft.develop.app.template.request.viewmodel.PostViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.base.BVMActivity
 import com.vmloft.develop.library.base.BViewModel
 import com.vmloft.develop.library.base.event.LDEventBus
 import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.base.utils.errorBar
+import com.vmloft.develop.library.data.bean.Comment
+import com.vmloft.develop.library.data.viewmodel.PostViewModel
 import com.vmloft.develop.library.tools.utils.VMReg
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel

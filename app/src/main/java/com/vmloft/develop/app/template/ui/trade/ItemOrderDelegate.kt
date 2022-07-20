@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import com.vmloft.develop.app.template.R
 
 import com.vmloft.develop.app.template.databinding.ItemOrderDelegateBinding
-import com.vmloft.develop.app.template.request.bean.Order
 import com.vmloft.develop.library.base.BItemDelegate
+import com.vmloft.develop.library.data.bean.Order
 
 /**
  * Create by lzan13 on 2021/01/05 17:56
@@ -18,7 +18,7 @@ class ItemOrderDelegate(listener: BItemListener<Order>) : BItemDelegate<Order, I
 
     override fun onBindView(holder: BItemHolder<ItemOrderDelegateBinding>, item: Order) {
         holder.binding.orderTitleTV.text = item.title
-        holder.binding.orderPriceTV.text = '￥' + item.realPrice
+        holder.binding.orderPriceTV.text = "￥${item.realPrice / 100f}"
 
         val status = when (item.status) {
             0 -> R.string.order_status_0

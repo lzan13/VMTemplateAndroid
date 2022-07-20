@@ -37,22 +37,71 @@
         android:layout_marginStart="@dimen/vm_dimen_4"
         android:ellipsize="end"
         android:maxLines="1"
-        app:layout_constraintBottom_toBottomOf="@+id/imChatFastAvatar1IV"
+        app:layout_constraintBottom_toTopOf="@+id/imChatFastSignature1TV"
         app:layout_constraintEnd_toStartOf="@+id/imChatFastTimeTV"
         app:layout_constraintStart_toEndOf="@+id/imChatFastAvatar1IV"
         app:layout_constraintTop_toTopOf="@+id/imChatFastAvatar1IV"
         tools:text="小透明" />
 
     <TextView
-        android:id="@+id/imChatFastTimeTV"
-        style="@style/IMText.Title.Shadow"
-        android:layout_width="wrap_content"
+        android:id="@+id/imChatFastSignature1TV"
+        style="@style/IMText.From"
+        android:layout_width="@dimen/vm_dimen_0"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/imChatFastAvatar2IV"
+        android:layout_marginStart="@dimen/vm_dimen_4"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintBottom_toBottomOf="@+id/imChatFastAvatar1IV"
+        app:layout_constraintEnd_toStartOf="@+id/imChatFastTimeTV"
+        app:layout_constraintStart_toEndOf="@+id/imChatFastAvatar1IV"
+        app:layout_constraintTop_toBottomOf="@+id/imChatFastName1TV"
+        tools:text="无个性，不签名！" />
+
+    <!--匹配背景1-->
+    <View
+        android:id="@+id/imChatFastAnimView1"
+        android:layout_width="@dimen/vm_dimen_36"
+        android:layout_height="@dimen/vm_dimen_36"
+        android:background="@drawable/shape_circle_common_bg"
+        android:backgroundTint="@color/app_accent"
+        app:layout_constraintBottom_toBottomOf="@+id/imChatFastAvatar1IV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imChatFastAvatar1IV" />
+    <!--匹配背景2-->
+    <View
+        android:id="@+id/imChatFastAnimView2"
+        android:layout_width="@dimen/vm_dimen_36"
+        android:layout_height="@dimen/vm_dimen_36"
+        android:background="@drawable/shape_circle_common_bg"
+        android:backgroundTint="@color/app_accent"
+        app:layout_constraintBottom_toBottomOf="@+id/imChatFastAvatar1IV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imChatFastAvatar1IV" />
+    <!--纸鹤-->
+    <ImageView
+        android:id="@+id/imChatFastPaperCraneIV"
+        android:layout_width="@dimen/vm_dimen_36"
+        android:layout_height="@dimen/vm_dimen_36"
+        android:padding="@dimen/vm_dimen_8"
+        android:src="@drawable/ic_paper_crane"
+        app:layout_constraintBottom_toBottomOf="@+id/imChatFastAvatar1IV"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imChatFastAvatar1IV"
         tools:text="05:00" />
+    <!--时间-->
+    <TextView
+        android:id="@+id/imChatFastTimeTV"
+        style="@style/AppText.Tips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="05:00"
+        android:textColor="@color/app_title_display"
+        app:layout_constraintBottom_toBottomOf="@+id/imChatFastPaperCraneIV"
+        app:layout_constraintEnd_toEndOf="@+id/imChatFastPaperCraneIV"
+        app:layout_constraintStart_toStartOf="@+id/imChatFastPaperCraneIV" />
 
     <!--对方内容展示-->
     <TextView
@@ -93,7 +142,7 @@
             app:tint="@color/app_desc" />
 
         <TextView
-            style="@style/IMText.Desc"
+            style="@style/AppText.Desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/common_wait"
@@ -128,11 +177,28 @@
         android:ellipsize="end"
         android:gravity="end"
         android:maxLines="1"
-        app:layout_constraintBottom_toBottomOf="@+id/imChatFastAvatar2IV"
+        app:layout_constraintBottom_toTopOf="@+id/imChatFastSignature2TV"
         app:layout_constraintEnd_toStartOf="@+id/imChatFastAvatar2IV"
         app:layout_constraintStart_toEndOf="@+id/imChatFastTimeTV"
         app:layout_constraintTop_toTopOf="@+id/imChatFastAvatar2IV"
         tools:text="小透明" />
+
+    <TextView
+        android:id="@+id/imChatFastSignature2TV"
+        style="@style/IMText.From"
+        android:layout_width="@dimen/vm_dimen_0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/vm_dimen_4"
+        android:layout_marginEnd="@dimen/vm_dimen_4"
+        android:ellipsize="end"
+        android:gravity="end"
+        android:maxLines="1"
+        app:layout_constraintBottom_toBottomOf="@+id/imChatFastAvatar2IV"
+        app:layout_constraintEnd_toStartOf="@+id/imChatFastAvatar2IV"
+        app:layout_constraintStart_toEndOf="@+id/imChatFastTimeTV"
+        app:layout_constraintTop_toBottomOf="@+id/imChatFastName2TV"
+        tools:text="无个性，不签名！" />
+
     <!--自己内容展示-->
     <com.vmloft.develop.library.im.fast.IMCustomEditText
         android:id="@+id/imChatFastContentET"

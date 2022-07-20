@@ -42,13 +42,6 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11
     }
-
-    kapt {
-        arguments {
-            // 阿里巴巴 ARouter Kotlin 下的配置
-            arg("AROUTER_MODULE_NAME", project.getName())
-        }
-    }
 }
 
 dependencies {
@@ -88,14 +81,14 @@ dependencies {
 
     // 阿里巴巴 ARouter 库 https://github.com/alibaba/ARouter
     api 'com.alibaba:arouter-api:1.5.2'
-    // ARouter 编译器，TODO 当代码中有一些自己没看到的错误的时候，ARouter 会拦截错误信息，看不到错误位置，把这行注释掉，重新编译
-    kapt 'com.alibaba:arouter-compiler:1.5.2'
 
     // Android消息总线，基于LiveData https://github.com/JeremyLiao/LiveEventBus
     api 'io.github.jeremyliao:live-event-bus-x:1.8.0'
 
     // 自定义工具库 https://gitee.com/lzan13/VMLibrary
-    api 'com.github.lzan13:VMLibrary:1.6.2'
+    api 'com.github.lzan13:VMLibrary:1.6.7'
     // 引入自己封装的工具库源码，便与调试
 //    api project(':vmtools')
 }
+
+apply from: "${rootDir.absolutePath}/arouter.gradle"

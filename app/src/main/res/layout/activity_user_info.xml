@@ -210,6 +210,20 @@
                     android:text="@string/mine_like"
                     android:textColor="@color/app_title_display" />
             </LinearLayout>
+
+            <ImageView
+                android:id="@+id/infoGiftIV"
+                android:layout_width="@dimen/vm_dimen_36"
+                android:layout_height="@dimen/vm_dimen_36"
+                android:layout_marginEnd="@dimen/vm_dimen_16"
+                android:background="@drawable/shape_fillet_common_border"
+                android:padding="@dimen/vm_dimen_8"
+                android:src="@drawable/ic_gift"
+                app:layout_constraintBottom_toBottomOf="@+id/infoFollowMeTV"
+                app:layout_constraintEnd_toStartOf="@+id/infoFollowMeTV"
+                app:layout_constraintTop_toTopOf="@+id/infoFollowMeTV"
+                app:tint="@color/app_title_display" />
+
             <!--关注-->
             <TextView
                 android:id="@+id/infoFollowMeTV"

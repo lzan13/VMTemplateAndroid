@@ -8,15 +8,9 @@
     <!--未读数-->
     <TextView
         android:id="@+id/unreadTV"
-        style="@style/IMText.Unread"
+        style="@style/AppText.Unread"
         android:layout_marginStart="@dimen/vm_dimen_24"
         android:layout_marginTop="@dimen/vm_dimen_10"
-        android:gravity="center"
-        android:minWidth="@dimen/vm_dimen_16"
-        android:minHeight="@dimen/vm_dimen_16"
-        android:paddingLeft="@dimen/vm_dimen_4"
-        android:paddingRight="@dimen/vm_dimen_4"
-        android:text="@{FormatUtils.wrapUnread(unread)}"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

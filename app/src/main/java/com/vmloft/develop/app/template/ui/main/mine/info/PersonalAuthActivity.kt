@@ -8,7 +8,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.databinding.ActivityPersonalAuthBinding
-import com.vmloft.develop.app.template.request.viewmodel.UserViewModel
+import com.vmloft.develop.library.data.viewmodel.UserViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.base.BVMActivity
 import com.vmloft.develop.library.base.BViewModel
@@ -25,8 +25,8 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 @Route(path = AppRouter.appPersonalAuth)
 class PersonalAuthActivity : BVMActivity<ActivityPersonalAuthBinding, UserViewModel>() {
 
-    var realName: String? = null
-    var idCardNumber: String? = null
+    var realName: String = ""
+    var idCardNumber: String = ""
 
     override fun initVM(): UserViewModel = getViewModel()
 
@@ -84,6 +84,6 @@ class PersonalAuthActivity : BVMActivity<ActivityPersonalAuthBinding, UserViewMo
             return errorBar(R.string.auth_id_card_number_error)
         }
 
-        mViewModel.personalAuth(realName!!, idCardNumber!!)
+        mViewModel.personalAuth(realName, idCardNumber)
     }
 }

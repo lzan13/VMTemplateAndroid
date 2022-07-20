@@ -8,27 +8,35 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
+import androidx.core.view.isVisible
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.drakeet.multitype.MultiTypeAdapter
 
 import com.hyphenate.chat.EMConversation
+import com.hyphenate.chat.EMImageMessageBody
 import com.hyphenate.chat.EMMessage
 
 import com.vmloft.develop.library.base.BFragment
+import com.vmloft.develop.library.base.BItemDelegate
 import com.vmloft.develop.library.base.common.CConstants
 import com.vmloft.develop.library.base.event.LDEventBus
-import com.vmloft.develop.library.base.utils.CUtils
+import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.base.utils.errorBar
+import com.vmloft.develop.library.common.utils.JsonUtils
+import com.vmloft.develop.library.data.bean.Gift
+import com.vmloft.develop.library.data.common.CacheManager
+import com.vmloft.develop.library.data.common.DConstants
+import com.vmloft.develop.library.gift.GiftFragment
 import com.vmloft.develop.library.im.R
 import com.vmloft.develop.library.im.chat.IMChatManager
 import com.vmloft.develop.library.im.chat.msg.*
 import com.vmloft.develop.library.im.common.IMConstants
 import com.vmloft.develop.library.im.databinding.ImFragmentChatRoomBinding
-import com.vmloft.develop.library.tools.animator.VMAnimator
-import com.vmloft.develop.library.tools.utils.VMDimen
-import com.vmloft.develop.library.tools.utils.VMSystem
-import com.vmloft.develop.library.tools.utils.VMUtils
+import com.vmloft.develop.library.im.router.IMRouter
+import com.vmloft.develop.library.tools.widget.VMKeyboardController
 
 import java.util.*
 
@@ -39,6 +47,9 @@ import java.util.*
 class IMChatRoomFragment : BFragment<ImFragmentChatRoomBinding>() {
 
     private val limit = CConstants.defaultLimit
+
+    // 输入面板控制类
+    private lateinit var keyboardController: VMKeyboardController
 
     // 列表适配器
     private val mAdapter by lazy(LazyThreadSafetyMode.NONE) { MultiTypeAdapter() }
@@ -76,16 +87,20 @@ class IMChatRoomFragment : BFragment<ImFragmentChatRoomBinding>() {
     override fun initUI() {
         super.initUI()
 
-        // 发送鼓励
-        mBinding.imRoomEncourageBtn.setOnClickListener { sendEncourage() }
+        // 礼物按钮
+        mBinding.imChatGiftIV.setOnClickListener { chooseGift() }
         // 点击发送
         mBinding.imChatSendIV.setOnClickListener { sendText() }
 
-        // 初始化输入框监听
-        initInputWatcher()
+        // 初始化输入面板
+        initInputPanel()
         // 初始化列表
         initRecyclerView()
 
+        // 监听礼物赠送成功，这里要发送一条消息
+        LDEventBus.observe(this, DConstants.Event.giftGive, Gift::class.java) {
+            sendGift(it)
+        }
         // 监听新消息过来，这里肯定是发给自己的消息，在发送事件时已经过滤
         LDEventBus.observe(this, IMConstants.Common.newMsgEvent, EMMessage::class.java) {
             refreshNewMsg(it)
@@ -109,6 +124,7 @@ class IMChatRoomFragment : BFragment<ImFragmentChatRoomBinding>() {
         channel = chatId
 
         initConversation()
+        setupGiftFragment()
     }
 
     /**
@@ -145,14 +161,25 @@ class IMChatRoomFragment : BFragment<ImFragmentChatRoomBinding>() {
     private fun initRecyclerView() {
         mBinding.imChatRefreshLayout.setOnRefreshListener { loadMoreMsg() }
 
+        // 消息点击监听
+        val listener = object : BItemDelegate.BItemListener<EMMessage> {
+            override fun onClick(v: View, data: EMMessage, position: Int) {
+                clickMsg(data, position)
+            }
+        }
+
         // 注册各类消息
         mAdapter.register(EMMessage::class).to(
             MsgUnsupportedDelegate(),
             MsgTextReceiveDelegate(),
             MsgTextSendDelegate(),
+            MsgGiftReceiveDelegate(listener),
+            MsgGiftSendDelegate(listener),
         ).withKotlinClassLinker { _, data ->
             // 根据消息类型返回不同的 View 展示
             when (IMChatManager.getMsgType(data)) {
+                IMConstants.MsgType.imGiftReceive -> MsgGiftReceiveDelegate::class
+                IMConstants.MsgType.imGiftSend -> MsgGiftSendDelegate::class
                 IMConstants.MsgType.imTextReceive -> MsgTextReceiveDelegate::class
                 IMConstants.MsgType.imTextSend -> MsgTextSendDelegate::class
                 else -> MsgUnsupportedDelegate::class
@@ -160,17 +187,23 @@ class IMChatRoomFragment : BFragment<ImFragmentChatRoomBinding>() {
         }
 
         mAdapter.items = mItems
-        mAdapter.notifyDataSetChanged()
+
         layoutManager = LinearLayoutManager(context)
-        layoutManager.stackFromEnd = true
+        layoutManager.stackFromEnd = false
         mBinding.imChatRecyclerView.layoutManager = layoutManager
         mBinding.imChatRecyclerView.adapter = mAdapter
+
+        mBinding.imChatRecyclerView.setOnTouchListener { _, _ ->
+            keyboardController.hideKeyboard()
+            keyboardController.hideExtendContainer(false, false)
+            false
+        }
     }
 
     /**
-     * 设置输入框内容的监听
+     * 初始化输入面板
      */
-    private fun initInputWatcher() {
+    private fun initInputPanel() {
         mBinding.imChatMessageET.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
@@ -178,12 +211,74 @@ class IMChatRoomFragment : BFragment<ImFragmentChatRoomBinding>() {
                 mBinding.imChatSendIV.visibility = if (s.toString().isNullOrEmpty()) View.GONE else View.VISIBLE
             }
         })
+
+        keyboardController = VMKeyboardController(requireActivity())
+            .bindExtendContainer(mBinding.imChatExtendContainer)
+            .bindContentContainer(mBinding.imChatRefreshLayout)
+            .bindEditText(mBinding.imChatMessageET)
+
+        mBinding.imChatGiftIV.setOnClickListener {
+            mBinding.imChatEmotionLL.visibility = View.GONE
+            if (mBinding.imChatExtendContainer.isShown) {
+                if (mBinding.imChatGiftLL.isVisible) {
+                    keyboardController.hideExtendContainer(true, true) //隐藏表情布局，显示软件盘
+                    mBinding.imChatGiftLL.visibility = View.GONE
+                } else {
+                    mBinding.imChatGiftLL.visibility = View.VISIBLE
+                }
+            } else {
+                mBinding.imChatGiftLL.visibility = View.VISIBLE
+                if (keyboardController.isShowKeyboard()) {
+                    keyboardController.showExtendContainer(true)
+                } else {
+                    keyboardController.showExtendContainer(false) //两者都没显示，直接显示表情布局
+                }
+                scrollToBottom()
+            }
+        }
+        mBinding.imChatEmotionIV.setOnClickListener {
+            mBinding.imChatGiftLL.visibility = View.GONE
+            if (mBinding.imChatExtendContainer.isShown) {
+                if (mBinding.imChatEmotionLL.isVisible) {
+                    keyboardController.hideExtendContainer(true, true) //隐藏表情布局，显示软件盘
+                    mBinding.imChatEmotionLL.visibility = View.GONE
+                } else {
+                    mBinding.imChatEmotionLL.visibility = View.VISIBLE
+                }
+            } else {
+                mBinding.imChatEmotionLL.visibility = View.VISIBLE
+                if (keyboardController.isShowKeyboard()) {
+                    keyboardController.showExtendContainer(true)
+                } else {
+                    keyboardController.showExtendContainer(false) //两者都没显示，直接显示表情布局
+                }
+                scrollToBottom()
+            }
+        }
     }
+
+    /**
+     * 装载礼物内容
+     */
+    private fun setupGiftFragment() {
+        val room = CacheManager.getRoom(chatId)
+        // 加载表情界面
+        val fragment = GiftFragment.newInstance(room.owner.id)
+        val manager: FragmentManager = childFragmentManager
+        val ft: FragmentTransaction = manager.beginTransaction()
+        ft.replace(R.id.imChatGiftLL, fragment)
+        ft.commit()
+    }
+
 
     /**
      * 新消息刷新
      */
     private fun refreshNewMsg(msg: EMMessage) {
+        val msgType = IMChatManager.getMsgType(msg)
+        if (msgType == IMConstants.MsgType.imGiftReceive) {
+            playGiftAnim(msg)
+        }
         mItems.add(msg)
         mAdapter.notifyItemInserted(mAdapter.itemCount)
         mBinding.imChatRecyclerView.post { scrollToBottom() }
@@ -209,13 +304,10 @@ class IMChatRoomFragment : BFragment<ImFragmentChatRoomBinding>() {
     }
 
     /**
-     * 发送鼓励
+     * 选择礼物
      */
-    private fun sendEncourage() {
-        // 发送消息
-        IMChatManager.sendEncourage(chatId, chatType)
-        // 本地播放鼓励动画
-        addEncourageAnim()
+    private fun chooseGift() {
+
     }
 
     /**
@@ -232,6 +324,18 @@ class IMChatRoomFragment : BFragment<ImFragmentChatRoomBinding>() {
     }
 
     /**
+     * 发送礼物消息
+     */
+    private fun sendGift(gift: Gift) {
+        val giftStr = JsonUtils.toJson(gift)
+        val message = IMChatManager.createTextMessage(gift.title, chatId)
+        message.setAttribute(IMConstants.Common.msgAttrExtType, IMConstants.MsgType.imGift)
+        message.setAttribute(IMConstants.Common.msgAttrGift, giftStr)
+        sendMessage(message)
+    }
+
+
+    /**
      * 发送消息统一收口
      */
     private fun sendMessage(message: EMMessage) {
@@ -244,35 +348,67 @@ class IMChatRoomFragment : BFragment<ImFragmentChatRoomBinding>() {
     }
 
     /**
+     * 点击消息事件
+     */
+    private fun clickMsg(msg: EMMessage, position: Int) {
+        val msgType = IMChatManager.getMsgType(msg)
+        if (msgType == IMConstants.MsgType.imGiftSend || msgType == IMConstants.MsgType.imGiftReceive) {
+            playGiftAnim(msg)
+        } else if (msgType == IMConstants.MsgType.imPictureReceive || msgType == IMConstants.MsgType.imPictureSend) {
+            // 跳转图片预览
+            val body = msg.body as EMImageMessageBody
+            var originalRemoteUrl = body.remoteUrl
+            CRouter.goDisplaySingle(originalRemoteUrl)
+        } else if (msgType == IMConstants.MsgType.imVoiceReceive || msgType == IMConstants.MsgType.imVoiceSend) {
+
+        }
+    }
+
+    /**
+     * 播放礼物动画
+     */
+    private fun playGiftAnim(msg: EMMessage) {
+        // 播放礼物动效，这里直接在新的Activity界面打开
+        // 获取礼物消息扩展内容
+        val giftStr = msg.getStringAttribute(IMConstants.Common.msgAttrGift, "")
+        val gift = JsonUtils.fromJson<Gift>(giftStr)
+        CRouter.go(IMRouter.imGiftAnim, obj0 = gift)
+    }
+
+    /**
      * 滚动到底部
      */
     private fun scrollToBottom() {
-        mBinding.imChatRecyclerView.smoothScrollToPosition(mAdapter.itemCount - 1)
+        mBinding.imChatRecyclerView.post {
+            if (mAdapter.itemCount > 0) {
+                mBinding.imChatRecyclerView.smoothScrollToPosition(mAdapter.itemCount - 1)
+            }
+        }
     }
 
     /**
      * 添加一个鼓励动画
      */
     private fun addEncourageAnim() {
-        val minSize = VMDimen.dp2px(24)
-        val maxSize = VMDimen.dp2px(36)
-        val randomSize = VMUtils.random(minSize, maxSize)
-        val imageView = ImageView(context)
-        imageView.scaleType = ImageView.ScaleType.CENTER_CROP
-        val lp = FrameLayout.LayoutParams(randomSize, randomSize)
-        val x: Int = CUtils.random(mBinding.imRoomEncourageFL.width - randomSize)
-        val y: Int = CUtils.random(mBinding.imRoomEncourageFL.height - randomSize)
-        imageView.x = x.toFloat()
-        imageView.y = y.toFloat()
-        imageView.alpha = 0.0f
-        imageView.setImageResource(R.drawable.im_ic_emotion_flower)
-        mBinding.imRoomEncourageFL.addView(imageView, lp)
-
-        // 动画出现
-        val options = VMAnimator.AnimOptions(imageView, floatArrayOf(0.0f, 1.0f), VMAnimator.alpha, 1000, 3)
-        VMAnimator.createAnimator().play(options).start()
-        VMSystem.runInUIThread({
-            mBinding.imRoomEncourageFL.removeView(imageView)
-        }, 3000)
+//        val minSize = VMDimen.dp2px(24)
+//        val maxSize = VMDimen.dp2px(36)
+//        val randomSize = VMUtils.random(minSize, maxSize)
+//        val imageView = ImageView(context)
+//        imageView.scaleType = ImageView.ScaleType.CENTER_CROP
+//        val lp = FrameLayout.LayoutParams(randomSize, randomSize)
+//        val x: Int = CUtils.random(mBinding.imRoomEncourageFL.width - randomSize)
+//        val y: Int = CUtils.random(mBinding.imRoomEncourageFL.height - randomSize)
+//        imageView.x = x.toFloat()
+//        imageView.y = y.toFloat()
+//        imageView.alpha = 0.0f
+//        imageView.setImageResource(R.drawable.im_ic_emotion_flower)
+//        mBinding.imRoomEncourageFL.addView(imageView, lp)
+//
+//        // 动画出现
+//        val options = VMAnimator.AnimOptions(imageView, floatArrayOf(0.0f, 1.0f), VMAnimator.alpha, 1000, 3)
+//        VMAnimator.createAnimator().play(options).start()
+//        VMSystem.runInUIThread({
+//            mBinding.imRoomEncourageFL.removeView(imageView)
+//        }, 3000)
     }
 }

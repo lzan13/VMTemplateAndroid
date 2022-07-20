@@ -16,8 +16,8 @@ android {
         targetSdk configs.targetSdkVersion
 
         manifestPlaceholders = [
-                buglyAppId    : configs.buglyAppId,
-                umengAppKey   : configs.umengAppKey,
+                buglyAppId : configs.buglyAppId,
+                umengAppKey: configs.umengAppKey,
         ]
     }
 
@@ -52,12 +52,12 @@ android {
 
 dependencies {
     // Bugly https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=20200203205953
-    api 'com.tencent.bugly:crashreport:3.4.4'
+    implementation 'com.tencent.bugly:crashreport:4.0.4'
 
     // UMeng https://developer.umeng.com/docs/119267/detail/118584
     // 友盟基础组件库（所有友盟业务SDK都依赖基础组件库）
-    api 'com.umeng.umsdk:common:9.4.0'// 必选
-    api 'com.umeng.umsdk:asms:1.2.3'// 必选
+    implementation 'com.umeng.umsdk:common:9.4.7'// 必选
+    implementation 'com.umeng.umsdk:asms:1.4.1'// 必选
     // implementation  'com.umeng.umsdk:game:x.x.x' // 游戏统计SDK依赖(可选)
 
     // 依赖 base 库

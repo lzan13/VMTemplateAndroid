@@ -12,143 +12,227 @@
         android:scaleType="centerCrop"
         android:src="@drawable/img_match_bg" />
 
-    <include layout="@layout/widget_common_top_bar" />
-
-    <!--顶部弹幕展示-->
-    <LinearLayout
-        android:id="@+id/barrageViewLL"
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/vm_dimen_0"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/matchInfoView"
-        app:layout_constraintTop_toBottomOf="@+id/commonTopLL" />
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        app:srlEnableAutoLoadMore="false"
+        app:srlEnableLoadMore="false">
+
+        <com.scwang.smart.refresh.header.TwoLevelHeader
+            android:id="@+id/twoFloorHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.vmloft.develop.library.tools.widget.VMRatioLayout
+                android:id="@+id/twoFloorCoverRL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:translationY="-512dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/app_name"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/img_relaxation_world"
+                    android:visibility="visible" />
+
+            </com.vmloft.develop.library.tools.widget.VMRatioLayout>
+            <!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+            <!--                android:id="@+id/twoFloorCoverCL"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="match_parent"-->
+            <!--                android:alpha="0">-->
+
+            <!--                <TextView-->
+            <!--                    style="@style/AppText.Title"-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:text="@string/relaxation_world"-->
+            <!--                    android:textColor="@color/app_title_display"-->
+            <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                    app:layout_constraintStart_toStartOf="parent"-->
+            <!--                    app:layout_constraintTop_toTopOf="parent" />-->
+            <!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+            <com.vmloft.develop.library.common.widget.refresh.DoubleCircleHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.scwang.smart.refresh.header.TwoLevelHeader>
+
+        <!--顶部弹幕展示-->
+        <LinearLayout
+            android:id="@+id/barrageViewLL"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" />
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+    <!--顶部需要悬浮在最上边，这里放在了内容之下-->
+    <include
+        android:id="@+id/includeTopBar"
+        layout="@layout/widget_common_top_bar" />
+
+    <!--随机聊-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/chatRandomCL"
+        android:layout_width="@dimen/vm_dimen_56"
+        android:layout_height="@dimen/vm_dimen_56"
+        android:layout_margin="@dimen/vm_dimen_16"
+        android:background="@drawable/shape_home_icon_bg"
+        android:clipChildren="false"
+        app:layout_constraintBottom_toTopOf="@+id/chatFastCL"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/randomCountTV"
+            style="@style/AppText.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/app_home_icon_end"
+            android:textSize="@dimen/vm_size_36"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="99"
+            tools:visibility="visible" />
+
+        <ImageView
+            style="@style/AppText.Title"
+            android:layout_width="@dimen/vm_dimen_24"
+            android:layout_height="@dimen/vm_dimen_24"
+            android:src="@drawable/ic_puzzle_line"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+<!--        <TextView-->
+<!--            style="@style/AppText.Tips"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginBottom="-4dp"-->
+<!--            android:text="@string/home_item_random"-->
+<!--            android:textColor="@color/app_title_display"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent" />-->
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!--实时聊-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/chatFastCL"
-        android:layout_width="@dimen/vm_dimen_64"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/vm_dimen_8"
-        android:background="@drawable/shape_card_common_bg"
-        android:backgroundTint="@color/app_home_card_fast"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/vm_dimen_8"
+        android:layout_width="@dimen/vm_dimen_56"
+        android:layout_height="@dimen/vm_dimen_56"
+        android:layout_margin="@dimen/vm_dimen_16"
+        android:background="@drawable/shape_home_icon_bg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
             android:id="@+id/fastCountTV"
+            style="@style/AppText.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingEnd="@dimen/vm_dimen_4"
-            android:textColor="@color/app_match_count"
+            android:textColor="@color/app_home_icon_end"
             android:textSize="@dimen/vm_size_36"
             android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="99" />
+            tools:text="99"
+            tools:visibility="visible" />
 
         <ImageView
-            android:id="@+id/fastIconIV"
-            android:layout_width="@dimen/vm_dimen_36"
-            android:layout_height="@dimen/vm_dimen_36"
-            android:layout_margin="@dimen/vm_dimen_8"
-            android:src="@drawable/ic_fishnet"
+            android:layout_width="@dimen/vm_dimen_30"
+            android:layout_height="@dimen/vm_dimen_30"
+            android:src="@drawable/ic_paper_crane"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/fastTitleTV"
-            style="@style/AppText.HomeCardName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/match_destiny_fast"
-            app:layout_constraintStart_toStartOf="@+id/fastIconIV"
-            app:layout_constraintTop_toBottomOf="@+id/fastIconIV" />
-
+<!--        <TextView-->
+<!--            style="@style/AppText.Tips"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginBottom="-4dp"-->
+<!--            android:text="@string/home_item_fast"-->
+<!--            android:textColor="@color/app_title_display"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent" />-->
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <!--匹配信息-->
-    <View
-        android:id="@+id/matchInfoView"
-        style="@style/AppBtn.Confirm"
-        android:layout_width="@dimen/vm_dimen_0"
-        android:layout_height="@dimen/vm_dimen_48"
-        android:layout_marginStart="@dimen/vm_dimen_80"
-        android:layout_marginEnd="@dimen/vm_dimen_80"
-        android:layout_marginBottom="@dimen/vm_dimen_8"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <!--信息-->
     <TextView
         android:id="@+id/matchInfoTV"
         style="@style/AppText.Tips"
+        android:layout_marginBottom="@dimen/vm_dimen_24"
         android:text="@string/match_info"
-        android:textColor="@color/vm_white_54"
-        app:layout_constraintBottom_toTopOf="@+id/matchRefreshTV"
-        app:layout_constraintEnd_toEndOf="@+id/matchInfoView"
-        app:layout_constraintStart_toStartOf="@+id/matchInfoView"
-        app:layout_constraintTop_toTopOf="@+id/matchInfoView"
-        app:layout_constraintVertical_chainStyle="packed" />
+        android:textColor="@color/vm_white_87"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <!--刷新-->
-    <TextView
-        android:id="@+id/matchRefreshTV"
-        style="@style/AppText.Subtitle"
-        android:text="@string/match_refresh"
-        android:textColor="@color/app_title_display"
-        app:layout_constraintBottom_toBottomOf="@+id/matchInfoView"
-        app:layout_constraintEnd_toEndOf="@+id/matchInfoView"
-        app:layout_constraintStart_toStartOf="@+id/matchInfoView"
-        app:layout_constraintTop_toBottomOf="@+id/matchInfoTV" />
+    <!--二层休闲游戏区-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/relaxationGameCL"
+        android:layout_width="@dimen/vm_dimen_56"
+        android:layout_height="@dimen/vm_dimen_56"
+        android:layout_margin="@dimen/vm_dimen_16"
+        android:background="@drawable/shape_home_icon_bg"
+        app:layout_constraintBottom_toTopOf="@+id/chatRoomCL"
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <!--loading-->
-    <com.vmloft.develop.library.tools.widget.loading.VMLoadingView
-        android:id="@+id/loadingView"
-        android:layout_width="@dimen/vm_dimen_48"
-        android:layout_height="@dimen/vm_dimen_48"
-        android:padding="@dimen/vm_dimen_8"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/matchInfoView"
-        app:layout_constraintEnd_toEndOf="@+id/matchInfoView"
-        app:layout_constraintStart_toStartOf="@+id/matchInfoView"
-        app:layout_constraintTop_toTopOf="@+id/matchInfoView"
-        app:vm_loading_color="@color/app_main"
-        app:vm_loading_type="DoubleCircle"
-        tools:visibility="visible" />
+        <androidx.constraintlayout.utils.widget.ImageFilterView
+            android:layout_width="@dimen/vm_dimen_30"
+            android:layout_height="@dimen/vm_dimen_30"
+            android:src="@drawable/ic_game"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/app_icon_light" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!--解忧房-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/chatRoomCL"
-        android:layout_width="@dimen/vm_dimen_64"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/vm_dimen_8"
-        android:background="@drawable/shape_card_common_bg"
-        android:backgroundTint="@color/app_home_card_room"
-        android:orientation="vertical"
-        android:padding="@dimen/vm_dimen_8"
+        android:layout_width="@dimen/vm_dimen_56"
+        android:layout_height="@dimen/vm_dimen_56"
+        android:layout_margin="@dimen/vm_dimen_16"
+        android:background="@drawable/shape_home_icon_bg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <ImageView
             android:id="@+id/roomIconIV"
-            android:layout_width="@dimen/vm_dimen_36"
-            android:layout_height="@dimen/vm_dimen_36"
+            android:layout_width="@dimen/vm_dimen_30"
+            android:layout_height="@dimen/vm_dimen_30"
             android:src="@drawable/ic_coffee"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:tint="@color/app_icon_light" />
 
-        <TextView
-            android:id="@+id/roomTitleTV"
-            style="@style/AppText.HomeCardName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/match_room"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/roomIconIV" />
+        <!--        <TextView-->
+        <!--            android:id="@+id/roomTitleTV"-->
+        <!--            style="@style/AppText.HomeCardName"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:text="@string/match_room"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/roomIconIV" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

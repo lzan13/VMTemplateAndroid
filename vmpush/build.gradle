@@ -73,11 +73,11 @@ dependencies {
      * https://docs.getui.com/getui/mobile/android/androidstudio/
      */
     // 国内环境依赖
-    developApi 'com.getui:gtsdk:3.2.10.0'  //个推SDK
-    developApi 'com.getui:gtc:3.1.9.0'  //个推核心组件
+    developImplementation 'com.getui:gtsdk:3.2.10.0'  //个推SDK
+    developImplementation 'com.getui:gtc:3.1.9.0'  //个推核心组件
 
     // 国外环境依赖 因为海外和国内sdk仓库不同，这里不能同时使用远程依赖
-    googlePlayApi 'com.getui:sdk-for-google-play:4.3.9.0'
+    googlePlayImplementation 'com.getui:sdk-for-google-play:4.3.9.0'
     // 海外环境依赖
 //    googlePlayApi(fileTree(dir: 'libs', include: ['*.jar', '*.aar']))
 

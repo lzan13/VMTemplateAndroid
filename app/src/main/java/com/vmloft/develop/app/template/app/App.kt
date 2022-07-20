@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 
 import com.alibaba.android.arouter.launcher.ARouter
+import com.opensource.svgaplayer.SVGAParser
 
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 
@@ -17,8 +18,10 @@ import com.vmloft.develop.library.base.event.LDEventBus
 import com.vmloft.develop.library.base.common.CConstants
 import com.vmloft.develop.library.base.common.CSPManager
 import com.vmloft.develop.library.base.notify.NotifyManager
+import com.vmloft.develop.library.common.CommonManager
 import com.vmloft.develop.library.common.widget.refresh.DoubleCircleFooter
 import com.vmloft.develop.library.common.widget.refresh.DoubleCircleHeader
+import com.vmloft.develop.library.mp.MPManager
 import com.vmloft.develop.library.push.CustomPushManager
 import com.vmloft.develop.library.report.ReportManager
 import com.vmloft.develop.library.tools.VMTools
@@ -48,6 +51,8 @@ class App : Application() {
         appContext = applicationContext
 
         initApp()
+
+        initMP()
     }
 
     private fun initApp() {
@@ -76,7 +81,6 @@ class App : Application() {
 
         // 初始化事件总线
         LDEventBus.init()
-
     }
 
 
@@ -99,6 +103,8 @@ class App : Application() {
         if (!VMFile.isDirExists(path)) {
             VMFile.createDirectory(path)
         }
+
+        CommonManager.init(appContext)
     }
 
 
@@ -167,12 +173,12 @@ class App : Application() {
         SmartRefreshLayout.setDefaultRefreshInitializer { _, layout ->
             layout.setPrimaryColorsId(R.color.app_primary, R.color.app_accent) // 全局设置主题颜色
 
-            layout.setDragRate(0.6f) // 显示拖动高度/真实拖动高度（默认0.5，阻尼效果）
+            layout.setDragRate(0.66f) // 显示拖动高度/真实拖动高度（默认0.5，阻尼效果）
 
-            layout.setReboundDuration(300) // 设置回弹时间
+            layout.setReboundDuration(320) // 设置回弹时间
 
-            layout.setHeaderHeight(96.0f) // Header标准高度（显示下拉高度>=标准高度 触发刷新）
-            layout.setFooterHeight(56.0f) // Footer标准高度（显示上拉高度>=标准高度 触发加载）
+            layout.setHeaderHeight(64.0f) // Header标准高度（显示下拉高度>=标准高度 触发刷新）
+            layout.setFooterHeight(64.0f) // Footer标准高度（显示上拉高度>=标准高度 触发加载）
 
             layout.setHeaderMaxDragRate(2.0f) // 最大显示下拉高度/Header标准高度
             layout.setHeaderTriggerRate(1.0f) // 触发刷新距离 与 HeaderHeight 的比率1.0.4
@@ -201,5 +207,12 @@ class App : Application() {
 //            ClassicsFooter(context).setDrawableSize(16f)
             DoubleCircleFooter(context)
         }
+    }
+
+    /**
+     * 初始化小程序
+     */
+    private fun initMP() {
+        MPManager.init(appContext)
     }
 }

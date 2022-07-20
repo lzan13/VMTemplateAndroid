@@ -5,7 +5,7 @@ import android.view.ViewGroup
 
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.databinding.ItemRelationDelegateBinding
-import com.vmloft.develop.app.template.request.bean.User
+import com.vmloft.develop.library.data.bean.User
 import com.vmloft.develop.library.base.BItemDelegate
 import com.vmloft.develop.library.image.IMGLoader
 import com.vmloft.develop.library.tools.utils.VMStr

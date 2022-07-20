@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/selector_rectangle_common_border"
+    android:padding="@dimen/vm_dimen_8"
+    tools:context=".ItemGiftDelegate">
+
+    <com.vmloft.develop.library.tools.widget.VMRatioLayout
+        android:id="@+id/coverRL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:vm_follow_width="true"
+        app:vm_layout_ratio="1">
+
+        <!--图片-->
+        <ImageView
+            android:id="@+id/coverIV"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/vm_dimen_4"
+            tools:src="@drawable/img_default_avatar" />
+    </com.vmloft.develop.library.tools.widget.VMRatioLayout>
+
+    <!--名称-->
+    <TextView
+        android:id="@+id/nameTV"
+        style="@style/AppText.Subtitle"
+        android:textSize="@dimen/vm_size_12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/coverRL"
+        tools:text="幸运草" />
+
+    <!--价格-->
+    <ImageView
+        android:id="@+id/priceIV"
+        android:layout_width="@dimen/vm_dimen_12"
+        android:layout_height="@dimen/vm_dimen_12"
+        android:src="@drawable/ic_gold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/priceTV"
+        app:layout_constraintEnd_toStartOf="@id/priceTV"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/priceTV" />
+
+    <TextView
+        android:id="@+id/priceTV"
+        style="@style/AppText.Tips"
+        android:layout_marginStart="@dimen/vm_dimen_2"
+        android:layout_marginTop="@dimen/vm_dimen_2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/priceIV"
+        app:layout_constraintTop_toBottomOf="@id/nameTV"
+        tools:text="99" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

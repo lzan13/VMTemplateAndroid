@@ -29,47 +29,77 @@ object ConfigManager {
 data class ClientConfig(
     /*
     {
-        "adsEntry": {
-            "splashEntry": true,
-            "exploreEntry": true,
-            "goldEntry": true
+        "adsConfig":{
+            "splashEntry":true,
+            "exploreEntry":true,
+            "goldEntry":true
         },
         "chatConfig":{
-            "pictureLimit": 5,
-            "callLimit":10,
-            "callEntry": true
+            "voiceLimit":2,
+            "pictureLimit":2,
+            "callLimit":5,
+            "voiceEntry":true,
+            "pictureEntry":true,
+            "callEntry":true
         },
-        "homeFastChatEntry": true,
-        "homeChatRoomEntry": true,
-        "scoreEntry": true,
-        "vipEntry": true
+        "homeConfig":{
+            "randomEntry":true,
+            "chatFastEntry":true,
+            "gameEntry":true,
+            "roomEntry":true
+        },
+        "tradeConfig":{
+            "scoreEntry":true,
+            "vipEntry":true
+        }
     }
      */
-    var adsEntry: ADSEntry = ADSEntry(), // 广告相关入口
+    var adsConfig: ADSConfig = ADSConfig(), // 广告相关配置
 
-    var chatConfig: ChatConfig = ChatConfig(), // 聊天配置
+    var chatConfig: ChatConfig = ChatConfig(), // 聊天相关配置
 
-    var homeChatFastEntry: Boolean = true, // 闪聊入口
-    var homeChatRoomEntry: Boolean = true, // 聊天房入口
+    var homeConfig: HomeConfig = HomeConfig(), // 首页相关配置
 
-    var scoreEntry: Boolean = true, // 积分相关入口
-    var vipEntry: Boolean = true, // VIP充值相关入口
+    var tradeConfig: TradeConfig = TradeConfig(), // 交易相关配置
 )
 
 /**
  * 广告部分入口
  */
-data class ADSEntry(
+data class ADSConfig(
     var splashEntry: Boolean = true, // 开屏广告入口
     var exploreEntry: Boolean = true, // 发现内容入口
     var goldEntry: Boolean = true, // 金币获取入口
 )
 
+
 /**
  * 聊天配置
  */
 data class ChatConfig(
+    var voiceLimit: Int = 5, // 聊天图片锁 限制数
     var pictureLimit: Int = 5, // 聊天图片锁 限制数
     var callLimit: Int = 10, // 聊天语音通话 锁限制
+
+    var voiceEntry: Boolean = true, // 语音入口
+    var pictureEntry: Boolean = true, // 图片入口
     var callEntry: Boolean = true, // 聊天通话入口
+)
+
+/**
+ * 首页部分入口
+ */
+data class HomeConfig(
+    var randomEntry: Boolean = true, // 随机入口
+    var chatFastEntry: Boolean = true, // 闪聊入口
+    var relaxationEntry: Boolean = true, // 娱乐入口
+    var roomEntry: Boolean = true, // 聊天房入口
+)
+
+/**
+ * 交易配置
+ */
+data class TradeConfig(
+    var scoreEntry: Boolean = true, // 积分相关入口
+    var vipEntry: Boolean = true, // VIP相关入口
 )

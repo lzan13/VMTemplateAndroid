@@ -336,9 +336,9 @@ object IMChatManager {
      * @param unread       设置未读状态
      */
     fun setConversationUnread(conversation: EMConversation, unread: Boolean) {
-        if(unread){
+        if (unread) {
             markUnreadList.add(conversation.conversationId())
-        }else{
+        } else {
             markUnreadList.remove(conversation.conversationId())
         }
         // 设置为已读的时候清空下原有未读数据
@@ -477,6 +477,29 @@ object IMChatManager {
         return message
     }
 
+
+    /**
+     * 创建语音消息
+     *
+     * @param uri   语音文件的路径
+     * @param time   语音持续时间
+     * @param id     接收者
+     * @param isSend 是否为发送消息
+     */
+    fun createVoiceMessage(uri: Uri, time: Int, id: String, isSend: Boolean = true): EMMessage {
+        val message: EMMessage
+        if (isSend) {
+            message = EMMessage.createVoiceSendMessage(uri, time, id)
+            // 默认所有消息都发送通知提醒，特殊情况特殊处理
+            message.setAttribute(IMConstants.Common.msgAttrNotifyEnable, true)
+        } else {
+            message = EMMessage.createReceiveMessage(EMMessage.Type.LOCATION)
+            message.addBody(EMVoiceMessageBody(uri, time))
+            message.from = id
+        }
+        return message
+    }
+
     /**
      * 创建位置消息
      *
@@ -518,28 +541,6 @@ object IMChatManager {
         } else {
             message = EMMessage.createReceiveMessage(EMMessage.Type.LOCATION)
             message.addBody(EMVideoMessageBody(path, thumbPath, time, 0L))
-            message.from = id
-        }
-        return message
-    }
-
-    /**
-     * 创建语音消息
-     *
-     * @param uri   语音文件的路径
-     * @param time   语音持续时间
-     * @param id     接收者
-     * @param isSend 是否为发送消息
-     */
-    fun createVoiceMessage(uri: Uri, time: Int, id: String, isSend: Boolean = true): EMMessage {
-        val message: EMMessage
-        if (isSend) {
-            message = EMMessage.createVoiceSendMessage(uri, time, id)
-            // 默认所有消息都发送通知提醒，特殊情况特殊处理
-            message.setAttribute(IMConstants.Common.msgAttrNotifyEnable, true)
-        } else {
-            message = EMMessage.createReceiveMessage(EMMessage.Type.LOCATION)
-            message.addBody(EMVoiceMessageBody(uri, time))
             message.from = id
         }
         return message
@@ -817,33 +818,26 @@ object IMChatManager {
         }
         extType = msg.getIntAttribute(IMConstants.Common.msgAttrExtType, IMConstants.MsgType.imUnknown)
         return if (extType == IMConstants.MsgType.imSystem || extType == IMConstants.MsgType.imRecall) {
-            extType
-        } else if (extType == IMConstants.MsgType.imCall) {
-            // 通话
+            extType // 居中类型直接返回
+        } else if (extType == IMConstants.MsgType.imGift) {// 礼物
+            if (msg.direct() == EMMessage.Direct.RECEIVE) IMConstants.MsgType.imGiftReceive else IMConstants.MsgType.imGiftSend
+        } else if (extType == IMConstants.MsgType.imCall) {// 通话
             if (msg.direct() == EMMessage.Direct.RECEIVE) IMConstants.MsgType.imCallReceive else IMConstants.MsgType.imCallSend
-        } else if (extType == IMConstants.MsgType.imBigEmotion) {
-            // 大表情
+        } else if (extType == IMConstants.MsgType.imBigEmotion) {// 大表情
             if (msg.direct() == EMMessage.Direct.RECEIVE) IMConstants.MsgType.imBigEmotionReceive else IMConstants.MsgType.imBigEmotionSend
-        } else if (msg.type == EMMessage.Type.TXT) {
-            // 文本
+        } else if (msg.type == EMMessage.Type.TXT) {// 文本
             if (msg.direct() == EMMessage.Direct.RECEIVE) IMConstants.MsgType.imTextReceive else IMConstants.MsgType.imTextSend
-        } else if (msg.type == EMMessage.Type.IMAGE) {
-            // 图片
+        } else if (msg.type == EMMessage.Type.IMAGE) {// 图片
             if (msg.direct() == EMMessage.Direct.RECEIVE) IMConstants.MsgType.imPictureReceive else IMConstants.MsgType.imPictureSend
-        } else if (msg.type == EMMessage.Type.VIDEO) {
-            // 视频
+        } else if (msg.type == EMMessage.Type.VIDEO) {// 视频
             if (msg.direct() == EMMessage.Direct.RECEIVE) IMConstants.MsgType.imVideoReceive else IMConstants.MsgType.imVideoSend
-        } else if (msg.type == EMMessage.Type.LOCATION) {
-            // 位置
+        } else if (msg.type == EMMessage.Type.LOCATION) {// 位置
             if (msg.direct() == EMMessage.Direct.RECEIVE) IMConstants.MsgType.imLocationReceive else IMConstants.MsgType.imLocationSend
-        } else if (msg.type == EMMessage.Type.VOICE) {
-            // 语音
+        } else if (msg.type == EMMessage.Type.VOICE) {// 语音
             if (msg.direct() == EMMessage.Direct.RECEIVE) IMConstants.MsgType.imVoiceReceive else IMConstants.MsgType.imVoiceSend
-        } else if (msg.type == EMMessage.Type.FILE) {
-            // 文件
+        } else if (msg.type == EMMessage.Type.FILE) {// 文件
             if (msg.direct() == EMMessage.Direct.RECEIVE) IMConstants.MsgType.imFileReceive else IMConstants.MsgType.imFileSend
-        } else {
-            // 未知，显示提示文本
+        } else {// 未知，显示提示文本
             IMConstants.MsgType.imUnknown
         }
     }
@@ -855,38 +849,30 @@ object IMChatManager {
         if (msg == null) return VMStr.byRes(R.string.im_empty)
 
         var content: String = IM.imListener.getMsgSummary(msg)
-        if (!content.isNullOrEmpty()) {
+        if (content.isNotEmpty()) {
             return content
         }
         val type: Int = getMsgType(msg)
-        /**
-         * 通知类消息
-         */
-        if (type == IMConstants.MsgType.imSystem) {
-            // 系统提醒
+        if (type == IMConstants.MsgType.imSystem) {// 系统提醒
             content = msg.getStringAttribute(IMConstants.Common.msgAttrSystem, "")
-            if (content.isNullOrEmpty()) {
+            if (content.isEmpty()) {
                 content = (msg.body as EMTextMessageBody).message
             }
-        } else if (type == IMConstants.MsgType.imRecall) {
-            // 撤回消息
+        } else if (type == IMConstants.MsgType.imRecall) {// 撤回消息
             content = "[" + VMStr.byRes(R.string.im_recall_already) + "]"
-        } else if (type == IMConstants.MsgType.imCallReceive || type == IMConstants.MsgType.imCallSend) {
-            // 通话消息
+        } else if (type == IMConstants.MsgType.imGiftReceive || type == IMConstants.MsgType.imGiftSend) {// 礼物
+            content = "[" + VMStr.byRes(R.string.im_gift) + "]"
+        } else if (type == IMConstants.MsgType.imCallReceive || type == IMConstants.MsgType.imCallSend) {// 通话消息
             content = "[" + VMStr.byRes(R.string.im_call) + " - " + (msg.body as EMTextMessageBody).message + "]"
-        } else if (type == IMConstants.MsgType.imBigEmotionReceive || type == IMConstants.MsgType.imBigEmotionSend) {
-            // 大表情
+        } else if (type == IMConstants.MsgType.imBigEmotionReceive || type == IMConstants.MsgType.imBigEmotionSend) {// 大表情
             content = (msg.body as EMTextMessageBody).message
-        } else if (type == IMConstants.MsgType.imTextReceive || type == IMConstants.MsgType.imTextSend) {
-            // 文本消息
+        } else if (type == IMConstants.MsgType.imTextReceive || type == IMConstants.MsgType.imTextSend) {// 文本消息
             content = (msg.body as EMTextMessageBody).message
-        } else if (type == IMConstants.MsgType.imPictureReceive || type == IMConstants.MsgType.imPictureSend) {
-            // 图片消息
+        } else if (type == IMConstants.MsgType.imPictureReceive || type == IMConstants.MsgType.imPictureSend) {// 图片消息
             content = "[" + VMStr.byRes(R.string.im_picture) + "]"
         } else if (type == IMConstants.MsgType.imVoiceReceive || type == IMConstants.MsgType.imVoiceSend) {
             content = "[" + VMStr.byRes(R.string.im_voice) + "]"
-        } else {
-            // 未知类型消息
+        } else {// 未知类型消息
             content = "[" + VMStr.byRes(R.string.im_unknown_msg) + "]"
         }
         return content

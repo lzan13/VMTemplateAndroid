@@ -7,13 +7,12 @@ import com.drakeet.multitype.MultiTypeAdapter
 
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.common.Constants
-import com.vmloft.develop.app.template.common.SPManager
-import com.vmloft.develop.app.template.common.SignManager
+import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.app.template.databinding.FragmentExploreBinding
 import com.vmloft.develop.library.request.RPaging
-import com.vmloft.develop.app.template.request.bean.Post
-import com.vmloft.develop.app.template.request.bean.User
-import com.vmloft.develop.app.template.request.viewmodel.ExploreViewModel
+import com.vmloft.develop.library.data.bean.Post
+import com.vmloft.develop.library.data.bean.User
+import com.vmloft.develop.library.data.viewmodel.ExploreViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.app.template.ui.post.ItemPostDelegate
 import com.vmloft.develop.app.template.ui.widget.ContentDislikeDialog
@@ -48,7 +47,6 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 class ExploreFragment : BVMFragment<FragmentExploreBinding, ExploreViewModel>() {
 
     private lateinit var user: User
-    private var isFirst = true
     private var page = CConstants.defaultPage
 
     // 长按弹出菜单
@@ -86,14 +84,15 @@ class ExploreFragment : BVMFragment<FragmentExploreBinding, ExploreViewModel>() 
             if (it == currPost) {
                 mItems.removeAt(currPosition)
                 mAdapter.notifyItemRemoved(currPosition)
+                showBar(R.string.feedback_hint)
             }
         }
     }
 
     override fun initData() {
-        user = SignManager.getCurrUser() ?: User()
+        user = SignManager.getCurrUser()
 
-        mViewModel.postList()
+        mBinding.refreshLayout.autoRefresh()
     }
 
     /**
@@ -136,15 +135,37 @@ class ExploreFragment : BVMFragment<FragmentExploreBinding, ExploreViewModel>() 
         mBinding.refreshLayout.setOnLoadMoreListener { mViewModel.postList(page++) }
     }
 
+    override fun onModelLoading(model: BViewModel.UIModel) {
+        if (model.type == "postList" && !model.isLoading) {
+            mBinding.refreshLayout.finishRefresh()
+            mBinding.refreshLayout.finishLoadMore()
+        }
+    }
+
+    override fun onModelRefresh(model: BViewModel.UIModel) {
+        if (model.type == "postList") {
+            refresh(model.data as RPaging<Post>)
+        } else if (model.type == "shieldPost") {
+            LDEventBus.post(Constants.Event.shieldPost, currPost!!)
+        }
+    }
+
+    override fun onModelError(model: BViewModel.UIModel) {
+        super.onModelError(model)
+        if (model.type == "postList") {
+            checkEmptyStatus(1)
+        } else if (model.type == "shieldPost") {
+            showBar(R.string.feedback_hint)
+        }
+    }
+
     private fun refresh(paging: RPaging<Post>) {
         if (paging.page == CConstants.defaultPage) {
             mItems.clear()
             mItems.addAll(paging.data)
             mAdapter.notifyDataSetChanged()
-            if (ConfigManager.clientConfig.adsEntry.exploreEntry) {
-                // 加载广告，这里只有在第一页数据结束后加载
-                loadNativeAD()
-            }
+            // 加载广告，这里只有在非会员情况下及第一页数据结束后加载
+            loadNativeAD()
         } else {
             val position = mItems.size
             val count = paging.data.size
@@ -165,15 +186,18 @@ class ExploreFragment : BVMFragment<FragmentExploreBinding, ExploreViewModel>() 
      * 检查引导
      */
     private fun checkGuide() {
-        if (!isFirst || !CSPManager.isNeedGuide(this@ExploreFragment::class.java.simpleName)) return
+        // 入口关闭或者会员情况下不加载广告
+        if (!CSPManager.isNeedGuide(this@ExploreFragment::class.java.simpleName)) return
 
-        mBinding.recyclerView.post {
+        mBinding.recyclerView.postDelayed({
+            if (mBinding.recyclerView.childCount <= 0) return@postDelayed
+            
             val list = mutableListOf<GuideItem>()
             val guideView = mBinding.recyclerView.getChildAt(0).findViewById<View>(R.id.itemGuideView)
             val likeIV = mBinding.recyclerView.getChildAt(0).findViewById<View>(R.id.itemLikeIV)
-            list.add(GuideItem(guideView, VMStr.byRes(R.string.guide_explore_report), shape = VMShape.guideShapeCircle, offY = VMDimen.dp2px(16)))
-            list.add(GuideItem(likeIV, VMStr.byRes(R.string.guide_post_like), shape = VMShape.guideShapeCircle, offY = VMDimen.dp2px(16)))
-            list.add(GuideItem(mBinding.postAddIV, VMStr.byRes(R.string.guide_explore_publish), shape = VMShape.guideShapeCircle, offX = VMDimen.dp2px(96), offY = VMDimen.dp2px(24)))
+            list.add(GuideItem(guideView, VMStr.byRes(R.string.guide_explore_report), shape = VMShape.guideShapeCircle, offY = VMDimen.dp2px(8)))
+            list.add(GuideItem(likeIV, VMStr.byRes(R.string.guide_post_like), shape = VMShape.guideShapeCircle, offY = VMDimen.dp2px(8)))
+            list.add(GuideItem(mBinding.postAddIV, VMStr.byRes(R.string.guide_explore_publish), shape = VMShape.guideShapeCircle, offX = VMDimen.dp2px(96), offY = VMDimen.dp2px(32)))
             VMGuide.Builder(requireActivity()).setOneByOne(true).setGuideViews(list).setGuideListener(object : VMGuideView.GuideListener {
                 override fun onFinish() {
                     CSPManager.setNeedGuide(this@ExploreFragment::class.java.simpleName, false)
@@ -181,18 +205,23 @@ class ExploreFragment : BVMFragment<FragmentExploreBinding, ExploreViewModel>() 
 
                 override fun onNext(index: Int) {}
             }).build().show()
-        }
+        }, 320)
     }
 
     /**
      * 加载广告
      */
     private fun loadNativeAD() {
+
+        if (!ConfigManager.clientConfig.adsConfig.exploreEntry && user.role.identity in 100..199) return
+
         ADSManager.loadNativeAD(requireActivity()) { status ->
             if (status == ADSConstants.Status.loaded) {
                 val position = mItems.size
                 mItems.add(ADSItem(""))
                 mAdapter.notifyItemInserted(position)
+                // 预加载下一次广告
+                ADSManager.loadNativeAD(requireActivity())
             }
         }
     }
@@ -211,38 +240,6 @@ class ExploreFragment : BVMFragment<FragmentExploreBinding, ExploreViewModel>() 
         } else {
             mBinding.refreshLayout.visibility = View.GONE
             showEmptyFailed()
-        }
-    }
-
-    override fun onModelLoading(model: BViewModel.UIModel) {
-        if (!model.isLoading) {
-            mBinding.refreshLayout.finishRefresh()
-            mBinding.refreshLayout.finishLoadMore()
-        }
-        if (isFirst) {
-            if (model.isLoading) showLoading() else hideLoading()
-        }
-    }
-
-    override fun onModelRefresh(model: BViewModel.UIModel) {
-        if (model.type == "postList") {
-            refresh(model.data as RPaging<Post>)
-            // 因为为了快速展示数据，第一次从本地取，后边会再刷新一次
-            if (isFirst) {
-                isFirst = false
-//                mBinding.refreshLayout.autoRefresh((CConstants.timeSecond / 2).toInt())
-            }
-        } else if (model.type == "shieldPost") {
-            LDEventBus.post(Constants.Event.shieldPost, currPost!!)
-        }
-    }
-
-    override fun onModelError(model: BViewModel.UIModel) {
-        super.onModelError(model)
-        if (model.type == "postList") {
-            checkEmptyStatus(1)
-        } else if (model.type == "shieldPost") {
-            showBar(R.string.feedback_hint)
         }
     }
 

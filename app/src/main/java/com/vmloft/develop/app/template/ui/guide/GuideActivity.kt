@@ -32,15 +32,15 @@ class GuideActivity: BActivity<ActivityGuideBinding>() {
     override fun initUI() {
         super.initUI()
 
-        mBinding.guidePrevBtn.setOnClickListener {
-            mCurrentIndex -= 1
-            mBinding.guideViewPager.setCurrentItem(mCurrentIndex, true)
-        }
-        mBinding.guideNextBtn.setOnClickListener {
-            mCurrentIndex += 1
-            mBinding.guideViewPager.setCurrentItem(mCurrentIndex, true)
-        }
-        mBinding.guideFinishBtn.setOnClickListener {
+//        mBinding.guidePrevBtn.setOnClickListener {
+//            mCurrentIndex -= 1
+//            mBinding.guideViewPager.setCurrentItem(mCurrentIndex, true)
+//        }
+//        mBinding.guideNextBtn.setOnClickListener {
+//            mCurrentIndex += 1
+//            mBinding.guideViewPager.setCurrentItem(mCurrentIndex, true)
+//        }
+        mBinding.guideEnterBtn.setOnClickListener {
             SPManager.setGuideHide()
             CRouter.goMain()
             finish()
@@ -50,8 +50,8 @@ class GuideActivity: BActivity<ActivityGuideBinding>() {
     override fun initData() {
         mFragmentList.add(GuideFragment.newInstance(R.drawable.img_guide_0, R.string.guide_title_0, R.string.guide_intro_0))
         mFragmentList.add(GuideFragment.newInstance(R.drawable.img_guide_1, R.string.guide_title_1, R.string.guide_intro_1))
-        mFragmentList.add(GuideFragment.newInstance(R.drawable.img_guide_3, R.string.guide_title_2, R.string.guide_intro_2))
-        mFragmentList.add(GuideFragment.newInstance(R.drawable.img_guide_2, R.string.guide_title_3, R.string.guide_intro_3))
+        mFragmentList.add(GuideFragment.newInstance(R.drawable.img_guide_2, R.string.guide_title_2, R.string.guide_intro_2))
+        mFragmentList.add(GuideFragment.newInstance(R.drawable.img_guide_3, R.string.guide_title_3, R.string.guide_intro_3))
         mFragmentList.add(GuideFragment.newInstance(R.drawable.img_guide_4, R.string.guide_title_4, R.string.guide_intro_4))
 
         mAdapter = VMFragmentPagerAdapter(supportFragmentManager, mFragmentList)
@@ -66,9 +66,10 @@ class GuideActivity: BActivity<ActivityGuideBinding>() {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
             override fun onPageSelected(position: Int) {
                 mCurrentIndex = position
-                mBinding.guidePrevBtn.visibility = if (position == 0) View.GONE else View.VISIBLE
-                mBinding.guideNextBtn.visibility = if (position == mFragmentList.size - 1) View.GONE else View.VISIBLE
-                mBinding.guideFinishBtn.visibility = if (position == mFragmentList.size - 1) View.VISIBLE else View.GONE
+                mBinding.guideEnterBtn.visibility = if (position == mFragmentList.size - 1) View.VISIBLE else View.GONE
+//                mBinding.guidePrevBtn.visibility = if (position == 0) View.GONE else View.VISIBLE
+//                mBinding.guideNextBtn.visibility = if (position == mFragmentList.size - 1) View.GONE else View.VISIBLE
+//                mBinding.guideFinishBtn.visibility = if (position == mFragmentList.size - 1) View.VISIBLE else View.GONE
             }
 
             override fun onPageScrollStateChanged(state: Int) {}

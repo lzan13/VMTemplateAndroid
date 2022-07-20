@@ -10,7 +10,8 @@
         android:id="@+id/avatarIV"
         android:layout_width="@dimen/vm_avatar_small"
         android:layout_height="@dimen/vm_avatar_small"
-        android:layout_margin="@dimen/vm_dimen_16"
+        android:layout_marginStart="@dimen/vm_dimen_16"
+        android:layout_marginTop="@dimen/vm_dimen_8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -54,11 +55,6 @@
         style="@style/AppText.Tips"
         android:layout_marginTop="@dimen/vm_dimen_4"
         android:layout_marginEnd="@dimen/vm_dimen_16"
-        android:background="@drawable/shape_fillet_tips_bg"
-        android:paddingStart="@dimen/vm_dimen_8"
-        android:paddingTop="@dimen/vm_dimen_1"
-        android:paddingEnd="@dimen/vm_dimen_8"
-        android:paddingBottom="@dimen/vm_dimen_2"
         app:layout_constraintStart_toStartOf="@+id/nameTV"
         app:layout_constraintTop_toBottomOf="@+id/nameTV"
         tools:text="2021/05/26 12:36" />
@@ -92,19 +88,21 @@
         style="@style/AppText.Body"
         android:layout_width="@dimen/vm_dimen_0"
         android:layout_marginStart="@dimen/vm_dimen_8"
-        android:layout_marginTop="@dimen/vm_dimen_16"
+        android:layout_marginTop="@dimen/vm_dimen_4"
         android:layout_marginEnd="@dimen/vm_dimen_16"
+        android:layout_marginBottom="@dimen/vm_dimen_8"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/avatarIV"
         app:layout_constraintTop_toBottomOf="@+id/avatarIV"
         tools:text="评论内容" />
 
-    <View
-        android:layout_width="@dimen/vm_dimen_0"
-        android:layout_height="@dimen/vm_dimen_0_5"
-        android:layout_marginTop="@dimen/vm_dimen_16"
-        android:background="@color/app_decoration"
-        app:layout_constraintEnd_toEndOf="@+id/contentTV"
-        app:layout_constraintStart_toStartOf="@+id/contentTV"
-        app:layout_constraintTop_toBottomOf="@+id/contentTV" />
+    <!--    <View-->
+    <!--        android:layout_width="@dimen/vm_dimen_0"-->
+    <!--        android:layout_height="@dimen/vm_dimen_0_5"-->
+    <!--        android:layout_marginTop="@dimen/vm_dimen_16"-->
+    <!--        android:background="@color/app_decoration"-->
+    <!--        app:layout_constraintEnd_toEndOf="@+id/contentTV"-->
+    <!--        app:layout_constraintStart_toStartOf="@+id/contentTV"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/contentTV" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>

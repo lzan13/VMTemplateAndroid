@@ -7,14 +7,15 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 
 import com.vmloft.develop.app.template.R
-import com.vmloft.develop.app.template.common.CacheManager
-import com.vmloft.develop.app.template.databinding.FragmentMsgBinding
-import com.vmloft.develop.app.template.request.bean.User
 import com.vmloft.develop.app.template.router.AppRouter
+import com.vmloft.develop.app.template.databinding.FragmentMsgBinding
 import com.vmloft.develop.library.base.BFragment
+import com.vmloft.develop.library.base.common.PermissionManager
 import com.vmloft.develop.library.base.notify.NotifyManager
 import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.base.utils.showBar
+import com.vmloft.develop.library.data.bean.User
+import com.vmloft.develop.library.data.common.CacheManager
 import com.vmloft.develop.library.im.conversation.IMConversationFragment
 import com.vmloft.develop.library.qr.QRCodeScanLauncher
 import com.vmloft.develop.library.qr.QRHelper
@@ -99,13 +100,15 @@ class MsgFragment : BFragment<FragmentMsgBinding>() {
      * 打开扫描二维码
      */
     private fun openScanQRCode() {
-        launcher.launch(0) {
-            val bean = QRHelper.decodeQRCodeResult(it)
-            bean?.let {
-                showBar("${bean.type} ${bean.content}")
-                if (bean.type == 0) {
-                    val user = CacheManager.getUser(bean.content) ?: User(bean.content)
-                    CRouter.go(AppRouter.appUserInfo, obj0 = user)
+        if (PermissionManager.cameraPermission(requireContext())) {
+            launcher.launch(0) {
+                val bean = QRHelper.decodeQRCodeResult(it)
+                bean?.let {
+                    showBar("${bean.type} ${bean.content}")
+                    if (bean.type == 0) {
+                        val user = CacheManager.getUser(bean.content)
+                        CRouter.go(AppRouter.appUserInfo, obj0 = user)
+                    }
                 }
             }
         }

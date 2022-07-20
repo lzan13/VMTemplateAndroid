@@ -4,7 +4,6 @@ import com.alibaba.android.arouter.facade.annotation.Route
 
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.databinding.ActivitySettingsAccountSecurityBinding
-import com.vmloft.develop.app.template.request.viewmodel.SettingsViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.base.BVMActivity
 import com.vmloft.develop.library.base.BViewModel
@@ -12,6 +11,7 @@ import com.vmloft.develop.library.base.common.CConstants
 import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.base.utils.showBar
 import com.vmloft.develop.library.base.widget.CommonDialog
+import com.vmloft.develop.library.data.viewmodel.SettingsViewModel
 import com.vmloft.develop.library.tools.utils.VMSystem
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel

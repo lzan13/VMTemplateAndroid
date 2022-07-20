@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 
 import com.vmloft.develop.app.template.databinding.ItemVirtualCommodityDelegateBinding
-import com.vmloft.develop.app.template.request.bean.Commodity
+import com.vmloft.develop.library.data.bean.Commodity
 import com.vmloft.develop.library.base.BItemDelegate
 
 /**
@@ -18,15 +18,15 @@ class ItemVirtualCommodityDelegate(listener: BItemListener<Commodity>) : BItemDe
 
     override fun onBindView(holder: BItemHolder<ItemVirtualCommodityDelegateBinding>, item: Commodity) {
         if (item.type == 0) {
-            holder.binding.scoreTV.text = (item.price.toFloat().toInt() * 100).toString()
-        }else{
+            holder.binding.scoreTV.text = item.price.toString()
+        } else {
             holder.binding.scoreTV.text = item.title
         }
 
-        holder.binding.priceTV.text = "￥${item.price}"
+        holder.binding.priceTV.text = "￥${item.price / 100f}"
         holder.binding.priceTV.paint.flags = Paint.STRIKE_THRU_TEXT_FLAG
 
-        holder.binding.currPriceTV.text = "￥${item.currPrice}"
+        holder.binding.currPriceTV.text = "￥${item.currPrice / 100f}"
 
         holder.binding.root.isSelected = item.isSelected
     }

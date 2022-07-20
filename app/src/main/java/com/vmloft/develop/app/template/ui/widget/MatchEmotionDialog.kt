@@ -6,9 +6,9 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 
-import com.vmloft.develop.app.template.common.SignManager
 import com.vmloft.develop.app.template.databinding.WidgetMatchEmotionDialogBinding
 import com.vmloft.develop.app.template.report.ReportConstants
+import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.library.report.ReportManager
 import com.vmloft.develop.library.tools.base.VMBDialog
 
@@ -93,5 +93,4 @@ class MatchEmotionDialog(context: Context) : VMBDialog<WidgetMatchEmotionDialogB
 
         dismiss()
     }
-
 }

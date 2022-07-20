@@ -4,8 +4,7 @@ import com.vmloft.develop.library.im.BuildConfig
 
 /**
  * Create by lzan13 on 2019/5/21 15:32
- *
- * IM 常量类
+ * 描述：IM 常量类
  */
 object IMConstants {
 
@@ -41,7 +40,7 @@ object IMConstants {
         const val changeUnreadCount = "changeUnreadCount"
 
         // CMD Action
-        const val cmdEncourageAction = "cmdEncourageAction" // 鼓励
+        const val cmdEncourageAction = "cmdEncourageAction" // 鼓励，点赞
         const val cmdInfoChangeAction = "cmdInfoChangeAction" // 联系人信息改变
         const val cmdInputStatusAction = "cmdInputStatusAction" // 输入状态
         const val cmdRecallAction = "cmdRecallAction" // 撤回
@@ -68,6 +67,7 @@ object IMConstants {
         const val msgAttrNotifyEnable = "msgAttrNotifyEnable" // 是否发送通知栏提醒
         const val msgAttrUnsupported = "msgAttrUnsupported" // 不支持消息扩展文案 Key
         const val msgAttrSystem = "msgAttrSystem" // 系统消息扩展文案 Key
+        const val msgAttrGift = "msgAttrGift" // 礼物消息扩展 Key
 
     }
 
@@ -158,17 +158,17 @@ object IMConstants {
         const val imPictureReceive = 0x20
         const val imPictureSend = 0x21
 
+        // 语音
+        const val imVoiceReceive = 0x30
+        const val imVoiceSend = 0x31
+
         // 视频
-        const val imVideoReceive = 0x30
-        const val imVideoSend = 0x31
+        const val imVideoReceive = 0x40
+        const val imVideoSend = 0x41
 
         // 定位
-        const val imLocationReceive = 0x40
-        const val imLocationSend = 0x41
-
-        // 语音
-        const val imVoiceReceive = 0x50
-        const val imVoiceSend = 0x51
+        const val imLocationReceive = 0x50
+        const val imLocationSend = 0x51
 
         // 文件
         const val imFileReceive = 0x60
@@ -183,6 +183,11 @@ object IMConstants {
         const val imBigEmotion = 0x110
         const val imBigEmotionReceive = 0x111
         const val imBigEmotionSend = 0x112
+
+        // 礼物
+        const val imGift = 0x120
+        const val imGiftReceive = 0x121
+        const val imGiftSend = 0x122
     }
 
 }
