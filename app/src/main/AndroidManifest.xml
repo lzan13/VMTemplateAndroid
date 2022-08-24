@@ -163,7 +163,7 @@
             android:exported="false" />
         <!--个人信息个人认证-->
         <activity
-            android:name=".ui.main.mine.info.PersonalAuthActivity"
+            android:name=".ui.settings.PersonalAuthActivity"
             android:exported="false" />
         <!--关系列表-->
         <activity

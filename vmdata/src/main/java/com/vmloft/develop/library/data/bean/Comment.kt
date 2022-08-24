@@ -19,7 +19,7 @@ data class Comment(
     var post: Post = Post(),
     var content: String = "",
     var likeCount: Int = 0,
-    var createdAt: String = "",
+    val createdAt: Long = 0,
 
     var isLike: Boolean = false, // 记录是否喜欢
 ) : Parcelable {

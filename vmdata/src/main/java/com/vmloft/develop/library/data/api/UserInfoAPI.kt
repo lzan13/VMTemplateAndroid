@@ -67,8 +67,8 @@ interface UserInfoAPI {
      * 个人认证
      */
     @FormUrlEncoded
-    @PUT("v1/info/personalAuth")
-    suspend fun personalAuth(
+    @PUT("v1/info/realAuth")
+    suspend fun realAuth(
         @Field("realName") realName: String,
         @Field("idCardNumber") idCardNumber: String,
     ): RResponse<Any>
@@ -97,11 +97,5 @@ interface UserInfoAPI {
      */
     @GET("v1/info/clock")
     suspend fun clock(): RResponse<Any>
-
-    /**
-     * 签到操作
-     */
-    @GET("v1/info/mqttUserToken")
-    suspend fun mqttUserToken(@Query("id") id: String): RResponse<String>
 
 }

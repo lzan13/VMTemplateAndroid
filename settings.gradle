@@ -1,3 +1,50 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://jitpack.io' }
+        // 个推 SDK
+        maven { url "https://mvn.getui.com/nexus/content/repositories/releases/" }
+        // 友盟 SDK
+        maven { url 'https://repo1.maven.org/maven2/' }
+        // TopOn 聚合平台
+        maven { url "https://anythink.jfrog.io/artifactory/android_sdk" }
+        // Mintegral SDK
+        maven { url "https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_oversea" }
+        google()
+        mavenCentral()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://jitpack.io' }
+        // 个推 SDK
+        maven { url "https://mvn.getui.com/nexus/content/repositories/releases/" }
+        // 友盟 SDK
+        maven { url 'https://repo1.maven.org/maven2/' }
+        // TopOn 聚合平台
+        maven { url "https://anythink.jfrog.io/artifactory/android_sdk" }
+        // Mintegral SDK
+        maven { url "https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_oversea" }
+        google()
+        mavenCentral()
+    }
+    // 解决本地依赖 aar 打包报错 其实就是将 libs 作为本地仓库，然后引用参考下的库文件。但是编译时候会有这个提示
+    // Using flatDir should be avoided because it doesn't support any meta-data formats.
+    repositories {
+        flatDir {
+            dirs new File(rootProject.projectDir.getAbsolutePath() + '/aar')
+        }
+    }
+}
+
+rootProject.name = "VMTemplateAndroid"
 include ':app'
 include ':vmads'
 include ':vmbase'
@@ -8,9 +55,7 @@ include ':vmgift'
 include ':vmim'
 include ':vmimage'
 include ':vmmp'
-include ':vmmqtt'
 include ':vmpay'
-include ':vmpush'
 include ':vmqr'
 include ':vmreport'
 include ':vmrequest'

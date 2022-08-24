@@ -8,20 +8,21 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.drakeet.multitype.MultiTypeAdapter
 
 import com.vmloft.develop.app.template.R
-import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.app.template.databinding.ActivityVipTradeBinding
-import com.vmloft.develop.library.data.bean.Commodity
-import com.vmloft.develop.library.data.bean.Order
-import com.vmloft.develop.library.data.bean.User
 import com.vmloft.develop.app.template.router.AppRouter
-import com.vmloft.develop.library.data.viewmodel.UserViewModel
 import com.vmloft.develop.library.base.BItemDelegate
 import com.vmloft.develop.library.base.BVMActivity
 import com.vmloft.develop.library.base.BViewModel
 import com.vmloft.develop.library.base.router.CRouter
-import com.vmloft.develop.library.request.RPaging
 import com.vmloft.develop.library.base.widget.CommonDialog
 import com.vmloft.develop.library.base.widget.decoration.GridItemDecoration
+import com.vmloft.develop.library.common.config.ConfigManager
+import com.vmloft.develop.library.data.bean.Commodity
+import com.vmloft.develop.library.data.bean.Order
+import com.vmloft.develop.library.data.bean.User
+import com.vmloft.develop.library.data.common.SignManager
+import com.vmloft.develop.library.data.viewmodel.UserViewModel
+import com.vmloft.develop.library.request.RPaging
 import com.vmloft.develop.library.tools.utils.VMDimen
 import com.vmloft.develop.library.tools.utils.VMStr
 
@@ -61,7 +62,7 @@ class VipTradeActivity : BVMActivity<ActivityVipTradeBinding, UserViewModel>() {
     }
 
     override fun initData() {
-        user = SignManager.getCurrUser()
+        user = SignManager.getSignUser()
 
         bindInfo()
 
@@ -100,6 +101,7 @@ class VipTradeActivity : BVMActivity<ActivityVipTradeBinding, UserViewModel>() {
      * 绑定信息
      */
     private fun bindInfo() {
+        mBinding.vipCL.visibility = if (ConfigManager.appConfig.tradeConfig.tradeEntry && user.role.identity > 8) View.VISIBLE else View.GONE
         mBinding.goVIPTV.text = if (user.role.identity in 100..199) VMStr.byRes(R.string.gold_vip_renewal) else VMStr.byRes(R.string.gold_vip)
     }
 

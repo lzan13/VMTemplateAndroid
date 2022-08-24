@@ -16,21 +16,21 @@ class LikeRepository : BaseRepository() {
      * 喜欢
      */
     suspend fun like(type: Int, id: String): RResult<Any> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.likeAPI.like(type, id)) }
+        return safeRequest { executeResponse(APIRequest.likeAPI.like(type, id)) }
     }
 
     /**
      * 取消关注
      */
     suspend fun cancelLike(type: Int, id: String): RResult<Any> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.likeAPI.cancelLike(type, id)) }
+        return safeRequest { executeResponse(APIRequest.likeAPI.cancelLike(type, id)) }
     }
 
     /**
      * 获取喜欢列表
      */
     suspend fun likePostList(owner: String, page: Int, limit: Int, type: Int, id: String): RResult<RPaging<Post>> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.likeAPI.likePostList(type, id, owner, page, limit)) }
+        return safeRequest { executeResponse(APIRequest.likeAPI.likePostList(type, id, owner, page, limit)) }
     }
 
 }

@@ -5,15 +5,15 @@ import android.text.TextWatcher
 import com.alibaba.android.arouter.facade.annotation.Route
 
 import com.vmloft.develop.app.template.R
-import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.app.template.databinding.ActivityPersonalInfoGuideBinding
-import com.vmloft.develop.library.data.bean.User
-import com.vmloft.develop.library.data.viewmodel.UserViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.base.BVMActivity
 import com.vmloft.develop.library.base.BViewModel
 import com.vmloft.develop.library.base.common.PermissionManager
 import com.vmloft.develop.library.base.utils.errorBar
+import com.vmloft.develop.library.data.bean.User
+import com.vmloft.develop.library.data.common.SignManager
+import com.vmloft.develop.library.data.viewmodel.UserViewModel
 import com.vmloft.develop.library.image.IMGChoose
 import com.vmloft.develop.library.image.IMGLoader
 import com.vmloft.develop.library.tools.utils.VMReg
@@ -60,19 +60,19 @@ class PersonalInfoGuideActivity : BVMActivity<ActivityPersonalInfoGuideBinding, 
     }
 
     override fun initData() {
-        mUser = SignManager.getCurrUser()
+        mUser = SignManager.getSignUser()
 
         bindInfo()
     }
 
     override fun onModelRefresh(model: BViewModel.UIModel) {
         if (model.type == "updateInfo") {
-            SignManager.setCurrUser(model.data as User)
+            SignManager.setSignUser(model.data as User)
             finish()
         }
         if (model.type == "updateAvatar") {
             mUser = model.data as User
-            SignManager.setCurrUser(mUser)
+            SignManager.setSignUser(mUser)
             IMGLoader.loadAvatar(mBinding.avatarIV, mUser.avatar)
         }
     }

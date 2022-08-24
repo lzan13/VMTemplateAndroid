@@ -3,8 +3,8 @@ package com.vmloft.develop.library.data.viewmodel
 import androidx.lifecycle.viewModelScope
 
 import com.vmloft.develop.library.base.BViewModel
-import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.library.data.bean.User
+import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.library.data.repository.CommonRepository
 import com.vmloft.develop.library.data.repository.InfoRepository
 import com.vmloft.develop.library.request.RResult
@@ -29,12 +29,12 @@ class MainViewModel(private val repo: InfoRepository, private val commonRepo: Co
             val result = repo.current()
 
             if (result is RResult.Success) {
-                SignManager.setCurrUser(result.data as User)
+                SignManager.setSignUser(result.data as User)
 
                 emitUIState(data = result.data, type = "userInfo")
                 return@launch
             } else if (result is RResult.Error) {
-                emitUIState(isSuccess = false, code = result.code, error = result.error)
+                emitUIState(isSuccess = false, code = result.code, error = result.error, type = "userInfo")
             }
         }
     }
@@ -60,14 +60,14 @@ class MainViewModel(private val repo: InfoRepository, private val commonRepo: Co
     /**
      * 检查版本
      */
-    fun clientConfig() {
+    fun appConfig() {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
             val result = withContext(Dispatchers.IO) {
-                commonRepo.clientConfig()
+                commonRepo.appConfig()
             }
             if (result is RResult.Success) {
-                emitUIState(data = result.data, type = "clientConfig")
+                emitUIState(data = result.data, type = "appConfig")
                 return@launch
             } else if (result is RResult.Error) {
                 emitUIState(isSuccess = false, code = result.code, error = result.error)

@@ -4,13 +4,12 @@ import android.content.Context
 import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.SoundPool
-import com.hyphenate.chat.EMMessage
 
 import com.vmloft.develop.library.base.event.LDEventBus
-import com.vmloft.develop.library.im.IM
 import com.vmloft.develop.library.im.R
-import com.vmloft.develop.library.im.chat.IMChatManager
+import com.vmloft.develop.library.im.common.IMChatManager
 import com.vmloft.develop.library.im.common.IMConstants
+import com.vmloft.develop.library.im.common.IMConversationManager
 import com.vmloft.develop.library.im.router.IMRouter
 import com.vmloft.develop.library.tools.VMTools
 import com.vmloft.develop.library.tools.utils.logger.VMLog
@@ -127,19 +126,17 @@ object IMCallManager {
     /**
      * 保存通话消息
      */
-    private fun saveCallMessage(id: String) {
+    private fun saveCallMessage(chatId: String) {
         var content = when (callStatus) {
             IMConstants.Call.callStatusReject -> "通话取消"
             IMConstants.Call.callStatusBusy -> "对方忙碌"
             else -> "通话结束 " + getCallTime()
         }
-        val message = IMChatManager.createTextMessage(content, id, !isInComingCall)
-        message.chatType = EMMessage.ChatType.Chat
-        message.setStatus(EMMessage.Status.SUCCESS)
-        message.setAttribute(IMConstants.Common.msgAttrExtType, IMConstants.MsgType.imCall)
-        message.setAttribute(IMConstants.Call.msgAttrCallType, IMConstants.Call.callTypeVoice)
+        val message = IMChatManager.createTextMessage(chatId, content, !isInComingCall)
+        message.setAttribute(IMConstants.Common.extType, IMConstants.MsgType.imCall)
+        message.setAttribute(IMConstants.Call.extCallType, IMConstants.Call.callTypeVoice)
 
-        IMChatManager.saveMessage(message)
+        IMConversationManager.addMessage(message)
     }
 
     /**

@@ -17,7 +17,10 @@ ext {
             // 聚合平台配置
             topOnAppId       : "\"TopOn AppId\"", // TopOn 聚合平台 AppId
             topOnAppKey      : "\"TopOn AppKey\"", // TopOn 聚合平台 AppKey
-            admobAppId       : "AppId", // Google Admob AppId
+            topOnAppIdGP     : "\"TopOn GooglePlay AppId\"", // TopOn 聚合平台 AppId
+            topOnAppKeyGP    : "\"TopOn GooglePlay AppKey\"", // TopOn 聚合平台 AppKey
+            admobAppId       : "", // Google Admob AppId
+            adsSecKey        : "\"\"", // 广告回调签名key 和后端一致
 
             // Bugly AppId
             buglyAppId       : "Bugly AppId",
@@ -25,26 +28,21 @@ ext {
             // 友盟 AppId
             umengAppKey      : "UMeng AppKey",
 
-            // 环信相关配置
-            emAppKey         : "appKey", // AppKey
-            emMQTTAppId      : "\"appId\"",  // MQTT AppId
-            emMQTTHost       : "\"mqtt host\"", // MQTT 链接地址
-            emMQTTPort       : "\"mqtt port\"", // MQTT 链接端口 1883(mqtt),1884(mqtts),80(ws),443(wss)
-
-            // 表情云相关配置
-            dtAppId     : "\"\"",
-            dtAppSecret : "\"\"",
-
             // 声网 AppId 这里需要写入 BuildConfig 只会写入双引号内部字段，所以需要多包一层""
             agoraAppId       : "\"Agora appId\"",
 
             // 这里需要写入 BuildConfig 只会写入双引号内部字段，所以需要多包一层""
             // 然后这里地址需要和服务器配置一致，看服务器项目的 default 配置 subSite 字段，如果是二级目录需要带上完整的路径如：https://xxx.com/api/
-            // 调试服务器环境配置
-            baseDebugUrl     : "\"http://192.168.1.3:5920/\"",
+            // 调试服务器环境配置，这里的IP是和你设备同路由下服务器 IP
+            baseUrlDebug     : "\"http://192.168.1.3:5920/\"",
             // 线上服务器地址，这里暂时和 debug 一样
-            baseReleaseUrl   : "\"接口域名地址\"",
+            baseUrlRelease   : "\"接口域名地址\"",
 
+            // 这里需要写入 BuildConfig 只会写入双引号内部字段，所以需要多包一层""
+            // IM Debug 环境 host 配置，这里的IP是和你设备同路由下服务器 IP
+            imDebugUrl       : "\"http://192.168.31.107:5920/\"",
+            // IM 线上环境 host 配置
+            imReleaseHost    : "\"接口域名地址\"",
             // 访问资源域名地址 这里需要写入 BuildConfig 只会写入双引号内部字段，所以需要多包一层""
             mediaUrl         : "\"资源域名地址\"",
 

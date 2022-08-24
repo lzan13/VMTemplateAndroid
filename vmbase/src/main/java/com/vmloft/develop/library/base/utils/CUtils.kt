@@ -104,4 +104,18 @@ object CUtils {
         return String(Base64.decode(str, Base64.DEFAULT))
     }
 
+    /**
+     * 构造敏感词 map
+     */
+    fun makeSensitiveMap(list: MutableList<String>): MutableMap<String, Any> {
+        val map = mutableMapOf<String,Any>()
+        for(word in list){
+            val map = mutableMapOf<String,Any>()
+            for(t in word){
+
+            }
+        }
+        return map
+    }
+
 }

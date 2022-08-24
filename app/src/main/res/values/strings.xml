@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">忘忧大陆</string>
-    <string name="app_name_normal">忘忧大陆-修仙一样交友</string>
+    <string name="app_name_normal">忘忧大陆-虚拟空间交朋友</string>
 
     <!--引导-->
     <string name="guide_prev">上一步</string>
     <string name="guide_next">下一步</string>
     <string name="guide_finish">进入忘忧大陆</string>
     <string name="guide_title_0">来到忘忧大陆</string>
-    <string name="guide_intro_0">修仙一样交友，分享你的快乐，忘记你的烦忧</string>
+    <string name="guide_intro_0">分享你的快乐，忘记你的烦忧</string>
     <string name="guide_title_1">放松身心</string>
     <string name="guide_intro_1">在喧闹的尘世中，划出一片空间，让身心放松</string>
     <string name="guide_title_2">邂逅道友</string>
@@ -73,9 +73,7 @@
     <string name="match_wish_desc">许个愿吧\n万一实现了呢</string>
 
     <string name="filter_gender_title">匹配过滤</string>
-    <string name="filter_gender_woman">仙子</string>
-    <string name="filter_gender_man">仙君</string>
-    <string name="filter_gender_all">不限</string>
+    <string name="filter_gender_all">来者不拒</string>
 
     <string name="emotion_title">今日心情</string>
     <string name="emotion_hint">你今天心情怎么样？</string>
@@ -141,7 +139,7 @@
     <string name="settings">设置</string>
 
     <string name="settings_about">关于</string>
-    <string name="about_content">来忘忧大陆，像修仙一样交友</string>
+    <string name="about_content">来忘忧大陆，虚拟空间交朋友</string>
     <string name="about_copyright">Copyright &#169; 2020 VMLoft.\nAll Right Reserved.</string>
 
     <string name="settings_feedback">问题及意见反馈</string>
@@ -241,9 +239,6 @@
     <string name="info_email_null">未绑定</string>
     <string name="info_phone">手机号</string>
     <string name="info_phone_null">未绑定</string>
-    <string name="info_auth">认证</string>
-    <string name="info_auth_no">未认证</string>
-    <string name="info_auth_yes">已认证</string>
     <string name="info_gender">性别</string>
     <string name="info_birthday">生日</string>
     <string name="info_signature">个性签名</string>
@@ -258,21 +253,27 @@
 
     <string name="info_guide_tips">请完善你的个人信息</string>
 
-    <string name="info_gender_woman">仙子</string>
-    <string name="info_gender_man">仙君</string>
+    <string name="info_gender_woman">貌美如花</string>
+    <string name="info_gender_man">英俊潇洒</string>
     <string name="info_gender_unknow">神秘</string>
 
-    <string name="personal_auth">个人认证</string>
+    <string name="real_name_auth">实名认证</string>
     <string name="auth_real_name">真实姓名</string>
     <string name="auth_real_name_error">真实姓名格式错误</string>
     <string name="auth_id_card_number">身份证号</string>
     <string name="auth_id_card_number_error">身份证号格式校验错误，请检查</string>
-    <string name="auth_hint">个人实名认证仅用作系统验证，不会泄露给任何其他人</string>
+    <string name="auth_hint">实名认证仅用作系统验证，不会泄露给任何其他人</string>
+    <string name="info_auth">认证</string>
+    <string name="info_auth_no">未认证</string>
+    <string name="info_auth_yes">已认证</string>
 
     <string name="info_perfect_hint">为了提高交流体验，请完善你的个人信息</string>
     <string name="info_perfect_gender_hint">性别设定后不可修改！</string>
     <string name="info_perfect_username_hint">用户名设定后不可修改！</string>
     <string name="info_qr_username_hint">请先设置你的用户名！</string>
+
+    <string name="tips_banned">你因【%s】原因被禁言到【%s】请在发言时遵守用户行为规范，情节严重将做封号处理</string>
+    <string name="tips_publish_interval">防止刷屏，内容发布必须间隔一定时间【%s】后才能再次发布内容</string>
 
     <!--金币相关-->
     <string name="gold_title">我的忘忧币</string>
@@ -364,9 +365,10 @@
     <string name="sign_up">注册</string>
     <string name="sign_in">登录</string>
     <string name="sign_in_by_password">账户密码登录</string>
-    <string name="sign_in_by_device_id">绑定设备快速进入</string>
+    <string name="sign_in_by_devices_id">绑定设备快速进入</string>
     <string name="sign_out">退出登录</string>
     <string name="sign_out_hint">退出登录将无法实时查看消息与相关内容，确认退出？</string>
+    <string name="sign_out_username_hint">你还没有设置账户名，退出登录有可能无法找回账户，确认退出？</string>
     <string name="sign_to_sign_up">去注册</string>
     <string name="sign_forget_password">忘记密码</string>
     <string name="sign_account">账户</string>

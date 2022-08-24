@@ -16,18 +16,33 @@ interface PostDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(vararg post: Post)
 
+    /**
+     * 删除指定数据
+     */
     @Delete
     suspend fun delete(post: Post)
 
+    /**
+     * 清空数据
+     */
     @Query("DELETE FROM post")
-    suspend fun delete()
+    suspend fun clear()
 
+    /**
+     * 删除非屏蔽数据
+     */
     @Query("DELETE FROM post WHERE isShielded = :isShielded")
     suspend fun clear(isShielded: Boolean = false)
 
+    /**
+     * 更新数据
+     */
     @Update
     suspend fun update(post: Post)
 
+    /**
+     * 查询指定数据
+     */
     @Query("SELECT * FROM post WHERE id = :id")
     suspend fun query(id: String): Post?
 

@@ -18,21 +18,21 @@ class MatchRepository : BaseRepository() {
      * 获取匹配列表数据
      */
     suspend fun submitMatch(match: Match): RResult<Match> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.matchAPI.submitMatch(match.content, match.emotion, match.gender, match.type)) }
+        return safeRequest { executeResponse(APIRequest.matchAPI.submitMatch(match.content, match.emotion, match.gender, match.type)) }
     }
 
     /**
      * 删除一条匹配数据
      */
     suspend fun removeMatch(id: String): RResult<Any> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.matchAPI.removeMatch(id)) }
+        return safeRequest { executeResponse(APIRequest.matchAPI.removeMatch(id)) }
     }
 
     /**
      * 获取匹配列表数据
      */
     suspend fun matchList(gender: Int, type: Int, page: Int, limit: Int): RResult<RPaging<Match>> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.matchAPI.matchList(gender, type, page, limit)) }
+        return safeRequest { executeResponse(APIRequest.matchAPI.matchList(gender, type, page, limit)) }
     }
 
     /**
@@ -48,7 +48,7 @@ class MatchRepository : BaseRepository() {
      */
     suspend fun setSelfMatch(match: Match) {
         // 先清空原来的数据
-        AppDatabase.getInstance().matchDao().delete()
+        AppDatabase.getInstance().matchDao().clear()
         // 重新插入
         AppDatabase.getInstance().matchDao().insert(match)
     }
@@ -57,7 +57,7 @@ class MatchRepository : BaseRepository() {
      * 随机获取一条匹配数据
      */
     suspend fun randomMatch(gender: Int, type: Int): RResult<Match> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.matchAPI.randomMatch(gender, type)) }
+        return safeRequest { executeResponse(APIRequest.matchAPI.randomMatch(gender, type)) }
     }
 
 }

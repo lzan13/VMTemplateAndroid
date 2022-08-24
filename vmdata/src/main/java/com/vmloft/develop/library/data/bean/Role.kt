@@ -13,9 +13,9 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Role(
     @SerializedName("_id")
-    val id: String ="",
-    val title: String = "",
-    val desc: String = "",
-    val identity: Int = 0, // 角色身份级别
+    var id: String ="",
+    var title: String = "",
+    var desc: String = "",
+    var identity: Int = 0, // 角色身份级别
 ) : Parcelable {
 }

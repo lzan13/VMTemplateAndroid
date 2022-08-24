@@ -3,7 +3,6 @@ package com.vmloft.develop.library.common.web
 import android.content.pm.ActivityInfo
 import android.net.Uri
 import android.view.View
-import android.view.WindowManager
 import android.webkit.WebView
 import android.widget.LinearLayout
 
@@ -34,7 +33,7 @@ class WebActivity : BActivity<ActivityWebBinding>() {
 
     override fun initUI() {
         super.initUI()
-        setTopTitle(R.string.vm_loading)
+        setTopTitle(R.string.common_loading)
 
         initWebView()
     }

@@ -2,12 +2,9 @@ package com.vmloft.develop.app.template.im
 
 import android.content.Context
 
-import com.vmloft.develop.library.data.common.SignManager
+import com.vmloft.develop.library.data.bean.User
 import com.vmloft.develop.library.im.IM
 import com.vmloft.develop.library.im.router.IMRouter
-
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 /**
  * Create by lzan13 on 2021/5/23 09:39
@@ -19,22 +16,21 @@ object IMManager {
      * 初始化 IM
      */
     fun init(context: Context) {
-        IM.init(context, IMListener())
+        IM.init(context)
     }
 
     /**
-     * 登录 IM
+     * 建立链接，同时会进行认证
      */
-    suspend fun signIn() = withContext(Dispatchers.IO) {
-        val user = SignManager.getCurrUser()
-        IM.signIn(user.id, user.password)
+    fun signIn(user: User) {
+        IM.signIn(user)
     }
 
     /**
-     * 退出登录
+     * 断开链接
      */
     fun signOut() {
-        IM.signOut(true)
+        IM.signOut()
     }
 
     /**
@@ -54,15 +50,8 @@ object IMManager {
     /**
      * 跳转到聊天室界面
      */
-    fun goChatRoom(chatId: String, extend: String = "") {
-        IMRouter.goChatRoom(chatId, extend)
-    }
-
-    /**
-     * 获取未读数
-     */
-    fun getUnreadCount(): Int {
-        return IM.getUnreadCount()
+    fun goChatRoom(chatId: String) {
+        IMRouter.goChatRoom(chatId)
     }
 
     /**

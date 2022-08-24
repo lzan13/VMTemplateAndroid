@@ -1,5 +1,6 @@
 package com.vmloft.develop.library.im.common
 
+import com.vmloft.develop.library.base.common.CSPManager
 import com.vmloft.develop.library.im.BuildConfig
 
 /**
@@ -7,6 +8,9 @@ import com.vmloft.develop.library.im.BuildConfig
  * 描述：IM 常量类
  */
 object IMConstants {
+
+    const val dbName = "vm_db_im_"
+    const val dbPass = "vm_db_im_lzan13"
 
     /**
      * 获取声网 AppId
@@ -16,58 +20,45 @@ object IMConstants {
     }
 
     /**
-     * 链接状态
+     * 获取接口 host 地址，根据 debug 状态返回不同地址
      */
-    object ConnectStatus {
-        // 链接状态改变事件
-        const val connectStatusEvent = "connectStatusEvent"
-
-        const val connected = 1 // 已链接
-        const val disconnect = 0 // 已断开
+    fun imHost(): String {
+        return if (CSPManager.isDebug()) {
+            BuildConfig.imHostDebug
+        } else {
+            BuildConfig.imHostRelease
+        }
     }
 
     /**
      * 通用字段
      */
     object Common {
-        // 新消息
-        const val newMsgEvent = "newMsgEvent"
+        // 发送消息 event
+        const val wsMessageEvent = "message"
+        const val wsSignalEvent = "signal"
+
+        // 链接状态改变事件
+        const val connectStatusEvent = "connectStatusEvent"
+
+        const val newMsgEvent = "newMsgEvent" // 新消息
         const val updateMsgEvent = "updateMsgEvent"
-        const val readMsgEvent = "readMsgEvent"
-        const val deliveredMsgEvent = "deliveredMsgEvent"
-        const val recallMsgEvent = "recallMsgEvent"
-        const val changeMsgEvent = "changeMsgEvent"
         const val changeUnreadCount = "changeUnreadCount"
 
-        // CMD Action
-        const val cmdEncourageAction = "cmdEncourageAction" // 鼓励，点赞
-        const val cmdInfoChangeAction = "cmdInfoChangeAction" // 联系人信息改变
-        const val cmdInputStatusAction = "cmdInputStatusAction" // 输入状态
-        const val cmdRecallAction = "cmdRecallAction" // 撤回
+        // 撤回消息信令
+        const val signalRecallMessage = "recallMessage" // 撤回
+        const val signalInfoChange = "infoChange" // 联系人信息改变
+        const val signalInputStatus = "inputStatus" // 输入状态
 
-        /**
-         * 定义会话与消息扩展字段 key
-         */
-        /**
-         * 会话扩展
-         */
-        const val conversationDraft = "conversationDraft" // 草稿
-        const val conversationTime = "conversationTime" // 最后时间
-        const val conversationTop = "conversationTop" // 置顶
-        const val conversationUnread = "conversationUnread" // 会话未读
-        const val conversationMsgSendCount = "conversationMsgSendCount" // 会话消息发送数
-        const val conversationMsgReceiveCount = "conversationMsgReceiveCount" // 会话消息接收数
+        const val signalMatchInfo = "matchInfo" // 匹配信息
 
-        /**
-         * 消息扩展
-         */
-        const val msgAttrExtType = "msgAttrExtType" // 扩展类型
 
-        const val msgAttrMsgId = "msgAttrMsgId" // 消息 Id，这个是透传消息撤回用到
-        const val msgAttrNotifyEnable = "msgAttrNotifyEnable" // 是否发送通知栏提醒
-        const val msgAttrUnsupported = "msgAttrUnsupported" // 不支持消息扩展文案 Key
-        const val msgAttrSystem = "msgAttrSystem" // 系统消息扩展文案 Key
-        const val msgAttrGift = "msgAttrGift" // 礼物消息扩展 Key
+        // 扩展字段 key
+        // 消息扩展
+        const val extType = "extType" // 扩展类型
+        const val extSystemTips = "extSystemTips" // 系统消息扩展信息
+        const val extSystemUrl = "extSystemUrl" // 系统消息扩展链接
+        const val extGift = "msgAttrGift" // 礼物消息扩展 Key
 
     }
 
@@ -75,10 +66,10 @@ object IMConstants {
      * 快速聊天
      */
     object ChatFast {
-        const val cmdFastInputAction = "cmdFastInputAction" // 实时输入内容
-        const val msgAttrFastInputStatus = "msgAttrFastInputStatus" // 快速聊天状态
-        const val msgAttrFastInputContent = "msgAttrFastInputContent" // 快速聊天输入变化内容
-        const val msgAttrFastInputLen = "msgAttrFastInputCount" // 快速聊天输入变化长度
+        const val signalFastInput = "fastInput" // 实时输入内容
+        const val extFastInputStatus = "extFastInputStatus" // 快速聊天状态
+        const val extFastInputContent = "extFastInputContent" // 快速聊天输入变化内容
+        const val extFastInputLen = "extFastInputLen" // 快速聊天输入变化长度
 
         const val fastInputStatusApply = 0 // 申请
         const val fastInputStatusAgree = 1 // 同意
@@ -86,24 +77,20 @@ object IMConstants {
         const val fastInputStatusBusy = 3 // 拒绝
         const val fastInputStatusContent = 5 // 内容变化
         const val fastInputStatusEnd = 9 // 结束
-
     }
 
     /**
      * 通话状态
      */
     object Call {
-        // CMD 实现通话信令事件
-        const val cmdCallStatusEvent = "cmdCallStatusEvent"
+        // 通话信令，具体指令通过扩展区分
+        const val signalCall = "call"
 
-        // 通话信令 Action，具体指令通过扩展区分
-        const val cmdCallAction = "cmdCallAction"
+        const val callStatusEvent = "callStatusEvent" // 实现通话事件
+        const val callTimeEvent = "callTimeEvent" // 通话时间事件
 
-        // 通话时间事件
-        const val callTimeEvent = "callTimeEvent"
-
-        const val msgAttrCallStatus = "msgAttrCallStatus" // 通话信令状态
-        const val msgAttrCallType = "msgAttrCallType" // 通话类型 0-语音 1-视频
+        const val extCallStatus = "extCallStatus" // 通话信令状态
+        const val extCallType = "extCallType" // 通话类型 0-语音 1-视频
 
         // 通话类型 0-语音 1-视频
         const val callTypeVoice = 0
@@ -116,9 +103,9 @@ object IMConstants {
         const val callStatusEnd = 9 // 结束
 
         // 房间上麦相关
-        const val cmdRoomApplyMic = "cmdRoomApplyMic" // 房间申请上麦相关操作
-        const val msgAttrApplyMicStatus = "msgAttrApplyMicStatus" // 房间申请上麦相关操作状态
-        const val msgAttrApplyMicInfo = "msgAttrApplyMicInfo" // 房间申请上麦相关信息
+        const val signalRoomApplyMic = "roomApplyMic" // 房间申请上麦信令
+        const val extRoomApplyMicStatus = "msgAttrApplyMicStatus" // 房间申请上麦相关操作状态
+        const val extRoomApplyMicInfo = "msgAttrApplyMicInfo" // 房间申请上麦相关信息
 
         const val roomApplyMicStatusApply = 0 // 申请中
         const val roomApplyMicStatusAgree = 1 // 同意
@@ -132,62 +119,61 @@ object IMConstants {
      * 聊天类型
      */
     object ChatType {
-        const val imChatSingle = 0
-        const val imChatGroup = 1
-        const val imChatRoom = 2
+        const val imSingle = 0
+        const val imGroup = 1
+        const val imRoom = 2
     }
 
     /**
-     * 消息类型
+     * 消息状态
+     */
+    object MsgStatus {
+        const val imLoading = 0 // 发送中
+        const val imSuccess = 1 // 成功
+        const val imFailed = 2 // 失败
+    }
+
+    /**
+     * 消息类型，这里和后端对应好
+     * 0-文本
+     * 10-通话
+     * 1-系统
+     *  100-默认
+     *  101-撤回
+     *  102-欢迎
+     *
+     * 2-卡片
+     *  200-默认
+     *  201-文件
+     *  202-红包
+     *
+     * 3-图片
+     * 4-语音
+     * 5-视频
+     * 6-礼物
+     * 7-表情
+     * 8-位置
      */
     object MsgType {
-        // 未知类型
-        const val imUnknown = 0x00
+        const val imText = 0 // 文本消息
+        const val imCall = 10 // 通话消息
 
-        // 系统消息
-        const val imSystem = 0x01
+        const val imSystem = 1 // 系统消息
+        const val imSystemDefault = 100 // 默认
+        const val imSystemRecall = 101 // 撤回
+        const val imSystemWelcome = 102 // 欢迎
 
-        // 撤回
-        const val imRecall = 0x05
+        const val imCard = 2 // 卡片
+        const val imCardDefault = 200 // 默认卡片
+        const val imCardFile = 201 // 文件卡片
+        const val imCardRedPacket = 202 // 红包卡片
 
-        // 文本
-        const val imTextReceive = 0x10
-        const val imTextSend = 0x11
-
-        // 图片
-        const val imPictureReceive = 0x20
-        const val imPictureSend = 0x21
-
-        // 语音
-        const val imVoiceReceive = 0x30
-        const val imVoiceSend = 0x31
-
-        // 视频
-        const val imVideoReceive = 0x40
-        const val imVideoSend = 0x41
-
-        // 定位
-        const val imLocationReceive = 0x50
-        const val imLocationSend = 0x51
-
-        // 文件
-        const val imFileReceive = 0x60
-        const val imFileSend = 0x61
-
-        // 通话
-        const val imCall = 0x100
-        const val imCallReceive = 0x101
-        const val imCallSend = 0x102
-
-        // 大表情
-        const val imBigEmotion = 0x110
-        const val imBigEmotionReceive = 0x111
-        const val imBigEmotionSend = 0x112
-
-        // 礼物
-        const val imGift = 0x120
-        const val imGiftReceive = 0x121
-        const val imGiftSend = 0x122
+        const val imPicture = 3 // 图片
+        const val imVoice = 4 // 语音
+        const val imVideo = 5 // 视频
+        const val imGift = 6 // 礼物
+        const val imEmotion = 7 // 表情
+        const val imLocation = 8 // 位置
     }
 
 }

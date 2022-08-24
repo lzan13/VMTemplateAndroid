@@ -13,12 +13,10 @@ import kotlinx.parcelize.Parcelize
  * 描述：签到数据 Bean
  */
 @Parcelize
-@Entity
 data class Clock(
-    @PrimaryKey
     @SerializedName("_id")
-    val id: String ="",
-    val userId: String = "",
-    val createdAt: String = "",
+    var id: String = "",
+    var userId: String = "",
+    var createdAt: Long = 0,
 ) : Parcelable {
 }

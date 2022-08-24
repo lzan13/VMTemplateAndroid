@@ -2,12 +2,12 @@ package com.vmloft.develop.library.common.debug
 
 import com.alibaba.android.arouter.facade.annotation.Route
 
-import com.vmloft.develop.library.common.R
 import com.vmloft.develop.library.base.BActivity
 import com.vmloft.develop.library.base.common.CSPManager
-import com.vmloft.develop.library.common.databinding.ActivityDebugBinding
 import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.base.widget.CommonDialog
+import com.vmloft.develop.library.common.R
+import com.vmloft.develop.library.common.databinding.ActivityDebugBinding
 import com.vmloft.develop.library.tools.utils.VMStr
 
 /**

@@ -7,14 +7,7 @@ import android.widget.LinearLayout
 import com.alibaba.android.arouter.facade.annotation.Route
 
 import com.vmloft.develop.app.template.R
-import com.vmloft.develop.app.template.common.Constants
-import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.app.template.databinding.ActivityPersonalInfoBinding
-import com.vmloft.develop.library.request.RPaging
-import com.vmloft.develop.library.data.bean.Profession
-import com.vmloft.develop.library.data.bean.User
-import com.vmloft.develop.library.data.common.DConstants
-import com.vmloft.develop.library.data.viewmodel.UserViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.base.BVMActivity
 import com.vmloft.develop.library.base.BViewModel
@@ -22,9 +15,15 @@ import com.vmloft.develop.library.base.common.PermissionManager
 import com.vmloft.develop.library.base.event.LDEventBus
 import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.base.utils.showBar
+import com.vmloft.develop.library.base.widget.CommonDialog
+import com.vmloft.develop.library.data.bean.Profession
+import com.vmloft.develop.library.data.bean.User
+import com.vmloft.develop.library.data.common.SignManager
+import com.vmloft.develop.library.data.common.DConstants
+import com.vmloft.develop.library.data.viewmodel.UserViewModel
 import com.vmloft.develop.library.image.IMGChoose
 import com.vmloft.develop.library.image.IMGLoader
-import com.vmloft.develop.library.base.widget.CommonDialog
+import com.vmloft.develop.library.request.RPaging
 import com.vmloft.develop.library.tools.utils.VMColor
 import com.vmloft.develop.library.tools.utils.VMDimen
 import com.vmloft.develop.library.tools.utils.VMStr
@@ -39,7 +38,7 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 @Route(path = AppRouter.appPersonalInfo)
 class PersonalInfoActivity : BVMActivity<ActivityPersonalInfoBinding, UserViewModel>() {
 
-    private lateinit var mUser: User
+    private lateinit var selfUser: User
 
     private lateinit var mCoverIV: ImageView
     private lateinit var mAvatarIV: ImageView
@@ -73,34 +72,33 @@ class PersonalInfoActivity : BVMActivity<ActivityPersonalInfoBinding, UserViewMo
         mBinding.infoCoverLV.setOnClickListener { chooseCover() }
         mBinding.infoAvatarLV.setOnClickListener { chooseAvatar() }
         mBinding.infoUsernameLV.setOnClickListener {
-            if (mUser.username.isNullOrEmpty()) {
+            if (selfUser.username.isNullOrEmpty()) {
                 CRouter.go(AppRouter.appEditUsername)
             } else {
                 showBar(R.string.info_perfect_username_hint)
             }
         }
         mBinding.infoQRCodeLV.setOnClickListener {
-            if (mUser.username.isNullOrEmpty()) {
+            if (selfUser.username.isNullOrEmpty()) {
                 showBar(R.string.info_qr_username_hint)
             } else {
                 CRouter.go(AppRouter.appMineQRCode)
             }
         }
-        mBinding.infoNicknameLV.setOnClickListener { CRouter.go(AppRouter.appEditNickname, str0 = mUser.nickname) }
-        mBinding.infoSignatureLV.setOnClickListener { CRouter.go(AppRouter.appEditSignature, str0 = mUser.signature) }
+        mBinding.infoNicknameLV.setOnClickListener { CRouter.go(AppRouter.appEditNickname, str0 = selfUser.nickname) }
+        mBinding.infoSignatureLV.setOnClickListener { CRouter.go(AppRouter.appEditSignature, str0 = selfUser.signature) }
         mBinding.infoPhoneLV.setOnClickListener { }
         mBinding.infoEmailLV.setOnClickListener { CRouter.go(AppRouter.appBindEmail) }
-        mBinding.infoAuthStatusLV.setOnClickListener { checkPersonalAuth() }
 
         // 监听用户信息变化
         LDEventBus.observe(this, DConstants.Event.userInfo, User::class.java) { user ->
-            mUser = user
+            selfUser = user
             bindInfo()
         }
     }
 
     override fun initData() {
-        mUser = SignManager.getCurrUser()
+        selfUser = SignManager.getSignUser()
 
         bindInfo()
         bindPicker()
@@ -111,20 +109,20 @@ class PersonalInfoActivity : BVMActivity<ActivityPersonalInfoBinding, UserViewMo
 
     override fun onModelRefresh(model: BViewModel.UIModel) {
         if (model.type == "userInfo") {
-            SignManager.setCurrUser(model.data as User)
+            SignManager.setSignUser(model.data as User)
         }
         if (model.type == "professionList") {
             mProfessionList.addAll((model.data as RPaging<Profession>).data)
             bindProfessionData()
         }
         if (model.type == "updateInfo") {
-            SignManager.setCurrUser(model.data as User)
+            SignManager.setSignUser(model.data as User)
         }
         if (model.type == "updateCover") {
-            SignManager.setCurrUser(model.data as User)
+            SignManager.setSignUser(model.data as User)
         }
         if (model.type == "updateAvatar") {
-            SignManager.setCurrUser(model.data as User)
+            SignManager.setSignUser(model.data as User)
         }
     }
 
@@ -137,27 +135,26 @@ class PersonalInfoActivity : BVMActivity<ActivityPersonalInfoBinding, UserViewMo
      * 绑定信息
      */
     private fun bindInfo() {
-        IMGLoader.loadCover(mCoverIV, mUser.cover, isRadius = true)
-        IMGLoader.loadAvatar(mAvatarIV, mUser.avatar)
+        IMGLoader.loadCover(mCoverIV, selfUser.cover, isRadius = true)
+        IMGLoader.loadAvatar(mAvatarIV, selfUser.avatar)
 
-        mBinding.infoUsernameLV.setCaption(if (mUser.username.isNullOrEmpty()) VMStr.byRes(R.string.info_not_set) else mUser.username)
-        mBinding.infoNicknameLV.setCaption(if (mUser.nickname.isNullOrEmpty()) VMStr.byRes(R.string.info_nickname_default) else mUser.nickname)
-        mBinding.infoSignatureLV.setCaption(if (mUser.signature.isNullOrEmpty()) VMStr.byRes(R.string.info_signature_default) else mUser.signature)
-        mBinding.infoBirthdayLV.setCaption(mUser.birthday)
+        mBinding.infoUsernameLV.setCaption(if (selfUser.username.isNullOrEmpty()) VMStr.byRes(R.string.info_not_set) else selfUser.username)
+        mBinding.infoNicknameLV.setCaption(if (selfUser.nickname.isNullOrEmpty()) VMStr.byRes(R.string.info_nickname_default) else selfUser.nickname)
+        mBinding.infoSignatureLV.setCaption(if (selfUser.signature.isNullOrEmpty()) VMStr.byRes(R.string.info_signature_default) else selfUser.signature)
+        mBinding.infoBirthdayLV.setCaption(selfUser.birthday)
 
-        if (mUser.gender == 1) {
+        if (selfUser.gender == 1) {
             mBinding.infoGenderLV.setCaption(VMStr.byRes(R.string.info_gender_man))
-        } else if (mUser.gender == 0) {
+        } else if (selfUser.gender == 0) {
             mBinding.infoGenderLV.setCaption(VMStr.byRes(R.string.info_gender_woman))
         } else {
             mBinding.infoGenderLV.setCaption(VMStr.byRes(R.string.info_gender_unknow))
         }
 
-        mBinding.infoPhoneLV.setCaption(if (mUser.phone.isNullOrEmpty()) VMStr.byRes(R.string.info_phone_null) else mUser.phone)
-        mBinding.infoEmailLV.setCaption(if (mUser.email.isNullOrEmpty()) VMStr.byRes(R.string.info_email_null) else mUser.email)
-        mBinding.infoAuthStatusLV.setCaption(if (mUser.idCardNumber.isNullOrEmpty()) VMStr.byRes(R.string.info_auth_no) else VMStr.byRes(R.string.info_auth_yes))
-        mBinding.infoAddressLV.setCaption(if (mUser.address.isNullOrEmpty()) VMStr.byRes(R.string.info_not_set) else mUser.address)
-        mBinding.infoProfessionLV.setCaption(if (mUser.profession.title.isNullOrEmpty()) VMStr.byRes(R.string.info_not_set) else mUser.profession.title)
+        mBinding.infoPhoneLV.setCaption(if (selfUser.phone.isNullOrEmpty()) VMStr.byRes(R.string.info_phone_null) else selfUser.phone)
+        mBinding.infoEmailLV.setCaption(if (selfUser.email.isNullOrEmpty()) VMStr.byRes(R.string.info_email_null) else selfUser.email)
+        mBinding.infoAddressLV.setCaption(if (selfUser.address.isNullOrEmpty()) VMStr.byRes(R.string.info_not_set) else selfUser.address)
+        mBinding.infoProfessionLV.setCaption(if (selfUser.profession.title.isNullOrEmpty()) VMStr.byRes(R.string.info_not_set) else selfUser.profession.title)
     }
 
     /**
@@ -173,7 +170,7 @@ class PersonalInfoActivity : BVMActivity<ActivityPersonalInfoBinding, UserViewMo
             mBinding.pickerLayout.pickerProfessionView.visibility = View.GONE
         }
         mBinding.infoGenderLV.setOnClickListener {
-            if (mUser.gender != 2) {
+            if (selfUser.gender != 2) {
                 showBar(R.string.info_perfect_gender_hint)
                 return@setOnClickListener
             }
@@ -229,8 +226,8 @@ class PersonalInfoActivity : BVMActivity<ActivityPersonalInfoBinding, UserViewMo
         mBinding.pickerLayout.pickerBirthdayView.setAtmospheric(true)
 
         mBinding.pickerLayout.pickerBirthdayView.setYearFrame(1900, 3000)
-        val ymdArray = VMStr.strToArray(mUser.birthday, "-")
-        VMLog.d("${mUser.birthday} ${ymdArray.size} $ymdArray")
+        val ymdArray = VMStr.strToArray(selfUser.birthday, "-")
+        VMLog.d("${selfUser.birthday} ${ymdArray.size} $ymdArray")
         mBinding.pickerLayout.pickerBirthdayView.selectedYear = ymdArray[0].toInt()
         mBinding.pickerLayout.pickerBirthdayView.wheelYearPicker.setSelectedItemPosition(ymdArray[0].toInt() - 1900, false)
         mBinding.pickerLayout.pickerBirthdayView.selectedMonth = ymdArray[1].toInt()
@@ -239,8 +236,8 @@ class PersonalInfoActivity : BVMActivity<ActivityPersonalInfoBinding, UserViewMo
         /**
          * 性别选择器
          */
-        mBinding.pickerLayout.pickerGenderView.data = listOf("仙子", "仙君", "保密")
-        mBinding.pickerLayout.pickerGenderView.setSelectedItemPosition(mUser.gender, false)
+        mBinding.pickerLayout.pickerGenderView.data = listOf("貌美如花", "英俊潇洒", "保密")
+        mBinding.pickerLayout.pickerGenderView.setSelectedItemPosition(selfUser.gender, false)
 
         /**
          * 地址选择器
@@ -253,21 +250,12 @@ class PersonalInfoActivity : BVMActivity<ActivityPersonalInfoBinding, UserViewMo
     }
 
     /**
-     * 检查进行个人认证
-     */
-    private fun checkPersonalAuth() {
-        if (mUser.realName.isNullOrEmpty() || mUser.idCardNumber.isNullOrEmpty()) {
-            CRouter.go(AppRouter.appPersonalAuth)
-        }
-    }
-
-    /**
      * 绑定职业选择器数据
      */
     private fun bindProfessionData() {
         val list = mProfessionList.map { it.title }
         mBinding.pickerLayout.pickerProfessionView.data = list
-        val position = mProfessionList.indexOf(mUser.profession)
+        val position = mProfessionList.indexOf(selfUser.profession)
         mBinding.pickerLayout.pickerProfessionView.setSelectedItemPosition(position, false)
     }
 
@@ -322,7 +310,7 @@ class PersonalInfoActivity : BVMActivity<ActivityPersonalInfoBinding, UserViewMo
     private fun updateGender() {
         val gender = mBinding.pickerLayout.pickerGenderView.currentItemPosition
 
-        when (mUser.gender) {
+        when (selfUser.gender) {
             1 -> mBinding.infoGenderLV.setCaption(VMStr.byRes(R.string.info_gender_man))
             0 -> mBinding.infoGenderLV.setCaption(VMStr.byRes(R.string.info_gender_woman))
             else -> mBinding.infoGenderLV.setCaption(VMStr.byRes(R.string.info_gender_unknow))

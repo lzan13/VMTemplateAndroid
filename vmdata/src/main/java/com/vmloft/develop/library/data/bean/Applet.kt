@@ -13,17 +13,17 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Applet(
     @SerializedName("_id")
-    val id: String = "", // id
-    val title: String = "", // 标题
-    val content: String = "", // 内容
-    val tips: String = "", // 提示
-    val isNeedVIP: Boolean = false, // 需要 VIP 资格
-    val type: Int = 0, // 类型 0-H5 1-小应用 2-小游戏
-    val appId: String = "", // appId
-    val cover: Attachment = Attachment(), // 封面
-    val body: Attachment = Attachment(), // 程序体
-    val url: String = "", // H5 地址
-    val versionCode: Int = 1, // 版本号
-    val versionName: String = "0.0.1", // 版本名
+    var id: String = "", // id
+    var title: String = "", // 标题
+    var content: String = "", // 内容
+    var tips: String = "", // 提示
+    var isNeedVIP: Boolean = false, // 需要 VIP 资格
+    var type: Int = 0, // 类型 0-H5 1-小应用 2-小游戏
+    var appId: String = "", // appId
+    var cover: Attachment = Attachment(), // 封面
+    var body: Attachment = Attachment(), // 程序体
+    var url: String = "", // H5 地址
+    var versionCode: Int = 1, // 版本号
+    var versionName: String = "0.0.1", // 版本名
 ) : Parcelable {
 }

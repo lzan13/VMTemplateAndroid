@@ -1,6 +1,7 @@
 package com.vmloft.develop.app.template.ui.trade
 
 import android.view.View
+
 import com.alibaba.android.arouter.facade.annotation.Route
 
 import com.vmloft.develop.app.template.R
@@ -15,8 +16,8 @@ import com.vmloft.develop.library.base.event.LDEventBus
 import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.base.utils.FormatUtils
 import com.vmloft.develop.library.common.config.ConfigManager
-import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.library.data.bean.User
+import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.library.data.common.DConstants
 import com.vmloft.develop.library.data.viewmodel.UserViewModel
 import com.vmloft.develop.library.tools.utils.VMDate
@@ -72,7 +73,7 @@ class GoldActivity : BVMActivity<ActivityGoldBinding, UserViewModel>() {
     }
 
     override fun initData() {
-        user = SignManager.getCurrUser()
+        user = SignManager.getSignUser()
 
         bindInfo()
 
@@ -92,7 +93,7 @@ class GoldActivity : BVMActivity<ActivityGoldBinding, UserViewModel>() {
         } else if (model.type == "videoReward") {
             mViewModel.userInfo()
         } else if (model.type == "userInfo") {
-            SignManager.setCurrUser(model.data as User)
+            SignManager.setSignUser(model.data as User)
         }
     }
 
@@ -100,12 +101,16 @@ class GoldActivity : BVMActivity<ActivityGoldBinding, UserViewModel>() {
      * 绑定信息
      */
     private fun bindInfo() {
-        mBinding.goldCountTV.text = user.score.toString()
+        mBinding.goldCountTV.text = if (user.score > 9999) {
+            "${user.score / 10000}万"
+        } else {
+            user.score.toString()
+        }
 
         mBinding.clockTitleTV.text = VMStr.byResArgs(R.string.gold_clock_count, user.clockTotalCount)
 
         // 检查是否已签到
-        val clockTime = VMDate.utc2Long(user.clockTime)
+        val clockTime = user.clockTime
         val isYesterday = VMDate.isSameDate(clockTime, System.currentTimeMillis() - CConstants.timeDay)
         val isToday = VMDate.isSameDate(clockTime, System.currentTimeMillis())
 
@@ -139,17 +144,18 @@ class GoldActivity : BVMActivity<ActivityGoldBinding, UserViewModel>() {
         }
 
         mBinding.roleTV.text = if (user.role.identity in 100..199) VMStr.byRes(R.string.gold_role_vip) else VMStr.byRes(R.string.gold_role)
-        mBinding.roleTipsTV.text = if (user.role.identity in 100..199) VMStr.byRes(R.string.gold_role_vip_date) + FormatUtils.defaultTime(user.roleDate) else VMStr.byRes(R.string.gold_role_hint)
+        mBinding.roleTipsTV.text = if (user.role.identity in 100..199) VMStr.byRes(R.string.gold_role_vip_date) + FormatUtils.defaultTime(user.roleTime) else VMStr.byRes(R.string.gold_role_hint)
 
         // 激励视频广告入口显示
-        if (ConfigManager.clientConfig.adsConfig.goldEntry) {
+        if (ConfigManager.appConfig.adsConfig.goldEntry) {
             mBinding.moreVideoTaskLV.visibility = View.VISIBLE
         } else {
             mBinding.moreVideoTaskLV.visibility = View.GONE
         }
 
-        // VIP 入口显示
-        mBinding.goldVipCL.visibility = if (ConfigManager.clientConfig.tradeConfig.vipEntry) View.VISIBLE else View.GONE
+        // 根据配置控制入口展示
+        mBinding.moreRechargeLV.visibility = if (ConfigManager.appConfig.tradeConfig.tradeEntry && user.role.identity > 8) View.VISIBLE else View.GONE
+        mBinding.goldVipCL.visibility = if (ConfigManager.appConfig.tradeConfig.vipEntry) View.VISIBLE else View.GONE
     }
 
     /**

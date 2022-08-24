@@ -5,15 +5,10 @@ import android.view.*
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 
 import com.drakeet.multitype.MultiTypeAdapter
+
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.common.Constants
-import com.vmloft.develop.library.data.common.SignManager
-
 import com.vmloft.develop.app.template.databinding.FragmentCommonListBinding
-import com.vmloft.develop.library.request.RPaging
-import com.vmloft.develop.library.data.bean.Post
-import com.vmloft.develop.library.data.bean.User
-import com.vmloft.develop.library.data.viewmodel.PostViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.app.template.ui.widget.ContentDislikeDialog
 import com.vmloft.develop.library.base.BItemDelegate
@@ -24,7 +19,13 @@ import com.vmloft.develop.library.base.event.LDEventBus
 import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.base.utils.showBar
 import com.vmloft.develop.library.base.widget.decoration.StaggeredItemDecoration
+import com.vmloft.develop.library.data.bean.Post
+import com.vmloft.develop.library.data.bean.User
+import com.vmloft.develop.library.data.common.SignManager
+import com.vmloft.develop.library.data.viewmodel.PostViewModel
+import com.vmloft.develop.library.request.RPaging
 import com.vmloft.develop.library.tools.utils.VMDimen
+
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 /**
@@ -74,7 +75,7 @@ class PostFallsFragment : BVMFragment<FragmentCommonListBinding, PostViewModel>(
     }
 
     override fun initData() {
-        user = SignManager.getCurrUser()
+        user = SignManager.getSignUser()
         userId = requireArguments().getString(argUserId) ?: ""
 
         mBinding.refreshLayout.autoRefresh()

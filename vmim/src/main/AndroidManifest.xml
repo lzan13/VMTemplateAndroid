@@ -57,9 +57,5 @@
             android:theme="@style/IMTheme.Chat"
             android:windowSoftInputMode="adjustNothing|stateAlwaysHidden" />
 
-        <!-- 设置环信应用的AppKey -->
-        <meta-data
-            android:name="EASEMOB_APPKEY"
-            android:value="${emAppKey}" />
     </application>
 </manifest>

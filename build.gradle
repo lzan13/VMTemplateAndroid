@@ -1,60 +1,13 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-apply from: 'config.gradle'
 
-buildscript {
-    ext.kotlin_version = '1.5.20'
-
-    repositories {
-        maven { url 'https://maven.aliyun.com/repository/google' }
-        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
-        maven { url 'https://maven.aliyun.com/repository/public' }
-        maven { url 'https://jitpack.io' }
-        // 个推 SDK
-        maven { url "https://mvn.getui.com/nexus/content/repositories/releases/" }
-        // 友盟 SDK
-        maven { url 'https://repo1.maven.org/maven2/' }
-        // MQTT SDK
-        maven { url "https://repo.eclipse.org/content/repositories/paho-snapshots/" }
-        // TopOn 聚合平台
-        maven { url "https://anythink.jfrog.io/artifactory/android_sdk" }
-        // Mintegral SDK
-        maven { url "https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_oversea" }
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.4'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_version}"
-    }
+buildscript{
+    apply from: 'config.gradle'
 }
 
-allprojects {
-    repositories {
-        maven { url 'https://maven.aliyun.com/repository/google' }
-        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
-        maven { url 'https://maven.aliyun.com/repository/public' }
-        maven { url 'https://jitpack.io' }
-        // 个推 SDK
-        maven { url "https://mvn.getui.com/nexus/content/repositories/releases/" }
-        // 友盟 SDK
-        maven { url 'https://repo1.maven.org/maven2/' }
-        // MQTT SDK
-        maven { url "https://repo.eclipse.org/content/repositories/paho-snapshots/" }
-        // TopOn 聚合平台
-        maven { url "https://anythink.jfrog.io/artifactory/android_sdk" }
-        // Mintegral SDK
-        maven { url "https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_oversea" }
-        google()
-        mavenCentral()
-
-        // 解决本地依赖 aar 打包报错 其实就是将 libs 作为本地仓库，然后引用参考下的库文件。但是编译时候会有这个提示
-        // Using flatDir should be avoided because it doesn't support any meta-data formats.
-        repositories {
-            flatDir {
-                dirs new File(rootProject.projectDir.getAbsolutePath() + '/aar')
-            }
-        }
-    }
+plugins {
+    id 'com.android.application' version '7.2.2' apply false
+    id 'com.android.library' version '7.2.2' apply false
+    id 'org.jetbrains.kotlin.android' version '1.5.20' apply false
 }
 
 task clean(type: Delete) {

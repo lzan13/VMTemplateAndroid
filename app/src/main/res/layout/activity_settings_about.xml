@@ -64,6 +64,13 @@
             style="@style/AppLVStyle.NoDecoration"
             app:vm_line_description="@string/settings_feedback_hint"
             app:vm_line_title="@string/settings_feedback" />
+
+        <!--反馈-->
+        <com.vmloft.develop.library.tools.widget.VMLineView
+            android:id="@+id/thirdSDkLV"
+            style="@style/AppLVStyle.NoDecoration"
+            app:vm_line_description="@string/settings_feedback_hint"
+            app:vm_line_title="@string/settings_feedback" />
     </LinearLayout>
 
     <TextView

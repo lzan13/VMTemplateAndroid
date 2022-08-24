@@ -76,7 +76,7 @@ interface TradeAPI {
     /**
      * 视频奖励
      */
-    @POST("v1/ads/videoReward")
+    @POST("v1/common/ads/videoReward")
     suspend fun videoReward(@Body body: RequestBody): RResponse<Boolean>
 
 }

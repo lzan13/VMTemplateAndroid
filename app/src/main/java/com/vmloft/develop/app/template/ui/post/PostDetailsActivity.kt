@@ -13,12 +13,7 @@ import com.drakeet.multitype.MultiTypeAdapter
 
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.common.Constants
-import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.app.template.databinding.ActivityPostDetailsBinding
-import com.vmloft.develop.library.data.bean.Comment
-import com.vmloft.develop.library.data.bean.Post
-import com.vmloft.develop.library.data.bean.User
-import com.vmloft.develop.library.data.viewmodel.PostViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.app.template.ui.widget.ContentDislikeDialog
 import com.vmloft.develop.library.base.BItemDelegate
@@ -28,8 +23,15 @@ import com.vmloft.develop.library.base.common.CConstants
 import com.vmloft.develop.library.base.common.CSPManager
 import com.vmloft.develop.library.base.event.LDEventBus
 import com.vmloft.develop.library.base.router.CRouter
+import com.vmloft.develop.library.base.utils.FormatUtils
 import com.vmloft.develop.library.base.widget.CommonDialog
+import com.vmloft.develop.library.data.bean.Comment
+import com.vmloft.develop.library.data.bean.Post
+import com.vmloft.develop.library.data.bean.User
+import com.vmloft.develop.library.data.common.SignManager
+import com.vmloft.develop.library.data.viewmodel.PostViewModel
 import com.vmloft.develop.library.request.RPaging
+import com.vmloft.develop.library.tools.utils.VMDate
 import com.vmloft.develop.library.tools.utils.VMDimen
 import com.vmloft.develop.library.tools.utils.VMStr
 import com.vmloft.develop.library.tools.utils.VMSystem
@@ -37,6 +39,7 @@ import com.vmloft.develop.library.tools.widget.guide.GuideItem
 import com.vmloft.develop.library.tools.widget.guide.VMGuide
 import com.vmloft.develop.library.tools.widget.guide.VMGuideView
 import com.vmloft.develop.library.tools.widget.guide.VMShape
+
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 
@@ -75,7 +78,7 @@ class PostDetailsActivity : BVMActivity<ActivityPostDetailsBinding, PostViewMode
             if (user.avatar.isNullOrEmpty() || user.nickname.isNullOrEmpty()) {
                 CRouter.go(AppRouter.appPersonalInfoGuide)
             } else {
-                CRouter.go(AppRouter.appPostComment, str0 = post.id)
+                goComment()
             }
         }
 
@@ -91,7 +94,7 @@ class PostDetailsActivity : BVMActivity<ActivityPostDetailsBinding, PostViewMode
     override fun initData() {
         ARouter.getInstance().inject(this)
 
-        user = SignManager.getCurrUser()
+        user = SignManager.getSignUser()
 
         mItems.add(post)
         mAdapter.notifyDataSetChanged()
@@ -210,6 +213,19 @@ class PostDetailsActivity : BVMActivity<ActivityPostDetailsBinding, PostViewMode
     /**
      * -------------------- 操作 Post --------------------
      */
+    private fun goComment() {
+        if (user.banned == 1 && user.bannedTime > VMDate.currentMilli()) {
+            mDialog = CommonDialog(this)
+            (mDialog as CommonDialog).let { dialog ->
+                dialog.setContent(VMStr.byResArgs(R.string.tips_banned, user.bannedReason, FormatUtils.defaultTime(user.bannedTime)))
+                dialog.setNegative("")
+                dialog.setPositive(VMStr.byRes(R.string.btn_i_known))
+                dialog.show()
+            }
+            return
+        }
+        CRouter.go(AppRouter.appPostComment, str0 = post.id)
+    }
 
     /**
      * 刷新帖子内容

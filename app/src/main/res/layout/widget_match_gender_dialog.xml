@@ -41,7 +41,7 @@
             android:src="@drawable/ic_gender_unknown" />
 
         <TextView
-            style="@style/AppText.Title"
+            style="@style/AppText.Subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/vm_dimen_4"
@@ -64,16 +64,15 @@
         app:layout_constraintTop_toTopOf="@+id/filterAllLL">
 
         <ImageView
-            android:layout_width="@dimen/vm_dimen_24"
-            android:layout_height="@dimen/vm_dimen_24"
+            android:layout_width="@dimen/vm_dimen_20"
+            android:layout_height="@dimen/vm_dimen_20"
             android:src="@drawable/ic_gender_woman" />
 
         <TextView
-            style="@style/AppText.Title"
+            style="@style/AppText.Subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/vm_dimen_4"
-            android:text="@string/filter_gender_woman" />
+            android:text="@string/info_gender_woman" />
     </LinearLayout>
 
     <LinearLayout
@@ -93,24 +92,40 @@
         app:layout_constraintTop_toTopOf="@+id/filterWomanLL">
 
         <ImageView
-            android:layout_width="@dimen/vm_dimen_24"
-            android:layout_height="@dimen/vm_dimen_24"
+            android:layout_width="@dimen/vm_dimen_20"
+            android:layout_height="@dimen/vm_dimen_20"
             android:src="@drawable/ic_gender_man" />
 
         <TextView
-            style="@style/AppText.Title"
+            style="@style/AppText.Subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/vm_dimen_4"
-            android:text="@string/filter_gender_man" />
+            android:text="@string/info_gender_man" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/cancelTV"
+        style="@style/AppBtn.Cancel"
+        android:layout_width="@dimen/vm_dimen_0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/vm_dimen_16"
+        android:layout_marginTop="@dimen/vm_dimen_24"
+        android:layout_marginEnd="@dimen/vm_dimen_8"
+        android:text="@string/btn_cancel"
+        app:layout_constraintEnd_toStartOf="@+id/submitTV"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filterAllLL" />
 
     <TextView
         android:id="@+id/submitTV"
         style="@style/AppBtn.Confirm"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/vm_dimen_0"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/vm_dimen_16"
+        android:layout_marginStart="@dimen/vm_dimen_8"
+        android:layout_marginTop="@dimen/vm_dimen_24"
+        android:layout_marginEnd="@dimen/vm_dimen_16"
         android:text="@string/btn_confirm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cancelTV"
         app:layout_constraintTop_toBottomOf="@+id/filterAllLL" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -115,20 +115,4 @@ class MatchViewModel(private val repo: MatchRepository, private val infoRepo: In
         }
     }
 
-    /**
-     * 获取 MQTT 链接 Token
-     */
-    fun mqttUserToken(id: String) {
-        viewModelScope.launch(Dispatchers.Main) {
-            emitUIState(true)
-            val result = infoRepo.mqttUserToken(id)
-            if (result is RResult.Success && result.data != null) {
-                emitUIState(data = result.data, type = "mqttUserToken")
-                return@launch
-            } else if (result is RResult.Error) {
-                emitUIState(isSuccess = false, code = result.code, error = result.error)
-            }
-        }
-    }
-
 }

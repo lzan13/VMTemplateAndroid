@@ -8,6 +8,8 @@ import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.base.BActivity
 import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.base.widget.CommonDialog
+import com.vmloft.develop.library.data.bean.User
+import com.vmloft.develop.library.data.common.SignManager
 
 /**
  * Create by lzan13 on 2020/06/07 21:06
@@ -15,6 +17,8 @@ import com.vmloft.develop.library.base.widget.CommonDialog
  */
 @Route(path = AppRouter.appSettings)
 class SettingsActivity : BActivity<ActivitySettingsBinding>() {
+
+    lateinit var user:User
 
     override fun initVB() = ActivitySettingsBinding.inflate(layoutInflater)
 
@@ -36,6 +40,7 @@ class SettingsActivity : BActivity<ActivitySettingsBinding>() {
     }
 
     override fun initData() {
+        user = SignManager.getSignUser()
     }
 
     /**
@@ -44,7 +49,11 @@ class SettingsActivity : BActivity<ActivitySettingsBinding>() {
     private fun showSignOut() {
         mDialog = CommonDialog(this)
         (mDialog as CommonDialog).let { dialog ->
-            dialog.setContent(R.string.sign_out_hint)
+            if(user.username.isEmpty()){
+                dialog.setContent(R.string.sign_out_username_hint)
+            }else{
+                dialog.setContent(R.string.sign_out_hint)
+            }
             dialog.setPositive(listener = {
                 // 清空登录信息统一交给 Main 界面处理
                 CRouter.goMain(1)

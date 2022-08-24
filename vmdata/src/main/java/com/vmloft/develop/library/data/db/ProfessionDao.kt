@@ -16,18 +16,33 @@ interface ProfessionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(vararg profession: Profession)
 
+    /**
+     * 删除指定数据
+     */
     @Delete
     suspend fun delete(profession: Profession)
 
+    /**
+     * 清空数据库
+     */
     @Query("DELETE FROM profession")
-    suspend fun delete()
+    suspend fun clear()
 
+    /**
+     * 更新数据
+     */
 //    @Update
 //    suspend fun update(profession: Profession)
 
+    /**
+     * 查询指定数据
+     */
     @Query("SELECT * FROM profession WHERE id = :id")
     suspend fun query(id: String): Profession?
 
+    /**
+     * 查询全部数据
+     */
     @Query("SELECT *  FROM profession")
     suspend fun all(): List<Profession>
 }

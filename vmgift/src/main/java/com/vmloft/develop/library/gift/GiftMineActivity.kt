@@ -96,7 +96,7 @@ class GiftMineActivity : BVMActivity<ActivityGiftMineBinding, GiftViewModel>() {
      * 点击礼物
      */
     private fun clickGift(gift: Gift, position: Int) {
-        CRouter.go(GiftRouter.giftAnim, obj0 = gift)
+        CRouter.go(GiftRouter.giftAnim, what = gift.type, obj0 = gift.cover, obj1 = gift.animation)
     }
 
 

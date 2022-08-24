@@ -26,7 +26,7 @@
         android:layout_marginEnd="@dimen/vm_dimen_36"
         android:layout_marginBottom="@dimen/vm_dimen_16"
         android:enabled="true"
-        android:text="@string/sign_in_by_device_id"
+        android:text="@string/sign_in_by_devices_id"
         app:layout_constraintBottom_toTopOf="@+id/signByPasswordBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

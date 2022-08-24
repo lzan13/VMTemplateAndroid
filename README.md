@@ -5,7 +5,7 @@ VMTemplateAndroid
 
 ### 介绍
 
-来忘忧大陆，修仙一样交友
+来忘忧大陆，虚拟空间交朋友
 
 分担忧愁，让烦恼减半
 分享快乐，让乐趣加倍
@@ -38,9 +38,9 @@ VMTemplateAndroid
 项目基本属于在`Android`开发环境下开发，全局使用`Kotlin`语言，项目已经适配`Android6.x`以上的动态权限适配，以及`7.x`的文件选择，和`8.x`的通知提醒，`10.x`的文件选择等；
 
 - 开发系统：Mac OS 11.5.2
-- 开发工具：Android Studio Arctic Fox | 2021.2.1
-- 打包工具：Gradle 7.0.2
-- 开发语言：Kotlin 1.5.21
+- 开发工具：Android Studio Chipmunk | 2021.2.1 Patch 2
+- 打包工具：Gradle Plugins 7.2.2 Gradle 7.3.3
+- 开发语言：Kotlin 1.5.20
 
 ### 项目模块儿
 
@@ -51,10 +51,9 @@ VMTemplateAndroid
 - `vmdata` 数据模块，包括网络请求的数据以及数据库缓存数据处理
 - `vmdb` 数据库模块
 - `vmgift` 礼物模块
-- `vmim` IM模块，包括IM和通话部分，这是为了方便大家引用到自己的项目中做的一步封装，不用再去复杂的复制代码和资源等，只需要将`vmim`以`module`形式导入到自己的项目中就行了，具体使用方式参见项目`app`模块儿；
+- `vmim` IM模块，包括IM和通话部分
 - `vmimage` 图片模块，包括图片选择、加载、浏览等
 - `vmmp` 小程序模块
-- `vmmqtt` MQTT模块 对mqtt链接与收发消息进行简单封装
 - `vmpay` 支付模块
 - `vmpush` 推送模块
 - `vmqr` 二维码模块 二维码扫描识别与生成处理
@@ -165,7 +164,7 @@ VMTemplateAndroid
 1. 首先复制`config.default.gradle`到`config.gradle`
 2. 配置下`config.gradle`内相关字段
 3. 正式打包需要自己生成签名文件，然后修改下`config.gradle`的`signings`签名信息
-4. 需配合服务器端一起使用，修改上边`config.gradle`配置文件的`baseDebugUrl`和`baseReleaseUrl`
+4. 需配合服务器端一起使用，修改上边`config.gradle`配置文件的`baseUrlDebug`和`baseUrlRelease`
 
 ### 参与贡献
 

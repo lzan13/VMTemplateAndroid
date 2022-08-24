@@ -14,14 +14,14 @@ import com.vmloft.develop.library.base.BItemDelegate
 import com.vmloft.develop.library.base.BVMActivity
 import com.vmloft.develop.library.base.BViewModel
 import com.vmloft.develop.library.base.router.CRouter
+import com.vmloft.develop.library.base.widget.CommonDialog
+import com.vmloft.develop.library.base.widget.decoration.GridItemDecoration
 import com.vmloft.develop.library.data.bean.Commodity
 import com.vmloft.develop.library.data.bean.Order
 import com.vmloft.develop.library.data.bean.User
 import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.library.data.viewmodel.UserViewModel
 import com.vmloft.develop.library.request.RPaging
-import com.vmloft.develop.library.base.widget.CommonDialog
-import com.vmloft.develop.library.base.widget.decoration.GridItemDecoration
 import com.vmloft.develop.library.tools.utils.VMDimen
 import com.vmloft.develop.library.tools.utils.VMStr
 
@@ -63,7 +63,7 @@ class GoldRechargeActivity : BVMActivity<ActivityGoldRechargeBinding, UserViewMo
 
     override fun onModelRefresh(model: BViewModel.UIModel) {
         if (model.type == "userInfo") {
-            SignManager.setCurrUser(model.data as User)
+            SignManager.setSignUser(model.data as User)
         } else if (model.type == "virtualCommodityList") {
             refreshCommodityList(model.data as RPaging<Commodity>)
         } else if (model.type == "createOrder") {

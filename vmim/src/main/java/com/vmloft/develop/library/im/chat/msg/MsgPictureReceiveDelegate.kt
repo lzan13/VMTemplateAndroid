@@ -6,12 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 
-import com.hyphenate.chat.EMImageMessageBody
-import com.hyphenate.chat.EMMessage
-
 import com.vmloft.develop.library.base.utils.CUtils
+import com.vmloft.develop.library.data.bean.Attachment
 import com.vmloft.develop.library.image.IMGLoader
 import com.vmloft.develop.library.im.R
+import com.vmloft.develop.library.im.bean.IMMessage
 import com.vmloft.develop.library.im.databinding.ImItemMsgPictureReceiveDelegateBinding
 import com.vmloft.develop.library.tools.utils.VMDimen
 import com.vmloft.develop.library.tools.utils.bitmap.VMBitmap
@@ -20,36 +19,34 @@ import com.vmloft.develop.library.tools.utils.bitmap.VMBitmap
  * Create by lzan13 on 2021/01/05 17:56
  * 描述：展示图片消息 Item
  */
-class MsgPictureReceiveDelegate(listener: BItemListener<EMMessage>, longListener: BItemLongListener<EMMessage>) :
-    MsgCommonDelegate< ImItemMsgPictureReceiveDelegateBinding>(listener, longListener) {
+class MsgPictureReceiveDelegate(listener: BItemListener<IMMessage>, longListener: BItemLongListener<IMMessage>) :
+    MsgCommonDelegate<ImItemMsgPictureReceiveDelegateBinding>(listener, longListener) {
 
     override fun initVB(inflater: LayoutInflater, parent: ViewGroup) = ImItemMsgPictureReceiveDelegateBinding.inflate(inflater, parent, false)
 
-    override fun onBindView(holder: BItemHolder<ImItemMsgPictureReceiveDelegateBinding>, item: EMMessage) {
+    override fun onBindView(holder: BItemHolder<ImItemMsgPictureReceiveDelegateBinding>, item: IMMessage) {
         super.onBindView(holder, item)
 
-        val body = item.body as EMImageMessageBody
+        val attachment = item.attachments[0]
+        bindPictureSize(attachment, holder.binding.imMsgPictureIV)
 
-        bindPictureSize(body, holder.binding.imMsgPictureIV)
-
-        // 图片路径
-        var thumbnailRemoteUrl = body.remoteUrl
-        var originalRemoteUrl = body.remoteUrl
-        var originalLocalUri = body.localUri
-
-        loadPicture(holder.binding.imMsgPictureIV, thumbnailRemoteUrl, originalRemoteUrl, originalLocalUri)
+        if (attachment.uri != null && CUtils.isFileExists(mContext, attachment.uri!!)) {
+            IMGLoader.loadCover(holder.binding.imMsgPictureIV, attachment.uri, true, 16)
+        } else {
+            IMGLoader.loadCover(holder.binding.imMsgPictureIV, attachment.path, true, 16)
+        }
     }
 
     /**
      * 计算图片展示大小
      */
-    private fun bindPictureSize(body: EMImageMessageBody, view: View) {
+    private fun bindPictureSize(attachment: Attachment, view: View) {
         val maxSize = VMDimen.getDimenPixel(R.dimen.vm_dimen_128)
         val minSize = VMDimen.getDimenPixel(R.dimen.vm_dimen_32)
 
         // 取出图片原始宽高，这是在发送图片时发送方直接根据图片获得设置到body中的
-        var width = body.width
-        var height = body.height
+        var width = attachment.width
+        var height = attachment.height
         val scale = VMBitmap.getZoomScale(width, height, maxSize)
 
 

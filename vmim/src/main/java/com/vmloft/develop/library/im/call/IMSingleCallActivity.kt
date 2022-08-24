@@ -7,16 +7,16 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 
-import com.hyphenate.chat.EMMessage
-
 import com.vmloft.develop.library.base.BActivity
 import com.vmloft.develop.library.base.event.LDEventBus
+import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.base.utils.showBar
 import com.vmloft.develop.library.data.bean.User
 import com.vmloft.develop.library.data.common.CacheManager
+import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.library.image.IMGLoader
-import com.vmloft.develop.library.im.IM
 import com.vmloft.develop.library.im.R
+import com.vmloft.develop.library.im.bean.IMSignal
 import com.vmloft.develop.library.im.common.IMConstants
 import com.vmloft.develop.library.im.databinding.ImActivitySingleCallBinding
 import com.vmloft.develop.library.im.router.IMRouter
@@ -31,14 +31,14 @@ import io.agora.rtc.RtcEngine
  * 描述：1V1通话界面
  */
 @Route(path = IMRouter.imSingleCall)
-class IMSingleCallActivity: BActivity<ImActivitySingleCallBinding>() {
-
-    @Autowired
-    lateinit var callId: String
+class IMSingleCallActivity : BActivity<ImActivitySingleCallBinding>() {
 
     @JvmField
-    @Autowired
-    var isInComingCall: Boolean = false
+    @Autowired(name = CRouter.paramsWhat)
+    var isInComingCall: Int = 0
+
+    @Autowired(name = CRouter.paramsStr0)
+    lateinit var callId: String
 
     // 声网通话引擎
     lateinit var rtcEngine: RtcEngine
@@ -110,8 +110,8 @@ class IMSingleCallActivity: BActivity<ImActivitySingleCallBinding>() {
         IMCallManager.setSpeakerEnable(rtcEngine, mBinding.imCallSpeakerBtn.isSelected)
 
         // 监听通话信令
-        LDEventBus.observe(this, IMConstants.Call.cmdCallStatusEvent, EMMessage::class.java) {
-            val status = it.getIntAttribute(IMConstants.Call.msgAttrCallStatus)
+        LDEventBus.observe(this, IMConstants.Call.callStatusEvent, IMSignal::class.java) {
+            val status = it.getIntAttribute(IMConstants.Call.extCallStatus)
             if (status == IMConstants.Call.callStatusAgree) {
                 mBinding.imCallStatusTV.setText(R.string.im_call_accepted)
                 // 对方接听后，这边同步加入频道
@@ -137,15 +137,15 @@ class IMSingleCallActivity: BActivity<ImActivitySingleCallBinding>() {
         // TODO 开发测试阶段，token 为空，或者设置临时 token
         token = ""
 
-        channel = if (isInComingCall) {
-            callId + IM.getSelfId()
+        channel = if (isInComingCall == 0) {
+            callId + SignManager.getSignId()
         } else {
-            IM.getSelfId() + callId
+            SignManager.getSignId() + callId
         }
 
         bindInfo()
 
-        if (!isInComingCall) {
+        if (isInComingCall != 0) {
             IMCallManager.sendCallSignal(callId, 0)
         }
     }
@@ -159,8 +159,8 @@ class IMSingleCallActivity: BActivity<ImActivitySingleCallBinding>() {
         IMGLoader.loadAvatar(mBinding.imCallAvatarIV, user.avatar)
         mBinding.imCallNameTV.text = if (user.nickname.isNullOrEmpty()) "小透明" else user.nickname
 
-        mBinding.imCallAnswerBtn.visibility = if (isInComingCall) View.VISIBLE else View.GONE
-        if (isInComingCall) {
+        mBinding.imCallAnswerBtn.visibility = if (isInComingCall == 0) View.VISIBLE else View.GONE
+        if (isInComingCall == 0) {
             mBinding.imCallStatusTV.setText(R.string.im_call_incoming)
         } else {
             mBinding.imCallStatusTV.setText(R.string.im_call_out_wait)

@@ -1,6 +1,7 @@
 package com.vmloft.develop.library.image
 
 import android.content.Context
+import android.util.Log
 
 import com.bumptech.glide.GlideBuilder
 import com.bumptech.glide.annotation.GlideModule
@@ -20,6 +21,7 @@ class IMGGlideModule : AppGlideModule() {
         val size = 256 * 1024 * 1024
         val dir = CConstants.cacheImageDir
         builder.setDiskCache(ExternalPreferredCacheDiskCacheFactory(context, dir, size.toLong()))
+        builder.setLogLevel(Log.ERROR)
     }
 
 }

@@ -9,18 +9,18 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 
-import com.hyphenate.chat.EMMessage
-import com.vmloft.develop.library.data.bean.User
-import com.vmloft.develop.library.data.common.CacheManager
-
 import com.vmloft.develop.library.base.BActivity
 import com.vmloft.develop.library.base.event.LDEventBus
+import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.base.utils.showBar
-import com.vmloft.develop.library.image.IMGLoader
 import com.vmloft.develop.library.base.widget.CommonDialog
+import com.vmloft.develop.library.data.bean.User
+import com.vmloft.develop.library.data.common.CacheManager
 import com.vmloft.develop.library.data.common.SignManager
+import com.vmloft.develop.library.image.IMGLoader
 import com.vmloft.develop.library.im.IM
 import com.vmloft.develop.library.im.R
+import com.vmloft.develop.library.im.bean.IMSignal
 import com.vmloft.develop.library.im.common.IMConstants
 import com.vmloft.develop.library.im.databinding.ImActivityChatFastBinding
 import com.vmloft.develop.library.im.router.IMRouter
@@ -37,12 +37,12 @@ import java.util.*
 @Route(path = IMRouter.imChatFast)
 class IMChatFastActivity : BActivity<ImActivityChatFastBinding>() {
 
-    @Autowired
-    lateinit var chatId: String
-
     @JvmField
-    @Autowired
-    var isApply: Boolean = false
+    @Autowired(name = CRouter.paramsWhat)
+    var isApply: Int = 0 // 被邀请
+
+    @Autowired(name = CRouter.paramsStr0)
+    lateinit var chatId: String
 
     lateinit var mUser: User
     lateinit var mSelfUser: User
@@ -70,8 +70,8 @@ class IMChatFastActivity : BActivity<ImActivityChatFastBinding>() {
         startAnim()
 
         // 监听输入内容 CMD 消息
-        LDEventBus.observe(this, IMConstants.ChatFast.cmdFastInputAction, EMMessage::class.java) {
-            val status = it.getIntAttribute(IMConstants.ChatFast.msgAttrFastInputStatus, IMConstants.ChatFast.fastInputStatusEnd)
+        LDEventBus.observe(this, IMConstants.ChatFast.signalFastInput, IMSignal::class.java) {
+            val status = it.getIntAttribute(IMConstants.ChatFast.extFastInputStatus, IMConstants.ChatFast.fastInputStatusEnd)
             if (status == IMConstants.ChatFast.fastInputStatusApply) {
                 // TODO 邀请的申请过不来这里的，通过入参判断是否显示申请对话框
             } else if (status == IMConstants.ChatFast.fastInputStatusAgree) {
@@ -133,13 +133,13 @@ class IMChatFastActivity : BActivity<ImActivityChatFastBinding>() {
         ARouter.getInstance().inject(this)
 
         mUser = CacheManager.getUser(chatId)
-        mSelfUser = SignManager.getCurrUser()
+        mSelfUser = SignManager.getSignUser()
 
         bindInfo()
 
         mBinding.imChatFastWaitLL.visibility = View.VISIBLE
 
-        if (isApply) {
+        if (isApply == 0) {
             showApplyDialog()
             mBinding.imChatFastContent1TV.text = VMStr.byRes(R.string.im_fast_apply_msg)
         } else {
@@ -175,9 +175,9 @@ class IMChatFastActivity : BActivity<ImActivityChatFastBinding>() {
     /**
      * 改变对方输入内容
      */
-    private fun changeContent(msg: EMMessage) {
-        val content = msg.getStringAttribute(IMConstants.ChatFast.msgAttrFastInputContent, "")
-        val len = msg.getIntAttribute(IMConstants.ChatFast.msgAttrFastInputLen, 0)
+    private fun changeContent(msg: IMSignal) {
+        val content = msg.getStringAttribute(IMConstants.ChatFast.extFastInputContent, "")
+        val len = msg.getIntAttribute(IMConstants.ChatFast.extFastInputLen, 0)
         if (content.isNullOrEmpty()) {
             mBinding.imChatFastContent1TV.text = mBinding.imChatFastContent1TV.text.substring(0, mBinding.imChatFastContent1TV.text.length - len)
         } else {
@@ -247,7 +247,7 @@ class IMChatFastActivity : BActivity<ImActivityChatFastBinding>() {
                 finish()
             }
             dialog.setPositive(VMStr.byRes(R.string.im_fast_confirm)) {
-                IM.imListener.onHeadClick(chatId)
+                IM.onHeadClick(chatId)
                 stopAnim()
                 finish()
             }

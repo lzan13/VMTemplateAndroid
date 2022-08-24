@@ -16,18 +16,33 @@ interface VersionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(vararg version: Version)
 
+    /**
+     * 删除指定数据
+     */
     @Delete
     suspend fun delete(version: Version)
 
+    /**
+     * 清空数据
+     */
     @Query("DELETE FROM version")
-    suspend fun delete()
+    suspend fun clear()
 
+    /**
+     * 更新数据
+     */
 //    @Update
 //    suspend fun update(version: Version)
 
+    /**
+     * 查询指定数据
+     */
     @Query("SELECT * FROM version WHERE id = :id")
     suspend fun query(id: String): Version?
 
+    /**
+     * 查询全部数据
+     */
     @Query("SELECT *  FROM version")
     suspend fun all(): List<Version>
 }

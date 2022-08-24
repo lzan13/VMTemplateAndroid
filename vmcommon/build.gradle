@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
+    id 'org.jetbrains.kotlin.android'
 }
 
 // 获取配置信息
@@ -71,7 +72,7 @@ dependencies {
     api 'com.github.zhpanvip:bannerviewpager:3.5.5'
 
     // 依赖 base 库
-    implementation project(':vmbase')
+    api project(':vmbase')
 }
 
 apply from: "${rootDir.absolutePath}/arouter.gradle"

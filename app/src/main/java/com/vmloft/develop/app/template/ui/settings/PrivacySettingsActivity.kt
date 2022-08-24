@@ -8,8 +8,8 @@ import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.base.BVMActivity
 import com.vmloft.develop.library.base.BViewModel
 import com.vmloft.develop.library.base.router.CRouter
-import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.library.data.bean.User
+import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.library.data.viewmodel.UserViewModel
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -31,21 +31,21 @@ class PrivacySettingsActivity : BVMActivity<ActivitySettingsPrivacyBinding, User
     override fun initUI() {
         super.initUI()
 
-        setTopTitle(R.string.settings_account_security)
+        setTopTitle(R.string.settings_privacy)
 
         mBinding.strangerMsgLV.setOnClickListener { changeStrangerMsg() }
         mBinding.blacklistLV.setOnClickListener { CRouter.go(AppRouter.appMineBlacklist) }
     }
 
     override fun initData() {
-        user = SignManager.getCurrUser()
+        user = SignManager.getSignUser()
 
         bindInfo()
     }
 
     override fun onModelRefresh(model: BViewModel.UIModel) {
         if (model.type == "updateInfo") {
-            SignManager.setCurrUser(model.data as User)
+            SignManager.setSignUser(model.data as User)
         }
     }
 

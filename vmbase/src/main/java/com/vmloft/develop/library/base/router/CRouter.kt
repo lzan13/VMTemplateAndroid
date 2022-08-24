@@ -47,9 +47,9 @@ object CRouter {
      */
     fun go(
         path: String,
-        what: Int = 0,
-        arg0: Int = 0,
-        arg1: Int = 0,
+        what: Int = -1,
+        arg0: Int = -1,
+        arg1: Int = -1,
         str0: String? = null,
         str1: String? = null,
         obj0: Parcelable? = null,
@@ -59,25 +59,14 @@ object CRouter {
     ) {
         val postcard = ARouter.getInstance().build(path)
 
-        postcard.withInt(paramsWhat, what)
-        postcard.withInt(paramsArg0, arg0)
-        postcard.withInt(paramsArg1, arg1)
+        if (what != -1) postcard.withInt(paramsWhat, what)
+        if (arg0 != -1) postcard.withInt(paramsArg0, arg0)
+        if (arg1 != -1) postcard.withInt(paramsArg1, arg1)
 
-        str0?.let {
-            postcard.withString(paramsStr0, str0)
-        }
-
-        str1?.let {
-            postcard.withString(paramsStr1, str1)
-        }
-
-        obj0?.let {
-            postcard.withParcelable(paramsObj0, obj0)
-        }
-
-        obj1?.let {
-            postcard.withParcelable(paramsObj1, obj1)
-        }
+        str0?.let { postcard.withString(paramsStr0, str0) }
+        str1?.let { postcard.withString(paramsStr1, str1) }
+        obj0?.let { postcard.withParcelable(paramsObj0, obj0) }
+        obj1?.let { postcard.withParcelable(paramsObj1, obj1) }
 
         list?.let {
             when {
@@ -87,9 +76,7 @@ object CRouter {
                 else -> VMLog.d("暂不支持的类型")
             }
         }
-        if (flags != 0) {
-            postcard.withFlags(flags)
-        }
+        if (flags != 0) postcard.withFlags(flags)
 
         postcard.navigation()
     }

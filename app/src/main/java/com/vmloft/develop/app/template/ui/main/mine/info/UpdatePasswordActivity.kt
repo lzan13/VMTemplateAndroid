@@ -7,16 +7,16 @@ import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 
 import com.vmloft.develop.app.template.R
-import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.app.template.databinding.ActivityUpdatePasswordBinding
-import com.vmloft.develop.library.data.bean.User
-import com.vmloft.develop.library.data.viewmodel.UserViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.base.BVMActivity
 import com.vmloft.develop.library.base.BViewModel
 import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.base.utils.errorBar
 import com.vmloft.develop.library.base.widget.CommonDialog
+import com.vmloft.develop.library.data.bean.User
+import com.vmloft.develop.library.data.common.SignManager
+import com.vmloft.develop.library.data.viewmodel.UserViewModel
 import com.vmloft.develop.library.tools.utils.VMReg
 import com.vmloft.develop.library.tools.utils.VMStr
 
@@ -107,11 +107,9 @@ class UpdatePasswordActivity : BVMActivity<ActivityUpdatePasswordBinding, UserVi
     }
 
     private fun bindInfo() {
-        user = SignManager.getCurrUser()
-        mBinding.emailTV.text = if (user.email.isNullOrEmpty()) {
+        user = SignManager.getSignUser()
+        mBinding.emailTV.text = user.email.ifEmpty {
             VMStr.byRes(R.string.info_bind_email)
-        } else {
-            user.email
         }
     }
 

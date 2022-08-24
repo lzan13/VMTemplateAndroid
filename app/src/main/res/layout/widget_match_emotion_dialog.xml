@@ -41,7 +41,7 @@
             android:src="@drawable/ic_emotion_hahaha" />
 
         <TextView
-            style="@style/AppText.Title"
+            style="@style/AppText.Subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/vm_dimen_4"
@@ -69,7 +69,7 @@
             android:src="@drawable/ic_emotion_koubi" />
 
         <TextView
-            style="@style/AppText.Title"
+            style="@style/AppText.Subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/vm_dimen_4"
@@ -97,7 +97,7 @@
             android:src="@drawable/ic_emotion_liulei" />
 
         <TextView
-            style="@style/AppText.Title"
+            style="@style/AppText.Subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/vm_dimen_4"
@@ -126,7 +126,7 @@
             android:src="@drawable/ic_emotion_fanu" />
 
         <TextView
-            style="@style/AppText.Title"
+            style="@style/AppText.Subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/vm_dimen_4"
@@ -156,13 +156,28 @@
         tools:visibility="visible" />
 
     <TextView
-        android:id="@+id/submitTV"
-        style="@style/AppBtn.Confirm"
-        android:layout_width="match_parent"
+        android:id="@+id/cancelTV"
+        style="@style/AppBtn.Cancel"
+        android:layout_width="@dimen/vm_dimen_0"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/vm_dimen_16"
         android:layout_marginTop="@dimen/vm_dimen_24"
+        android:layout_marginEnd="@dimen/vm_dimen_8"
+        android:text="@string/btn_cancel"
+        app:layout_constraintEnd_toStartOf="@+id/submitTV"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contentET" />
+
+    <TextView
+        android:id="@+id/submitTV"
+        style="@style/AppBtn.Confirm"
+        android:layout_width="@dimen/vm_dimen_0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/vm_dimen_8"
+        android:layout_marginTop="@dimen/vm_dimen_24"
         android:layout_marginEnd="@dimen/vm_dimen_16"
         android:text="@string/btn_confirm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cancelTV"
         app:layout_constraintTop_toBottomOf="@+id/contentET" />
 </androidx.constraintlayout.widget.ConstraintLayout>

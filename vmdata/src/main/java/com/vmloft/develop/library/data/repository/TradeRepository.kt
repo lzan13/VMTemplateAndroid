@@ -24,7 +24,7 @@ class TradeRepository : BaseRepository() {
      * @param type 商品类型 0-金币充值 1-开通/会员 2-普通商品
      */
     suspend fun commodityList(type: Int, page: Int, limit: Int): RResult<RPaging<Commodity>> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.tradeAPI.commodityList(type, page, limit)) }
+        return safeRequest { executeResponse(APIRequest.tradeAPI.commodityList(type, page, limit)) }
     }
 
     /**
@@ -34,42 +34,42 @@ class TradeRepository : BaseRepository() {
      * 创建
      */
     suspend fun createOrder(commoditys: List<String>, remarks: String): RResult<Order> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.tradeAPI.createOrder(commoditys, remarks)) }
+        return safeRequest { executeResponse(APIRequest.tradeAPI.createOrder(commoditys, remarks)) }
     }
 
     /**
      * 销毁
      */
     suspend fun destroyOrder(orderId: String): RResult<Any> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.tradeAPI.destroyOrder(orderId)) }
+        return safeRequest { executeResponse(APIRequest.tradeAPI.destroyOrder(orderId)) }
     }
 
     /**
      * 获取列表
      */
     suspend fun orderList(page: Int, limit: Int): RResult<RPaging<Order>> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.tradeAPI.orderList(page, limit)) }
+        return safeRequest { executeResponse(APIRequest.tradeAPI.orderList(page, limit)) }
     }
 
     /**
      * 获取单个信息
      */
     suspend fun orderInfo(id: String): RResult<Order> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.tradeAPI.orderInfo(id)) }
+        return safeRequest { executeResponse(APIRequest.tradeAPI.orderInfo(id)) }
     }
 
     /**
      * 获取订单支付信息
      */
     suspend fun orderPayInfo(id: String): RResult<String> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.tradeAPI.orderPayInfo(id)) }
+        return safeRequest { executeResponse(APIRequest.tradeAPI.orderPayInfo(id)) }
     }
 
     /**
      * 获取订单支付信息
      */
     suspend fun videoReward(body:RequestBody): RResult<Boolean> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.tradeAPI.videoReward(body)) }
+        return safeRequest { executeResponse(APIRequest.tradeAPI.videoReward(body)) }
     }
 
 }

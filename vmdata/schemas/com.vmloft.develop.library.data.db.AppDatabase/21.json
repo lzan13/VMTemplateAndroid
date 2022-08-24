@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 12,
-    "identityHash": "b0730f6d24f4576d3b42c731aebccf40",
+    "version": 21,
+    "identityHash": "7365567de27a033d2f1ee80b30a51397",
     "entities": [
       {
         "tableName": "Category",
@@ -82,7 +82,7 @@
       },
       {
         "tableName": "Gift",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `title` TEXT NOT NULL, `desc` TEXT NOT NULL, `cover` TEXT NOT NULL, `animation` TEXT NOT NULL, `price` INTEGER NOT NULL, `status` INTEGER NOT NULL, `type` INTEGER NOT NULL, `createdAt` TEXT NOT NULL, `count` INTEGER NOT NULL, `isSelected` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `title` TEXT NOT NULL, `desc` TEXT NOT NULL, `cover` TEXT NOT NULL, `animation` TEXT NOT NULL, `price` INTEGER NOT NULL, `status` INTEGER NOT NULL, `type` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, `count` INTEGER NOT NULL, `isSelected` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -135,7 +135,7 @@
           {
             "fieldPath": "createdAt",
             "columnName": "createdAt",
-            "affinity": "TEXT",
+            "affinity": "INTEGER",
             "notNull": true
           },
           {
@@ -162,7 +162,7 @@
       },
       {
         "tableName": "Match",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `user` TEXT NOT NULL, `content` TEXT NOT NULL, `emotion` INTEGER NOT NULL, `gender` INTEGER NOT NULL, `type` INTEGER NOT NULL, `createdAt` TEXT NOT NULL, `filterGender` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `user` TEXT NOT NULL, `content` TEXT NOT NULL, `emotion` INTEGER NOT NULL, `gender` INTEGER NOT NULL, `type` INTEGER NOT NULL, `filterGender` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -201,12 +201,6 @@
             "notNull": true
           },
           {
-            "fieldPath": "createdAt",
-            "columnName": "createdAt",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
             "fieldPath": "filterGender",
             "columnName": "filterGender",
             "affinity": "INTEGER",
@@ -224,7 +218,7 @@
       },
       {
         "tableName": "Post",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `owner` TEXT NOT NULL, `title` TEXT NOT NULL, `content` TEXT NOT NULL, `stick` INTEGER NOT NULL, `category` TEXT NOT NULL, `attachments` TEXT NOT NULL, `commentCount` INTEGER NOT NULL, `likeCount` INTEGER NOT NULL, `createdAt` TEXT NOT NULL, `updatedAt` TEXT NOT NULL, `isLike` INTEGER NOT NULL, `isShielded` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `owner` TEXT NOT NULL, `title` TEXT NOT NULL, `content` TEXT NOT NULL, `stick` INTEGER NOT NULL, `category` TEXT NOT NULL, `attachments` TEXT NOT NULL, `commentCount` INTEGER NOT NULL, `likeCount` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, `isLike` INTEGER NOT NULL, `isShielded` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -283,13 +277,13 @@
           {
             "fieldPath": "createdAt",
             "columnName": "createdAt",
-            "affinity": "TEXT",
+            "affinity": "INTEGER",
             "notNull": true
           },
           {
             "fieldPath": "updatedAt",
             "columnName": "updatedAt",
-            "affinity": "TEXT",
+            "affinity": "INTEGER",
             "notNull": true
           },
           {
@@ -424,7 +418,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b0730f6d24f4576d3b42c731aebccf40')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7365567de27a033d2f1ee80b30a51397')"
     ]
   }
 }

@@ -7,14 +7,14 @@ import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 
 import com.vmloft.develop.app.template.R
-import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.app.template.databinding.ActivityBindEmailBinding
-import com.vmloft.develop.library.data.bean.User
-import com.vmloft.develop.library.data.viewmodel.UserViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.base.BVMActivity
 import com.vmloft.develop.library.base.BViewModel
 import com.vmloft.develop.library.base.utils.errorBar
+import com.vmloft.develop.library.data.common.SignManager
+import com.vmloft.develop.library.data.bean.User
+import com.vmloft.develop.library.data.viewmodel.UserViewModel
 import com.vmloft.develop.library.tools.utils.VMReg
 import com.vmloft.develop.library.tools.utils.VMStr
 
@@ -77,7 +77,7 @@ class BindEmailActivity : BVMActivity<ActivityBindEmailBinding, UserViewModel>()
         if (model.type == "sendCodeEmail") {
             mBinding.codeBtn.startTimer()
         } else if (model.type == "bindEmail") {
-            SignManager.setCurrUser(model.data as User)
+            SignManager.setSignUser(model.data as User)
             finish()
         }
     }

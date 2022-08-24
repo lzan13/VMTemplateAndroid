@@ -13,9 +13,10 @@ object DSPManager {
      */
     private val signEntry = "sign"
     private val tokenKey = "tokenKey"
-    private val currUserKey = "currUserKey"
-    private val prevUserKey = "prevUserKey"
-    private val selfMatchKey = "selfMatchKey"
+    private val signIdKey = "signIdKey" // 当前登录 id
+    private val signUserKey = "signUserKey"
+    private val historyUserKey = "historyUserKey"
+    private val signMatchKey = "signMatchKey"
 
     private val lastRoomKey = "lastRoomKey" // 记录最后加入的房间信息
 
@@ -23,14 +24,16 @@ object DSPManager {
      * 记录时间
      */
     private val timeEntry = "time"
-    private val categoryTimeKey = "categoryTimeKey" // 上次获取分类时间
-    private val professionTimeKey = "professionTimeKey" // 上次获取职业时间
-    private val giftTimeKey = "giftTimeKey" // 上次获取职业时间
+    private val appConfigTimeKey = "appConfigTimeKey" // 上次请求客户端配置时间
     private val checkVersionTimeKey = "checkVersionTimeKey" // 上次版本检查时间
-    private val clientConfigTimeKey = "clientConfigTimeKey" // 上次请求客户端配置时间
+    private val categoryTimeKey = "categoryTimeKey" // 上次获取分类时间
+    private val giftTimeKey = "giftTimeKey" // 上次获取职业时间
     private val privatePolicyTimeKey = "privatePolicyTimeKey" // 上次请求隐私政策时间
+    private val professionTimeKey = "professionTimeKey" // 上次获取职业时间
     private val userAgreementTimeKey = "userAgreementTimeKey" // 上次请求用户协议时间
     private val userNormTimeKey = "userNormTimeKey" // 上次请求用户行为规范时间
+
+    private val publishPostTimeKey = "userNormTimeKey" // 上次发布内容时间
 
     /**
      * -------------------------------------------------------------------------------
@@ -46,13 +49,21 @@ object DSPManager {
     }
 
     /**
+     * 当前登录账户 Id
+     */
+    fun getSignId(): String = CSPManager.get(signEntry, signIdKey, "") as String
+    fun putSignId(userId: String) {
+        CSPManager.put(signEntry, signIdKey, userId)
+    }
+
+    /**
      * 当前账户登录记录
      *
      * @return 如果为空，说明没有登录记录
      */
-    fun getCurrUser(): String = CSPManager.get(signEntry, currUserKey, "") as String
-    fun putCurrUser(userJson: String) {
-        CSPManager.put(signEntry, currUserKey, userJson)
+    fun getSignUser(): String = CSPManager.get(signEntry, signUserKey, "") as String
+    fun putSignUser(userJson: String) {
+        CSPManager.put(signEntry, signUserKey, userJson)
     }
 
     /**
@@ -60,9 +71,9 @@ object DSPManager {
      *
      * @return 如果为空，说明没有登录记录
      */
-    fun getPrevUser(): String = CSPManager.get(signEntry, prevUserKey, "") as String
-    fun putPrevUser(userJson: String) {
-        CSPManager.putAsync(signEntry, prevUserKey, userJson)
+    fun getHistoryUser(): String = CSPManager.get(signEntry, historyUserKey, "") as String
+    fun putHistoryUser(userJson: String) {
+        CSPManager.putAsync(signEntry, historyUserKey, userJson)
     }
 
     /**
@@ -70,9 +81,9 @@ object DSPManager {
      *
      * @return 如果为空，说明没有登录记录
      */
-    fun getSelfMatch(): String = CSPManager.get(signEntry, selfMatchKey, "") as String
+    fun getSelfMatch(): String = CSPManager.get(signEntry, signMatchKey, "") as String
     fun putSelfMatch(json: String) {
-        CSPManager.put(signEntry, selfMatchKey, json)
+        CSPManager.put(signEntry, signMatchKey, json)
     }
 
     /**
@@ -89,31 +100,15 @@ object DSPManager {
      */
 
     /**
-     * 获取最近一次分类获取缓存时间
+     * 最近一次请求隐私政策时间
      */
-    fun getCategoryTime(): Long = CSPManager.get(timeEntry, categoryTimeKey, 0L) as Long
-    fun setCategoryTime(time: Long) {
-        CSPManager.putAsync(timeEntry, categoryTimeKey, time)
+    fun getAppConfigTime(): Long = CSPManager.get(timeEntry, appConfigTimeKey, 0L) as Long
+    fun setAppConfigTime(time: Long) {
+        CSPManager.putAsync(timeEntry, appConfigTimeKey, time)
     }
 
     /**
-     * 获取最近一次职业获取缓存时间
-     */
-    fun getProfessionTime(): Long = CSPManager.get(timeEntry, professionTimeKey, 0L) as Long
-    fun setProfessionTime(time: Long) {
-        CSPManager.putAsync(timeEntry, professionTimeKey, time)
-    }
-
-    /**
-     * 获取最近一次礼物获取缓存时间
-     */
-    fun getGiftTime(): Long = CSPManager.get(timeEntry, giftTimeKey, 0L) as Long
-    fun setGiftTime(time: Long) {
-        CSPManager.putAsync(timeEntry, giftTimeKey, time)
-    }
-
-    /**
-     * 获取最近一次版本检查时间
+     * 最近一次版本检查时间
      */
     fun getCheckVersionTime(): Long = CSPManager.get(timeEntry, checkVersionTimeKey, 0L) as Long
     fun setCheckVersionTime(time: Long) {
@@ -121,15 +116,23 @@ object DSPManager {
     }
 
     /**
-     * 获取最近一次请求隐私政策时间
+     * 最近一次分类获取缓存时间
      */
-    fun getClientConfigTime(): Long = CSPManager.get(timeEntry, clientConfigTimeKey, 0L) as Long
-    fun setClientConfigTime(time: Long) {
-        CSPManager.putAsync(timeEntry, clientConfigTimeKey, time)
+    fun getCategoryTime(): Long = CSPManager.get(timeEntry, categoryTimeKey, 0L) as Long
+    fun setCategoryTime(time: Long) {
+        CSPManager.putAsync(timeEntry, categoryTimeKey, time)
     }
 
     /**
-     * 获取最近一次请求隐私政策时间
+     * 最近一次礼物获取缓存时间
+     */
+    fun getGiftTime(): Long = CSPManager.get(timeEntry, giftTimeKey, 0L) as Long
+    fun setGiftTime(time: Long) {
+        CSPManager.putAsync(timeEntry, giftTimeKey, time)
+    }
+
+    /**
+     * 最近一次请求隐私政策时间
      */
     fun getPrivatePolicyTime(): Long = CSPManager.get(timeEntry, privatePolicyTimeKey, 0L) as Long
     fun setPrivatePolicyTime(time: Long) {
@@ -137,7 +140,15 @@ object DSPManager {
     }
 
     /**
-     * 获取最近一次请求用户协议时间
+     * 最近一次职业获取缓存时间
+     */
+    fun getProfessionTime(): Long = CSPManager.get(timeEntry, professionTimeKey, 0L) as Long
+    fun setProfessionTime(time: Long) {
+        CSPManager.putAsync(timeEntry, professionTimeKey, time)
+    }
+
+    /**
+     * 最近一次请求用户协议时间
      */
     fun getUserAgreementTime(): Long = CSPManager.get(timeEntry, userAgreementTimeKey, 0L) as Long
     fun setUserAgreementTime(time: Long) {
@@ -145,10 +156,18 @@ object DSPManager {
     }
 
     /**
-     * 获取最近一次请求用户行为规范时间
+     * 最近一次请求用户行为规范时间
      */
     fun getUserNormTime(): Long = CSPManager.get(timeEntry, userNormTimeKey, 0L) as Long
     fun setUserNormTime(time: Long) {
         CSPManager.putAsync(timeEntry, userNormTimeKey, time)
+    }
+
+    /**
+     * 最近一次发布内容时间
+     */
+    fun getPublishPostTime(): Long = CSPManager.get(timeEntry, publishPostTimeKey, 0L) as Long
+    fun setPublishPostTime(time: Long) {
+        CSPManager.putAsync(timeEntry, publishPostTimeKey, time)
     }
 }

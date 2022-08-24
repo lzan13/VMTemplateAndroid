@@ -71,7 +71,7 @@ class PostLikesFragment : BVMFragment<FragmentCommonListBinding, PostViewModel>(
     }
 
     override fun initData() {
-        user = SignManager.getCurrUser()
+        user = SignManager.getSignUser()
         userId = requireArguments().getString(argUserId) ?: ""
 
         mBinding.refreshLayout.autoRefresh()

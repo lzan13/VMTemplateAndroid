@@ -11,56 +11,64 @@ import com.vmloft.develop.library.common.utils.JsonUtils
 object ConfigManager {
 
 
-    private var _clientConfig: ClientConfig = ClientConfig()
-    val clientConfig get() = _clientConfig
+    private var _appConfig: AppConfig = AppConfig()
+    val appConfig get() = _appConfig
 
     /**
      * 装载配置信息
      */
     fun setupConfig(content: String) {
-        _clientConfig = JsonUtils.fromJson(content, ClientConfig::class.java) ?: ClientConfig()
-        LDEventBus.post(CConstants.clientConfigEvent)
+        _appConfig = JsonUtils.fromJson(content, AppConfig::class.java) ?: AppConfig()
+        LDEventBus.post(CConstants.appConfigEvent)
     }
 }
 
 /**
  * 客户端配置数据 Bean，这里是通过服务器下发的配置解析出来的，有默认值
  */
-data class ClientConfig(
-    /*
-    {
-        "adsConfig":{
-            "splashEntry":true,
-            "exploreEntry":true,
-            "goldEntry":true
-        },
-        "chatConfig":{
-            "voiceLimit":2,
-            "pictureLimit":2,
-            "callLimit":5,
-            "voiceEntry":true,
-            "pictureEntry":true,
-            "callEntry":true
-        },
-        "homeConfig":{
-            "randomEntry":true,
-            "chatFastEntry":true,
-            "gameEntry":true,
-            "roomEntry":true
-        },
-        "tradeConfig":{
-            "scoreEntry":true,
-            "vipEntry":true
-        }
-    }
-     */
+data class AppConfig(
+/*
+{
+    "adsConfig":{
+        "splashEntry":false,
+        "exploreEntry":true,
+        "goldEntry":true
+    },
+    "chatConfig":{
+        "chatEntry":true,
+        "voiceEntry":false,
+        "pictureEntry":false,
+        "callEntry":true,
+        "giftEntry":true,
+        "voiceLimit":2,
+        "pictureLimit":2,
+        "callLimit":5
+    },
+    "commonConfig":{
+        "publishInterval":300000
+    },
+    "homeConfig":{
+        "randomEntry":true,
+        "chatFastEntry":true,
+        "gameEntry":true,
+        "roomEntry":false
+    },
+    "tradeConfig":{
+        "scoreEntry":true,
+        "tradeEntry":true,
+        "vipEntry":true
+    },
+    "sensitiveWords":[
+        "测试"
+    ]
+}
+*/
     var adsConfig: ADSConfig = ADSConfig(), // 广告相关配置
-
     var chatConfig: ChatConfig = ChatConfig(), // 聊天相关配置
-
+    var commonConfig: CommonConfig = CommonConfig(), // 通用相关配置
     var homeConfig: HomeConfig = HomeConfig(), // 首页相关配置
-
     var tradeConfig: TradeConfig = TradeConfig(), // 交易相关配置
+    var sensitiveWords: MutableList<String> = mutableListOf(), // 敏感词配置
 )
 
 /**
@@ -72,18 +80,26 @@ data class ADSConfig(
     var goldEntry: Boolean = true, // 金币获取入口
 )
 
-
 /**
  * 聊天配置
  */
 data class ChatConfig(
-    var voiceLimit: Int = 5, // 聊天图片锁 限制数
-    var pictureLimit: Int = 5, // 聊天图片锁 限制数
-    var callLimit: Int = 10, // 聊天语音通话 锁限制
-
+    var chatEntry: Boolean = true, // 聊天入口
     var voiceEntry: Boolean = true, // 语音入口
     var pictureEntry: Boolean = true, // 图片入口
     var callEntry: Boolean = true, // 聊天通话入口
+    var giftEntry: Boolean = true, // 礼物入口
+
+    var voiceLimit: Int = 5, // 聊天图片锁 限制数
+    var pictureLimit: Int = 5, // 聊天图片锁 限制数
+    var callLimit: Int = 10, // 聊天语音通话 锁限制
+)
+
+/**
+ * 通用配置
+ */
+data class CommonConfig(
+    var publishInterval: Long = CConstants.timeMinute, // 发布内容时间间隔
 )
 
 /**
@@ -101,5 +117,6 @@ data class HomeConfig(
  */
 data class TradeConfig(
     var scoreEntry: Boolean = true, // 积分相关入口
+    var tradeEntry: Boolean = false, // 交易相关入口
     var vipEntry: Boolean = true, // VIP相关入口
 )

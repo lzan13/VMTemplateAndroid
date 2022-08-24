@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
+    id 'org.jetbrains.kotlin.android'
 }
 
 // 获取配置信息
@@ -15,12 +16,12 @@ android {
         minSdk configs.minSdkVersion
         targetSdk configs.targetSdkVersion
 
-        // 这里通过配置文件设置声网 AppId
+        // 设置声网 AppId
         buildConfigField("String", "agoraAppId", configs.agoraAppId)
 
-        manifestPlaceholders = [
-                emAppKey      : configs.emAppKey,
-        ]
+        // 设置IM Host
+        buildConfigField("String", "imHostDebug", configs.imHostDebug)
+        buildConfigField("String", "imHostRelease", configs.imHostRelease)
     }
 
     buildTypes {
@@ -50,11 +51,23 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11
     }
+    kapt {
+        arguments {
+            // Room 配置
+            arg("room.schemaLocation", "$projectDir/schemas".toString())
+        }
+    }
 }
 
 dependencies {
-    // 环信聊天 IM 库 Easemob http://www.easemob.com
-    api 'io.hyphenate:hyphenate-chat:3.8.1'
+    // 数据库在哪里实现，这个就要加在哪里
+    kapt "androidx.room:room-compiler:2.3.0"
+
+    // socket.io-client
+    implementation ('io.socket:socket.io-client:1.0.2') {
+        // excluding org.json which is provided by Android
+        exclude group: 'org.json', module: 'json'
+    }
     // 声网音视频通话 https://docs.agora.io/cn/Voice/start_call_audio_android?platform=Android
     implementation 'com.github.agorabuilder:native-voice-sdk:3.6.2'
 
@@ -64,6 +77,8 @@ dependencies {
     implementation project(':vmcommon')
     // 依赖 data 库
     implementation project(':vmdata')
+    // 依赖 db 库
+    implementation project(':vmdb')
     // 依赖 gift 库
     implementation project(':vmgift')
     // 依赖 image 库

@@ -3,20 +3,17 @@ package com.vmloft.develop.app.template.ui.post
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.databinding.ItemPostDelegateBinding
 import com.vmloft.develop.library.data.bean.Attachment
 import com.vmloft.develop.library.data.bean.Post
 import com.vmloft.develop.library.base.BItemDelegate
-import com.vmloft.develop.library.base.utils.FormatUtils
 import com.vmloft.develop.library.common.config.ConfigManager
 import com.vmloft.develop.library.image.IMGLoader
 import com.vmloft.develop.library.tools.utils.VMColor
 import com.vmloft.develop.library.tools.utils.VMDimen
 import com.vmloft.develop.library.tools.utils.VMStr
-import com.vmloft.develop.library.tools.widget.VMRatioLayout
 
 /**
  * Create by lzan13 on 2021/01/05 17:56
@@ -42,8 +39,8 @@ class ItemPostDelegate(listener: PostItemListener, longListener: BItemLongListen
         val nickname = if (item.owner.nickname.isNullOrEmpty()) VMStr.byRes(R.string.info_nickname_default) else item.owner.nickname
         holder.binding.itemNameTV.text = nickname
 
-        if (ConfigManager.clientConfig.tradeConfig.vipEntry && item.owner.role.identity in 100..199) {
-            holder.binding.itemNameTV.setTextColor(VMColor.byRes(R.color.app_identity_vip))
+        if (ConfigManager.appConfig.tradeConfig.vipEntry && item.owner.role.identity in 100..199) {
+            holder.binding.itemNameTV.setTextColor(VMColor.byRes(R.color.app_identity_special))
         }else{
             holder.binding.itemNameTV.setTextColor(VMColor.byRes(R.color.app_tips))
         }

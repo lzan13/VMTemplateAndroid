@@ -20,14 +20,14 @@ class SplashViewModel(private val commonRepo: CommonRepository) : BViewModel() {
     /**
      * 检查版本
      */
-    fun clientConfig() {
+    fun appConfig() {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
             val result = withContext(Dispatchers.IO) {
-                commonRepo.clientConfig()
+                commonRepo.appConfig()
             }
             if (result is RResult.Success) {
-                emitUIState(data = result.data, type = "clientConfig")
+                emitUIState(data = result.data, type = "appConfig")
                 return@launch
             } else if (result is RResult.Error) {
                 emitUIState(isSuccess = false, code = result.code, error = result.error)

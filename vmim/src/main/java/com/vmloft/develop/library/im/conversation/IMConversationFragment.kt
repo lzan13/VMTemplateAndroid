@@ -10,17 +10,16 @@ import android.view.ViewGroup
 
 import com.drakeet.multitype.MultiTypeAdapter
 
-import com.hyphenate.chat.EMConversation
-import com.hyphenate.chat.EMMessage
-
 import com.vmloft.develop.library.base.BItemDelegate
 import com.vmloft.develop.library.base.BVMFragment
 import com.vmloft.develop.library.base.BViewModel
 import com.vmloft.develop.library.base.event.LDEventBus
 import com.vmloft.develop.library.data.viewmodel.UserViewModel
 import com.vmloft.develop.library.im.R
-import com.vmloft.develop.library.im.chat.IMChatManager
+import com.vmloft.develop.library.im.bean.IMConversation
+import com.vmloft.develop.library.im.bean.IMMessage
 import com.vmloft.develop.library.im.common.IMConstants
+import com.vmloft.develop.library.im.common.IMConversationManager
 import com.vmloft.develop.library.im.databinding.ImFragmentConversationBinding
 import com.vmloft.develop.library.im.router.IMRouter
 import com.vmloft.develop.library.tools.utils.VMStr
@@ -37,15 +36,15 @@ class IMConversationFragment : BVMFragment<ImFragmentConversationBinding, UserVi
 
     // 列表适配器
     private val mAdapter by lazy(LazyThreadSafetyMode.NONE) { MultiTypeAdapter() }
-    private val mItems = ArrayList<EMConversation>()
+    private val mItems = ArrayList<IMConversation>()
 
     private lateinit var floatMenu: VMFloatMenu
 
-    private lateinit var currConversation: EMConversation
+    private lateinit var currConversation: IMConversation
 
 
     private var refreshTime: Long = 0 // 上次刷新时间 ms
-    private var refreshDelay: Long = 500 // 刷新延迟时间 ms
+    private var refreshDelay: Long = 200 // 刷新延迟时间 ms
     private val refreshWhat: Int = 100
 
     /**
@@ -82,18 +81,18 @@ class IMConversationFragment : BVMFragment<ImFragmentConversationBinding, UserVi
         initFloatMenu()
 
         // 监听链接状态变化
-        LDEventBus.observe(this, IMConstants.ConnectStatus.connectStatusEvent, Int::class.java, {
-            mBinding.imConversationConnectionLL.visibility = if (it == IMConstants.ConnectStatus.connected) View.GONE else View.VISIBLE
-        })
+        LDEventBus.observe(this, IMConstants.Common.connectStatusEvent, Boolean::class.java) {
+            mBinding.imConversationConnectionLL.visibility = if (it) View.GONE else View.VISIBLE
+        }
         // 监听新消息
-        LDEventBus.observe(this, IMConstants.Common.newMsgEvent, EMMessage::class.java, {
-            prepareRefresh()
-        })
-        // 监听消息撤回
-        LDEventBus.observe(this, IMConstants.Common.cmdRecallAction, EMMessage::class.java) {
+        LDEventBus.observe(this, IMConstants.Common.newMsgEvent, IMMessage::class.java) {
             prepareRefresh()
         }
-        // 监听新消息过来，这里主要更新Tab未读
+        // 监听消息改变
+        LDEventBus.observe(this, IMConstants.Common.updateMsgEvent, IMMessage::class.java) {
+            prepareRefresh()
+        }
+        // 监听未读变化
         LDEventBus.observe(this, IMConstants.Common.changeUnreadCount, Int::class.java) {
             prepareRefresh()
         }
@@ -115,14 +114,14 @@ class IMConversationFragment : BVMFragment<ImFragmentConversationBinding, UserVi
         // 注册各类消息
         mAdapter.register(
             IMItemConversationDelegate(
-                object : BItemDelegate.BItemListener<EMConversation> {
-                    override fun onClick(v: View, data: EMConversation, position: Int) {
+                object : BItemDelegate.BItemListener<IMConversation> {
+                    override fun onClick(v: View, data: IMConversation, position: Int) {
                         // 点击去聊天
-                        IMRouter.goChat(data.conversationId())
+                        IMRouter.goChat(data.chatId)
                     }
                 },
-                object : BItemDelegate.BItemLongListener<EMConversation> {
-                    override fun onLongClick(v: View, event: MotionEvent, data: EMConversation, position: Int): Boolean {
+                object : BItemDelegate.BItemLongListener<IMConversation> {
+                    override fun onLongClick(v: View, event: MotionEvent, data: IMConversation, position: Int): Boolean {
                         currConversation = data
                         showFloatMenu(v, event)
                         return true
@@ -144,8 +143,8 @@ class IMConversationFragment : BVMFragment<ImFragmentConversationBinding, UserVi
         floatMenu.setItemClickListener(object : VMFloatMenu.IItemClickListener() {
             override fun onItemClick(id: Int) {
                 when (id) {
-                    0 -> setUnread()
-                    1 -> setTop()
+                    0 -> changeUnread()
+                    1 -> changeTop()
                     2 -> remove()
                     3 -> clear()
                 }
@@ -155,10 +154,10 @@ class IMConversationFragment : BVMFragment<ImFragmentConversationBinding, UserVi
     }
 
     private fun loadConversation() {
-        val list = IMChatManager.getAllConversation()
+        val list = IMConversationManager.getAllConversation()
 
         // 请求列表用户信息
-        val ids = list.map { it.conversationId() }
+        val ids = list.map { it.chatId }
         mViewModel.userList(ids)
     }
 
@@ -175,52 +174,48 @@ class IMConversationFragment : BVMFragment<ImFragmentConversationBinding, UserVi
     }
 
     /**
-     * 设置标为未读
+     * 改变未读
      */
-    private fun setUnread() {
-        if (IMChatManager.getConversationUnread(currConversation) > 0) {
-            IMChatManager.setConversationUnread(currConversation, false)
+    private fun changeUnread() {
+        if (currConversation.unread > 0) {
+            IMConversationManager.setConversationUnread(currConversation, false)
         } else {
-            IMChatManager.setConversationUnread(currConversation, true)
+            IMConversationManager.setConversationUnread(currConversation, true)
         }
     }
 
     /**
-     * 设置指定状态
+     * 改变置顶状态
      */
-    private fun setTop() {
-        if (IMChatManager.getConversationTop(currConversation)) {
-            IMChatManager.setConversationTop(currConversation, false)
-        } else {
-            IMChatManager.setConversationTop(currConversation, true)
-        }
+    private fun changeTop() {
+        IMConversationManager.setConversationTop(currConversation, !currConversation.top)
     }
 
     /**
      * 删除会话
      */
     private fun remove() {
-        IMChatManager.deleteConversation(currConversation.conversationId())
+        IMConversationManager.deleteConversation(currConversation)
     }
 
     /**
-     * 清空会话
+     * 清空会话消息
      */
     private fun clear() {
-        IMChatManager.clearConversation(currConversation.conversationId())
+        IMConversationManager.clearMsg(currConversation)
     }
 
     /**
      * 弹出菜单
      */
     private fun showFloatMenu(view: View, event: MotionEvent) {
-        val unread = if (IMChatManager.getConversationUnread(currConversation) > 0) {
+        val unread = if (currConversation.unread > 0) {
             VMStr.byRes(R.string.im_conversation_read)
         } else {
             VMStr.byRes(R.string.im_conversation_unread)
         }
 
-        val top = if (IMChatManager.getConversationTop(currConversation)) {
+        val top = if (currConversation.top) {
             VMStr.byRes(R.string.im_conversation_untop)
         } else {
             VMStr.byRes(R.string.im_conversation_top)
@@ -259,7 +254,7 @@ class IMConversationFragment : BVMFragment<ImFragmentConversationBinding, UserVi
      */
     private fun refresh() {
         VMLog.i("-lz-refresh- 3 ")
-        val list = IMChatManager.getAllConversation()
+        val list = IMConversationManager.getAllConversation()
 
 //        val result = DiffUtil.calculateDiff(ConversationDiff(mItems, list), true)
 //

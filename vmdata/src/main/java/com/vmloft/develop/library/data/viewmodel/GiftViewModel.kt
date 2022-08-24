@@ -6,6 +6,7 @@ import com.vmloft.develop.library.data.bean.Gift
 import com.vmloft.develop.library.data.repository.CommonRepository
 import com.vmloft.develop.library.data.repository.GiftRepository
 import com.vmloft.develop.library.base.BViewModel
+import com.vmloft.develop.library.data.bean.Attachment
 import com.vmloft.develop.library.request.RResult
 import com.vmloft.develop.library.tools.utils.VMFile
 import com.vmloft.develop.library.tools.utils.logger.VMLog
@@ -77,8 +78,8 @@ class GiftViewModel(private val repo: GiftRepository, private val commRepo: Comm
     /**
      * 下载文件
      */
-    fun download(gift: Gift) {
-        val filePath = VMFile.filesPath("gift") + gift.animation.id + gift.animation.extname
+    fun download(giftAnim: Attachment) {
+        val filePath = VMFile.filesPath("gift") + giftAnim.id + giftAnim.extname
         val file = File(filePath)
         if (!VMFile.isDirExists(file.parent)) {
             VMFile.createDirectory(file.parent)
@@ -87,12 +88,12 @@ class GiftViewModel(private val repo: GiftRepository, private val commRepo: Comm
             emitUIState(true)
             if (VMFile.isFileExists(filePath)) {
                 VMLog.i("-download- 文件已存在，无需下载")
-                emitUIState(data = gift, type = "download")
+                emitUIState(data = giftAnim, type = "download")
                 return@launch
             }
             VMLog.i("-download- 文件下载开始")
             withContext(Dispatchers.IO) {
-                val body = commRepo.download(gift.animation)
+                val body = commRepo.download(giftAnim)
                 val totalLen = body.contentLength()
                 val inputStream = body.byteStream()
                 val outputStream = FileOutputStream(filePath)
@@ -109,7 +110,7 @@ class GiftViewModel(private val repo: GiftRepository, private val commRepo: Comm
                 outputStream.close()
             }
             VMLog.i("-download- 文件下载完成")
-            emitUIState(data = gift, type = "download")
+            emitUIState(data = giftAnim, type = "download")
 
 //            if (result is RResult.Success) {
 //                emitUIState(data = result.data, type = "download")

@@ -64,7 +64,7 @@ class AppletDetailActivity : BVMActivity<ActivityAppletDetailBinding, AppletView
     override fun initData() {
         ARouter.getInstance().inject(this)
 
-        user = SignManager.getCurrUser()
+        user = SignManager.getSignUser()
 
         bindInfo()
     }
@@ -99,7 +99,7 @@ class AppletDetailActivity : BVMActivity<ActivityAppletDetailBinding, AppletView
         mBinding.titleTV.text = applet.title
         mBinding.contentTV.text = applet.content
 
-        if (ConfigManager.clientConfig.tradeConfig.vipEntry && applet.isNeedVIP) {
+        if (ConfigManager.appConfig.tradeConfig.vipEntry && applet.isNeedVIP) {
             mBinding.vipTV.visibility = View.VISIBLE
             if (user.role.identity < 100) {
                 mBinding.testTV.visibility = View.VISIBLE
@@ -133,7 +133,7 @@ class AppletDetailActivity : BVMActivity<ActivityAppletDetailBinding, AppletView
      * 准备开始，做一下校验
      */
     private fun startVerify() {
-        if (ConfigManager.clientConfig.tradeConfig.vipEntry && applet.isNeedVIP && user.role.identity < 100) {
+        if (ConfigManager.appConfig.tradeConfig.vipEntry && applet.isNeedVIP && user.role.identity < 100) {
             return CRouter.go(AppRouter.appVipTrade)
         }
         startJump()

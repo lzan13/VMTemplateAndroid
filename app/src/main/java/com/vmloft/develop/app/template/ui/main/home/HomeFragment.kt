@@ -27,6 +27,7 @@ import com.vmloft.develop.library.base.common.CConstants
 import com.vmloft.develop.library.base.common.CSPManager
 import com.vmloft.develop.library.base.event.LDEventBus
 import com.vmloft.develop.library.base.router.CRouter
+import com.vmloft.develop.library.base.utils.FormatUtils
 import com.vmloft.develop.library.base.widget.CommonDialog
 import com.vmloft.develop.library.common.config.ConfigManager
 import com.vmloft.develop.library.common.utils.JsonUtils
@@ -37,12 +38,12 @@ import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.library.data.bean.User
 import com.vmloft.develop.library.data.common.DConstants
 import com.vmloft.develop.library.data.viewmodel.MatchViewModel
+import com.vmloft.develop.library.im.common.IMConstants
 import com.vmloft.develop.library.image.IMGLoader
-import com.vmloft.develop.library.mqtt.MQTTConstants
-import com.vmloft.develop.library.mqtt.MQTTHelper
 import com.vmloft.develop.library.report.ReportManager
 import com.vmloft.develop.library.request.RPaging
 import com.vmloft.develop.library.tools.utils.VMColor
+import com.vmloft.develop.library.tools.utils.VMDate
 import com.vmloft.develop.library.tools.utils.VMDimen
 import com.vmloft.develop.library.tools.utils.VMStr
 import com.vmloft.develop.library.tools.widget.barrage.VMBarrageView
@@ -51,8 +52,6 @@ import com.vmloft.develop.library.tools.widget.guide.GuideItem
 import com.vmloft.develop.library.tools.widget.guide.VMGuide
 import com.vmloft.develop.library.tools.widget.guide.VMGuideView
 import com.vmloft.develop.library.tools.widget.guide.VMShape
-
-import org.json.JSONObject
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -106,10 +105,10 @@ class HomeFragment : BVMFragment<FragmentHomeBinding, MatchViewModel>() {
         }
         // 解忧房
         mBinding.chatRoomCL.setOnClickListener {
-            if (selfUser.avatar.isNullOrEmpty() || selfUser.nickname.isNullOrEmpty()) {
+            if (selfUser.avatar.isEmpty() || selfUser.nickname.isEmpty()) {
                 CRouter.go(AppRouter.appPersonalInfoGuide)
             } else {
-                CRouter.go(AppRouter.appRoomList)
+                goRoomList()
             }
         }
 
@@ -118,12 +117,13 @@ class HomeFragment : BVMFragment<FragmentHomeBinding, MatchViewModel>() {
             selfUser = it
             bindInfo()
 
-            // 为了防止频繁触发 只有当昵称修改了才修改匹配信息信息
-            if (selfMatch.user.nickname != selfUser.nickname) {
-                selfMatch.user = selfUser
-                selfMatch.gender = selfUser.gender
-                if (selfMatch.content.isNullOrEmpty() && selfUser.nickname.isNotEmpty()) {
-                    selfMatch.content = "嗨 ${selfUser.nickname} 来啦 😉"
+            selfMatch.user = selfUser
+            selfMatch.gender = selfUser.gender
+            if (selfMatch.content.isEmpty()) {
+                if (selfUser.nickname.isEmpty()) {
+                    selfMatch.content = "嗨 我是一只小透明 😉"
+                } else {
+                    selfMatch.content = "嗨 ${selfUser.nickname} 前来报道 😉"
                 }
                 saveMatchEmotion()
             }
@@ -137,9 +137,9 @@ class HomeFragment : BVMFragment<FragmentHomeBinding, MatchViewModel>() {
             sendMatchInfo()
         }
 
-        // 订阅 MQTT 事件
-        LDEventBus.observe(this, MQTTConstants.Topic.newMatchInfo, String::class.java) {
-            val match = JsonUtils.fromJson<Match>(it, Match::class.java)
+        // 订阅心情变化事件
+        LDEventBus.observe(this, IMConstants.Common.signalMatchInfo, String::class.java) {
+            val match = JsonUtils.fromJson<Match>(it)
             addBarrage(match)
         }
     }
@@ -167,13 +167,7 @@ class HomeFragment : BVMFragment<FragmentHomeBinding, MatchViewModel>() {
         })
 
         mBinding.twoFloorHeader.setOnTwoLevelListener { refreshLayout ->
-//            mBinding.twoFloorCoverCL.animate().alpha(1f).duration = 1000
             CRouter.go(AppRouter.appAppletList)
-
-//            refreshLayout.layout.postDelayed({
-//                mBinding.twoFloorHeader.finishTwoLevel()
-//                CRouter.go(AppRouter.appAppletList)
-//            }, 1000)
             false //true 将会展开二楼状态 false 关闭刷新
         }
     }
@@ -182,13 +176,11 @@ class HomeFragment : BVMFragment<FragmentHomeBinding, MatchViewModel>() {
      * 初始化数据
      */
     override fun initData() {
-        selfUser = SignManager.getCurrUser()
+        selfUser = SignManager.getSignUser()
         selfMatch = SignManager.getSelfMatch()
 
         // 请求匹配数据集
         mViewModel.matchList(selfMatch.filterGender)
-        // 获取 MQTT Token 链接MQTT 云服务
-        mViewModel.mqttUserToken(selfUser.id)
 
         setupEmotion()
         bindInfo()
@@ -208,9 +200,6 @@ class HomeFragment : BVMFragment<FragmentHomeBinding, MatchViewModel>() {
         if (model.type == "matchList") {
             val paging = model.data as RPaging<Match>
             setupBarrage(paging)
-        } else if (model.type == "mqttUserToken") {
-            val token = model.data as String
-            MQTTHelper.connect(selfUser.id, token, MQTTConstants.Topic.newMatchInfo)
         }
     }
 
@@ -239,16 +228,16 @@ class HomeFragment : BVMFragment<FragmentHomeBinding, MatchViewModel>() {
 
         val list = mutableListOf<GuideItem>()
         list.add(GuideItem(emotionView, VMStr.byRes(R.string.guide_home_emotion), shape = VMShape.guideShapeCircle, offX = VMDimen.dp2px(96), offY = VMDimen.dp2px(16)))
-        if (ConfigManager.clientConfig.homeConfig.randomEntry) {
+        if (ConfigManager.appConfig.homeConfig.randomEntry) {
             list.add(GuideItem(mBinding.chatRandomCL, VMStr.byRes(R.string.guide_home_chat_random), shape = VMShape.guideShapeCircle, offY = VMDimen.dp2px(32)))
         }
-        if (ConfigManager.clientConfig.homeConfig.chatFastEntry) {
+        if (ConfigManager.appConfig.homeConfig.chatFastEntry) {
             list.add(GuideItem(mBinding.chatFastCL, VMStr.byRes(R.string.guide_home_chat_fast), shape = VMShape.guideShapeCircle, offY = VMDimen.dp2px(32)))
         }
-        if (ConfigManager.clientConfig.homeConfig.relaxationEntry) {
+        if (ConfigManager.appConfig.homeConfig.relaxationEntry) {
             list.add(GuideItem(mBinding.relaxationGameCL, VMStr.byRes(R.string.guide_home_relaxation_world), shape = VMShape.guideShapeCircle, offX = VMDimen.dp2px(16), offY = VMDimen.dp2px(32)))
         }
-        if (ConfigManager.clientConfig.homeConfig.roomEntry) {
+        if (ConfigManager.appConfig.homeConfig.roomEntry) {
             list.add(GuideItem(mBinding.chatRoomCL, VMStr.byRes(R.string.guide_home_chat_room), shape = VMShape.guideShapeCircle, offX = VMDimen.dp2px(80), offY = VMDimen.dp2px(32)))
         }
 
@@ -259,6 +248,23 @@ class HomeFragment : BVMFragment<FragmentHomeBinding, MatchViewModel>() {
 
             override fun onNext(index: Int) {}
         }).build().show()
+    }
+
+    /**
+     * 跳转房间列表
+     */
+    private fun goRoomList() {
+        if (selfUser.banned == 1 && selfUser.bannedTime > VMDate.currentMilli()) {
+            mDialog = CommonDialog(requireContext())
+            (mDialog as CommonDialog).let { dialog ->
+                dialog.setContent(VMStr.byResArgs(R.string.tips_banned, selfUser.bannedReason, FormatUtils.defaultTime(selfUser.bannedTime)))
+                dialog.setNegative("")
+                dialog.setPositive(VMStr.byRes(R.string.btn_i_known))
+                dialog.show()
+            }
+            return
+        }
+        CRouter.go(AppRouter.appRoomList)
     }
 
     /**
@@ -324,33 +330,18 @@ class HomeFragment : BVMFragment<FragmentHomeBinding, MatchViewModel>() {
      * 发送匹配信息
      */
     private fun sendMatchInfo() {
-        if (selfMatch.user.nickname.isEmpty()) return
-
         // 提交自己的匹配信息到服务器
         mViewModel.submitMatch(selfMatch)
-
-        val json = JSONObject()
-        json.put("content", selfMatch.content)
-        json.put("emotion", selfMatch.emotion)
-        json.put("gender", selfMatch.gender)
-        json.put("type", selfMatch.type)
-        val jsonUser = JSONObject()
-        jsonUser.put("avatar", selfUser.avatar)
-        jsonUser.put("id", selfUser.id)
-        jsonUser.put("nickname", selfUser.nickname)
-        jsonUser.put("username", selfUser.username)
-        json.put("user", jsonUser)
-        MQTTHelper.sendMsg(MQTTConstants.Topic.newMatchInfo, json.toString())
     }
 
     /**
      * 加载配置信息
      */
     private fun setupConfig() {
-        mBinding.chatRandomCL.visibility = if (ConfigManager.clientConfig.homeConfig.randomEntry) View.VISIBLE else View.GONE
-        mBinding.chatFastCL.visibility = if (ConfigManager.clientConfig.homeConfig.chatFastEntry) View.VISIBLE else View.GONE
-        mBinding.relaxationGameCL.visibility = if (ConfigManager.clientConfig.homeConfig.relaxationEntry) View.VISIBLE else View.GONE
-        mBinding.chatRoomCL.visibility = if (ConfigManager.clientConfig.homeConfig.roomEntry) View.VISIBLE else View.GONE
+        mBinding.chatRandomCL.visibility = if (ConfigManager.appConfig.homeConfig.randomEntry) View.VISIBLE else View.GONE
+        mBinding.chatFastCL.visibility = if (ConfigManager.appConfig.homeConfig.chatFastEntry) View.VISIBLE else View.GONE
+        mBinding.relaxationGameCL.visibility = if (ConfigManager.appConfig.homeConfig.relaxationEntry) View.VISIBLE else View.GONE
+        mBinding.chatRoomCL.visibility = if (ConfigManager.appConfig.homeConfig.roomEntry) View.VISIBLE else View.GONE
     }
 
     /**
@@ -359,6 +350,16 @@ class HomeFragment : BVMFragment<FragmentHomeBinding, MatchViewModel>() {
     private fun startMatch(type: Int = 0) {
         if (selfUser.avatar.isNullOrEmpty() || selfUser.nickname.isNullOrEmpty()) {
             return CRouter.go(AppRouter.appPersonalInfoGuide)
+        }
+        if (selfUser.banned == 1 && selfUser.bannedTime > VMDate.currentMilli()) {
+            mDialog = CommonDialog(requireContext())
+            (mDialog as CommonDialog).let { dialog ->
+                dialog.setContent(VMStr.byResArgs(R.string.tips_banned, selfUser.bannedReason, FormatUtils.defaultTime(selfUser.bannedTime)))
+                dialog.setNegative("")
+                dialog.setPositive(VMStr.byRes(R.string.btn_i_known))
+                dialog.show()
+            }
+            return
         }
         if (type == 1) {
             selfMatch.type = type
@@ -403,7 +404,6 @@ class HomeFragment : BVMFragment<FragmentHomeBinding, MatchViewModel>() {
 
     override fun onDestroy() {
         barrageView?.stop()
-        MQTTHelper.unsubscribe(MQTTConstants.Topic.newMatchInfo)
         super.onDestroy()
     }
 

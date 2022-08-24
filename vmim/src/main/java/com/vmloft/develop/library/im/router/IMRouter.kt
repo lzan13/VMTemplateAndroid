@@ -20,55 +20,37 @@ object IMRouter {
 
     /**
      * 去聊天
-     * @param chatType 聊天类型 0-单聊 1-群聊 2-聊天室
+     * @param chatId 聊天Id
+     * @param extend 扩展信息
      */
     fun goChat(chatId: String, extend: String = "") {
-        CRouter.go(imChat, IMConstants.ChatType.imChatSingle, str0 = chatId, str1 = extend, flags = Intent.FLAG_ACTIVITY_NEW_TASK)
-
-//        ARouter.getInstance().build(imChat)
-//            .withFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-//            .withString("chatId", chatId)
-//            .withInt("chatType", IMConstants.ChatType.imChatSingle)
-//            .withString("chatExtend", extend)
-//            .navigation()
+        CRouter.go(imChat, IMConstants.ChatType.imSingle, str0 = chatId, str1 = extend, flags = Intent.FLAG_ACTIVITY_NEW_TASK)
     }
 
     /**
      * 跳转快速聊天
-     * @param
+     * @param chatId 聊天Id
+     * @param isApply 是否是呼入
      */
     fun goChatFast(chatId: String, isApply: Boolean = false) {
-        ARouter.getInstance().build(imChatFast)
-            .withFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            .withString("chatId", chatId)
-            .withBoolean("isApply", isApply)
-            .navigation()
+        CRouter.go(imChatFast, what = if (isApply) 0 else 1, str0 = chatId, flags = Intent.FLAG_ACTIVITY_NEW_TASK)
     }
 
     /**
      * 去聊天房间
-     * @param type 跳转类型 0-单聊 1-群聊 2-聊天室
+     * @param chatId 聊天Id
      */
-    fun goChatRoom(chatId: String, extend: String = "") {
-        ARouter.getInstance().build(imChatRoom)
-            .withFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            .withString("chatId", chatId)
-            .withInt("chatType", IMConstants.ChatType.imChatRoom)
-            .withString("chatExtend", extend)
-            .navigation()
+    fun goChatRoom(chatId: String) {
+        CRouter.go(imChatRoom, IMConstants.ChatType.imRoom, str0 = chatId, flags = Intent.FLAG_ACTIVITY_NEW_TASK)
     }
 
     /**
      * 去1V1通话
      * @param callId 呼叫对方
-     * @param isInComingCall 是否是呼入通话
+     * @param isInComing 是否是呼入
      */
-    fun goSingleCall(callId: String, isInComingCall: Boolean = false) {
-        ARouter.getInstance().build(imSingleCall)
-            .withFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            .withString("callId", callId)
-            .withBoolean("isInComingCall", isInComingCall)
-            .navigation()
+    fun goSingleCall(callId: String, isInComing: Boolean = false) {
+        CRouter.go(imSingleCall, what = if (isInComing) 0 else 1, str0 = callId, flags = Intent.FLAG_ACTIVITY_NEW_TASK)
     }
 
 }

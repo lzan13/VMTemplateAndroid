@@ -65,7 +65,7 @@ class EditSignatureActivity : BVMActivity<ActivityPersonalInfoEditBinding, UserV
     }
 
     override fun onModelRefresh(model: BViewModel.UIModel) {
-        SignManager.setCurrUser(model.data as User)
+        SignManager.setSignUser(model.data as User)
         finish()
     }
 

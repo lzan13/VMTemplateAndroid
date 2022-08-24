@@ -16,21 +16,21 @@ class BlacklistRepository : BaseRepository() {
      * 拉黑
      */
     suspend fun blacklist(id: String): RResult<Any> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.blacklistAPI.blacklist(id)) }
+        return safeRequest { executeResponse(APIRequest.blacklistAPI.blacklist(id)) }
     }
 
     /**
      * 取消拉黑
      */
     suspend fun cancel(id: String): RResult<Any> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.blacklistAPI.cancel(id)) }
+        return safeRequest { executeResponse(APIRequest.blacklistAPI.cancel(id)) }
     }
 
     /**
      * 获取拉黑列表
      */
     suspend fun getBlacklist(type: Int, page: Int, limit: Int): RResult<RPaging<User>> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.blacklistAPI.getBlacklist(type, page, limit)) }
+        return safeRequest { executeResponse(APIRequest.blacklistAPI.getBlacklist(type, page, limit)) }
     }
 
 }

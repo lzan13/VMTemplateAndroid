@@ -38,7 +38,7 @@ class ItemAppletDelegate(listener: BItemListener<Applet>, longListener: BItemLon
             holder.binding.tipsTV.visibility = View.GONE
         }
 
-        holder.binding.vipTV.visibility = if (ConfigManager.clientConfig.tradeConfig.vipEntry && item.isNeedVIP) View.VISIBLE else View.GONE
+        holder.binding.vipTV.visibility = if (ConfigManager.appConfig.tradeConfig.vipEntry && item.isNeedVIP) View.VISIBLE else View.GONE
     }
 
     /**

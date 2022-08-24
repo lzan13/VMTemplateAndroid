@@ -7,15 +7,11 @@ import com.drakeet.multitype.MultiTypeAdapter
 
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.common.Constants
-import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.app.template.databinding.FragmentExploreBinding
-import com.vmloft.develop.library.request.RPaging
-import com.vmloft.develop.library.data.bean.Post
-import com.vmloft.develop.library.data.bean.User
-import com.vmloft.develop.library.data.viewmodel.ExploreViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.app.template.ui.post.ItemPostDelegate
 import com.vmloft.develop.app.template.ui.widget.ContentDislikeDialog
+import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.library.ads.ADSConstants
 import com.vmloft.develop.library.ads.ADSItem
 import com.vmloft.develop.library.ads.ADSItemDelegate
@@ -27,9 +23,17 @@ import com.vmloft.develop.library.base.common.CConstants
 import com.vmloft.develop.library.base.common.CSPManager
 import com.vmloft.develop.library.base.event.LDEventBus
 import com.vmloft.develop.library.base.router.CRouter
+import com.vmloft.develop.library.base.utils.FormatUtils
 import com.vmloft.develop.library.base.utils.showBar
+import com.vmloft.develop.library.base.widget.CommonDialog
 import com.vmloft.develop.library.base.widget.decoration.StaggeredItemDecoration
 import com.vmloft.develop.library.common.config.ConfigManager
+import com.vmloft.develop.library.data.bean.Post
+import com.vmloft.develop.library.data.bean.User
+import com.vmloft.develop.library.data.common.DSPManager
+import com.vmloft.develop.library.data.viewmodel.ExploreViewModel
+import com.vmloft.develop.library.request.RPaging
+import com.vmloft.develop.library.tools.utils.VMDate
 import com.vmloft.develop.library.tools.utils.VMDimen
 import com.vmloft.develop.library.tools.utils.VMStr
 import com.vmloft.develop.library.tools.widget.guide.GuideItem
@@ -68,7 +72,7 @@ class ExploreFragment : BVMFragment<FragmentExploreBinding, ExploreViewModel>() 
 
         initRecyclerView()
 
-        mBinding.postAddIV.setOnClickListener { CRouter.go(AppRouter.appPostCreate) }
+        mBinding.postAddIV.setOnClickListener { goPublish() }
 
         // 监听 Post 创建事件
         LDEventBus.observe(this, Constants.Event.createPost, Post::class.java) {
@@ -90,7 +94,7 @@ class ExploreFragment : BVMFragment<FragmentExploreBinding, ExploreViewModel>() 
     }
 
     override fun initData() {
-        user = SignManager.getCurrUser()
+        user = SignManager.getSignUser()
 
         mBinding.refreshLayout.autoRefresh()
     }
@@ -188,12 +192,12 @@ class ExploreFragment : BVMFragment<FragmentExploreBinding, ExploreViewModel>() 
     private fun checkGuide() {
         // 入口关闭或者会员情况下不加载广告
         if (!CSPManager.isNeedGuide(this@ExploreFragment::class.java.simpleName)) return
-
+        if (mItems.size == 0) return
         mBinding.recyclerView.postDelayed({
             if (mBinding.recyclerView.childCount <= 0) return@postDelayed
-            
+
             val list = mutableListOf<GuideItem>()
-            val guideView = mBinding.recyclerView.getChildAt(0).findViewById<View>(R.id.itemGuideView)
+            val guideView = mBinding.recyclerView.getChildAt(0).findViewById<View>(R.id.itemGuideView) ?: return@postDelayed
             val likeIV = mBinding.recyclerView.getChildAt(0).findViewById<View>(R.id.itemLikeIV)
             list.add(GuideItem(guideView, VMStr.byRes(R.string.guide_explore_report), shape = VMShape.guideShapeCircle, offY = VMDimen.dp2px(8)))
             list.add(GuideItem(likeIV, VMStr.byRes(R.string.guide_post_like), shape = VMShape.guideShapeCircle, offY = VMDimen.dp2px(8)))
@@ -213,7 +217,7 @@ class ExploreFragment : BVMFragment<FragmentExploreBinding, ExploreViewModel>() 
      */
     private fun loadNativeAD() {
 
-        if (!ConfigManager.clientConfig.adsConfig.exploreEntry && user.role.identity in 100..199) return
+        if (!ConfigManager.appConfig.adsConfig.exploreEntry && user.role.identity in 100..199) return
 
         ADSManager.loadNativeAD(requireActivity()) { status ->
             if (status == ADSConstants.Status.loaded) {
@@ -241,6 +245,35 @@ class ExploreFragment : BVMFragment<FragmentExploreBinding, ExploreViewModel>() 
             mBinding.refreshLayout.visibility = View.GONE
             showEmptyFailed()
         }
+    }
+
+    private fun goPublish() {
+        val time = DSPManager.getPublishPostTime()
+        val currTime = System.currentTimeMillis()
+        if (currTime - time < ConfigManager.appConfig.commonConfig.publishInterval) {
+            mDialog = CommonDialog(requireContext())
+            (mDialog as CommonDialog).let { dialog ->
+                dialog.setContent(VMStr.byResArgs(R.string.tips_publish_interval, FormatUtils.onlyTime(time + ConfigManager.appConfig.commonConfig.publishInterval)))
+                dialog.setNegative("")
+                dialog.setPositive(VMStr.byRes(R.string.btn_i_known))
+                dialog.show()
+            }
+            return
+        }
+        if (user.avatar.isNullOrEmpty() || user.nickname.isNullOrEmpty()) {
+            return CRouter.go(AppRouter.appPersonalInfoGuide)
+        }
+        if (user.banned == 1 && user.bannedTime > VMDate.currentMilli()) {
+            mDialog = CommonDialog(requireContext())
+            (mDialog as CommonDialog).let { dialog ->
+                dialog.setContent(VMStr.byResArgs(R.string.tips_banned, user.bannedReason, FormatUtils.defaultTime(user.bannedTime)))
+                dialog.setNegative("")
+                dialog.setPositive(VMStr.byRes(R.string.btn_i_known))
+                dialog.show()
+            }
+            return
+        }
+        CRouter.go(AppRouter.appPostCreate)
     }
 
     /**

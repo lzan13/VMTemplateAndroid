@@ -47,8 +47,8 @@
     <color name="app_icon_light">@color/vm_white</color>
     <color name="app_icon_man">#72baf4</color>
     <color name="app_icon_woman">#fd6388</color>
-    <color name="app_identity_vip">@color/app_main</color>
-    <color name="app_identity_vip_tips">#e8ffeb3b</color>
+    <color name="app_identity_special">@color/app_main</color>
+    <color name="app_identity_special_tips">#e8ffeb3b</color>
 
 
     <color name="app_error">#fffc2c2c</color>

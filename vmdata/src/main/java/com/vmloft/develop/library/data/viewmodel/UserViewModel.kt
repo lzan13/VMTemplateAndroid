@@ -104,6 +104,7 @@ class UserViewModel(
             val body: RequestBody = file.asRequestBody("image/*".toMediaType())
 //            val part: MultipartBody.Part = MultipartBody.Part.createFormData("avatar", file.name, body)
             val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("space", "avatar")
                 .addFormDataPart("desc", "修改头像")
                 .addFormDataPart("width", "512")
                 .addFormDataPart("height", "512")
@@ -133,6 +134,7 @@ class UserViewModel(
             val body: RequestBody = file.asRequestBody("image/*".toMediaType())
 //            val part: MultipartBody.Part = MultipartBody.Part.createFormData("cover", file.name, body)
             val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("space", "cover")
                 .addFormDataPart("desc", "修改封面")
                 .addFormDataPart("width", "1080")
                 .addFormDataPart("height", "1080")
@@ -185,13 +187,13 @@ class UserViewModel(
     /**
      * 个人认证
      */
-    fun personalAuth(realName: String, idCardNumber: String) {
+    fun realAuth(realName: String, idCardNumber: String) {
         viewModelScope.launch(Dispatchers.Main) {
             emitUIState(true)
-            val result = repo.personalAuth(realName, idCardNumber)
+            val result = repo.realAuth(realName, idCardNumber)
 
             if (result is RResult.Success) {
-                emitUIState(data = result.data, type = "personalAuth")
+                emitUIState(data = result.data, type = "realAuth")
                 return@launch
             } else if (result is RResult.Error) {
                 emitUIState(isSuccess = false, code = result.code, error = result.error)

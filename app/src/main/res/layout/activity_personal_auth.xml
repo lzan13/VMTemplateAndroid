@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/app_bg"
     android:orientation="vertical"
-    tools:context=".ui.main.mine.info.EditNicknameActivity">
+    tools:context=".ui.settings.PersonalAuthActivity">
 
     <include layout="@layout/widget_common_top_bar" />
 

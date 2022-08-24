@@ -84,7 +84,7 @@ class SignInByPasswordFragment : BVMFragment<FragmentSignInByPasswordBinding, Si
     }
 
     override fun initData() {
-        val user = SignManager.getPrevUser() ?: User()
+        val user = SignManager.getHistoryUser() ?: User()
         if (user.username.isNotEmpty()) {
             mBinding.accountET.setText(user.username)
         } else if (user.email.isNotEmpty()) {
@@ -101,9 +101,6 @@ class SignInByPasswordFragment : BVMFragment<FragmentSignInByPasswordBinding, Si
 
     override fun onModelRefresh(model: BViewModel.UIModel) {
         if (model.type == "signIn") {
-            // 这里直接调用下 IM 的登录，不影响页面的继续
-            mViewModel.signInIM()
-        } else if (model.type == "signInIM") {
             // 登录成功，跳转到主页
             CRouter.goMain()
             LDEventBus.post(Constants.Event.finishPrev)

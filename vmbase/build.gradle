@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
+    id 'org.jetbrains.kotlin.android'
 }
 
 // 获取配置信息
@@ -86,7 +87,7 @@ dependencies {
     api 'io.github.jeremyliao:live-event-bus-x:1.8.0'
 
     // 自定义工具库 https://gitee.com/lzan13/VMLibrary
-    api 'com.github.lzan13:VMLibrary:1.6.7'
+    api 'com.github.lzan13:VMLibrary:1.6.9'
     // 引入自己封装的工具库源码，便与调试
 //    api project(':vmtools')
 }

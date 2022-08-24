@@ -16,21 +16,21 @@ class RelationRepository : BaseRepository() {
      * 关注
      */
     suspend fun follow(id: String): RResult<Any> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.relationAPI.follow(id)) }
+        return safeRequest { executeResponse(APIRequest.relationAPI.follow(id)) }
     }
 
     /**
      * 取消关注
      */
     suspend fun cancel(id: String): RResult<Any> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.relationAPI.cancelFollow(id)) }
+        return safeRequest { executeResponse(APIRequest.relationAPI.cancelFollow(id)) }
     }
 
     /**
      * 获取关注列表
      */
     suspend fun relationList(type: Int, page: Int, limit: Int): RResult<RPaging<User>> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.relationAPI.relationList(type, page, limit)) }
+        return safeRequest { executeResponse(APIRequest.relationAPI.relationList(type, page, limit)) }
     }
 
 }

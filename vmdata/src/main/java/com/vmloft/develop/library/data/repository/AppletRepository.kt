@@ -16,7 +16,7 @@ class AppletRepository : BaseRepository() {
      * 程序列表
      */
     suspend fun appletList( page: Int, limit: Int): RResult<RPaging<Applet>> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.appletAPI.appletList(page, limit)) }
+        return safeRequest { executeResponse(APIRequest.appletAPI.appletList(page, limit)) }
     }
 
 }

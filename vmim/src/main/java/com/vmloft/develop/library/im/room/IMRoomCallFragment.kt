@@ -9,25 +9,22 @@ import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.drakeet.multitype.MultiTypeAdapter
 
-import com.hyphenate.EMChatRoomChangeListener
-import com.hyphenate.chat.EMClient
-import com.hyphenate.chat.EMMessage
-
 import com.vmloft.develop.library.base.BFragment
 import com.vmloft.develop.library.base.BItemDelegate
 import com.vmloft.develop.library.base.event.LDEventBus
 import com.vmloft.develop.library.base.utils.errorBar
 import com.vmloft.develop.library.base.utils.showBar
-import com.vmloft.develop.library.image.IMGLoader
 import com.vmloft.develop.library.base.widget.CommonDialog
 import com.vmloft.develop.library.common.utils.JsonUtils
 import com.vmloft.develop.library.data.bean.Room
 import com.vmloft.develop.library.data.bean.User
 import com.vmloft.develop.library.data.common.CacheManager
 import com.vmloft.develop.library.data.common.SignManager
-import com.vmloft.develop.library.im.IM
+import com.vmloft.develop.library.image.IMGLoader
 import com.vmloft.develop.library.im.R
-import com.vmloft.develop.library.im.chat.IMChatManager
+import com.vmloft.develop.library.im.bean.IMMessage
+import com.vmloft.develop.library.im.bean.IMSignal
+import com.vmloft.develop.library.im.common.IMChatManager
 import com.vmloft.develop.library.im.common.IMConstants
 import com.vmloft.develop.library.im.databinding.ImFragmentRoomCallBinding
 import com.vmloft.develop.library.tools.utils.VMStr
@@ -63,7 +60,7 @@ class IMRoomCallFragment : BFragment<ImFragmentRoomCallBinding>() {
     // 房间信息
     lateinit var mRoom: Room
 
-    var roomListener: EMChatRoomChangeListener? = null
+//    var roomListener: EMChatRoomChangeListener? = null
 
     // 当前上麦用户信息
     var currMicUser: User? = null
@@ -126,7 +123,7 @@ class IMRoomCallFragment : BFragment<ImFragmentRoomCallBinding>() {
         initRecyclerView()
 
         // 监听申请上麦命令
-        LDEventBus.observe(this, IMConstants.Call.cmdRoomApplyMic, EMMessage::class.java) {
+        LDEventBus.observe(this, IMConstants.Call.signalRoomApplyMic, IMSignal::class.java) {
             onApplyMic(it)
         }
     }
@@ -139,7 +136,7 @@ class IMRoomCallFragment : BFragment<ImFragmentRoomCallBinding>() {
 
         mRoom = CacheManager.getRoom(chatId)
         // 判断下当前用户是不是 Owner
-        selfId = IM.getSelfId()
+        selfId = SignManager.getSignId()
         isOwner = selfId == mRoom.owner.id
 
         initRtcEngine()
@@ -212,20 +209,20 @@ class IMRoomCallFragment : BFragment<ImFragmentRoomCallBinding>() {
      * @param status 0-申请 1-同意 2-上麦 3-下麦 4-被踢下麦
      */
     private fun sendApplyMicMsg(status: Int, id: String = "") {
-        val msg = IMChatManager.createCMDMessage(IMConstants.Call.cmdRoomApplyMic, chatId)
-        msg.chatType = IMChatManager.wrapChatType(IMConstants.ChatType.imChatRoom)
-        msg.setAttribute(IMConstants.Call.msgAttrApplyMicStatus, status)
+        val signal = IMChatManager.createSignal(IMConstants.Call.signalRoomApplyMic, chatId)
+        signal.chatType = IMConstants.ChatType.imRoom
+        signal.setAttribute(IMConstants.Call.extRoomApplyMicStatus, status)
 
         if (status == IMConstants.Call.roomApplyMicStatusAgree) {
             // 同意之后带上同意上麦的用户 id
-            msg.setAttribute(IMConstants.Call.msgAttrApplyMicInfo, id)
+            signal.setAttribute(IMConstants.Call.extRoomApplyMicInfo, id)
         } else if (status == IMConstants.Call.roomApplyMicStatusUp) {
             // 房主同意之后，自己要发布上麦命令，把自己的信息发给其他用户
             if (!isOwner) {
-                currMicUser = SignManager.getCurrUser()
+                currMicUser = SignManager.getSignUser()
             }
             val info = JsonUtils.toJson(currMicUser)
-            msg.setAttribute(IMConstants.Call.msgAttrApplyMicInfo, info)
+            signal.setAttribute(IMConstants.Call.extRoomApplyMicInfo, info)
             bindGuest()
             upMic()
         } else if (status == IMConstants.Call.roomApplyMicStatusDown) {
@@ -239,14 +236,14 @@ class IMRoomCallFragment : BFragment<ImFragmentRoomCallBinding>() {
             bindGuest()
         }
 
-        IMChatManager.sendMessage(msg)
+        IMChatManager.sendSignal(signal)
     }
 
     /**
      * 处理申请上麦相关处理
      */
-    private fun onApplyMic(msg: EMMessage) {
-        val status = msg.getIntAttribute(IMConstants.Call.msgAttrApplyMicStatus)
+    private fun onApplyMic(msg: IMSignal) {
+        val status = msg.getIntAttribute(IMConstants.Call.extRoomApplyMicStatus)
 
         if (status == IMConstants.Call.roomApplyMicStatusApply && isOwner) {
             // 收到用户上麦申请
@@ -256,14 +253,14 @@ class IMRoomCallFragment : BFragment<ImFragmentRoomCallBinding>() {
                 mAdapter.notifyItemInserted(mItems.size - 1)
             }
         } else if (status == IMConstants.Call.roomApplyMicStatusAgree) {
-            val id = msg.getStringAttribute(IMConstants.Call.msgAttrApplyMicInfo)
+            val id = msg.getStringAttribute(IMConstants.Call.extRoomApplyMicInfo, "")
             // 收到房主同意上麦申请，这里要判断下是不是同意自己上麦，是自己的话就发送自己的信息到房间
             if (selfId == id) {
                 sendApplyMicMsg(IMConstants.Call.roomApplyMicStatusUp)
             }
         } else if (status == IMConstants.Call.roomApplyMicStatusUp) {
             // 收到用户上麦信息，保存下上麦用户的信息，并刷新 UI
-            val info = msg.getStringAttribute(IMConstants.Call.msgAttrApplyMicInfo, "")
+            val info = msg.getStringAttribute(IMConstants.Call.extRoomApplyMicInfo, "")
             currMicUser = JsonUtils.fromJson(info, User::class.java)
             bindGuest()
         } else if (status == IMConstants.Call.roomApplyMicStatusDown) {
@@ -330,42 +327,42 @@ class IMRoomCallFragment : BFragment<ImFragmentRoomCallBinding>() {
      * 聊天室 SDK 相关
      */
     private fun initListener() {
-        roomListener = object : EMChatRoomChangeListener {
-            override fun onChatRoomDestroyed(roomId: String?, roomName: String?) {
-                VMSystem.runInUIThread({
-                    showDestroyedDialog()
-                })
-            }
-
-            override fun onMemberJoined(roomId: String?, participant: String?) {
-                VMSystem.runInUIThread({
-                    mRoom.count++
-                    mBinding.imRoomCountTV.text = mRoom.count.toString()
-                })
-            }
-
-            override fun onMemberExited(roomId: String?, roomName: String?, participant: String?) {
-                VMSystem.runInUIThread({
-                    mRoom.count--
-                    if (mRoom.count <= 0) {
-                        mRoom.count = 1
-                    }
-                    mBinding.imRoomCountTV.text = mRoom.count.toString()
-                })
-            }
-
-            override fun onRemovedFromChatRoom(reason: Int, roomId: String?, roomName: String?, participant: String?) {}
-            override fun onMuteListAdded(chatRoomId: String?, mutes: MutableList<String>?, expireTime: Long) {}
-            override fun onMuteListRemoved(chatRoomId: String?, mutes: MutableList<String>?) {}
-            override fun onWhiteListAdded(chatRoomId: String?, whitelist: MutableList<String>?) {}
-            override fun onWhiteListRemoved(chatRoomId: String?, whitelist: MutableList<String>?) {}
-            override fun onAllMemberMuteStateChanged(chatRoomId: String?, isMuted: Boolean) {}
-            override fun onAdminAdded(chatRoomId: String?, admin: String?) {}
-            override fun onAdminRemoved(chatRoomId: String?, admin: String?) {}
-            override fun onOwnerChanged(chatRoomId: String?, newOwner: String?, oldOwner: String?) {}
-            override fun onAnnouncementChanged(chatRoomId: String?, announcement: String?) {}
-        }
-        EMClient.getInstance().chatroomManager().addChatRoomChangeListener(roomListener)
+//        roomListener = object : EMChatRoomChangeListener {
+//            override fun onChatRoomDestroyed(roomId: String?, roomName: String?) {
+//                VMSystem.runInUIThread({
+//                    showDestroyedDialog()
+//                })
+//            }
+//
+//            override fun onMemberJoined(roomId: String?, participant: String?) {
+//                VMSystem.runInUIThread({
+//                    mRoom.count++
+//                    mBinding.imRoomCountTV.text = mRoom.count.toString()
+//                })
+//            }
+//
+//            override fun onMemberExited(roomId: String?, roomName: String?, participant: String?) {
+//                VMSystem.runInUIThread({
+//                    mRoom.count--
+//                    if (mRoom.count <= 0) {
+//                        mRoom.count = 1
+//                    }
+//                    mBinding.imRoomCountTV.text = mRoom.count.toString()
+//                })
+//            }
+//
+//            override fun onRemovedFromChatRoom(reason: Int, roomId: String?, roomName: String?, participant: String?) {}
+//            override fun onMuteListAdded(chatRoomId: String?, mutes: MutableList<String>?, expireTime: Long) {}
+//            override fun onMuteListRemoved(chatRoomId: String?, mutes: MutableList<String>?) {}
+//            override fun onWhiteListAdded(chatRoomId: String?, whitelist: MutableList<String>?) {}
+//            override fun onWhiteListRemoved(chatRoomId: String?, whitelist: MutableList<String>?) {}
+//            override fun onAllMemberMuteStateChanged(chatRoomId: String?, isMuted: Boolean) {}
+//            override fun onAdminAdded(chatRoomId: String?, admin: String?) {}
+//            override fun onAdminRemoved(chatRoomId: String?, admin: String?) {}
+//            override fun onOwnerChanged(chatRoomId: String?, newOwner: String?, oldOwner: String?) {}
+//            override fun onAnnouncementChanged(chatRoomId: String?, announcement: String?) {}
+//        }
+//        EMClient.getInstance().chatroomManager().addChatRoomChangeListener(roomListener)
     }
 
     /**
@@ -443,8 +440,8 @@ class IMRoomCallFragment : BFragment<ImFragmentRoomCallBinding>() {
     }
 
     override fun onDestroy() {
-        EMClient.getInstance().chatroomManager().removeChatRoomListener(roomListener)
-        roomListener = null
+//        EMClient.getInstance().chatroomManager().removeChatRoomListener(roomListener)
+//        roomListener = null
         // 离开频道
         rtcEngine.leaveChannel()
 

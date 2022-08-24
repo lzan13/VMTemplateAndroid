@@ -16,8 +16,8 @@ import com.vmloft.develop.library.base.BActivity
 import com.vmloft.develop.library.base.event.LDEventBus
 import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.base.utils.errorBar
-import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.library.data.bean.User
+import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.library.tools.utils.VMSystem
 
 /**
@@ -41,7 +41,7 @@ class RewardVideoActivity : BActivity<ActivityRewardVideoBinding>() {
     override fun initData() {
         ARouter.getInstance().inject(this)
 
-        user = SignManager.getCurrUser()
+        user = SignManager.getSignUser()
 
         loadAD()
     }

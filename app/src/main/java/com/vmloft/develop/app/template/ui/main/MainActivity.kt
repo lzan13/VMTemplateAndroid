@@ -28,7 +28,9 @@ import com.vmloft.develop.library.base.BVMActivity
 import com.vmloft.develop.library.base.BViewModel
 import com.vmloft.develop.library.base.event.LDEventBus
 import com.vmloft.develop.library.base.router.CRouter
+import com.vmloft.develop.library.base.utils.FormatUtils
 import com.vmloft.develop.library.base.widget.CommonDialog
+import com.vmloft.develop.library.common.config.ConfigManager
 import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.library.data.bean.User
 import com.vmloft.develop.library.data.bean.Version
@@ -87,7 +89,9 @@ class MainActivity : BVMActivity<ActivityMainBinding, MainViewModel>() {
             fragmentList.run {
                 add(homeFragment)
                 add(exploreFragment)
-                add(msgFragment)
+                if (ConfigManager.appConfig.chatConfig.chatEntry) {
+                    add(msgFragment)
+                }
                 add(mineFragment)
             }
             currentFragment = fragmentList[currentTab]
@@ -104,7 +108,7 @@ class MainActivity : BVMActivity<ActivityMainBinding, MainViewModel>() {
 
         // 监听新消息过来，这里主要更新Tab未读
         LDEventBus.observe(this, IMConstants.Common.changeUnreadCount, Int::class.java) {
-            checkMsgUnread()
+            unreadChange(it)
         }
 
     }
@@ -114,9 +118,11 @@ class MainActivity : BVMActivity<ActivityMainBinding, MainViewModel>() {
 
         if (!SignManager.isSingIn()) return
 
+        val user = SignManager.getSignUser()
+        IMManager.signIn(user)
+
         mViewModel.userInfo()
 
-        checkMsgUnread()
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -143,12 +149,18 @@ class MainActivity : BVMActivity<ActivityMainBinding, MainViewModel>() {
         // mainNav.itemIconTintList = null
         mBinding.mainNav.setOnNavigationItemSelectedListener(onNavigationItemSelected)
 
+        if (!ConfigManager.appConfig.chatConfig.chatEntry) {
+            mBinding.mainNav.menu.removeItem(R.id.nav_msg)
+            return
+        }
+
         val msgNavMenu = mBinding.mainNav.getChildAt(0) as BottomNavigationMenuView
         val msgNavItem = msgNavMenu.getChildAt(2) as BottomNavigationItemView
         val unreadCL = LayoutInflater.from(this).inflate(R.layout.widget_unread_layout, msgNavItem, false)
         msgNavItem.addView(unreadCL)
 
         msgUnreadTV = unreadCL.findViewById(R.id.unreadTV) as TextView
+        msgUnreadTV.visibility = View.GONE
     }
 
     /**
@@ -159,7 +171,7 @@ class MainActivity : BVMActivity<ActivityMainBinding, MainViewModel>() {
             R.id.nav_home -> switchFragment(0)
             R.id.nav_explore -> switchFragment(1)
             R.id.nav_msg -> switchFragment(2)
-            R.id.nav_mine -> switchFragment(3)
+            R.id.nav_mine -> switchFragment(if (ConfigManager.appConfig.chatConfig.chatEntry) 3 else 2)
         }
         true
     }
@@ -208,7 +220,9 @@ class MainActivity : BVMActivity<ActivityMainBinding, MainViewModel>() {
         fragmentList.run {
             add(homeFragment)
             add(exploreFragment)
-            add(msgFragment)
+            if (ConfigManager.appConfig.chatConfig.chatEntry) {
+                add(msgFragment)
+            }
             add(mineFragment)
         }
     }
@@ -230,18 +244,26 @@ class MainActivity : BVMActivity<ActivityMainBinding, MainViewModel>() {
         }
     }
 
-    /**
-     * 检查消息未读
-     */
-    private fun checkMsgUnread() {
-        val unreadCount = IMManager.getUnreadCount()
-        val unreadStr = if (unreadCount > 99) {
-            "99+"
-        } else {
-            unreadCount.toString()
+    override fun onModelError(model: BViewModel.UIModel) {
+        if (model.type == "userInfo" && model.code == 404) {
+            // 清空登录信息统一交给 Main 界面处理
+            SignManager.signOut()
+            IMManager.signOut()
+            if (!SignManager.isSingIn()) {
+                CRouter.go(AppRouter.appSignGuide)
+                finish()
+                return
+            }
         }
-        msgUnreadTV.text = unreadStr
-        msgUnreadTV.visibility = if (unreadCount > 0) View.VISIBLE else View.GONE
+    }
+
+    /**
+     * 消息未读改变
+     */
+    private fun unreadChange(unread: Int) {
+        if (!ConfigManager.appConfig.chatConfig.chatEntry) return
+        msgUnreadTV.text = FormatUtils.wrapUnread(unread)
+        msgUnreadTV.visibility = if (unread > 0) View.VISIBLE else View.GONE
     }
 
 

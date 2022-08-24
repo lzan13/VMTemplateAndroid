@@ -1,16 +1,12 @@
 package com.vmloft.develop.library.im.chat
 
 import android.media.MediaPlayer
-import android.media.MediaRecorder
 import android.widget.ImageView
 
-import com.hyphenate.chat.EMMessage
-import com.hyphenate.chat.EMVoiceMessageBody
 import com.vmloft.develop.library.im.R
+import com.vmloft.develop.library.im.bean.IMMessage
 import com.vmloft.develop.library.tools.utils.logger.VMLog
-
 import com.vmloft.develop.library.tools.widget.VMWaveView
-import com.vmloft.develop.library.tools.widget.record.VMRecorder
 
 /**
  * Create by lzan13 on 2022/7/3
@@ -18,7 +14,7 @@ import com.vmloft.develop.library.tools.widget.record.VMRecorder
  */
 object IMVoiceManager {
 
-    private var currMessage: EMMessage? = null // 当前播放的消息
+    private var currMessage: IMMessage? = null // 当前播放的消息
     private var currPlayIV: ImageView? = null // 当前播放的图标
     private var currWaveView: VMWaveView? = null // 当前播放的波形图
 
@@ -47,7 +43,7 @@ object IMVoiceManager {
     /**
      * 准备播放
      */
-    fun preparePlay(msg: EMMessage, playIV: ImageView, waveView: VMWaveView) {
+    fun preparePlay(msg: IMMessage, playIV: ImageView, waveView: VMWaveView) {
         // 如果是同一个，则不处理停止，因为stop会重置，这里要放在前边
         if (msg == currMessage) {
             stop()
@@ -64,11 +60,12 @@ object IMVoiceManager {
         currPlayIV = playIV
         currWaveView = waveView
 
-        val body = msg.body as EMVoiceMessageBody
-
-        // 设置音源并异步准备
-        mediaPlayer?.setDataSource(playIV.context, body.localUri)
-        mediaPlayer?.prepareAsync()
+        val attachment = msg.attachments[0]
+        attachment.uri?.let {
+            // 设置音源并异步准备
+            mediaPlayer?.setDataSource(playIV.context, it)
+            mediaPlayer?.prepareAsync()
+        }
     }
 
     /**

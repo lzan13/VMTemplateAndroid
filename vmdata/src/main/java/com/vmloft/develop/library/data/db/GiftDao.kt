@@ -16,18 +16,30 @@ interface GiftDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(vararg gift: Gift)
 
+    /**
+     * 删除指定数据
+     */
     @Delete
     suspend fun delete(gift: Gift)
 
+    /**
+     * 清空数据
+     */
     @Query("DELETE FROM gift")
-    suspend fun delete()
+    suspend fun clear()
 
 //    @Update
 //    suspend fun update(gift: Gift)
 
+    /**
+     * 查询指定数据
+     */
     @Query("SELECT * FROM gift WHERE id = :id")
     suspend fun query(id: String): Gift?
 
+    /**
+     * 查询全部数据
+     */
     @Query("SELECT *  FROM gift")
     suspend fun all(): List<Gift>
 }

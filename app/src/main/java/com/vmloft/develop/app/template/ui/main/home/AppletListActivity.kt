@@ -65,7 +65,7 @@ class AppletListActivity : BVMActivity<ActivityCommonListBinding, AppletViewMode
     override fun initData() {
         ARouter.getInstance().inject(this)
 
-        user = SignManager.getCurrUser()
+        user = SignManager.getSignUser()
 
         mBinding.refreshLayout.autoRefresh()
     }
@@ -164,7 +164,7 @@ class AppletListActivity : BVMActivity<ActivityCommonListBinding, AppletViewMode
      * 点击处理
      */
     private fun itemClick(applet: Applet, detail: Boolean = false) {
-        if (detail || (ConfigManager.clientConfig.tradeConfig.vipEntry && applet.isNeedVIP && user.role.identity < 100)) {
+        if (detail || (ConfigManager.appConfig.tradeConfig.vipEntry && applet.isNeedVIP && user.role.identity < 100)) {
             // 开启了 VIP 入口 & 需要 VIP 资格 & 当前用户非 VIP 则跳转详情
             CRouter.go(AppRouter.appAppletDetail, obj0 = applet)
         } else {

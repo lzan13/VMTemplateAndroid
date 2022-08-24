@@ -23,9 +23,10 @@ data class Order(
     var payType: Int = 0, // 支付类型 0-微信 1-支付宝，支付成功才会有
     var remarks: String = "", // 订单备注
     var extend: String = "", // 其他扩展
-    var updatedAt: String = "",
-    var createdAt: String = "",
+    var createdAt: Long = 0,
+    var updatedAt: Long = 0,
 ) : Parcelable {
+
     override fun equals(other: Any?): Boolean {
         (other as? Order)?.let {
             return it.id == this.id

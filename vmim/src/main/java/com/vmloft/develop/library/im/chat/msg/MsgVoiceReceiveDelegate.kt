@@ -3,9 +3,7 @@ package com.vmloft.develop.library.im.chat.msg
 import android.view.LayoutInflater
 import android.view.ViewGroup
 
-import com.hyphenate.chat.EMMessage
-import com.hyphenate.chat.EMVoiceMessageBody
-
+import com.vmloft.develop.library.im.bean.IMMessage
 import com.vmloft.develop.library.im.chat.IMVoiceManager
 import com.vmloft.develop.library.im.databinding.ImItemMsgVoiceReceiveDelegateBinding
 import com.vmloft.develop.library.tools.utils.VMDimen
@@ -14,17 +12,17 @@ import com.vmloft.develop.library.tools.utils.VMDimen
  * Create by lzan13 on 2021/01/05 17:56
  * 描述：展示文本消息 Item
  */
-class MsgVoiceReceiveDelegate(longListener: BItemLongListener<EMMessage>) : MsgCommonDelegate<ImItemMsgVoiceReceiveDelegateBinding>(longListener = longListener) {
+class MsgVoiceReceiveDelegate(longListener: BItemLongListener<IMMessage>) : MsgCommonDelegate<ImItemMsgVoiceReceiveDelegateBinding>(longListener = longListener) {
 
     override fun initVB(inflater: LayoutInflater, parent: ViewGroup) = ImItemMsgVoiceReceiveDelegateBinding.inflate(inflater, parent, false)
 
-    override fun onBindView(holder: BItemHolder<ImItemMsgVoiceReceiveDelegateBinding>, item: EMMessage) {
+    override fun onBindView(holder: BItemHolder<ImItemMsgVoiceReceiveDelegateBinding>, item: IMMessage) {
         super.onBindView(holder, item)
 
-        val body = item.body as EMVoiceMessageBody
-        holder.binding.imMsgVoiceTimeTV.text = "${body.length / 1000}''"
+        val attachment = item.attachments[0]
+        holder.binding.imMsgVoiceTimeTV.text = "${attachment.duration / 1000}''"
 
-        changeWaveWidth(holder, body.length)
+        changeWaveWidth(holder, attachment.duration)
 
         holder.binding.imMsgContentLL.setOnClickListener {
             IMVoiceManager.preparePlay(item, holder.binding.imMsgVoicePlayIV, holder.binding.imMsgWaveView)

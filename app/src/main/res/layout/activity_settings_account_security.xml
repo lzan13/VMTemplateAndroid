@@ -28,4 +28,12 @@
         app:vm_line_description="@string/update_password_desc"
         app:vm_line_title="@string/update_password"
         app:vm_line_title_color="@color/app_main" />
+
+    <!--认证状态-->
+    <com.vmloft.develop.library.tools.widget.VMLineView
+        android:id="@+id/infoAuthStatusLV"
+        style="@style/AppLVStyle.NoDecoration"
+        android:layout_marginTop="@dimen/vm_dimen_8"
+        app:vm_line_description="@string/auth_hint"
+        app:vm_line_title="@string/real_name_auth" />
 </LinearLayout>

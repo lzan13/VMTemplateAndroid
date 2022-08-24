@@ -87,9 +87,6 @@ class SignInByCodeFragment : BVMFragment<FragmentSignInByCodeBinding, SignViewMo
             // 请求验证码成功
             mBinding.codeBtn.startTimer()
         }else if (model.type == "signInBySMS") {
-            // 这里直接调用下 IM 的登录，不影响页面的继续
-            mViewModel.signInIM()
-        } else if (model.type == "signInIM") {
             // 登录成功，跳转到主页
             CRouter.goMain()
             LDEventBus.post(Constants.Event.finishPrev)

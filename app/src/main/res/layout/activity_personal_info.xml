@@ -70,12 +70,6 @@
                 android:id="@+id/infoEmailLV"
                 style="@style/AppLVStyle"
                 app:vm_line_title="@string/info_email" />
-            <!--认证状态-->
-            <com.vmloft.develop.library.tools.widget.VMLineView
-                android:id="@+id/infoAuthStatusLV"
-                style="@style/AppLVStyle"
-                android:visibility="gone"
-                app:vm_line_title="@string/info_auth" />
             <!--地址-->
             <com.vmloft.develop.library.tools.widget.VMLineView
                 android:id="@+id/infoAddressLV"

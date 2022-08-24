@@ -92,7 +92,7 @@
         android:layout_width="@dimen/vm_dimen_32"
         android:layout_height="@dimen/vm_dimen_32"
         android:layout_marginEnd="-4dp"
-        android:padding="@dimen/vm_dimen_4"
+        android:padding="@dimen/vm_dimen_8"
         android:src="@drawable/ic_like_line"
         app:layout_constraintEnd_toStartOf="@+id/likeTV"
         app:layout_constraintTop_toTopOf="@+id/avatarIV"

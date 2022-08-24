@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
+    id 'org.jetbrains.kotlin.android'
 }
 
 // 获取配置信息
@@ -16,8 +17,8 @@ android {
         targetSdk configs.targetSdkVersion
 
         // 通过配置文件设置请求 API 地址
-        buildConfigField("String", "baseDebugUrl", configs.baseDebugUrl)
-        buildConfigField("String", "baseReleaseUrl", configs.baseReleaseUrl)
+        buildConfigField("String", "baseUrlDebug", configs.baseUrlDebug)
+        buildConfigField("String", "baseUrlRelease", configs.baseUrlRelease)
         // 资源文件 url 地址
         buildConfigField("String", "mediaUrl", configs.mediaUrl)
     }

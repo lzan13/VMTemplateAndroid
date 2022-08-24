@@ -14,11 +14,13 @@ import android.provider.Settings
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-
 import com.vmloft.develop.library.base.R
+
+import com.vmloft.develop.library.base.common.CConstants
 import com.vmloft.develop.library.base.common.CSPManager
 import com.vmloft.develop.library.tools.VMTools
 import com.vmloft.develop.library.tools.utils.VMStr
+import com.vmloft.develop.library.tools.utils.VMSystem
 import com.vmloft.develop.library.tools.utils.logger.VMLog
 
 /**
@@ -81,8 +83,8 @@ object NotifyManager {
         val builder: NotificationCompat.Builder = getBuilder(notifyMsgChannelId)
 
         // 通知标题
-        if (title.isNullOrEmpty()) {
-            builder.setContentTitle(VMStr.byRes(R.string.app_name))
+        if (title.isEmpty()) {
+            builder.setContentTitle(VMSystem.appName)
         } else {
             builder.setContentTitle(title)
         }
@@ -101,7 +103,7 @@ object NotifyManager {
         val intent = Intent(VMTools.context, NotifyActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         if (bundle != null) {
-            intent.putExtra("params", bundle)
+            intent.putExtra(CConstants.Notify.notifyParams, bundle)
         }
 //        val pendingIntent = PendingIntent.getBroadcast(VMTools.context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         val pendingIntent = PendingIntent.getActivity(VMTools.context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
@@ -120,8 +122,8 @@ object NotifyManager {
         val builder: NotificationCompat.Builder = getBuilder(notifyKeepAliveChannelId)
 
         // 通知标题
-        if (title.isNullOrEmpty()) {
-            builder.setContentTitle(VMStr.byRes(R.string.app_name))
+        if (title.isEmpty()) {
+            builder.setContentTitle(VMSystem.appName)
         } else {
             builder.setContentTitle(title)
         }

@@ -189,9 +189,8 @@ class RoomListActivity : BVMActivity<ActivityRoomListBinding, RoomViewModel>() {
      */
     private fun exitRoom() {
         val room = CacheManager.getLastRoom() ?: return
-        val user = SignManager.getCurrUser()
         // 检查下是不是自己创建的房间
-        if (room.owner.id == user.id) {
+        if (room.owner.id == SignManager.getSignId()) {
             mViewModel.destroyRoom(room.id)
         } else {
             // 2.只是退出，置空下最后加入的房间就好

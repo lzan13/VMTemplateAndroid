@@ -30,6 +30,7 @@ import com.vmloft.develop.library.base.utils.showBar
 import com.vmloft.develop.library.data.bean.Attachment
 import com.vmloft.develop.library.data.bean.Category
 import com.vmloft.develop.library.data.bean.Post
+import com.vmloft.develop.library.data.common.DSPManager
 import com.vmloft.develop.library.data.viewmodel.PostViewModel
 import com.vmloft.develop.library.image.IMGChoose
 import com.vmloft.develop.library.image.IMGLoader
@@ -106,6 +107,7 @@ class PostCreateActivity : BVMActivity<ActivityPostCreateBinding, PostViewModel>
             submit(model.data as Attachment)
         } else if (model.type == "createPost") {
             showBar(R.string.post_success_hint)
+            DSPManager.setPublishPostTime(System.currentTimeMillis())
             val post = model.data as Post
             LDEventBus.post(Constants.Event.createPost, post)
             VMSystem.runInUIThread({ finish() }, CConstants.timeSecond)

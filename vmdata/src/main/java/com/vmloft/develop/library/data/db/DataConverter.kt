@@ -9,7 +9,7 @@ import com.vmloft.develop.library.data.bean.User
 
 /**
  * Create by lzan13 on 2021/7/11
- * 描述：匹配数据转换器，主要是为了解决 Room 保存嵌套对象内部数据问题
+ * 描述：数据转换器，主要是为了解决 Room 保存嵌套对象内部数据问题
  */
 class DataConverter {
 

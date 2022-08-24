@@ -1,4 +1,4 @@
-package com.vmloft.develop.app.template.ui.main.mine.info
+package com.vmloft.develop.app.template.ui.settings
 
 import android.text.Editable
 import android.text.TextUtils
@@ -13,6 +13,8 @@ import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.base.BVMActivity
 import com.vmloft.develop.library.base.BViewModel
 import com.vmloft.develop.library.base.utils.errorBar
+import com.vmloft.develop.library.data.bean.User
+import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.library.tools.utils.VMReg
 import com.vmloft.develop.library.tools.utils.VMStr
 
@@ -34,7 +36,7 @@ class PersonalAuthActivity : BVMActivity<ActivityPersonalAuthBinding, UserViewMo
 
     override fun initUI() {
         super.initUI()
-        setTopTitle(R.string.personal_auth)
+        setTopTitle(R.string.real_name_auth)
 
         setTopEndBtnEnable(false)
         setTopEndBtnListener(VMStr.byRes(R.string.btn_confirm)) { submit() }
@@ -62,6 +64,7 @@ class PersonalAuthActivity : BVMActivity<ActivityPersonalAuthBinding, UserViewMo
     }
 
     override fun onModelRefresh(model: BViewModel.UIModel) {
+        SignManager.setSignUser(model.data as User)
         finish()
     }
 
@@ -84,6 +87,6 @@ class PersonalAuthActivity : BVMActivity<ActivityPersonalAuthBinding, UserViewMo
             return errorBar(R.string.auth_id_card_number_error)
         }
 
-        mViewModel.personalAuth(realName, idCardNumber)
+        mViewModel.realAuth(realName, idCardNumber)
     }
 }

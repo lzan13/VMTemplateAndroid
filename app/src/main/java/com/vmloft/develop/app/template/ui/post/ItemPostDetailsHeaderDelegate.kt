@@ -28,8 +28,6 @@ class ItemPostDetailsHeaderDelegate(listener: PostItemListener, longListener: BI
     override fun initVB(inflater: LayoutInflater, parent: ViewGroup) = ItemPostDetailsHeaderDelegateBinding.inflate(inflater, parent, false)
 
     override fun onBindView(holder: BItemHolder<ItemPostDetailsHeaderDelegateBinding>, item: Post) {
-        val user = SignManager.getCurrUser()
-
         holder.binding.coverIV.visibility = if (item.attachments.size > 0) View.VISIBLE else View.GONE
         if (item.attachments.size > 0) {
             updateCoverRatio(holder.binding.coverIV, item.attachments[0])
@@ -40,7 +38,7 @@ class ItemPostDetailsHeaderDelegate(listener: PostItemListener, longListener: BI
 
         IMGLoader.loadAvatar(holder.binding.avatarIV, item.owner.avatar)
         holder.binding.avatarIV.setOnClickListener {
-            if (item.owner.id == user?.id) {
+            if (item.owner.id == SignManager.getSignId()) {
                 CRouter.go(AppRouter.appPersonalInfo)
             } else {
                 CRouter.go(AppRouter.appUserInfo, obj0 = item.owner)
@@ -62,8 +60,8 @@ class ItemPostDetailsHeaderDelegate(listener: PostItemListener, longListener: BI
         }
         holder.binding.nameTV.text = item.owner.nickname
         // 身份
-        if (ConfigManager.clientConfig.tradeConfig.vipEntry && item.owner.role.identity in 100..199) {
-            holder.binding.nameTV.setTextColor(VMColor.byRes(R.color.app_identity_vip))
+        if (ConfigManager.appConfig.tradeConfig.vipEntry && item.owner.role.identity in 100..199) {
+            holder.binding.nameTV.setTextColor(VMColor.byRes(R.color.app_identity_special))
             holder.binding.identityIV.visibility = View.VISIBLE
         } else {
             holder.binding.identityIV.visibility = View.GONE
@@ -79,7 +77,7 @@ class ItemPostDetailsHeaderDelegate(listener: PostItemListener, longListener: BI
         holder.binding.contentTV.text = item.content
         holder.binding.commentTitleTV.text = VMStr.byResArgs(R.string.comment_count, item.commentCount)
 
-        if (item.owner.id == user?.id) {
+        if (item.owner.id == SignManager.getSignId()) {
             holder.binding.reportTV.setText(R.string.content_delete)
             holder.binding.likeIV.visibility = View.GONE
             holder.binding.likeTV.visibility = View.GONE

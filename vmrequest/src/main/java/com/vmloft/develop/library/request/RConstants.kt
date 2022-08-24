@@ -13,9 +13,9 @@ object RConstants {
      */
     fun baseHost(): String {
         return if (CSPManager.isDebug()) {
-            BuildConfig.baseDebugUrl
+            BuildConfig.baseUrlDebug
         } else {
-            BuildConfig.baseReleaseUrl
+            BuildConfig.baseUrlRelease
         }
     }
 

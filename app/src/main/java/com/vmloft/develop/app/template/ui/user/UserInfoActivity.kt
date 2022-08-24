@@ -22,6 +22,7 @@ import com.vmloft.develop.library.base.BVMActivity
 import com.vmloft.develop.library.base.BViewModel
 import com.vmloft.develop.library.base.common.CSPManager
 import com.vmloft.develop.library.base.router.CRouter
+import com.vmloft.develop.library.base.utils.FormatUtils
 import com.vmloft.develop.library.base.widget.CommonDialog
 import com.vmloft.develop.library.common.config.ConfigManager
 import com.vmloft.develop.library.data.bean.User
@@ -30,6 +31,7 @@ import com.vmloft.develop.library.data.viewmodel.UserViewModel
 import com.vmloft.develop.library.gift.GiftRouter
 import com.vmloft.develop.library.image.IMGLoader
 import com.vmloft.develop.library.tools.utils.VMColor
+import com.vmloft.develop.library.tools.utils.VMDate
 import com.vmloft.develop.library.tools.utils.VMDimen
 import com.vmloft.develop.library.tools.utils.VMStr
 import com.vmloft.develop.library.tools.widget.guide.GuideItem
@@ -84,7 +86,7 @@ class UserInfoActivity : BVMActivity<ActivityUserInfoBinding, UserViewModel>() {
             if (selfUser.avatar.isNullOrEmpty() || selfUser.nickname.isNullOrEmpty()) {
                 CRouter.go(AppRouter.appPersonalInfoGuide)
             } else {
-                IMManager.goChat(user.id)
+                goChat()
             }
         }
 
@@ -93,7 +95,7 @@ class UserInfoActivity : BVMActivity<ActivityUserInfoBinding, UserViewModel>() {
     override fun initData() {
         ARouter.getInstance().inject(this)
 
-        selfUser = SignManager.getCurrUser()
+        selfUser = SignManager.getSignUser()
 
         mViewModel.userInfo(user.id)
 
@@ -180,8 +182,8 @@ class UserInfoActivity : BVMActivity<ActivityUserInfoBinding, UserViewModel>() {
 
         IMGLoader.loadAvatar(mBinding.infoAvatarIV, user.avatar)
         // 身份
-        if (ConfigManager.clientConfig.tradeConfig.vipEntry && user.role.identity in 100..199) {
-            mBinding.infoNameTV.setTextColor(VMColor.byRes(R.color.app_identity_vip))
+        if (ConfigManager.appConfig.tradeConfig.vipEntry && user.role.identity in 100..199) {
+            mBinding.infoNameTV.setTextColor(VMColor.byRes(R.color.app_identity_special))
             mBinding.infoIdentityIV.visibility = View.VISIBLE
         } else {
             mBinding.infoIdentityIV.visibility = View.GONE
@@ -202,9 +204,29 @@ class UserInfoActivity : BVMActivity<ActivityUserInfoBinding, UserViewModel>() {
         mBinding.infoLikeTV.text = user.likeCount.toString()
         mBinding.infoFollowTV.text = user.followCount.toString()
         mBinding.infoFansTV.text = user.fansCount.toString()
-        mBinding.infoSendIV.visibility = if (user.strangerMsg) View.VISIBLE else View.GONE
+
+        mBinding.infoGiftIV.visibility = if (ConfigManager.appConfig.chatConfig.giftEntry) View.VISIBLE else View.GONE
+        if (ConfigManager.appConfig.chatConfig.chatEntry) {
+            mBinding.infoSendIV.visibility = if (user.strangerMsg) View.VISIBLE else View.GONE
+        } else {
+            mBinding.infoSendIV.visibility = View.GONE
+        }
 
         setupFollowStatus()
+    }
+
+    private fun goChat() {
+        if (selfUser.banned == 1 && selfUser.bannedTime > VMDate.currentMilli()) {
+            mDialog = CommonDialog(this)
+            (mDialog as CommonDialog).let { dialog ->
+                dialog.setContent(VMStr.byResArgs(R.string.tips_banned, selfUser.bannedReason, FormatUtils.defaultTime(selfUser.bannedTime)))
+                dialog.setNegative("")
+                dialog.setPositive(VMStr.byRes(R.string.btn_i_known))
+                dialog.show()
+            }
+            return
+        }
+        IMManager.goChat(user.id)
     }
 
     private fun setupFollowStatus() {

@@ -15,6 +15,7 @@ import com.vmloft.develop.library.base.event.LDEventBus
 import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.base.utils.errorBar
 import com.vmloft.develop.library.base.widget.decoration.StaggeredItemDecoration
+import com.vmloft.develop.library.common.config.ConfigManager
 import com.vmloft.develop.library.data.bean.Gift
 import com.vmloft.develop.library.data.bean.User
 import com.vmloft.develop.library.data.common.DConstants
@@ -75,7 +76,7 @@ class GiftFragment : BVMFragment<FragmentGiftBinding, GiftViewModel>() {
     override fun initData() {
         userId = requireArguments().getString(argUserId) ?: ""
 
-        selfUser = SignManager.getCurrUser()
+        selfUser = SignManager.getSignUser()
 
         mViewModel.giftList()
 
@@ -126,7 +127,13 @@ class GiftFragment : BVMFragment<FragmentGiftBinding, GiftViewModel>() {
     }
 
     private fun bindInfo() {
-        mBinding.scoreTV.text = selfUser.score.toString()
+        mBinding.scoreTV.text = if (selfUser.score > 9999) {
+            "${selfUser.score / 10000}万"
+        } else {
+            selfUser.score.toString()
+        }
+
+        mBinding.goRechargeTV.visibility = if (ConfigManager.appConfig.tradeConfig.tradeEntry && selfUser.role.identity > 8) View.VISIBLE else View.GONE
     }
 
     /**
@@ -163,7 +170,7 @@ class GiftFragment : BVMFragment<FragmentGiftBinding, GiftViewModel>() {
      */
     private fun giftGiveSuccess() {
         selfUser.score -= currGift!!.price * 1
-        SignManager.setCurrUser(selfUser)
+        SignManager.setSignUser(selfUser)
         bindInfo()
 
         LDEventBus.post(DConstants.Event.giftGive, currGift!!)

@@ -1,5 +1,6 @@
 package com.vmloft.develop.library.data.bean
 
+import android.net.Uri
 import android.os.Parcelable
 
 import com.google.gson.annotations.SerializedName
@@ -13,12 +14,14 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Attachment(
     @SerializedName("_id")
-    val id: String = "", // 附件 id
-    val desc: String = "", // 附件描述
-    val duration: Int = 0, // 附件时长，video/voice 有值
-    val extname: String = "", // 附件扩展名
-    val path: String = "", // 附件地址
-    val width: Int = 0, // 附件宽
-    val height: Int = 0, // 附件高
+    var id: String = "", // 附件 id
+    var desc: String = "", // 附件描述
+    var duration: Int = 0, // 附件时长，video/voice 有值
+    var extname: String = "", // 附件扩展名
+    var path: String = "", // 附件地址
+    var width: Int = 0, // 附件宽
+    var height: Int = 0, // 附件高
+
+    var uri: Uri? = null, // 本地文件，上传前用
 ) : Parcelable {
 }

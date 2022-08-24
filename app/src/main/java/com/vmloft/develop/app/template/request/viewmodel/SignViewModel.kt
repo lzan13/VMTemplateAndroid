@@ -2,11 +2,10 @@ package com.vmloft.develop.app.template.request.viewmodel
 
 import androidx.lifecycle.viewModelScope
 
+import com.vmloft.develop.library.base.BViewModel
 import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.library.data.bean.User
 import com.vmloft.develop.library.data.repository.SignRepository
-import com.vmloft.develop.app.template.im.IMManager
-import com.vmloft.develop.library.base.BViewModel
 import com.vmloft.develop.library.request.RResult
 
 import kotlinx.coroutines.Dispatchers
@@ -28,7 +27,7 @@ class SignViewModel(private val repo: SignRepository) : BViewModel() {
             if (result is RResult.Success && result.data != null && result.data is User) {
                 // 注册成功存储下登录信息
                 SignManager.setToken(result.data!!.token)
-                SignManager.setCurrUser(result.data)
+                SignManager.setSignUser(result.data)
                 emitUIState(data = result.data, type = "signUpByDevicesId")
                 return@launch
             } else if (result is RResult.Error) {
@@ -48,7 +47,7 @@ class SignViewModel(private val repo: SignRepository) : BViewModel() {
             if (result is RResult.Success && result.data != null && result.data is User) {
                 // 注册成功存储下登录信息
                 SignManager.setToken(result.data!!.token)
-                SignManager.setCurrUser(result.data)
+                SignManager.setSignUser(result.data)
                 emitUIState(data = result.data, type = "signUpByEmail")
                 return@launch
             } else if (result is RResult.Error) {
@@ -68,7 +67,7 @@ class SignViewModel(private val repo: SignRepository) : BViewModel() {
             if (result is RResult.Success && result.data != null && result.data is User) {
                 // 注册成功存储下登录信息
                 SignManager.setToken(result.data!!.token)
-                SignManager.setCurrUser(result.data)
+                SignManager.setSignUser(result.data)
                 emitUIState(data = result.data, type = "signUpByPhone")
                 return@launch
             } else if (result is RResult.Error) {
@@ -87,7 +86,7 @@ class SignViewModel(private val repo: SignRepository) : BViewModel() {
             if (result is RResult.Success && result.data != null && result.data is User) {
                 // 登录成功存储下登录信息
                 SignManager.setToken(result.data!!.token)
-                SignManager.setCurrUser(result.data)
+                SignManager.setSignUser(result.data)
                 emitUIState(data = result.data, type = "signIn")
                 return@launch
             } else if (result is RResult.Error) {
@@ -106,7 +105,7 @@ class SignViewModel(private val repo: SignRepository) : BViewModel() {
             if (result is RResult.Success && result.data != null && result.data is User) {
                 // 登录成功存储下登录信息
                 SignManager.setToken(result.data!!.token)
-                SignManager.setCurrUser(result.data)
+                SignManager.setSignUser(result.data)
                 emitUIState(data = result.data, type = "signInByDevicesId")
                 return@launch
             } else if (result is RResult.Error) {
@@ -125,7 +124,7 @@ class SignViewModel(private val repo: SignRepository) : BViewModel() {
             if (result is RResult.Success && result.data != null && result.data is User) {
                 // 登录成功存储下登录信息
                 SignManager.setToken(result.data!!.token)
-                SignManager.setCurrUser(result.data)
+                SignManager.setSignUser(result.data)
                 emitUIState(data = result.data, type = "signInByCode")
                 return@launch
             } else if (result is RResult.Error) {
@@ -183,20 +182,4 @@ class SignViewModel(private val repo: SignRepository) : BViewModel() {
         }
     }
 
-    /**
-     * -------------------------------------------------------
-     * 登录 IM 账户，im 的注册在业务服务器调用，客户端只有登录接口
-     */
-    fun signInIM() {
-        viewModelScope.launch(Dispatchers.Main) {
-            emitUIState(true)
-            val result = IMManager.signIn()
-            if (result is RResult.Success) {
-                emitUIState(type = "signInIM")
-                return@launch
-            } else if (result is RResult.Error) {
-                emitUIState(isSuccess = false, code = result.code, error = result.error)
-            }
-        }
-    }
 }

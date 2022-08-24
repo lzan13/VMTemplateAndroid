@@ -34,8 +34,8 @@ class ItemPostDetailsCommentDelegate(listener: CommentItemListener, longListener
         val nickname = if (item.owner.nickname.isNullOrEmpty()) VMStr.byRes(R.string.info_nickname_default) else item.owner.nickname
         holder.binding.nameTV.text = nickname
         // 身份
-        if (ConfigManager.clientConfig.tradeConfig.vipEntry && item.owner.role.identity in 100..199) {
-            holder.binding.nameTV.setTextColor(VMColor.byRes(R.color.app_identity_vip))
+        if (ConfigManager.appConfig.tradeConfig.vipEntry && item.owner.role.identity in 100..199) {
+            holder.binding.nameTV.setTextColor(VMColor.byRes(R.color.app_identity_special))
             holder.binding.identityIV.visibility = View.VISIBLE
         } else {
             holder.binding.identityIV.visibility = View.GONE

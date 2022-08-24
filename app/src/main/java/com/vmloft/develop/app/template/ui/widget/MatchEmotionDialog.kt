@@ -39,6 +39,7 @@ class MatchEmotionDialog(context: Context) : VMBDialog<WidgetMatchEmotionDialogB
         mBinding.emotionSadLL.setOnClickListener { changeMatchEmotion(2) }
         mBinding.emotionAngerLL.setOnClickListener { changeMatchEmotion(3) }
 
+        mBinding.cancelTV.setOnClickListener { dismiss() }
         mBinding.submitTV.setOnClickListener { saveMatchEmotion() }
 
         mBinding.contentET.addTextChangedListener(object : TextWatcher {

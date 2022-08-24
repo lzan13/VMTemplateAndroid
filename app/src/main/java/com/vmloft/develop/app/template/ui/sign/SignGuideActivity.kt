@@ -37,7 +37,7 @@ class SignGuideActivity : BVMActivity<ActivitySignGuideBinding, SignViewModel>()
     override fun initUI() {
         super.initUI()
         setTopIcon(R.drawable.ic_close)
-        setTopTitle(R.string.sign_welcome_to_join)
+        setTopTitle(R.string.sign_welcome_to_back)
 
         setTopEndIcon(R.drawable.ic_info) { CRouter.go(AppRouter.appSettingsAbout) }
 
@@ -61,7 +61,12 @@ class SignGuideActivity : BVMActivity<ActivitySignGuideBinding, SignViewModel>()
 
     override fun initData() {
         devicesId = VMSystem.deviceId()
-        password = SignManager.getPrevUser()?.password ?: VMStr.toMD5("123456")
+        val historyUser = SignManager.getHistoryUser()
+        password = if (historyUser == null || historyUser.devicesId != devicesId) {
+            VMStr.toMD5("123123")
+        } else {
+            historyUser.password.ifEmpty { VMStr.toMD5("123123") }
+        }
     }
 
     override fun onModelLoading(model: BViewModel.UIModel) {
@@ -71,9 +76,7 @@ class SignGuideActivity : BVMActivity<ActivitySignGuideBinding, SignViewModel>()
 
     override fun onModelRefresh(model: BViewModel.UIModel) {
         if (model.type == "signInByDevicesId" || model.type == "signUpByDevicesId") {
-            // 这里直接调用下 IM 的登录，不影响页面的继续
-            mViewModel.signInIM()
-        } else if (model.type == "signInIM") {
+            // 登录成功，跳转到主页
             CRouter.goMain()
             finish()
         }

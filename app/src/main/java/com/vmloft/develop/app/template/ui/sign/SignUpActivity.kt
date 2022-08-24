@@ -106,9 +106,6 @@ class SignUpActivity : BVMActivity<ActivitySignUpBinding, SignViewModel>() {
 
     override fun onModelRefresh(model: BViewModel.UIModel) {
         if (model.type == "signUpByPhone" || model.type == "signUpByEmail") {
-            // 这里直接调用下 IM 的登录，不影响页面的继续
-            mViewModel.signInIM()
-        } else if (model.type == "signInIM") {
             // 登录成功，跳转到主页
             CRouter.goMain()
             LDEventBus.post(Constants.Event.finishPrev)

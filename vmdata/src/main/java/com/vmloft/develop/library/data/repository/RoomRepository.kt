@@ -16,14 +16,14 @@ class RoomRepository : BaseRepository() {
      * 创建
      */
     suspend fun createRoom(title: String, desc: String, owner: String = ""): RResult<Room> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.roomAPI.createRoom(title, desc, owner)) }
+        return safeRequest { executeResponse(APIRequest.roomAPI.createRoom(title, desc, owner)) }
     }
 
     /**
      * 销毁
      */
     suspend fun destroyRoom(roomId: String): RResult<Any> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.roomAPI.destroyRoom(roomId)) }
+        return safeRequest { executeResponse(APIRequest.roomAPI.destroyRoom(roomId)) }
     }
 
 
@@ -31,7 +31,7 @@ class RoomRepository : BaseRepository() {
      * 修改
      */
     suspend fun updateRoom(id: String, title: String, desc: String): RResult<Room> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.roomAPI.updateRoom(id, title, desc)) }
+        return safeRequest { executeResponse(APIRequest.roomAPI.updateRoom(id, title, desc)) }
     }
 
 
@@ -39,14 +39,14 @@ class RoomRepository : BaseRepository() {
      * 获取房间列表
      */
     suspend fun roomList(page: Int, limit: Int, type: Int = 0): RResult<RPaging<Room>> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.roomAPI.roomList(page, limit, type)) }
+        return safeRequest { executeResponse(APIRequest.roomAPI.roomList(page, limit, type)) }
     }
 
     /**
      * 获取随机房间
      */
     suspend fun randomRoom(type: Int): RResult<Room> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.roomAPI.randomRoom(type)) }
+        return safeRequest { executeResponse(APIRequest.roomAPI.randomRoom(type)) }
     }
 
 
@@ -54,7 +54,7 @@ class RoomRepository : BaseRepository() {
      * 获取房间信息
      */
     suspend fun roomInfo(id: String): RResult<Room> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.roomAPI.roomInfo(id)) }
+        return safeRequest { executeResponse(APIRequest.roomAPI.roomInfo(id)) }
     }
 
 }

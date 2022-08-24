@@ -16,18 +16,33 @@ interface MatchDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(vararg match: Match)
 
+    /**
+     * 删除指定数据
+     */
     @Delete
     suspend fun delete(match: Match)
 
+    /**
+     * 清空数据
+     */
     @Query("DELETE FROM match")
-    suspend fun delete()
+    suspend fun clear()
 
+    /**
+     * 更新数据
+     */
 //    @Update
 //    suspend fun update(match: Match)
 
+    /**
+     * 查询指定数据
+     */
     @Query("SELECT * FROM match WHERE id = :id")
     suspend fun query(id: String): Match?
 
+    /**
+     * 查询全部数据
+     */
     @Query("SELECT *  FROM match")
     suspend fun all(): List<Match>
 }

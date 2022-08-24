@@ -6,18 +6,12 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.drakeet.multitype.MultiTypeAdapter
-
-import com.hyphenate.chat.EMConversation
-import com.hyphenate.chat.EMImageMessageBody
-import com.hyphenate.chat.EMMessage
 
 import com.vmloft.develop.library.base.BFragment
 import com.vmloft.develop.library.base.BItemDelegate
@@ -31,9 +25,12 @@ import com.vmloft.develop.library.data.common.CacheManager
 import com.vmloft.develop.library.data.common.DConstants
 import com.vmloft.develop.library.gift.GiftFragment
 import com.vmloft.develop.library.im.R
-import com.vmloft.develop.library.im.chat.IMChatManager
+import com.vmloft.develop.library.im.bean.IMConversation
+import com.vmloft.develop.library.im.bean.IMMessage
+import com.vmloft.develop.library.im.common.IMChatManager
 import com.vmloft.develop.library.im.chat.msg.*
 import com.vmloft.develop.library.im.common.IMConstants
+import com.vmloft.develop.library.im.common.IMConversationManager
 import com.vmloft.develop.library.im.databinding.ImFragmentChatRoomBinding
 import com.vmloft.develop.library.im.router.IMRouter
 import com.vmloft.develop.library.tools.widget.VMKeyboardController
@@ -63,7 +60,7 @@ class IMChatRoomFragment : BFragment<ImFragmentChatRoomBinding>() {
     lateinit var token: String // 加入频道所需 token
     lateinit var channel: String // 频道名
 
-    private lateinit var conversation: EMConversation
+    private lateinit var conversation: IMConversation
 
     companion object {
         private val argChatId = "argChatId"
@@ -102,23 +99,18 @@ class IMChatRoomFragment : BFragment<ImFragmentChatRoomBinding>() {
             sendGift(it)
         }
         // 监听新消息过来，这里肯定是发给自己的消息，在发送事件时已经过滤
-        LDEventBus.observe(this, IMConstants.Common.newMsgEvent, EMMessage::class.java) {
+        LDEventBus.observe(this, IMConstants.Common.newMsgEvent, IMMessage::class.java) {
             refreshNewMsg(it)
         }
         // 监听消息状态刷新，这里肯定是发给自己的消息，在发送事件时已经过滤
-        LDEventBus.observe(this, IMConstants.Common.updateMsgEvent, EMMessage::class.java) {
+        LDEventBus.observe(this, IMConstants.Common.updateMsgEvent, IMMessage::class.java) {
             refreshUpdateMsg(it)
         }
-        // 监听鼓励消息
-        LDEventBus.observe(this, IMConstants.Common.cmdEncourageAction, EMMessage::class.java) {
-            addEncourageAnim()
-        }
-
     }
 
     override fun initData() {
         chatId = requireArguments().getString(argChatId) ?: ""
-        chatType = requireArguments().getInt(argChatType, IMConstants.ChatType.imChatRoom)
+        chatType = requireArguments().getInt(argChatType, IMConstants.ChatType.imRoom)
 
         token = ""
         channel = chatId
@@ -132,18 +124,18 @@ class IMChatRoomFragment : BFragment<ImFragmentChatRoomBinding>() {
      */
     private fun initConversation() {
         // 获取会话对象
-        conversation = IMChatManager.getConversation(chatId, chatType)
+        conversation = IMConversationManager.getConversation(chatId, chatType)
 
         // 清空未读
-        IMChatManager.setConversationUnread(conversation, false)
-        val cacheCount = IMChatManager.getCacheMessages(chatId, chatType).size
-        val sumCount = IMChatManager.getMessagesCount(chatId, chatType)
+        IMConversationManager.setConversationUnread(conversation, false)
+        val cacheCount = IMConversationManager.getCacheMessages(chatId, chatType).size
+        val sumCount = IMConversationManager.getMessagesCount(chatId, chatType)
         if (cacheCount in 1 until sumCount && cacheCount < limit) {
             // 加载更多消息，填充满一页
-            IMChatManager.loadMoreMessages(conversation, limit)
+//            IMChatManager.loadMoreMessages(conversation, limit)
         }
         mItems.clear()
-        mItems.addAll(IMChatManager.getCacheMessages(chatId, chatType))
+        mItems.addAll(IMConversationManager.getCacheMessages(chatId, chatType))
         mAdapter.notifyDataSetChanged()
     }
 
@@ -162,15 +154,14 @@ class IMChatRoomFragment : BFragment<ImFragmentChatRoomBinding>() {
         mBinding.imChatRefreshLayout.setOnRefreshListener { loadMoreMsg() }
 
         // 消息点击监听
-        val listener = object : BItemDelegate.BItemListener<EMMessage> {
-            override fun onClick(v: View, data: EMMessage, position: Int) {
+        val listener = object : BItemDelegate.BItemListener<IMMessage> {
+            override fun onClick(v: View, data: IMMessage, position: Int) {
                 clickMsg(data, position)
             }
         }
 
         // 注册各类消息
-        mAdapter.register(EMMessage::class).to(
-            MsgUnsupportedDelegate(),
+        mAdapter.register(IMMessage::class).to(
             MsgTextReceiveDelegate(),
             MsgTextSendDelegate(),
             MsgGiftReceiveDelegate(listener),
@@ -178,11 +169,21 @@ class IMChatRoomFragment : BFragment<ImFragmentChatRoomBinding>() {
         ).withKotlinClassLinker { _, data ->
             // 根据消息类型返回不同的 View 展示
             when (IMChatManager.getMsgType(data)) {
-                IMConstants.MsgType.imGiftReceive -> MsgGiftReceiveDelegate::class
-                IMConstants.MsgType.imGiftSend -> MsgGiftSendDelegate::class
-                IMConstants.MsgType.imTextReceive -> MsgTextReceiveDelegate::class
-                IMConstants.MsgType.imTextSend -> MsgTextSendDelegate::class
-                else -> MsgUnsupportedDelegate::class
+                IMConstants.MsgType.imText -> {
+                    if (data.isSend) {
+                        MsgTextSendDelegate::class
+                    } else {
+                        MsgTextReceiveDelegate::class
+                    }
+                }
+                IMConstants.MsgType.imGift -> {
+                    if (data.isSend) {
+                        MsgGiftSendDelegate::class
+                    } else {
+                        MsgGiftReceiveDelegate::class
+                    }
+                }
+                else -> MsgTextReceiveDelegate::class
             }
         }
 
@@ -274,9 +275,9 @@ class IMChatRoomFragment : BFragment<ImFragmentChatRoomBinding>() {
     /**
      * 新消息刷新
      */
-    private fun refreshNewMsg(msg: EMMessage) {
+    private fun refreshNewMsg(msg: IMMessage) {
         val msgType = IMChatManager.getMsgType(msg)
-        if (msgType == IMConstants.MsgType.imGiftReceive) {
+        if (msgType == IMConstants.MsgType.imGift) {
             playGiftAnim(msg)
         }
         mItems.add(msg)
@@ -287,8 +288,8 @@ class IMChatRoomFragment : BFragment<ImFragmentChatRoomBinding>() {
     /**
      * 刷新消息更新
      */
-    private fun refreshUpdateMsg(msg: EMMessage) {
-        val position = IMChatManager.getPosition(msg)
+    private fun refreshUpdateMsg(msg: IMMessage) {
+        val position = IMConversationManager.getPosition(msg)
         mAdapter.notifyItemChanged(position)
     }
 
@@ -298,9 +299,9 @@ class IMChatRoomFragment : BFragment<ImFragmentChatRoomBinding>() {
     private fun loadMoreMsg() {
         mBinding.imChatRefreshLayout.finishRefresh()
 
-        val list = IMChatManager.loadMoreMessages(conversation, limit)
-        mItems.addAll(0, list)
-        mAdapter.notifyItemRangeInserted(0, list.size)
+//        val list = IMChatManager.loadMoreMessages(conversation, limit)
+//        mItems.addAll(0, list)
+//        mAdapter.notifyItemRangeInserted(0, list.size)
     }
 
     /**
@@ -320,17 +321,14 @@ class IMChatRoomFragment : BFragment<ImFragmentChatRoomBinding>() {
         }
         mBinding.imChatMessageET.setText("")
         // 发送消息
-        sendMessage(IMChatManager.createTextMessage(content, chatId))
+        sendMessage(IMChatManager.createTextMessage(chatId,content))
     }
 
     /**
      * 发送礼物消息
      */
     private fun sendGift(gift: Gift) {
-        val giftStr = JsonUtils.toJson(gift)
-        val message = IMChatManager.createTextMessage(gift.title, chatId)
-        message.setAttribute(IMConstants.Common.msgAttrExtType, IMConstants.MsgType.imGift)
-        message.setAttribute(IMConstants.Common.msgAttrGift, giftStr)
+        val message = IMChatManager.createGiftMessage(chatId,gift )
         sendMessage(message)
     }
 
@@ -338,28 +336,24 @@ class IMChatRoomFragment : BFragment<ImFragmentChatRoomBinding>() {
     /**
      * 发送消息统一收口
      */
-    private fun sendMessage(message: EMMessage) {
-        message.chatType = IMChatManager.wrapChatType(chatType)
+    private fun sendMessage(message: IMMessage) {
+        message.chatType = chatType
 
         IMChatManager.sendMessage(message)
-
-        // 通知有新消息，这里主要是通知会话列表刷新
-        LDEventBus.post(IMConstants.Common.newMsgEvent, message)
     }
 
     /**
      * 点击消息事件
      */
-    private fun clickMsg(msg: EMMessage, position: Int) {
+    private fun clickMsg(msg: IMMessage, position: Int) {
         val msgType = IMChatManager.getMsgType(msg)
-        if (msgType == IMConstants.MsgType.imGiftSend || msgType == IMConstants.MsgType.imGiftReceive) {
+        if (msgType == IMConstants.MsgType.imGift) {
             playGiftAnim(msg)
-        } else if (msgType == IMConstants.MsgType.imPictureReceive || msgType == IMConstants.MsgType.imPictureSend) {
+        } else if (msgType == IMConstants.MsgType.imPicture) {
             // 跳转图片预览
-            val body = msg.body as EMImageMessageBody
-            var originalRemoteUrl = body.remoteUrl
-            CRouter.goDisplaySingle(originalRemoteUrl)
-        } else if (msgType == IMConstants.MsgType.imVoiceReceive || msgType == IMConstants.MsgType.imVoiceSend) {
+            val attachment = msg.attachments[0]
+            CRouter.goDisplaySingle(attachment.path)
+        } else if (msgType == IMConstants.MsgType.imVoice) {
 
         }
     }
@@ -367,10 +361,10 @@ class IMChatRoomFragment : BFragment<ImFragmentChatRoomBinding>() {
     /**
      * 播放礼物动画
      */
-    private fun playGiftAnim(msg: EMMessage) {
+    private fun playGiftAnim(msg: IMMessage) {
         // 播放礼物动效，这里直接在新的Activity界面打开
         // 获取礼物消息扩展内容
-        val giftStr = msg.getStringAttribute(IMConstants.Common.msgAttrGift, "")
+        val giftStr = msg.getStringAttribute(IMConstants.Common.extGift, "")
         val gift = JsonUtils.fromJson<Gift>(giftStr)
         CRouter.go(IMRouter.imGiftAnim, obj0 = gift)
     }

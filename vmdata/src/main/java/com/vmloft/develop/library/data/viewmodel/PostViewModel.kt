@@ -68,6 +68,7 @@ class PostViewModel(
             val body: RequestBody = file.asRequestBody("image/*".toMediaType())
 //            val part: MultipartBody.Part = MultipartBody.Part.createFormData("file", file.name, body)
             val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("space", "post")
                 .addFormDataPart("desc", "帖子携带附件")
                 .addFormDataPart("width", sizes[0].toString())
                 .addFormDataPart("height", sizes[1].toString())

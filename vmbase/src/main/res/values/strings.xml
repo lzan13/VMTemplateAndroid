@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <!--Debug-->
-    <string name="settings_debug">调试模式</string>
-    <string name="debug_env">环境</string>
-    <string name="debug_env_debug">测试</string>
-    <string name="debug_env_release">线上</string>
-    <string name="debug_status_change_hint">切换环境需要重启App，是否继续？</string>
-
     <string name="picture_save_toast_succeed">图片保存成功</string>
     <string name="picture_save_toast_failed">图片保存失败</string>
 

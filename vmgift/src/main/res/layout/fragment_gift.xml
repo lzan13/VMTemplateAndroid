@@ -16,7 +16,7 @@
         android:overScrollMode="never"
         android:paddingStart="@dimen/vm_dimen_8"
         android:paddingEnd="@dimen/vm_dimen_8"
-        app:layout_constraintBottom_toTopOf="@id/goRechargeTV"
+        app:layout_constraintBottom_toTopOf="@id/giveTV"
         app:layout_constraintTop_toTopOf="parent" />
 
     <include layout="@layout/widget_common_empty_status_view" />
@@ -36,7 +36,6 @@
         android:id="@+id/scoreTV"
         style="@style/AppText.Tips"
         android:layout_marginStart="@dimen/vm_dimen_4"
-        android:textSize="@dimen/vm_size_10"
         app:layout_constraintBottom_toBottomOf="@+id/giveTV"
         app:layout_constraintStart_toEndOf="@+id/scoreIV"
         app:layout_constraintTop_toTopOf="@+id/giveTV"
@@ -56,7 +55,8 @@
     <TextView
         android:id="@+id/giveTV"
         style="@style/AppBtn.Confirm"
-        android:layout_margin="@dimen/vm_dimen_4"
+        android:layout_marginEnd="@dimen/vm_dimen_16"
+        android:layout_marginBottom="@dimen/vm_dimen_4"
         android:enabled="false"
         android:text="@string/gift_give"
         app:layout_constraintBottom_toBottomOf="parent"

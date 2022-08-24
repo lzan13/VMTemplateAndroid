@@ -72,6 +72,7 @@ class FeedbackViewModel(private val repo: CommonRepository) : BViewModel() {
             val body: RequestBody = file.asRequestBody("image/*".toMediaType())
 //            val part: MultipartBody.Part = MultipartBody.Part.createFormData("file", file.name, body)
             val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("space", "feedback")
                 .addFormDataPart("desc", "反馈与建议")
                 .addFormDataPart("width", sizes[0].toString())
                 .addFormDataPart("height", sizes[1].toString())

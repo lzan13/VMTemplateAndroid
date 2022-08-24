@@ -67,8 +67,8 @@ interface CommonAPI {
     /**
      * 获取客户端配置
      */
-    @GET("v1/common/clientConfig")
-    suspend fun clientConfig(): RResponse<Config>
+    @GET("v1/common/appConfig")
+    suspend fun appConfig(): RResponse<Config>
 
     /**
      * 获取隐私政策

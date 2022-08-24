@@ -16,7 +16,7 @@ class SignRepository : BaseRepository() {
      * 通过设备 Id 注册
      */
     suspend fun signUpByDevicesId(devicesId: String, password: String): RResult<User> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.signAPI.signUpByDevicesId(devicesId, password)) }
+        return safeRequest { executeResponse(APIRequest.signAPI.signUpByDevicesId(devicesId, password)) }
     }
 
 
@@ -24,7 +24,7 @@ class SignRepository : BaseRepository() {
      * 通过邮箱注册
      */
     suspend fun signUpByEmail(email: String, password: String): RResult<User> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.signAPI.signUpByEmail(email, password)) }
+        return safeRequest { executeResponse(APIRequest.signAPI.signUpByEmail(email, password)) }
     }
 
 
@@ -32,7 +32,7 @@ class SignRepository : BaseRepository() {
      * 通过手机号注册
      */
     suspend fun signUpByPhone(phone: String, password: String): RResult<User> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.signAPI.signUpByPhone(phone, password)) }
+        return safeRequest { executeResponse(APIRequest.signAPI.signUpByPhone(phone, password)) }
     }
 
 
@@ -40,7 +40,7 @@ class SignRepository : BaseRepository() {
      * 通用登录，自动识别手机号、邮箱、用户名
      */
     suspend fun signIn(account: String, password: String): RResult<User> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.signAPI.signIn(account, password)) }
+        return safeRequest { executeResponse(APIRequest.signAPI.signIn(account, password)) }
     }
 
 
@@ -48,7 +48,7 @@ class SignRepository : BaseRepository() {
      * 通过验证码登录
      */
     suspend fun signInByCode(phone: String, code: String): RResult<User> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.signAPI.signInByCode(phone, code)) }
+        return safeRequest { executeResponse(APIRequest.signAPI.signInByCode(phone, code)) }
     }
 
 
@@ -56,7 +56,7 @@ class SignRepository : BaseRepository() {
      * 使用 devicesId 登录
      */
     suspend fun signInByDevicesId(devicesId: String, password: String): RResult<User> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.signAPI.signInByDevicesId(devicesId, password)) }
+        return safeRequest { executeResponse(APIRequest.signAPI.signInByDevicesId(devicesId, password)) }
     }
 
 
@@ -64,7 +64,7 @@ class SignRepository : BaseRepository() {
      * 退出登录
      */
     suspend fun signOut(): RResult<Any> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.signAPI.signOut()) }
+        return safeRequest { executeResponse(APIRequest.signAPI.signOut()) }
     }
 
 
@@ -72,7 +72,7 @@ class SignRepository : BaseRepository() {
      * 销毁账户
      */
     suspend fun signDestroy(): RResult<Any> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.signAPI.signDestroy()) }
+        return safeRequest { executeResponse(APIRequest.signAPI.signDestroy()) }
     }
 
 
@@ -80,7 +80,7 @@ class SignRepository : BaseRepository() {
      * 请求验证码
      */
     suspend fun sendCodeEmail(email: String): RResult<Any> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.signAPI.sendCodeEmail(email)) }
+        return safeRequest { executeResponse(APIRequest.signAPI.sendCodeEmail(email)) }
     }
 
 

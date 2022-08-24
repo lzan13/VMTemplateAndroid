@@ -3,10 +3,7 @@ package com.vmloft.develop.app.template.ui.splash
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.app.App
 import com.vmloft.develop.app.template.common.SPManager
-import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.app.template.databinding.ActivitySplashBinding
-import com.vmloft.develop.library.data.bean.Config
-import com.vmloft.develop.library.data.viewmodel.SplashViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.app.template.ui.widget.AgreementPolicyDialog
 import com.vmloft.develop.library.ads.ADSConstants
@@ -16,7 +13,9 @@ import com.vmloft.develop.library.base.BViewModel
 import com.vmloft.develop.library.report.ReportManager
 import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.common.config.ConfigManager
-import com.vmloft.develop.library.push.CustomPushManager
+import com.vmloft.develop.library.data.bean.Config
+import com.vmloft.develop.library.data.common.SignManager
+import com.vmloft.develop.library.data.viewmodel.SplashViewModel
 import com.vmloft.develop.library.tools.utils.VMStr
 import com.vmloft.develop.library.tools.utils.VMSystem
 import com.vmloft.develop.library.tools.utils.logger.VMLog
@@ -41,12 +40,12 @@ class SplashActivity : BVMActivity<ActivitySplashBinding, SplashViewModel>() {
     }
 
     override fun initData() {
-        mViewModel.clientConfig()
+        mViewModel.appConfig()
     }
 
 
     override fun onModelRefresh(model: BViewModel.UIModel) {
-        if (model.type == "clientConfig") {
+        if (model.type == "appConfig" && model.data != null) {
             ConfigManager.setupConfig((model.data as Config).content)
             checkAgreementPolicy()
         }
@@ -62,7 +61,7 @@ class SplashActivity : BVMActivity<ActivitySplashBinding, SplashViewModel>() {
     private fun checkAgreementPolicy() {
         if (SPManager.isAgreementPolicy()) {
             setTheme(R.style.AppTheme)
-            if (ConfigManager.clientConfig.adsConfig.splashEntry) {
+            if (ConfigManager.appConfig.adsConfig.splashEntry) {
                 loadAD()
             } else {
                 jump()
@@ -84,7 +83,7 @@ class SplashActivity : BVMActivity<ActivitySplashBinding, SplashViewModel>() {
                     jump()
                 } else if (status == ADSConstants.Status.show) {
                     isShowADS = true
-                }else{
+                } else {
                     jump()
                 }
             }
@@ -139,7 +138,6 @@ class SplashActivity : BVMActivity<ActivitySplashBinding, SplashViewModel>() {
             dialog.setNegative(VMStr.byRes(R.string.agreement_policy_dialog_disagree)) { finish() }
             dialog.setPositive(VMStr.byRes(R.string.agreement_policy_dialog_agree)) {
                 SPManager.setAgreementPolicy()
-                CustomPushManager.init(App.appContext)
                 ReportManager.init(App.appContext)
                 jump()
             }

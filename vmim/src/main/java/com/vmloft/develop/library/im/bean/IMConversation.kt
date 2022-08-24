@@ -1,108 +1,33 @@
 package com.vmloft.develop.library.im.bean
 
-import com.hyphenate.chat.EMClient
-import com.hyphenate.chat.EMConversation
-import com.hyphenate.chat.EMMessage
+import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
 
-import kotlin.collections.ArrayList
+import kotlinx.parcelize.Parcelize
 
 /**
- * Create by lzan13 on 2019/5/21 15:00
- *
- * 描述：会话对象
+ * Create by lzan13 on 2022/8/10 22:00
+ * 描述：会话 bean
  */
-class IMConversation constructor(chatId: String, chatType: Int) {
+@Entity(tableName = "conversation")
+@Parcelize
+data class IMConversation(
+    @PrimaryKey
+    var chatId: String = "", // 会话Id
+    var type: Int = 0, // 类型 0-单聊 1-群聊 2-聊天室
+    var content: String = "", // 内容
+    var time: Long = 0, // 时间戳
+    var top: Boolean = false, // 置顶
+    var receiveCount: Int = 0, // 接收数量
+    var sendCount: Int = 0, // 发送数量
+    var unread: Int = 0, // 未读
 
-    private var conversationId: String = chatId
-
-    // 内部会话对象
-    private var conversation: EMConversation? = null
-
-    init {
-        val conversationType =
-            when (chatType) {
-                1 -> EMConversation.EMConversationType.GroupChat
-                2 -> EMConversation.EMConversationType.ChatRoom
-                else -> EMConversation.EMConversationType.Chat
-            }
-        conversation = EMClient.getInstance().chatManager().getConversation(conversationId, conversationType, true)
-    }
-    // 是否置顶
-//    var isTop = false
-//        get() {
-//            field = IMChatUtils.getConversationTop(mConversation)
-//            return field
-//        }
-//        set(top) {
-//            field = top
-//            IMChatUtils.setConversationTop(mConversation, top)
-//        }
-
-    // 未读状态
-//    var isUnread = false
-//        get() {
-//            field = IMChatUtils.getConversationUnread(mConversation)
-//            return field
-//        }
-//        set(unread) {
-//            field = unread
-//            IMChatUtils.setConversationUnread(mConversation, unread)
-//        }
-
-    // 最后一次更新时间
-    private var mLastTime: Long = 0
-
-    // 最后一条消息
-    private var mLastMessage: IMMessage? = null
-
-//    val id: String?
-//        get() {
-//            mId = mConversation!!.conversationId()
-//            return mId
-//        }
-//    var draft: String?
-//        get() {
-//            mDraft = IMChatUtils.getConversationDraft(mConversation)
-//            return mDraft
-//        }
-//        set(draft) {
-//            mDraft = draft
-//            IMChatUtils.setConversationDraft(mConversation, draft)
-//        }
-//    var lastTime: Long
-//        get() {
-//            mLastTime = IMChatUtils.getConversationLastTime(mConversation)
-//            return mLastTime
-//        }
-//        set(lastTime) {
-//            mLastTime = lastTime
-//            IMChatUtils.setConversationLastTime(mConversation, lastTime)
-//        }
-//    var lastMessage: IMMessage?
-//        get() {
-//            mLastMessage = if (mConversation!!.allMsgCount == 0) {
-//                IMMessage()
-//            } else {
-//                IMMessage(mConversation!!.lastMessage)
-//            }
-//            return mLastMessage
-//        }
-//        set(mLastMessage) {
-//            this.mLastMessage = mLastMessage
-//        }
-
-    /**
-     * 获取会话的所有消息
-     */
-    val allMessage: List<IMMessage>
-        get() {
-            val result = mutableListOf<IMMessage>()
-            val list = conversation?.allMessages ?: ArrayList<EMMessage>()
-            for (message in list) {
-                result.add(IMMessage(message))
-            }
-            return result
-        }
+    var draft: String = "", // 草稿
+    @Ignore
+    var msgList: MutableList<IMMessage> = mutableListOf(), // 消息列表
+) : Parcelable {
 
     /**
      * 加载更多消息
@@ -110,13 +35,63 @@ class IMConversation constructor(chatId: String, chatType: Int) {
      * @param msgId 开始加载的消息 Id
      * @param limit 加载条数
      */
-    fun loadMoreMessage(msgId: String?, limit: Int): List<IMMessage> {
+    fun loadMoreMsg(msgId: String?, limit: Int): List<IMMessage> {
         val result = mutableListOf<IMMessage>()
-        val list = conversation?.loadMoreMsgFromDB(msgId, limit) ?: ArrayList<EMMessage>()
-        for (message in list) {
-            result.add(IMMessage(message))
-        }
+//        for (message in list) {
+//        }
         return result
+    }
+
+    /**
+     * 添加消息
+     */
+    fun addMessage(message: IMMessage) {
+        if (msgList.contains(message)) {
+            msgList.remove(message)
+        }
+        msgList.add(message)
+    }
+
+    /**
+     * 添加消息
+     */
+    fun addMessages(messages: List<IMMessage>, history: Boolean = true) {
+        if (history) {
+            msgList.addAll(0, messages)
+        } else {
+            msgList.addAll(messages)
+        }
+    }
+
+    /**
+     * 移除消息
+     */
+    fun removeMessage(message: IMMessage) {
+        msgList.remove(message)
+    }
+
+    /**
+     * 更新消息
+     */
+    fun updateMessage(message: IMMessage) {
+    }
+
+    /**
+     * 清空消息
+     */
+    fun clearMsg() {
+        msgList.clear()
+    }
+
+    /**
+     * 消息数量增加
+     */
+    fun msgCountAdd(isSend: Boolean = false) {
+        if (isSend) {
+            sendCount++
+        } else {
+            receiveCount++
+        }
     }
 
     /**
@@ -124,7 +99,7 @@ class IMConversation constructor(chatId: String, chatType: Int) {
      */
     override fun equals(other: Any?): Boolean {
         if (other is IMConversation) {
-            return conversationId == other.conversationId
+            return chatId == other.chatId
         }
         return super.equals(other)
     }

@@ -10,10 +10,10 @@ object CConstants {
     const val cacheImageDir = "images"
 
     // 应用在 SDCard 创建区别其他项目目录，一般以项目名命名
-    const val projectName = "VMNepenthe"
+    const val projectName = "VMTemplate"
 
     // 配置文件更新
-    const val clientConfigEvent = "clientConfigEvent"
+    const val appConfigEvent = "appConfigEvent"
 
     // 分页默认数据
     const val defaultPage = 0
@@ -26,4 +26,16 @@ object CConstants {
     const val timeHour: Long = 60 * timeMinute
     const val timeDay = 24 * timeHour // 天
 
+    /**
+     * 通知相关key
+     */
+    object Notify{
+        const val notifyParams = "notifyParams" // 通知参数key
+        const val notifyBName = "notifyBName" // 通知业务名称key
+
+        // IM业务相关
+        const val notifyBNameIM = "notifyBNameIM" // IM
+        const val notifyChatId = "notifyChatId" // 会话Id
+        const val notifyExtend = "notifyExtend" // 会话扩展
+    }
 }

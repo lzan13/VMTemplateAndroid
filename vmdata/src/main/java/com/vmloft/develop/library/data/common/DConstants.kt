@@ -5,8 +5,8 @@ package com.vmloft.develop.library.data.common
  * 描述：数据模块常量类
  */
 object DConstants {
-    const val dbName = "wcdb_vmtemplate"
-    const val dbPass = "wcdb_vmtemplate_lzan13"
+    const val dbName = "vm_db_app_"
+    const val dbPass = "vm_db_app_lzan13"
 
     object Event{
         const val userInfo = "userInfo" // 用户信息改变事件

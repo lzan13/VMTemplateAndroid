@@ -28,9 +28,12 @@
 
     <string name="im_draft">草稿</string>
     <string name="im_recall_already">消息已撤回</string>
-    <string name="im_gift">礼物</string>
+    <string name="im_file">文件</string>
+    <string name="im_red_packet">红包</string>
     <string name="im_picture">图片</string>
     <string name="im_voice">语音</string>
+    <string name="im_video">视频</string>
+    <string name="im_gift">礼物</string>
     <string name="im_empty">- 空 -</string>
     <string name="im_unknown_msg">不支持的消息类型，升级应用查看</string>
     <string name="im_error_recall_limit_time">消息超过撤回时限</string>
@@ -156,17 +159,17 @@
     <string name="im_error_user_already_exits">用户已存在</string>
     <string name="im_error_user_already_login">用户已登录</string>
     <string name="im_error_user_authentication_failed">用户名或密码错误</string>
-    <string name="im_error_user_bind_device_token_failed">绑定设备Token失败</string>
+    <string name="im_error_user_bind_devices_token_failed">绑定设备Token失败</string>
     <string name="im_error_user_illegal_argument">参数不合法</string>
     <string name="im_error_user_illegal_password">无效的密码</string>
     <string name="im_error_user_illegal_username">无效的用户名</string>
-    <string name="im_error_user_login_another_device">账户在另外一台设备登录</string>
+    <string name="im_error_user_login_another_devices">账户在另外一台设备登录</string>
     <string name="im_error_user_not_found">不存在此用户</string>
     <string name="im_error_user_not_login">用户未登录</string>
     <string name="im_error_user_reg_failed">注册失败</string>
     <string name="im_error_user_removed">账户被删除</string>
-    <string name="im_error_user_unbind_device_token_failed">解绑设备token失败</string>
-    <string name="im_error_user_updateinfo_failed">更新用户信息失败</string>
+    <string name="im_error_user_unbind_devices_token_failed">解绑设备token失败</string>
+    <string name="im_error_user_update_info_failed">更新用户信息失败</string>
 
     <!--关于服务器的错误 3xx-->
     <string name="im_error_server_busy">服务器繁忙，请稍候再试</string>

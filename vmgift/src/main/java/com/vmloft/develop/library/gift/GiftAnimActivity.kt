@@ -5,6 +5,7 @@ import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+
 import com.opensource.svgaplayer.SVGACallback
 
 import com.opensource.svgaplayer.SVGADrawable
@@ -15,7 +16,7 @@ import com.vmloft.develop.library.base.BVMActivity
 import com.vmloft.develop.library.base.BViewModel
 import com.vmloft.develop.library.base.common.PermissionManager
 import com.vmloft.develop.library.base.router.CRouter
-import com.vmloft.develop.library.data.bean.Gift
+import com.vmloft.develop.library.data.bean.Attachment
 import com.vmloft.develop.library.data.viewmodel.GiftViewModel
 import com.vmloft.develop.library.gift.databinding.ActivityGiftAnimBinding
 import com.vmloft.develop.library.image.IMGLoader
@@ -25,6 +26,7 @@ import com.vmloft.develop.library.tools.utils.VMSystem
 import com.vmloft.develop.library.tools.utils.logger.VMLog
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
+
 import java.net.URL
 
 
@@ -37,9 +39,19 @@ class GiftAnimActivity : BVMActivity<ActivityGiftAnimBinding, GiftViewModel>() {
 
     override var isDarkStatusBar: Boolean = false
 
-    // 匹配方式
+    // 礼物类型
+    @Autowired(name = CRouter.paramsWhat)
+    @JvmField
+    var type: Int = 0
+
+    // 礼物封面
     @Autowired(name = CRouter.paramsObj0)
-    lateinit var gift: Gift
+    lateinit var giftCover: Attachment
+
+    // 礼物动效
+    @Autowired(name = CRouter.paramsObj1)
+    @JvmField
+    var giftAnim: Attachment? = null
 
 
     private var mAnimatorWrapBG: VMAnimator.AnimatorSetWrap? = null
@@ -55,10 +67,10 @@ class GiftAnimActivity : BVMActivity<ActivityGiftAnimBinding, GiftViewModel>() {
 
     override fun initData() {
         ARouter.getInstance().inject(this)
-        if (gift.type == 0) {
+        if (type == 0) {
             startAnim()
-        } else if (gift.type == 1 && PermissionManager.storagePermission(this)) {
-            mViewModel.download(gift)
+        } else if (type == 1 && PermissionManager.storagePermission(this)) {
+            mViewModel.download(giftAnim!!)
         } else {
             finish()
         }
@@ -80,14 +92,13 @@ class GiftAnimActivity : BVMActivity<ActivityGiftAnimBinding, GiftViewModel>() {
     }
 
     private fun bindInfo() {
-        IMGLoader.loadCover(mBinding.giftIV, gift.cover.path)
+        IMGLoader.loadCover(mBinding.giftIV, giftCover.path)
     }
 
     /**
      * 播放动画
      */
     private fun playAnimation() {
-//        mBinding.giftSVGAIV.
         mBinding.giftSVGAIV.callback = object : SVGACallback {
             override fun onFinished() {
                 VMLog.i("svga onFinished")
@@ -107,7 +118,7 @@ class GiftAnimActivity : BVMActivity<ActivityGiftAnimBinding, GiftViewModel>() {
             }
         }
         val parser = SVGAParser.shareParser()
-        val path = RConstants.mediaHost() + gift.animation.path
+        val path = RConstants.mediaHost() + giftAnim!!.path
         parser.decodeFromURL(URL(path), object : SVGAParser.ParseCompletion {
             override fun onComplete(videoItem: SVGAVideoEntity) {
                 VMLog.i("解析礼物动效成功 $path")

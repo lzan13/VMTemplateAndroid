@@ -1,6 +1,7 @@
 package com.vmloft.develop.library.data.repository
 
 import com.vmloft.develop.library.base.common.CConstants
+import com.vmloft.develop.library.data.api.APIRequest
 import com.vmloft.develop.library.data.bean.Comment
 import com.vmloft.develop.library.data.bean.Post
 import com.vmloft.develop.library.data.db.AppDatabase
@@ -18,21 +19,21 @@ class PostRepository : BaseRepository() {
      * 创建帖子
      */
     suspend fun createPost(content: String, category: String, attachments: List<String>): RResult<Post> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.postAPI.createPost(content, category, attachments)) }
+        return safeRequest { executeResponse(APIRequest.postAPI.createPost(content, category, attachments)) }
     }
 
     /**
      * 删除帖子
      */
     suspend fun deletePost(id: String): RResult<Any> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.postAPI.deletePost(id)) }
+        return safeRequest { executeResponse(APIRequest.postAPI.deletePost(id)) }
     }
 
     /**
      * 帖子信息
      */
     suspend fun postInfo(id: String): RResult<Post> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.postAPI.postInfo(id)) }
+        return safeRequest { executeResponse(APIRequest.postAPI.postInfo(id)) }
     }
 
     /**
@@ -55,7 +56,7 @@ class PostRepository : BaseRepository() {
      * 从服务器查询 Post 数据
      */
     private suspend fun getPostListFromServer(page: Int, limit: Int, owner: String = ""): RResult<RPaging<Post>> {
-        val result = safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.postAPI.postList(page, limit, owner)) }
+        val result = safeRequest { executeResponse(APIRequest.postAPI.postList(page, limit, owner)) }
         // 保留最新的20条数据，清空数据库其他非屏蔽类数据
         if (result is RResult.Success) {
             val paging = result.data!!
@@ -89,21 +90,21 @@ class PostRepository : BaseRepository() {
      * 创建评论
      */
     suspend fun createComment(content: String, post: String, user: String): RResult<Comment> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.postAPI.createComment(content, post, user)) }
+        return safeRequest { executeResponse(APIRequest.postAPI.createComment(content, post, user)) }
     }
 
     /**
      * 删除评论
      */
     suspend fun deleteComment(id: String): RResult<Any> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.postAPI.deleteComment(id)) }
+        return safeRequest { executeResponse(APIRequest.postAPI.deleteComment(id)) }
     }
 
     /**
      * 获取评论列表
      */
     suspend fun getCommentList(post: String, page: Int, limit: Int): RResult<RPaging<Comment>> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.postAPI.getCommentList(post, page, limit)) }
+        return safeRequest { executeResponse(APIRequest.postAPI.getCommentList(post, page, limit)) }
     }
 
 }

@@ -7,6 +7,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 
 import com.vmloft.develop.library.base.BActivity
+import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.base.widget.CommonDialog
 import com.vmloft.develop.library.data.bean.Room
 import com.vmloft.develop.library.data.common.CacheManager
@@ -24,12 +25,12 @@ import com.vmloft.develop.library.tools.utils.VMSystem
 @Route(path = IMRouter.imChatRoom)
 class IMChatRoomActivity: BActivity<ImActivityChatRoomBinding>() {
 
-    @Autowired
-    lateinit var chatId: String
-
     @JvmField
-    @Autowired
-    var chatType: Int = IMConstants.ChatType.imChatRoom
+    @Autowired(name = CRouter.paramsWhat)
+    var chatType: Int = IMConstants.ChatType.imRoom
+
+    @Autowired(name = CRouter.paramsStr0)
+    lateinit var chatId: String
 
     lateinit var mRoom: Room
 

@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--Debug-->
+    <string name="settings_debug">调试模式</string>
+    <string name="debug_env">环境</string>
+    <string name="debug_env_debug">测试</string>
+    <string name="debug_env_release">线上</string>
+    <string name="debug_status_change_hint">切换环境需要重启App，是否继续？</string>
+
     <!--自定义loading-->
     <string name="loading_2nd_floor_first">再拉试试</string>
     <string name="loading_2nd_floor_tips">进入休闲空间</string>

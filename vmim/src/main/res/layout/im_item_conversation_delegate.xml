@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/vm_dimen_72"
+    android:layout_height="@dimen/vm_dimen_64"
     android:background="@drawable/selector_fill_common_bg"
     tools:context=".conversation.IMItemConversationDelegate">
 
@@ -58,7 +58,6 @@
         android:layout_marginStart="@dimen/vm_margin_normal"
         android:ellipsize="end"
         android:maxLines="1"
-        android:textSize="@dimen/vm_size_16"
         app:layout_constraintBottom_toTopOf="@+id/imConversationContentTV"
         app:layout_constraintEnd_toStartOf="@+id/imConversationTimeTV"
         app:layout_constraintStart_toEndOf="@+id/imConversationAvatarIV"

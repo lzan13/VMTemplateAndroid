@@ -21,7 +21,7 @@ class GiftRepository : BaseRepository() {
      * 赠送礼物
      */
     suspend fun giftGive(userId: String, giftId: String, count: Int): RResult<Any> {
-        return safeRequest { executeResponse(com.vmloft.develop.library.data.api.APIRequest.giftAPI.giftGive(userId, giftId, count)) }
+        return safeRequest { executeResponse(APIRequest.giftAPI.giftGive(userId, giftId, count)) }
     }
 
     /**
@@ -43,7 +43,7 @@ class GiftRepository : BaseRepository() {
         if (result is RResult.Success) {
             DSPManager.setGiftTime(System.currentTimeMillis())
             // 先清空原来的数据
-            AppDatabase.getInstance().giftDao().delete()
+            AppDatabase.getInstance().giftDao().clear()
             // 重新插入
             AppDatabase.getInstance().giftDao().insert(*result.data!!.data.toTypedArray())
         }

@@ -17,7 +17,7 @@ interface AppletAPI {
      * @param page
      * @param limit
      */
-    @GET("v1/applet")
+    @GET("v1/common/appletList")
     suspend fun appletList(
         @Query("page") page: Int,
         @Query("limit") limit: Int,

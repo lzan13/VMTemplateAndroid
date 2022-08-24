@@ -42,8 +42,10 @@
     <!--图标颜色-->
     <color name="app_icon">@color/vm_gray_black_87</color>
     <color name="app_icon_light">@color/vm_white_87</color>
-    <color name="app_icon_man">#72baf4</color>
-    <color name="app_icon_woman">#fd6388</color>
+    <color name="app_icon_man">#8972baf4</color>
+    <color name="app_icon_woman">#89FD6388</color>
+    <color name="app_identity_special">@color/app_main_54</color>
+    <color name="app_identity_special_tips">#89ffeb3b</color>
 
 
     <color name="app_error">#fffc2c2c</color>
@@ -63,7 +65,7 @@
 
 
     <!--文本颜色-->
-    <color name="app_body">@color/vm_gray_white_87</color>
+    <color name="app_body">@color/vm_gray_white_54</color>
     <color name="app_caption">@color/vm_gray_87</color>
     <color name="app_desc">@color/vm_gray_54</color>
     <color name="app_more">@color/vm_gray_87</color>

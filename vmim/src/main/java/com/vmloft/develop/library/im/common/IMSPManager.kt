@@ -11,8 +11,6 @@ object IMSPManager {
      * 记录设置项
      */
     private val settingsEntry = "settings"
-    // 当前登录自己的 id
-    private val imSelfIdKey = "imSelfIdKey"
 
     // 聊天开关
     // 圆形头像
@@ -20,22 +18,6 @@ object IMSPManager {
 
     // 麦克风播放语音
     private val imSpeakerVoiceKey = "imSpeakerVoiceKey"
-
-    /**
-     * 保存当前登录账户 Id
-     *
-     * @param userId 当前账户 Id
-     */
-    fun putSelfId(userId: String) {
-        CSPManager.put(settingsEntry, imSelfIdKey, userId)
-    }
-
-    /**
-     * 获取当前登录账户 Id
-     */
-    fun getSelfId(): String {
-        return CSPManager.get(settingsEntry, imSelfIdKey, "") as String
-    }
 
     /**
      * ---------------------------------------------------------------------------------

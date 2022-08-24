@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
+    id 'org.jetbrains.kotlin.android'
 }
 
 // 获取配置信息
@@ -45,7 +46,7 @@ android {
 }
 
 dependencies {
-    implementation 'com.alipay.sdk:alipaysdk-android:+@aar'
+    implementation 'com.alipay.sdk:alipaysdk-android:15.8.11@aar'
 
     // 依赖 base 库
     implementation project(':vmbase')

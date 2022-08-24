@@ -98,7 +98,7 @@
         android:padding="@dimen/vm_dimen_16"
         android:src="@drawable/ic_mic"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imCallAnswerBtn"
+        app:layout_constraintEnd_toStartOf="@+id/imCallEndBtn"
         app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
@@ -159,21 +159,6 @@
             android:src="@drawable/im_ic_avatar_loli"
             android:visibility="gone" />
     </LinearLayout>
-    <!--接听-->
-    <ImageView
-        android:id="@+id/imCallAnswerBtn"
-        android:layout_width="@dimen/vm_dimen_56"
-        android:layout_height="@dimen/vm_dimen_56"
-        android:layout_margin="@dimen/vm_dimen_16"
-        android:background="@drawable/im_selector_call_icon_answer_bg"
-        android:padding="@dimen/vm_dimen_16"
-        android:src="@drawable/ic_call"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imCallEndBtn"
-        app:layout_constraintStart_toEndOf="@+id/imCallMicBtn"
-        app:tint="@color/app_icon_light"
-        tools:visibility="visible" />
 
     <!--挂断-->
     <ImageView
@@ -185,9 +170,25 @@
         android:padding="@dimen/vm_dimen_16"
         android:src="@drawable/ic_call_end"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imCallSpeakerBtn"
-        app:layout_constraintStart_toEndOf="@+id/imCallAnswerBtn"
+        app:layout_constraintEnd_toStartOf="@+id/imCallAnswerBtn"
+        app:layout_constraintStart_toEndOf="@+id/imCallMicBtn"
         app:tint="@color/app_icon_light" />
+
+    <!--接听-->
+    <ImageView
+        android:id="@+id/imCallAnswerBtn"
+        android:layout_width="@dimen/vm_dimen_56"
+        android:layout_height="@dimen/vm_dimen_56"
+        android:layout_margin="@dimen/vm_dimen_16"
+        android:background="@drawable/im_selector_call_icon_answer_bg"
+        android:padding="@dimen/vm_dimen_16"
+        android:src="@drawable/ic_call"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imCallSpeakerBtn"
+        app:layout_constraintStart_toEndOf="@+id/imCallEndBtn"
+        app:tint="@color/app_icon_light"
+        tools:visibility="visible" />
 
     <!--扬声器-->
     <ImageView
@@ -200,6 +201,6 @@
         android:src="@drawable/ic_speaker"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imCallEndBtn" />
+        app:layout_constraintStart_toEndOf="@+id/imCallAnswerBtn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

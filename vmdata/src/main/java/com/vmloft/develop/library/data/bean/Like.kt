@@ -19,6 +19,6 @@ data class Like(
     var post: Post = Post(),
     var comment: Comment = Comment(),
     var type: Int = 0,
-    var createdAt: String = "",
+    var createdAt: Long = 0,
 ) : Parcelable {
 }

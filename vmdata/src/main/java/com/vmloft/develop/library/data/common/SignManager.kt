@@ -12,11 +12,12 @@ import com.vmloft.develop.library.common.utils.JsonUtils
  */
 object SignManager {
 
-    private var mToken: String = ""
+    private var token: String = ""
+    private var signId: String = ""
 
     // 当前登录账户
-    private var mCurrUser: User? = null
-    private var mPrevUser: User? = null
+    private var signUser: User? = null
+    private var historyUser: User? = null
 
     // 自己的匹配信息
     private var selfMatch: Match? = null
@@ -33,51 +34,65 @@ object SignManager {
      * token 处理
      */
     fun setToken(token: String) {
-        mToken = token
-        DSPManager.putToken(mToken)
+        this.token = token
+        DSPManager.putToken(this.token)
     }
 
     fun getToken(): String? {
-        if (mToken.isNullOrEmpty()) {
-            mToken = DSPManager.getToken()
+        if (token.isEmpty()) {
+            token = DSPManager.getToken()
         }
-        return mToken
+        return token
+    }
+
+    /**
+     * 获取当前登录用户Id
+     */
+    fun getSignId(): String {
+        if (signId.isEmpty()) {
+            signId = DSPManager.getSignId()
+        }
+        return signId
     }
 
     /**
      * 当前登录用户处理
      * 设置当前登录用户，用于登陆成功后保存用户信息
      */
-    fun setCurrUser(user: User?) {
-        mCurrUser = user
-        mPrevUser = user
+    fun setSignUser(user: User?) {
+        signUser = user
+        historyUser = user
+
+        signId = user?.id ?: ""
+
         val json: String = JsonUtils.toJson(user)
-        DSPManager.putCurrUser(json)
+        DSPManager.putSignUser(json)
+        DSPManager.putSignId(signId)
         if (user != null) {
-            DSPManager.putPrevUser(json)
+            DSPManager.putHistoryUser(json)
         }
         user?.let {
             LDEventBus.post(DConstants.Event.userInfo, it)
         }
     }
 
-    fun getCurrUser(): User {
-        if (mCurrUser == null) {
-            var json: String = DSPManager.getCurrUser()
-            mCurrUser = JsonUtils.fromJson(json, User::class.java)
+    fun getSignUser(): User {
+        if (signUser == null) {
+            var json: String = DSPManager.getSignUser()
+            signUser = JsonUtils.fromJson(json, User::class.java)
         }
-        return mCurrUser ?: User()
+        return signUser ?: User()
     }
 
     /**
-     * 获取上一次登录用户
+     * 获取历史登录用户
      */
-    fun getPrevUser(): User? {
-        if (mPrevUser == null) {
-            var json: String = DSPManager.getPrevUser()
-            mPrevUser = JsonUtils.fromJson(json, User::class.java)
+    fun getHistoryUser(): User? {
+        if (historyUser == null) {
+            var json: String = DSPManager.getHistoryUser()
+            historyUser = JsonUtils.fromJson(json, User::class.java)
         }
-        return mPrevUser
+        return historyUser
     }
 
     /**
@@ -98,7 +113,7 @@ object SignManager {
             var json: String = DSPManager.getSelfMatch()
             selfMatch = JsonUtils.fromJson(json, Match::class.java)
         }
-        return selfMatch ?: Match("selfMatch", mCurrUser ?: User(), gender = mCurrUser?.gender ?: 2, filterGender = -1)
+        return selfMatch ?: Match("selfMatch", signUser ?: User(), gender = signUser?.gender ?: 2, filterGender = -1)
     }
 
     /**
@@ -106,8 +121,6 @@ object SignManager {
      */
     fun signOut() {
         setToken("")
-        setCurrUser(null)
-
-//        IM.signOut(false)
+        setSignUser(null)
     }
 }

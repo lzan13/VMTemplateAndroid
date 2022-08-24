@@ -9,8 +9,6 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 
-import com.hyphenate.chat.EMMessage
-
 import com.vmloft.develop.library.base.BActivity
 import com.vmloft.develop.library.base.event.LDEventBus
 import com.vmloft.develop.library.base.router.CRouter
@@ -19,7 +17,10 @@ import com.vmloft.develop.library.data.bean.User
 import com.vmloft.develop.library.data.common.CacheManager
 import com.vmloft.develop.library.im.IM
 import com.vmloft.develop.library.im.R
+import com.vmloft.develop.library.im.bean.IMMessage
+import com.vmloft.develop.library.im.bean.IMSignal
 import com.vmloft.develop.library.im.common.IMConstants
+import com.vmloft.develop.library.im.common.IMConversationManager
 import com.vmloft.develop.library.im.databinding.ImActivityChatBinding
 import com.vmloft.develop.library.im.router.IMRouter
 import com.vmloft.develop.library.tools.utils.VMDimen
@@ -35,7 +36,7 @@ class IMChatActivity : BActivity<ImActivityChatBinding>() {
 
     @JvmField
     @Autowired(name = CRouter.paramsWhat)
-    var chatType: Int = IMConstants.ChatType.imChatSingle
+    var chatType: Int = IMConstants.ChatType.imSingle
 
     @Autowired(name = CRouter.paramsStr0)
     lateinit var chatId: String
@@ -70,12 +71,12 @@ class IMChatActivity : BActivity<ImActivityChatBinding>() {
 //        initMenu()
 
         // 监听新消息过来，这里主要是收到消息后重置下输入状态
-        LDEventBus.observe(this, IMConstants.Common.newMsgEvent, EMMessage::class.java) {
+        LDEventBus.observe(this, IMConstants.Common.newMsgEvent, IMMessage::class.java) {
             setTopSubTitle("")
         }
 
         // 监听输入状态 CMD 消息
-        LDEventBus.observe(this, IMConstants.Common.cmdInputStatusAction, EMMessage::class.java) {
+        LDEventBus.observe(this, IMConstants.Common.signalInputStatus, IMSignal::class.java) {
             setTopSubTitle(VMStr.byRes(R.string.im_chat_input_status))
             // 三秒后重置输入状态，需要移除上一次的 message
             handler.removeMessages(0)
@@ -91,7 +92,7 @@ class IMChatActivity : BActivity<ImActivityChatBinding>() {
 
         mUser = CacheManager.getUser(chatId)
 
-        setTopTitleColor(if (mUser.role.identity in 100..199 && ConfigManager.clientConfig.tradeConfig.vipEntry) R.color.app_identity_vip else R.color.app_title)
+        setTopTitleColor(if (mUser.role.identity in 100..199 && ConfigManager.appConfig.tradeConfig.vipEntry) R.color.app_identity_special else R.color.app_title)
         setTopTitle(if (mUser.nickname.isNullOrEmpty()) "小透明" else mUser.nickname)
 
         setupFragment()
@@ -108,7 +109,7 @@ class IMChatActivity : BActivity<ImActivityChatBinding>() {
     }
 
     private fun goChatInfo() {
-        IM.imListener.onHeadClick(chatId)
+        IM.onHeadClick(chatId)
     }
 
     /**
@@ -119,8 +120,8 @@ class IMChatActivity : BActivity<ImActivityChatBinding>() {
         floatMenu.setItemClickListener(object : VMFloatMenu.IItemClickListener() {
             override fun onItemClick(id: Int) {
                 when (id) {
-                    0 -> IM.imListener.onHeadClick(chatId)
-                    1 -> IMChatManager.clearConversation(chatId)
+                    0 -> IM.onHeadClick(chatId)
+//                    1 -> IMConversationManager.clearMsg(chatId)
                 }
             }
         })

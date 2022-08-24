@@ -11,9 +11,9 @@ import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.base.BVMActivity
 import com.vmloft.develop.library.base.BViewModel
 import com.vmloft.develop.library.base.router.CRouter
+import com.vmloft.develop.library.data.bean.Match
 import com.vmloft.develop.library.data.common.CacheManager
 import com.vmloft.develop.library.data.common.SignManager
-import com.vmloft.develop.library.data.bean.Match
 import com.vmloft.develop.library.data.viewmodel.MatchViewModel
 import com.vmloft.develop.library.tools.animator.VMAnimator
 import com.vmloft.develop.library.tools.utils.VMSystem

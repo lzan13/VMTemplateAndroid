@@ -67,18 +67,21 @@ class AgreementPolicyDialog(context: Context) : CommonDialog(context) {
         getContentTV()?.highlightColor = VMColor.byRes(R.color.vm_transparent)
         getContentTV()?.movementMethod = LinkMovementMethod.getInstance()
     }
+}
 
-    class CustomURLSpan(val type: String) : URLSpan(type) {
-        override fun updateDrawState(ds: TextPaint) {
-            super.updateDrawState(ds)
-            //设置超链接文本的颜色
+/**
+ * 自定义超链接处理
+ */
+class CustomURLSpan(val type: String) : URLSpan(type) {
+    override fun updateDrawState(ds: TextPaint) {
+        super.updateDrawState(ds)
+        //设置超链接文本的颜色
 //            ds.color = Color.RED
-            //这里可以去除点击文本的默认的下划线
-            ds.isUnderlineText = false
-        }
+        //这里可以去除点击文本的默认的下划线
+        ds.isUnderlineText = false
+    }
 
-        override fun onClick(widget: View) {
-            CRouter.go(AppRouter.appSettingsAgreementPolicy, str0 = type)
-        }
+    override fun onClick(widget: View) {
+        CRouter.go(AppRouter.appSettingsAgreementPolicy, str0 = type)
     }
 }

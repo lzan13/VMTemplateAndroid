@@ -5,7 +5,6 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 
 import com.alibaba.android.arouter.launcher.ARouter
-import com.opensource.svgaplayer.SVGAParser
 
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 
@@ -22,7 +21,6 @@ import com.vmloft.develop.library.common.CommonManager
 import com.vmloft.develop.library.common.widget.refresh.DoubleCircleFooter
 import com.vmloft.develop.library.common.widget.refresh.DoubleCircleHeader
 import com.vmloft.develop.library.mp.MPManager
-import com.vmloft.develop.library.push.CustomPushManager
 import com.vmloft.develop.library.report.ReportManager
 import com.vmloft.develop.library.tools.VMTools
 import com.vmloft.develop.library.tools.utils.VMFile
@@ -69,7 +67,7 @@ class App : Application() {
         initIM()
 
         // 初始化 Push
-        initPush()
+//        initPush()
 
         // 初始化上报，这里包含 bugly 错误日志上报以及 UMeng 统计上报
         initReport()
@@ -150,7 +148,7 @@ class App : Application() {
     private fun initPush() {
         // 如果没有同意用户隐私协议，这里先不初始化
         if (SPManager.isAgreementPolicy()) {
-            CustomPushManager.init(appContext)
+//            CustomPushManager.init(appContext)
         }
     }
 

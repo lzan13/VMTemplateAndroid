@@ -64,7 +64,7 @@ class MatchGenderDialog(context: Context) : VMBDialog<WidgetMatchGenderDialogBin
         SignManager.setSelfMatch(selfMatch)
 
         val params = mutableMapOf<String, Any>()
-        params["filter"] = selfMatch.filterGender // 过滤选项 -1-不限 0-仙子 1-仙君
+        params["filter"] = selfMatch.filterGender // 过滤选项 -1-不限 0-女 1-男
         ReportManager.reportEvent(ReportConstants.eventChangeFilter, params)
 
         dismiss()
