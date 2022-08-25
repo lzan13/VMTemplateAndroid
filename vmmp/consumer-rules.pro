@@ -1,4 +1,21 @@
+-dontwarn
+-optimizationpasses 5
+-dontusemixedcaseclassnames
+-dontskipnonpubliclibraryclasses
+-dontskipnonpubliclibraryclassmembers
+-dontpreverify
+-verbose
 
+#-optimizations !code/simplification/arithmetic,!field/*,!class/merging/*
+-dontoptimize
+
+-keep public class * extends android.app.Activity
+-keep public class * extends android.app.Application
+-keep public class * extends android.app.Service
+-keep public class * extends android.content.BroadcastReceiver
+-keep public class * extends android.content.ContentProvider
+-keep public class * extends android.app.backup.BackupAgentHelper
+-keep public class * extends android.preference.Preference
 -keep public class * extends io.dcloud.common.DHInterface.IPlugin
 -keep public class * extends io.dcloud.common.DHInterface.IFeature
 -keep public class * extends io.dcloud.common.DHInterface.IBoot

@@ -9,39 +9,40 @@ ext {
             versionCode      : 1,
             versionName      : "0.0.1",
 
-            // 推送平台
+            // 推送平台 极光 https://www.jiguang.cn/
             pushAppId        : "Push AppId", // 推送平台 AppId
             pushAppKey       : "Push AppKey", // 推送平台 AppKey
             pushAppSecret    : "Push AppSecret", // 推送平台 AppSecret
 
-            // 聚合平台配置
+            // 聚合平台配置 TopOn https://www.toponad.com/zh-cn
             topOnAppId       : "\"TopOn AppId\"", // TopOn 聚合平台 AppId
             topOnAppKey      : "\"TopOn AppKey\"", // TopOn 聚合平台 AppKey
             topOnAppIdGP     : "\"TopOn GooglePlay AppId\"", // TopOn 聚合平台 AppId
             topOnAppKeyGP    : "\"TopOn GooglePlay AppKey\"", // TopOn 聚合平台 AppKey
-            admobAppId       : "", // Google Admob AppId
+            admobAppId       : "", // Google Admob AppId，国内环境不需要
             adsSecKey        : "\"\"", // 广告回调签名key 和后端一致
 
-            // Bugly AppId
+            // Bugly https://bugly.qq.com/
             buglyAppId       : "Bugly AppId",
 
-            // 友盟 AppId
+            // 友盟 https://www.umeng.com/
             umengAppKey      : "UMeng AppKey",
 
-            // 声网 AppId 这里需要写入 BuildConfig 只会写入双引号内部字段，所以需要多包一层""
+            // 声网 https://www.agora.io/cn/
+            // 这里需要写入 BuildConfig 只会写入双引号内部字段，所以需要多包一层""
             agoraAppId       : "\"Agora appId\"",
 
             // 这里需要写入 BuildConfig 只会写入双引号内部字段，所以需要多包一层""
             // 然后这里地址需要和服务器配置一致，看服务器项目的 default 配置 subSite 字段，如果是二级目录需要带上完整的路径如：https://xxx.com/api/
             // 调试服务器环境配置，这里的IP是和你设备同路由下服务器 IP
             baseUrlDebug     : "\"http://192.168.1.3:5920/\"",
-            // 线上服务器地址，这里暂时和 debug 一样
+            // 线上服务器地址 对应服务器nginx反向代理 domain + api 部分
             baseUrlRelease   : "\"接口域名地址\"",
 
             // 这里需要写入 BuildConfig 只会写入双引号内部字段，所以需要多包一层""
             // IM Debug 环境 host 配置，这里的IP是和你设备同路由下服务器 IP
             imDebugUrl       : "\"http://192.168.31.107:5920/\"",
-            // IM 线上环境 host 配置
+            // IM 线上环境 host 配置 对应服务器nginx反向代理 domain + im 部分
             imReleaseHost    : "\"接口域名地址\"",
             // 访问资源域名地址 这里需要写入 BuildConfig 只会写入双引号内部字段，所以需要多包一层""
             mediaUrl         : "\"资源域名地址\"",
