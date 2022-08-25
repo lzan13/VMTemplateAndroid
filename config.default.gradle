@@ -41,9 +41,9 @@ ext {
 
             // 这里需要写入 BuildConfig 只会写入双引号内部字段，所以需要多包一层""
             // IM Debug 环境 host 配置，这里的IP是和你设备同路由下服务器 IP
-            imDebugUrl       : "\"http://192.168.31.107:5920/\"",
+            imHostDebug       : "\"http://192.168.31.107:5920/\"",
             // IM 线上环境 host 配置 对应服务器nginx反向代理 domain + im 部分
-            imReleaseHost    : "\"接口域名地址\"",
+            imHostRelease    : "\"接口域名地址\"",
             // 访问资源域名地址 这里需要写入 BuildConfig 只会写入双引号内部字段，所以需要多包一层""
             mediaUrl         : "\"资源域名地址\"",
 
