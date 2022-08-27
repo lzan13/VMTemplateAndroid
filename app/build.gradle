@@ -157,13 +157,14 @@ dependencies {
     // 依赖 gift 模块
     implementation project(':vmgift')
     // 依赖 im 模块
-    implementation project(':vmim')
-    // 依赖 mp 模块
-    implementation project(':vmmp')
+//    implementation project(':vmim')
+    implementation project(':vmimem')
     // 依赖 image 模块
     implementation project(':vmimage')
     // 依赖 pay 模块
     implementation project(':vmpay')
+    // 依赖 mp 模块
+    implementation project(':vmmp')
     // 依赖 push 模块
 //    implementation project(':vmpush')
     // 依赖 qr 模块

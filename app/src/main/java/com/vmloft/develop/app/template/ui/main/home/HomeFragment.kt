@@ -138,10 +138,10 @@ class HomeFragment : BVMFragment<FragmentHomeBinding, MatchViewModel>() {
         }
 
         // 订阅心情变化事件
-        LDEventBus.observe(this, IMConstants.Common.signalMatchInfo, String::class.java) {
-            val match = JsonUtils.fromJson<Match>(it)
-            addBarrage(match)
-        }
+//        LDEventBus.observe(this, IMConstants.Common.signalMatchInfo, String::class.java) {
+//            val match = JsonUtils.fromJson<Match>(it)
+//            addBarrage(match)
+//        }
     }
 
     /**

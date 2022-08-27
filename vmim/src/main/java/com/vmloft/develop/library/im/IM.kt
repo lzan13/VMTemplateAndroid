@@ -6,11 +6,15 @@ import com.vmloft.develop.library.base.common.CSPManager
 import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.data.bean.User
 import com.vmloft.develop.library.data.common.CacheManager
+import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.library.im.call.IMCallManager
 import com.vmloft.develop.library.im.common.IMConversationManager
 import com.vmloft.develop.library.im.common.IMSPManager
 import com.vmloft.develop.library.im.core.WSManager
 import com.vmloft.develop.library.im.db.IMDatabase
+import com.vmloft.develop.library.request.RResult
+import com.vmloft.develop.library.tools.utils.logger.VMLog
+import kotlinx.coroutines.*
 
 
 /**
@@ -36,6 +40,14 @@ object IM {
         // 初始化通话管理类
         IMCallManager.init(context)
 
+        // 如果已经登录，这里自动进行 IM 的登录
+        if (SignManager.isSignIn()) {
+            val scope = CoroutineScope(Job() + Dispatchers.IO)
+            scope.launch {
+                signIn(SignManager.getSignUser())
+            }
+        }
+
         // 初始化完成
         isInit = true
     }
@@ -43,8 +55,10 @@ object IM {
     /**
      * 建立链接
      */
-    fun signIn(user: User) {
+    suspend fun signIn(user: User) = withContext(Dispatchers.IO) {
         WSManager.connect(user)
+        val result = RResult.Success<String>("IM登录成功")
+        result
     }
 
     /**

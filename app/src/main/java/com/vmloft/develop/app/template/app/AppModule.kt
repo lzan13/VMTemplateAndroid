@@ -3,7 +3,7 @@ package com.vmloft.develop.app.template.app
 import com.vmloft.develop.app.template.request.viewmodel.SignViewModel
 import com.vmloft.develop.library.data.repository.*
 import com.vmloft.develop.library.data.viewmodel.*
-import com.vmloft.develop.library.im.common.IMViewModel
+//import com.vmloft.develop.library.im.common.IMViewModel
 import com.vmloft.develop.library.image.display.DisplayViewModel
 
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -19,7 +19,7 @@ val viewModelModule = module {
     viewModel { ExploreViewModel(get(), get()) }
     viewModel { FeedbackViewModel(get()) }
     viewModel { GiftViewModel(get(), get()) }
-    viewModel { IMViewModel() }
+//    viewModel { IMViewModel() }
     viewModel { MainViewModel(get(), get()) }
     viewModel { MatchViewModel(get(), get()) }
     viewModel { PostViewModel(get(), get(), get()) }

@@ -7,6 +7,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.common.Constants
 import com.vmloft.develop.app.template.databinding.ActivitySignGuideBinding
+import com.vmloft.develop.app.template.im.IMManager
 import com.vmloft.develop.app.template.request.viewmodel.SignViewModel
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.base.BVMActivity
@@ -28,7 +29,7 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 class SignGuideActivity : BVMActivity<ActivitySignGuideBinding, SignViewModel>() {
 
     private lateinit var devicesId: String
-    private var password: String = "123456"
+    private var password: String = "123123"
 
     override fun initVB() = ActivitySignGuideBinding.inflate(layoutInflater)
 
@@ -76,6 +77,8 @@ class SignGuideActivity : BVMActivity<ActivitySignGuideBinding, SignViewModel>()
 
     override fun onModelRefresh(model: BViewModel.UIModel) {
         if (model.type == "signInByDevicesId" || model.type == "signUpByDevicesId") {
+            // 登录 IM
+            mViewModel.signInIM()
             // 登录成功，跳转到主页
             CRouter.goMain()
             finish()

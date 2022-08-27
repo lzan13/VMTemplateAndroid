@@ -19,8 +19,8 @@ ext {
             topOnAppKey      : "\"TopOn AppKey\"", // TopOn 聚合平台 AppKey
             topOnAppIdGP     : "\"TopOn GooglePlay AppId\"", // TopOn 聚合平台 AppId
             topOnAppKeyGP    : "\"TopOn GooglePlay AppKey\"", // TopOn 聚合平台 AppKey
-            admobAppId       : "", // Google Admob AppId，国内环境不需要
-            adsSecKey        : "\"\"", // 广告回调签名key 和后端一致
+            admobAppId       : "admob appId", // Google Admob AppId，国内环境不需要
+            adsSecKey        : "\"ads sec key\"", // 广告回调签名key 和后端一致
 
             // Bugly https://bugly.qq.com/
             buglyAppId       : "Bugly AppId",
@@ -28,6 +28,8 @@ ext {
             // 友盟 https://www.umeng.com/
             umengAppKey      : "UMeng AppKey",
 
+            // 环信相关配置 https://console.easemob.com/index
+            emAppKey         : "appKey", // 环信 IM AppKey
             // 声网 https://www.agora.io/cn/
             // 这里需要写入 BuildConfig 只会写入双引号内部字段，所以需要多包一层""
             agoraAppId       : "\"Agora appId\"",

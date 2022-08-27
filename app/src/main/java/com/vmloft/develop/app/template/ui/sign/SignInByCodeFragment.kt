@@ -11,12 +11,14 @@ import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.databinding.FragmentSignInByCodeBinding
 import com.vmloft.develop.app.template.request.viewmodel.SignViewModel
 import com.vmloft.develop.app.template.common.Constants
+import com.vmloft.develop.app.template.im.IMManager
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.base.BVMFragment
 import com.vmloft.develop.library.base.BViewModel
 import com.vmloft.develop.library.base.event.LDEventBus
 import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.base.utils.errorBar
+import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.library.tools.utils.VMReg
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -87,6 +89,8 @@ class SignInByCodeFragment : BVMFragment<FragmentSignInByCodeBinding, SignViewMo
             // 请求验证码成功
             mBinding.codeBtn.startTimer()
         }else if (model.type == "signInBySMS") {
+            // 登录 IM
+            mViewModel.signInIM()
             // 登录成功，跳转到主页
             CRouter.goMain()
             LDEventBus.post(Constants.Event.finishPrev)

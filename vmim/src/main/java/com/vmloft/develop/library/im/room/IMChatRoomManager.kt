@@ -68,7 +68,7 @@ object IMChatRoomManager {
 //        // 聊天室会话不保存，退出就删除
 //        IMChatManager.deleteConversation(roomId)
 //        // 回调退出房间接口，通知外层销毁或者清除缓存数据
-//        IM.imListener.exitRoom(roomId)
+//        IM.exitRoom(roomId)
 //    }
 
 }

@@ -4,6 +4,7 @@ import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.app.App
 import com.vmloft.develop.app.template.common.SPManager
 import com.vmloft.develop.app.template.databinding.ActivitySplashBinding
+import com.vmloft.develop.app.template.im.IMManager
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.app.template.ui.widget.AgreementPolicyDialog
 import com.vmloft.develop.library.ads.ADSConstants
@@ -93,23 +94,6 @@ class SplashActivity : BVMActivity<ActivitySplashBinding, SplashViewModel>() {
             ADSManager.loadSplashAD(this)
             return jump()
         }
-//        // 加载广告
-//        ADSManager.loadSplashAD(this) { status ->
-//            if (isFinishing) return@loadSplashAD
-//            if (status == ADSConstants.Status.timeout || status == ADSConstants.Status.failed) {
-//                VMLog.i("广告加载失败")
-//                jump()
-//            } else if (status == ADSConstants.Status.loaded) {
-//                VMLog.i("广告加载成功")
-//                ADSManager.showSplashAD(this@SplashActivity, mBinding.adsContainerLL)
-//            } else if (status == ADSConstants.Status.show) {
-//                VMLog.i("广告展示成功")
-//                isShowADS = true
-//            } else if (status == ADSConstants.Status.close) {
-//                VMLog.i("广告关闭")
-//                jump()
-//            }
-//        }
 
         // 这里加个兜底保护，防止开屏广告展示出现问题
         VMSystem.runInUIThread({ if (!isShowADS) jump() }, 1500)
@@ -121,10 +105,10 @@ class SplashActivity : BVMActivity<ActivitySplashBinding, SplashViewModel>() {
     private fun jump() {
         if (SPManager.isGuideShow()) {
             CRouter.go(AppRouter.appGuide)
-        } else if (!SignManager.isSingIn()) {
-            CRouter.go(AppRouter.appSignGuide)
-        } else {
+        } else if (SignManager.isSignIn()) {
             CRouter.goMain()
+        } else {
+            CRouter.go(AppRouter.appSignGuide)
         }
         finish()
     }

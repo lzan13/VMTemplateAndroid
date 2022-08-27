@@ -22,9 +22,7 @@ object IMManager {
     /**
      * 建立链接，同时会进行认证
      */
-    fun signIn(user: User) {
-        IM.signIn(user)
-    }
+    suspend fun signIn(user: User) = IM.signIn(user)
 
     /**
      * 断开链接

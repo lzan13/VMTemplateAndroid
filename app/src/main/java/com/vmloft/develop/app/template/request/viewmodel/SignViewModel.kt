@@ -1,6 +1,7 @@
 package com.vmloft.develop.app.template.request.viewmodel
 
 import androidx.lifecycle.viewModelScope
+import com.vmloft.develop.app.template.im.IMManager
 
 import com.vmloft.develop.library.base.BViewModel
 import com.vmloft.develop.library.data.common.SignManager
@@ -165,6 +166,22 @@ class SignViewModel(private val repo: SignRepository) : BViewModel() {
 //        }
     }
 
+
+    /**
+     * 登录IM
+     */
+    fun signInIM() {
+        viewModelScope.launch(Dispatchers.Main) {
+            emitUIState(true)
+            val result = IMManager.signIn(SignManager.getSignUser())
+            if (result is RResult.Success) {
+                emitUIState(type = "signInIM")
+                return@launch
+            } else if (result is RResult.Error) {
+                emitUIState(isSuccess = false, code = result.code, error = result.error)
+            }
+        }
+    }
 
     /**
      * 退出登录

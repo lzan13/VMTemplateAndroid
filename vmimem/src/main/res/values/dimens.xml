@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="im_emotion_size">@dimen/vm_dimen_20</dimen>
+
+</resources>

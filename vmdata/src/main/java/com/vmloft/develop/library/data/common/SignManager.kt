@@ -26,8 +26,8 @@ object SignManager {
     /**
      * 判断是否登录
      */
-    fun isSingIn(): Boolean {
-        return !getToken().isNullOrEmpty()
+    fun isSignIn(): Boolean {
+        return getToken().isNotEmpty()
     }
 
     /**
@@ -38,7 +38,7 @@ object SignManager {
         DSPManager.putToken(this.token)
     }
 
-    fun getToken(): String? {
+    fun getToken(): String {
         if (token.isEmpty()) {
             token = DSPManager.getToken()
         }

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--透明主题-->
+    <style name="IMTheme" parent="AppTheme">
+
+    </style>
+
+    <!--聊天主题-->
+    <style name="IMTheme.Chat"></style>
+
+    <style name="IMText.Title.Shadow" parent="VMText.Title.Shadow">
+        <item name="android:textSize">@dimen/vm_size_16</item>
+        <item name="android:textColor">@color/app_title</item>
+    </style>
+
+    <style name="IMText.From" parent="AppText.Tips">
+        <item name="android:textSize">@dimen/vm_size_8</item>
+        <item name="android:textColor">@color/app_title</item>
+    </style>
+
+    <style name="IMText.Msg" parent="AppText.Body">
+        <item name="android:textSize">@dimen/vm_size_13</item>
+        <item name="android:textColor">@color/app_title</item>
+    </style>
+
+    <style name="IMText.Msg.System" parent="AppText.Body">
+        <item name="android:textSize">@dimen/vm_size_10</item>
+        <item name="android:textColor">@color/app_title</item>
+    </style>
+
+</resources>

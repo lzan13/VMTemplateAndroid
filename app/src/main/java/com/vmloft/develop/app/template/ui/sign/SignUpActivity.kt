@@ -13,12 +13,14 @@ import com.vmloft.develop.app.template.R
 import com.vmloft.develop.app.template.databinding.ActivitySignUpBinding
 import com.vmloft.develop.app.template.request.viewmodel.SignViewModel
 import com.vmloft.develop.app.template.common.Constants
+import com.vmloft.develop.app.template.im.IMManager
 import com.vmloft.develop.app.template.router.AppRouter
 import com.vmloft.develop.library.base.BVMActivity
 import com.vmloft.develop.library.base.BViewModel
 import com.vmloft.develop.library.base.event.LDEventBus
 import com.vmloft.develop.library.base.router.CRouter
 import com.vmloft.develop.library.base.utils.errorBar
+import com.vmloft.develop.library.data.common.SignManager
 import com.vmloft.develop.library.tools.utils.VMReg
 
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -106,6 +108,8 @@ class SignUpActivity : BVMActivity<ActivitySignUpBinding, SignViewModel>() {
 
     override fun onModelRefresh(model: BViewModel.UIModel) {
         if (model.type == "signUpByPhone" || model.type == "signUpByEmail") {
+            // 登录 IM
+            mViewModel.signInIM()
             // 登录成功，跳转到主页
             CRouter.goMain()
             LDEventBus.post(Constants.Event.finishPrev)
