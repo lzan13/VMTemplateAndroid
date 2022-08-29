@@ -44,7 +44,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "VMTemplateAndroid"
+rootProject.name = "VMNepentheAndroid"
 include ':app'
 include ':vmads'
 include ':vmbase'
@@ -52,7 +52,7 @@ include ':vmcommon'
 include ':vmdb'
 include ':vmdata'
 include ':vmgift'
-include ':vmim'
+//include ':vmim'
 include ':vmimage'
 include ':vmimem'
 include ':vmmp'
